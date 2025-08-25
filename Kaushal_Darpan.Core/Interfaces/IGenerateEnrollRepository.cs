@@ -21,5 +21,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetEligibleStudentButPendingForVerification(GenerateEnrollSearchModel model);
         Task<int> SaveEligibleStudentButPendingForVerification(List<EligibleStudentButPendingForVerification> model);
         Task<DataTable> GetEligibleStudentVerified(GenerateEnrollSearchModel model);
+        Task<int> StudentEnrollment_RegistrarStatus(List<EligibleStudentButPendingForVerification> model);
+        Task<int> StudentEnrollment_ReturnByRegistrar(List<EligibleStudentButPendingForVerification> model);
+        Task<DataTable> GetEnRollData_RegistrarVerify(GenerateEnrollSearchModel model);
     }
 }
