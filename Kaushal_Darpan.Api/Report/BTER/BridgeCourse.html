@@ -1,0 +1,45 @@
+
+<table style="border-collapse: collapse; width: 100%; border-bottom: 1px solid #acacac; font-family: Arial, sans-serif; font-size: 12px; " cellpadding="7">
+    <tr>
+        <th style="border: 1px solid #acacac;  text-align:center;" colspan="9">Government of Rajasthan</th>
+    </tr>
+    <tr>
+        <th style="border: 1px solid #acacac; border-top: 0; text-align: center; " colspan="9">Board of Technical Education, Rajasthan</th>
+    </tr>
+    <tr>
+        <th style="border: 1px solid #acacac; border-top: 0; text-align: center; " colspan="9">
+            Tabulation Register Report - Diploma Engineering Exam (Bridge Course) End Term {#=BridgeCourse.EndTermName=#}
+            Session {#=BridgeCourse.SessionYear=#}
+        </th>
+    </tr>
+
+    <tr>
+        <th style="border: 1px solid #acacac; border-right: 0; border-top: 0; border-bottom: 0; text-align: left; ">S.No. </th>
+        <th style="border: 1px solid #acacac; border-right: 0; border-top: 0; border-bottom: 0; text-align: left; "> Institute Code </th>
+        <th style="border: 1px solid #acacac; border-right: 0; border-top: 0; border-bottom: 0; text-align: left; ">Branch Code</th>
+        <th style="border: 1px solid #acacac; border-right: 0; border-top: 0; border-bottom: 0; text-align: left; ">Student Name </th>
+        <th style="border: 1px solid #acacac; border-right: 0; border-top: 0; border-bottom: 0; text-align: left; ">SPN Number </th>
+        <th style="border: 1px solid #acacac; border-right: 0; border-top: 0; border-bottom: 0; text-align: left; ">DOB</th>
+        <th style="border: 1px solid #acacac; border-right: 0; border-top: 0; border-bottom: 0; text-align: left; ">SEM1 STATUS</th>
+        <th style="border: 1px solid #acacac; border-right: 0; border-top: 0; border-bottom: 0; text-align: left; ">SEM2 STATUS</th>
+        <th style="border: 1px solid #acacac; border-top: 0; text-align: left; border-bottom: 0; ">REMARK</th>
+    </tr>
+    {#LOOP.BridgeCourse#}
+    <tr>
+        <td style="border: 1px solid #acacac; border-right: 0; border-bottom:0;  ">{#=BridgeCourse.SrNo=#}</td>
+        <td style="border: 1px solid #acacac; border-right: 0; border-bottom: 0; ">{#=BridgeCourse.InstituteCode=#}</td>
+        <td style="border: 1px solid #acacac; border-right: 0; border-bottom: 0; ">{#=BridgeCourse.BranchCode=#}</td>
+        <td style="border: 1px solid #acacac; border-right: 0; border-bottom: 0; ">{#=BridgeCourse.StudentName=#}</td>
+        <td style="border: 1px solid #acacac; border-right: 0; border-bottom: 0; ">{#=BridgeCourse.SPNNumber=#}</td>
+        <td style="border: 1px solid #acacac; border-right: 0; border-bottom: 0; ">{#=BridgeCourse.DOB=#}</td>
+        <td style="border: 1px solid #acacac; border-right: 0; border-bottom: 0; ">{#=BridgeCourse.Sem1Status=#}</td>
+        <td style="border: 1px solid #acacac; border-right: 0; border-bottom: 0; ">{#=BridgeCourse.Sem2Status=#}</td>
+        <td style="border: 1px solid #acacac;  border-bottom: 0; ">{#=BridgeCourse.Remark=#}</td>
+    </tr>
+    {#ENDLOOP.BridgeCourse#}
+
+
+
+
+
+</table>

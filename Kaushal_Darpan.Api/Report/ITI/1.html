@@ -1,0 +1,117 @@
+﻿
+<div style="padding:20px 50px 50px 20px;">
+    <table style="border-collapse: collapse; width: 100%; font-family: Arial; font-size:14px" border="0" cellpadding="5" cellspacing="0">
+        <tr>
+            <td>
+                <table style="border-collapse:collapse;width:100%;">
+                    <tr>
+                        <td valign="top" style="font-size: 12px;width:15%">S.No. <b>{#=Institute_Details.RegNo=#}</b></td>
+                        <td valign="top" style="text-align: center; font-size: 14px; width: 70%">
+                            <img src='{#=Institute_Details.NE100=#}' style="width:40px;" />
+                            <h4 style="margin:0px 0px 3px 0px;font-size:15px">{#=Institute_Details.CollegeName=#}</h4>
+                            <!-- <p style="margin:0px 0px 3px 0px;">{#=Institute_Details.Heading2=#}</p>
+                            <p style="margin:0px 0px 3px 0px;">{#=Institute_Details.Heading3=#}</p>
+                            <p style="margin:0px 0px 3px 0px;">{#=Institute_Details.Heading4=#}</p>
+                            <p style="margin:0px 0px 3px 0px;">{#=Institute_Details.Heading5=#}</p> -->
+                        </td>
+                        <td valign="top" style="text-align: right; width: 15%">
+                            <img src='{#=Institute_Details.ITILogo=#}' style="width:100px" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:15px 0px;">
+                <table style="border-collapse:collapse;width:100%;" border="0" cellpadding="5" cellspacing="0">
+                    <tr>
+                        <td style="font-size:12px;width:20%"><b>Name</b></td>
+                        <td style="font-size:12px;width:30%;border-bottom:1px solid #808080"><span style="display:block;border-bottom:solid 1px #000;padding-bottom:3px">{#=Institute_Details.ContactNo=#}</span></td>
+                        <td style="font-size:12px;width:20%"><b>Registration/Roll no</b></td>
+                        <td style="font-size:12px;width: 30%; border-bottom: 1px solid #808080"><span style="display:block;border-bottom:solid 1px #000;padding-bottom:3px">{#=Institute_Details.Email=#}</span></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px;"><b>Father/Guardian Name</b></td>
+                        <td style="font-size: 12px; border-bottom: 1px solid #808080;">{#=Institute_Details.MemberIdProofName=#}</td>
+                        <td style="font-size: 12px;"><b>Date of Birth</b></td>
+                        <td style="font-size: 12px; border-bottom: 1px solid #808080;">{#=Institute_Details.LastElectionDate=#}</td>
+                    </tr>
+                    <!-- <tr>
+                        <td style="font-size: 12px;"><b>Trade Name</b></td>
+                        <td style="font-size: 12px; border-bottom: 1px solid #808080;">{#=Institute_Details.StreamName=#}</td>
+                        <td style="font-size: 12px;"><b>Exam Month-Year</b></td>
+                        <td style="font-size: 12px; border-bottom: 1px solid #808080;">{#=Institute_Details.YearDate=#}</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px;"><b>ITI Name & Address</b></td>
+                        <td style="font-size: 12px; border-bottom: 1px solid #808080;">{#=Institute_Details.Address=#}</td>
+                    </tr> -->
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table style="border-collapse:collapse;width:100%;" cellpadding="5" cellspacing="0">
+                    <tr>
+                        <th style="border: 0.5px solid #808080; font-size: 12px; text-align: left;">S.No.</th>
+                        <th style="border: 0.5px solid #808080;font-size:12px;text-align:left;">Summative Assessment</th>
+                        <th style="border: 0.5px solid #808080;font-size:12px;text-align:center;">Max. Marks</th>
+                        <th style="border: 0.5px solid #808080;font-size:12px;text-align:center;">Min. Pass Marks</th>
+                        <th style="border: 0.5px solid #808080;font-size:12px;text-align:center;">Marks Secured</th>
+                    </tr>
+                    {#LOOP.ITI_Affiliations#}
+                    <tr>
+                        <td style="border: 0.5px solid #808080;font-size:12px;">{#=ITI_Affiliations.CollegeID=#}</td>
+                        <td style="border: 0.5px solid #808080;font-size:12px;">{#=ITI_Affiliations.OrderDate=#}</td>
+                        <td style="border: 0.5px solid #808080;font-size:12px;text-align:center;">{#=ITI_Affiliations.CreatedBy=#}</td>
+                        <td style="border: 0.5px solid #808080;font-size:12px;text-align:center;">{#=ITI_Affiliations.CollegeID=#}</td>
+                        <td style="border: 0.5px solid #808080;font-size:12px;text-align:center;">{#=ITI_Affiliations.CollegeID=#}</td>
+                    </tr>
+                    {#ENDLOOP.ITI_Affiliations#}
+                    <!--<tr>
+                        <td></td>
+                        <td><b>TOTAL</b></td>
+                        <td style="text-align:center;"><b>600</b></td>
+                        <td style="text-align:center;"></td>
+                        <td style="text-align:center;"><b>459</b></td>
+                    </tr>-->
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table style="border-collapse:collapse;width:100%;" border="0" cellpadding="5" cellspacing="0">
+                    <tr>
+                        <td style="font-size: 12px;"><b>RESULT: </b> {#=Institute_Details.ManagementTypeName=#}</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px;"><b>Note: </b> {#=Institute_Details.Ramark=#}</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px;"><b>Result Declaration Date:</b> {#=Institute_Details.AdministrativeBodyName=#}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table style="border-collapse:collapse;width:100%;" border="0" cellpadding="5" cellspacing="0">
+                    <tr>
+                        <td style="font-size: 12px; text-align: center; vertical-align: bottom;" height="100">
+                            Signature of Principal<br />
+                            {#=Institute_Details.ConsumerName=#}
+                        </td>
+                        <!-- <td style="font-size: 12px; text-align: center; vertical-align: bottom;" height="100">
+                            <img src="{#=Institute_Details.signlogo=#}" alt=""  style="width:80px;"/><br />
+                            {#=Institute_Details.footerHeading1=#}<br />
+                            {#=Institute_Details.footerHeading2=#}<br />
+                            {#=Institute_Details.footerHeading3=#}
+                        </td> -->
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+
+    </div>

@@ -1,0 +1,88 @@
+<div style="font-family: Arial, sans-serif;">
+    <h2 style="text-align: center; font-size: 25px; font-weight: 500; margin: 0;">Board of Technical Education Rajasthan, Jodhpur</h2>
+    <h4 style="text-align: center; font-size: 17px; font-weight: 100; margin: 0; margin-top: 10px;">Pending Diploma Certificate Report for the Session: MAY 2023 (SPECIAL)</h4>
+    <h6 style="font-size: 17px; margin: 10px 0;">Engineering</h6>
+    <table style="border-collapse: collapse; border-top:0; border-bottom:0; width: 100%; border: 1px solid #000000; font-family: Arial, sans-serif; font-size: 16px;">
+        <tr>
+            <th style="border: 1px solid #000000; padding: 7px; border-left: 0; vertical-align: top; border-top: 0; text-align: left; " rowspan="2">S.No.</th>
+            <th style="border: 1px solid #000000; padding: 7px; border-left: 0; vertical-align: top; border-top: 0; text-align: left;" rowspan="2">Programs</th>
+            <th style="border: 1px solid #000000; padding: 7px; border-left: 0; vertical-align: top; border-top: 0; text-align: left;" rowspan="2">Total Student</th>
+            <th style="border: 1px solid #000000; padding: 7px; border-left: 0; vertical-align: top; border-top: 0; text-align: left;" rowspan="2">Roll Number</th>
+            <th style="border: 1px solid #000000; padding: 7px; border-left: 0; vertical-align: top; border-top: 0; border-bottom: 0; text-align: left; " colspan="2">Certificate No. </th>
+            <th style="border: 1px solid #000000; padding: 7px; border-left: 0; vertical-align: top; border-top: 0; text-align: left;" rowspan="2">Print Date</th>
+            <th style="border: 1px solid #000000; padding: 7px; border-left: 0; vertical-align: top; border-top: 0; text-align: left; " rowspan="2">Prepared by</th>
+            <th style="border: 1px solid #000000; padding: 7px; border-left: 0; vertical-align: top; border-top: 0; border-right: 0; text-align: left; " rowspan="2">Remark</th>
+        </tr>
+
+        <tr>
+
+            <td style=" border-left: 0; border: 1px solid #000000; padding: 7px;">From</td>
+            <td style="border: 1px solid #000000; border-left:0; padding: 7px;">To</td>
+
+        </tr>
+
+
+
+
+
+
+        {#LOOP.DiplomaReport#}
+        <tr>
+            <td colspan="9" style=" padding: 7px;">Institute : {#=DiplomaReport.Institute=#}</td>
+        </tr>
+
+        <tr>
+            <td style="border: 1px solid #000000; border-left: 0; padding: 7px;">1</td>
+            <td style="border: 1px solid #000000; border-left: 0; padding: 7px;">{#=DiplomaReport.Branch=#}</td>
+            <td style="border: 1px solid #000000; border-left: 0; padding: 7px;">{#=DiplomaReport.TotalStudents=#}</td>
+            <td style="border: 1px solid #000000; border-left: 0; padding: 7px;">{#=DiplomaReport.RollNoRange=#}</td>
+
+            <td style="border-left: 0; border-right:0; border: 1px solid #000000; padding: 7px;">
+                192319
+            </td>
+            <td style="border-left: 0; border: 1px solid #000000; padding: 7px;">192319</td>
+
+
+            <td style="border: 1px solid #000000; border-left: 0; padding: 7px;">03/03/2025</td>
+            <td style="border: 1px solid #000000; border-left: 0; padding: 7px; border-right: 0;" colspan="2"></td>
+        </tr>
+
+
+
+        <tr>
+            <td colspan="2" style="border: 1px solid #000000; border-top: 0; border-left: 0; font-weight: 700; text-align: right; padding: 7px;">
+                Total :
+            </td>
+            <td style="border: 1px solid #000000; border-left: 0; border-top:0; font-weight: 700; padding: 7px;">
+                {#=DiplomaReport.TotalStudents=#}
+            </td>
+            <td colspan="6" style="border: 1px solid #000000; border-left: 0; border-top: 0; padding: 7px; border-right: 0;"></td>
+        </tr>
+
+
+        {#ENDLOOP.DiplomaReport#}
+
+
+
+
+
+
+
+
+
+
+
+
+        <tr>
+            <td colspan="2" style="border: 1px solid #000000; border-top: 0; border-left:0; font-weight: 700; border-bottom:0; padding:7px; text-align: right;">
+                Grand Total :
+            </td>
+            <td colspan="7" style="border: 1px solid #000000; border-top: 0; border-left: 0; border-bottom: 0; padding: 7px; font-weight: 700; border-right: 0;">
+                {#=DiplomaReport.GrandTotal=#}
+            </td>
+        </tr>
+
+
+
+    </table>
+</div>

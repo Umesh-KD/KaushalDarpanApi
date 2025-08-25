@@ -1,0 +1,179 @@
+<div style="margin: 30px;;">
+    <table style="border-collapse: collapse; width: 100%; border: 1px solid #000000; font-family: Arial, sans-serif; font-size: 12px;"
+           cellspacing="0" cellpadding="5">
+        <tr>
+            <td colspan="15" style="font-size: 14px; text-align: center; border: 1px solid;">
+                Government of Rajasthan
+            </td>
+        </tr>
+        <tr>
+            <td colspan="15" style="font-size: 14px; text-align: center; border: 1px solid;">
+                BOARD OF TECHNICAL EDUCATION, RAJASTHAN
+            </td>
+        </tr>
+        <tr>
+            <th colspan="15" style="border: 1px solid; text-align: center;">
+                Appeared / Passed Statistics for the Diploma Engineering Exam End Term May 2025 Session 2024-2025
+            </th>
+        </tr>
+
+
+        <tr>
+            <th style="text-align: left; width: 50%;">
+                Class : {#=AppearedPassedInstituteWiseReport.Class=#}
+            </th>
+            <th colspan="11" style="text-align: right; ">
+                {#=AppearedPassedInstituteWiseReport.InstituteType=#}
+            </th>
+        </tr>
+
+        <tr>
+            <th rowspan="2" style="text-align: left; border: 1px solid; vertical-align: bottom;">
+                Institute Code & Name
+            </th>
+            <th colspan="3" style="text-align: left; border: 1px solid;">
+                Appeared
+            </th>
+            <th colspan="3" style="text-align: left; border: 1px solid;">
+                Passed
+            </th>
+            <th colspan="3" style="text-align: left; border: 1px solid;">
+                Percentage
+            </th>
+            <th style="text-align: left; border: 1px solid;">
+                Regulation
+            </th>
+            <th style="text-align: left; border: 1px solid;">
+                Not Promoted
+            </th>
+            <th style="text-align: left; border: 1px solid;">
+                UFM
+            </th>
+            <th style="text-align: left; border: 1px solid;">
+                RWH
+            </th>
+            <th style="text-align: left; border: 1px solid;">
+                Court
+            </th>
+        </tr>
+        <tr>
+            <th style="text-align: left; border: 1px solid;">
+                Male
+            </th>
+            <th style="text-align: left; border: 1px solid;">
+                Female
+            </th>
+
+            <th style="text-align: left; border: 1px solid;">
+                Total
+            </th>
+            <th style="text-align: left; border: 1px solid;">
+                Male
+            </th>
+            <th style="text-align: left; border: 1px solid;">
+                Female
+            </th>
+
+            <th style="text-align: left; border: 1px solid;">
+                Total
+            </th>
+            <th style="text-align: left; border: 1px solid;">
+                Male
+            </th>
+            <th style="text-align: left; border: 1px solid;">
+                Female
+            </th>
+
+            <th style="text-align: left; border: 1px solid;">
+                Total
+            </th>
+
+            <th style="text-align: left; border: 1px solid;">
+                Total
+            </th>
+
+            <th style="text-align: left; border: 1px solid;">
+                %
+            </th>
+
+            <th style="text-align: left; border: 1px solid;">
+
+            </th>
+
+            <th style="text-align: left; border: 1px solid;">
+
+            </th>
+
+            <th style="text-align: left; border: 1px solid;">
+
+            </th>
+
+            <th style="text-align: left; border: 1px solid;">
+
+            </th>
+
+            <th style="text-align: left; border: 1px solid;">
+
+            </th>
+        </tr>
+
+        {#LOOP.AppearedPassedInstituteWiseReport#}
+        <tr>
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.InstituteName=#}
+            </td>
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.AppearedMale=#}
+            </td>
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.AppearedFemale=#}
+            </td>
+
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.AppearedTotal=#}
+            </td>
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.PassMale=#}
+            </td>
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.PassFemale=#}
+            </td>
+
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.PassTotal=#}
+            </td>
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.PercentageMale=#}
+            </td>
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.PercentageFemale=#}
+            </td>
+
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.PercentageTotal=#}
+            </td>
+
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.RegulationTotal=#}
+            </td>
+
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.RegulationPercentage=#}
+            </td>
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.NotPromoted=#}
+            </td>
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.UFM=#}
+            </td>
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.RWH=#}
+            </td>
+            <td style="text-align: left; border: 1px solid;">
+                {#=AppearedPassedInstituteWiseReport.Court=#}
+            </td>
+        </tr>
+
+        {#ENDLOOP.AppearedPassedInstituteWiseReport#}
+    </table>
+</div>

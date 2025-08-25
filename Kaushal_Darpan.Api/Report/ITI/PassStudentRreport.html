@@ -1,0 +1,54 @@
+﻿<table style="border-collapse: collapse; width: 100%; font-family: Arial; font-size:14px" border="1" cellpadding="10" cellspacing="0">
+    <tbody>
+        <tr>
+            <td align="center" colspan="2">
+                <h3 style="margin:0px;">Rajasthan Council For Vocational Education And Training, Rajasthan</h3>
+                <h4 style="margin:5px 0px;">Department of Skill, Employment & Entrepreneurship</h4>
+                <h4 style="margin:0px;">SCVT Yearly Apr 2025 Examination Result</h4>
+            </td>
+        </tr>
+
+        {#LOOP.Student_PassListSemester1#}
+        <tr>
+            <td colspan="2">
+                <b>{#=Student_PassListSemester1.SemCourseType=#}</b>
+            </td>
+        </tr>
+        <tr>
+            <th style="text-align:left;">Trade </th>
+            <th style="text-align:left;">Pass Student  </th>
+        </tr>
+        <tr>
+            <td valign="top">
+                {#=Student_PassListSemester1.Trade=#}
+            </td>
+            <td>
+                {#=Student_PassListSemester1.PassStudentRollNos=#}
+            </td>
+        </tr>
+
+        {#ENDLOOP.Student_PassListSemester1#}
+
+
+        <!--{#LOOP.Student_PassListSemester2#}
+        <tr>
+            <td colspan="2">
+                <b>{#=Student_PassListSemester2.SemCourseType=#}</b>
+            </td>
+        </tr>
+        <tr>
+            <th style="text-align:left;">Trade </th>
+            <th style="text-align:left;">Pass Student  </th>
+        </tr>
+        <tr>
+            <td valign="top">
+                {#=Student_PassListSemester2.Trade=#}
+            </td>
+            <td>
+                {#=Student_PassListSemester2.PassStudentRollNos=#}
+            </td>
+        </tr>
+
+        {#ENDLOOP.Student_PassListSemester2#}-->
+    </tbody>
+</table>

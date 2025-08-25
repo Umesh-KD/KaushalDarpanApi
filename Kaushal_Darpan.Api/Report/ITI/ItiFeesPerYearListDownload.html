@@ -1,0 +1,41 @@
+﻿
+
+<table id="pdf-header" style="width:100%">
+    <tr>
+        <td><img src='{#=TradeWiseFee.logo_left=#}' style='width:100px;height:80px;' /></td>
+        <td style='text-align:center'>
+           {#=TradeWiseFee.CollgeName=#}<br />
+            Trades Fee Information - Academic session : {#=TradeWiseFee.FinancialYearName=#}
+        </td>
+        <td style="text-align:right"><img src='{#=TradeWiseFee.logo_right=#}' style='width:85px;height:80px;' /></td>
+    </tr>
+    <tr>
+        <th colspan="3" style='border-bottom: 1px solid #494949 ;padding-top:1px;'>&nbsp;</th>
+    </tr>
+</table>
+
+<div style="margin-top:10px;">&nbsp;</div>
+
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Sno</th>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Trade Name</th>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Seats</th>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Fees Per Year</th>
+        {#IF.TradeWiseFee.IsImc=1#}
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>IMC Fees Per Year</th>
+        {#ENDIF.TradeWiseFee.IsImc=1#}
+    </tr>
+    {#LOOP.TradeWiseFee#}
+    <tr>
+        <td style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=TradeWiseFee.Sno=#}</td>
+        <td style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=TradeWiseFee.TradeName=#}</td>
+        <td style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=TradeWiseFee.TotalSeats=#}</td>
+        <td style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=TradeWiseFee.Fee=#}</td>
+
+        {#IF.TradeWiseFee.IsImc=1#}
+        <td style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=TradeWiseFee.Imcfee=#}</td>
+        {#ENDIF.TradeWiseFee.IsImc=1#}
+    </tr>
+    {#ENDLOOP.TradeWiseFee#}
+</table>

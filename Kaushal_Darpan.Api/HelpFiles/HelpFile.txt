@@ -1,0 +1,55 @@
+-- convert table to class =>
+----make class and property from Physical table=>
+;with cte as (
+	SELECT 
+		'public '+(
+			case when DATA_TYPE='nvarchar' or DATA_TYPE='varchar' then 'string' 
+				when DATA_TYPE='tinyint' or DATA_TYPE='smallint' then 'short' 
+				when DATA_TYPE='bigint' then 'long' 
+				when DATA_TYPE='datetime' OR DATA_TYPE='smalldatetime' then 'DateTime' 
+				when DATA_TYPE='bit' then 'bool' 
+				when DATA_TYPE='numeric' then 'decimal' else DATA_TYPE end)
+				+(case when IS_NULLABLE='yes' then '?' else '' end)
+				+' '+COLUMN_NAME+' { get; set; }'
+				--+(case when isnull(COLUMN_DEFAULT,'')='' then '' else ' = '+COLUMN_DEFAULT end) 
+				as propty,
+		ORDINAL_POSITION,
+		TABLE_NAME
+	FROM INFORMATION_SCHEMA.COLUMNS
+	WHERE TABLE_NAME = N'Users'
+)
+select top 1 'public class '+TABLE_NAME+' {' from cte
+union all
+select propty from cte
+union all
+select '}'
+option (maxrecursion 0)
+
+
+----make class and property from temp table=>
+;with cte as (
+	SELECT 
+		'public '+(
+			case when t.name='nvarchar' or t.name='varchar' then 'string' 
+				when t.name='tinyint' or t.name='smallint' then 'short' 
+				when t.name='bigint' then 'long' 
+				when t.name='datetime' OR t.name='smalldatetime' then 'DateTime' 
+				when t.name='bit' then 'bool' 
+				when t.name='numeric' then 'decimal' else t.name end)
+				+(case when c.IS_NULLABLE=1 then '?' else '' end)
+				+' '+c.name+' { get; set; }'
+				--+(case when isnull(COLUMN_DEFAULT,'')='' then '' else ' = '+COLUMN_DEFAULT end) 
+				as propty,
+		c.name as TABLE_NAME
+	FROM tempdb.sys.columns AS c
+    INNER JOIN tempdb.sys.types AS t
+    ON c.system_type_id = t.system_type_id
+    AND t.system_type_id = t.user_type_id
+    WHERE [object_id] = OBJECT_ID(N'tempdb.dbo.#t')
+)
+select top 1 'public class '+TABLE_NAME+' {' from cte
+union all
+select propty from cte
+union all
+select '}'
+option (maxrecursion 0)

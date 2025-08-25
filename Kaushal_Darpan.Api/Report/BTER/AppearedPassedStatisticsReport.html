@@ -1,0 +1,135 @@
+<div style="margin: 30px;;">
+     
+    <table style="border-collapse: collapse; width: 100%; border: 0.2px solid #8b8b8b; font-family: Arial, sans-serif; font-size: 12px;"
+           cellspacing="0" cellpadding="5">
+        <tr>
+            <td colspan="12" style="font-size: 14px; text-align: center;  border: 0.2px solid #8b8b8b;">
+                BOARD OF TECHNICAL EDUCATION, RAJASTHAN
+            </td>
+        </tr>
+        <tr>
+            <th colspan="12" style="border: 0.2px solid #8b8b8b; text-align: center;">
+                Appeared / Passed Statistics for the Diploma Engineering Exam End Term May 2025 Session 2024-2025
+            </th>
+        </tr>
+
+
+        <tr>
+            <th style="text-align: left; width: 50%;">
+                Class : {#=AppearedPassedStatisticsReport.Class=#}
+            </th>
+            <th colspan="11" style="text-align: right; ">
+                {#=AppearedPassedStatisticsReport.StreamType=#}
+            </th>
+        </tr>
+
+        <tr>
+            <th rowspan="2" style="text-align: left;  border: 0.2px solid #8b8b8b; vertical-align: bottom;">
+                Institute Code & Name
+            </th>
+            <th style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                Branch
+            </th>
+            <th colspan="3" style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                Appeared
+            </th>
+            <th colspan="3" style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                Passed
+            </th>
+            <th colspan="3" style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                Percentage
+            </th>
+            <th style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                Failed
+            </th>
+        </tr>
+        <tr>
+
+            <th style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                Code
+            </th>
+            <th style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                Male
+            </th>
+            <th style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                Female
+            </th>
+
+            <th style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                Total
+            </th>
+            <th style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                Male
+            </th>
+            <th style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                Female
+            </th>
+
+            <th style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                Total
+            </th>
+            <th style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                Male
+            </th>
+            <th style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                Female
+            </th>
+
+            <th style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                Total
+            </th>
+
+
+
+            <th style="text-align: left;  border: 0.2px solid #8b8b8b;">
+
+            </th>
+        </tr>
+
+        {#LOOP.AppearedPassedStatisticsReport#}
+        <tr>
+            <td style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                {#=AppearedPassedStatisticsReport.InstituteName=#}
+            </td>
+            <td style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                {#=AppearedPassedStatisticsReport.BranchCode=#}
+            </td>
+            <td style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                {#=AppearedPassedStatisticsReport.AppearedMale=#}
+            </td>
+            <td style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                {#=AppearedPassedStatisticsReport.AppearedFemale=#}
+            </td>
+
+            <td style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                {#=AppearedPassedStatisticsReport.AppearedTotal=#}
+            </td>
+            <td style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                {#=AppearedPassedStatisticsReport.PassMale=#}
+            </td>
+            <td style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                {#=AppearedPassedStatisticsReport.PassFemale=#}
+            </td>
+
+            <td style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                {#=AppearedPassedStatisticsReport.PassTotal=#}
+            </td>
+            <td style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                {#=AppearedPassedStatisticsReport.PercentageMale=#}
+            </td>
+            <td style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                {#=AppearedPassedStatisticsReport.PercentageFemale=#}
+            </td>
+
+            <td style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                {#=AppearedPassedStatisticsReport.PercentageTotal=#}
+            </td>
+
+            <td style="text-align: left;  border: 0.2px solid #8b8b8b;">
+                {#=AppearedPassedStatisticsReport.FailTotal=#}
+            </td>
+        </tr>
+
+        {#ENDLOOP.AppearedPassedStatisticsReport#}
+    </table>
+</div>

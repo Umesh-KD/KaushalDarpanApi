@@ -1,0 +1,31 @@
+﻿<table style="border-collapse: collapse; width: 100%; font-family: Arial; font-size:14px" border="1" cellpadding="10" cellspacing="0">
+    <tbody>
+        <tr>
+            <td align="center" colspan="4">
+                <h3 style="margin:0px;">{#=TradeWiseResult.Heading1=#}</h3>
+                <h4 style="margin:5px 0px;">{#=TradeWiseResult.Heading2=#}</h4>
+                <h4 style="margin:0px;">{#=TradeWiseResult.Heading3=#}</h4>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <b>{#=TradeWiseResult.YearName=#}</b>
+            </td>
+        </tr>
+        <tr>
+            <th style="text-align:left;">Trade </th>
+            <th style="text-align:left;">Pass Student  </th>
+            <th style="text-align:left;">Fail Student  </th>
+            <th style="text-align:left;">Total Registered Student </th>
+        </tr>
+        {#LOOP.TradeWiseResult#}
+        <tr>
+            <td>{#=TradeWiseResult.TradeName=#}</td>
+            <td>{#=TradeWiseResult.PassStudent=#}</td>
+            <td>{#=TradeWiseResult.FailStudent=#}</td>
+            <td>{#=TradeWiseResult.TotalRegisteredStudent=#}</td>
+        </tr>
+        {#ENDLOOP.TradeWiseResult#}
+
+    </tbody>
+</table>

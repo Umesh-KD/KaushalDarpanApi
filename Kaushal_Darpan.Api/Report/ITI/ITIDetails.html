@@ -1,0 +1,132 @@
+﻿<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <th colspan="4" style='width: 100%; font-size: 20px;'> <div style="font-size: 20px;">Institute Details</div></th>
+    </tr>
+</table>
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">ITI Name</td>
+        <td style="width: 45%; padding: 2px; font-size: 12px; vertical-align: top; font-size: 12px; vertical-align: top;">: {#=PlanningColleges.CollegeName=#}</td>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">ITI Code</td>
+        <td style="width: 25%; padding: 2px; font-size: 12px; vertical-align: top; font-size: 12px; vertical-align: top;">: {#=PlanningColleges.CollegeCode=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">MIS Code</td>
+        <td style="width: 45%; padding: 2px; font-size: 12px; vertical-align: top; font-size: 12px; vertical-align: top;">: {#=PlanningColleges.MISC=#}</td>
+        <td style="width: 15%; padding: 2px; font-size: 12px; vertical-align: top; font-size: 12px; vertical-align: top;">Category</td>
+        <td style="width: 25%; padding: 2px; font-size: 12px; vertical-align: top; font-size: 12px; vertical-align: top;">: {#=PlanningColleges.InstitutionCategoryId=#}</td>
+    </tr>
+
+
+</table>
+
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <th colspan="4" style='width: 100%; font-size: 20px;'> <div style="font-size: 20px;">Management Details</div></th>
+    </tr>
+</table>
+
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">Management Type:</td>
+        <td colspan="3" style="width: 80%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.InstituteManagementId=#}</td>
+
+    </tr>
+
+    {#IF.PlanningColleges.InstituteManagementId=5#}
+    <tr>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">Trust/Society:</td>
+        <td style="width: 80%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.TrustSociety=#}</td>
+    </tr>
+
+    {#IF.PlanningColleges.TrustSociety!=0#}
+    <tr>
+        {#IF.PlanningColleges.TrustSociety=1#}
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">Trust Name:</td>
+        {#ENDIF.PlanningColleges.TrustSociety=1#}
+
+        {#IF.PlanningColleges.TrustSociety!=1#}
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">Society Name:</td>
+        {#ENDIF.PlanningColleges.TrustSociety!=1#}
+
+        <td style="width: 80%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.TrustSocietyName=#}</td>
+    </tr>
+    {#ENDIF.PlanningColleges.TrustSociety!=0#}
+
+    <tr>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">Registration No:</td>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.RegNo=#}</td>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">Registration Date:</td>
+        <td style="width: 25%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.RegDate=#}</td>
+    </tr>
+
+    <tr>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">Registration Office:</td>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.ManageRegOffice=#}</td>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">State:</td>
+        <td style="width: 25%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.State=#}</td>
+    </tr>
+
+    <tr>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">District:</td>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.District=#}</td>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">District:</td>
+        <td style="width: 25%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.District=#}</td>
+    </tr>
+
+
+    <tr>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">District:</td>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.District=#}</td>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">District:</td>
+        <td style="width: 25%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.District=#}</td>
+    </tr>
+
+    <tr>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">District:</td>
+        <td colspan="3" style="width: 80%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.District=#}</td>
+    </tr>
+
+
+
+    {#ENDIF.PlanningColleges.InstituteManagementId=5#}
+
+</table>
+
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <th colspan="4" style='width: 100%; font-size: 20px;'> <div style="font-size: 20px;">Member Of Trust/Society</div></th>
+    </tr>
+</table>
+
+
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <th colspan="4" style='width: 100%; font-size: 20px;'> <div style="font-size: 20px;">Institute Address</div></th>
+    </tr>
+</table>
+
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">Ownership:</td>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.OwnerShipID=#}</td>
+        <td style="width: 15%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">Date of Agreement (Lease deed):</td>
+        <td style="width: 25%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.AgreementLeaseDate=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 15%;; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">Valid Upto:</td>
+        <td style="width: 45%;; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.AgreementLeaseDate=#}</td>
+        <td style="width: 15%;; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">Registration Office:</td>
+        <td style="width: 25%;; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.InstituteRegOffice=#}</td>
+    </tr>
+
+    <tr>
+        <td style="width: 15%;; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">Valid Upto:</td>
+        <td style="width: 45%;; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.AgreementLeaseDate=#}</td>
+        <td style="width: 15%;; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">Registration Office:</td>
+        <td style="width: 25%;; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;">: {#=PlanningColleges.InstituteRegOffice=#}</td>
+    </tr>
+
+</table>
+
+

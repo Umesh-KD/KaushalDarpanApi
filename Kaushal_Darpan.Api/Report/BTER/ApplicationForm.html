@@ -1,0 +1,769 @@
+﻿<table id="pdf-header" style="width:100%">
+    <tr>
+        <td><img src='{#=Personal_Details.LogoLeft=#}' style='width:100px;height:80px;' /></td>
+        <td style='padding-left:1px;text-align:left'>
+            <h4 style='text-align:center;font-size:22px;margin-top:0px;margin-bottom:2px;font-weight:500;'>
+                <Custom>
+                    राजस्थान सरकार
+                </Custom>
+            </h4>
+            <h3 style='text-align:center;font-size:15px;margin-top:0px;margin-bottom:2px;font-weight:500;'>
+                DIRECTORATE OF TECHNICAL EDUCATION, RAJASTHAN
+            </h3>
+            <h3 style='text-align:center;font-size:12px;margin-top:0px;margin-bottom:2px;font-weight:500;'>
+                ONLINE ADMISSION APPLICATION
+            </h3>
+            <h3 style='text-align:center;font-size:12px;margin-top:0px;margin-bottom:2px;font-weight:500;'>
+                DTE {#=Personal_Details.AdmissionType=#}  Admission Academic Session {#=Personal_Details.FinYear=#}
+            </h3>
+        </td>
+        <td style="text-align:right"><img src='{#=Personal_Details.LogoRight=#}' style='width:85px;height:80px;' /></td>
+    </tr>
+    <tr>
+        <th colspan="3" style='border-bottom: 1px solid #494949 ;padding-top:1px;'>&nbsp;</th>
+    </tr>
+</table>
+
+
+<table style="width:100%">
+    <tr>
+        <td colspan="2" style="text-align: center; font-size: 12px; font-size: 12px;"><img src='{#=Personal_Details.StudentPhoto=#}' style='width:140px;height:100px;' /><br />फोटो ( Photograph )</td>
+        <td style="text-align: center; font-size: 12px; font-size: 12px;"><img src='{#=Personal_Details.StudentSignIMG=#}' style='width:140px;height:100px;' /><br />हस्ताक्षर ( Signature )</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;"><b> आवेदन संख्या (Application Number)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.ApplicationNo=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top; font-size: 12px;vertical-align:top;"><b>आवेदक का नाम (Applicant's Name)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.StudentName=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>आवेदक का नाम हिंदी में  (Applicant's Name in Hindi)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.StudentNameHindi=#}</td>
+
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>पिता का नाम (Father's Name)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.FatherName=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>पिता का नाम हिंदी में (Father's Name in Hindi)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.FatherNameHindi=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>माता का नाम (Mother's Name)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.MotherName=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>माता का नाम हिंदी में (Mother's Name in Hindi)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.MotherNameHindi=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>लिंग (Gender)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.Gender=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>धर्म  (Religion)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.Religion=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>राष्ट्रीयता (Nationality)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.Nationality=#}</td>
+    </tr>
+    <tr>
+
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>वैवाहिक स्थिति (Marital Status)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.MaritalStatusName=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>जन्म तिथि (Date of Birth)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.DOB=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>ईमेल (Email Address)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.Email=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>मोबाइल नंबर (Mobile Number)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.MobileNo=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>प्राथमिकता श्रेणी (Preferential Category)</b></td>
+        <td>:</td>
+        <td valign="top" style="width: 55%; padding: 2px; font-size: 12px;">{#=Personal_Details.PrefentialCategory=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>कश्मीरी विस्थापित (Kashmiri Migrant)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.IsKM=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>आरक्षण श्रेणी(Reservation Category)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.CategoryA=#}</td>
+    </tr>
+    <tr>
+
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>पहचान पत्र (Identity Proof)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.IdentityProofType=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>पहचान पत्र नंबर (Number of ID Proof)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.IndentyProff=#}</td>
+    </tr>
+
+    {#IF.Personal_Details.PrefentialCategoryTypeId=6#}
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>विभाग का नाम (Department's Name)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.DepartmentName=#}</td>
+    </tr>
+    {#ENDIF.Personal_Details.PrefentialCategoryId=6#}
+
+    {#IF.Personal_Details.PrefentialCategoryTypeId=5 && Personal_Details.CategoryAId=3#}
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>अनुसूचित उप वर्ग  (ST SubCategory)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.STSubCategory=#}</td>
+    </tr>
+    {#ENDIF.Personal_Details.PrefentialCategoryTypeId=5 && Personal_Details.CategoryAId=3#}
+
+    {#IF.Personal_Details.STSubCategoryId=1 && Personal_Details.CategoryAId=3#}
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>अनुसूचित जिला (Tribal District)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.TspDistrictList=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>अनुसूचित तहसील (Tribal Tehsil)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.TspTehsi=#}</td>
+    </tr>
+    {#ENDIF.Personal_Details.STSubCategoryId=1 && Personal_Details.CategoryAId=3#}
+
+    {#IF.Personal_Details.PrefentialCategoryTypeId=1#}
+
+    <tr>
+        <td colspan="3"><div style="page-break-before: always;"></div></td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>श्रेणी बी (सैनिक आश्रित) (Category B) (MP Ward)</b></td>
+        <td>:</td>
+        <td valign="top" style="width: 55%; padding: 2px; font-size: 12px;">{#=Personal_Details.CategoryB=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>श्रेणी सी - दिव्यांग जन (Category C-Physical Handicap)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.IsPH=#}</td>
+    </tr>
+
+    {#IF.Personal_Details.GenderId!=97 && Personal_Details.MaritialStatsu!=62#}
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>श्रेणी डी- विधवा/तलाकशुदा/ आश्रम राहवासिनी <br />(Category D-Widow/Divorce/ Orphan Resident)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.categoryD_ID=#}</td>
+    </tr>
+    {#ENDIF.Personal_Details.GenderId!=97 && Personal_Details.MaritialStatsu!=62#}
+
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>श्रेणी ई एकल महिला आश्रित <br />(Category E - Singal Mother Child)</b></td>
+        <td>:</td>
+        <td style="width: 55%">{#=Personal_Details.Category_E=#}</td>
+    </tr>
+
+    {#IF.Personal_Details.CategoryAId=4||Personal_Details.CategoryAId=5||Personal_Details.CategoryAId=9#}
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>जाति प्रमाण पत्र संख्या (Caste Certificate No)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.CasteCertificateNo=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;"><b>जाति प्रमाण पत्र जारी दिनांक (Certificate generat date)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.CertificateGeneratDate=#}</td>
+    </tr>
+    {#ENDIF.Personal_Details.CategoryAId=4||Personal_Details.CategoryAId=5||Personal_Details.CategoryAId=9#}
+
+    {#ENDIF.Personal_Details.PrefentialCategoryTypeId=1#}
+    <tr>
+        <td style="width: 45%; padding: 2px; font-size: 12px;vertical-align:top;vertical-align:top;"><b>पते का विवरण(Address Details)</b></td>
+        <td>:</td>
+        <td style="width: 55%; padding: 2px; font-size: 12px;vertical-align:top;; vertical-align: top;">
+
+            {#=Personal_Details.AddressLine1=#}, {#=Personal_Details.AddressLine2=#},{#=Personal_Details.AddressLine3=#}
+            {#=Personal_Details.CityVillage=#}, {#=Personal_Details.BlockName=#}, {#=Personal_Details.DistrictName=#},
+            {#=Personal_Details.StateName=#}, {#=Personal_Details.Pincode=#}
+
+        </td>
+    </tr>
+</table>
+<div style="margin-top:10px;">&nbsp;</div>
+<table style="width:100%">
+    <tr>
+        <th colspan="3" style='font-size: 20px; border-bottom: 1px solid #494949; padding-top: 15px;'> <Custom>अन्य विवरण</Custom><span style="font-size: 17px">(Other Details)</span></th>
+    </tr>
+    <tr>
+        <td style="width: 65%; padding: 2px; font-size: 12px;vertical-align:top;"><b>सभी स्रोतों से माता-पिता की आय (Parent’s income from all sources)</b></td>
+        <td>:</td>
+        <td style="width: 35%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.ParentIncome=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 65%; padding: 2px; font-size: 12px;vertical-align:top;"><b>माता-पिता की आय राशि में (Parent's Income In Amount)</b></td>
+        <td>:</td>
+        <td style="width: 35%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.ParentIncomeAMT=#}</td>
+    </tr>
+    <tr>
+        <td style="width: 65%; padding: 2px; font-size: 12px;vertical-align:top;"><b>क्या आप TFWS आवेदन करना चाहते हैं (Do you want apply for TFWS)</b></td>
+        <td>:</td>
+        <td style="width: 35%; padding: 2px; font-size: 12px;vertical-align:top;">{#=Personal_Details.ApplyScheme=#}</td>
+    </tr>
+</table>
+<div style="margin-top:10px;">&nbsp;</div>
+
+
+
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <th colspan="2" style='width: 50%; font-size: 20px;'> <div style="font-size: 20px;">10वीं योग्यता विवरण</div> <span style="font-size: 17px">10th Qualification Details</span></th>
+    </tr>
+
+    <tr class="text-left">
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>State of Study</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=Qualification10_Details.StateName=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=Qualification10_Details.BoardTypeName=#}</td>
+    </tr>
+
+    {#IF.Qualification10_Details.BoardTypeName=Other#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board State</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=Qualification10_Details.BoardStateName=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board Exam</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=Qualification10_Details.BoardName=#} - {#=Qualification10_Details.BoardExamName=#}</td>
+    </tr>
+    {#ENDIF.Qualification10_Details.BoardTypeName=Other#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Year of Passing</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=Qualification10_Details.PassingYear=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Roll Number</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=Qualification10_Details.RollNumber=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Marks Type</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=Qualification10_Details.Marktype=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Aggregate Maximum Marks</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=Qualification10_Details.AggMaxMarks=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Aggregate Marks Obtained</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=Qualification10_Details.AggObtMarks=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Percentage</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=Qualification10_Details.Percentage=#}%</td>
+    </tr>
+    <tr>
+    </tr>
+</table>
+{#IF.Personal_Details.CourseTypeID=2&&Personal_Details.IsHighestQualification=1#}
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <th colspan="2" style='width: 50%; font-size: 20px; padding-top: 15px; '> <Custom>योग्यता में उच्चतम प्रतिशत</Custom> <span style="font-size: 17px">Highest Percentage in Qualification</span></th>
+    </tr>
+
+
+    <tr class="text-left">
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Qualification</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationHigh_Details.QualificationID=#}</td>
+    </tr>
+
+    {#IF.HighestQualificationView.QualificationID=12#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>State of Study</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationHigh_Details.StateName=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationHigh_Details.BoardTypeName=#}</td>
+    </tr>
+
+    {#IF.HighestQualificationView.BoardTypeName=Other#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board State</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationHigh_Details.BoardStateName=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board Exam</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationHigh_Details.BoardName=#} - {#=QualificationHigh_Details.BoardExamName=#} </td>
+    </tr>
+    {#ENDIF.HighestQualificationView.BoardTypeName=Other#}
+
+    {#ENDIF.HighestQualificationView.QualificationID=12#}
+
+
+    {#IF.HighestQualificationView.QualificationID!=12#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board/University</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationHigh_Details.UniversityBoard=#}</td>
+    </tr>
+    {#ENDIF.HighestQualificationView.QualificationID!=12#}
+
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>School/College</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationHigh_Details.ClassSubject=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Course/Degree:</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationHigh_Details.ClassSubject=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Year of Passing</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationHigh_Details.PassingYear=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Roll Number</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationHigh_Details.RollNumber=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Marks Type</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationHigh_Details.Marktype=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Aggregate Maximum Marks</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationHigh_Details.AggMaxMarks=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Aggregate Marks Obtained</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationHigh_Details.AggObtMarks=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Percentage</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationHigh_Details.Percentage=#}</td>
+    </tr>
+</table>
+{#ENDIF.Personal_Details.CourseTypeID=2&&Personal_Details.IsHighestQualification=1#}
+{#IF.Personal_Details.CourseTypeID=3#}
+<div style="page-break-before: always;"></div>
+<div style="margin-top:10px;">&nbsp;</div>
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <th colspan="2" style='width: 50%; font-size: 20px; padding-top: 15px; '> <div style="font-size: 20px;">योग्यता परीक्षा विवरण डिप्लोमा /( 10 वीं + सी.वोक. )/ आईटीआई / 12 वीं</div><br /> <span style="font-size: 17px">Qualifying Examination Details Diploma / 10th + C.Voc / ITI / 12 th</span></th>
+    </tr>
+    <tr class="text-left">
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Qualifying Examination</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.QualificationID=#}</td>
+    </tr>
+    {#IF.QualificationLateral_Details.QualificationPriority=140#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Branch</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.Branches=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=140#}
+
+    {#IF.QualificationLateral_Details.QualificationPriority=141#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Branch</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.ClassSubject=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=141#}
+
+
+    {#IF.QualificationLateral_Details.QualificationPriority=142#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Trade</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.ClassSubject=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>NCVT/SCVT</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BoardName=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=142#}
+
+
+    {#IF.QualificationLateral_Details.QualificationPriority=140#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BoardTypeName=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=140#}
+
+
+    {#IF.QualificationLateral_Details.QualificationPriority=143#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Subject</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.Subjects=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>State of Study</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.StateName=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BoardTypeName=#}</td>
+    </tr>
+
+    {#IF.QualificationLateral_Details.BoardTypeName=Other#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board State</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BoardStateName=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board Exam</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BoardName=#} - {#=QualificationLateral_Details.BoardExamName=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.BoardTypeName=Other#}
+
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=143#}
+
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Year of Passing</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.PassingYear=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Roll Number</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.RollNumber=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Marks Type</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.Marktype=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Aggregate Maximum Marks</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.AggMaxMarks=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Aggregate Marks Obtained</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.AggObtMarks=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Percentage</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.Percentage=#}</td>
+    </tr>
+</table>
+
+{#ENDIF.Personal_Details.CourseTypeID=3#}
+
+{#IF.Personal_Details.CourseTypeID=4#}
+<div style="page-break-before: always;"></div>
+<div style="margin-top:10px;">&nbsp;</div>
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <th colspan="2" style='width: 50%; font-size: 20px; padding-top: 15px; '> <div style="font-size: 17px;">योग्यता परीक्षा विवरण 12 वीं/डी-वोक/( 10 + आईटीआई + अंग्रेजी)/डिप्लोमा</div><br /> <span style="font-size: 17px">Qualifying examination details 12th/D-Voc/(10+ITI+English)/Diploma</span></th>
+    </tr>
+    <tr class="text-left">
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Qualifying Examination</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.QualificationID=#}</td>
+    </tr>
+    {#IF.QualificationLateral_Details.QualificationPriority=278#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Branch</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.Branches=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=278#}
+
+    {#IF.QualificationLateral_Details.QualificationPriority=279#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Branch</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.ClassSubject=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=279#}
+
+
+    {#IF.QualificationLateral_Details.QualificationPriority=280#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Trade</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.ClassSubject=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>NCVT/SCVT</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BoardName=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=280#}
+
+
+    {#IF.QualificationLateral_Details.QualificationPriority=278#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BoardTypeName=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=278#}
+
+
+    {#IF.QualificationLateral_Details.QualificationPriority=281#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Subject</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.ClassSubject=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>State of Study</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.StateName=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BoardTypeName=#}</td>
+    </tr>
+
+    {#IF.QualificationLateral_Details.BoardTypeName=Other#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board State</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BoardStateName=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board Exam</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BoardName=#} - {#=QualificationLateral_Details.BoardExamName=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.BoardTypeName=Other#}
+
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=281#}
+
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Year of Passing</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.PassingYear=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Roll Number</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.RollNumber=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Marks Type</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.Marktype=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Aggregate Maximum Marks</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.AggMaxMarks=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Aggregate Marks Obtained</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.AggObtMarks=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Percentage</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.Percentage=#}</td>
+    </tr>
+</table>
+
+{#ENDIF.Personal_Details.CourseTypeID=4#}
+
+{#IF.Personal_Details.CourseTypeID=4#}
+{#IF.QualificationLateral_Details.QualificationPriority=280#}
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <th colspan="2" style='width: 50%; font-size: 20px;'> <Custom>अंग्रेजी योग्यता विवरण</Custom> <span style="font-size: 17px">English Qualification Details</span></th>
+    </tr>
+
+    <tr class="text-left">
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>State of Study</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=EnglishQualification_Details.StateName=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=EnglishQualification_Details.UniversityBoard=#}</td>
+    </tr>
+
+    {#IF.Qualification10_Details.BoardTypeName=Other#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board State</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=EnglishQualification_Details.BoardStateName=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board Exam</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=EnglishQualification_Details.BoardName=#} - {#=Qualification10_Details.BoardExamName=#}</td>
+    </tr>
+    {#ENDIF.Qualification10_Details.BoardTypeName=Other#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Year of Passing</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=EnglishQualification_Details.PassingYear=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Roll Number</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=EnglishQualification_Details.RollNumber=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Marks Type</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=EnglishQualification_Details.Marktype=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Aggregate Maximum Marks</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=EnglishQualification_Details.AggMaxMarks=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Aggregate Marks Obtained</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=EnglishQualification_Details.AggObtMarks=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Percentage</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=EnglishQualification_Details.Percentage=#}%</td>
+    </tr>
+    <tr>
+    </tr>
+</table>
+{#ENDIF.QualificationLateral_Details.QualificationPriority=280#}
+{#ENDIF.Personal_Details.CourseTypeID=4#}
+
+{#IF.Personal_Details.CourseTypeID=5#}
+<div style="page-break-before: always;"></div>
+<div style="margin-top:10px;">&nbsp;</div>
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <th colspan="2" style='width: 50%; font-size: 20px; padding-top: 15px; '> <div style="font-size: 17px;">योग्यता परीक्षा विवरण 12 वीं/डी-वोक/( 10 + आईटीआई + अंग्रेजी)/डिप्लोमा</div><br /> <span style="font-size: 17px">Qualifying examination details 12th/D-Voc/(10+ITI+English)/Diploma</span></th>
+    </tr>
+    <tr class="text-left">
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Qualifying Examination</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.QualificationID=#}</td>
+    </tr>
+    {#IF.QualificationLateral_Details.QualificationPriority=278#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Core Branch</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.CoreBranchName=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=278#}
+
+    {#IF.QualificationLateral_Details.QualificationPriority=278#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Branch</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BranchName=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=278#}
+
+    {#IF.QualificationLateral_Details.QualificationPriority=279#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Branch</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.ClassSubject=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=279#}
+
+
+    {#IF.QualificationLateral_Details.QualificationPriority=280#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Trade</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.ClassSubject=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>NCVT/SCVT</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BoardName=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=280#}
+
+
+    {#IF.QualificationLateral_Details.QualificationPriority=278#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BoardTypeName=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=278#}
+
+
+    {#IF.QualificationLateral_Details.QualificationPriority=281#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Subject</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.ClassSubject=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>State of Study</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.StateName=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BoardTypeName=#}</td>
+    </tr>
+
+    {#IF.QualificationLateral_Details.BoardTypeName=Other#}
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board State</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BoardStateName=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Board Exam</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.BoardName=#} - {#=QualificationLateral_Details.BoardExamName=#}</td>
+    </tr>
+    {#ENDIF.QualificationLateral_Details.BoardTypeName=Other#}
+
+    {#ENDIF.QualificationLateral_Details.QualificationPriority=281#}
+
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Year of Passing</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.PassingYear=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Roll Number</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.RollNumber=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Marks Type</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.Marktype=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Aggregate Maximum Marks</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.AggMaxMarks=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Aggregate Marks Obtained</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.AggObtMarks=#}</td>
+    </tr>
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Percentage</th>
+        <td style='padding:2px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=QualificationLateral_Details.Percentage=#}</td>
+    </tr>
+</table>
+
+{#ENDIF.Personal_Details.CourseTypeID=5#}
+
+<div style="page-break-before: always;"></div>
+<div style="margin-top:10px;">&nbsp;</div>
+<table style="width:100%" cellpadding="5" cellspacing="0">
+    <tr>
+        <th colspan="4" style='font-size: 20px; padding-top: 15px; '> <Custom>विकल्प</Custom><span style="font-size: 17px"> (Option Form)</span></th>
+    </tr>
+    <tr>
+        <th style='width: 8%;padding: 5px; font-weight: 600; font-size: 12px; vertical-align: top; border: 1px solid #494949;'>Priority</th>
+        <th style='width: 45%;padding: 5px; font-weight: 600; font-size: 12px; vertical-align: top; border: 1px solid #494949;'>Name of College</th>
+        <th style='width: 35%;padding: 5px; font-weight: 600; font-size: 12px; vertical-align: top; border: 1px solid #494949;'>Branch Name</th>
+        <th style='width: 12%;padding: 5px; font-weight: 600; font-size: 12px; vertical-align: top; border: 1px solid #494949;'>College Type</th>
+    </tr>
+    {#LOOP.Option_Details#}
+    <tr>
+        <td valign="top" style='padding: 5px; font-size: 12px; border: 1px solid #494949;'>{#=Option_Details.Priority=#}</td>
+        <td valign="top" style='padding: 5px; font-size: 12px; border: 1px solid #494949;'>{#=Option_Details.InstituteName=#}</td>
+        <td valign="top" style='padding: 5px; font-size: 12px; border: 1px solid #494949;'>{#=Option_Details.BranchName=#}</td>
+        <td valign="top" style='padding: 5px; font-size: 12px; border: 1px solid #494949;'>{#=Option_Details.College_TypeName=#}</td>
+    </tr>
+    {#ENDLOOP.Option_Details#}
+</table>
+<div style="margin-top:10px;">&nbsp;</div>
+<table style="width:100%" cellpadding="5" cellspacing="0">
+    <tr>
+        <th style='width: 50%; font-size: 20px; padding-top: 15px; '><Custom>घोषणा</Custom> <span style="font-size: 17px">(Undertaking)</span></th>
+    </tr>
+    <tr>
+        <td style='padding:5px; font-size: 12px;vertical-align:top;border: 1px solid #494949'>
+            मेरे द्वारा यह प्रमाणित किया जाता है कि मैने आवेदन पत्र भरने से पूर्व प्रवेश के सम्बन्ध में सभी दिशा निर्देश तथा नियम भलीभांति से पढ़ लिये हैं। ऑनलाइन आवेदन पत्र में मेरे द्वारा भरी गयी सभी सूचनाएं सत्य एवं सही है। मेरे द्वारा यह भी प्रमाणित किया जाता है कि मुझे किसी भी संस्थान द्वारा पूर्व में कभी भी निष्काषित नहीं किया गया है। भविष्य में मेरे द्वारा दी गयी कोई सूचना गलत पाई जाती है तो विभाग द्वारा मेरा प्रवेश निरस्त किया जा सकता है, तथा मेरे विरुद्ध आई.पी.सी. की सम्बन्धित धारा के अंतर्गत नियमानुसार कार्यवाही की जा सकती है, जिसकी सम्पूर्ण जिम्मेवारी मेरी होगी।
+            यदि मुझे प्रवेश प्राप्त होता हैं तो मेरे द्वारा संस्थान के सभी नियमों एवं अनुशासन का पालन करते हुए पूर्ण प्रशिक्षण प्राप्त किया जायेगा। मेरे द्वारा ऐसा कोई कृत्य नहीं किया जावेगा जो की शान्ति एवं अनुशासन के विपरीत हो, अन्यथा मुझे संस्थान से निष्काषित किया जा सकेगा ।
+        </td>
+    </tr>
+
+</table>

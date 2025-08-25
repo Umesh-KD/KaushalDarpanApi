@@ -1,0 +1,83 @@
+﻿
+
+<table id="pdf-header" style="width:100%">
+    <tr>
+        <td><img src='{#=StudentAllotment.logo_left=#}' style='width:100px;height:80px;' /></td>
+        <td style='text-align:center'>
+            {#=StudentAllotment.Collegename=#}<br /><br />
+            {#=StudentAllotment.SeatStatus=#} Allotment Report - Academic session : {#=StudentAllotment.FinancialYearName=#}
+        </td>
+        <td style="text-align:right"><img src='{#=StudentAllotment.logo_right=#}' style='width:85px;height:80px;' /></td>
+    </tr>
+    <tr>
+        <th colspan="3" style='border-bottom: 1px solid #494949 ;padding-top:1px;'>&nbsp;</th>
+    </tr>
+</table>
+<div style="margin-top:10px;">&nbsp;</div>
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 10px;vertical-align:top;border: 1px solid #494949;vertical-align:middle;'>Serial No            </th>
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle;'>Application No   </th>
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle;'>Student Name   </th>
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle;'>Father Name   </th>
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle;'>DOB   </th>
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle;'>Gender   </th>
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle;'>Category </th>
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle;'>Aadhar No </th>
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle;'>Mobile No  </th>
+
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle;'>Trade Code   </th>
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle;'>Trade Name   </th>
+
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle;'>Allotted Category </th>
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle;'>Trade Scheme </th>
+        {#IF.StudentAllotment.TradeLevelId=10#}
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle; text-align: center;'>10th % </th>
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle; text-align: center;'>Math % </th>
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle; text-align: center;'>Science % </th>
+        {#ENDIF.StudentAllotment.TradeLevelId=10#}
+
+        {#IF.StudentAllotment.TradeLevelId=8#}
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle; text-align: center;'>8th % </th>
+        {#ENDIF.StudentAllotment.TradeLevelId=8#}
+
+        <th style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; vertical-align: middle; text-align: center;'>Merit No </th>
+
+    </tr>
+
+    {#LOOP.StudentAllotment#}
+    <tr>
+        <td style='padding:2px;font-weight:600;font-size: 10px;vertical-align:top;border: 1px solid #494949'>{#=StudentAllotment.SrNo=#}         </td>
+        <td style='padding:2px;font-weight:600;font-size: 10px;vertical-align:top;border: 1px solid #494949'>{#=StudentAllotment.ApplicationNo=#}   </td>
+        <td style='padding:2px;font-weight:600;font-size: 10px;vertical-align:top;border: 1px solid #494949'>{#=StudentAllotment.Name=#} </td>
+        <td style='padding:2px;font-weight:600;font-size: 10px;vertical-align:top;border: 1px solid #494949;'>{#=StudentAllotment.FatherName=#}        </td>
+        <td style='padding:2px;font-weight:600;font-size: 10px;vertical-align:top;border: 1px solid #494949;'>{#=StudentAllotment.DOB=#}          </td>
+        <td style='padding:2px;font-weight:600;font-size: 10px;vertical-align:top;border: 1px solid #494949;'>{#=StudentAllotment.Gender=#}   </td>
+        <td style='padding:2px;font-weight:600;font-size: 10px;vertical-align:top;border: 1px solid #494949;'>{#=StudentAllotment.StudentCategory=#}         </td>
+        <td style='padding:2px;font-weight:600;font-size: 10px;vertical-align:top;border: 1px solid #494949;'>{#=StudentAllotment.AadharNo=#}           </td>
+        <td style='padding:2px;font-weight:600;font-size: 10px;vertical-align:top;border: 1px solid #494949;;text-align:center;'>{#=StudentAllotment.MobileNo=#}           </td>
+
+        <td style='padding:2px;font-weight:600;font-size: 10px;vertical-align:top;border: 1px solid #494949;'>{#=StudentAllotment.TradeCode=#}         </td>
+        <td style='padding:2px;font-weight:600;font-size: 10px;vertical-align:top;border: 1px solid #494949;'>{#=StudentAllotment.TradeName=#}         </td>
+        <td style='padding:2px;font-weight:600;font-size: 10px;vertical-align:top;border: 1px solid #494949;'>{#=StudentAllotment.AllotedCategory=#}          </td>
+        <td style='padding:2px;font-weight:600;font-size: 10px;vertical-align:top;border: 1px solid #494949;'>{#=StudentAllotment.TradeSchemeName=#}           </td>
+
+        {#IF.StudentAllotment.TradeLevelId=10#}
+        <td style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; text-align: center;'>{#=StudentAllotment.ClassPer=#}        </td>
+        <td style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; text-align: center;'>{#=StudentAllotment.TenthMathsPer=#}          </td>
+        <td style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; text-align: center;'>{#=StudentAllotment.TenthSciencePer=#}          </td>
+        {#ENDIF.StudentAllotment.TradeLevelId=10#}
+
+        {#IF.StudentAllotment.TradeLevelId=8#}
+        <td style='padding: 2px; font-weight: 600; font-size: 10px; vertical-align: top; border: 1px solid #494949; text-align: center;'>{#=StudentAllotment.ClassPer=#}        </td>
+        {#ENDIF.StudentAllotment.TradeLevelId=8#}
+
+        <td style='padding:2px;font-weight:600;font-size: 10px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=StudentAllotment.MeritNo=#}          </td>
+
+    </tr>
+    {#ENDLOOP.StudentAllotment#}
+
+</table>
+<table id="pdf-footer">
+    <tr><td style="font-size:13px;text-align:left">system print date: {#=StudentAllotment.PrintDateTime=#}  </td></tr>
+</table>

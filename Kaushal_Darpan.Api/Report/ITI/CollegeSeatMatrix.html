@@ -1,0 +1,106 @@
+﻿
+
+<table id="pdf-header" style="width:100%">
+    <tr>
+        <td><img src='{#=SeatMatrix.logo_left=#}' style='width:100px;height:80px;' /></td>
+        <td style='text-align:center'>
+            {#=SeatMatrix.Collegename=#}<br /><br />
+            {#=SeatMatrix.SeatStatus=#} Seat Matrix - Academic session : {#=SeatMatrix.FinancialYearName=#}
+        </td>
+        <td style="text-align:right"><img src='{#=SeatMatrix.logo_right=#}' style='width:85px;height:80px;' /></td>
+    </tr>
+    <tr>
+        <th colspan="3" style='border-bottom: 1px solid #494949 ;padding-top:1px;'>&nbsp;</th>
+    </tr>
+</table>
+<div style="margin-top:10px;">&nbsp;</div>
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <th rowspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;vertical-align:middle;'>#            </th>
+        <th rowspan="2" style='padding: 2px; font-weight: 600; font-size: 11px; vertical-align: top; border: 1px solid #494949; vertical-align: middle;'>Trade Name   </th>
+        <th rowspan="2" style='padding: 2px; font-weight: 600; font-size: 11px; vertical-align: top; border: 1px solid #494949; vertical-align: middle;'>Trade Scheme </th>
+        <th rowspan="2" style='padding: 2px; font-weight: 600; font-size: 11px; vertical-align: top; border: 1px solid #494949; text-align: center; vertical-align: middle; '>TotalSeats   </th>
+        <th colspan="2" style='padding: 2px; font-weight: 600; font-size: 11px; vertical-align: top; border: 1px solid #494949; text-align: center;'>GEN          </th>
+        <th colspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>SC           </th>
+        <th colspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>ST           </th>
+        <th colspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>TSP          </th>
+        <th colspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>SAH          </th>
+        <th colspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>OBC          </th>
+        <th colspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>MIN          </th>
+        <th colspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>EWS          </th>
+        <th colspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>MBC          </th>
+        <th colspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>DEV          </th>
+
+        <th rowspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;vertical-align:middle;'>WID DIV      </th>
+        <th rowspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;vertical-align:middle;'>EX           </th>
+        <th rowspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;vertical-align:middle;'>PH           </th>
+        <th rowspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;vertical-align:middle;'>IMC SC       </th>
+        <th rowspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;vertical-align:middle;'>IMC ST       </th>
+        <th rowspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;vertical-align:middle;'>IMC OBC      </th>
+        <th rowspan="2" style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;vertical-align:middle;'>IMC GEN      </th>
+    </tr>
+
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>M        </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>F        </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>M         </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>F         </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>M         </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>F         </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>M        </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>F        </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>M        </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>F        </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>M        </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>F        </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>M        </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>F        </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>M        </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>F        </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>M        </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>F        </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>M        </th>
+        <th style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>F        </th>
+    </tr>
+
+
+    {#LOOP.SeatMatrix#}
+    <tr>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949'>{#=SeatMatrix.SrNo=#}         </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949'>{#=SeatMatrix.TradeName=#}   </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949'>{#=SeatMatrix.TradeSchemeName=#} </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.TotalSeats=#}   </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.GEN=#}          </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.GEN_F=#}        </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.SC=#}           </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.SC_F=#}         </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.ST=#}           </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.ST_F=#}         </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.TSP=#}          </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.TSP_F=#}        </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.SAH=#}          </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.SAH_F=#}        </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.OBC=#}          </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.OBC_F=#}        </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.MIN=#}          </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.MIN_F=#}        </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.EWS=#}          </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.EWS_F=#}        </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.MBC=#}          </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.MBC_F=#}        </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.DEV=#}          </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.DEV_F=#}        </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.WID_DIV=#}      </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.EX=#}           </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.PH=#}           </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.IMC_SC=#}       </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.IMC_ST=#}       </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.IMC_OBC=#}      </td>
+        <td style='padding:2px;font-weight:600;font-size: 11px;vertical-align:top;border: 1px solid #494949;text-align:center;'>{#=SeatMatrix.IMC_GEN=#}      </td>
+    </tr>
+    {#ENDLOOP.SeatMatrix#}
+   
+</table>
+<table id="pdf-footer">
+    <tr><td style="font-size:13px;text-align:left">system print date: {#=SeatMatrix.PrintDateTime=#}  </td></tr>
+</table>
