@@ -71,13 +71,13 @@ namespace Kaushal_Darpan.Models.Student
         public string? ServiceType { get; set; }
     }
 
-    public class StudentSearchModel:RequestBaseModel
+    public class StudentSearchModel : RequestBaseModel
     {
         public int StudentID { get; set; }
         public int RoleId { get; set; }
         public int Status { get; set; }
         public string SsoID { get; set; }
-        
+
         public string Action { get; set; }
         public int SemesterID { get; set; }
         public int StreamID { get; set; }
@@ -105,15 +105,15 @@ namespace Kaushal_Darpan.Models.Student
         public decimal ObtainedMarks { get; set; }
         public bool IsPresent { get; set; }
         public bool IsFinalSubmit { get; set; }
-        public int UserID { get; set; }          
-        public string? IPAddress { get; set; }     
-        public string? FileName { get; set; }     
-        public string? Longitude { get; set; }     
-        public string? Latitude { get; set; }     
+        public int UserID { get; set; }
+        public string? IPAddress { get; set; }
+        public string? FileName { get; set; }
+        public string? Longitude { get; set; }
+        public string? Latitude { get; set; }
     }
 
 
-    public class StudentEnrolmentCancelModel 
+    public class StudentEnrolmentCancelModel
     {
         public int StudentID { get; set; }
         public int NextRoleId { get; set; }
@@ -139,5 +139,22 @@ namespace Kaushal_Darpan.Models.Student
         public string Remark { get; set; }
         public string Dis_ENRCancelDoc { get; set; }
         public string ENRCancelDoc { get; set; }
+    }
+
+    public class StudentApplicationModel : RequestBaseModel
+    {
+        public int? ApplicationID { get; set; }
+        public string? ApplicationNo { get; set; }
+        public string? MobileNo { get; set; }
+        public string? StudentName { get; set; }
+        public int InstituteID { get; set; }
+        public int StreamID { get; set; }
+        public int SemesterID { get; set; }
+        public bool Selected { get; set; }
+
+    }
+    public class StudentApplicationSaveModel : ResponseBaseModel
+    {
+        public int ApplicationID { get; set; }
     }
 }

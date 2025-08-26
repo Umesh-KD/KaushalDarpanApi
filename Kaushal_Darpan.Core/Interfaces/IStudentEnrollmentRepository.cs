@@ -1,5 +1,6 @@
 ﻿using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
+using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
 using System.Data;
 
@@ -21,5 +22,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveRejectAtBTER(List<StudentMarkedModel> model);
         Task<int> SaveSelectedForExamination(List<StudentMarkedModel> model);
         Task<int> UndoRejectAtbter(List<RejectMarkModel> model);
+        Task<DataTable> GetAdmittedStudentToVerify(StudentApplicationModel model);
+        Task<int> SaveAdmittedStudentForApproveByAcp(List<StudentApplicationSaveModel> model);
+        Task<int> SaveAdmittedStudentForReturnByAcp(List<StudentApplicationSaveModel> model);
     }
 }
