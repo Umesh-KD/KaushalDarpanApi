@@ -11,6 +11,7 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public int RoleId { get; set; }
         public string? IPAddress { get; set; }
         public int? StudentExamID { get; set; }
+        public int? SemesterID { get; set; }
         //public int? EndTermID { get; set; }
     }
     public class StudentMarkedModelForJoined

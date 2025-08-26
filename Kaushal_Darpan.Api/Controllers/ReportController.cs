@@ -1554,7 +1554,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.ReportRepository.GetStudentEnrolledForm(model);
-                    if (data?.Tables?.Count == 2)
+                    if (data?.Tables?.Count == 3)
                     {
                         //report
                         var fileName = $"EnrolledForm_{model.StudentID}.pdf";
@@ -1579,6 +1579,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         localReport.AddDataSource("StudentEnrolledmentForm", data.Tables[0]);
                         localReport.AddDataSource("Student_QualificationDetails", data.Tables[1]);
+                        localReport.AddDataSource("StudentEnrollmentFeeDetails", data.Tables[2]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
 
 
