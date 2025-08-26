@@ -486,7 +486,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_Bter_EquipmentCodeDuplicate";
                         command.CommandType = CommandType.StoredProcedure;
                         // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@ItemCategoryId", request.ItemCategoryId);
+                        command.Parameters.AddWithValue("@ItemCategoryName", request.ItemCategoryName);
                         command.Parameters.AddWithValue("@EquipmentsCode", request.EquipmentsCode);
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out

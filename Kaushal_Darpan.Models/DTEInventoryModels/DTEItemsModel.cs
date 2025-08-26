@@ -88,7 +88,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
 
     public class EquipmentCodeDuplicateSearch
     {
-        public int ItemCategoryId { get; set; }
+        public string ItemCategoryName { get; set; }
         public string  EquipmentsCode { get; set; }
         public int IsDuplicate { get; set; }
     }
