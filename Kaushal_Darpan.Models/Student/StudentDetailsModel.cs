@@ -20,6 +20,7 @@ namespace Kaushal_Darpan.Models.Student
         public string StreamName { get; set; }
         public string Semester { get; set; }
         public string FeeAmount { get; set; }
+        public string? EnrollFeeAmount { get; set; }
         public string? LastDate { get; set; }
         public string FeeStatus { get; set; }
         public string? RollNo { get; set; }
