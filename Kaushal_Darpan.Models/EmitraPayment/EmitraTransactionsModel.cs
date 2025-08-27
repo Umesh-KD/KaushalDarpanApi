@@ -29,6 +29,7 @@
         public int UniqueServiceID { get; set; }
 
         public decimal Amount { get; set; }
+        public decimal? EnrollFeeAmount { get; set; }
         public string key { get; set; }
 
         public string PRN { get; set; }

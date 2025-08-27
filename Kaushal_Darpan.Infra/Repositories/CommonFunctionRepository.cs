@@ -3420,6 +3420,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CreatedIP", Model.CreatedIP);
                         command.Parameters.AddWithValue("@ServiceID", Model.ServiceID);
                         command.Parameters.AddWithValue("@Amount", Model.Amount);
+                        command.Parameters.AddWithValue("@AddFeeAmount", Model.EnrollFeeAmount);
                         command.Parameters.AddWithValue("@StudentID", Model.StudentID);
                         command.Parameters.AddWithValue("@SemesterID", Model.SemesterID);
                         command.Parameters.AddWithValue("@action", Model.key);

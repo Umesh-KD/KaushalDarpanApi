@@ -2481,6 +2481,42 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
+
+        public async Task<DataTable> ITIEMStaffDuplicateCheck(ITI_EMStaffDuplicateCheckModel body)
+        {
+            _actionName = "ITIEMStaffDuplicateCheck()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_EstablishManagementStaffDuplicateCheck";                 
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);                  
+                        command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
     }
 
 

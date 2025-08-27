@@ -19,6 +19,7 @@ using Org.BouncyCastle.Ocsp;
 using RestSharp;
 using System.Buffers;
 using System.Data;
+using System.Globalization;
 using System.Net;
 using System.Text;
 using System.Transactions;
@@ -343,6 +344,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 objEmitra.key = "_InsertDetails";
                 objEmitra.ApplicationIdEnc = Model.ApplicationIdEnc;
                 objEmitra.Amount = Model.Amount;
+                objEmitra.EnrollFeeAmount = (Model.EnrollFeeAmount ?? 0);
                 objEmitra.StudentID = Model.StudentID;
                 objEmitra.SemesterID = Model.SemesterID;
                 objEmitra.ExamStudentStatus = Model.ExamStudentStatus;
@@ -371,21 +373,36 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     data.REQTIMESTAMP = DateTime.Now.ToString("yyyyMMddHHmmssfff");
                     data.AMOUNT = Convert.ToString(Model.Amount);
+
+                    if (Model.FeeFor== "EnrollmentFee")
+                    {
+                        data.ExamFeeAmount = Convert.ToString(Model.Amount);
+                        data.EnrollFeeAmount = Convert.ToString(Model.EnrollFeeAmount);
+                        decimal totalAmount = (decimal)(Model.Amount) + (decimal)(Model.EnrollFeeAmount ?? 0);
+
+                        data.AMOUNT = totalAmount.ToString();
+
+                        data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", data.AMOUNT.ToString());
+                        data.CHECKSUM = CommonFuncationHelper.CreateMD5(data.PRN + "|" + data.AMOUNT.ToString() + "|" + EmitraServiceDetail.CHECKSUMKEY);
+                    }
+                    else
+                    {
+                        data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
+                    }
+
                     data.SUCCESSURL = EmitraServiceDetail.REDIRECTURL + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(result.TransactionId)) + "&ApplicationIdEnc=" + CommonFuncationHelper.EmitraEncrypt(Model.ApplicationIdEnc) + "&SERVICEID=" + Model.ServiceID.ToString() + "&IsFailed=" + CommonFuncationHelper.EmitraEncrypt("NO") + "&UniqueServiceID=" + Model.ID.ToString();
                     data.FAILUREURL = EmitraServiceDetail.REDIRECTURL + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(result.TransactionId)) + "&ApplicationIdEnc=" + CommonFuncationHelper.EmitraEncrypt(Model.ApplicationIdEnc) + "&SERVICEID=" + Model.ServiceID.ToString() + "&IsFailed=" + CommonFuncationHelper.EmitraEncrypt("YES") + "&UniqueServiceID=" + Model.ID.ToString();
                     data.USERNAME = Model.UserName;
                     data.USERMOBILE = Model.MobileNo;
                     data.COMMTYPE = EmitraServiceDetail.COMMTYPE;
                     data.OFFICECODE = EmitraServiceDetail.OFFICECODE;
-
-                    data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
-
+                    
                     data.SERVICEID = EmitraServiceDetail.SERVICEID;
                     data.UDF1 = Convert.ToString(Model.ExamStudentStatus);
 
                     data.UDF2 = Model.SsoID;
                     data.USEREMAIL = "";
-                    data.CHECKSUM = CommonFuncationHelper.CreateMD5(data.PRN + "|" + data.AMOUNT + "|" + EmitraServiceDetail.CHECKSUMKEY);
+                    
 
                     EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration endpointConfiguration = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration();
 

@@ -6,6 +6,8 @@
         public string PRN { get; set; }
         public string REQTIMESTAMP { get; set; }
         public string AMOUNT { get; set; }
+        public string? EnrollFeeAmount { get; set; }
+        public string? ExamFeeAmount { get; set; }
         public string SUCCESSURL { get; set; }
         public string FAILUREURL { get; set; }
         public string USERNAME { get; set; }
