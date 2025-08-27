@@ -321,7 +321,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                                 ItemDetailsId = row.Field<int?>("ItemDetailsId") ?? 0,
                                 EquipmentCode = row["EquipmentsCode"] == DBNull.Value ? "0" : row["EquipmentsCode"].ToString(),
                                 EquipmentWorking = row.Field<int?>("EquipmentWorking") ?? 0,
-                                isOption = row["isOption"] != DBNull.Value && Convert.ToBoolean(row["isOption"])
+                                isOption = row["isOption"] != DBNull.Value && Convert.ToBoolean(row["isOption"]),
+                                AuctionStatus = row["AuctionStatus"].ToString(),
+                                ItemId = Convert.ToInt32(row["ItemId"].ToString())
+                               
                             };
                             itemsList.Add(item);
                         }
@@ -497,6 +500,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                     }
 
                     return result;
+
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> CheckItemAuction(CheckItemAuctionSearch request)
+        {
+            _actionName = "CheckItemAuction(CheckItemAuctionSearch request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CheckItemAuction";
+                        command.Parameters.AddWithValue("@Item", request.ItemId);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
 
                 }
                 catch (Exception ex)

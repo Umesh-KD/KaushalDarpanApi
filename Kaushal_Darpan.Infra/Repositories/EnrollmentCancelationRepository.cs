@@ -173,6 +173,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_GetEnrollCancelationList";
                         command.Parameters.AddWithValue("@action", searchModel.Action);
                         command.Parameters.AddWithValue("@Status", searchModel.Status);
+                        command.Parameters.AddWithValue("@RoleId", searchModel.RoleID);
+                        command.Parameters.AddWithValue("@StudentID", searchModel.StudentID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -227,6 +229,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ENRCancelDoc", filterModel.ENRCancelDoc);
 
                         command.Parameters.AddWithValue("@EnrollmentNo", filterModel.EnrollmentNo);
+                        command.Parameters.AddWithValue("@EndTermType", filterModel.EndTermType);
+                        command.Parameters.AddWithValue("@EndTermName", filterModel.EndTermName);
                         command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
                         command.Parameters.AddWithValue("@ActionId", filterModel.ActionId);
                         command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);

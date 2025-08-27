@@ -23,6 +23,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStudentDeatilsByAction(StudentSearchModel filterModel);
         Task<DataTable> GetITIStudentDeatilsByAction(StudentSearchModel filterModel);
         Task<int> UpdateStudentSsoMapping(StudentSearchModel request);
+        Task<int> StudentPlacementMapping(StudentSearchModel request);
         Task<DataTable> GetStudentDeatilsBySSOId(string ssoid, int DepartmentID);       
         Task<StudentMeritInfoModel> GetStudentMeritinfo(StudentSearchModel filterModel);
         Task<DataSet> GetITIStudentMeritinfo(StudentSearchModel body);

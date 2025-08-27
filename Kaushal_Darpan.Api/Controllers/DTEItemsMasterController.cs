@@ -577,6 +577,52 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+        [HttpPost("CheckItemAuction")]
+        public async Task<ApiResult<DataTable>> CheckItemAuction([FromBody] CheckItemAuctionSearch request)
+        {
+            ActionName = "CheckItemAuction([FromBody] CheckItemAuctionSearch request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+                    result.Data = await Task.Run(() => _unitOfWork.iDTEItemsMasterRepository.CheckItemAuction(request));
+                    result.State = EnumStatus.Success;
+                    if (result.Data.Rows.Count == 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "No record found.!";
+                        return result;
+                    }
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }
 
