@@ -8,6 +8,7 @@
         public string ServiceID { get; set; }
         public string ApplicationIdEnc { get; set; }
         public decimal Amount { get; set; }
+        public decimal? EnrollFeeAmount { get; set; }
 
         public string UserName { get; set; }
         public string MobileNo { get; set; }
