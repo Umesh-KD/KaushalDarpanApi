@@ -80,4 +80,10 @@ namespace Kaushal_Darpan.Models.StaffMaster
 
     }
 
-}
+    public class ITI_EMStaffDuplicateCheckModel
+    {
+        public int RoleID { get; set; }
+        public int OfficeID { get; set; }
+    }
+
+    }

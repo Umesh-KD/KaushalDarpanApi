@@ -94,6 +94,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> ITIGovtEM_OfficeDelete(ITIGovtEM_OfficeDeleteModel body);
         Task<DataTable> GetITI_Govt_EM_UserProfileStatusHt(ITI_Govt_EM_UserRequestHistoryListSearchDataModel Model);
 
-
+        Task<DataTable> ITIEMStaffDuplicateCheck(ITI_EMStaffDuplicateCheckModel filterModel);
     }
 }
