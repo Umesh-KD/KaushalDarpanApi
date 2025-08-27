@@ -159,5 +159,6 @@ namespace Kaushal_Darpan.Models.Student
     public class StudentApplicationSaveModel : ResponseBaseModel
     {
         public int ApplicationID { get; set; }
+        public string Remark { get; set; }
     }
 }
