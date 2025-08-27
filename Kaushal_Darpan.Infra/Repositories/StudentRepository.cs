@@ -297,6 +297,46 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<int> StudentPlacementMapping(StudentSearchModel request)
+        {
+            return await Task.Run(async () =>
+            {
+                _actionName = "UpdateStudentSsoMapping(StudentDetailsModel request)";
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_StudentPlacementMapping";
+                        command.Parameters.AddWithValue("@StudentID", request.StudentID);
+                        command.Parameters.AddWithValue("@SSOID", request.SsoID);
+                        command.Parameters.AddWithValue("@MobileNumber", request.MobileNumber);
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
+                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
+                        _sqlQuery = command.GetSqlExecutableQuery();// sql query
+                        await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<DataTable> GetStudentDeatilsBySSOId(String ssoid,int DepartmentID=0)
         {
             _actionName = "GetStudentDeatilsBySSOId()";
