@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
-using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Api.Email;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ApplicationMessageModel;
-using Kaushal_Darpan.Models.PreExamStudent;
-
 
 //using Newtonsoft.Json;
 using Kaushal_Darpan.Models.SMSConfigurationSetting;
+using Kaushal_Darpan.Models.Student;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using static Kaushal_Darpan.Api.Controllers.IndustryInstitutePartnershipMasterController;
@@ -70,7 +68,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     ReturnOTP = CommonFuncationHelper.SMS_GenerateNewRandom();
                     MessageBody = MessageBody.Replace("{#OTP#}", ReturnOTP);
-                    await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, MobileNo, MessageBody, TempletID);
+                    await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, MobileNo, MessageBody, TempletID); 
                 }
                 else
                 {
@@ -78,7 +76,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     MessageBody = MessageBody.Replace("{#OTP#}", ReturnOTP);
                     await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, MobileNo, MessageBody, TempletID);
                 }
-                //await _emailService.SendEmail(MessageBody, "ramraj.malav@devitpl.com");
+                 //await _emailService.SendEmail(MessageBody, "ramraj.malav@devitpl.com");
                 result.Data = ReturnOTP;
                 if (result.Data != null)
                 {
@@ -317,9 +315,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-
-
-        [RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
+        //[RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
         [HttpPost("SendSMSForStudentEnrollmentData")]
         public async Task<ApiResult<bool>> SendSMSForStudentEnrollmentData([FromBody] List<ForSMSEnrollmentStudentMarkedModel> request)
         {
@@ -388,6 +384,5 @@ namespace Kaushal_Darpan.Api.Controllers
             });
 
         }
-
     }
 }

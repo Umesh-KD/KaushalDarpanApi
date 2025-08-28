@@ -1,8 +1,8 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
-using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.SMSConfigurationSetting;
+using Kaushal_Darpan.Models.Student;
 using System.Data;
 
 namespace Kaushal_Darpan.Infra.Repositories
@@ -205,5 +205,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
     }
 }
