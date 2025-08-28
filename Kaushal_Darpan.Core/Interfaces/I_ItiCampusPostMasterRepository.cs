@@ -1,4 +1,5 @@
 ﻿//using Kaushal_Darpan.Models.CampusPostMaster;
+using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.ITICampusPostMaster;
 using System;
 using System.Collections.Generic;
@@ -20,5 +21,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> UpdateData(ItiCampusPostMasterModel productDetails);
         Task<bool> DeleteDataByID(ItiCampusPostMasterModel productDetails);
         Task<DataTable> CampusValidationList(int CompanyID, int CollegeID, string Status, int DepartmentID);
+        Task<List<CommonDDLModel>> GetHiringRoleMaster();
+        Task<DataTable> Iticollege(int DepartmentID, int EndTermId);
     }
 }

@@ -3,6 +3,7 @@ using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ITI_InstructorModel;
+using Kaushal_Darpan.Models.ITIAllotment;
 using Kaushal_Darpan.Models.ITICollegeMarksheetDownloadmodel;
 
 
@@ -281,6 +282,47 @@ namespace Kaushal_Darpan.Api.Controllers
 
             return result;
         }
+
+
+        [HttpPost("GetInstructorDataBySsoid/{SSOID}")]
+        public async Task<ApiResult<DataSet>> GetInstructorDataBySsoid(string SSOID)
+        {
+            ActionName = "GetAllDataPhoneVerify()";
+            var result = new ApiResult<DataSet>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITI_InstructorRepository.GetInstructorDataBySsoid(SSOID));
+                result.State = EnumStatus.Success;
+                if (result.Data.Tables.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                else
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
 
     }
 }

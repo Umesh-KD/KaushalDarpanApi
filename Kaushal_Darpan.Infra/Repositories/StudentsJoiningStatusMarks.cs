@@ -549,5 +549,81 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+
+
+        public async Task<DataTable> GetCollegeAdminData(ReportCollegeForAdminModel body)
+        {
+            _actionName = "GetById(int PK_ID)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetAllotmentReportCollegeforAdmin";
+                        command.Parameters.AddWithValue("@AcademicYearID", body.AcademicYearID);
+                        command.Parameters.AddWithValue("@CollegeId", body.CollegeId);
+                        command.Parameters.AddWithValue("@TradeLevelID", body.TradeLevelID);
+                        command.Parameters.AddWithValue("@TradeTypeID", body.TradeTypeID);
+                        command.Parameters.AddWithValue("@TradeId", body.TradeId);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetCollegeData(ReportCollegeModel body)
+        {
+            _actionName = "GetById(int PK_ID)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetStudentSeatAllotment";
+                        command.Parameters.AddWithValue("@AcademicYearID", body.AcademicYearID);
+                        command.Parameters.AddWithValue("@TradeLevelID", body.TradeLevelID);
+                        command.Parameters.AddWithValue("@TradeTypeID", body.TradeTypeID);
+                        command.Parameters.AddWithValue("@TradeId", body.TradeId);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
     }
 }

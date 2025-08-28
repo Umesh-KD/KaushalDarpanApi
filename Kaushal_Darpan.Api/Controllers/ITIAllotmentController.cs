@@ -29,7 +29,7 @@ namespace Kaushal_Darpan.Api.Controllers
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ITIAllotmentController(IMapper  mapper, IUnitOfWork unitOfWork)
+        public ITIAllotmentController(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
@@ -297,7 +297,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
-                   
+
                     result.Data = new DataTable();
                 }
             }
@@ -1182,6 +1182,163 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+
+        [HttpPost("DownloadCollegeAdminData")]
+        public async Task<ApiResult<string>> DownloadCollegeAdminData([FromBody] ReportCollegeForAdminModel body)
+        {
+            ActionName = "DownloadCollegeAdminData([FromBody] ReportCollegeForAdminModel body)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var resultData = await Task.Run(() => _unitOfWork.StudentsJoiningStatusMarksRepository.GetCollegeAdminData(body));
+
+                    if (resultData != null)
+                    {
+                        DataSet data = new DataSet();
+                        data.Tables.Add(resultData);
+
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        data.Tables[0].TableName = "StudentAllotment";
+
+                        //data.Tables[0].Rows[0]["logo_left"] = $"{ConfigurationHelper.StaticFileRootPath}/iti_logo.jpeg";
+                        //data.Tables[0].Rows[0]["logo_right"] = $"{ConfigurationHelper.StaticFileRootPath}/iti_logo.png";
+
+                        //data.Tables[0].Rows[0]["signlogo"]=$"{ConfigurationHelper.StaticFileRootPath}/iti_signlogo.png";
+                        //data.Tables[0].Rows[0]["mainlogo"]=$"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
+                        //data.Tables[1].TableName = "Consolidated_Marksheet";
+                        string devFontSize = "15px";
+                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+                        string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.StateTradeCertificateITI}/CollegeAllotmentAdminReport.html";
+
+                        string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+
+                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+
+                        //html = Utility.PDFWorks.ReplaceCustomTag(html);
+                        //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+                        sb1.Append(html);
+
+                        //var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogoWaterMark.png";
+
+                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "LANDSCAPE A4", "");
+
+                        result.Data = Convert.ToBase64String(pdfBytes); ;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Success";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+
+        [HttpPost("DownloadForCollegeData")]
+        public async Task<ApiResult<string>> DownloadForCollegeData([FromBody] ReportCollegeModel body)
+        {
+            ActionName = "DownloadCollegeAdminData([FromBody] ReportCollegeForAdminModel body)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var resultData = await Task.Run(() => _unitOfWork.StudentsJoiningStatusMarksRepository.GetCollegeData(body));
+
+                    if (resultData != null)
+                    {
+                        DataSet data = new DataSet();
+                        data.Tables.Add(resultData);
+
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        data.Tables[0].TableName = "StudentAllotment";
+
+                        //data.Tables[0].Rows[0]["logo_left"] = $"{ConfigurationHelper.StaticFileRootPath}/iti_logo.jpeg";
+                        //data.Tables[0].Rows[0]["logo_right"] = $"{ConfigurationHelper.StaticFileRootPath}/iti_logo.png";
+
+                        //data.Tables[0].Rows[0]["signlogo"]=$"{ConfigurationHelper.StaticFileRootPath}/iti_signlogo.png";
+                        //data.Tables[0].Rows[0]["mainlogo"]=$"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
+                        //data.Tables[1].TableName = "Consolidated_Marksheet";
+                        string devFontSize = "15px";
+                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+                        string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.StateTradeCertificateITI}/CollegeAllotmentDetail.html";
+
+                        string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+
+                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+
+                        //html = Utility.PDFWorks.ReplaceCustomTag(html);
+                        //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+                        sb1.Append(html);
+
+                        //var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogoWaterMark.png";
+
+                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "LANDSCAPE A4", "");
+
+                        result.Data = Convert.ToBase64String(pdfBytes); ;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Success";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
 
 
     }

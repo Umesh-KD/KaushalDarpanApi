@@ -261,6 +261,7 @@ namespace Kaushal_Darpan.Core.Helper
         public string? MinFileSize { get; set; }
         public string? MaxFileSize { get; set; }
         public string? Password { get; set; }
+
     }
     public class UploadBTERFileModel
     {
@@ -433,6 +434,9 @@ namespace Kaushal_Darpan.Core.Helper
 
         [Description("Bter_NotifyCandidateRejectMerit")]
         Bter_NotifyCandidateRejectMerit,
+
+        [Description("Bter_EnrollmentForStudent")]
+        Bter_EnrollmentForStudent,
     }
 
     #endregion

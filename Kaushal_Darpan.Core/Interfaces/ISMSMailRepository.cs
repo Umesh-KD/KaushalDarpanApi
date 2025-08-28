@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.SMSConfigurationSetting;
+﻿using Kaushal_Darpan.Models.PreExamStudent;
+using Kaushal_Darpan.Models.SMSConfigurationSetting;
 using System.Data;
 
 namespace Kaushal_Darpan.Core.Interfaces
@@ -9,5 +10,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<SMSConfigurationSettingModel> GetSMSConfigurationSetting();
         Task<DataTable> GetSMSTemplateByMessageType(string MessageType);
         Task<bool> UpdateUnsendSMSById(string AID, string response);
+
+        Task<int> SendSMSForStudentEnrollmentData(List<ForSMSEnrollmentStudentMarkedModel> model);
     }
 }

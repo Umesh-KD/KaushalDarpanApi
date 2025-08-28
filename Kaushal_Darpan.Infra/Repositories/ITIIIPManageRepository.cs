@@ -127,15 +127,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Set the stored procedure name and type
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_IIP_InsertFundWithDeposits";
+                        command.Parameters.AddWithValue("@FundID", request.FundID);
                         command.Parameters.AddWithValue("@FinYearQuaterID", request.FinYearQuaterID);
-                        command.Parameters.AddWithValue("@FinYearQuaterID", request.FinYearQuaterID);
+                        command.Parameters.AddWithValue("@FinancialYearId", request.FinancialYearID);
                         command.Parameters.AddWithValue("@PrincipalName", request.PrincipalName);
                         command.Parameters.AddWithValue("@OpeningBalance", request.OpeningBalance);
                         command.Parameters.AddWithValue("@ReceivedAmount", request.ReceivedAmount);
                         command.Parameters.AddWithValue("@Expense", request.Expense);
                         command.Parameters.AddWithValue("@ClosingBalance", request.ClosingBalance);
                         command.Parameters.AddWithValue("@Remark", request.Remark);
-                        command.Parameters.AddWithValue("@InsituteID", request.InsituteID);
+                        command.Parameters.AddWithValue("@InstituteID", request.InsituteID);
                         command.Parameters.AddWithValue("@OtherDepositList", JsonConvert.SerializeObject(request.OtherDepositList));
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -159,11 +160,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-
-
         public async Task<DataTable> GetFundDetailsData(IDfFundSearchDetailsModel body)
         {
-            _actionName = "GetFundDetailsData()";
+            _actionName = "GetFundDetailsData(IDfFundSearchDetailsModel body)";
             try
             {
                 return await Task.Run(async () =>
@@ -175,8 +174,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_IIP_InsertFundWithDeposits_Get";
                         command.Parameters.AddWithValue("@Action", body.Action);
                         command.Parameters.AddWithValue("@FundID", body.FundID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteId);
                         command.Parameters.AddWithValue("@FinancialYearId", body.FinancialYearID);
-                
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -196,8 +195,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-
-
 
         public async Task<int> SaveIMCFund(IIPManageFundSearchModel request)
         {
@@ -319,10 +316,6 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-
-
-
-
         public async Task<DataSet> GetAllIMCFundData(IIPManageFundSearchModel body)
         {
             _actionName = "GetAllData()";
@@ -411,7 +404,6 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-
         public async Task<int> SaveQuaterlyProgressData(IMCFundRevenue request)
         {
             _actionName = "SaveAllData(AdminUserDetailModel entity)";
@@ -477,51 +469,40 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<IMCFundRevenue> GetQuaterlyProgressData(int ID)
+        public async Task<DataTable> GetQuaterlyProgressData(int ID)
         {
             _actionName = "GetById(int PK_ID)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                return await Task.Run(async () =>
                 {
-                    DataSet dataSet = new DataSet();
+                    DataTable data = new DataTable();
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_IIP_QuaterlyFundReport";
-                        command.Parameters.AddWithValue("@IMCFundID", ID);
+                        command.Parameters.AddWithValue("@ID", ID);
                         command.Parameters.AddWithValue("@Action", "GETBYID");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
-                        dataSet = await command.FillAsync();
-                    }
-                    var data = new IMCFundRevenue();
-                    if (dataSet != null)
-                    {
-                        if (dataSet.Tables.Count > 0)
-                        {
-                            data = CommonFuncationHelper.ConvertDataTable<IMCFundRevenue>(dataSet.Tables[0]);
-                          
-                        }
+                        data = await command.FillAsync_DataTable();
                     }
                     return data;
-                }
-                catch (Exception ex)
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
-
-
 
         public async Task<IDfFundDetailsModel> GetById_FundDetails(int ID)
         {
@@ -569,9 +550,77 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        
+        public async Task<int> FinalSubmitUpdate(int id)
+        {
+            //_actionName = "SaveAllData(AdminUserDetailModel entity)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_IIP_QuaterlyFundReport";
+                        command.Parameters.AddWithValue("@ID", id);
+                        command.Parameters.AddWithValue("@Action", "FinalSubmitUpdate");
 
 
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        //result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(await command.ExecuteScalarAsync()); 
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataSet> GetIIPQuaterlyFundReport(int Id)
+        {
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var dataSet = new DataSet();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_IIP_GetQuaterlyFundReport";
+                        command.Parameters.AddWithValue("@ID", Id);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataSet = await command.FillAsync();
+                    }
+                    return dataSet;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+
+            });
+
+        }
     }
 }
 

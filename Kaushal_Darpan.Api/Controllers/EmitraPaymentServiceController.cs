@@ -381,9 +381,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         decimal totalAmount = (decimal)(Model.Amount) + (decimal)(Model.EnrollFeeAmount ?? 0);
 
                         data.AMOUNT = totalAmount.ToString();
-
                         data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", data.AMOUNT.ToString());
-                        data.CHECKSUM = CommonFuncationHelper.CreateMD5(data.PRN + "|" + data.AMOUNT.ToString() + "|" + EmitraServiceDetail.CHECKSUMKEY);
                     }
                     else
                     {
@@ -402,7 +400,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     data.UDF2 = Model.SsoID;
                     data.USEREMAIL = "";
-                    
+                    data.CHECKSUM = CommonFuncationHelper.CreateMD5(data.PRN + "|" + data.AMOUNT + "|" + EmitraServiceDetail.CHECKSUMKEY);
 
                     EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration endpointConfiguration = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration();
 

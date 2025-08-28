@@ -5235,7 +5235,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "usp_Get_PracticalStudentPhotoReport";
+                        if (model.Eng_NonEng==1)
+                        {
+                            command.CommandText = "usp_Get_NcvtPracticalStudentPhotoReport";
+                        }
+                        else {
+                            command.CommandText = "usp_Get_PracticalStudentPhotoReport";
+                        }
+              
                         command.Parameters.AddWithValue("@CenterID", model.CenterID);
                         command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
@@ -6054,6 +6061,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TradeLevelID", model.TradeLevelID);
                         command.Parameters.AddWithValue("@TradeTypeID", model.TradeTypeID);
                         command.Parameters.AddWithValue("@TradeId", model.TradeId);
+                        command.Parameters.AddWithValue("@CollegeId", model.CollegeId);
+                        
 
                         _sqlQuery = command.GetSqlExecutableQuery();
 
@@ -7220,7 +7229,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetStudentTheoryMarksWithSubjectCode";
+                        command.CommandText = "USP_GetStudentSessionalTheoryMarksWithSubjectCode";
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
@@ -7291,7 +7300,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetRMIFailStudentReport(RMIFailStudentReport model)
         {
-            _actionName = "GetSessionalFailStudentReport(GetSessionalFailStudentReport model)";
+            _actionName = "GetSessionalFailStudentReport(RMIFailStudentReport model)";
             try
             {
                 return await Task.Run(async () =>

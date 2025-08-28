@@ -67,5 +67,20 @@ namespace Kaushal_Darpan.Models.ITINCVT
 
     }
 
+    public class NcvtBulkDataModel
+    {
+
+        public int sessionId { get; set; }
+        public int chunkIndex { get; set; }
+        public int totalChunks { get; set; }
+        public int FinancialYearID { get; set; }
+        public int EndTermID { get; set; }
+        public int CreatedBy { get; set; }
+        public string? IPAddress { get; set; }
+        public string? ExcelImportID { get; set; }
+        public List<ITINCVTImportDataModel> ListData { get; set; } = new List<ITINCVTImportDataModel>();
+
+    }
+
 
 }

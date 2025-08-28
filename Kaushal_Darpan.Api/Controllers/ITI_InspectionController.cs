@@ -3,6 +3,7 @@ using AutoMapper;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.CenterObserver;
+using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.ITI_Inspection;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -1109,6 +1110,37 @@ namespace Kaushal_Darpan.Api.Controllers
                         Ex = ex,
                     };
                     await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetDistrictMaster")]
+        public async Task<ApiResult<List<CommonDDLModel>>> GetDistrictMaster([FromBody] ITI_InspectionSearchModel body)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<CommonDDLModel>>();
+                try
+                {
+                    var data = await _unitOfWork.ITI_InspectionRepository.GetDistrictMaster(body);
+                    if (data.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = ex.Message;
                 }
                 return result;
             });
