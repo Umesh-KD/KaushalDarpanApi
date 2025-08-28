@@ -6,6 +6,7 @@ using Kaushal_Darpan.Models.ApplicationMessageModel;
 
 //using Newtonsoft.Json;
 using Kaushal_Darpan.Models.SMSConfigurationSetting;
+using Kaushal_Darpan.Models.Student;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using static Kaushal_Darpan.Api.Controllers.IndustryInstitutePartnershipMasterController;
@@ -312,6 +313,76 @@ namespace Kaushal_Darpan.Api.Controllers
                 await CreateErrorLog(nex, _unitOfWork);
             }
             return result;
+        }
+
+        //[RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
+        [HttpPost("SendSMSForStudentEnrollmentData")]
+        public async Task<ApiResult<bool>> SendSMSForStudentEnrollmentData([FromBody] List<ForSMSEnrollmentStudentMarkedModel> request)
+        {
+            ActionName = "SendSMSForStudentEnrollmentData([FromBody] List<ForSMSEnrollmentStudentMarkedModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    DataTable dataTable = await _unitOfWork.SMSMailRepository.GetSMSTemplateByMessageType(request[0].MessageType);
+                    foreach (var item in request)
+                    {
+                        try
+                        {
+                            string ReturnOTP = "";
+                            string MessageBody = "";
+                            string TempletID = "";
+                            string DepartmentName = "Bter";
+                            string var = "";
+                            if (dataTable.Rows.Count > 0)
+                            {
+                                MessageBody = Convert.ToString(dataTable.Rows[0]["MessageBody"]);
+                                TempletID = Convert.ToString(dataTable.Rows[0]["TemplateID"]);
+                            }
+                            if (item.MessageType == EnumMessageType.Bter_EnrollmentForStudent.GetDescription())
+                            {
+                                ReturnOTP = CommonFuncationHelper.SMS_GenerateNewRandom();
+                                MessageBody = MessageBody.Replace("{#ApplicationNo#}", item.ApplicationNo)
+                                .Replace("{#DepartmentName#}", DepartmentName)
+                                .Replace("{#var#}", var);
+
+                                CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, item.MobileNo, MessageBody, TempletID);
+                            }
+                        }
+                        catch { }
+                    }
+
+                    //result.Data = ReturnOTP;
+                    if (result.Data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+
+            });
+
         }
     }
 }

@@ -160,4 +160,17 @@ namespace Kaushal_Darpan.Models.Student
     {
         public int ApplicationID { get; set; }
     }
+
+    public class ForSMSEnrollmentStudentMarkedModel : RequestBaseModel
+    {
+
+        public int StudentId { get; set; }
+        public int Status { get; set; }
+        public int RoleId { get; set; }
+        public string? ApplicationNo { get; set; }
+        public string? MobileNo { get; set; }
+        public string? MessageType { get; set; }
+
+        //public int? EndTermID { get; set; }
+    }
 }

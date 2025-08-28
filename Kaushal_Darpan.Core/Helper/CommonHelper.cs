@@ -433,6 +433,9 @@ namespace Kaushal_Darpan.Core.Helper
 
         [Description("Bter_NotifyCandidateRejectMerit")]
         Bter_NotifyCandidateRejectMerit,
+
+        [Description("Bter_EnrollmentForStudent")]
+        Bter_EnrollmentForStudent,
     }
 
     #endregion
