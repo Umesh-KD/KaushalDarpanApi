@@ -25,6 +25,9 @@ namespace Kaushal_Darpan.Api.Email
 
 
 
+
+
+
         public EmailService()
         {
             SMTPServerUrl = ConfigurationHelper.SMTPHost;
