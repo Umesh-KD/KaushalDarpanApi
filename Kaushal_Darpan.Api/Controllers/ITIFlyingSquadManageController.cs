@@ -93,7 +93,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetAllData")]
         public async Task<ApiResult<DataTable>> GetAllData([FromBody] ITIFlyingSquadSearchModel body)
         {
-            ActionName = "GetAllData()";
+            ActionName = "GetAllData()asfsa";
             var result = new ApiResult<DataTable>();
             try
             {
