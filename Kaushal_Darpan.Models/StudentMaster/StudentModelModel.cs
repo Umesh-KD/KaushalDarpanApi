@@ -92,6 +92,7 @@ namespace Kaushal_Darpan.Models.StudentMaster
         public bool IsYearly { get; set; }
         public int? His_StatusId { get; set; } = 0;
         public bool? IsVerified { get; set; } = false;
+        public int? RoleID { get; set; } = 0;
     }
     public class StudentMaster_QualificationDetails
     {

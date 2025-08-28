@@ -383,12 +383,14 @@ namespace Kaushal_Darpan.Api.Controllers
                         data.AMOUNT = totalAmount.ToString();
 
                         data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", data.AMOUNT.ToString());
-                        data.CHECKSUM = CommonFuncationHelper.CreateMD5(data.PRN + "|" + data.AMOUNT.ToString() + "|" + EmitraServiceDetail.CHECKSUMKEY);
+                        //data.CHECKSUM = CommonFuncationHelper.CreateMD5(data.PRN + "|" + data.AMOUNT.ToString() + "|" + EmitraServiceDetail.CHECKSUMKEY);
                     }
                     else
                     {
                         data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
                     }
+
+                    data.CHECKSUM = CommonFuncationHelper.CreateMD5(data.PRN + "|" + data.AMOUNT.ToString() + "|" + EmitraServiceDetail.CHECKSUMKEY);
 
                     data.SUCCESSURL = EmitraServiceDetail.REDIRECTURL + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(result.TransactionId)) + "&ApplicationIdEnc=" + CommonFuncationHelper.EmitraEncrypt(Model.ApplicationIdEnc) + "&SERVICEID=" + Model.ServiceID.ToString() + "&IsFailed=" + CommonFuncationHelper.EmitraEncrypt("NO") + "&UniqueServiceID=" + Model.ID.ToString();
                     data.FAILUREURL = EmitraServiceDetail.REDIRECTURL + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(result.TransactionId)) + "&ApplicationIdEnc=" + CommonFuncationHelper.EmitraEncrypt(Model.ApplicationIdEnc) + "&SERVICEID=" + Model.ServiceID.ToString() + "&IsFailed=" + CommonFuncationHelper.EmitraEncrypt("YES") + "&UniqueServiceID=" + Model.ID.ToString();
