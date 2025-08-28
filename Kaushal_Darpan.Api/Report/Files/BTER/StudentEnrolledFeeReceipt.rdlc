@@ -412,7 +412,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Fee</Value>
+                <Value>Total Fee</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -882,7 +882,8 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!Fee.Value, "StudentFeeReceipt")</Value>
+                <Label>enroll fee</Label>
+                <Value>=First(Fields!EnrollFeeAmount.Value, "StudentFeeReceipt")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -914,7 +915,8 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!Fee.Value, "StudentFeeReceipt")</Value>
+                <Label>exam fee</Label>
+                <Value>=First(Fields!ExamFeeAmount.Value, "StudentFeeReceipt")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -1107,14 +1109,26 @@
           <DataField>ReportingDate</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="DataColumn1">
-          <DataField>DataColumn1</DataField>
+        <Field Name="ReportingStatus">
+          <DataField>ReportingStatus</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Convener">
+          <DataField>Convener</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EnrollFeeAmount">
+          <DataField>EnrollFeeAmount</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ExamFeeAmount">
+          <DataField>ExamFeeAmount</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Project\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Kausal_Darpan\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
         <rd:TableName>StudentFeeReceipt</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
