@@ -112,6 +112,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@action", "GetData");
                         command.Parameters.AddWithValue("@ID", 0);
                         command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
+                        command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
                         //command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
