@@ -390,8 +390,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
         }
 
-        [HttpPost("Generate_ITINodalOfficerExminerReport_ByID/{id}/{InstituteID}/{ExamDateTime}")]
-        public async Task<ApiResult<string>> Generate_ITINodalOfficerExminerReport_ByID(int id,int InstituteID,string ExamDateTime)
+        [HttpPost("Generate_ITINodalOfficerExminerReport_ByID/{id}/{DistrictID}/{ExamDateTime}")]
+        public async Task<ApiResult<string>> Generate_ITINodalOfficerExminerReport_ByID(int id,int DistrictID, string ExamDateTime)
         {
             ActionName = "Generate_ITINodalOfficerExminerReport_ByID()";
             var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
@@ -401,7 +401,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<string>();
                 try
                 {
-                    var data = await _unitOfWork.ITINodalOfficerExminerReport.Generate_ITINodalOfficerExminerReport_ByID(id,InstituteID, ExamDateTime);
+                    var data = await _unitOfWork.ITINodalOfficerExminerReport.Generate_ITINodalOfficerExminerReport_ByID(id, DistrictID, ExamDateTime);
                     if (data != null)
                     {
                         var fileName = $"ITINodalOfficerExminerReport.pdf";

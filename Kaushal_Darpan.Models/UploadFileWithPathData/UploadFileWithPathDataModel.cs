@@ -16,6 +16,8 @@
         public string? Dis_FileName { get; set; }
         public string? FolderName { get; set; }
         public string? OldFileName { get; set; }
+        public int ?FinYearID { get; set; }
+        public int ?CreatedBy { get; set; }
 
     }
 

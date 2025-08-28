@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ITI_InstructorModel;
+using Kaushal_Darpan.Models.ITIAllotment;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -74,26 +75,26 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Correspondence_City", request.Correspondence_City);
                         command.Parameters.AddWithValue("@Correspondence_pincode", request.Correspondence_Pincode);
 
-                        command.Parameters.AddWithValue("@Education_Exam", request.Education_Exam);
-                        command.Parameters.AddWithValue("@Education_Board", request.Education_Board);
-                        command.Parameters.AddWithValue("@Education_Year", request.Education_Year);
-                        command.Parameters.AddWithValue("@Education_Subjects", request.Education_Subjects);
-                        command.Parameters.AddWithValue("@Education_Percentage", request.Education_Percentage);
+                        //command.Parameters.AddWithValue("@Education_Exam", request.Education_Exam);
+                        //command.Parameters.AddWithValue("@Education_Board", request.Education_Board);
+                        //command.Parameters.AddWithValue("@Education_Year", request.Education_Year);
+                        //command.Parameters.AddWithValue("@Education_Subjects", request.Education_Subjects);
+                        //command.Parameters.AddWithValue("@Education_Percentage", request.Education_Percentage);
 
-                        command.Parameters.AddWithValue("@Tech_Exam", request.Tech_Exam);
-                        command.Parameters.AddWithValue("@Tech_Board", request.Tech_Board);
-                        command.Parameters.AddWithValue("@Tech_Subjects", request.Tech_Subjects);
-                        command.Parameters.AddWithValue("@Tech_Year", request.Tech_Year);
-                        command.Parameters.AddWithValue("@Tech_Percentage", request.Tech_Percentage);
+                        //command.Parameters.AddWithValue("@Tech_Exam", request.Tech_Exam);
+                        //command.Parameters.AddWithValue("@Tech_Board", request.Tech_Board);
+                        //command.Parameters.AddWithValue("@Tech_Subjects", request.Tech_Subjects);
+                        //command.Parameters.AddWithValue("@Tech_Year", request.Tech_Year);
+                        //command.Parameters.AddWithValue("@Tech_Percentage", request.Tech_Percentage);
 
-                        command.Parameters.AddWithValue("@Pan_No", request.Pan_No);
-                        command.Parameters.AddWithValue("@Employee_Type", request.Employee_Type);
-                        command.Parameters.AddWithValue("@Employer_Name", request.Employer_Name);
-                        command.Parameters.AddWithValue("@Employer_Address", request.Employer_Address);
-                        command.Parameters.AddWithValue("@Tan_No", request.Tan_No);
-                        command.Parameters.AddWithValue("@Employment_From", request.Employment_From);
-                        command.Parameters.AddWithValue("@Employment_To", request.Employment_To);
-                        command.Parameters.AddWithValue("@Basic_Pay", request.Basic_Pay);
+                        //command.Parameters.AddWithValue("@Pan_No", request.Pan_No);
+                        //command.Parameters.AddWithValue("@Employee_Type", request.Employee_Type);
+                        //command.Parameters.AddWithValue("@Employer_Name", request.Employer_Name);
+                        //command.Parameters.AddWithValue("@Employer_Address", request.Employer_Address);
+                        //command.Parameters.AddWithValue("@Tan_No", request.Tan_No);
+                        //command.Parameters.AddWithValue("@Employment_From", request.Employment_From);
+                        //command.Parameters.AddWithValue("@Employment_To", request.Employment_To);
+                        //command.Parameters.AddWithValue("@Basic_Pay", request.Basic_Pay);
 
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
@@ -102,6 +103,25 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsDomicile", request.IsDomicile ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Aadhar", string.IsNullOrEmpty(request.Aadhar) ? (object)DBNull.Value : request.Aadhar);
                         command.Parameters.AddWithValue("@JanAadhar", string.IsNullOrEmpty(request.JanAadhar) ? (object)DBNull.Value : request.JanAadhar);
+                        command.Parameters.AddWithValue("@QualificationDocument", string.IsNullOrEmpty(request.QualificationDocument) ? (object)DBNull.Value : request.QualificationDocument);
+                        command.Parameters.AddWithValue("@TechQualificationDocument", string.IsNullOrEmpty(request.TechQualificationDocument) ? (object)DBNull.Value : request.TechQualificationDocument);
+                        command.Parameters.AddWithValue("@EmploymentDocument", string.IsNullOrEmpty(request.EmploymentDocument)? (object)DBNull.Value : request.EmploymentDocument);
+                        command.Parameters.AddWithValue("@TehsilName", string.IsNullOrEmpty(request.TehsilName) ? (object)DBNull.Value : request.TehsilName);
+                        var eduJson = request.EducationalQualifications != null && request.EducationalQualifications.Any()
+                            ? JsonConvert.SerializeObject(request.EducationalQualifications)
+                            : null;
+
+                        var techJson = request.TechnicalQualifications != null && request.TechnicalQualifications.Any()
+                            ? JsonConvert.SerializeObject(request.TechnicalQualifications)
+                            : null;
+
+                        var empJson = request.EmploymentDetails != null && request.EmploymentDetails.Any()
+                            ? JsonConvert.SerializeObject(request.EmploymentDetails)
+                            : null;
+
+                        command.Parameters.AddWithValue("@EducationJson", (object?)eduJson ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@TechJson", (object?)techJson ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@EmploymentJson", (object?)empJson ?? DBNull.Value);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
@@ -359,6 +379,46 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<DataSet> GetInstructorDataBySsoid(string SSOID)
+        {
+            _actionName = "GetAllDataPhoneVerify()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataSet dataTable = new DataSet();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_Instructorgetbyssoid";
+
+                        command.Parameters.AddWithValue("@SSOID", SSOID);
+
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
 
     }
 }

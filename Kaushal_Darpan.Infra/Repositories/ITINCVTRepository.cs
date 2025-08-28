@@ -4,6 +4,7 @@ using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.BTEReatsDistributionsMaster;
 using Kaushal_Darpan.Models.ITIIMCAllocation;
 using Kaushal_Darpan.Models.ITINCVT;
+using Kaushal_Darpan.Models.UploadFileWithPathData;
 using Newtonsoft.Json;
 using System.Data;
 using System.Drawing.Printing;
@@ -37,7 +38,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_NCVT_DATA_PUSH";
-                            
+
                         //command.Parameters.AddWithValue("@AllotmentId", body.AllotmentId);
                         command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
                         command.Parameters.AddWithValue("@IPAddress", body.IPAddress);
@@ -85,11 +86,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         //command.Parameters.AddWithValue("@AllotmentId", body.AllotmentId);
                         command.Parameters.AddWithValue("@PushData", body.PushData);
                         command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
-                        command.Parameters.AddWithValue("@IPAddress", body.IPAddress);     
+                        command.Parameters.AddWithValue("@IPAddress", body.IPAddress);
                         command.Parameters.AddWithValue("@Action", "UpdatePushStatus");
 
 
-                         result = command.ExecuteScalar().ToString();// Get sql query
+                        result = command.ExecuteScalar().ToString();// Get sql query
                         //dataTable =  command.FillAsync_DataTable();
                     }
                     return result;
@@ -180,8 +181,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
                         command.Parameters.AddWithValue("@Action", "ImportData");
 
-                       // command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                       // command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                        // command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                        // command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         var data = await command.ExecuteNonQueryAsync();
@@ -230,15 +231,16 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
+                        if (dataTable.Rows.Count > 1)
+                        {
 
+                        }
 
-                       // _sqlQuery = command.GetSqlExecutableQuery();
-                       // result = await command.ExecuteNonQueryAsync();
+                        // _sqlQue
+                        // ry = command.GetSqlExecutableQuery();
+                        // result = await command.ExecuteNonQueryAsync();
 
                         result = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
-
-
-
                         return dataTable;
                     }
 
@@ -257,6 +259,106 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        public async Task<DataTable> SaveExamDataBulk(NcvtBulkDataModel model)
+        {
+            _actionName = "SaveSeatsMatrixlist(List<BTERSeatMetrixModel> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(false))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_ITI_NCVT_IMPORT_EXAM_DATA";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@ExcelImportID", model.ExcelImportID);
+                        command.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model.ListData));
+                        command.Parameters.AddWithValue("@Action", "ImportData");
+                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                        //if (dataTable.Rows.Count > 1)
+                        //{
+
+                        //}
+
+                        // _sqlQue
+                        // ry = command.GetSqlExecutableQuery();
+                        // result = await command.ExecuteNonQueryAsync();
+
+                        result = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                        return dataTable;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
+        public async Task<int> SaveImportFileName(UploadFileWithPathDataModel model)
+        {
+            _actionName = "SaveSeatsMatrixlist(List<BTERSeatMetrixModel> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_NCVT_Insert_ExcelImportMaster";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Action", "InsertRecord");
+                        command.Parameters.AddWithValue("@FileName", model.FileName);
+                        command.Parameters.AddWithValue("@Dis_FileName", model.Dis_FileName);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@FinYearID", model.FinYearID);
+                        command.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
+                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                        result = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                        return result;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
 
 
     }

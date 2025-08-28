@@ -11,7 +11,6 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public int RoleId { get; set; }
         public string? IPAddress { get; set; }
         public int? StudentExamID { get; set; }
-        public int? SemesterID { get; set; }
         //public int? EndTermID { get; set; }
     }
     public class StudentMarkedModelForJoined
@@ -48,12 +47,25 @@ namespace Kaushal_Darpan.Models.PreExamStudent
 
     public class EligibleStudentButPendingForVerification 
     {
-        public int? RoleID { get; set; }
+       public int? RoleID { get; set; }
         public int StudentId { get; set; }
-        public int? ModifyBy { get; set; }
+       public int? ModifyBy { get; set; }
         public int? EndTermID { get; set; }
         public int? DepartmentID { get; set; }
         public int? Eng_NonEng { get; set; }
         public string? Remark { get; set; }
+    }
+
+    public class ForSMSEnrollmentStudentMarkedModel : RequestBaseModel
+    {
+      
+        public int StudentId { get; set; }
+        public int Status { get; set; }
+        public int RoleId { get; set; }
+        public string? ApplicationNo  { get; set; }
+        public string? MobileNo  { get; set; }
+        public string? MessageType { get; set; }
+      
+        //public int? EndTermID { get; set; }
     }
 }

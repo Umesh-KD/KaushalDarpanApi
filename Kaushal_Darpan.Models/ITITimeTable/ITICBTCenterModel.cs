@@ -13,8 +13,10 @@ namespace Kaushal_Darpan.Models.ITITimeTable
         public string? CenterName { get; set; }
         public string? SSOID { get; set; }
         public string? MobileNumber { get; set; }
+        public string? Email { get; set; }
+        public string? Address { get; set; }
         public int EndTermID { get; set; }
-        public int CCCode { get; set; }
+ 
         public string? IPAddress { get; set; }
         
     }

@@ -34,6 +34,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<CommonDDLModel>> GetDistrictMaster();
         Task<List<CommonDDLModel>> GetParliamentMaster();
         Task<List<CommonDDLModel>> GetNodalCenter(int InstituteID);
+        Task<List<CommonDDLModel>> GetNodalExamCenterDistrict(int District, int EndTermID);
         Task<List<CommonDDLModel>> NodalInstituteList(int InstituteID);
         Task<List<CommonDDLModel>> GetTehsilMaster();
         Task<List<CommonDDLModel>> GetDivisionMaster();
@@ -45,7 +46,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> Iticollege(int DepartmentID, int Eng_NonEng, int EndTermId, int InsutiteId);
         Task<DataTable> IticenterColleges(int DepartmentID, int Eng_NonEng, int EndTermId, int InstituteID);
         Task<DataTable> StreamMaster(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0);
-        Task<DataTable> ItiTrade(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituiteID = 0);
+        Task<DataTable> ItiTrade(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituiteID = 0, int DivisionId = 0);
         Task<DataTable> ItiShiftUnitDDL(int ID = 0, int FinancialYearID = 0, int CourseTypeID = 0, int InstituteID = 0);
         Task<DataTable> StreamMasterwithcount(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0);
         Task<DataTable> StreamMasterByCampus(int CampusPostID, int DepartmentID, int EndTermId);

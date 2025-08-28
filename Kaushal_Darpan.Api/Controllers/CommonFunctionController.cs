@@ -7541,15 +7541,47 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpGet("ItiTrade/{DepartmetnID}/{StreamType}/{EndTermId}/{InstituiteID}")]
-        public async Task<ApiResult<DataTable>> ItiTrade(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0,int InstituiteID=0)
+        [HttpPost("GetNodalExamCenterDistrict/{District}/{EndTermID}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> GetNodalExamCenterDistrict(int District,int EndTermID)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<CommonDDLModel>>();
+                try
+               {
+                    var data = await _unitOfWork.CommonFunctionRepository.GetNodalExamCenterDistrict(District, EndTermID);
+                    if (data.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+        [HttpGet("ItiTrade/{DepartmetnID}/{StreamType}/{EndTermId}/{InstituiteID}/{DivisionId}")]
+        public async Task<ApiResult<DataTable>> ItiTrade(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0,int InstituiteID=0,int DivisionId=0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.ItiTrade(DepartmetnID, StreamType, EndTermId,InstituiteID);
+                    var data = await _unitOfWork.CommonFunctionRepository.ItiTrade(DepartmetnID, StreamType, EndTermId, InstituiteID, DivisionId);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;

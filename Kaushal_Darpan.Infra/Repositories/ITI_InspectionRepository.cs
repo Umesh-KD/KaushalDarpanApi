@@ -3,6 +3,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CheckListModel;
+using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.ITI_Inspection;
 using Kaushal_Darpan.Models.ITIAdminDashboard;
 using Kaushal_Darpan.Models.ITICenterObserver;
@@ -1037,5 +1038,47 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<List<CommonDDLModel>> GetDistrictMaster(ITI_InspectionSearchModel body)
+        {
+            _actionName = "GetDistrictMaster()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_Inspection";
+
+                        command.Parameters.AddWithValue("@Action", "GetDistrictMaster");
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
+                        command.Parameters.AddWithValue("@LevelId", body.LevelId);
+                        command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    List<CommonDDLModel> dataModels = new List<CommonDDLModel>();
+                    if (dataTable != null)
+                    {
+                        dataModels = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    }
+                    return dataModels;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }

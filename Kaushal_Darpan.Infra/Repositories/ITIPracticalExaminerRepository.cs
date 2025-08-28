@@ -128,7 +128,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITI_GetCenterWisePracticalExaminer";
+                        if (filterModel.Eng_NonEng==1)
+                        {
+                            command.CommandText = "USP_ITI_NcvtGetCenterWisePracticalExaminer";
+                        }
+                        else
+                        {
+                            command.CommandText = "USP_ITI_GetCenterWisePracticalExaminer";
+                        }
+                    
                         command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
                         command.Parameters.AddWithValue("@FinancialYearID", filterModel.FinancialYearID);
                         //command.Parameters.AddWithValue("@Action", '');
