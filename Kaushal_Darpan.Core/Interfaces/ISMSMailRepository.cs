@@ -13,7 +13,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> UpdateUnsendSMSById(string AID, string response);
 
 
-        Task<int> SendSMSForStudentEnrollmentData(List<ForSMSEnrollmentStudentMarkedModel> model);
+       // Task<int> SendSMSForStudentEnrollmentData(List<ForSMSEnrollmentStudentMarkedModel> model);
 
     }
 }
