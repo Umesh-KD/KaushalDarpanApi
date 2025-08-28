@@ -12639,6 +12639,73 @@ namespace Kaushal_Darpan.Api.Controllers
                         //
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         LocalReport localReport = new LocalReport(rdlcpath);
+                        localReport.AddDataSource("PmnamMelaReport", data.Tables[0])    ;
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        //save
+
+
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        //end report
+
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("PmnamMelaReportnodelOfficer")]
+        public async Task<ApiResult<string>> PmnamMelaReportnodelOfficer([FromBody] ITIPMNAM_Report_SearchModal body)
+        {
+            ActionName = "PmnamMelaReportnodelOfficer()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.ReportRepository.PmnamMelaReportnodelOfficer(body);
+                    if (data != null)
+                    {
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        //report
+                        //var fileName = $"AllotmentFeeReceipt_{EnrollmentNo}.pdf";
+                        var fileName = $"PmnamMelaReport.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/PmnamMelaReport.rdlc";
+                        //
+                        var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                        //
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
                         localReport.AddDataSource("PmnamMelaReport", data.Tables[0]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
 

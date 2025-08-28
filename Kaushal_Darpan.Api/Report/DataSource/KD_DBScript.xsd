@@ -1912,6 +1912,7 @@
               <xs:element name="CandidatespresentFemaleNo" msprop:Generator_ColumnPropNameInTable="CandidatespresentFemaleNoColumn" msprop:Generator_ColumnPropNameInRow="CandidatespresentFemaleNo" msprop:Generator_UserColumnName="CandidatespresentFemaleNo" msprop:Generator_ColumnVarNameInTable="columnCandidatespresentFemaleNo" type="xs:string" minOccurs="0" />
               <xs:element name="CandidatessselectedMaleNo" msprop:Generator_ColumnPropNameInTable="CandidatessselectedMaleNoColumn" msprop:Generator_ColumnPropNameInRow="CandidatessselectedMaleNo" msprop:Generator_UserColumnName="CandidatessselectedMaleNo" msprop:Generator_ColumnVarNameInTable="columnCandidatessselectedMaleNo" type="xs:string" minOccurs="0" />
               <xs:element name="CandidatessselectedFemaleNo" msprop:Generator_ColumnPropNameInTable="CandidatessselectedFemaleNoColumn" msprop:Generator_ColumnPropNameInRow="CandidatessselectedFemaleNo" msprop:Generator_UserColumnName="CandidatessselectedFemaleNo" msprop:Generator_ColumnVarNameInTable="columnCandidatessselectedFemaleNo" type="xs:string" minOccurs="0" />
+              <xs:element name="District" msprop:Generator_ColumnPropNameInRow="District" msprop:Generator_ColumnPropNameInTable="DistrictColumn" msprop:Generator_ColumnVarNameInTable="columnDistrict" msprop:Generator_UserColumnName="District" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
