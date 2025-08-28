@@ -16,9 +16,51 @@
         <DataSourceName>KD_DBScript</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
+      <Fields>
+        <Field Name="Nodal">
+          <DataField>Nodal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PoliticalEstablishmentspartNo">
+          <DataField>PoliticalEstablishmentspartNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PrivateEstablishmentspartNo">
+          <DataField>PrivateEstablishmentspartNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PoliticalEstablishmentscontactedNo">
+          <DataField>PoliticalEstablishmentscontactedNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PrivateEstablishmentscontactedNo">
+          <DataField>PrivateEstablishmentscontactedNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CandidatespresentMaleNo">
+          <DataField>CandidatespresentMaleNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CandidatespresentFemaleNo">
+          <DataField>CandidatespresentFemaleNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CandidatessselectedMaleNo">
+          <DataField>CandidatessselectedMaleNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CandidatessselectedFemaleNo">
+          <DataField>CandidatessselectedFemaleNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="District">
+          <DataField>District</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Kaushal_Darpan_16July\KD_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\ITI Work\KaushalDarpanApi\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
         <rd:TableName>PmnamMelaReport</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -34,34 +76,34 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.97994cm</Width>
+                  <Width>1.94331cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.1678cm</Width>
+                  <Width>1.83219cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.97994cm</Width>
+                  <Width>1.94331cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.77093cm</Width>
+                  <Width>1.7343cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.97994cm</Width>
+                  <Width>1.94331cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.22072cm</Width>
+                  <Width>2.18409cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.97994cm</Width>
+                  <Width>1.94331cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.11488cm</Width>
+                  <Width>2.07825cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.97994cm</Width>
+                  <Width>1.94331cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.8503cm</Width>
+                  <Width>2.16557cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -689,21 +731,21 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox3">
+                        <Textbox Name="District">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!District.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <rd:DefaultName>District</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -715,7 +757,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -993,7 +1034,7 @@
             <Top>0.31345cm</Top>
             <Left>0.16933cm</Left>
             <Height>1.8cm</Height>
-            <Width>20.02433cm</Width>
+            <Width>19.71095cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1001,17 +1042,17 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>3.52999in</Height>
+        <Height>0.83207in</Height>
         <Style>
           <Border>
             <Style>Solid</Style>
           </Border>
         </Style>
       </Body>
-      <Width>8.08105in</Width>
+      <Width>7.86855in</Width>
       <Page>
         <PageHeader>
-          <Height>2.75255cm</Height>
+          <Height>2.34214cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -1058,7 +1099,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox2</rd:DefaultName>
               <Height>2.34214cm</Height>
-              <Width>18.34336cm</Width>
+              <Width>19.88028cm</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
