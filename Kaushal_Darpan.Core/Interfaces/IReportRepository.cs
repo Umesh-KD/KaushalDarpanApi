@@ -276,5 +276,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetBterDuplicateCertificateReport(BterCertificateReportDataModel filterModel);
         Task<DataSet> GetStudentDuplicateMarksheet(MarksheetDownloadSearchModel model);
         Task<DataSet> BterDuplicateProvisionalCertificateDownload(BterCertificateReportDataModel filterModel);
+        Task<DataSet> PmnamMelaReportnodelOfficer(ITIPMNAM_Report_SearchModal body);
     }
 }

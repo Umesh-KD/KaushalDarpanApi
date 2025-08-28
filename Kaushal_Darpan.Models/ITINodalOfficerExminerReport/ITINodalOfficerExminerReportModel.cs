@@ -64,6 +64,9 @@ namespace Kaushal_Darpan.Models.ITINodalOfficerExminerReport
         public int FinancialYearID { get; set; }
         public int ID { get; set; }
         public string? Date { get; set; }
+        public int DistrictID { get; set; }
+        public int EndTermID { get; set; }
+        public int UserID { get; set; }
     }
 
 
