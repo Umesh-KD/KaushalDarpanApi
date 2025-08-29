@@ -334,7 +334,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_BTER_AllotmentReport";
+                        if(body.IsDownload == true)
+                        {
+                            command.CommandText = "USP_BTER_AllotmentReport_Download";
+                        }
+                        else
+                        {
+                            command.CommandText = "USP_BTER_AllotmentReport";
+                        }
                         command.Parameters.AddWithValue("@StreamTypeID", body.StreamTypeID);
                         command.Parameters.AddWithValue("@AllotmentMasterId", body.AllotmentMasterId);
                         command.Parameters.AddWithValue("@PageNumber", body.PageNumber);

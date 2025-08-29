@@ -8,6 +8,7 @@ namespace Kaushal_Darpan.Models.BterCertificateReport
 {
     public class BterCertificateReportDataModel
     {
+
         public int InstituteID { get; set; }
         public int SemesterID { get; set; }
         public int Eng_NonEng { get; set; }

@@ -84,6 +84,20 @@ namespace Kaushal_Darpan.Models.UserMaster
        
     }
 
+
+    #region ds
+
+
+    public class ITI_EM_UnlockProfileDataModel
+    {
+        public int? StaffUserID { get; set; }
+        public int? StaffID { get; set; }
+        public string? SSOID { get; set; }
+        public int? ModifyBy { get; set; }
+    }
+
+    #endregion end 
+
     //--------------------------------------------------------Bter--------------------
     public class BterRequestSearchModel
     {
