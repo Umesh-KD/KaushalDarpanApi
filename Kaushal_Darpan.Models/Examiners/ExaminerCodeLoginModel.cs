@@ -20,6 +20,7 @@ namespace Kaushal_Darpan.Models.Examiners
         public string SSOID { get; set; }
         public string ExaminerCode { get; set; }
         public int InstituteId { get; set; }
+        public int UserID { get; set; }
     }
 
 

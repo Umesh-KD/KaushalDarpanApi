@@ -303,6 +303,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StudentTypeID", request.StudentTypeID);
                         command.Parameters.AddWithValue("@BackSubjectList_str", JsonConvert.SerializeObject(request.BackSubjectList));
                         command.Parameters.AddWithValue("@IsVerified", request.IsVerified);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
 
 
 

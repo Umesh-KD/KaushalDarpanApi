@@ -29,5 +29,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<int> EquipmentCodeDuplicate(EquipmentCodeDuplicateSearch request);
 
+        Task<DataTable> CheckItemAuction(CheckItemAuctionSearch request);
+
     }
 }

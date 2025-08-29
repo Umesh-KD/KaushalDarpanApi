@@ -62,6 +62,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int InstituteID { get; set; }
         public int? EquipmentWorking { get; set; }
         public bool isOption { get; set; }
+        public string AuctionStatus { get; set; }
 
     }
 
@@ -91,6 +92,13 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public string ItemCategoryName { get; set; }
         public string  EquipmentsCode { get; set; }
         public int IsDuplicate { get; set; }
+    }
+
+    public class CheckItemAuctionSearch
+    {
+        public string ItemCategoryName { get; set; }
+        public string EquipmentsCode { get; set; }
+        public int ItemId { get; set; }
     }
 
 }

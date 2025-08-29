@@ -1,13 +1,17 @@
 ﻿using AspNetCore.Reporting;
 using AutoMapper;
+using ExcelDataReader;
+using Kaushal_Darpan.Api.Validators;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.ITI_Inspection;
 using Kaushal_Darpan.Models.ITICenterObserver;
 using Kaushal_Darpan.Models.ITINCVT;
+using Kaushal_Darpan.Models.UploadFileWithPathData;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.Net.Http.Headers;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -135,8 +139,6 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-
-
         [HttpPost("SaveExamData")]
         public async Task<ApiResult<DataTable>> SaveExamData([FromBody] List<ITINCVTImportDataModel> body)
         {
@@ -172,6 +174,101 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
+
+
+        [HttpPost("SaveExamDataBulk")]
+        public async Task<ApiResult<DataTable>> SaveExamDataBulk([FromBody] NcvtBulkDataModel body)
+        {
+            ActionName = "SaveExamData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+               
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+
+                result.Data = await Task.Run(() => _unitOfWork.ITINCVTRepository.SaveExamDataBulk(body));
+                _unitOfWork.SaveChanges();
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+
+
+
+        [HttpPost("NCVTExcelImportDetails")]
+        public async Task<ApiResult<int>> NCVTExcelImportDetails(UploadFileWithPathDataModel model)
+        {
+            ActionName = "UploadDocument([FromForm] UploadFileModel model)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await Task.Run(() => _unitOfWork.ITINCVTRepository.SaveImportFileName(model));
+                    _unitOfWork.SaveChanges();
+
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.Message = "Something went wrong!";
+                    }
+           
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_ERROR_OCCURRED;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+
+                return result;
+            });
+        }
+
+
 
 
 

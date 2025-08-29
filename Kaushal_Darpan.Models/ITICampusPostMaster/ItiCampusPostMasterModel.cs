@@ -53,6 +53,7 @@ namespace Kaushal_Darpan.Models.ITICampusPostMaster
         public int ToPassingYear { get; set; }
         public int SemesterID { get; set; }
         public string? SemesterName { get; set; }
+        public float MinPre_8 { get; set; }
         public float MinPre_10 { get; set; }
         public float MinPre_12 { get; set; }
         public float MinPre_Diploma { get; set; }
@@ -67,6 +68,8 @@ namespace Kaushal_Darpan.Models.ITICampusPostMaster
         public string Gender { get; set; }
         public string OtherBenefit { get; set; }
         public string CampusType { get; set; }
+        public int InstituteId { get; set; }
+        public int divisionId { get; set; }
         public string InterviewType { get; set; }
         public int NoOfInterviewRound { get; set; }
         public bool ActiveStatus { get; set; }

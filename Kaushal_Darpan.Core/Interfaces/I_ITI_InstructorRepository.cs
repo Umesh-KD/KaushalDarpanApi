@@ -23,5 +23,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetGridInstructorData(ITI_InstructorApplicationNoDataSearchModel model);
 
         Task<DataTable> GetGridBindInstructorData(ITI_InstructorBindDataSearchModel model);
+        Task<DataSet> GetInstructorDataBySsoid(string SSOID);
     }
 }

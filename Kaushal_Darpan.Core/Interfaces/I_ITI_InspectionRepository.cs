@@ -1,4 +1,5 @@
 ﻿using Kaushal_Darpan.Models.CenterObserver;
+using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.ITI_Inspection;
 using Kaushal_Darpan.Models.ITICenterObserver;
 using System;
@@ -39,6 +40,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> IsRequestInspection(PostIsRequestCenterObserver model);
         //Task<int> IsRequestHistoryCenterObserver(PostIsRequestCenterObserver model);
         Task<int> ApproveRequest(int DeployedID);
-
+        Task<List<CommonDDLModel>> GetDistrictMaster(ITI_InspectionSearchModel body);
     }
 }

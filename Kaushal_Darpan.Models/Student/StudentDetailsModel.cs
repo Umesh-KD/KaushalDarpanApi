@@ -25,6 +25,7 @@ namespace Kaushal_Darpan.Models.Student
         public string FeeStatus { get; set; }
         public string? RollNo { get; set; }
         public string? EndTermName { get; set; }
+        public string? EndTermType { get; set; }
         public int SemesterID { get; set; }
         public int ExamStudentStatus { get; set; }
         public int StudentSemesterID { get; set; }
@@ -128,6 +129,8 @@ namespace Kaushal_Darpan.Models.Student
         public int UserId { get; set; }
         public int RoleID { get; set; }
         public string? EnrollmentNo { get; set; }
+        public string? EndTermType { get; set; }
+        public string? EndTermName { get; set; }
 
         public string StudentName { get; set; }
         public string FatherName { get; set; }
@@ -156,5 +159,19 @@ namespace Kaushal_Darpan.Models.Student
     public class StudentApplicationSaveModel : ResponseBaseModel
     {
         public int ApplicationID { get; set; }
+        public string? Remark { get; set; }
+    }
+
+    public class ForSMSEnrollmentStudentMarkedModel : RequestBaseModel
+    {
+
+        public int StudentId { get; set; }
+        public int Status { get; set; }
+        public int RoleId { get; set; }
+        public string? ApplicationNo { get; set; }
+        public string? MobileNo { get; set; }
+        public string? MessageType { get; set; }
+
+        //public int? EndTermID { get; set; }
     }
 }

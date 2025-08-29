@@ -15,7 +15,7 @@ namespace Kaushal_Darpan.Models.ITIPlacementShortListStudentMaster
         public int AgeFrom { get; set; }
         public int AgeTo { get; set; }
         public int DepartmentID { get; set; }
-        public int Eng_NonEng {  get; set; }
+        public int Eng_NonEng { get; set; }
     }
 
     public class ITIStudentShortlistModel

@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.SMSConfigurationSetting;
+using Kaushal_Darpan.Models.Student;
 using System.Data;
 
 namespace Kaushal_Darpan.Infra.Repositories
@@ -158,5 +159,52 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<int> SendSMSForStudentEnrollmentData(List<ForSMSEnrollmentStudentMarkedModel> model)
+        {
+            _actionName = "SendSMSForStudentEnrollmentData(List<ForSMSEnrollmentStudentMarkedModel> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    int retval = 0;
+
+
+                    //using (var command = _dbContext.CreateCommand(true))
+                    //{
+                    //    // Set the stored procedure name and type
+                    //    command.CommandText = "USP_SaveAdmittedStudents";
+                    //    command.CommandType = CommandType.StoredProcedure;
+
+                    //    // Add parameters with appropriate null handling
+                    //    command.Parameters.AddWithValue("@action", "_addStudentAdmittedData");
+                    //    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+
+                    //    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    //    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+
+                    //    _sqlQuery = command.GetSqlExecutableQuery();
+                    //    result = await command.ExecuteNonQueryAsync();
+
+                    //    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                    //}
+                    return 0;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
     }
 }

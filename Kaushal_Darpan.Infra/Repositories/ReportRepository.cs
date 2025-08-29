@@ -5235,7 +5235,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "usp_Get_PracticalStudentPhotoReport";
+                        if (model.Eng_NonEng==1)
+                        {
+                            command.CommandText = "usp_Get_NcvtPracticalStudentPhotoReport";
+                        }
+                        else {
+                            command.CommandText = "usp_Get_PracticalStudentPhotoReport";
+                        }
+              
                         command.Parameters.AddWithValue("@CenterID", model.CenterID);
                         command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
@@ -6054,6 +6061,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TradeLevelID", model.TradeLevelID);
                         command.Parameters.AddWithValue("@TradeTypeID", model.TradeTypeID);
                         command.Parameters.AddWithValue("@TradeId", model.TradeId);
+                        command.Parameters.AddWithValue("@CollegeId", model.CollegeId);
+                        
 
                         _sqlQuery = command.GetSqlExecutableQuery();
 
@@ -7220,7 +7229,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetStudentTheoryMarksWithSubjectCode";
+                        command.CommandText = "USP_GetStudentSessionalTheoryMarksWithSubjectCode";
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
@@ -7291,7 +7300,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetRMIFailStudentReport(RMIFailStudentReport model)
         {
-            _actionName = "GetSessionalFailStudentReport(GetSessionalFailStudentReport model)";
+            _actionName = "GetSessionalFailStudentReport(RMIFailStudentReport model)";
             try
             {
                 return await Task.Run(async () =>
@@ -7573,6 +7582,45 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
         #endregion
+
+        public async Task<DataSet> PmnamMelaReportnodelOfficer(ITIPMNAM_Report_SearchModal model)
+        {
+            _actionName = "PmnamMelaReport()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Save_PMNAM_MelaReport";
+                        command.Parameters.AddWithValue("@Action", "GetReportData");
+                        command.Parameters.AddWithValue("@EndTermId", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@CreatedBy", model.Createdby);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
         #region Mela Report
         public async Task<DataSet> MelaReport(ITIPMNAM_Report_SearchModal model)

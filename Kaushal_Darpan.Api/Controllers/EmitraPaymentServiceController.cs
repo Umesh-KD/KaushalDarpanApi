@@ -381,7 +381,6 @@ namespace Kaushal_Darpan.Api.Controllers
                         decimal totalAmount = (decimal)(Model.Amount) + (decimal)(Model.EnrollFeeAmount ?? 0);
 
                         data.AMOUNT = totalAmount.ToString();
-
                         data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", data.AMOUNT.ToString());
                         data.CHECKSUM = CommonFuncationHelper.CreateMD5(data.PRN + "|" + data.AMOUNT.ToString() + "|" + EmitraServiceDetail.CHECKSUMKEY);
                     }
@@ -389,6 +388,8 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
                     }
+
+                    data.CHECKSUM = CommonFuncationHelper.CreateMD5(data.PRN + "|" + data.AMOUNT.ToString() + "|" + EmitraServiceDetail.CHECKSUMKEY);
 
                     data.SUCCESSURL = EmitraServiceDetail.REDIRECTURL + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(result.TransactionId)) + "&ApplicationIdEnc=" + CommonFuncationHelper.EmitraEncrypt(Model.ApplicationIdEnc) + "&SERVICEID=" + Model.ServiceID.ToString() + "&IsFailed=" + CommonFuncationHelper.EmitraEncrypt("NO") + "&UniqueServiceID=" + Model.ID.ToString();
                     data.FAILUREURL = EmitraServiceDetail.REDIRECTURL + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(result.TransactionId)) + "&ApplicationIdEnc=" + CommonFuncationHelper.EmitraEncrypt(Model.ApplicationIdEnc) + "&SERVICEID=" + Model.ServiceID.ToString() + "&IsFailed=" + CommonFuncationHelper.EmitraEncrypt("YES") + "&UniqueServiceID=" + Model.ID.ToString();
@@ -402,7 +403,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     data.UDF2 = Model.SsoID;
                     data.USEREMAIL = "";
-                    
+                    data.CHECKSUM = CommonFuncationHelper.CreateMD5(data.PRN + "|" + data.AMOUNT + "|" + EmitraServiceDetail.CHECKSUMKEY);
 
                     EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration endpointConfiguration = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration();
 
