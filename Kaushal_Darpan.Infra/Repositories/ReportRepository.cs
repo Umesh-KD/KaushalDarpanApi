@@ -7583,6 +7583,45 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
+        public async Task<DataSet> PmnamMelaReportnodelOfficer(ITIPMNAM_Report_SearchModal model)
+        {
+            _actionName = "PmnamMelaReport()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Save_PMNAM_MelaReport";
+                        command.Parameters.AddWithValue("@Action", "GetReportData");
+                        command.Parameters.AddWithValue("@EndTermId", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@CreatedBy", model.Createdby);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         #region Mela Report
         public async Task<DataSet> MelaReport(ITIPMNAM_Report_SearchModal model)
         {

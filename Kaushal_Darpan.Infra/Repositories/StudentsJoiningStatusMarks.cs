@@ -604,6 +604,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TradeLevelID", body.TradeLevelID);
                         command.Parameters.AddWithValue("@TradeTypeID", body.TradeTypeID);
                         command.Parameters.AddWithValue("@TradeId", body.TradeId);
+                        command.Parameters.AddWithValue("@CollegeId", body.CollegeId);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }

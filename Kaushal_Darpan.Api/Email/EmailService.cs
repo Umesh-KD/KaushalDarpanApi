@@ -17,11 +17,16 @@ namespace Kaushal_Darpan.Api.Email
         public string SMTPServerUrl;
         public int SMTPServerPort;
         public string SMTPServerEmail;
-        public string SMTPServerLoginName;
+        public string SMTPServerLoginName;  
         public string SMTPServerPassword;
         public bool IsLiveServer;
         public bool EnableSsl;
         public bool UseDefaultCredentials;
+
+
+
+
+
 
         public EmailService()
         {
