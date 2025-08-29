@@ -508,6 +508,16 @@
         public string LastWorkingDate { get; set; }
         public string JoiningDate { get; set; }
         public int UserID { get; set; }
+
+        public bool IsEOL { get; set; }
+        public string EOLFromDate { get; set; }
+        public string EOLToDate { get; set; }
+        public bool IsEnquiries { get; set; }
+        public string Comments { get; set; }
+        public bool IsAccount { get; set; }
+        public string AccountComments { get; set; }
+        public int RoleID { get; set; }
+
     }
 
     public class RequestUserRequestHistory
