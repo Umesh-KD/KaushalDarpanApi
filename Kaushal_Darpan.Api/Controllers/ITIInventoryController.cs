@@ -15,7 +15,7 @@ namespace Kaushal_Darpan.Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     //[CustomeAuthorize]
-    //[ValidationActionFilter]
+    [ValidationActionFilter]
     public class ITIInventoryController : BaseController
     {
         public override string PageName => "ITIInventoryController";
@@ -838,7 +838,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("SaveItemsMaster")]
-        public async Task<ApiResult<int>> SaveItemsMaster([FromBody] DTEItemsModel request)
+        public async Task<ApiResult<int>> SaveItemsMaster([FromBody] DTEItemsModel   request)
         {
             ActionName = "SaveData([FromBody] DTEItemsModel request)";
             return await Task.Run(async () =>
@@ -847,12 +847,12 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
 
-                    if (!ModelState.IsValid)
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = "Validation failed!";
-                        return result;
-                    }
+                    //if (!ModelState.IsValid)
+                    //{
+                    //    result.State = EnumStatus.Error;
+                    //    result.ErrorMessage = "Validation failed!";
+                    //    return result;
+                    //}
 
 
                     result.Data = await _unitOfWork.i_ITIInventoryRepository.SaveItemsMaster(request);
