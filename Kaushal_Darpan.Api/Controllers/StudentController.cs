@@ -992,6 +992,50 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+        [HttpPost("PostAttendanceTimeTableList")]
+        public async Task<ApiResult<int>> PostAttendanceTimeTableList([FromBody] List<PostAttendanceTimeTable> model)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    var data = await _unitOfWork.StudentRepository.PostAttendanceTimeTableList(model);
+                    _unitOfWork.SaveChanges();
+                    if (data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Data = data;
+                        result.Message = "Student Mapped Successfully";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Something went wrong";
+                        result.Data = data;
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    _unitOfWork.Dispose();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 
 

@@ -70,6 +70,7 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public bool DeleteStatus { get; set; }
         public int CreatedBy { get; set; }
         public int ModifyBy { get; set; }
+        public int SemesterID { get; set; }
         public DateTime? CreatedDate { get; set; }
     }
     
