@@ -772,6 +772,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DeleteStatus", body.DeleteStatus);
                         command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
                         command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                        command.Parameters.AddWithValue("@StreamIDs", body.StreamIDs);
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
 
                         _sqlQuery = command.GetSqlExecutableQuery(); // Optional logging
 
@@ -1084,6 +1086,50 @@ namespace Kaushal_Darpan.Infra.Repositories
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                 throw new Exception(errordetails, ex);
             }
+        }
+
+
+        public async Task<DataTable> GetStreamIDBySemester(SearchBranchDataModel body)
+        {
+            _actionName = "GetStreamIDBySemester()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BTER_BranchHide";
+
+                        // Required for all actions
+                        command.Parameters.AddWithValue("@ActionType", "BranchNameHide");            
+                       
+                        command.Parameters.AddWithValue("@CollegeID", body.InstituteID);
+                       
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);            
+                
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
         }
     }
 
