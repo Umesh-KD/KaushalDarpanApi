@@ -316,6 +316,41 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetIMCHistory_ById(int RegID)
+        {
+            _actionName = "GetById(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable data = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_IIPManage";
+                        command.Parameters.AddWithValue("@RegisterationID", RegID);
+                        command.Parameters.AddWithValue("@Action", "GetIMCHistory_ById");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        data = await command.FillAsync_DataTable();
+                    }
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<DataSet> GetAllIMCFundData(IIPManageFundSearchModel body)
         {
             _actionName = "GetAllData()";
