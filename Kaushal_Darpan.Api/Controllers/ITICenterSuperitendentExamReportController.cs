@@ -3,6 +3,7 @@ using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ITICenterSuperitendentExamReport;
 using Kaushal_Darpan.Models.ITICollegeMarksheetDownloadmodel;
+using Kaushal_Darpan.Models.ITINodalOfficerExminerReport;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -118,14 +119,14 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("GetCenterSuperitendentReportData")]
-        public async Task<ApiResult<DataTable>> GetCenterSuperitendentReportData([FromBody] ITICollegeStudentMarksheetSearchModel body)
+        public async Task<ApiResult<DataTable>> GetCenterSuperitendentReportData([FromBody] ITINodalOfficerExminerReportSearch body)
         {
-            ActionName = "GetITICollege([FromBody] ITICollegeStudentMarksheetSearchModel body)";
+            ActionName = "GetITICollege([FromBody] ITINodalOfficerExminerReportSearch body)";
             var result = new ApiResult<DataTable>();
             try
             {
                 //result.Data = await Task.Run(() => _unitOfWork.ITICollegeMarksheetDownloadRepository.GetITICollegeList(body));
-                result.Data = await Task.Run(() => _unitOfWork.ITICenterSuperitendentExamReportRepository.GetCenterSuperitendentReportData());
+                result.Data = await Task.Run(() => _unitOfWork.ITICenterSuperitendentExamReportRepository.GetCenterSuperitendentReportData(body));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {

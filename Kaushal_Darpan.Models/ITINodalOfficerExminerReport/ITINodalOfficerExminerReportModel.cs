@@ -67,6 +67,9 @@ namespace Kaushal_Darpan.Models.ITINodalOfficerExminerReport
         public int DistrictID { get; set; }
         public int EndTermID { get; set; }
         public int UserID { get; set; }
+        public int CourseType { get; set; }
+        public int InstituteID { get; set; }
+        
     }
 
 

@@ -1,6 +1,7 @@
 ﻿
 using Kaushal_Darpan.Models.ITICenterSuperitendentExamReport;
 using Kaushal_Darpan.Models.ITICollegeMarksheetDownloadmodel;
+using Kaushal_Darpan.Models.ITINodalOfficerExminerReport;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,6 +19,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         //Task<DataTable> GetCenterSuperitendentReportData(ITICollegeStudentMarksheetSearchModel model);
 
-        Task<DataTable> GetCenterSuperitendentReportData();
+        Task<DataTable> GetCenterSuperitendentReportData(ITINodalOfficerExminerReportSearch body);
     }
 }

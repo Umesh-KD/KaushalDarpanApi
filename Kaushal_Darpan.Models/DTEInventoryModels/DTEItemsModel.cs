@@ -14,8 +14,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int RoleID { get; set; }
         public int ItemCategoryId { get; set; }
         public int EquipmentsId { get; set; }
-        public string IdentificationMark { get; set; }
-        public string CampanyName { get; set; }
+        public string? IdentificationMark { get; set; }
+        public string? CampanyName { get; set; }
         
         public int VoucherNumber { get; set; }
         public int Quantity { get; set; }
@@ -34,6 +34,10 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public bool isOption { get; set; }
         public int? ItemDetailsId { get; set; }
         public int Status { get; set; }
+
+        public bool IsConsume { get; set; }
+        public int ItemType { get; set; }
+
     }
 
     public class DTEItemsSearchModel
