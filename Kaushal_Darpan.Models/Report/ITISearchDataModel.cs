@@ -101,8 +101,8 @@ namespace Kaushal_Darpan.Models.Report
         public int TradeLevelID { get; set; }
         public int TradeTypeID { get; set; }
         public int TradeId { get; set; }
-
         public int CollegeId { get; set; }
+        public int AllotmentStatus { get; set; }
     }
 
     public class AllotmentReportCollegeForAdminRequestModel
