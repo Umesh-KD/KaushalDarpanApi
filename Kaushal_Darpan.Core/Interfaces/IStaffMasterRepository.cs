@@ -40,5 +40,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetBranchSectionEnrollmentData(GetSectionBranchStudentDataModel body);
         Task<DataTable> GetAllRosterDisplay(GetAllRosterDisplayModel body);
         Task<int> SaveRosterDisplay(SaveRosterDisplayModel body);
+        Task<DataTable> GetStreamIDBySemester(SearchBranchDataModel filterModel);
     }
 }

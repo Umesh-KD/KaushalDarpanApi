@@ -50,6 +50,8 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public bool DeleteStatus { get; set; }
         public int CreatedBy { get; set; }
         public int ModifyBy { get; set; }
+        public string? StreamIDs { get; set; }
+        public int SemesterID { get; set; }
     }
 
     public class Section
@@ -178,4 +180,11 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public int CreatedBy { get; set; }
         public int ModifyBy { get; set; }
     }
-}
+
+    public class SearchBranchDataModel
+    {
+        public int SemesterID { get; set; }
+        public int EndTermID { get; set; }
+        public int InstituteID { get; set; }
+    }
+    }
