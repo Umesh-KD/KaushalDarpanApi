@@ -65,6 +65,13 @@ namespace Kaushal_Darpan.Models.ITICenterSuperitendentExamReport
 
 
         public string FlyingSquadDetails { get; set; } = string.Empty;
+
+        public string ExamDate { get; set; }
+        public int EndTermID { get; set; }
+        public int InstituteID { get; set; }
+        public int CourseType { get; set; }
+        public int UserID { get; set; }
+
     }
 }
 

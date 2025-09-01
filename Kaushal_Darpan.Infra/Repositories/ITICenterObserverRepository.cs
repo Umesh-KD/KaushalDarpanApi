@@ -89,6 +89,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Action", "GetAllData");
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@CourseTypeID", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@UserId", body.UserID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
@@ -126,6 +127,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Action", "GetAllData");
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@CourseTypeID", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@UserId", body.UserID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
@@ -297,6 +299,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffID", body.StaffID);
                         command.Parameters.AddWithValue("@DeploymentStatus", body.DeploymentStatus);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@CourseTypeID", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -332,6 +335,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_CenterObserver";
                         command.Parameters.AddWithValue("@Action", "GetDeploymentDetailsByID");
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@CourseTypeID", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@TeamID", body.TeamID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
@@ -368,6 +372,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_CenterObserver";
                         command.Parameters.AddWithValue("@Action", "GetAllTimeTableData");
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@CourseTypeID", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -404,6 +409,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Action", "GetAllDataForVerify");
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@CourseTypeID", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@Status", body.Status);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@ExamDate", body.ExamDate);
@@ -484,6 +490,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Action", "GetAllDataForGenerateOrder");
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@CourseTypeID", body.Eng_NonEng);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -516,7 +523,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_CenterObserver_GenerateDutyOrder";
-                        //command.Parameters.AddWithValue("@DeploymentID", model.DeploymentID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model[0].Eng_NonEng);
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
@@ -629,6 +636,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Action", "TimeTableDates");
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@CourseTypeID", body.Eng_NonEng);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -706,7 +714,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_CenterObserver";
                         command.Parameters.AddWithValue("@Action", "GetCenter_DistrictWise");
                         command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@CourseTypeID", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query

@@ -88,7 +88,7 @@
         public int FeePaid { get; set; }
         public int AllotmentStatus { get; set; }
         public int RoleID { get; set; }
-
+        public bool? IsDownload {  get; set; }
     }
 
     public class BterUploadAllotmentDataModel
