@@ -164,6 +164,16 @@ namespace Kaushal_Darpan.Core.Helper
             }
         }
         #endregion
+        
+        #region JanAadhaar
+        public static string JanAadhaarMembersUrl
+        {
+            get
+            {
+                return ConfigurationHelper.IsLocal ? "https://api.sewadwaar.rajasthan.gov.in/app/live/Janaadhaar/Prod/Service/action/fetchJayFamily/" : "https://api.sewadwaar.rajasthan.gov.in/app/live/Janaadhaar/Prod/Service/action/fetchJayFamily/";
+            }
+        }
+        #endregion
     }
     #endregion
 
@@ -184,7 +194,17 @@ namespace Kaushal_Darpan.Core.Helper
             {
                 return ConfigurationHelper.IsLocal ? "0df7e4099e5fad031ff871400dc07152" : "4b555247b9579ec01679d8b73abe7021";
             }
-        }        
+        }
+        #endregion
+
+        #region JanAadhaar
+        public static string JanAadhaarClientId
+        {
+            get
+            {
+                return ConfigurationHelper.IsLocal ? "f6de7747-60d3-4cf0-a0ae-71488abd6e95" : "f6de7747-60d3-4cf0-a0ae-71488abd6e95";
+            }
+        }
         #endregion
     }
     #endregion
