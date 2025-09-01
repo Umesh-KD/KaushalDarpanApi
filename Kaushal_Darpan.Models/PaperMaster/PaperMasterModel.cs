@@ -46,6 +46,8 @@
         public int ModifyBy { get; set; }
         public DateTime? ModifyDate { get; set; }
         public string? IPAddress { get; set; }
+        public int CourseTypeID { get; set; }
+        public List<int> Paper_IDs { get; set; } = new List<int>();
     }
 
     public class PaperUploadModel

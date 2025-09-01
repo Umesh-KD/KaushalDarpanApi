@@ -145,6 +145,46 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpGet("GetIMCHistory_ById/{RegID}")]
+        public async Task<ApiResult<DataTable>> GetIMCHistory_ById(int RegID)
+        {
+            ActionName = "GetByID(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.ITIIIPManageRepository.GetIMCHistory_ById(RegID);
+                    result.Data = data;
+                    if (data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
         [HttpPost("SaveIMCFund")]
         public async Task<ApiResult<int>> SaveIMCFund([FromBody] IIPManageFundSearchModel request)
         {
