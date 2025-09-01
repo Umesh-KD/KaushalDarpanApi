@@ -19,11 +19,11 @@ namespace Kaushal_Darpan.Models.ITIPlacementStudentMaster
     public class ITICampusStudentConsentModel
     {
 
-        public int ConsentID { get; set; } 
-        public int PostID { get; set; } 
-        public int StudentID { get; set; } 
-        public string? SSOID { get; set; } 
-        public string? Remarks { get; set; } 
+        public int ConsentID { get; set; }
+        public int PostID { get; set; }
+        public int StudentID { get; set; }
+        public string? SSOID { get; set; }
+        public string? Remarks { get; set; }
         public bool ActiveStatus { get; set; }
         public bool DeleteStatus { get; set; }
         public int CreatedBy { get; set; }
@@ -31,7 +31,8 @@ namespace Kaushal_Darpan.Models.ITIPlacementStudentMaster
         public string? IPAddress { get; set; }
     }
 
-    public class ITIStudentConsentSearchmodel {
+    public class ITIStudentConsentSearchmodel
+    {
         public string? action { get; set; }
         public int PostID { get; set; }
         public int StudentID { get; set; }

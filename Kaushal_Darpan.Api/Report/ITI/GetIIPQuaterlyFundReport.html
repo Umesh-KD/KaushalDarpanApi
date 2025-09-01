@@ -1,0 +1,282 @@
+
+<html>
+<head>
+    <style>
+            .pagebreak {
+                page-break-after: always;
+            }
+            
+    </style>
+</head>
+<body>
+
+
+
+    <div style="width: 100%; margin: auto;">
+        <h2 style="text-align: center;">IIP Quaterly Progress Report</h2>
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px; font-family: Arial, Helvetica, sans-serif;" border="1" cellpadding="5">
+            <tr>
+                <td colspan="6">
+                    <b>IMC registration office: </b> {#=IMCReg_Details.RegOffice=#}<br />
+                    <b>IMC registration number: </b> {#=IMCReg_Details.RegNumber=#}<br />
+                    <b>IMC registration date:   </b> {#=IMCReg_Details.RegDate=#}
+                </td>
+                <!--<th >IMC registration number: {#=IMCReg_Details.RegNumber=#}</th>
+                <th >IMC registration date:   {#=IMCReg_Details.RegDate=#}</th>-->
+            </tr>
+            <tr>
+                <th colspan="6">SRS point 5.10 (G)</th>
+            </tr>
+            <tr>
+                <th>S.No.</th>
+                <th colspan="5">IMC Details</th>
+            </tr>
+            <tr>
+                <td style="text-align: right;">1</td>
+                <th>ITI Name</th>
+                <th colspan="4">{#=IMCReg_Details.ITIName=#}</th>
+            </tr>
+            <tr>
+                <th style="text-align: right;">2</th>
+                <th>Member type</th>
+                <th>Name</th>
+                <th style="width: 150px;">Name of Company/Organisation with address</th>
+                <th>Email</th>
+                <th>Contact No.</th>
+            </tr>
+
+            {#LOOP.IMC_Members#}
+            <tr>
+
+                <td style="text-align: right;">3</td>
+                <td>{#=IMC_Members.MemberTypeName=#}</td>
+                <td>{#=IMC_Members.MemberName=#}</td>
+                <td>{#=IMC_Members.Address=#}</td>
+                <td>{#=IMC_Members.Email=#}</td>
+                <td>{#=IMC_Members.Contact=#}</td>
+
+            </tr>
+            {#ENDLOOP.IMC_Members#}
+
+
+            <tr>
+                <td style="text-align: right;">13</td>
+                <td>Society formation format (upload link)</td>
+                <td>{#=IMCReg_Details.RegLink=#}</td>
+                <td colspan="3"></td>
+            </tr>
+
+            <tr>
+                <td style="text-align: right;">14</td>
+                <td>No. of instalment (12.5 lac) paid</td>
+                <td>{#=IMC_FundDetails.InstalmentPaid=#}</td>
+                <td colspan="3" style="background-color: #9d9d9d; font-weight: 600;">{#=IMC_FundDetails.InstalmentPaidAmt=#}</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: right;">15</td>
+                <td>No. of instalment (12.5 lac) pending</td>
+                <td>{#=IMC_FundDetails.InstalmentPending=#}</td>
+                <td colspan="3">{#=IMC_FundDetails.InstalmentPendingAmt=#}</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: right;">16</td>
+                <td>No. of trade sanctioned under the scheme</td>
+                <td>{#=IMC_FundDetails.SchemeSanctioned=#}</td>
+                <td colspan="3">{#=IMC_FundDetails.SanctionedTradeName=#}</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: right;">17</td>
+                <td>No. of trade affiliated (NCVT)</td>
+                <td>{#=IMC_FundDetails.TradeAffiliated=#}</td>
+                <td colspan="3" style="font-weight: 600;">{#=IMC_FundDetails.AffilateTradeName=#}</td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">17</td>
+                <td>No. of trade not affiliated (NCVT)</td>
+                <td>{#=IMC_FundDetails.TradeNotAffiliated=#}</td>
+                <td colspan="3" style="font-weight: 600;">{#=IMC_FundDetails.NotAffilateTradeName=#}</td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">18</td>
+                <td>Last IDP revision order date (Date picker)</td>
+                <td colspan="4">{#=IMC_FundDetails.OrderDate=#}</td>
+            </tr>
+
+
+        </table>
+
+
+
+    </div>
+    <div class="pagebreak"> </div>
+
+    <div style="width: 100%; margin: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px; font-family: Arial, Helvetica, sans-serif;"
+               border="1" cellpadding="5">
+            <tr>
+                <th colspan="3">
+                   SRS point 5.10 (G)
+                </th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td style=" border-bottom: 0;">
+                    Interest received (saving & FDR) 
+                </td>
+                <td>{#=IMC_QuaterProgressDetails.InterestReceivedAmt=#}</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td style="border-top: 0; border-bottom: 0;"> Admission fees</td>
+                <td>{#=IMC_QuaterProgressDetails.AdmissionFeesAmt=#}</td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+                <td style="border-top: 0; border-bottom: 0;"> Other revenue (other than interest) </td>
+                <td>{#=IMC_QuaterProgressDetails.OtherRevenueAmt=#}</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+                <td style="border-top: 0;">Total revenue by IMC</td>
+                <td style="background-color: #9d9d9d; font-weight: 600;">{#=IMC_QuaterProgressDetails.TotalRevenueAmt=#}</td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center; font-weight: bold;">
+                    Expenditure Details (excluding loan repayment amount)
+                </td>
+            </tr>
+            <tr>
+                <td>a</td>
+                <td colspan="2">Civil</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="border-right: 0;">Amount sanctioned in last IDP</td>
+                <td style="border-left: 0;">Expenditure</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>{#=IMC_QuaterProgressDetails.CivilAmt=#}</td>
+            </tr>
+
+
+
+            <tr>
+                <td>b</td>
+                <td colspan="2">Tools, Equipments</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="border-right: 0;">Amount sanctioned in last IDP</td>
+                <td style="border-left: 0;">Expenditure</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>{#=IMC_QuaterProgressDetails.ToolsAmt=#}</td>
+            </tr>
+
+            <tr>
+                <td>c</td>
+                <td colspan="2">Furniture</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="border-right: 0;">Amount sanctioned in last IDP</td>
+                <td style="border-left: 0;">Expenditure</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>{#=IMC_QuaterProgressDetails.FurnitureAmt=#}</td>
+            </tr>
+
+
+
+            <tr>
+                <td>d</td>
+                <td colspan="2">Books & learning resources</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="border-right: 0;">Amount sanctioned in last IDP</td>
+                <td style="border-left: 0;">Expenditure</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>{#=IMC_QuaterProgressDetails.BooksAmt=#}</td>
+            </tr>
+
+
+
+            <tr>
+                <td>e</td>
+                <td colspan="2">Additional manpower</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="border-right: 0;">Amount sanctioned in last IDP</td>
+                <td style="border-left: 0;">Expenditure</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>{#=IMC_QuaterProgressDetails.AdditionalAmt=#}</td>
+            </tr>
+
+
+            <tr>
+                <td>f</td>
+                <td colspan="2">Consumable, maintenance etc</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Amount sanctioned in last IDP</td>
+                <td>{#=IMC_QuaterProgressDetails.MaintenanceAmt=#}</td>
+            </tr>
+
+
+
+            <tr>
+                <td>g</td>
+                <td colspan="2">Miscellaneous</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="border-right: 0;">Amount sanctioned in last IDP</td>
+                <td style="border-left: 0;">Expenditure</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>{#=IMC_QuaterProgressDetails.MiscellaneousAmt=#}</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td style="font-weight: bold;">Total Expenditure</td>
+                <td style="background-color: #9d9d9d;">{#=IMC_QuaterProgressDetails.TotalExpenditureAmt=#}</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>
+                    <span style="font-weight: bold;">Fund available with IMC</span> <span style="text-decoration: underline; font-style: italic;">
+                        (interest free loan given by central
+                        gov. + IMC income – Expenditure – amount of instalment paid on bharatkosh portal)
+                    </span>
+                </td>
+                <td style="background-color: #9d9d9d;">{#=IMC_QuaterProgressDetails.FundAvailableAmt=#}</td>
+            </tr>
+
+        </table>
+    </div>
+
+</body>
+</html>

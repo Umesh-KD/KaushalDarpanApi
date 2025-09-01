@@ -17,5 +17,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAllotmentStatusList(AllotmentStatusSearchModel filterModel);
         Task<DataTable> GetAllotmentUpwardList(AllotmentStatusSearchModel body);
         Task<DataTable> GetITIAllotmentUpwardList(AllotmentStatusSearchModel body);
+		
     }
+	
 }

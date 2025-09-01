@@ -76,6 +76,7 @@ namespace Kaushal_Darpan.Models.ITI_Inspection
         public int? StaffID { get; set; }
         public int? UserID { get; set; }
         public int? LevelId { get; set; }
+        public int? DistrictID { get; set; }
     }
 
     public class ITI_InspectionDropdownModel : RequestBaseModel

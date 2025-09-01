@@ -376,4 +376,11 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int StaffUserID { get; set; } = 0;
         public int StaffID { get; set; } = 0;
     }
+
+    public class StaffHostelSearchModel: RequestBaseModel
+    {
+        public int? StaffID { get; set; }
+        public int? StaffUserID { get; set; }
+        public string? StaffHostelIDs { get; set; }
+    }
 }

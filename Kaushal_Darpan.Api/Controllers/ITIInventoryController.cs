@@ -15,7 +15,7 @@ namespace Kaushal_Darpan.Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     //[CustomeAuthorize]
-    //[ValidationActionFilter]
+    [ValidationActionFilter]
     public class ITIInventoryController : BaseController
     {
         public override string PageName => "ITIInventoryController";
@@ -838,7 +838,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("SaveItemsMaster")]
-        public async Task<ApiResult<int>> SaveItemsMaster([FromBody] DTEItemsModel request)
+        public async Task<ApiResult<int>> SaveItemsMaster([FromBody] DTEItemsModel   request)
         {
             ActionName = "SaveData([FromBody] DTEItemsModel request)";
             return await Task.Run(async () =>
@@ -847,12 +847,12 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
 
-                    if (!ModelState.IsValid)
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = "Validation failed!";
-                        return result;
-                    }
+                    //if (!ModelState.IsValid)
+                    //{
+                    //    result.State = EnumStatus.Error;
+                    //    result.ErrorMessage = "Validation failed!";
+                    //    return result;
+                    //}
 
 
                     result.Data = await _unitOfWork.i_ITIInventoryRepository.SaveItemsMaster(request);
@@ -1949,75 +1949,75 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpPost("GetAllDeadStockReport")]
-        public async Task<ApiResult<DataTable>> GetAllDeadStockReport([FromBody] DTEItemsSearchModel body)
-        {
-            ActionName = "GetAllData()";
-            var result = new ApiResult<DataTable>();
-            try
-            {
-                result.Data = await Task.Run(() => _unitOfWork.i_ITIInventoryRepository.GetAllDeadStockReport(body));
-                result.State = EnumStatus.Success;
-                if (result.Data.Rows.Count == 0)
-                {
-                    result.State = EnumStatus.Success;
-                    result.Message = "No record found.!";
-                    return result;
-                }
-                result.State = EnumStatus.Success;
-                result.Message = "Data load successfully .!";
-            }
-            catch (System.Exception ex)
-            {
-                _unitOfWork.Dispose();
-                result.State = EnumStatus.Error;
-                result.ErrorMessage = ex.Message;
-                // write error log
-                var nex = new NewException
-                {
-                    PageName = PageName,
-                    ActionName = ActionName,
-                    Ex = ex,
-                };
-                await CreateErrorLog(nex, _unitOfWork);
-            }
-            return result;
-        }
+        //[HttpPost("GetAllDeadStockReport")]
+        //public async Task<ApiResult<DataTable>> GetAllDeadStockReport([FromBody] DTEItemsSearchModel body)
+        //{
+        //    ActionName = "GetAllData()";
+        //    var result = new ApiResult<DataTable>();
+        //    try
+        //    {
+        //        result.Data = await Task.Run(() => _unitOfWork.i_ITIInventoryRepository.GetAllDeadStockReport(body));
+        //        result.State = EnumStatus.Success;
+        //        if (result.Data.Rows.Count == 0)
+        //        {
+        //            result.State = EnumStatus.Success;
+        //            result.Message = "No record found.!";
+        //            return result;
+        //        }
+        //        result.State = EnumStatus.Success;
+        //        result.Message = "Data load successfully .!";
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        _unitOfWork.Dispose();
+        //        result.State = EnumStatus.Error;
+        //        result.ErrorMessage = ex.Message;
+        //        // write error log
+        //        var nex = new NewException
+        //        {
+        //            PageName = PageName,
+        //            ActionName = ActionName,
+        //            Ex = ex,
+        //        };
+        //        await CreateErrorLog(nex, _unitOfWork);
+        //    }
+        //    return result;
+        //}
 
-        [HttpPost("GetAllAuctionReport")]
-        public async Task<ApiResult<DataTable>> GetAllAuctionReport([FromBody] DTEItemsSearchModel body)
-        {
-            ActionName = "GetAllAuctionList()";
-            var result = new ApiResult<DataTable>();
-            try
-            {
-                result.Data = await Task.Run(() => _unitOfWork.i_ITIInventoryRepository.GetAllAuctionReport(body));
-                result.State = EnumStatus.Success;
-                if (result.Data.Rows.Count == 0)
-                {
-                    result.State = EnumStatus.Success;
-                    result.Message = "No record found.!";
-                    return result;
-                }
-                result.State = EnumStatus.Success;
-                result.Message = "Data load successfully .!";
-            }
-            catch (System.Exception ex)
-            {
-                _unitOfWork.Dispose();
-                result.State = EnumStatus.Error;
-                result.ErrorMessage = ex.Message;
-                // write error log
-                var nex = new NewException
-                {
-                    PageName = PageName,
-                    ActionName = ActionName,
-                    Ex = ex,
-                };
-                await CreateErrorLog(nex, _unitOfWork);
-            }
-            return result;
-        }
+        //[HttpPost("GetAllAuctionReport")]
+        //public async Task<ApiResult<DataTable>> GetAllAuctionReport([FromBody] DTEItemsSearchModel body)
+        //{
+        //    ActionName = "GetAllAuctionList()";
+        //    var result = new ApiResult<DataTable>();
+        //    try
+        //    {
+        //        result.Data = await Task.Run(() => _unitOfWork.i_ITIInventoryRepository.GetAllAuctionReport(body));
+        //        result.State = EnumStatus.Success;
+        //        if (result.Data.Rows.Count == 0)
+        //        {
+        //            result.State = EnumStatus.Success;
+        //            result.Message = "No record found.!";
+        //            return result;
+        //        }
+        //        result.State = EnumStatus.Success;
+        //        result.Message = "Data load successfully .!";
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        _unitOfWork.Dispose();
+        //        result.State = EnumStatus.Error;
+        //        result.ErrorMessage = ex.Message;
+        //        // write error log
+        //        var nex = new NewException
+        //        {
+        //            PageName = PageName,
+        //            ActionName = ActionName,
+        //            Ex = ex,
+        //        };
+        //        await CreateErrorLog(nex, _unitOfWork);
+        //    }
+        //    return result;
+        //}
 
     }
 }

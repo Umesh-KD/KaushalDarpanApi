@@ -43,10 +43,16 @@ namespace Kaushal_Darpan.Api.Controllers
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.UsersRequest.UserRequest(request);
 
+
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_SAVE_Duplicate;
+                }
+                else if (request.ServiceRequestId == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
                 }
                 else
                 {
@@ -732,5 +738,54 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        #region divya
+
+        [HttpPost("GetITI_GetStaffDetailsVRS")]
+        public async Task<ApiResult<DataTable>> GetITI_GetStaffDetailsVRS([FromBody] ITI_EM_UnlockProfileDataModel body)
+        {
+
+            ActionName = "GetITI_GetStaffDetailsVRS([FromBody] ITI_EM_UnlockProfileDataModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.UsersRequest.GetITI_GetStaffDetailsVRS(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                _unitOfWork.Dispose();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+
+
+        #endregion divya's code end
     }
 }

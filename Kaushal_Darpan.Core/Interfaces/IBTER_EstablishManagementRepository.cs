@@ -38,7 +38,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> Bter_GOVT_EM_ApproveRejectStaff(RequestUpdateStatus productDetails);
 
         Task<BTER_EM_AddStaffDetailsDataModel> BTER_EM_GetBterStaffSubjectListModelStaffID(int PK_ID, int DepartmentID);
-
+        Task<DataTable> GetStaff_HostelIDs(StaffHostelSearchModel body);
+        Task<bool> SaveStaff_HostelIDs(StaffHostelSearchModel body);
 
         //-----HOD_dashboard---
         Task<DataTable> GetHODDash(HODDashboardSearchModel model);

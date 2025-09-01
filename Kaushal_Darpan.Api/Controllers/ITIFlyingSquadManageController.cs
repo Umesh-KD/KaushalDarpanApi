@@ -93,7 +93,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetAllData")]
         public async Task<ApiResult<DataTable>> GetAllData([FromBody] ITIFlyingSquadSearchModel body)
         {
-            ActionName = "GetAllData()";
+            ActionName = "GetAllData()asfsa";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -102,11 +102,11 @@ namespace Kaushal_Darpan.Api.Controllers
                 if (result.Data.Rows.Count == 0)
                 {
                     result.State = EnumStatus.Success;
-                    result.Message = "No record found.!";
+                    result.Message = "No record found!";
                     return result;
                 }
                 result.State = EnumStatus.Success;
-                result.Message = "Data load successfully .!";
+                result.Message = "Data load successfully!";
             }
             catch (System.Exception ex)
             {

@@ -4,6 +4,7 @@ using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ITICenterObserver;
 using Kaushal_Darpan.Models.ITICenterSuperitendentExamReport;
 using Kaushal_Darpan.Models.ITICollegeMarksheetDownloadmodel;
+using Kaushal_Darpan.Models.ITINodalOfficerExminerReport;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -71,7 +72,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ExamCenterCommentDocument", request.ExamCenterCommentDocument);
 
                         command.Parameters.AddWithValue("@FlyingSquadDetails", request.FlyingSquadDetails);
+                        command.Parameters.AddWithValue("@CourseType", request.CourseType);
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        command.Parameters.AddWithValue("@ExamDate", request.ExamDate);
+                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
                         command.Parameters.AddWithValue("@ID", request.id);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
@@ -135,7 +141,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> GetCenterSuperitendentReportData()
+        public async Task<DataTable> GetCenterSuperitendentReportData(ITINodalOfficerExminerReportSearch model)
         {
             _actionName = "GetCenterSuperitendentReportData()";
             return await Task.Run(async () =>
@@ -148,10 +154,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITICenterSuperintendentExamReport";
                         command.Parameters.AddWithValue("@Action", "GetCenterSuperitendentReportData");
-                        //command.Parameters.AddWithValue("@DistrictId", model.DistrictID);
-                        //command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        //command.Parameters.AddWithValue("@InstituteId", model.InstituteID);
-                        //command.Parameters.AddWithValue("@Code", model.CollegeCode);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@CourseType", model.CourseType);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

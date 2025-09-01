@@ -63,9 +63,9 @@ namespace Kaushal_Darpan.Models.ITIIIPManageDataModel
 
     public class IMCFundRevenue : RequestBaseModel
     {
-        public int ID { get; set; }
-        public int IMCFundID { get; set; }
-        public int IMCRegID { get; set; }
+        public int? ID { get; set; }
+        public int? IMCFundID { get; set; }
+        public int? IMCRegID { get; set; }
 
         public int InterestReceivedAmt { get; set; }
         public int AdmissionFeesAmt { get; set; }
@@ -83,8 +83,7 @@ namespace Kaushal_Darpan.Models.ITIIIPManageDataModel
                
         public int FundAvailableAmt { get; set; }
 
-        public int FinancialYearId { get; set; }
-        public int QuarterID { get; set; }
+        public int? QuarterID { get; set; }
 
         public string? RTS { get; set; }
         public string? ModifyDate { get; set; }   // nullable (Checked)

@@ -71,6 +71,10 @@ namespace Kaushal_Darpan.Models.Attendance
         public string? AssignBySSOID { get; set; }
         public string? AssignToSSOID { get; set; }
         public int InstituteID { get; set; }
+        public int RoleID { get; set; }
+        public int StaffID { get; set; }
+        public string SectionIDs { get; set; }
+
     }
     
 }

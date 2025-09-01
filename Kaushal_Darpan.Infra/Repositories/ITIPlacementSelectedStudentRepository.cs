@@ -42,13 +42,14 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         // Add parameters to the stored procedure from the model
                         command.Parameters.AddWithValue("@action", "_getAllData");
-                       // command.Parameters.AddWithValue("@RoleId", searchModel.RoleId);
+                        // command.Parameters.AddWithValue("@RoleId", searchModel.RoleId);
                         //command.Parameters.AddWithValue("@UserId", searchModel.UserId);
                         command.Parameters.AddWithValue("@BranchID", searchModel.BranchID);
                         command.Parameters.AddWithValue("@DepartmentID", searchModel.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", searchModel.Eng_NonEng);
                         command.Parameters.AddWithValue("@CampusPostID", searchModel.CampusPostID);
                         command.Parameters.AddWithValue("@HiringRoleID", searchModel.HiringRoleID);
+                        command.Parameters.AddWithValue("@UserRoleID", searchModel.UserRoleID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
