@@ -17,7 +17,7 @@
     }
     public class StudentsJoiningStatusMarksSearchModel
     {
-       
+
 
         public int AllotmentId { get; set; }
 
@@ -27,8 +27,8 @@
 
         public int CollegeId { get; set; }
 
-        public int TradeId { get; set; } 
-        public int TradeLevel { get; set; } 
+        public int TradeId { get; set; }
+        public int TradeLevel { get; set; }
         public string? ReportingStatus { get; set; }
         public string? TradeCode { get; set; }
         public int TradeSchemeId { get; set; }
@@ -38,4 +38,28 @@
 
 
     }
+
+
+    public class ReportCollegeForAdminModel
+    {
+        public int AcademicYearID { get; set; }
+        public int TradeLevelID { get; set; }
+        public int TradeTypeID { get; set; }
+        public int TradeId { get; set; }
+        public int CollegeId { get; set; }
+    }
+
+
+
+    public class ReportCollegeModel
+    {
+        public int AcademicYearID { get; set; }
+        public int TradeLevelID { get; set; }
+        public int TradeTypeID { get; set; }
+        public int TradeId { get; set; }
+        public int CollegeId { get; set; }
+
+    }
+
+
 }

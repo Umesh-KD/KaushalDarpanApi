@@ -24,7 +24,10 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<IIPManageFundSearchModel> GetById_IMCFund(int ID);
 
-        Task<IMCFundRevenue> GetQuaterlyProgressData(int ID);
+        Task<DataTable> GetQuaterlyProgressData(int ID);
         Task<int> SaveQuaterlyProgressData(IMCFundRevenue FundDeatils);
+        Task<int> FinalSubmitUpdate(int ID);
+
+        Task<DataSet> GetIIPQuaterlyFundReport(int id);
     }
 }

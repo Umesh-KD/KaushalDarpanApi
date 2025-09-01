@@ -6,5 +6,6 @@
         public int Pk_Id { get; set; }
         public int DepartmentID { get; set; }
         public int Eng_NonEng { get; set; }
+        public int RoleID { get; set; }
     }
 }

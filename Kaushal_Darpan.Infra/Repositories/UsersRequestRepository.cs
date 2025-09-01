@@ -114,8 +114,17 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RequestType", request.RequestType);
                         command.Parameters.AddWithValue("@LastWorkingDate", request.LastWorkingDate);
                         command.Parameters.AddWithValue("@JoiningDate", request.JoiningDate);
-                        
-                        
+
+                        command.Parameters.AddWithValue("@IsEOL", request.IsEOL);
+                        command.Parameters.AddWithValue("@EOLFromDate", request.EOLFromDate);
+                        command.Parameters.AddWithValue("@EOLToDate", request.EOLToDate);
+                        command.Parameters.AddWithValue("@IsEnquiries", request.IsEnquiries);
+                        //command.Parameters.AddWithValue("@Comments", request.Comments);
+                        command.Parameters.AddWithValue("@IsAccount", request.IsAccount);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@AccountComments", request.AccountComments);
+
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
@@ -613,5 +622,46 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+        #region  ds
+
+        public async Task<DataTable> GetITI_GetStaffDetailsVRS(ITI_EM_UnlockProfileDataModel filterModel)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetITIStaffDetailsVRS";
+                        command.Parameters.AddWithValue("@SSOID", filterModel.SSOID);
+                        command.Parameters.AddWithValue("@StaffUserID", filterModel.StaffUserID);
+                        command.Parameters.AddWithValue("@StaffID", filterModel.StaffID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        #endregion
     }
 }

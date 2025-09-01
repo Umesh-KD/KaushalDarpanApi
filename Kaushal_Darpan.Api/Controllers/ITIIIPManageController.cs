@@ -269,6 +269,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
         [HttpPost("GetFundDetailsData")]
         public async Task<ApiResult<DataTable>> GetFundDetailsData([FromBody] IDfFundSearchDetailsModel body)
         {
@@ -385,33 +386,33 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-
         [HttpGet("GetQuaterlyProgressData/{ID}")]
-        public async Task<ApiResult<IMCFundRevenue>> GetQuaterlyProgressData(int ID)
+        public async Task<ApiResult<DataTable>> GetQuaterlyProgressData(int ID)
         {
             ActionName = "GetByID(int PK_ID)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<IMCFundRevenue>();
+                var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.ITIIIPManageRepository.GetQuaterlyProgressData(ID);
-                    result.Data = data;
-                    if (data != null)
+                    result.Data = await _unitOfWork.ITIIIPManageRepository.GetQuaterlyProgressData(ID);
+
+                    result.State = EnumStatus.Success;
+                    if (result.Data == null)
                     {
                         result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                        result.Message = "No record found.!";
+                        return result;
                     }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
                 }
-                catch (Exception ex)
+                catch (System.Exception ex)
                 {
                     _unitOfWork.Dispose();
-                    // Write error log
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -419,15 +420,13 @@ namespace Kaushal_Darpan.Api.Controllers
                         Ex = ex,
                     };
                     await CreateErrorLog(nex, _unitOfWork);
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
                 }
                 return result;
             });
         }
 
         [HttpPost("SaveQuaterlyProgressData")]
-        public async Task<ApiResult<int>> SaveQuaterlyProgressData([FromBody] IMCFundRevenue request)
+        public async Task<ApiResult<int>> SaveQuaterlyProgressData([FromBody] IMCFundRevenue? request)
         {
             ActionName = " SaveAllData([FromBody] AdminUserDetailModel request)";
             return await Task.Run(async () =>
@@ -466,6 +465,128 @@ namespace Kaushal_Darpan.Api.Controllers
                         Ex = ex,
                     };
                     await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("FinalSubmitUpdate/{ID}")]
+        public async Task<ApiResult<int>> FinalSubmitUpdate(int id)
+        {
+            //ActionName = " SaveAllData([FromBody] AdminUserDetailModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    //request.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    result.Data = await _unitOfWork.ITIIIPManageRepository.FinalSubmitUpdate(id);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpGet("GetIIPQuaterlyFundReport/{Id}")]
+        public async Task<ApiResult<string>> GetIIPQuaterlyFundReport(int Id)
+        {
+            
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.ITIIIPManageRepository.GetIIPQuaterlyFundReport(Id);
+
+                    if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+                    {
+
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                        data.Tables[0].TableName = "IMCReg_Details";
+
+                        //data.Tables[0].Rows[0]["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
+                        //data.Tables[0].Rows[0]["NE100"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
+                        //data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
+
+
+                        data.Tables[1].TableName = "IMC_Members";
+                        data.Tables[2].TableName = "IMC_FundDetails";
+                        data.Tables[3].TableName = "IMC_QuaterProgressDetails";
+
+                        string devFontSize = "12px";
+                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+
+                        string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.GetITIStudent_MarksheetReport}/GetIIPQuaterlyFundReport.html";
+
+                        string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+
+                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+                        html = Utility.PDFWorks.ReplaceCustomTag(html);
+                        //System.IO.File.WriteAllText("debug.html", html);
+                        sb1.Append(html);
+
+
+                        var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogoWaterMark.png";
+
+                        //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+
+                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", watermarkImagePath);
+
+                        result.Data = Convert.ToBase64String(pdfBytes);
+                        result.State = EnumStatus.Success;
+                        result.Message = "Success";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                    catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
                 }
                 return result;
             });

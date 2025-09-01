@@ -69,6 +69,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
                         command.Parameters.AddWithValue("@CoordinatorNotReached", body.CoordinatorNotReached);
                         command.Parameters.AddWithValue("@ExamDate", body.ExamDate);
+                        command.Parameters.AddWithValue("@ToDate", body.ToDate);
                         command.Parameters.AddWithValue("@NodalOfficersCenterDataJson", jsonData);
                         command.Parameters.Add("@Return", SqlDbType.Int);
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;
@@ -111,6 +112,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@action", "GetData");
                         command.Parameters.AddWithValue("@ID", 0);
                         command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
+                        command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
                         //command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -414,7 +418,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataSet> Generate_ITINodalOfficerExminerReport_ByID(int id,int InstituteID,string ExamDateTime)
+        public async Task<DataSet> Generate_ITINodalOfficerExminerReport_ByID(int id,int DistrictID,string ExamDateTime)
         {
             _actionName = "ITINodalOfficerExminerReport_GetDataByID(ITINodalOfficerExminerReportSearch body)";
             try
@@ -431,7 +435,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "usp_trn_ITI_NodalOfficersCenterReportGetData";
                         command.Parameters.AddWithValue("@Action", "Generate_ITINodalOfficerExminerReport_ByID");
                         command.Parameters.AddWithValue("@ID", id);
-                        command.Parameters.AddWithValue("@InstituteID", InstituteID);
+                        command.Parameters.AddWithValue("@DistrictID", DistrictID);
                         command.Parameters.AddWithValue("@Date", ExamDateTime);
                         command.Parameters.AddWithValue("@FinancialYearID", 9);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query

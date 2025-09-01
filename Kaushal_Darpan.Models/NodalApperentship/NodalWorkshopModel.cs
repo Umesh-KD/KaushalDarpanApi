@@ -65,6 +65,7 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int EndTermID { get; set; }
         public int DepartmentID { get; set; }
         public int RoleID { get; set; }
+        public int UserID { get; set; }
         public int Createdby { get; set; }
         public int PKID { get; set; }
     }

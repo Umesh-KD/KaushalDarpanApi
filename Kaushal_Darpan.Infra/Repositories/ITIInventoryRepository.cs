@@ -1514,6 +1514,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
                         command.Parameters.AddWithValue("@Status", request.Status);
+                        command.Parameters.AddWithValue("@ItemType", request.ItemType);
+                        command.Parameters.AddWithValue("@IsConsume", request.IsConsume);
+          
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
 
 

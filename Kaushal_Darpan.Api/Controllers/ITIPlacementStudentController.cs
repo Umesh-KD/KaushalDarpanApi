@@ -133,6 +133,11 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.State = EnumStatus.Warning;
                         result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
                     }
+                    else if (result.Data == -100)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = "You are already placed";
+                    }
                     else
                     {
                         result.State = EnumStatus.Error;
@@ -142,6 +147,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
                         else
                         {
+
                             result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
                         }
                     }

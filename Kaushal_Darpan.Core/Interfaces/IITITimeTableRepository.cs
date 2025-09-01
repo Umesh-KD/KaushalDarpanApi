@@ -17,6 +17,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         //time table branch subject
         Task<List<ITITimeTableModel>> ImportExcelFile(List<ITITimeTableModel> dataTime);
         Task<DataTable> GetSampleTimeTableITI(ITITimeTableSearchModel request);
+        Task<DataTable> GetSampleCBTCenterITI(ITITimeTableSearchModel request);
         Task<DataTable> GetTimeTableTradeSubject(NewITI_TimeTableValidateModel model);
         Task<int> SaveImportExcelData(List<ITITimeTableModel> request);
         Task<int> SaveCBTImportExcelData(List<ITICBTCenterModel> request);
