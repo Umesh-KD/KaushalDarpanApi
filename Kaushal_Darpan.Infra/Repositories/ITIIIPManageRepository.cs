@@ -477,6 +477,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@MaintenanceAmt", request.MaintenanceAmt);
                         command.Parameters.AddWithValue("@MiscellaneousAmt", request.MiscellaneousAmt);
                         command.Parameters.AddWithValue("@TotalExpenditureAmt", request.TotalExpenditureAmt);
+
+                        command.Parameters.AddWithValue("@CivilSanctionedAmt", request.CivilSanctionedAmt);
+                        command.Parameters.AddWithValue("@ToolsSanctionedAmt", request.ToolsSanctionedAmt);
+                        command.Parameters.AddWithValue("@FurnitureSanctionedAmt", request.FurnitureSanctionedAmt);
+                        command.Parameters.AddWithValue("@BooksSanctionedAmt", request.BooksSanctionedAmt);
+                        command.Parameters.AddWithValue("@AdditionalSanctionedAmt", request.AdditionalSanctionedAmt);
+                        command.Parameters.AddWithValue("@MaintenanceSanctionedAmt", request.MaintenanceSanctionedAmt);
+                        command.Parameters.AddWithValue("@MiscellaneousSanctionedAmt", request.MiscellaneousSanctionedAmt);
+                        command.Parameters.AddWithValue("@TotalSanctionedAmt", request.TotalSanctionedAmt);
+
                         command.Parameters.AddWithValue("@FundAvailableAmt", request.FundAvailableAmt);
 
                         command.Parameters.AddWithValue("@UserID", request.UserID);
