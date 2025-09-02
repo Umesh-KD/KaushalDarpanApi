@@ -81,12 +81,12 @@ namespace Kaushal_Darpan.Models.ITIAllotment
 
     public class StudentthdranSeatModel
     {
-        public int AllotmentId { get; set; }
-        public int CollegeID { get; set; }
+        public int? AllotmentId { get; set; }
+        public int? CollegeID { get; set; }
         public int ApplicationID { get; set; }
         public string DoucmentName { get; set; } = string.Empty;
-        public int UserID { get; set; } 
-        public int Remarks { get; set; } 
+        public int? UserID { get; set; } 
+        public string? Remarks { get; set; } 
 
     }
 

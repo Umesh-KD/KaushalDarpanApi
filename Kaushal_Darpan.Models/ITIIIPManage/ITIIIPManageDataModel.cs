@@ -80,7 +80,16 @@ namespace Kaushal_Darpan.Models.ITIIIPManageDataModel
         public int MaintenanceAmt { get; set; }
         public int MiscellaneousAmt { get; set; }
         public int TotalExpenditureAmt { get; set; }
-               
+
+        public int CivilSanctionedAmt { get; set; }
+        public int ToolsSanctionedAmt { get; set; }
+        public int FurnitureSanctionedAmt { get; set; }
+        public int BooksSanctionedAmt { get; set; }
+        public int AdditionalSanctionedAmt { get; set; }
+        public int MaintenanceSanctionedAmt { get; set; }
+        public int MiscellaneousSanctionedAmt { get; set; }
+        public int TotalSanctionedAmt { get; set; }
+
         public int FundAvailableAmt { get; set; }
 
         public int? QuarterID { get; set; }
