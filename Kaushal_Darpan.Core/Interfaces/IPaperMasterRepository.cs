@@ -14,5 +14,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetAllPaperUploadData(PaperUploadSearchModel body);
         Task<int> SavePaperUploadData(PaperUploadModel request);
+        Task<DataTable> GetSubjectListBranchWise(SubjectBranchWiseSearchModel model);
+        Task<int> SavePaperData(List<PapersMasterModel> body);
     }
 }

@@ -637,7 +637,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetStaffDetailsVRS";
+                        command.CommandText = "USP_GetITIStaffDetailsVRS";
                         command.Parameters.AddWithValue("@SSOID", filterModel.SSOID);
                         command.Parameters.AddWithValue("@StaffUserID", filterModel.StaffUserID);
                         command.Parameters.AddWithValue("@StaffID", filterModel.StaffID);

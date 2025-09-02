@@ -42,5 +42,14 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<int> ITIAddStudentAttendance(List<PostAttendanceTimeTableModal> model);
         Task<DataTable> ITIGetAttendanceTimeTable(AttendanceTimeTableModal model);
+        Task<int> PostAttendanceTimeTableList(List<PostAttendanceTimeTable> model);
+
+
+        Task<int> SetCalendarEventModel(List<CalendarEventModel> model);
+
+
+        Task<DataTable> getCalendarEventModel(CalendarEventModel model);
+
+
     }
 }

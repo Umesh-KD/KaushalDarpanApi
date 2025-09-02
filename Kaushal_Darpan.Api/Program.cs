@@ -193,6 +193,7 @@ builder.WebHost.ConfigureKestrel(options =>
 //    options.Filters.Add<LogUserActivityFilter>();
 //});
 
+
 // Add Hangfire services
 builder.Services.AddHangfire(config =>
     config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)

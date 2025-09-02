@@ -36,6 +36,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> RevertAllotments(ITIDirectAllocationDataModel request);
         Task<DataTable> GetTradeListByCollege(ITIDirectAllocationSearchModel body);
         Task<DataTable> ShiftUnitList(ITIDirectAllocationSearchModel body);
+        Task<int> StudentSeatWithdrawRequest(StudentthdranSeatModel request);
 
     }
 }

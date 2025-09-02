@@ -49,6 +49,11 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_SAVE_Duplicate;
                 }
+                else if (request.ServiceRequestId == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
                 else
                 {
                     result.State = EnumStatus.Success;

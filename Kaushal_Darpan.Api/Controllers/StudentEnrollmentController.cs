@@ -383,7 +383,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     //validation
-                    if (request.Any(x => x.StudentFilterStatusId != (int)EnumExamStudentStatus.VerifiedForEnrollment || x.Status != (int)EnumExamStudentStatus.EligibleForEnrollment))
+                    if (request.Any(x => x.StudentFilterStatusId != (int)EnumExamStudentStatus.EnrolledFeePaid || x.Status != (int)EnumExamStudentStatus.EligibleForEnrollment))
                     {
                         result.State = EnumStatus.Error;
                         result.Message = Constants.MSG_VALIDATION_FAILED;

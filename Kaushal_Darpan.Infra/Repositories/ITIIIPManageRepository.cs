@@ -316,6 +316,41 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetIMCHistory_ById(int RegID)
+        {
+            _actionName = "GetById(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable data = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_IIPManage";
+                        command.Parameters.AddWithValue("@RegisterationID", RegID);
+                        command.Parameters.AddWithValue("@Action", "GetIMCHistory_ById");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        data = await command.FillAsync_DataTable();
+                    }
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<DataSet> GetAllIMCFundData(IIPManageFundSearchModel body)
         {
             _actionName = "GetAllData()";
@@ -442,6 +477,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@MaintenanceAmt", request.MaintenanceAmt);
                         command.Parameters.AddWithValue("@MiscellaneousAmt", request.MiscellaneousAmt);
                         command.Parameters.AddWithValue("@TotalExpenditureAmt", request.TotalExpenditureAmt);
+
+                        command.Parameters.AddWithValue("@CivilSanctionedAmt", request.CivilSanctionedAmt);
+                        command.Parameters.AddWithValue("@ToolsSanctionedAmt", request.ToolsSanctionedAmt);
+                        command.Parameters.AddWithValue("@FurnitureSanctionedAmt", request.FurnitureSanctionedAmt);
+                        command.Parameters.AddWithValue("@BooksSanctionedAmt", request.BooksSanctionedAmt);
+                        command.Parameters.AddWithValue("@AdditionalSanctionedAmt", request.AdditionalSanctionedAmt);
+                        command.Parameters.AddWithValue("@MaintenanceSanctionedAmt", request.MaintenanceSanctionedAmt);
+                        command.Parameters.AddWithValue("@MiscellaneousSanctionedAmt", request.MiscellaneousSanctionedAmt);
+                        command.Parameters.AddWithValue("@TotalSanctionedAmt", request.TotalSanctionedAmt);
+
                         command.Parameters.AddWithValue("@FundAvailableAmt", request.FundAvailableAmt);
 
                         command.Parameters.AddWithValue("@UserID", request.UserID);
