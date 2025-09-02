@@ -823,6 +823,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
                         command.Parameters.AddWithValue("@CreatedDate", body.CreatedDate ?? DateTime.Now);
                         command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        //command.Parameters.AddWithValue("@SectionJson", body.Section);
 
                         _sqlQuery = command.GetSqlExecutableQuery(); // Optional logging
 
