@@ -57,6 +57,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PKID", request.PKID);
                         command.Parameters.AddWithValue("@AfterDate", request.AfterDate);
                         command.Parameters.AddWithValue("@BeforeDate", request.BeforeDate);
+                        command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -92,12 +93,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
 
                         command.CommandText = "USP_Save_PMNAM_MelaReportBeforeAfter";
-                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandType = CommandType.StoredProcedure;  
                         command.Parameters.AddWithValue("@Action", "GetReportData");
                         command.Parameters.AddWithValue("@EndTermId", request.EndTermID);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
                         command.Parameters.AddWithValue("@CreatedBy", request.Createdby);
                         command.Parameters.AddWithValue("@PKID", request.PKID);
+
+                        command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+                        command.Parameters.AddWithValue("@BeforeMonth", request.BeforeMonth);
+                        command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

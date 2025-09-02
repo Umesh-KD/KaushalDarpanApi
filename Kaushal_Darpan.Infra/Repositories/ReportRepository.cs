@@ -8280,5 +8280,45 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
         #endregion
+
+        public async Task<DataSet> GetStudentWithdranSeat(AllotmentReportCollegeRequestModel model)
+        {
+            _actionName = "GetAllotmentReportCollege(AllotmentReportCollegeRequestModel model)";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetStudentWithdranSeat";
+                        command.Parameters.AddWithValue("@AcademicYearID", model.AcademicYearID);
+                        command.Parameters.AddWithValue("@TradeLevelID", model.TradeLevelID);
+                        command.Parameters.AddWithValue("@TradeTypeID", model.TradeTypeID);
+                        command.Parameters.AddWithValue("@TradeId", model.TradeId);
+                        command.Parameters.AddWithValue("@CollegeId", model.CollegeId);
+                        command.Parameters.AddWithValue("@AllotmentStatus", model.AllotmentStatus);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
