@@ -13743,5 +13743,45 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
+        [HttpPost("GetstudentWithdrawnList")]
+        public async Task<ApiResult<DataSet>> GetstudentWithdrawnList([FromBody] AllotmentReportCollegeRequestModel model)
+        {
+            ActionName = "GetstudentWithdrawnList([FromBody] AllotmentReportCollegeRequestModel model)";
+            var result = new ApiResult<DataSet>();
+
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetstudentWithdrawnList(model));
+                result.State = EnumStatus.Success;
+
+                if (result.Data.Tables.Count == 0 || result.Data.Tables[0].Rows.Count == 0)
+                {
+                    result.Message = "No record found.!";
+                    return result;
+                }
+
+                result.Message = "Data loaded successfully.!";
+            }
+            catch (Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
+
+
+
     }
 }
