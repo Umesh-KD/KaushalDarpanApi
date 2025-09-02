@@ -465,8 +465,7 @@ namespace Kaushal_Darpan.Api.Controllers
             var resultData = new ApiResult<List<JanAaadharMemberListEntity>>();
             try
             {
-                string client_id = "f6de7747-60d3-4cf0-a0ae-71488abd6e95";
-                string URL = $"https://api.sewadwaar.rajasthan.gov.in/app/live/Janaadhaar/Prod/Service/action/fetchJayFamily/{JanaadharNo}?client_id={client_id}";
+                string URL = $"{CommonDynamicUrls.JanAadhaarMembersUrl}{JanaadharNo}?client_id={CommonDynamicCodes.JanAadhaarClientId}";
 
                 using (var httpClient = new HttpClient())
                 {

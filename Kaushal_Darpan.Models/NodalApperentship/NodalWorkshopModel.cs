@@ -57,6 +57,7 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int PKID { get; set; }
         public string? BeforeDate { get; set; }
         public string? AfterDate { get; set; }
+        public int FinancialYearID { get; set; }
 
     }
 
@@ -68,6 +69,10 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int UserID { get; set; }
         public int Createdby { get; set; }
         public int PKID { get; set; }
+        public int DistrictID { get; set; }
+        public int QuaterID { get; set; }
+        public int BeforeMonth { get; set; }
+        public int FinancialYearID { get; set; }
     }
 
     public class ITIPMNAMAppApprenticeshipReportEntity

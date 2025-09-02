@@ -6,6 +6,7 @@ using Kaushal_Darpan.Models;
 using Kaushal_Darpan.Models.AppointExaminer;
 using Kaushal_Darpan.Models.ITIMaster;
 using Kaushal_Darpan.Models.PaperMaster;
+using Kaushal_Darpan.Models.StaffMaster;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -13,7 +14,7 @@ namespace Kaushal_Darpan.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [CustomeAuthorize]
+    //[CustomeAuthorize]
     [ValidationActionFilter]
     public class PaperMasterController : BaseController
     {
@@ -306,6 +307,105 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("GetSubjectListBranchWise")]
+        public async Task<ApiResult<DataTable>> GetSubjectListBranchWise([FromBody] SubjectBranchWiseSearchModel model)
+        {
+            ActionName = "GetSubjectListBranchWise()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.PaperMasterRepository.GetSubjectListBranchWise(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpPost("SavePaperData")]
+        public async Task<ApiResult<int>> SavePaperData([FromBody] List<PapersMasterModel> body)
+        {
+
+            ActionName = "SavePaperData()";
+            var result = new ApiResult<int>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.PaperMasterRepository.SavePaperData(body);
+                _unitOfWork.SaveChanges();
+                if (result.Data > 0)
+                {
+
+
+                    result.State = EnumStatus.Success;
+                    if (result.Data == 1)
+                    {
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                }
+                else if (result.Data == -1)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (result.Data == 0)
+                    {
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                _unitOfWork.Dispose();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
 
     }
 }
