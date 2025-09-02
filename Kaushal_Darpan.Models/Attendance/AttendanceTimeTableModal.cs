@@ -76,5 +76,20 @@ namespace Kaushal_Darpan.Models.Attendance
         public string SectionIDs { get; set; }
 
     }
-    
+
+    public class CalendarEventModel
+    {
+        public int EventId { get; set; }
+        public DateTime EventDate { get; set; }
+        public string EventType { get; set; }
+        public string Remark { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public int DepartmentID { get; set; }
+        public int EndTermID { get; set; }
+        public int AcademicYearID { get; set; }
+        public int CourseTypeID { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDelete { get; set; }
+    }
+
 }
