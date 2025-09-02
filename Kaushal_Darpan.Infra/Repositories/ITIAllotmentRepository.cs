@@ -740,5 +740,59 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
         #endregion
+
+
+
+
+
+
+
+        #region "Student Withdran Request"
+        public async Task<int> StudentSeatWithdrawRequest(StudentthdranSeatModel request)
+        {
+            return await Task.Run(async () =>
+            {
+                _actionName = "SaveData(GroupMaster request)";
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_StudentWithdraw_Seat";
+                        command.Parameters.AddWithValue("@ApplicationID", request.ApplicationID);
+                        command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@DoucmentName", request.DoucmentName);
+                        command.Parameters.AddWithValue("@AllotmentId", request.AllotmentId);
+                        command.Parameters.AddWithValue("@Remarks", request.Remarks);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
+
+
     }
 }

@@ -18,6 +18,7 @@ namespace Kaushal_Darpan.Core.Interfaces
        // Task<int> SaveExaminerData(ITIExaminerMaster productDetails);
         Task<DataTable> GetItiExaminerDashboardTiles(ITI_ExaminerDashboardModel filterModel);
         Task<DataTable> GetItiAppointExaminerDetails(ITI_AppointExaminerDetailsModel filterModel);
+        Task<DataTable> GetItiExaminerBundleDetails(ITI_AppointExaminerDetailsModel filterModel);
         Task<DataTable> GetItiRemunerationExaminerDetails(ITI_AppointExaminerDetailsModel filterModel);
         Task<DataTable> GetItiRemunerationAdminDetails(ITI_AppointExaminerDetailsModel filterModel);
 

@@ -23,6 +23,7 @@ namespace Kaushal_Darpan.Api.Controllers
         private readonly IUnitOfWork _unitOfWork;
 
         public AssignRoleRightsController(IMapper mapper, IUnitOfWork unitOfWork)
+
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;

@@ -1341,5 +1341,50 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
+        [HttpPost("StudentSeatWithdrawRequest")]
+        public async Task<ApiResult<int>> StudentSeatWithdrawRequest([FromBody] StudentthdranSeatModel request)
+        {
+            ActionName = "StudentSeatWithdrawRequest([FromBody])";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.ITIAllotmentRepository.StudentSeatWithdrawRequest(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;                  
+                            result.Message = "Saved successfully .!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (request.ApplicationID == 0)
+                            result.ErrorMessage = "There was an error adding data.!";
+                        else
+                            result.ErrorMessage = "There was an error updating data.!";
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
     }
 }

@@ -17,6 +17,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetAllIMCFundData(IIPManageFundSearchModel body);
         Task<int> SaveIMCFund(IIPManageFundSearchModel productDetails);
         Task<ITIIIPManageDataModel> GetById_IMC(int ID);
+        Task<DataTable> GetIMCHistory_ById(int RegID);
         Task<int> SaveFundDetails(IDfFundDetailsModel FundDeatils);
         Task<DataTable> GetFundDetailsData(IDfFundSearchDetailsModel body);
         Task<IDfFundDetailsModel> GetById_FundDetails(int ID);

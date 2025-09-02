@@ -530,7 +530,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Theory Exam Center -</Value>
+                        <Value>Exam Center -</Value>
                         <Style>
                           <FontWeight>Bold</FontWeight>
                         </Style>
@@ -885,7 +885,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Theory Exam Center :</Value>
+                    <Value>Exam Center :</Value>
                     <Style>
                       <FontWeight>Bold</FontWeight>
                     </Style>

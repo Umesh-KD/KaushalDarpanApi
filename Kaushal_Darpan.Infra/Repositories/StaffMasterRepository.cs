@@ -752,7 +752,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_BTER_BranchHOD";
 
                         // Required for all actions
-                        command.Parameters.AddWithValue("@ActionType", body.Action ?? "SAVE");
+                        command.Parameters.AddWithValue("@ActionType", "GETALL");
+                       // command.Parameters.AddWithValue("@ActionType", body.Action ?? "GETALL");
 
                         // Conditional parameters (use DBNull.Value if null)
                         command.Parameters.AddWithValue("@ID", body.ID);
@@ -822,6 +823,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
                         command.Parameters.AddWithValue("@CreatedDate", body.CreatedDate ?? DateTime.Now);
                         command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        //command.Parameters.AddWithValue("@SectionJson", body.Section);
 
                         _sqlQuery = command.GetSqlExecutableQuery(); // Optional logging
 
