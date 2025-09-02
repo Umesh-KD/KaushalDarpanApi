@@ -86,7 +86,7 @@ namespace Kaushal_Darpan.Models.ITIAllotment
         public int ApplicationID { get; set; }
         public string DoucmentName { get; set; } = string.Empty;
         public int? UserID { get; set; } 
-        public string? Remarks { get; set; } 
+        public string? Remarks { get; set; }
 
     }
 
