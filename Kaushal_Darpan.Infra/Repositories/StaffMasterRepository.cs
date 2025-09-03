@@ -752,7 +752,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_BTER_BranchHOD";
 
                         // Required for all actions
-                        command.Parameters.AddWithValue("@ActionType", body.Action ?? "SAVE");
+                        command.Parameters.AddWithValue("@ActionType", "GETALL");
+                       // command.Parameters.AddWithValue("@ActionType", body.Action ?? "GETALL");
 
                         // Conditional parameters (use DBNull.Value if null)
                         command.Parameters.AddWithValue("@ID", body.ID);
@@ -822,6 +823,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
                         command.Parameters.AddWithValue("@CreatedDate", body.CreatedDate ?? DateTime.Now);
                         command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        //command.Parameters.AddWithValue("@SectionJson", body.Section);
 
                         _sqlQuery = command.GetSqlExecutableQuery(); // Optional logging
 
@@ -1131,6 +1133,79 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+
+        public async Task<int> SaveRosterDisplayMultiple(List<SaveRosterDisplayMultipleModel> body)
+        {
+            _actionName = "SaveBranchHOD()";
+
+            try
+            {
+                int result = 0;
+                using (var command = _dbContext.CreateCommand())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_SaveRosterDisplayMultiple";
+                    command.Parameters.AddWithValue("@Action","INSERT");
+                    command.Parameters.AddWithValue("@Json", JsonConvert.SerializeObject(body));
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery(); // Optional logging
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> DeleteRosterDisplay(SaveRosterDisplayMultipleModel body)
+        {
+            _actionName = "DeleteRosterDisplay()";
+
+            try
+            {
+                int result = 0;
+                using (var command = _dbContext.CreateCommand())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_DeleteRosterDisplay";                    
+                    command.Parameters.AddWithValue("@ID", body.ID);
+                    command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                    
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery(); // Optional logging
+
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
     }
 
