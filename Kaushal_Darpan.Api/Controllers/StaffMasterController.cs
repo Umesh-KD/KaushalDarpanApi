@@ -1016,7 +1016,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     for (int i = 0; i < section.StudentCount; i++)
                     {
                         if (studentIndex >= getSectionStudentDataModels.Count)
-                            break;
+                            studentIndex=0;
 
                         var student = getSectionStudentDataModels[studentIndex];
 
