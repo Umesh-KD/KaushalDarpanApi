@@ -50,6 +50,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@HostelID", SearchReq.HostelID);
                         command.Parameters.AddWithValue("@BrachId", SearchReq.BrachId);
                         command.Parameters.AddWithValue("@EndTermId", SearchReq.EndTermId);
+                        //command.Parameters.AddWithValue("@status", SearchReq.status);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -302,13 +303,22 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetAllHostelReportData";
+                        if(SearchReq.status == 296)
+                        {
+                            command.CommandText = "USP_EnrollmentCancleData_Hostel";
+                        }
+                        else
+                        {
+                            command.CommandText = "USP_GetAllHostelReportData";
+                        }
+                       
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@SemesterId", SearchReq.SemesterId);
                         command.Parameters.AddWithValue("@BrachId", SearchReq.BrachId);
                         command.Parameters.AddWithValue("@EndTermId", SearchReq.EndTermId);
                         command.Parameters.AddWithValue("@HostelID", SearchReq.HostelID);
                         command.Parameters.AddWithValue("@DepartmentID", SearchReq.DepartmentID);
+                        command.Parameters.AddWithValue("@status", SearchReq.status);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -981,6 +991,50 @@ namespace Kaushal_Darpan.Infra.Repositories
                         dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> DeallocateRoom(DeallocateRoomDataModel request)
+        {
+            _actionName = "DeallocateRoom(DeallocateRoomDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_BTER_Hostel_DeallocateRoom";
+                        command.CommandType = CommandType.StoredProcedure;
+                        // Add parameters with appropriate null handling
+
+                        command.Parameters.AddWithValue("@ReqId", request.ReqId);
+                        command.Parameters.AddWithValue("@AllotSeatId", request.AllotSeatId);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@action", request.Action);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
                 }
                 catch (Exception ex)
                 {
