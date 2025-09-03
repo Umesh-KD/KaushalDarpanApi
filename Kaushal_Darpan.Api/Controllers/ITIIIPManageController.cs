@@ -84,7 +84,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     else
                     {
                         result.State = EnumStatus.Error;
-
                     }
                 }
                 catch (Exception ex)
