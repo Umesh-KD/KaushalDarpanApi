@@ -765,6 +765,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserID", request.UserID);
                         command.Parameters.AddWithValue("@DoucmentName", request.DoucmentName);
                         command.Parameters.AddWithValue("@AllotmentId", request.AllotmentId);
+                        command.Parameters.AddWithValue("@Remarks", request.Remarks);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out

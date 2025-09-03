@@ -20,6 +20,7 @@ using System;
 using System.Reflection;
 using Kaushal_Darpan.Models.ITIStudentMeritInfo;
 using AspNetCore.ReportingServices.ReportProcessing.ReportObjectModel;
+using Kaushal_Darpan.Models.StaffMaster;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -1120,6 +1121,43 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("getdublicateCheckSection")]
+        public async Task<ApiResult<DataTable>> getdublicateCheckSection([FromBody] SectionDataModel request)
+        {
+            ActionName = "getdublicateCheckSection()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    result.Data = await _unitOfWork.StudentRepository.getdublicateCheckSection(request);
+                    if (result.Data.Rows.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    _unitOfWork.Dispose();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
 
 
     }

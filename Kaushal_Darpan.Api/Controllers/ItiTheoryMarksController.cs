@@ -217,5 +217,54 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+
+        [HttpPost("RevertBundle")]
+        public async Task<ApiResult<bool>> RevertBundle([FromBody] RevertBundleModel request)
+        {
+            ActionName = "UpdateSaveData([FromBody] RevertBundleModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    
+                    // Pass the list to the repository for batch update
+                    var isSave = await _unitOfWork.ItiTheoryMarksRepository.RevertBundle(request);
+                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+
+                    if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
     }
 }
