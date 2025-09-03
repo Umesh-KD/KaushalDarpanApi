@@ -52,8 +52,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAllRequestEquipmentsMapping(DTESearchTradeEquipmentsMapping SearchReq);
         Task<bool> SaveRequestEquipmentsMapping(DTETEquipmentsRequestMapping request);
         Task<DataTable> GetEquipment_Branch_Wise_CategoryWise(int Category);
-        
         Task<DataTable> GetAllDeadStockReport(DTEItemsSearchModel SearchReq);
         Task<DataTable> GetAllAuctionReport(DTEItemsSearchModel SearchReq);
+        Task<DataTable> GetAllinventoryIssueHistory(DTEItemsSearchModel SearchReq);
     }
 }
