@@ -55,5 +55,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         
         Task<DataTable> GetAllDeadStockReport(DTEItemsSearchModel SearchReq);
         Task<DataTable> GetAllAuctionReport(DTEItemsSearchModel SearchReq);
+        Task<DataTable> GetAllDDL(DTEItemsSearchModel SearchReq);
+        Task<DataTable> GetConsumeItemList(DTEItemsSearchModel SearchReq);
     }
 }
