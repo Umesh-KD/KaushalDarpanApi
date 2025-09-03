@@ -1083,6 +1083,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         _sqlQuery = command.GetSqlExecutableQuery();
 
+
                         // Execute the command
                         result = await command.ExecuteNonQueryAsync();
                         result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
