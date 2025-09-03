@@ -1169,14 +1169,8 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         // Add parameters to the stored procedure from the model
                         command.Parameters.AddWithValue("@Action", "View");
-                        //command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
-                        //command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        //command.Parameters.AddWithValue("@StreamID", model.StreamID);
-                        //command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
-                        //command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        //command.Parameters.AddWithValue("@RoleID", model.RoleID);
-                        //command.Parameters.AddWithValue("@SSOID", model.SSOID);
-                        //command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@CurrentMonth", model.CurrentMonth);
+                        command.Parameters.AddWithValue("@CurrentYear", model.CurrentYear);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
