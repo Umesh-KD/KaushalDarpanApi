@@ -932,6 +932,67 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [HttpPost("DeallocateRoom")]
+        public async Task<ApiResult<bool>> DeallocateRoom([FromBody] DeallocateRoomDataModel request)
+        {
+            ActionName = "DeallocateRoom([FromBody] DeallocateRoomDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
 
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+
+                    result.Data = await _unitOfWork.iStudentRequestsRepository.DeallocateRoom(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (request.ReqId == 0)
+                        {
+                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (request.ReqId == 0)
+                        {
+                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        }
+                        else
+                        {
+                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }
