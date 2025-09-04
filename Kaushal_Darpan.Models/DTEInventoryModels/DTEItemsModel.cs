@@ -16,10 +16,10 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int EquipmentsId { get; set; }
         public string? IdentificationMark { get; set; }
         public string? CampanyName { get; set; }
-        
+
         public int VoucherNumber { get; set; }
         public int Quantity { get; set; }
-       
+
         public int PricePerUnit { get; set; }
         public int TotalPrice { get; set; }
         public bool ActiveStatus { get; set; }
@@ -51,10 +51,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int RoleID { get; set; }
         public int StatusID { get; set; }
         public int ItemId { get; set; }
-
-
-
-
+        public int ActionType { get; set; }
     }
     public class DTEItemsDetailsModel
     {
@@ -99,7 +96,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
     public class EquipmentCodeDuplicateSearch
     {
         public string ItemCategoryName { get; set; }
-        public string  EquipmentsCode { get; set; }
+        public string EquipmentsCode { get; set; }
         public int IsDuplicate { get; set; }
     }
 
@@ -109,8 +106,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public string EquipmentsCode { get; set; }
         public int ItemId { get; set; }
     }
-    
-    
+
+
     public class inventoryIssueHistorySearchModel
     {
         public int InstituteID { get; set; }
@@ -122,6 +119,21 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int ItemID { get; set; }
 
     }
+    public class itemReturnModel
+    {
+        public int ItemCount { get; set; }
+        public string? staffID { get; set; }
+        public int ItemCondition { get; set; }
+        public DateTime ReturnDate { get; set; }
+        public string Remarks { get; set; }        
+        public int ItemDetailsId { get; set; }
+        public string ItemList { get; set; }   // JSON array of items
+        public int TransactionID { get; set; }
+        public string Type { get; set; }
 
-
+    }
 }
+
+
+
+    
