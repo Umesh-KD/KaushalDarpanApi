@@ -51,6 +51,10 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int RoleID { get; set; }
         public int StatusID { get; set; }
         public int ItemId { get; set; }
+
+
+
+
     }
     public class DTEItemsDetailsModel
     {
@@ -113,6 +117,10 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int CollegeId { get; set; }
         public string? TypeName { get; set; }
         public int TradeId { get; set; }
+        public int StaffID { get; set; }
+        public int UserID { get; set; }
+        public int ItemID { get; set; }
+
     }
 
 
