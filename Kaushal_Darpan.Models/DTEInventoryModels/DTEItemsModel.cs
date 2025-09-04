@@ -51,10 +51,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int RoleID { get; set; }
         public int StatusID { get; set; }
         public int ItemId { get; set; }
-
-
-
-
+        public int ActionType { get; set; }
     }
     public class DTEItemsDetailsModel
     {

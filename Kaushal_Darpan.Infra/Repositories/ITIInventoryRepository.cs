@@ -2064,7 +2064,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> GetAll_INV_returnItem(itemReturnModel SearchReq)
+        public async Task<DataTable> GetAll_INV_returnItem(ItemsIssueReturnModels SearchReq)
         {
             _actionName = "GetAllData()";
             return await Task.Run(async () =>
@@ -2078,8 +2078,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_INV_StaffIssueReturnItems";
                         
                         command.Parameters.AddWithValue("@Type", "ReturnItemUpdate");
-                        command.Parameters.AddWithValue("@ItemList", SearchReq.ItemList);
-                                              
+                        command.Parameters.AddWithValue("@Remarks", SearchReq.Remarks);
+                        command.Parameters.AddWithValue("@ItemCategoryId", SearchReq.ItemCategoryId);
+
+                        command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(SearchReq.ItemList));
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -2141,6 +2144,40 @@ namespace Kaushal_Darpan.Infra.Repositories
                         return true;
                     else
                         return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetInventoryIssueItemList(inventoryIssueHistorySearchModel SearchReq)
+        {
+            _actionName = "GetInventoryIssueItemList()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_INV_GetIssueItemList";
+                        command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
                 }
                 catch (Exception ex)
                 {
