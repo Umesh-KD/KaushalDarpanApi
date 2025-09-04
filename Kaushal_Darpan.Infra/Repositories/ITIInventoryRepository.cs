@@ -12,6 +12,7 @@ using Kaushal_Darpan.Models.StudentMaster;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using System.Data;
+using static Dapper.SqlMapper;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
@@ -2042,6 +2043,44 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ItemID", SearchReq.EquipmentsId);
                         command.Parameters.AddWithValue("@ActionType", "GetConsumeItemList");
                       
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> GetAll_INV_returnItem(itemReturnModel SearchReq)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_INV_StaffIssueReturnItems";
+                        
+                        command.Parameters.AddWithValue("@Type", "ReturnItemUpdate");
+                        command.Parameters.AddWithValue("@ItemList", SearchReq.ItemList);
+                                              
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
