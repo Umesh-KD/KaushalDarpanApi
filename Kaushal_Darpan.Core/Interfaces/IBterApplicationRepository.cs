@@ -42,6 +42,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetDetailsbyApplicationNo(List<ApplicationDetails> ApplicationDetails);
         Task<bool> DirectAdmissionPaymentUpdate(DirectAdmissionUpdatePayment model);
+        Task<bool> JailAdmissionFinalSubmit(DirectAdmissionUpdatePayment model);
 
     }
 }

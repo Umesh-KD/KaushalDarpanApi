@@ -1080,6 +1080,51 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+
+        [HttpPost("JailAdmissionFinalSubmit")]
+        public async Task<ApiResult<bool>> JailAdmissionFinalSubmit(DirectAdmissionUpdatePayment model)
+        {
+            ActionName = "DirectAdmissionPaymentUpdate(BterSearchModel model)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.BterApplicationRepository.JailAdmissionFinalSubmit(model);
+                    _unitOfWork.SaveChanges();
+
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
     }
 
 

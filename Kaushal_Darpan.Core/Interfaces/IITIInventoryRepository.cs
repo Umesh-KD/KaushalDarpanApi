@@ -54,9 +54,14 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetEquipment_Branch_Wise_CategoryWise(int Category);
         Task<DataTable> GetAllDeadStockReport(DTEItemsSearchModel SearchReq);
         Task<DataTable> GetAllAuctionReport(DTEItemsSearchModel SearchReq);
-        Task<DataTable> GetAllinventoryIssueHistory(DTEItemsSearchModel SearchReq);
+        Task<DataTable> GetAllinventoryIssueHistory(inventoryIssueHistorySearchModel SearchReq);
         Task<DataTable> GetAll_INV_GetCommonIssueDDL(inventoryIssueHistorySearchModel SearchReq);
         Task<DataTable> GetAllDDL(DTEItemsSearchModel SearchReq);
         Task<DataTable> GetConsumeItemList(DTEItemsSearchModel SearchReq);
+        Task<DataTable> GetAll_INV_returnItem(ItemsIssueReturnModels SearchReq);
+        Task<bool> SaveIssueItems(ItemsIssueReturnModels request);
+
+        Task<DataTable> GetInventoryIssueItemList(inventoryIssueHistorySearchModel SearchReq);
+
     }
 }
