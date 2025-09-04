@@ -50,6 +50,11 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int CollegeId { get; set; }
         public int RoleID { get; set; }
         public int StatusID { get; set; }
+        public int ItemId { get; set; }
+
+
+
+
     }
     public class DTEItemsDetailsModel
     {
@@ -66,7 +71,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int InstituteID { get; set; }
         public int? EquipmentWorking { get; set; }
         public bool isOption { get; set; }
-        public string AuctionStatus { get; set; }
+        public string? AuctionStatus { get; set; }
 
     }
 
@@ -104,5 +109,19 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public string EquipmentsCode { get; set; }
         public int ItemId { get; set; }
     }
+    
+    
+    public class inventoryIssueHistorySearchModel
+    {
+        public int InstituteID { get; set; }
+        public int CollegeId { get; set; }
+        public string? TypeName { get; set; }
+        public int TradeId { get; set; }
+        public int StaffID { get; set; }
+        public int UserID { get; set; }
+        public int ItemID { get; set; }
+
+    }
+
 
 }

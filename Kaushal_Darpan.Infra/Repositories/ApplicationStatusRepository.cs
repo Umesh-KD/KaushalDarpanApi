@@ -87,6 +87,64 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<DataTable> StudentJailAdmission(StudentSearchModel searchModel)
+        {
+            _actionName = "StudentJailAdmission(StudentSearchModel searchModel)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GeTJailApplication";
+
+
+                        // Add parameters to the stored procedure from the model
+
+                        command.Parameters.AddWithValue("@ApplicationNo", searchModel.ApplicationNo);
+                        command.Parameters.AddWithValue("@MobileNumber", searchModel.MobileNumber);
+                        command.Parameters.AddWithValue("@DOB", searchModel.DOB);
+                        command.Parameters.AddWithValue("@SSOID", searchModel.SsoID);
+                        command.Parameters.AddWithValue("@EndTermID", searchModel.EndTermID);
+                        command.Parameters.AddWithValue("@StudentID", searchModel.StudentID);
+                        command.Parameters.AddWithValue("@SemesterID", searchModel.SemesterID);
+                        command.Parameters.AddWithValue("@DocumentMasterID", searchModel.DocumentMasterID);
+                        command.Parameters.AddWithValue("@ChallanNo", searchModel.ChallanNo);
+                        command.Parameters.AddWithValue("@DepartmentID", searchModel.DepartmentID);
+                        command.Parameters.AddWithValue("@FinancialYearID", searchModel.FinancialYearID);
+                        command.Parameters.AddWithValue("@InstituteID", searchModel.InstituteID);
+                        command.Parameters.AddWithValue("@RoleID", searchModel.RoleID);
+                        command.Parameters.AddWithValue("@ServiceID", searchModel.ServiceID);
+                        command.Parameters.AddWithValue("@StudentExamID", searchModel.StudentExamID);
+
+                        command.Parameters.AddWithValue("@action", searchModel.Action);
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
         public async Task<List<DocumentDetailsModel>> GetByID(int ApplicationID)
         {
             _actionName = "GetAllData(StudentSearchModel searchModel)";

@@ -204,8 +204,10 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public DateTime? AttendanceDate { get; set; }
         public string? AttendanceStartTime { get; set; }
         public string? AttendanceEndTime { get; set; }  
-        public int CreatedBy { get; set; }    
+        public int CreatedBy { get; set; }
+        public int DayID { get; set; }
         public List<int>? SectionID { get; set; }
+        public string? RoomNo { get; set; }
     }
 
 
