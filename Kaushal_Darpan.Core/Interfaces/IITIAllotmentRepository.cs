@@ -29,12 +29,17 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAllotmentReport(SearchModel body);
 
         Task<DataTable> GetAllData(ITIDirectAllocationSearchModel body);
+        Task<DataTable> GetJailAllData(ITIDirectAllocationSearchModel body);
         Task<DataTable> StudentDetailsList(ITIDirectAllocationSearchModel body);
         Task<DataTable> GetAllDataPhoneVerify(ITIDirectAllocationSearchModel body);
         Task<DataSet> GetStudentDetails(ITIDirectAllocationSearchModel body);
+        Task<DataSet> GetJailStudentDetails(ITIDirectAllocationSearchModel body);
         Task<int> UpdateAllotments(ITIDirectAllocationDataModel request);
+        Task<int> UpdateJailAllotments(ITIDirectAllocationDataModel request);
         Task<int> RevertAllotments(ITIDirectAllocationDataModel request);
+        Task<int> RevertJailAllotments(ITIDirectAllocationDataModel request);
         Task<DataTable> GetTradeListByCollege(ITIDirectAllocationSearchModel body);
+        Task<DataTable> GetStudentOptionByApplicationNo(ITIDirectAllocationSearchModel body);
         Task<DataTable> ShiftUnitList(ITIDirectAllocationSearchModel body);
         Task<int> StudentSeatWithdrawRequest(StudentthdranSeatModel request);
 
