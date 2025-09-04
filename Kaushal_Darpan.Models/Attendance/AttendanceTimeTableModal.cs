@@ -80,6 +80,7 @@ namespace Kaushal_Darpan.Models.Attendance
     public class CalendarEventModel
     {
         public int EventId { get; set; }
+        public int Day { get; set; }
         public DateTime EventDate { get; set; }
         public string EventType { get; set; }
         public string Remark { get; set; }
@@ -90,6 +91,9 @@ namespace Kaushal_Darpan.Models.Attendance
         public int CourseTypeID { get; set; }
         public bool IsActive { get; set; }
         public bool IsDelete { get; set; }
+
+        public int? CurrentMonth { get; set; }
+        public int? CurrentYear { get; set; }
     }
 
 }

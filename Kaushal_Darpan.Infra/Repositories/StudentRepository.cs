@@ -19,6 +19,7 @@ using static Kaushal_Darpan.Models.BterApplication.PreviewApplicationFormmodel;
 using Kaushal_Darpan.Models.ITIStudentMeritInfo;
 using static Kaushal_Darpan.Models.ITIApplication.ItiApplicationPreviewDataModel;
 using System.Globalization;
+using Kaushal_Darpan.Models.StaffMaster;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
@@ -1083,6 +1084,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         _sqlQuery = command.GetSqlExecutableQuery();
 
+
                         // Execute the command
                         result = await command.ExecuteNonQueryAsync();
                         result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
@@ -1169,14 +1171,48 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         // Add parameters to the stored procedure from the model
                         command.Parameters.AddWithValue("@Action", "View");
-                        //command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
-                        //command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        //command.Parameters.AddWithValue("@StreamID", model.StreamID);
-                        //command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
-                        //command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        //command.Parameters.AddWithValue("@RoleID", model.RoleID);
-                        //command.Parameters.AddWithValue("@SSOID", model.SSOID);
-                        //command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@CurrentMonth", model.CurrentMonth);
+                        command.Parameters.AddWithValue("@CurrentYear", model.CurrentYear);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> getdublicateCheckSection(SectionDataModel model)
+        {
+            _actionName = "ITIGetDataStudentBySSOId()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetEventsList";
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                       
+                        
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

@@ -34,5 +34,10 @@ namespace Kaushal_Darpan.Models.StudentRequestsModel
         public int? AllotmentStatus { get; set; }
     }
 
-    
+    public class DeallocateRoomDataModel : RequestBaseModel
+    {
+        public int? AllotSeatId { get; set; }
+        public int? ReqId { get; set; }
+        public string? Action {  get; set; }
+    }
 }

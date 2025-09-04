@@ -78,6 +78,10 @@ namespace Kaushal_Darpan.Models.ITITheoryMarks
         public int CenterID { get; set; }
     }
 
-
+    public class RevertBundleModel
+    {
+        public int AppointExaminerID { get; set ; }
+        public string? Remark { get; set ; }
+    }
 }
 

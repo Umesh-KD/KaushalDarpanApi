@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System.Data;
 
 using System.Net.Http.Headers;
+using System.Reflection.Metadata;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Kaushal_Darpan.Api.Controllers
@@ -1015,7 +1016,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     for (int i = 0; i < section.StudentCount; i++)
                     {
                         if (studentIndex >= getSectionStudentDataModels.Count)
-                            break;
+                            studentIndex=0;
 
                         var student = getSectionStudentDataModels[studentIndex];
 
@@ -1284,6 +1285,108 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        [HttpPost("SaveRosterDisplayMultiple")]
+        public async Task<ApiResult<int>> SaveRosterDisplayMultiple([FromBody] List<SaveRosterDisplayMultipleModel> request)
+        {
+            ActionName = "SaveData([FromBody] HRMaster request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.StaffMasterRepository.SaveRosterDisplayMultiple(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (result.Data == 1)
+                        {
+                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+                    }
+                    else if (result.Data == -1)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "This record already exists in the selected application range.";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_ERROR_OCCURRED;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("DeleteRosterDisplay")]
+        public async Task<ApiResult<int>> DeleteRosterDisplay([FromBody] SaveRosterDisplayMultipleModel request)
+        {
+            ActionName = "DeleteRosterDisplay([FromBody] HRMaster request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.StaffMasterRepository.DeleteRosterDisplay(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (result.Data == 1)
+                        {
+                            result.Message = Constants.MSG_DELETE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.Message = Constants.MSG_DELETE_ERROR;
+                        }
+                    }
+                    
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
 
     }
 

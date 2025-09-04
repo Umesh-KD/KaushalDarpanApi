@@ -33,7 +33,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> GetAllAffidavitObjection(List<PublishHostelMeritListDataModel> SearchReq);
         Task<DataTable> GetAllPrincipalstudentmeritlist(SearchStudentApplyForHostel SearchReq);
         Task<DataTable> GetAllDataStatus(SearchStudentApplyForHostel SearchReq);
-
+        Task<bool> DeallocateRoom(DeallocateRoomDataModel request);
 
     }
 }

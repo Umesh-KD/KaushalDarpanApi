@@ -455,7 +455,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>24.66006cm</Top>
+            <Top>23.70756cm</Top>
             <Left>14.32581cm</Left>
             <Height>0.6cm</Height>
             <Width>4.31209cm</Width>
@@ -504,7 +504,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>25.43645cm</Top>
+            <Top>24.48395cm</Top>
             <Left>0.25789cm</Left>
             <Height>1.14653cm</Height>
             <Width>17.12263cm</Width>
@@ -540,7 +540,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>27.0781cm</Top>
+            <Top>26.1256cm</Top>
             <Left>12.67981cm</Left>
             <Height>0.6cm</Height>
             <Width>5.97933cm</Width>
@@ -576,7 +576,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>27.0781cm</Top>
+            <Top>26.1256cm</Top>
             <Left>0.25789cm</Left>
             <Height>0.6cm</Height>
             <Width>5.60922cm</Width>
@@ -989,7 +989,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>24.66006cm</Top>
+            <Top>23.70756cm</Top>
             <Left>0.25789cm</Left>
             <Height>0.6cm</Height>
             <Width>4.59883cm</Width>
@@ -2326,7 +2326,7 @@
             </Style>
           </Textbox>
           <Line Name="Line52">
-            <Top>25.26006cm</Top>
+            <Top>24.30756cm</Top>
             <Left>1.48427cm</Left>
             <Height>0cm</Height>
             <Width>3.08571cm</Width>
@@ -2337,74 +2337,6 @@
               </Border>
             </Style>
           </Line>
-          <Textbox Name="Textbox49">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>Cost :</Value>
-                    <Style>
-                      <FontSize>6pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>0.16942cm</Top>
-            <Left>0.28787cm</Left>
-            <Height>0.40949cm</Height>
-            <Width>2.41943cm</Width>
-            <ZIndex>57</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="Textbox50">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=First(Fields!EnrollmentFee.Value, "StudentEnrolledmentForm")</Value>
-                    <Style>
-                      <FontSize>6pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Left</TextAlign>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>0.16942cm</Top>
-            <Left>0.88896cm</Left>
-            <Height>0.40949cm</Height>
-            <Width>1.25389cm</Width>
-            <ZIndex>58</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
           <Textbox Name="Textbox65">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
@@ -2426,7 +2358,7 @@
             <Left>14.61063cm</Left>
             <Height>0.63528cm</Height>
             <Width>3.78766cm</Width>
-            <ZIndex>59</ZIndex>
+            <ZIndex>57</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2461,7 +2393,7 @@
             <Left>8.04378cm</Left>
             <Height>0.49417cm</Height>
             <Width>5.71541cm</Width>
-            <ZIndex>60</ZIndex>
+            <ZIndex>58</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2481,7 +2413,7 @@
             <Left>14.61063cm</Left>
             <Height>2.42115cm</Height>
             <Width>3.72239cm</Width>
-            <ZIndex>61</ZIndex>
+            <ZIndex>59</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2509,7 +2441,7 @@
             <Left>10.58537cm</Left>
             <Height>0.49416cm</Height>
             <Width>2.5cm</Width>
-            <ZIndex>62</ZIndex>
+            <ZIndex>60</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2529,7 +2461,7 @@
             <Left>15.57083cm</Left>
             <Height>1.15255cm</Height>
             <Width>2.36848cm</Width>
-            <ZIndex>63</ZIndex>
+            <ZIndex>61</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2541,7 +2473,7 @@
             <Left>14.34128cm</Left>
             <Height>0cm</Height>
             <Width>4.36765cm</Width>
-            <ZIndex>64</ZIndex>
+            <ZIndex>62</ZIndex>
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -2570,7 +2502,7 @@
             <Left>9.90634cm</Left>
             <Height>0.65291cm</Height>
             <Width>2.5cm</Width>
-            <ZIndex>65</ZIndex>
+            <ZIndex>63</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2963,11 +2895,11 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>StudentEnrollmentFeeDetails</DataSetName>
-            <Top>21.77203cm</Top>
+            <Top>21.42278cm</Top>
             <Left>0.25789cm</Left>
             <Height>1.2cm</Height>
             <Width>18.40126cm</Width>
-            <ZIndex>66</ZIndex>
+            <ZIndex>64</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2975,7 +2907,7 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>11.00106in</Height>
+        <Height>10.63648in</Height>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -2984,12 +2916,12 @@
       </Body>
       <Width>7.45168in</Width>
       <Page>
-        <PageHeight>31cm</PageHeight>
+        <PageHeight>30cm</PageHeight>
         <PageWidth>21cm</PageWidth>
         <LeftMargin>1cm</LeftMargin>
         <RightMargin>1cm</RightMargin>
-        <TopMargin>1cm</TopMargin>
-        <BottomMargin>1cm</BottomMargin>
+        <TopMargin>0.5cm</TopMargin>
+        <BottomMargin>0.5cm</BottomMargin>
         <ColumnSpacing>0.13cm</ColumnSpacing>
         <Style />
       </Page>

@@ -179,6 +179,7 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public bool? DeleteStatus { get; set; }
         public int CreatedBy { get; set; }
         public int ModifyBy { get; set; }
+        public List<int>? SectionID { get; set; }
     }
 
     public class SearchBranchDataModel
@@ -187,4 +188,24 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public int EndTermID { get; set; }
         public int InstituteID { get; set; }
     }
+
+
+
+    public class SaveRosterDisplayMultipleModel:RequestBaseModel
+    {
+     
+        public int ID { get; set; }
+        public int SubjectID { get; set; } 
+        public int StreamID { get; set; }     
+        public int StaffID { get; set; }
+        public int SemesterID { get; set; }   
+        public DateTime? AttendanceDate { get; set; }
+        public string? AttendanceStartTime { get; set; }
+        public string? AttendanceEndTime { get; set; }  
+        public int CreatedBy { get; set; }    
+        public List<int>? SectionID { get; set; }
     }
+
+
+
+}
