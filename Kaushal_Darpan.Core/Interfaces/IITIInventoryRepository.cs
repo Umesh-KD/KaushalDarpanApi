@@ -58,5 +58,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAll_INV_GetCommonIssueDDL(inventoryIssueHistorySearchModel SearchReq);
         Task<DataTable> GetAllDDL(DTEItemsSearchModel SearchReq);
         Task<DataTable> GetConsumeItemList(DTEItemsSearchModel SearchReq);
+        Task<bool> SaveIssueItems(ItemsIssueReturnModels request);
+
     }
 }
