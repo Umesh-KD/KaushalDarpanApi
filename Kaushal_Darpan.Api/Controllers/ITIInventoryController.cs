@@ -2020,11 +2020,10 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-
         [HttpPost("GetAllinventoryIssueHistory")]
-        public async Task<ApiResult<DataTable>> GetAllinventoryIssueHistory([FromBody] DTEItemsSearchModel body)
+        public async Task<ApiResult<DataTable>> GetAllinventoryIssueHistory([FromBody] inventoryIssueHistorySearchModel body)
         {
-            ActionName = "GetAllData()";
+            ActionName = "GetAllinventoryIssueHistory([FromBody] inventoryIssueHistorySearchModel body)";
             var result = new ApiResult<DataTable>();
             try
             {

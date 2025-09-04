@@ -1908,7 +1908,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> GetAllinventoryIssueHistory(DTEItemsSearchModel SearchReq)
+        public async Task<DataTable> GetAllinventoryIssueHistory(inventoryIssueHistorySearchModel SearchReq)
         {
             _actionName = "GetAllData()";
             return await Task.Run(async () =>
@@ -1920,16 +1920,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_GetAllInventoryIssueHistory";
-                        command.Parameters.AddWithValue("@EquipmentsId", SearchReq.EquipmentsId);
-                        command.Parameters.AddWithValue("@CollegeId", SearchReq.CollegeId);
-                        command.Parameters.AddWithValue("@OfficeID", SearchReq.OfficeID);
-                        command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
-                        command.Parameters.AddWithValue("@DepartmentID", SearchReq.DepartmentID);   
-                        command.Parameters.AddWithValue("@Eng_NonEng", SearchReq.Eng_NonEng);
-                        command.Parameters.AddWithValue("@EndTermID", SearchReq.EndTermID);
-                        command.Parameters.AddWithValue("@ItemId", SearchReq.ItemId);
+                        command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
                         _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
+                            dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
                 }
