@@ -1963,6 +1963,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@TypeName", SearchReq.TypeName);
                         command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
+                        //command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
