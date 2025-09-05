@@ -119,7 +119,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 //source path
                 string sourceRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, "old-bter-student-images");
-                string destinationRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsFolder, "BTER");
+                string destinationRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsMasterFolder, "BTER");
 
                 if (!Directory.Exists(sourceRootPath))
                 {
@@ -130,6 +130,14 @@ namespace Kaushal_Darpan.Api.Controllers
                     Directory.CreateDirectory(destinationRootPath);
                 }
 
+                // Create DataTable for storing image paths
+                DataTable dt = new DataTable();
+                dt.Columns.Add("StudentID", typeof(int));
+                dt.Columns.Add("StudentID_Old", typeof(int));
+                dt.Columns.Add("FolderType", typeof(string));
+                dt.Columns.Add("DocumentMasterID", typeof(int));
+                dt.Columns.Add("FileName", typeof(string));
+                dt.Columns.Add("Dis_FileName", typeof(string));
 
                 //loop files each student
                 //log
@@ -207,10 +215,17 @@ namespace Kaushal_Darpan.Api.Controllers
                                 docMasterId = 2;
                             }
 
-                            // set in table for document table save
-                            row["DocumentMasterID"] = docMasterId;
-                            row["FileName"] = fileName;
-                            row["Dis_FileName"] = fileName;
+                            // add in new table for document table save
+                            DataRow dr = dt.NewRow();
+                            dr["StudentID"] = row["StudentID"].ToString();
+                            dr["StudentID_Old"] = row["StudentID_Old"].ToString();
+                            dr["FolderType"] = row["FolderType"].ToString();
+                            dr["DocumentMasterID"] = docMasterId;
+                            dr["FileName"] = fileName;
+                            dr["Dis_FileName"] = fileName;
+                            
+                            //add in table
+                            dt.Rows.Add(dr);
                         }
                         catch (Exception ex)
                         {
@@ -226,7 +241,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 CommonFuncationHelper.WriteTextLog("DB Insert start:");
                 //convert in json
-                string json = JsonConvert.SerializeObject(dataTable);
+                string json = JsonConvert.SerializeObject(dt);
 
                 //log
                 CommonFuncationHelper.WriteTextLog($"DB Insert Start with json : {json}");
