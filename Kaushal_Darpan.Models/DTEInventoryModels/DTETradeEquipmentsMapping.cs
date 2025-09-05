@@ -115,6 +115,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? ModifyBy { get; set; }
         public int? InstituteID { get; set; }
         public int? UserId { get; set; }
+        public int? TransactionID { get; set; }
 
         public string? StaffName { get; set; }
         public DateTime? DueDate { get; set; }
@@ -134,6 +135,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? ItemId { get; set; }
         public int? EquipmentCode { get; set; }
         public int? ItemDetailsId { get; set; }
+        public int? TransactionID { get; set; }
 
     }
 

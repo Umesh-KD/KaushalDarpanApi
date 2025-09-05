@@ -21,6 +21,8 @@ using System.Reflection;
 using Kaushal_Darpan.Models.ITIStudentMeritInfo;
 using AspNetCore.ReportingServices.ReportProcessing.ReportObjectModel;
 using Kaushal_Darpan.Models.StaffMaster;
+using Kaushal_Darpan.Models.PreExamStudent;
+using Kaushal_Darpan.Models.BterCertificateReport;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -1160,6 +1162,338 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("GetRosterDisplay_PDFTimeTable")]
+        public async Task<ApiResult<DataTable>> GetRosterDisplay_PDFTimeTable([FromBody] RosterDisplayTimeTableDataModel request)
+        {
+            ActionName = "GetRosterDisplay_PDFTimeTable()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    result.Data = await _unitOfWork.StudentRepository.GetRosterDisplay_PDFTimeTable(request);
+                    if (result.Data.Rows.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    _unitOfWork.Dispose();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
+
+
+
+        //#region GetRosterDisplay PDFTimeTable
+        //[HttpPost("GetRosterDisplay_PDFTimeTableDownload")]
+        //public async Task<ApiResult<string>> GetRosterDisplay_PDFTimeTableDownload(RosterDisplayTimeTableDataModel model)
+        //{
+        //    ActionName = "GetRosterDisplay_PDFTimeTableDownload(RosterDisplayTimeTableDataModel model)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        var result = new ApiResult<string>();
+        //        try
+        //        {
+        //            var data = await _unitOfWork.StudentRepository.GetRosterDisplay_PDFTimeTableDownload(model);
+
+        //            if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+        //            {
+        //                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+        //                DataTable dt = data.Tables[0];
+        //                DataTable tempDt = dt.Clone();
+
+        //                DataRow prevRow = null;
+
+        //                // Function to detect time columns (simple check: contains ":" or "-")
+        //                Func<string, bool> IsTimeColumn = colName => colName.Contains(":") && colName.Contains("-");
+
+        //                foreach (DataRow row in dt.Rows)
+        //                {
+        //                    DataRow newRow = tempDt.NewRow();
+        //                    newRow.ItemArray = row.ItemArray.Clone() as object[];
+
+        //                    if (prevRow != null)
+        //                    {
+        //                        foreach (DataColumn col in dt.Columns)
+        //                        {
+        //                            string colName = col.ColumnName;
+
+        //                            // Skip dynamic time columns
+        //                            if (IsTimeColumn(colName))
+        //                                continue;
+
+        //                            // If previous row has same value, set null
+        //                            if (prevRow[colName]?.ToString() == row[colName]?.ToString())
+        //                                newRow[colName] = null;
+        //                        }
+        //                    }
+
+        //                    tempDt.Rows.Add(newRow);
+        //                    prevRow = row;
+        //                }
+
+
+
+
+        //                // Prepare HTML template
+        //                string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.GetRosterDisplay_PDFTimeTableReport}/RosterDisplay_PDFTimeTable.html";
+        //               // string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, tempDt);
+
+        //                //html = Utility.PDFWorks.ReplaceCustomTag(html);
+
+        //                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        //                //sb.Append(html);
+
+        //                // Generate PDF as byte array
+        //                byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb, "landsacp", "");
+
+        //                // Convert to Base64 for API response
+        //                result.Data = Convert.ToBase64String(pdfBytes);
+        //                result.State = EnumStatus.Success;
+        //                result.Message = "Success";
+        //            }
+        //            else
+        //            {
+        //                result.State = EnumStatus.Warning;
+        //                result.Message = Constants.MSG_DATA_NOT_FOUND;
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            _unitOfWork.Dispose();
+        //            var nex = new NewException
+        //            {
+        //                PageName = PageName,
+        //                ActionName = ActionName,
+        //                Ex = ex,
+        //            };
+        //            await CreateErrorLog(nex, _unitOfWork);
+
+        //            result.State = EnumStatus.Error;
+        //            result.ErrorMessage = ex.Message;
+        //        }
+
+        //        return result;
+        //    });
+        //}
+        //#endregion
+
+
+        //#region  GetRosterDisplay PDFTimeTable
+        //[HttpPost("GetRosterDisplay_PDFTimeTableDownload1")]
+        //public async Task<ApiResult<string>> GetRosterDisplay_PDFTimeTableDownload1(RosterDisplayTimeTableDataModel model)
+        //{
+        //    ActionName = " GetRosterDisplay_PDFTimeTableDownload(RosterDisplayTimeTableDataModel model)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        var result = new ApiResult<string>();
+        //        try
+        //        {
+
+        //            var data = await _unitOfWork.StudentRepository.GetRosterDisplay_PDFTimeTableDownload(model);
+        //            if (data.Rows.Count>0 )
+        //            {
+
+        //                DataTable dt = data;
+        //                DataTable tempDt = dt.Clone();
+        //                DataRow prevRow = null;
+        //                Func<string, bool> IsTimeColumn = colName => colName.Contains(":") && colName.Contains("-");
+
+        //                foreach (DataRow row in dt.Rows)
+        //                {
+        //                    DataRow newRow = tempDt.NewRow();
+        //                    newRow.ItemArray = row.ItemArray.Clone() as object[];
+
+        //                    if (prevRow != null)
+        //                    {
+        //                        foreach (DataColumn col in dt.Columns)
+        //                        {
+        //                            string colName = col.ColumnName;
+
+                                   
+        //                            if (IsTimeColumn(colName))
+        //                                continue;
+
+                                   
+        //                            if (prevRow[colName]?.ToString() == row[colName]?.ToString())
+        //                                newRow[colName] = null;
+        //                        }
+        //                    }
+
+        //                    tempDt.Rows.Add(newRow);
+        //                    prevRow = row;
+        //                }
+
+        //                var dsTemp = new System.Data.DataSet();
+        //                dsTemp.Tables.Add(tempDt.Copy());
+
+        //                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                       
+        //                tempDt.TableName = "GetRosterDisplay_PDFTimeTable";
+
+        //                string devFontSize = "15px";
+                        
+        //                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+
+        //                string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.GetRosterDisplay_PDFTimeTableReport}/RosterDisplay_PDFTimeTable.html";
+
+        //                //string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, tempDt);
+        //                string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, dsTemp);
+
+        //                System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+        //                html = Utility.PDFWorks.ReplaceCustomTag(html);
+        //                sb1.Append(html);
+        //                byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", "");
+
+        //                result.Data = Convert.ToBase64String(pdfBytes); ;
+        //                result.State = EnumStatus.Success;
+        //                result.Message = "Success";
+        //            }
+        //            else
+        //            {
+        //                result.State = EnumStatus.Warning;
+        //                result.Message = Constants.MSG_DATA_NOT_FOUND;
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            _unitOfWork.Dispose();
+        //            var nex = new NewException
+        //            {
+        //                PageName = PageName,
+        //                ActionName = ActionName,
+        //                Ex = ex,
+        //            };
+        //            await CreateErrorLog(nex, _unitOfWork);
+        //            result.State = EnumStatus.Error;
+        //            result.ErrorMessage = ex.Message;
+        //        }
+        //        return result;
+        //    });
+        //}
+        //#endregion
+
+
+        [HttpPost("GetRosterDisplay_PDFTimeTableDownload")]
+        public async Task<ApiResult<string>> GetRosterDisplay_PDFTimeTableDownload([FromBody] RosterDisplayTimeTableDataModel model)
+        {
+            ActionName = "GetBterBridgeCourseReport(BterStatisticsReportDataModel)";
+
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.StudentRepository.GetRosterDisplay_PDFTimeTableDownload(model);
+                    if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+                    {
+
+                        DataTable dt = data.Tables[0];
+                        DataTable tempDt = dt.Clone();
+                        DataRow prevRow = null;
+                        Func<string, bool> IsTimeColumn = colName => colName.Contains(":") && colName.Contains("-");
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            DataRow newRow = tempDt.NewRow();
+                            newRow.ItemArray = row.ItemArray.Clone() as object[];
+
+                            if (prevRow != null)
+                            {
+                                foreach (DataColumn col in dt.Columns)
+                                {
+                                    string colName = col.ColumnName;
+
+
+                                    if (IsTimeColumn(colName))
+                                        continue;
+
+
+                                    if (prevRow[colName]?.ToString() == row[colName]?.ToString())
+                                        newRow[colName] = null;
+                                }
+                            }
+
+                            tempDt.Rows.Add(newRow);
+                            prevRow = row;
+                        }
+
+                        var dsTemp = new System.Data.DataSet();
+
+                        // Copy DataTable into DataSet
+                        var copiedTable = tempDt.Copy();
+                        copiedTable.TableName = "GetRosterDisplay_PDFTimeTable";
+                        dsTemp.Tables.Add(copiedTable);
+
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                        string devFontSize = "15px";
+                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                        string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.GetRosterDisplay_PDFTimeTableReport}/RosterDisplay_PDFTimeTable.html";
+
+                        // Pass dataset to method
+                        string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, dsTemp);
+
+                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+                        html = Utility.PDFWorks.ReplaceCustomTag(html);
+
+                        sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+
+                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", "");
+
+                        result.Data = Convert.ToBase64String(pdfBytes);
+                        result.State = EnumStatus.Success;
+                        result.Message = "Success";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
     }
 
 
