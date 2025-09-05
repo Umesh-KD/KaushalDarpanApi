@@ -473,7 +473,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> Iticollege(int DepartmentID, int Eng_NonEng, int EndTermId , int InsutiteId)
+        public async Task<DataTable> Iticollege(int DepartmentID, int Eng_NonEng, int EndTermId, int InsutiteId)
 
         {
             _actionName = "InstituteMaster()";
@@ -7989,6 +7989,41 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataSet> Dummy_GetTestUspDataByAction(string action)
+        {
+            _actionName = "Dummy_GetMoveFilesFromStudentFolderToNewFolderStructure()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataSet ds = new DataSet();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Dummy_Test";
+
+                        command.Parameters.AddWithValue("@action", action);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
         #endregion
 
 
@@ -8877,7 +8912,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<List<CommonDDLModel>> GetNodalExamCenterDistrict(int District,int EndTermID)
+        public async Task<List<CommonDDLModel>> GetNodalExamCenterDistrict(int District, int EndTermID)
         {
             _actionName = "GetCommonMasterDDLByType(string type)";
             return await Task.Run(async () =>
@@ -9214,8 +9249,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                      
-                        command.CommandText = "USP_ALLOTMNET_MASTER";                       
+
+                        command.CommandText = "USP_ALLOTMNET_MASTER";
                         command.Parameters.AddWithValue("@DepartmentId", request.DepartmentID);
                         command.Parameters.AddWithValue("@AcademicYearID", request.FinancialYearID);
 
@@ -9557,9 +9592,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetPublicInfoStatus";             
+                        command.CommandText = "USP_GetPublicInfoStatus";
                         command.Parameters.AddWithValue("@DepartmentId", DepartmentId);
-                       // command.Parameters.AddWithValue("@FinancialYearId", FinancialYearId);
+                        // command.Parameters.AddWithValue("@FinancialYearId", FinancialYearId);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
