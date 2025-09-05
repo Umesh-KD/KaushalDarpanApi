@@ -1449,6 +1449,27 @@ namespace Kaushal_Darpan.Api.Controllers
                         copiedTable.TableName = "GetRosterDisplay_PDFTimeTable";
                         dsTemp.Tables.Add(copiedTable);
 
+
+                        DataTable headerTable = new DataTable();
+                        headerTable.Columns.Add("Names", typeof(string));
+
+                        // Only add columns that are NOT time columns
+                        foreach (DataColumn col in copiedTable.Columns)
+                        {
+                            string colName = col.ColumnName;
+                            if (!IsTimeColumn(colName) && colName != "ClassDayName" && colName != "SemesterName" && colName != "GroupName"
+                                && colName != "SubjectCode" && colName != "RoomNo" && colName != "StaffName")
+                            {
+                                DataRow row = headerTable.NewRow();
+                                row["Names"] = colName;
+                                headerTable.Rows.Add(row);
+                            }
+                        }
+
+                        var headerTable1 = headerTable.Copy();
+                        headerTable1.TableName = "GetRosterDisplay_PDFTimeTable_Header";
+                        dsTemp.Tables.Add(headerTable1);
+
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
                         string devFontSize = "15px";
