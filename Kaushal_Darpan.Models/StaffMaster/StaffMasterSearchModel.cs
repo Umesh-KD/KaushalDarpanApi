@@ -84,7 +84,7 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public int Eng_NonEng { get; set; }
         public int StreamID { get; set; }
 
-        //public int? SemesterID { get; set; }
+        public int? SemesterID { get; set; }
         public int SectionID { get; set; }
         public int StudentCount { get; set; }
         public bool? ActiveStatus { get; set; }
