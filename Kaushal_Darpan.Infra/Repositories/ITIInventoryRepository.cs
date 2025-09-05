@@ -12,6 +12,7 @@ using Kaushal_Darpan.Models.StudentMaster;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using System.Data;
+using static Dapper.SqlMapper;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
@@ -1908,6 +1909,291 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetAllinventoryIssueHistory(inventoryIssueHistorySearchModel SearchReq)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_GetAllInventoryIssueHistory";
+                        command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                            dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetAll_INV_GetCommonIssueDDL(inventoryIssueHistorySearchModel SearchReq)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_INV_GetCommonIssueDDL";
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
+                        command.Parameters.AddWithValue("@TypeName", SearchReq.TypeName);
+                        command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
+                        //command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> GetAllDDL(DTEItemsSearchModel SearchReq)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_INV_GetCommonIssueDDL";
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.CollegeId);
+                        if (SearchReq.StatusID == 1)
+                        {
+                            command.Parameters.AddWithValue("@TypeName", "staffList");
+                        }
+                        else if (SearchReq.StatusID == 2)
+                        {
+                            command.Parameters.AddWithValue("@TypeName", "TradeList");
+                        }
+                        else if (SearchReq.StatusID == 3)
+                        {
+                            command.Parameters.AddWithValue("@TypeName", "ItemList");
+                        }
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetConsumeItemList(DTEItemsSearchModel SearchReq)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_INV_ConsumeItemList";
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.CollegeId);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.EquipmentsId);
+                        command.Parameters.AddWithValue("@ActionType", "GetConsumeItemList");
+                      
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> GetAll_INV_returnItem(ItemsIssueReturnModels SearchReq)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_INV_StaffIssueReturnItems";
+                        
+                        command.Parameters.AddWithValue("@Type", "ReturnItemUpdate");
+                        command.Parameters.AddWithValue("@Remarks", SearchReq.Remarks);
+                        command.Parameters.AddWithValue("@ItemCategoryId", SearchReq.ItemCategoryId);
+
+                        command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(SearchReq.ItemList));
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> SaveIssueItems(ItemsIssueReturnModels request)
+        {
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_INV_StaffIssueReturnItems";
+                        command.CommandType = CommandType.StoredProcedure;
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@ItemId", request.ItemId);
+                        command.Parameters.AddWithValue("@TradeId", request.TradeId);
+                        command.Parameters.AddWithValue("@ItemCategoryId", request.ItemCategoryId);
+                        command.Parameters.AddWithValue("@StaffId", request.StaffId);
+                        command.Parameters.AddWithValue("@StaffName", request.StaffName);
+                        command.Parameters.AddWithValue("@Quantity", request.Quantity);
+                        command.Parameters.AddWithValue("@DueDate", request.DueDate);
+                        command.Parameters.AddWithValue("@Remarks", request.Remarks);
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        command.Parameters.AddWithValue("@UserID", request.UserId);
+                        command.Parameters.AddWithValue("@Type", "Insert");
+
+                        command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(request.ItemList));
+
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetInventoryIssueItemList(inventoryIssueHistorySearchModel SearchReq)
+        {
+            _actionName = "GetInventoryIssueItemList()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_INV_GetIssueItemList";
+                        command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
 

@@ -50,6 +50,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.Parameters.AddWithValue("@action", "getDropoutStudent");
                         }
+                        else if (model.StudentFilterStatusId == (int)EnumExamStudentStatus.ReturnByAcp)
+                        {
+                            command.Parameters.AddWithValue("@action", "getStudentAdmittedByStatus");
+                        }
                         else
                         {
                             command.Parameters.AddWithValue("@action", "getStudentMasterData");

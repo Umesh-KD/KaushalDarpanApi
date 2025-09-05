@@ -50,6 +50,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@HostelID", SearchReq.HostelID);
                         command.Parameters.AddWithValue("@BrachId", SearchReq.BrachId);
                         command.Parameters.AddWithValue("@EndTermId", SearchReq.EndTermId);
+                        //command.Parameters.AddWithValue("@status", SearchReq.status);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -302,13 +303,22 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetAllHostelReportData";
+                        if(SearchReq.status == 296)
+                        {
+                            command.CommandText = "USP_EnrollmentCancleData_Hostel";
+                        }
+                        else
+                        {
+                            command.CommandText = "USP_GetAllHostelReportData";
+                        }
+                       
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@SemesterId", SearchReq.SemesterId);
                         command.Parameters.AddWithValue("@BrachId", SearchReq.BrachId);
                         command.Parameters.AddWithValue("@EndTermId", SearchReq.EndTermId);
                         command.Parameters.AddWithValue("@HostelID", SearchReq.HostelID);
                         command.Parameters.AddWithValue("@DepartmentID", SearchReq.DepartmentID);
+                        command.Parameters.AddWithValue("@status", SearchReq.status);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -981,6 +991,154 @@ namespace Kaushal_Darpan.Infra.Repositories
                         dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> DeallocateRoom(DeallocateRoomDataModel request)
+        {
+            _actionName = "DeallocateRoom(DeallocateRoomDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_BTER_Hostel_DeallocateRoom";
+                        command.CommandType = CommandType.StoredProcedure;
+                        // Add parameters with appropriate null handling
+
+                        command.Parameters.AddWithValue("@ReqId", request.ReqId);
+                        command.Parameters.AddWithValue("@AllotSeatId", request.AllotSeatId);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@action", request.Action);
+                        command.Parameters.AddWithValue("@Remark", request.Remark);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetStudentDetailsByENRno(GetStudentDetailDataModel_Hostel SearchReq)
+        {
+            _actionName = "GetStudentDetailsByENRno(GetStudentDetailDataModel_Hostel SearchReq)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetStudentDetailsByENRno";
+
+                        command.Parameters.AddWithValue("@action", "GetStudentDetails");
+                        command.Parameters.AddWithValue("@ApplicationNo", SearchReq.ApplicationNo);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> DirectHostelSeatAllotment(RoomAllotmentModel request)
+        {
+            _actionName = "DirectHostelSeatAllotment(RoomAllotmentModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_DirectRoomAllotment_IU";
+                        command.CommandType = CommandType.StoredProcedure;
+                        // Add parameters with appropriate null handling
+
+                        command.Parameters.AddWithValue("@AllotSeatId", request.AllotSeatId);
+                        command.Parameters.AddWithValue("@ReqId", request.ReqId);
+                        command.Parameters.AddWithValue("@EndTermId", request.EndTermId);
+                        command.Parameters.AddWithValue("@RoomTypeId", request.RoomTypeId);
+                        command.Parameters.AddWithValue("@RoomNoId", request.RoomNoId);
+                        command.Parameters.AddWithValue("@HostelFeesReciept", request.HostelFeesReciept);
+                        command.Parameters.AddWithValue("@Dis_HostelFeesReciept", request.Dis_HostelFeesReciept);
+                        command.Parameters.AddWithValue("@Relation", request.Relation);
+                        command.Parameters.AddWithValue("@ContactPersonName", request.ContactPersonName);
+                        command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
+                        command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
+                        command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
+                        command.Parameters.AddWithValue("@RTS", request.RTS ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@ModifyDate", request.ModifyDate ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        command.Parameters.AddWithValue("@FessAmount", request.FessAmount);
+                        command.Parameters.AddWithValue("@AffidavitPhoto", request.AffidavitPhoto);
+                        command.Parameters.AddWithValue("@Dis_AffidavitPhoto", request.Dis_AffidavitPhoto);
+                        command.Parameters.AddWithValue("@ApplicationNo", request.ApplicationNo);
+                        command.Parameters.AddWithValue("@StudentID", request.StudentID);
+                        command.Parameters.AddWithValue("@HostelID", request.HostelID);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int);
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        result = Convert.ToInt32(command.Parameters["@Retval"].Value);
+                    }
+                    return result;
                 }
                 catch (Exception ex)
                 {
