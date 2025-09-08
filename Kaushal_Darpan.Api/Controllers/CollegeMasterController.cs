@@ -407,6 +407,46 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+        [HttpPost("GetCollegeAddress")]
+        public async Task<ApiResult<CollegeMasterModel>> GetCollegeAddress(CollegeAddressModel model)
+        {
+            ActionName = "GetCollegeAddress(CollegeAddressModel model)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<CollegeMasterModel>();
+                try
+                {
+                    var data = await _unitOfWork.CollegeMasterRepository.GetCollegeAddress(model);
+                    result.Data = data;
+                    if (data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
     }
 }
 
