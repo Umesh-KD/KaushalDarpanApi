@@ -1075,5 +1075,91 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [HttpPost("GenerateProvisionalMerit_Hostel/{Gender}")]
+        public async Task<ApiResult<int>> GenerateProvisionalMerit_Hostel([FromRoute] int Gender, [FromBody] List<PublishHostelMeritListDataModel> request)
+        {
+            ActionName = "GenerateProvisionalMerit_Hostel([FromBody] List<PublishHostelMeritListDataModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+
+                    // Pass the list to the repository for batch update
+                    var isSave = await _unitOfWork.iStudentRequestsRepository.GenerateProvisionalMerit_Hostel(Gender, request);
+                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+
+                    if (isSave == -1)
+                    {
+                        //result.Data = true;
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_NO_DATA_SAVE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        // result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetMeritGeneratedStudent_Hostel")]
+        public async Task<ApiResult<DataTable>> GetMeritGeneratedStudent_Hostel([FromBody] GetMeritDataModel_Hostel body)
+        {
+            ActionName = "GetMeritGeneratedStudent_Hostel([FromBody] GetStudentDetailDataModel_Hostel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.iStudentRequestsRepository.GetMeritGeneratedStudent_Hostel(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }

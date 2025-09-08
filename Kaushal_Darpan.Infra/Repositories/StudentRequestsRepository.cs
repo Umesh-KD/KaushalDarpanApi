@@ -613,11 +613,6 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-
-
-
-
-
         //public async Task<int> GetAllPublishHostelStudentMeritlist(List<PublishHostelMeritListDataModel> model)
         //{
         //    _actionName = "GetAllPublishHostelStudentMeritlist(List<SearchStudentApplyForHostel> model)";
@@ -947,6 +942,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BrachId", SearchReq.BrachId);
                         command.Parameters.AddWithValue("@EndTermId", SearchReq.EndTermId);
                         command.Parameters.AddWithValue("@Action", SearchReq.Action);
+                        command.Parameters.AddWithValue("@Gender", SearchReq.Gender);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1139,6 +1135,90 @@ namespace Kaushal_Darpan.Infra.Repositories
                         result = Convert.ToInt32(command.Parameters["@Retval"].Value);
                     }
                     return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> GenerateProvisionalMerit_Hostel(int Gender, List<PublishHostelMeritListDataModel> model)
+        {
+            _actionName = "GenerateProvisionalMerit_Hostel(List<PublishHostelMeritListDataModel> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int retval = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        command.CommandText = "USP_GenerateHostelMeritList";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+
+                        command.Parameters.AddWithValue("@action", "GenerateMeritList");
+                        command.Parameters.AddWithValue("@Gender", Gender);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        await command.ExecuteNonQueryAsync();
+
+                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);
+                    }
+                    return retval;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetMeritGeneratedStudent_Hostel(GetMeritDataModel_Hostel SearchReq)
+        {
+            _actionName = "GetMeritGeneratedStudent_Hostel(GetStudentDetailDataModel_Hostel SearchReq)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetMeritGeneratedStudent_Hostel";
+
+                        command.Parameters.AddWithValue("@action", "GetMeritData");
+                        command.Parameters.AddWithValue("@DepartmentID", SearchReq.DepartmentID);
+                        command.Parameters.AddWithValue("@CourseType", SearchReq.Eng_NonEng);
+                        command.Parameters.AddWithValue("@HostelID", SearchReq.HostelID);
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
+                        command.Parameters.AddWithValue("@Gender", SearchReq.Gender);
+                        command.Parameters.AddWithValue("@EndTermID", SearchReq.EndTermID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
                 }
                 catch (Exception ex)
                 {
