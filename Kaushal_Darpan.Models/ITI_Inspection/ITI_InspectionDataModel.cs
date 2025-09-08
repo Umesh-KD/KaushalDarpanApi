@@ -152,6 +152,40 @@ namespace Kaushal_Darpan.Models.ITI_Inspection
         public int DeploymentID { get; set; }
 
     }
+    public class ConsentModel
+    {
+        public int InspectionConsentID { get; set; }
+        public int ZoneID { get; set; }
+        public int DistrictID { get; set; } 
+        public int InstituteID { get; set; } 
+        public DateTime TentativeDate { get; set; }
+        public int CreatedBy { get; set; } 
+        public DateTime CreatedDate { get; set; }
+        public DateTime ModifyDate { get; set; }
+        public int ModifyBy { get; set; }
+        public DateTime UpdatedDate { get; set; } 
+        public string IPAddress { get; set; } = string.Empty;
+        public int? UserID { get; set; }
+
+    }
+    public class ITI_ConsentSearchModel
+    {
+
+        public int InspectionConsentID { get; set; }
+        public int ZoneID { get; set; }
+        public int InstituteID { get; set; }
+        public DateTime TentativeDate { get; set; }
+        public string ZoneName { get; set; }
+        public string InstituteName { get; set; }
+        public int Status { get; set; }
+        public string DistrictName { get; set; }
+        public int UserID { get; set; }
+        public int DistrictID { get; set; }
+  
+    }
+
+
+    
 
 
 }
