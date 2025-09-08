@@ -14,6 +14,9 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IITIIIPManageRepository
     {
         Task<DataSet> GetAllData(ITIIIPManageDataModel body);
+
+        Task<DataSet> GetAllDataReportData(ITIIIPManageDataModel body);
+       
         Task<int> SaveIMCReg(ITIIIPManageDataModel productDetails);  
         Task<DataSet> GetAllIMCFundData(IIPManageFundSearchModel body);
         Task<int> SaveIMCFund(IIPManageFundSearchModel productDetails);
@@ -31,6 +34,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> FinalSubmitUpdate(int ID);
 
         Task<DataSet> GetIIPQuaterlyFundReport(int id);
-   
+
+        Task<DataSet> GetAllIMCFundDataforReport(IIPManageFundSearchModel body);
     }
 }

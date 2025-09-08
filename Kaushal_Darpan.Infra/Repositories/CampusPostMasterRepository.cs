@@ -344,7 +344,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> CampusValidationList(int CompanyID, int CollegeID, string Status, int DepartmentID)
+        public async Task<DataTable> CampusValidationList(int CompanyID, int CollegeID, string Status, int DepartmentID, string Flag = "")
         {
             _actionName = "CampusValidationList(int CollegeID, string Status)";
             try
@@ -360,6 +360,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CollegeID", CollegeID);
                         command.Parameters.AddWithValue("@Status", Status);
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@Flag", Flag);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -585,6 +586,48 @@ namespace Kaushal_Darpan.Infra.Repositories
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                 throw new Exception(errordetails, ex);
             }
+        }
+
+        public async Task<int> CampusPost_UpdateStatus(CampusPost_UpdateStatus_Model request)
+        {
+            return await Task.Run(async () =>
+            {
+                _actionName = "CampusPost_UpdateStatus(CampusPost_UpdateStatus_Model request)";
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CampusPost_UpdateStatus";
+                        command.Parameters.AddWithValue("@PostID", request.PostID);                        
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);                      
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@CampusFromDate", request.CampusFromDate);
+                        command.Parameters.AddWithValue("@CampusFromTime", request.CampusFromTime);
+                        command.Parameters.AddWithValue("@CampusToDate", request.CampusToDate);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                      
+                    }
+                    return result;
+
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
         }
     }
 }
