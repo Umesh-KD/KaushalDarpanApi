@@ -158,17 +158,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ITICenter_Alloocation_IU";
                         command.CommandType = CommandType.StoredProcedure;
-
                         // Add parameters with appropriate null handling
-
                         command.Parameters.AddWithValue("@action", "_addEditData");
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(entity));
                         command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
                         command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
-
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
-
                         result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
                     }
                     return result;

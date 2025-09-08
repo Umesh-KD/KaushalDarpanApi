@@ -14,6 +14,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IApplicationStatusRepository
     {
         Task<DataTable> GetAllData(StudentSearchModel filterModel);
+        Task<DataTable> StudentJailAdmission(StudentSearchModel filterModel);
         Task<List<DocumentDetailsModel>> GetByID(int ApplicationID);
         Task<int> SaveRevertData(List<DocumentDetailsModel> productDetails);
     }

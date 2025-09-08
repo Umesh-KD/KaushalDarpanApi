@@ -83,6 +83,8 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public int EndTermID { get; set; }
         public int Eng_NonEng { get; set; }
         public int StreamID { get; set; }
+
+        public int? SemesterID { get; set; }
         public int SectionID { get; set; }
         public int StudentCount { get; set; }
         public bool? ActiveStatus { get; set; }
@@ -202,10 +204,28 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public DateTime? AttendanceDate { get; set; }
         public string? AttendanceStartTime { get; set; }
         public string? AttendanceEndTime { get; set; }  
-        public int CreatedBy { get; set; }    
+        public int CreatedBy { get; set; }
+        public int DayID { get; set; }
         public List<int>? SectionID { get; set; }
+        public string? RoomNo { get; set; }
     }
 
+
+    public class RosterDisplayTimeTableDataModel
+    {
+        public string? Action { get; set; }
+        public int DepartmentID { get; set; }
+        public int EndTermID { get; set; }
+        public int Eng_NonEng { get; set; }
+        public int StreamID { get; set; }
+        public int SubjectID { get; set; }
+        public bool ActiveStatus { get; set; }
+        public bool DeleteStatus { get; set; }
+        public int CreatedBy { get; set; }
+        public int ModifyBy { get; set; }
+        public int SemesterID { get; set; }
+        public DateTime? CreatedDate { get; set; }
+    }
 
 
 }

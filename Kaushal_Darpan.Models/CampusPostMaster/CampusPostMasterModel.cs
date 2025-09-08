@@ -63,6 +63,7 @@
         public string CTC { get; set; }
         public string SalaryRemark { get; set; }
         public string Gender { get; set; }
+        public string? OtherEligibility { get; set; }
         public string OtherBenefit { get; set; }
         public string CampusType { get; set; }
         public string InterviewType { get; set; }
@@ -148,5 +149,17 @@
         public string TPOSSOID     { get; set; }         
         public string Website     { get; set; }          
 }
+
+    public class CampusPost_UpdateStatus_Model
+    {
+        public int PostID { get; set; }       
+        public int CreatedBy { get; set; }
+        public int DepartmentID { get; set; }
+        public string CampusFromDate { get; set; }
+        public string CampusFromTime { get; set; }
+        public string CampusToDate { get; set; }
+
+
+    }
 
 }

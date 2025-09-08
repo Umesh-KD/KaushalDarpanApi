@@ -28,6 +28,8 @@ namespace Kaushal_Darpan.Models.ITIIIPManageDataModel
         public string MemberAddress { get; set; } = string.Empty;
         public string MemberEmail { get; set; } = string.Empty;
         public string MemberContact { get; set; } = string.Empty;
+        public string MemberFile { get; set; } = string.Empty;
+        public string Member_DisFile { get; set; } = string.Empty;
     }
 
     public class IIPManageFundSearchModel : RequestBaseModel

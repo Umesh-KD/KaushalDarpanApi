@@ -4,6 +4,7 @@ using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.DTE_Verifier;
 using Kaushal_Darpan.Models.ITIStudentMeritInfo;
 using Kaushal_Darpan.Models.MenuMaster;
+using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMeritIInfoModel;
 using System;
@@ -49,6 +50,11 @@ namespace Kaushal_Darpan.Core.Interfaces
 
 
         Task<DataTable> getCalendarEventModel(CalendarEventModel model);
+        Task<DataTable> getdublicateCheckSection(SectionDataModel model);
+        Task<DataTable> GetRosterDisplay_PDFTimeTable(RosterDisplayTimeTableDataModel model);
+        Task<DataSet> GetRosterDisplay_PDFTimeTableDownload(RosterDisplayTimeTableDataModel model);
+
+
 
 
     }

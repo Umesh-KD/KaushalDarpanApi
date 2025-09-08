@@ -14,5 +14,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> UpdateActiveStatusByID(CollegeMasterModel productDetails);
         Task<DataTable> GetInstituteProfileStatus(int InstituteID);
         Task<DataTable> GetCollegeList(CollegeListSearchModel model);
+        Task<CollegeMasterModel> GetCollegeAddress(CollegeAddressModel model);
     }
 }

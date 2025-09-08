@@ -76,6 +76,7 @@ namespace Kaushal_Darpan.Core.Helper
         public const string ReportsFolder = "Reports";
         public const string PlacementCompanyFolder = "PlacementCompany";
         public const string StudentsFolder = "Students";
+        public const string StudentsMasterFolder = "StudentMaster";
         public const string StaffMemberFolder = "Staff";
         public const string AllotmentReciept = "Reports/AllotmentReciept";
         public const string AadharCertificate = "/StaticFiles/Certificate";
@@ -93,6 +94,7 @@ namespace Kaushal_Darpan.Core.Helper
 
         public const string JoiningLetterITI = "Report/ITI";
         public const string GetITIStudent_MarksheetReport = "Report/ITI";
+        public const string GetRosterDisplay_PDFTimeTableReport = "Report/BTER";
         public const string PassStudentRreport = "Report/ITI";
 
         public const string StateTradeCertificateITI = "Report/ITI";
@@ -389,7 +391,9 @@ namespace Kaushal_Darpan.Core.Helper
         Dropout = 4,
         RevokeDropout = 209,
         Detained = 230,
-        DetainedRevoke = 233
+        DetainedRevoke = 233,
+        ReturnByAcp = 316,
+        ApproveByAcp = 317
     }
 
 
