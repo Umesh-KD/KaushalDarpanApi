@@ -20,6 +20,12 @@ namespace Kaushal_Darpan.Models.PrometedStudentMaster
         public string Dis_DOB { get; set; }  // equivalent to `sm.Dis_DOB`
         public bool IsBridge { get; set; } 
         public string? StudentType { get; set; }
+        public decimal EarnedCreditsSem1 { get; set; }
+        public decimal EarnedCreditsSem2 { get; set; }
+        public decimal TotalEarnedCredits { get; set; }
+        public string Detain { get; set; }
+        public string UFM { get; set; }
+        public int UFMCategory { get; set; }
     }
 
     public class PromotedStudentMarkedModel

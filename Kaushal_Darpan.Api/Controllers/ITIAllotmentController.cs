@@ -938,6 +938,49 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+
+        [HttpPost("GetJailStudentDetails")]
+        public async Task<ApiResult<DataSet>> GetJailStudentDetails([FromBody] ITIDirectAllocationSearchModel body)
+        {
+            ActionName = "GetAllDataPhoneVerify()";
+            var result = new ApiResult<DataSet>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITIAllotmentRepository.GetJailStudentDetails(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Tables.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                else
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
         [HttpPost("UpdateAllotments")]
         public async Task<ApiResult<int>> UpdateAllotments([FromBody] ITIDirectAllocationDataModel request)
         {
@@ -990,6 +1033,64 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+
+        [HttpPost("UpdateJailAllotments")]
+        public async Task<ApiResult<int>> UpdateJailAllotments([FromBody] ITIDirectAllocationDataModel request)
+        {
+            ActionName = "UpdateAllotments([FromBody])";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.ITIAllotmentRepository.UpdateJailAllotments(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (request.ApplicationID == 0)
+                            result.Message = "Saved successfully .!";
+                        else
+                            result.Message = "Updated successfully .!";
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "Duplicate Entry";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (request.ApplicationID == 0)
+                            result.ErrorMessage = "There was an error adding data.!";
+                        else
+                            result.ErrorMessage = "There was an error updating data.!";
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
+
+
         [HttpPost("GetTradeListByCollege")]
         public async Task<ApiResult<DataTable>> GetTradeListByCollege([FromBody] ITIDirectAllocationSearchModel body)
         {
@@ -1024,6 +1125,44 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
+        [HttpPost("GetStudentOptionByApplicationNo")]
+        public async Task<ApiResult<DataTable>> GetStudentOptionByApplicationNo([FromBody] ITIDirectAllocationSearchModel body)
+        {
+            ActionName = "GetTradeListByCollege()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITIAllotmentRepository.GetStudentOptionByApplicationNo(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
 
         [HttpPost("ShiftUnitList")]
         public async Task<ApiResult<DataTable>> ShiftUnitList([FromBody] ITIDirectAllocationSearchModel body)
@@ -1103,6 +1242,53 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+
+        [HttpPost("RevertJailAllotments")]
+
+        public async Task<ApiResult<int>> RevertJailAllotments([FromBody] ITIDirectAllocationDataModel request)
+        {
+            ActionName = "RevertAllotments([FromBody])";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.ITIAllotmentRepository.RevertJailAllotments(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data == 3)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data Revert Successfull .!";
+
+                    }
+                    else if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "There was an error updating data.!";
+
+                    }
+
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
 
         #endregion
 
@@ -1384,6 +1570,45 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+        [HttpPost("GetJailAllData")]
+        public async Task<ApiResult<DataTable>> GetJailAllData([FromBody] ITIDirectAllocationSearchModel body)
+        {
+            ActionName = "GetAllDataPhoneVerify()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITIAllotmentRepository.GetJailAllData(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                else
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
 
 
     }

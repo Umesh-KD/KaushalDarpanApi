@@ -1,4 +1,5 @@
 ﻿
+using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.IDfFundDetailsModel;
 using Kaushal_Darpan.Models.ITIIIPManageDataModel;
 using System;
@@ -30,5 +31,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> FinalSubmitUpdate(int ID);
 
         Task<DataSet> GetIIPQuaterlyFundReport(int id);
+   
     }
 }

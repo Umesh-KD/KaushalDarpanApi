@@ -1209,6 +1209,46 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<bool> JailAdmissionFinalSubmit(DirectAdmissionUpdatePayment model)
+        {
+            _actionName = " JailAdmissionFinalSubmit(DirectAdmissionUpdatePayment model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_UpdateapplicationFees";
+                        command.Parameters.AddWithValue("@ApplicationId", model.ApplicationId);
+       
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
     }
 }
 

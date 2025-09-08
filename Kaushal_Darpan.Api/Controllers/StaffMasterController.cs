@@ -967,6 +967,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 getSectionDataModel.DepartmentID = body.DepartmentID;
                 getSectionDataModel.EndTermID = body.EndTermID;
                 getSectionDataModel.Eng_NonEng = body.Eng_NonEng;
+                getSectionDataModel.SemesterID = body.SemesterID;
                 getSectionDataModel.Action = "GET_BY_ID";
 
                 var BranchStudentList = new ApiResult<DataTable>();
