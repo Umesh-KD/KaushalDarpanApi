@@ -616,6 +616,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_GetITIJailGetStudentDetails";
 
                         command.Parameters.AddWithValue("@ApplicationID", body.ApplicationID);
+                        command.Parameters.AddWithValue("@TradeLevel", body.TradeLevel);
                         //command.Parameters.AddWithValue("@TradeLevel", body.TradeLevel);
                         command.Parameters.AddWithValue("@AcademicYearID", body.AcademicYearID);
                         command.Parameters.AddWithValue("@Action", "GetDataPhoneVerifyApplication");

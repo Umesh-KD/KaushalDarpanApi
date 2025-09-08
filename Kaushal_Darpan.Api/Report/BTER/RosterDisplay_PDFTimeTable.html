@@ -1,0 +1,89 @@
+﻿
+
+    <table style="width: 100%; border-collapse: collapse; font-size: 14px; font-family: Arial, Helvetica, sans-serif;"
+        cellpadding="5">
+     <tr>
+         <th colspan="2">GOVERNMENT POLYTECHNIC COLLEGE, JODHPUR</th>
+     </tr>
+     <tr>
+         <th colspan="2">TIME TABLE 2025-26</th>
+     </tr>
+     <tr>
+         <th>Computer Science and Engineering </th>
+         <th>W.E.F. 11/08/2025</th>
+     </tr>
+ </table>
+
+
+    <table style="width: 100%; border-collapse: collapse; font-size: 12px; font-weight: bold; font-family: Arial, Helvetica, sans-serif; text-align: center; border-color: black;"
+           border="1" cellpadding="5">
+        <!--<tr>
+        <td>PERIOD</td>
+        <td rowspan="2">SEM</td>
+        <td rowspan="2">GROUP</td>
+        <td colspan="3">1</td>
+        <td colspan="3">2</td>
+        <td colspan="3">3</td>
+        <td style="transform: rotateZ(-89deg);" rowspan="30">LUNCH</td>
+        <td colspan="3">4</td>
+        <td colspan="3">5</td>
+        <td colspan="3">6</td>
+    </tr>
+    <tr>
+        <td>TIME</td>
+        <td colspan="3">10:15-11:15</td>
+        <td colspan="3">11:15-12:15</td>
+        <td colspan="3">12:15-01:15</td>
+        <td colspan="3">01:45-02:45</td>
+        <td colspan="3">02:45-03:45</td>
+        <td colspan="3">03:45-04:45</td>
+    </tr>-->
+        <tr>
+            <th>Day {#=GetRosterDisplay_PDFTimeTable_Header[0].Names#}</th>
+            <th>Semester</th>
+            <th>Group</th>
+            {#LOOP.GetRosterDisplay_PDFTimeTable_Header#}
+            <th>{#=GetRosterDisplay_PDFTimeTable_Header.Names#}</th>
+            {#ENDLOOP.GetRosterDisplay_PDFTimeTable_Header#}
+        </tr>
+
+        {#LOOP.GetRosterDisplay_PDFTimeTable#}
+
+
+        <tr style="background-color: #FFFF99;">
+            <td rowspan="4">{#=GetRosterDisplay_PDFTimeTable.ClassDayName=#}</td>
+            <td rowspan="2">{#=GetRosterDisplay_PDFTimeTable.SemesterName=#}</td>
+            <td>{#=GetRosterDisplay_PDFTimeTable.GroupName=#}</td>
+            <td rowspan="2">{#=GetRosterDisplay_PDFTimeTable.SubjectCode=#}</td>
+            <td rowspan="2">{#=GetRosterDisplay_PDFTimeTable.RoomNo=#}</td>
+            <td rowspan="2">{#=GetRosterDisplay_PDFTimeTable.StaffName=#}</td>
+            <!--<td rowspan="2">3005</td>
+        <td rowspan="2">CC4</td>
+        <td rowspan="2">DJ</td>
+        <td rowspan="2">3002</td>
+        <td rowspan="2">CC4</td>
+        <td rowspan="2">AV</td>
+        <td colspan="3">SCA</td>
+        <td colspan="3">CS1</td>
+        <td colspan="3">RB</td>-->
+        </tr>
+        {#ENDLOOP.GetRosterDisplay_PDFTimeTable#}
+
+    </table>
+ <table style="width: 100%; margin-top: 20px;">
+     <thead>
+         <tr>
+             <th style="text-align: left;">OIC TIME TABLE <br /> COPY TO: </th>
+         </tr>
+     </thead>
+     <tbody>
+         <tr>
+             <td style="padding-left: 30px;">
+                 1. HOD (CE,CS,EE,EL&EF,ME,PE,I YEAR)<br />
+                 2. PA TO PRINCIPAL<br />
+                 3. Notice board 4. Student Section
+             </td>
+             <td style="text-align: right;">PRINCIPAL</td>
+         </tr>
+     </tbody>
+ </table>

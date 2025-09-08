@@ -21,6 +21,11 @@ using System.Reflection;
 using Kaushal_Darpan.Models.ITIStudentMeritInfo;
 using AspNetCore.ReportingServices.ReportProcessing.ReportObjectModel;
 using Kaushal_Darpan.Models.StaffMaster;
+using Kaushal_Darpan.Models.PreExamStudent;
+using Kaushal_Darpan.Models.BterCertificateReport;
+using System.Text;
+using iTextSharp.tool.xml.html;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -233,7 +238,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<int>();
-                try { 
+                try {
 
                     var data = await _unitOfWork.StudentRepository.UpdateStudentSsoMapping(model);
                     _unitOfWork.SaveChanges();
@@ -639,44 +644,44 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.StudentRepository.GetStudentAttendance(request);
-                   //var holidayData = await _unitOfWork.StudentRepository.GetHolidaysmaster(request.AttendanceStartDate, request.AttendanceEndDate);
+                    //var holidayData = await _unitOfWork.StudentRepository.GetHolidaysmaster(request.AttendanceStartDate, request.AttendanceEndDate);
 
-                   // if (result.Data.Rows.Count > 0)
-                   // {
-                   //     // Iterate through each student attendance row
-                   //     foreach (DataRow studentRow in result.Data.Rows)
-                   //     {
-                            
-                   //         // Check each holiday data to update attendance status
-                   //         foreach (DataRow holidayRow in holidayData.Rows)
-                   //         {
-                   //             var holidayDate = Convert.ToDateTime(holidayRow.ItemArray[0]).ToString("yyyy-MM-dd");
+                    // if (result.Data.Rows.Count > 0)
+                    // {
+                    //     // Iterate through each student attendance row
+                    //     foreach (DataRow studentRow in result.Data.Rows)
+                    //     {
 
-                   //             if (!result.Data.Columns.Contains(holidayDate))
-                   //             {
-                   //                 result.Data.Columns.Add(holidayDate, typeof(string)); // Add new column to store holiday data
-                   //                                                                       // Get the first item in the holidayRow
-                   //                 string holidayValue = "A";
-                   //                 // Example: Add the holidayValue to the studentRow's new column
-                   //                 studentRow[holidayDate] = holidayValue;
-                   //             }
-                   //             else
-                   //             {
-                   //                 // Get the first item in the holidayRow
-                   //                 string holidayValue = "P";
-                   //                 // Example: Add the holidayValue to the studentRow's new column
-                   //                 studentRow[holidayDate] = holidayValue;
-                   //             }
-                                
-                               
+                    //         // Check each holiday data to update attendance status
+                    //         foreach (DataRow holidayRow in holidayData.Rows)
+                    //         {
+                    //             var holidayDate = Convert.ToDateTime(holidayRow.ItemArray[0]).ToString("yyyy-MM-dd");
 
-                                
+                    //             if (!result.Data.Columns.Contains(holidayDate))
+                    //             {
+                    //                 result.Data.Columns.Add(holidayDate, typeof(string)); // Add new column to store holiday data
+                    //                                                                       // Get the first item in the holidayRow
+                    //                 string holidayValue = "A";
+                    //                 // Example: Add the holidayValue to the studentRow's new column
+                    //                 studentRow[holidayDate] = holidayValue;
+                    //             }
+                    //             else
+                    //             {
+                    //                 // Get the first item in the holidayRow
+                    //                 string holidayValue = "P";
+                    //                 // Example: Add the holidayValue to the studentRow's new column
+                    //                 studentRow[holidayDate] = holidayValue;
+                    //             }
 
-                   //         }
-                   //     }
-                   // }
 
-        
+
+
+
+                    //         }
+                    //     }
+                    // }
+
+
 
 
                     if (result.Data.Rows.Count > 0)
@@ -750,7 +755,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-        
+
         [HttpPost("PostAttendanceTimeTable")]
         public async Task<ApiResult<int>> PostAttendanceTimeTable([FromBody] PostAttendanceTimeTable model)
         {
@@ -804,15 +809,15 @@ namespace Kaushal_Darpan.Api.Controllers
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.StudentRepository.GetITIStudentMeritinfo(body);
                 if (result.Data.Tables.Count > 0 && result.Data.Tables[0].Rows.Count > 0)
-                    {
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
             }
             catch (Exception ex)
             {
@@ -869,10 +874,10 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-    
 
 
-    
+
+
         [HttpPost("GetReverApplication")]
         public async Task<ApiResult<DataTable>> GetReverApplication([FromBody] StudentSearchModel body)
         {
@@ -1158,6 +1163,526 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+        [HttpPost("GetRosterDisplay_PDFTimeTable")]
+        public async Task<ApiResult<DataTable>> GetRosterDisplay_PDFTimeTable([FromBody] RosterDisplayTimeTableDataModel request)
+        {
+            ActionName = "GetRosterDisplay_PDFTimeTable()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    result.Data = await _unitOfWork.StudentRepository.GetRosterDisplay_PDFTimeTable(request);
+                    if (result.Data.Rows.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    _unitOfWork.Dispose();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetRosterDisplay_PDFTimeTableDownload")]
+        public async Task<ApiResult<string>> GetRosterDisplay_PDFTimeTableDownload([FromBody] RosterDisplayTimeTableDataModel model)
+        {
+            ActionName = "GetBterBridgeCourseReport(BterStatisticsReportDataModel)";
+
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.StudentRepository.GetRosterDisplay_PDFTimeTableDownload(model);
+                    if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+                    {
+
+                        DataTable dt = data.Tables[0];
+                        DataTable tempDt = dt.Clone();
+                        DataRow prevRow = null;
+                        Func<string, bool> IsTimeColumn = colName => colName.Contains(":") && colName.Contains("-");
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            DataRow newRow = tempDt.NewRow();
+                            newRow.ItemArray = row.ItemArray.Clone() as object[];
+
+                            if (prevRow != null)
+                            {
+                                foreach (DataColumn col in dt.Columns)
+                                {
+                                    string colName = col.ColumnName;
+
+
+                                    if (IsTimeColumn(colName))
+                                        continue;
+
+
+                                    if (prevRow[colName]?.ToString() == row[colName]?.ToString())
+                                        newRow[colName] = null;
+                                }
+                            }
+
+                            tempDt.Rows.Add(newRow);
+                            prevRow = row;
+                        }
+
+                        var dsTemp = new System.Data.DataSet();
+
+                        // Copy DataTable into DataSet
+                        var copiedTable = tempDt.Copy();
+                        copiedTable.TableName = "GetRosterDisplay_PDFTimeTable";
+                        dsTemp.Tables.Add(copiedTable);
+
+
+                        DataTable headerTable = new DataTable();
+                        headerTable.Columns.Add("Names", typeof(string));
+
+                        // Only add columns that ARE time columns
+                        foreach (DataColumn col in copiedTable.Columns)
+                        {
+                            string colName = col.ColumnName;
+                            if (IsTimeColumn(colName))   // ✅ keep only time columns
+                            {
+                                DataRow row = headerTable.NewRow();
+                                row["Names"] = colName;
+                                headerTable.Rows.Add(row);
+                            }
+                        }
+
+                        var headerTable1 = headerTable.Copy();
+                        headerTable1.TableName = "GetRosterDisplay_PDFTimeTable_Header";
+                        dsTemp.Tables.Add(headerTable1);
+
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                        string devFontSize = "15px";
+                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                        //string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.GetRosterDisplay_PDFTimeTableReport}/RosterDisplay_PDFTimeTable.html";
+
+                        // Pass dataset to method
+                        //string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, dsTemp);
+
+
+                        string html = BuildTimeTableHtml(dsTemp);
+                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+                      //  html = Utility.PDFWorks.ReplaceCustomTag(html);
+
+                        sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+
+                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", "");
+
+                        result.Data = Convert.ToBase64String(pdfBytes);
+                        result.State = EnumStatus.Success;
+                        result.Message = "Success";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+
+
+
+
+
+        }
+        public static string BuildTimeTableHtml(System.Data.DataSet ds)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            // Header Section
+            sb.AppendLine("<table style='width:100%; border-collapse:collapse; font-size:14px; font-family:Arial, Helvetica, sans-serif;' cellpadding='5' border='1'>");
+            sb.AppendLine("  <tr><th colspan='2' style='border:1px solid black;'>" + ds.Tables[0].Rows[0]["InstituteName"].ToString() + "</th></tr>");
+            sb.AppendLine("  <tr><th colspan='2' style='border:1px solid black;'> TIME TABLE " + ds.Tables[0].Rows[0]["FinancialYearName"].ToString() + "</th></tr>");
+            sb.AppendLine("  <tr><th style='border:1px solid black;'>" + ds.Tables[0].Rows[0]["StreamName"].ToString() + "</th><th style='border:1px solid black;'>W.E.F. " + ds.Tables[0].Rows[0]["Date"].ToString() + "</th></tr>");
+            sb.AppendLine("</table>");
+
+            // Time Table Start
+            sb.AppendLine("<table style='width:100%; border-collapse:collapse; font-size:12px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; text-align:center; border:1px solid black;' cellpadding='5'>");
+
+            // Header Row
+            sb.AppendLine("<tr style='background-color:#f0f0f0;'>");
+            sb.AppendLine("<td style='border:1px solid black;'>Day</td>");
+            sb.AppendLine("<td style='border:1px solid black;'>Semester</td>");
+            sb.AppendLine("<td style='border:1px solid black;'>Group</td>");
+
+            bool lunchInsertedInHeader = false;
+
+            foreach (DataRow col in ds.Tables[1].Rows)
+            {
+                string timeSlot = col["Names"].ToString();
+                sb.AppendLine($"<td style='border:1px solid black;'>{timeSlot}</td>");
+
+                // Insert Lunch Break *after* 12:00-01:00 (13:00–14:00 slot is missing)
+                if ((timeSlot == "12:00-01:00" || timeSlot == "12:00-13:00") && !lunchInsertedInHeader)
+                {
+                    sb.AppendLine("<td style='border:1px solid black; background-color:#FFD700;'>Lunch Break</td>");
+                    lunchInsertedInHeader = true;
+                }
+            }
+
+            sb.AppendLine("</tr>");
+
+            // Data Rows
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                sb.AppendLine("<tr>");
+                sb.AppendLine($"<td style='border:1px solid black;'>{row["ClassDayName"]}</td>");
+                sb.AppendLine($"<td style='border:1px solid black;'>{row["SemesterName"]}</td>");
+                sb.AppendLine($"<td style='border:1px solid black;'>{row["GroupName"]}</td>");
+
+                bool lunchInsertedInRow = false;
+
+                foreach (DataRow col in ds.Tables[1].Rows)
+                {
+                    string slotName = col["Names"].ToString();
+                    string value = row.Table.Columns.Contains(slotName) ? row[slotName]?.ToString() : "";
+
+                    sb.AppendLine($"<td style='border:1px solid black;'>{value}</td>");
+
+                    // Insert "Lunch Break" cell after 12:00–01:00 (which means lunch is 01:00–02:00)
+                    if ((slotName == "12:00-01:00" || slotName == "12:00-13:00") && !lunchInsertedInRow)
+                    {
+                        sb.AppendLine("<td style='border:1px solid black; background-color:#FFD700;'>Lunch Break</td>");
+                        lunchInsertedInRow = true;
+                    }
+                }
+
+                sb.AppendLine("</tr>");
+            }
+
+            sb.AppendLine("</table>");
+
+            // Footer Section
+            sb.AppendLine("<table style='width:100%; margin-top:20px; border-collapse:collapse;' border='1'>");
+            sb.AppendLine("  <tr><th style='text-align:left; border:1px solid black;'>OIC TIME TABLE <br/> COPY TO: </th></tr>");
+            sb.AppendLine("  <tr>");
+            sb.AppendLine("    <td style='padding-left:30px; border:1px solid black;'>");
+            sb.AppendLine("       1. HOD (CE,CS,EE,EL&EF,ME,PE,I YEAR)<br/>");
+            sb.AppendLine("       2. PA TO PRINCIPAL<br/>");
+            sb.AppendLine("       3. Notice board<br/>");
+            sb.AppendLine("       4. Student Section");
+            sb.AppendLine("    </td>");
+            sb.AppendLine("    <td style='text-align:right; border:1px solid black;'>PRINCIPAL</td>");
+            sb.AppendLine("  </tr>");
+            sb.AppendLine("</table>");
+
+            return sb.ToString();
+        }
+
+
+
+        //public static string BuildTimeTableHtml(System.Data.DataSet ds)
+        //{
+        //    StringBuilder sb = new StringBuilder();
+
+        //    // College Heading
+        //    sb.AppendLine("<table style='width:100%; border-collapse:collapse; font-size:14px; font-family:Arial, Helvetica, sans-serif;' cellpadding='5' border='1'>");
+        //    sb.AppendLine("  <tr><th colspan='2' style='border:1px solid black;'>GOVERNMENT POLYTECHNIC COLLEGE, JODHPUR</th></tr>");
+        //    sb.AppendLine("  <tr><th colspan='2' style='border:1px solid black;'>TIME TABLE 2025-26</th></tr>");
+        //    sb.AppendLine("  <tr><th style='border:1px solid black;'>Computer Science and Engineering</th><th style='border:1px solid black;'>W.E.F. 11/08/2025</th></tr>");
+        //    sb.AppendLine("</table>");
+
+        //    // Main TimeTable
+        //    sb.AppendLine("<table style='width:100%; border-collapse:collapse; font-size:12px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; text-align:center; border:1px solid black;' cellpadding='5'>");
+
+        //    // Header Row
+        //    sb.AppendLine("<tr style='background-color:#f0f0f0;'>");
+        //    sb.AppendLine("<td style='border:1px solid black;'>Day</td>");
+        //    sb.AppendLine("<td style='border:1px solid black;'>Semester</td>");
+        //    sb.AppendLine("<td style='border:1px solid black;'>GroupName</td>");
+        //    foreach (DataRow col in ds.Tables[1].Rows)
+        //    {
+        //        sb.AppendLine($"<td style='border:1px solid black;'>{col["Names"]}</td>");
+        //    }
+        //    sb.AppendLine("</tr>");
+
+        //    // Data Rows
+        //    foreach (DataRow row in ds.Tables[0].Rows)
+        //    {
+        //        sb.AppendLine("<tr>");
+        //        sb.AppendLine($"<td style='border:1px solid black;'>{row["ClassDayName"]}</td>");
+        //        sb.AppendLine($"<td style='border:1px solid black;'>{row["SemesterName"]}</td>");
+        //        sb.AppendLine($"<td style='border:1px solid black;'>{row["GroupName"]}</td>");
+
+        //        foreach (DataRow col in ds.Tables[1].Rows)
+        //        {
+        //            string slotName = col["Names"].ToString();
+        //            string value = row[slotName]?.ToString();
+        //            sb.AppendLine($"<td style='border:1px solid black;'>{value}</td>");
+        //        }
+
+        //        sb.AppendLine("</tr>");
+        //    }
+
+        //    sb.AppendLine("</table>");
+
+        //    // Footer
+        //    sb.AppendLine("<table style='width:100%; margin-top:20px; border-collapse:collapse;' border='1'>");
+        //    sb.AppendLine("  <tr><th style='text-align:left; border:1px solid black;'>OIC TIME TABLE <br/> COPY TO: </th></tr>");
+        //    sb.AppendLine("  <tr>");
+        //    sb.AppendLine("    <td style='padding-left:30px; border:1px solid black;'>");
+        //    sb.AppendLine("       1. HOD (CE,CS,EE,EL&EF,ME,PE,I YEAR)<br/>");
+        //    sb.AppendLine("       2. PA TO PRINCIPAL<br/>");
+        //    sb.AppendLine("       3. Notice board<br/>");
+        //    sb.AppendLine("       4. Student Section");
+        //    sb.AppendLine("    </td>");
+        //    sb.AppendLine("    <td style='text-align:right; border:1px solid black;'>PRINCIPAL</td>");
+        //    sb.AppendLine("  </tr>");
+        //    sb.AppendLine("</table>");
+
+        //    return sb.ToString();
+        //}
+
+
+        public static string BuildTimeTableHtmlOLD(System.Data.DataSet ds)
+        {
+            StringBuilder sb1 = new StringBuilder();
+
+            sb1.AppendLine("<table style=\"width: 100%; border-collapse: collapse; font-size: 14px; font-family: Arial, Helvetica, sans-serif;\" cellpadding=\"5\">\n");
+            sb1.AppendLine("     <tr>\n");
+            sb1.AppendLine("         <th colspan=\"2\">GOVERNMENT POLYTECHNIC COLLEGE, JODHPUR</th>\n");
+            sb1.AppendLine("     </tr>\n");
+            sb1.AppendLine("     <tr>\n");
+            sb1.AppendLine("         <th colspan=\"2\">TIME TABLE 2025-26</th>\n");
+            sb1.AppendLine("     </tr>\n");
+            sb1.AppendLine("     <tr>\n");
+            sb1.AppendLine("         <th>Computer Science and Engineering </th>\n");
+            sb1.AppendLine("         <th>W.E.F. 11/08/2025</th>\n");
+            sb1.AppendLine("     </tr>\n");
+            sb1.AppendLine(" </table>\n");
+
+
+
+
+            sb1.AppendLine(" <table style=\"width: 100%; border-collapse: collapse; font-size: 12px; font-weight: bold; font-family: Arial, Helvetica, sans-serif; text-align: center; border-color: black;\" border=\"1\" cellpadding=\"5\">\n");
+            sb1.AppendLine("     <tr>\n");
+            sb1.AppendLine("         <td>PERIOD</td>\n");
+            sb1.AppendLine("         <td rowspan=\"2\">SEM</td>\n");
+            sb1.AppendLine("         <td rowspan=\"2\">GROUP</td>\n");
+
+
+
+
+
+
+
+            int rowCounter = 1;
+            foreach (DataRow row in ds.Tables[1].Rows)
+            {
+
+                sb1.AppendLine(string.Format( "<td colspan=\"3\">{0}</td>\n", rowCounter));
+
+                rowCounter++;
+            }
+
+
+
+
+
+
+
+
+
+            //sb1.AppendLine("         <td colspan=\"3\">2</td>\n");
+            //sb1.AppendLine("         <td colspan=\"3\">3</td>\n");
+            //sb1.AppendLine("         <td style=\"transform: rotateZ(-89deg);\" rowspan=\"30\">LUNCH</td>\n");
+            //sb1.AppendLine("         <td colspan=\"3\">4</td>\n");
+            //sb1.AppendLine("         <td colspan=\"3\">5</td>\n");
+            //sb1.AppendLine("         <td colspan=\"3\">6</td>\n");
+            sb1.AppendLine("     </tr>\n");
+            sb1.AppendLine("     <tr>\n");
+            sb1.AppendLine("         <td>TIME</td>\n");
+
+            foreach (DataRow row in ds.Tables[1].Rows)
+            {
+
+                sb1.AppendLine(string.Format("<td colspan=\"3\">{0}</td>\n", row["Names"].ToString()));
+            }
+            //sb1.AppendLine("         <td colspan=\"3\">11:15-12:15</td>\n");
+            //sb1.AppendLine("         <td colspan=\"3\">12:15-01:15</td>\n");
+            //sb1.AppendLine("         <td colspan=\"3\">01:45-02:45</td>\n");
+            //sb1.AppendLine("         <td colspan=\"3\">02:45-03:45</td>\n");
+            //sb1.AppendLine("         <td colspan=\"3\">03:45-04:45</td>\n");
+            sb1.AppendLine("     </tr>\n");
+
+
+
+
+
+
+
+
+
+
+
+            // Monday block
+           sb1.AppendLine("<tr style=\"background-color: #FFFF99;\">\n");
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                sb1.AppendLine("<tr style=\"background-color: #FFFF99;\">\n");
+
+                sb1.AppendLine(string.Format("<td >{0}</td>\n", row["ClassDayName"].ToString()));
+                sb1.AppendLine(string.Format("<td>{0}</td>\n", row["SemesterName"].ToString()));
+                sb1.AppendLine(string.Format("<td>{0}</td>\n", row["GroupName"].ToString()));
+                sb1.AppendLine(string.Format("<td >{0}</td>\n", row["SubjectCode"].ToString()));
+                sb1.AppendLine(string.Format("<td >{0}</td>\n", row["RoomNo"].ToString()));
+                sb1.AppendLine(string.Format("<td>{0}</td>\n", row["StaffName"].ToString()));
+                sb1.AppendLine(string.Format("<td>{0}</td>\n", ""));
+                sb1.AppendLine(string.Format("<td>{0}</td>\n", ""));
+                sb1.AppendLine(string.Format("<td>{0}</td>\n",""));
+                sb1.AppendLine(string.Format("<td>{0}</td>\n", ""));
+
+            }
+
+            sb1.AppendLine("     </tr>\n");
+
+
+
+
+
+
+
+            //sb1.AppendLine("         <td rowspan=\"2\">IIIrd</td>\n");
+            //sb1.AppendLine("         <td>CS1</td>\n");
+            //sb1.AppendLine("         <td rowspan=\"2\">3004</td>\n");
+            //sb1.AppendLine("         <td rowspan=\"2\">CC4</td>\n");
+            //sb1.AppendLine("         <td rowspan=\"2\">NK</td>\n");
+            //sb1.AppendLine("         <td rowspan=\"2\">3005</td>\n");
+            //sb1.AppendLine("         <td rowspan=\"2\">CC4</td>\n");
+            //sb1.AppendLine("         <td rowspan=\"2\">DJ</td>\n");
+            //sb1.AppendLine("         <td rowspan=\"2\">3002</td>\n");
+            //sb1.AppendLine("         <td rowspan=\"2\">CC4</td>\n");
+            //sb1.AppendLine("         <td rowspan=\"2\">AV</td>\n");
+            //sb1.AppendLine("         <td colspan=\"3\">SCA</td>\n");
+            //sb1.AppendLine("         <td colspan=\"3\">CS1</td>\n");
+            //sb1.AppendLine("         <td colspan=\"3\">RB</td>\n");
+
+
+
+
+            // ... (continue appending the remaining rows exactly as in the provided HTML)
+
+            sb1.AppendLine(" </table>\n");
+
+            sb1.AppendLine(" <table style=\"width: 100%; margin-top: 20px;\">\n");
+            sb1.AppendLine("     <thead>\n");
+            sb1.AppendLine("         <tr>\n");
+            sb1.AppendLine("             <th style=\"text-align: left;\">OIC TIME TABLE <br /> COPY TO: </th>\n");
+            sb1.AppendLine("         </tr>\n");
+            sb1.AppendLine("     </thead>\n");
+            sb1.AppendLine("     <tbody>\n");
+            sb1.AppendLine("         <tr>\n");
+            sb1.AppendLine("             <td style=\"padding-left: 30px;\">\n");
+            sb1.AppendLine("                 1. HOD (CE,CS,EE,EL&EF,ME,PE,I YEAR)<br />\n");
+            sb1.AppendLine("                 2. PA TO PRINCIPAL<br />\n");
+            sb1.AppendLine("                 3. Notice board 4. Student Section\n");
+            sb1.AppendLine("             </td>\n");
+            sb1.AppendLine("             <td style=\"text-align: right;\">PRINCIPAL</td>\n");
+            sb1.AppendLine("         </tr>\n");
+            sb1.AppendLine("     </tbody>\n");
+            sb1.AppendLine(" </table>\n");
+
+            // Return the built HTML
+            return sb1.ToString();
+        }
+
+        //public static string BuildTimeTableHtml(System.Data.DataSet ds)
+        //{
+        //    StringBuilder sb = new StringBuilder();
+
+        //    // College Heading
+        //    sb.AppendLine("<table style='width:100%; border-collapse:collapse; font-size:14px; font-family:Arial, Helvetica, sans-serif;' cellpadding='5'>");
+        //    sb.AppendLine("  <tr><th colspan='2'>GOVERNMENT POLYTECHNIC COLLEGE, JODHPUR</th></tr>");
+        //    sb.AppendLine("  <tr><th colspan='2'>TIME TABLE 2025-26</th></tr>");
+        //    sb.AppendLine("  <tr><th>Computer Science and Engineering</th><th>W.E.F. 11/08/2025</th></tr>");
+        //    sb.AppendLine("</table>");
+
+        //    // Main TimeTable
+        //    sb.AppendLine("<table style='width:100%; border-collapse:collapse; font-size:12px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; text-align:center; border:1px solid black;' cellpadding='5'>");
+
+        //    // Header Row
+        //    sb.AppendLine("<tr style='background-color:#f0f0f0;'>");
+        //    sb.AppendLine("<td>Day</td>");
+        //    sb.AppendLine("<td>Semester</td>");
+        //    sb.AppendLine("<td>GroupName</td>");
+        //    foreach (DataRow col in ds.Tables[1].Rows)
+        //    {
+        //        sb.AppendLine($"<td>{col["Names"]}</td>");
+        //    }
+        //    sb.AppendLine("</tr>");
+
+        //    // Data Rows
+        //    foreach (DataRow row in ds.Tables[0].Rows)
+        //    {
+        //        sb.AppendLine("<tr>");
+        //        sb.AppendLine($"<td>{row["ClassDayName"]}</td>");
+        //        sb.AppendLine($"<td>{row["SemesterName"]}</td>");
+        //        sb.AppendLine($"<td>{row["GroupName"]}</td>");
+        //        sb.AppendLine($"<td>{row["SubjectCode"]}</td>");
+        //        sb.AppendLine($"<td>{row["RoomNo"]}</td>");
+        //        sb.AppendLine($"<td>{row["StaffName"]}</td>");
+        //        sb.AppendLine("</tr>");
+        //    }
+
+        //    sb.AppendLine("</table>");
+
+        //    // Footer
+        //    sb.AppendLine("<table style='width:100%; margin-top:20px;'>");
+        //    sb.AppendLine("  <tr><th style='text-align:left;'>OIC TIME TABLE <br/> COPY TO: </th></tr>");
+        //    sb.AppendLine("  <tr>");
+        //    sb.AppendLine("    <td style='padding-left:30px;'>");
+        //    sb.AppendLine("       1. HOD (CE,CS,EE,EL&EF,ME,PE,I YEAR)<br/>");
+        //    sb.AppendLine("       2. PA TO PRINCIPAL<br/>");
+        //    sb.AppendLine("       3. Notice board<br/>");
+        //    sb.AppendLine("       4. Student Section");
+        //    sb.AppendLine("    </td>");
+        //    sb.AppendLine("    <td style='text-align:right;'>PRINCIPAL</td>");
+        //    sb.AppendLine("  </tr>");
+        //    sb.AppendLine("</table>");
+
+        //    return sb.ToString();
+        //}
 
 
     }
