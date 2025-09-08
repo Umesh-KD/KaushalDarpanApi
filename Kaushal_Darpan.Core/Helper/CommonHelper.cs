@@ -76,6 +76,7 @@ namespace Kaushal_Darpan.Core.Helper
         public const string ReportsFolder = "Reports";
         public const string PlacementCompanyFolder = "PlacementCompany";
         public const string StudentsFolder = "Students";
+        public const string StudentsMasterFolder = "StudentMaster";
         public const string StaffMemberFolder = "Staff";
         public const string AllotmentReciept = "Reports/AllotmentReciept";
         public const string AadharCertificate = "/StaticFiles/Certificate";
