@@ -1333,8 +1333,8 @@ namespace Kaushal_Darpan.Api.Controllers
             // Header Section
             sb.AppendLine("<table style='width:100%; border-collapse:collapse; font-size:14px; font-family:Arial, Helvetica, sans-serif;' cellpadding='5' border='1'>");
             sb.AppendLine("  <tr><th colspan='2' style='border:1px solid black;'>" + ds.Tables[0].Rows[0]["InstituteName"].ToString() + "</th></tr>");
-            sb.AppendLine("  <tr><th colspan='2' style='border:1px solid black;'>TIME TABLE 2025-26</th></tr>");
-            sb.AppendLine("  <tr><th style='border:1px solid black;'>" + ds.Tables[0].Rows[0]["StreamName"].ToString() + "</th><th style='border:1px solid black;'>W.E.F. 11/08/2025</th></tr>");
+            sb.AppendLine("  <tr><th colspan='2' style='border:1px solid black;'> TIME TABLE " + ds.Tables[0].Rows[0]["FinancialYearName"].ToString() + "</th></tr>");
+            sb.AppendLine("  <tr><th style='border:1px solid black;'>" + ds.Tables[0].Rows[0]["StreamName"].ToString() + "</th><th style='border:1px solid black;'>W.E.F. " + ds.Tables[0].Rows[0]["Date"].ToString() + "</th></tr>");
             sb.AppendLine("</table>");
 
             // Time Table Start
