@@ -1,26 +1,14 @@
 ﻿using AspNetCore.Reporting;
 using Kaushal_Darpan.Core.Helper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
-using System.Security.Permissions;
-using System.Security;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using Kaushal_Darpan.Models.DateConfiguration;
-using Kaushal_Darpan.Api.Code.Attribute;
-using Microsoft.AspNetCore.Mvc.Filters;
-using System.IO;
-using DocumentFormat.OpenXml.Bibliography;
-using System.Diagnostics.Metrics;
 using Newtonsoft.Json;
 using Kaushal_Darpan.Core.Interfaces;
-using Kaushal_Darpan.Infra.Repositories;
-using System.Text.RegularExpressions;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml;
 using Kaushal_Darpan.Api.Code.Helper;
-using System;
 using Kaushal_Darpan.Models.Test;
 using Kaushal_Darpan.Models.SMSConfigurationSetting;
 
@@ -108,95 +96,147 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             try
             {
+                //--------paths--------
+                //old (source):
+                //Sem. Eng. = \StaticFiles\old-bter-student-images\SemEng\documents\1\
+                //Sem. NonEng. = \StaticFiles\old-bter-student-images\SemNonEng\documents\1\
+                //Year Eng. = \StaticFiles\old-bter-student-images\YearEng\documents\1\
+                //Year NonEng. = \StaticFiles\old-bter-student-images\YearNonEng\documents\1\
+
+                //new (destination):
+                //All = \StaticFiles\Students\BTER\2025\1\20\
+
+
+                //log
+                CommonFuncationHelper.WriteTextLog("Dummy_SaveAndMoveStudentImages start:");
+
+                //data
+                var action = "_Dummy_GetStudentDataForStudentsIds";
+                var ds = await _unitOfWork.CommonFunctionRepository.Dummy_GetTestUspDataByAction(action);
+                DataTable dataTable = ds.Tables[0];
+                //log
+                CommonFuncationHelper.WriteTextLog($"Dummy_GetTestUspDataByAction getdata count = {dataTable.Rows.Count}");
+
                 //source path
-                string rootPath = Path.Combine(ConfigurationHelper.StaticFileRootPath, "old-bter-student-images");
-                string destPath = Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsFolder);
+                string sourceRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, "old-bter-student-images");
+                string destinationRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsFolder, "BTER");
 
-                if (!Directory.Exists(rootPath))
-                    return "Directory does not exist.";
-
-                // Create DataTable for storing image paths
-                DataTable dt = new DataTable();
-                //dt.Columns.Add("oldpath", typeof(string));
-                //dt.Columns.Add("newpath", typeof(string));
-                dt.Columns.Add("docmasterid", typeof(int));
-                dt.Columns.Add("trnid", typeof(int));
-                dt.Columns.Add("filename", typeof(string));
-                dt.Columns.Add("dis_filename", typeof(string));
-                dt.Columns.Add("type", typeof(string));
-
-                //handle each master table
-                string[] rootSubFolderTypes = ["YearEng", "YearNonEng", "SemEng", "SemNonEng"];
-                string[] validFileNames = ["photograph", "signature", "photo", "sign"];
-
-                //get data from each folder for master table
-                foreach (var rootSubFolderType in rootSubFolderTypes)
+                if (!Directory.Exists(sourceRootPath))
                 {
-                    //make type wise folder
-                    string subTypeFolder = Path.Combine(rootPath, rootSubFolderType, "documents");
+                    return "sourceRootPath Directory does not exist!";
+                }
+                if (!Directory.Exists(destinationRootPath))
+                {
+                    Directory.CreateDirectory(destinationRootPath);
+                }
 
-                    // subdirectories
-                    var allSubDirectories = Directory.GetDirectories(subTypeFolder, "*", SearchOption.AllDirectories)
-                        .Where(dir => Regex.IsMatch(Path.GetFileName(dir), @"^\d+$"))
-                        .ToArray();
 
+                //loop files each student
+                //log
+                CommonFuncationHelper.WriteTextLog("table loop start:");
+                CommonFuncationHelper.WriteTextLog("all file copy start:");
+                int i = 0;
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    ++i;
 
-                    //files in sub dir. (id wise)
-                    foreach (var subDirectorie in allSubDirectories)
+                    //make full path of each students old id
+                    var sourceFolderPathEach = System.IO.Path.Combine(sourceRootPath, row["FolderType"].ToString(), "documents", row["StudentID_Old"].ToString());
+
+                    //log
+                    CommonFuncationHelper.WriteTextLog($"source folder ({sourceFolderPathEach}) loop count = {i}");
+
+                    //check path
+                    if (!Directory.Exists(sourceFolderPathEach))
                     {
-                        //sub dir. (id)
-                        string folderName = new DirectoryInfo(subDirectorie).Name;
+                        //log
+                        CommonFuncationHelper.WriteTextLog($"source folder path not found = {sourceFolderPathEach}");
+                        continue;
+                    }
+                    //get files
+                    int j = 0;
+                    string[] files = Directory.GetFiles(sourceFolderPathEach);
+                    foreach (var file in files)
+                    {
+                        ++j;
 
-                        //sub dir. files
-                        string[] files = Directory.GetFiles(subDirectorie);
-                        //get files
-                        foreach (var file in files)
+                        //source file path
+                        string oldPath = file;
+
+                        //log
+                        CommonFuncationHelper.WriteTextLog($"source file ({oldPath}) loop count = {j}");
+                        try
                         {
-                            string oldPath = file;//source file path
-
-                            //change path
-                            string extension = Path.GetExtension(file);
-                            string fileNameWithoutExt = Path.GetFileNameWithoutExtension(file);
-                            string fileName = $"{fileNameWithoutExt}_{rootSubFolderType}_{folderName}{extension}";
-
-                            //selected filename
-                            if (!validFileNames.Any(x => x == fileNameWithoutExt.ToLower()))
+                            //check source file
+                            if (!System.IO.File.Exists(oldPath))
                             {
+                                //log
+                                CommonFuncationHelper.WriteTextLog($"source file path not found = {oldPath}");
                                 continue;
                             }
 
+                            //make full path of each students new id
+                            var destinationFolderPathEach = System.IO.Path.Combine(destinationRootPath, row["FolderYear"].ToString(), row["CourseType"].ToString(), row["StudentID"].ToString());
+
                             //destination path
-                            string newPath = Path.Combine(destPath, fileName);
+                            if (!Directory.Exists(destinationFolderPathEach))
+                            {
+                                Directory.CreateDirectory(destinationFolderPathEach);
+                            }
+                            var fileName = System.IO.Path.GetFileName(oldPath);
+                            string newPath = System.IO.Path.Combine(destinationFolderPathEach, fileName);
 
-                            DataRow dr = dt.NewRow();
-                            //dr["oldpath"] = oldPath;
-                            //dr["newpath"] = newPath;
-                            dr["docmasterid"] = fileNameWithoutExt.ToLower().StartsWith("photo") ? 1 : 2;//1=photo,2=sign
-                            dr["trnid"] = folderName;//trnid
-                            dr["filename"] = fileName;
-                            dr["dis_filename"] = fileName;
-                            dr["type"] = rootSubFolderType;//each type
-                            //add in table
-                            dt.Rows.Add(dr);
-
+                            //----- copy file in new folder structure -----
                             // copy the file
-                            System.IO.File.Copy(oldPath, newPath, true);
+                            // Open the source file with shared read access
+                            using (var sourceStream = new FileStream(oldPath, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite))
+                            using (var destinationStream = new FileStream(newPath, System.IO.FileMode.Create, System.IO.FileAccess.Write))
+                            {
+                                await sourceStream.CopyToAsync(destinationStream);
+                            }
+
+                            //set document master id for student master (1=photo,2=sign)
+                            var fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileName);
+                            var docMasterId = 0;
+                            if (fileNameWithoutExt == "photo" || fileNameWithoutExt == "photograph")
+                            {
+                                docMasterId = 1;
+                            }
+                            else if (fileNameWithoutExt == "signature" || fileNameWithoutExt == "sign")
+                            {
+                                docMasterId = 2;
+                            }
+
+                            // set in table for document table save
+                            row["DocumentMasterID"] = docMasterId;
+                            row["FileName"] = fileName;
+                            row["Dis_FileName"] = fileName;
+                        }
+                        catch (Exception ex)
+                        {
+                            //log
+                            CommonFuncationHelper.WriteTextLog($"Failed to copy file: {oldPath}. Error: {ex.Message}");
                         }
                     }
                 }
 
                 //log
-                CommonFuncationHelper.WriteTextLog($"Total Row Count of DT : {dt.Rows.Count}");
+                CommonFuncationHelper.WriteTextLog("all file copy end:");
+                CommonFuncationHelper.WriteTextLog("table loop end:");
 
+                CommonFuncationHelper.WriteTextLog("DB Insert start:");
                 //convert in json
-                string json = JsonConvert.SerializeObject(dt);
+                string json = JsonConvert.SerializeObject(dataTable);
+
                 //log
                 CommonFuncationHelper.WriteTextLog($"DB Insert Start with json : {json}");
+
                 //db
                 var r = await _unitOfWork.CommonFunctionRepository.Dummy_SaveAndMoveStudentImages(json);
                 _unitOfWork.SaveChanges();
+
                 //log
-                CommonFuncationHelper.WriteTextLog("DB Insert Done");
+                CommonFuncationHelper.WriteTextLog("DB Insert end:");
 
                 return "Success";
             }
@@ -368,9 +408,9 @@ namespace Kaushal_Darpan.Api.Controllers
                 foreach (DataRow row in dt.Rows)
                 {
                     //path
-                    string oldPath = Path.Combine(ConfigurationHelper.StaticFileRootPath, row["FolderPath"]?.ToString(), row["TransactionID"]?.ToString(), row["FileName"]?.ToString());
+                    string oldPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, row["FolderPath"]?.ToString(), row["TransactionID"]?.ToString(), row["FileName"]?.ToString());
 
-                    string newPath = Path.Combine(ConfigurationHelper.StaticFileRootPath, row["FolderPath"]?.ToString(), row["TransactionID"]?.ToString(), row["FileName_new"]?.ToString());
+                    string newPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, row["FolderPath"]?.ToString(), row["TransactionID"]?.ToString(), row["FileName_new"]?.ToString());
                     //files
                     if (System.IO.File.Exists(oldPath))
                     {
@@ -392,7 +432,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             isFileMoved = true;
 
                             // Ensure the target directory exists
-                            string newDirectory = Path.GetDirectoryName(file.NewPath);
+                            string newDirectory = System.IO.Path.GetDirectoryName(file.NewPath);
                             if (!Directory.Exists(newDirectory))
                             {
                                 Directory.CreateDirectory(newDirectory);
@@ -437,7 +477,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 CommonFuncationHelper.WriteTextLog("start");
 
 
-                var path = Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsFolder);
+                var path = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsFolder);
                 var files = Directory.GetFiles(path);
 
                 var list = new List<TestTwoPathNew>();
@@ -446,7 +486,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     list.Add(new TestTwoPathNew
                     {
                         OldPath = file,
-                        OldFileName = Path.GetFileName(file)
+                        OldFileName = System.IO.Path.GetFileName(file)
                     });
                 }
 
@@ -464,7 +504,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     if (string.IsNullOrEmpty(oldPath) || string.IsNullOrEmpty(newRelativePath))
                         continue;
 
-                    string newPath = Path.Combine(path, newRelativePath);
+                    string newPath = System.IO.Path.Combine(path, newRelativePath);
 
                     try
                     {
@@ -473,7 +513,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             isAnyFileCopy = true;
 
                             // Ensure the target directory exists
-                            string newDirectory = Path.GetDirectoryName(newPath);
+                            string newDirectory = System.IO.Path.GetDirectoryName(newPath);
                             if (!Directory.Exists(newDirectory))
                             {
                                 Directory.CreateDirectory(newDirectory);

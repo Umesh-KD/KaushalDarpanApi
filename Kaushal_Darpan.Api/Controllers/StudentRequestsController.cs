@@ -994,5 +994,86 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [HttpPost("GetStudentDetailsByENRno")]
+        public async Task<ApiResult<DataTable>> GetStudentDetailsByENRno([FromBody] GetStudentDetailDataModel_Hostel body)
+        {
+            ActionName = "GetStudentDetailsByENRno([FromBody] GetStudentDetailDataModel_Hostel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.iStudentRequestsRepository.GetStudentDetailsByENRno(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("DirectHostelSeatAllotment")]
+        public async Task<ApiResult<int>> DirectHostelSeatAllotment([FromBody] RoomAllotmentModel request)
+        {
+            ActionName = "DirectHostelSeatAllotment([FromBody] RoomAllotmentModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.iStudentRequestsRepository.DirectHostelSeatAllotment(request);
+                    _unitOfWork.SaveChanges();
+
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else if(result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "Student Already exists in Hostel";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }

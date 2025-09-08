@@ -218,7 +218,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<List<CommonDDLModel>> GetDDl_StatusForGrivience();
         Task<DataTable> TradeListTradeTypeWise(ItiTradeSearchModel request);
-        Task<List<CommonDDLModel>> GetITICenterDDL(int ID,int CourseType);
+        Task<List<CommonDDLModel>> GetITICenterDDL(int ID, int CourseType);
         Task<int> Dummy_SaveAndMoveStudentImages(string json);
         Task<DataTable> GetCenter_DistrictWise(CenterMasterDDLDataModel body);
         Task<DataTable> GetExamDate(CenterMasterDDLDataModel body);
@@ -287,7 +287,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> NodalCenterList(NodalCenterModel model);
         Task<DataTable> DC2ndYear_BranchesDDL(int CourseType, int CoreBranch);
 
-        Task<DataTable> ITI_SemesterMaster(int parameter1 = 0 , string parameter2 ="");
+        Task<DataTable> ITI_SemesterMaster(int parameter1 = 0, string parameter2 = "");
 
         Task<DataTable> ExamSessionConfiguration(SessionConfigModel request);
 
@@ -311,5 +311,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> DDL_RWHEffectedEndTerm(DDL_RWHEffectedEndTermModel model);
         Task<DataTable> GetMigrationType();
         Task<DataTable> ITI_DeirectAdmissionOptionFormData(ItiTradeSearchModel request);
+        Task<DataSet> Dummy_GetTestUspDataByAction(string action);
     }
 }

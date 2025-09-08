@@ -93,6 +93,7 @@ namespace Kaushal_Darpan.Core.Helper
 
         public const string JoiningLetterITI = "Report/ITI";
         public const string GetITIStudent_MarksheetReport = "Report/ITI";
+        public const string GetRosterDisplay_PDFTimeTableReport = "Report/BTER";
         public const string PassStudentRreport = "Report/ITI";
 
         public const string StateTradeCertificateITI = "Report/ITI";
