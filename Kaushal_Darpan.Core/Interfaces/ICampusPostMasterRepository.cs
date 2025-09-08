@@ -13,7 +13,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> Save_CampusValidation_NodalAction(CampusPostMaster_Action model);
         Task<bool> UpdateData(CampusPostMasterModel productDetails);
         Task<bool> DeleteDataByID(CampusPostMasterModel productDetails);
-        Task<DataTable> CampusValidationList(int CompanyID, int CollegeID, string Status, int DepartmentID);
+        Task<DataTable> CampusValidationList(int CompanyID, int CollegeID, string Status, int DepartmentID,string Flag="");
         Task<DataTable> CampusHistoryList(int CompanyID, int CollegeID, string Status, int DepartmentID);
 
 
@@ -21,6 +21,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<SignedCopyOfResultModel> GetSignedCopyById(int PK_ID);
         Task<int> SaveSignedCopyData(SignedCopyOfResultModel productDetails);
         Task<bool> DeleteSignedCopyDataByID(SignedCopyOfResultSearchModel signedCopy);
+        Task<int> CampusPost_UpdateStatus(CampusPost_UpdateStatus_Model request);
 
 
 
