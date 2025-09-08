@@ -106,6 +106,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? TechnicianID { get; set; }
         public int? StaffLevelChildID { get; set; }
         public int? EMTypeID { get; set; }
+        public int PostID { get; set; }
 
         public string? multiHostelIDs { get; set; }
     }
