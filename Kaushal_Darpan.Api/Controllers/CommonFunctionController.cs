@@ -3796,7 +3796,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     string parentFolder = "";
                     if (model.FileNameWithDynamicPath == 1)
                     {
-                        var mergedFolderName = model.FolderName + model.FilePrefix;
+                        var mergedFolderName = model.FolderName + "/" + Constants.DepartmentBterFolder + "/" + model.FilePrefix;
                         string[] Folders = mergedFolderName.Split("/");
                         for (int i = 0; i < Folders.Length; i++)
                         {
