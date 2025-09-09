@@ -165,7 +165,11 @@ namespace Kaushal_Darpan.Models.ITI_Inspection
         public int ModifyBy { get; set; }
         public DateTime UpdatedDate { get; set; } 
         public string IPAddress { get; set; } = string.Empty;
-        public int? UserID { get; set; }
+        public int UserID { get; set; }  
+        public int EndTermID { get; set; }  
+        public int FinancialYearID { get; set; }  
+        public string DocConsent { get; set; }  
+        public string Remark { get; set; }  
 
     }
     public class ITI_ConsentSearchModel
