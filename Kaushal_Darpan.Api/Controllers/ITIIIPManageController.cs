@@ -646,58 +646,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<string>();
                 try
                 {
-                    //foreach (var x in mod)
-                    //{
-
-                    //    var data = await _unitOfWork.ITIIIPManageRepository.GetIIPQuaterlyFundReport(x.id);
-
-                    //    if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
-                    //    {
-
-                    //        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-
-                    //        data.Tables[0].TableName = "IMCReg_Details";
-
-                    //        //data.Tables[0].Rows[0]["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
-                    //        //data.Tables[0].Rows[0]["NE100"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
-                    //        //data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
-
-
-                    //        data.Tables[1].TableName = "IMC_Members";
-                    //        data.Tables[2].TableName = "IMC_FundDetails";
-                    //        data.Tables[3].TableName = "IMC_QuaterProgressDetails";
-
-                    //        string devFontSize = "12px";
-                    //        System.Text.StringBuilder sb = new System.Text.StringBuilder();
-
-
-                    //        string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.GetITIStudent_MarksheetReport}/GetIIPQuaterlyFundReport.html";
-
-                    //        string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
-
-                    //        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
-
-                    //        html = Utility.PDFWorks.ReplaceCustomTag(html);
-                    //        //System.IO.File.WriteAllText("debug.html", html);
-                    //        sb1.Append(html);
-
-
-                    //        var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogoWaterMark.png";
-
-                    //        //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
-
-                    //        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", watermarkImagePath);
-
-                    //        result.Data = Convert.ToBase64String(pdfBytes);
-                    //        result.State = EnumStatus.Success;
-                    //        result.Message = "Success";
-                    //    }
-                    //    else
-                    //    {
-                    //        result.State = EnumStatus.Warning;
-                    //        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    //    }
-                    //}
+                   
                     List<byte[]> pdfFiles = new List<byte[]>();
 
                     foreach (var x in mod)
@@ -710,6 +659,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             data.Tables[1].TableName = "IMC_Members";
                             data.Tables[2].TableName = "IMC_FundDetails";
                             data.Tables[3].TableName = "IMC_QuaterProgressDetails";
+
                             //data.Tables[0].Rows[0]["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
                             //data.Tables[0].Rows[0]["NE100"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
                             //data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];

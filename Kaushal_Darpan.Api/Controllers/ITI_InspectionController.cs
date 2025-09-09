@@ -364,7 +364,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     return result;
                 }
                 result.State = EnumStatus.Success;
-                result.Message = "Data load successfully .!";
+                result.Message = "Data load successfully.!";
             }
             catch (System.Exception ex)
             {
