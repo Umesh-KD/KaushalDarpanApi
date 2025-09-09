@@ -119,7 +119,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 //source path
                 string sourceRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, "old-bter-student-images");
-                string destinationRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsMasterFolder, "BTER");
+                string destinationRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsFolder, Constants.DepartmentBterFolder);
 
                 if (!Directory.Exists(sourceRootPath))
                 {
@@ -221,7 +221,8 @@ namespace Kaushal_Darpan.Api.Controllers
                             dr["StudentID_Old"] = row["StudentID_Old"].ToString();
                             dr["FolderType"] = row["FolderType"].ToString();
                             dr["DocumentMasterID"] = docMasterId;
-                            dr["FileName"] = fileName;
+                            var applicationFolderRefFilename = System.IO.Path.Combine(row["FolderYear"].ToString(), row["CourseType"].ToString(), row["StudentID"].ToString());
+                            dr["FileName"] = System.IO.Path.Combine(fileName,applicationFolderRefFilename);
                             dr["Dis_FileName"] = fileName;
                             
                             //add in table
