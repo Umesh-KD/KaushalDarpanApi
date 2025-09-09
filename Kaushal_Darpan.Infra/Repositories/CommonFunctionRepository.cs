@@ -1518,7 +1518,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<StudentMasterModel> PreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndTermID, int StudentExamID)
+        public async Task<StudentMasterModel> PreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndTermID, int StudentExamID, int FileNameWithDynamicPath)
         {
             _actionName = "PreExam_StudentMaster(string StudentID)";
             return await Task.Run(async () =>
@@ -1547,6 +1547,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Eng_NonEng", Eng_NonEng);
                         command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
                         command.Parameters.AddWithValue("@EndTermID", EndTermID);
+                        command.Parameters.AddWithValue("@FileNameWithDynamicPath", FileNameWithDynamicPath);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataSet = await command.FillAsync();
