@@ -255,6 +255,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> ApprenticeshipReport(ApprenticeshipRegistrationSearchModal model);
         Task<DataSet> WorkshopProgressReport(WorkshopProgressRPTSearchModal model);
         Task<DataSet> PmnamMelaReport(ITIPMNAM_Report_SearchModal body);
+        Task<DataSet> PmnamMelaReportnodelOfficer(ITIPMNAM_Report_SearchModal body);
         Task<DataSet> MelaReport(ITIPMNAM_Report_SearchModal model);
         Task<DataSet> GetRevalDispatchGroupDetails(int ID, int EndTermID, int CourseTypeID);
         Task<DataSet> DownloadRevalDispatchGroupCertificate(int ID, int StaffID, int DepartmentID);
@@ -276,8 +277,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetBterDuplicateCertificateReport(BterCertificateReportDataModel filterModel);
         Task<DataSet> GetStudentDuplicateMarksheet(MarksheetDownloadSearchModel model);
         Task<DataSet> BterDuplicateProvisionalCertificateDownload(BterCertificateReportDataModel filterModel);
-        Task<DataSet> PmnamMelaReportnodelOfficer(ITIPMNAM_Report_SearchModal body);
-        Task<DataSet> GetStudentWithdranSeat(AllotmentReportCollegeRequestModel model);
-        Task<DataSet> GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model);
+        Task<DataSet> GetApplicantReportForAdmin(ApplicantStudentReport model);
+        Task<DataSet> ReportedStudentReport(ReportedStudentReport model);
     }
 }

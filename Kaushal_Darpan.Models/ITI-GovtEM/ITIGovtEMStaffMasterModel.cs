@@ -116,9 +116,9 @@
         public string DisplayName { get; set; }
 
         public string? AadhaarId { get; set; }
-        public string ?BhamashahId { get; set; }
+        public string? BhamashahId { get; set; }
         public string? BhamashahMemberId { get; set; }
- 
+
         public string DateOfBirth { get; set; }
         public string Gender { get; set; }
         public string MobileNo { get; set; }
@@ -158,6 +158,12 @@
         public int OfficeID { get; set; }
 
         public string multiHostelIDs { get; set; }
+
+        public bool? IsInstructor { get; set; }
+        public string? Shift { get; set; }
+        public string? Unit { get; set; }
+
+        public int? SeatIntakeID { get; set; }
     }
     public class ITIGovtEMSSOUserResponse
     {
