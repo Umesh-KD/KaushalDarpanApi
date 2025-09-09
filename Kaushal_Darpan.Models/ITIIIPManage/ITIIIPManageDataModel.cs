@@ -106,4 +106,9 @@ namespace Kaushal_Darpan.Models.ITIIIPManageDataModel
 
 
     }
+
+    public class IdModel
+    {
+        public int id { get; set; }
+    }
 }
