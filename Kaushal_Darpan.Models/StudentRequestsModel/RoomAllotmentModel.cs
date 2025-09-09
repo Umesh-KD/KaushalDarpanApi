@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -50,5 +51,12 @@ namespace Kaushal_Darpan.Models.StudentRequestsModel
     public class GetStudentDetailDataModel_Hostel : RequestBaseModel
     {
         public string? ApplicationNo { get; set; }
+    }
+
+    public class GetMeritDataModel_Hostel : RequestBaseModel
+    {
+        public int? Gender { get; set; }
+        public int? HostelID    { get; set; }
+        public int? InstituteID { get; set; }
     }
 }
