@@ -10,6 +10,7 @@ using Kaushal_Darpan.Infra;
 using Kaushal_Darpan.Models;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.ApplicationStatus;
+using Kaushal_Darpan.Models.CampusPostMaster;
 using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CenterSuperitendent;
 using Kaushal_Darpan.Models.CollegeMaster;
@@ -8345,6 +8346,43 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
+        [HttpPost("GetSSOIDDetailData")]
+        public async Task<ApiResult<DataTable>> GetSSOIDDetailData([FromBody] SSOIDDetailRequest body)
+        {
+            ActionName = " GetSSOIDDetailData([FromBody] SSOIDDetailRequest body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetSSOIDDetailData(body.SSOID,body.Action));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
 
     }
 }
