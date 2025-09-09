@@ -111,7 +111,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand(true))
                     {
                         // Set the stored procedure name and type
-                        command.CommandText = "USP_StaffLeave_IU";
+                        command.CommandText = "sp_InsertOrUpdate_StaffLeave";
                         command.CommandType = CommandType.StoredProcedure;
 
                         // Add parameters with appropriate null handling
@@ -133,6 +133,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SSOID", request.SSOID);
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
                         command.Parameters.AddWithValue("@TotalDays", request.TotalDays);
+                        command.Parameters.AddWithValue("@ActionBy", request.UserID);
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();
