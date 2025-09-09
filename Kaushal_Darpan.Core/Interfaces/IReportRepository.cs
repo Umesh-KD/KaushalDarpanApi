@@ -255,6 +255,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> ApprenticeshipReport(ApprenticeshipRegistrationSearchModal model);
         Task<DataSet> WorkshopProgressReport(WorkshopProgressRPTSearchModal model);
         Task<DataSet> PmnamMelaReport(ITIPMNAM_Report_SearchModal body);
+        Task<DataSet> PmnamMelaReportnodelOfficer(ITIPMNAM_Report_SearchModal body);
         Task<DataSet> MelaReport(ITIPMNAM_Report_SearchModal model);
         Task<DataSet> GetRevalDispatchGroupDetails(int ID, int EndTermID, int CourseTypeID);
         Task<DataSet> DownloadRevalDispatchGroupCertificate(int ID, int StaffID, int DepartmentID);
