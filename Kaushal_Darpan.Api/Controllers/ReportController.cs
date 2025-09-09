@@ -13706,82 +13706,76 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpPost("GetStudentWithdranSeat")]
-        public async Task<ApiResult<DataSet>> GetStudentWithdranSeat([FromBody] AllotmentReportCollegeRequestModel model)
+        [HttpPost("GetApplicantReportForAdmin")]
+        public async Task<ApiResult<DataSet>> GetApplicantReportForAdmin([FromBody] ApplicantStudentReport body)
         {
-            ActionName = "GetStudentWithdranSeat([FromBody] AllotmentReportCollegeRequestModel model)";
+            ActionName = "GetApplicantReportForAdmin([FromBody] ApplicantStudentReport body)";
             var result = new ApiResult<DataSet>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetStudentWithdranSeat(model));
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetApplicantReportForAdmin(body));
                 result.State = EnumStatus.Success;
-                if (result.Data.Tables.Count == 0 || result.Data.Tables[0].Rows.Count == 0)
+                if (result.Data.Tables[0].Rows.Count == 0)
                 {
+                    result.State = EnumStatus.Success;
                     result.Message = "No record found.!";
                     return result;
                 }
-
-                result.Message = "Data loaded successfully.!";
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 _unitOfWork.Dispose();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
-
+                // write error log
                 var nex = new NewException
                 {
                     PageName = PageName,
                     ActionName = ActionName,
-                    Ex = ex
+                    Ex = ex,
                 };
-
                 await CreateErrorLog(nex, _unitOfWork);
             }
             return result;
         }
 
 
-
-        [HttpPost("GetstudentWithdrawnList")]
-        public async Task<ApiResult<DataSet>> GetstudentWithdrawnList([FromBody] AllotmentReportCollegeRequestModel model)
+        [HttpPost("ReportedStudentReport")]
+        public async Task<ApiResult<DataSet>> ReportedStudentReport([FromBody] ReportedStudentReport body)
         {
-            ActionName = "GetstudentWithdrawnList([FromBody] AllotmentReportCollegeRequestModel model)";
+            ActionName = "ReportedStudentReport([FromBody] ReportedStudentReport body)";
             var result = new ApiResult<DataSet>();
-
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetstudentWithdrawnList(model));
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.ReportedStudentReport(body));
                 result.State = EnumStatus.Success;
-
-                if (result.Data.Tables.Count == 0 || result.Data.Tables[0].Rows.Count == 0)
+                if (result.Data.Tables[0].Rows.Count == 0)
                 {
+                    result.State = EnumStatus.Success;
                     result.Message = "No record found.!";
                     return result;
                 }
-
-                result.Message = "Data loaded successfully.!";
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 _unitOfWork.Dispose();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
-
+                // write error log
                 var nex = new NewException
                 {
                     PageName = PageName,
                     ActionName = ActionName,
-                    Ex = ex
+                    Ex = ex,
                 };
-
                 await CreateErrorLog(nex, _unitOfWork);
             }
-
             return result;
         }
-
-
 
     }
 }

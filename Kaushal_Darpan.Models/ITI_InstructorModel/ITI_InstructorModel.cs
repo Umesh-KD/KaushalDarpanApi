@@ -22,6 +22,13 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? Mobile { get; set; }
         public string? Email { get; set; }
 
+
+        //Bank Details
+        public string? BankAccountNumber { get; set; }
+        public string? IFSCCode { get; set; }
+        public string? BankName { get; set; }
+        public bool ConsentToAssignAsExaminer { get; set; } = false;
+
         // Permanent Address
         public string? PlotHouseBuildingNo { get; set; }
         public string? StreetRoadLane { get; set; }
@@ -102,11 +109,11 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? Education_Subjects { get; set; }
         public decimal? Education_Percentage { get; set; } 
 
-        public string? QualificationDocument { get; set; }
+        public string? EducationDocument { get; set; }
 
         public int? CreatedBy { get; set; }
         public int? DepartmentID { get; set; }
-        public bool? RTS { get; set; }
+        public string? RTS { get; set; }
         public int? InstituteID { get; set; }
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
@@ -131,9 +138,9 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? EmploymentDocument { get; set; }
         public string? CreatedBy { get; set; }
 
-        public int DepartmentID { get; set; }
-        public bool RTS { get; set; }        
-        public int InstituteID { get; set; }
+        public int? DepartmentID { get; set; }
+        public DateTime? RTS { get; set; }        
+        public int? InstituteID { get; set; }
 
         public string? ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
@@ -150,10 +157,10 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? Tech_Subjects { get; set; }
         public string? Tech_Year { get; set; }
         public decimal? Tech_Percentage { get; set; }   
-        public string? TechQualificationDocument { get; set; }
+        public string? TechDocument { get; set; }
         public int? CreatedBy { get; set; }
         public int? DepartmentID { get; set; }
-        public bool? RTS { get; set; }
+        public DateTime? RTS { get; set; }
         public int? InstituteID { get; set; }
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
@@ -189,6 +196,15 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
     public class ITI_InstructorApplicationNoDataSearchModel
     {
         public string? ApplicationID { get; set; }
+    }
+
+
+
+    public class ITI_InstructorDataAssign
+    {
+        public string? DepartmentID { get; set; }
+        public int? CollegeId { get; set; }
+
     }
 
 }
