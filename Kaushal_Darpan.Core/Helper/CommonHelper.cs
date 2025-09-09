@@ -76,7 +76,7 @@ namespace Kaushal_Darpan.Core.Helper
         public const string ReportsFolder = "Reports";
         public const string PlacementCompanyFolder = "PlacementCompany";
         public const string StudentsFolder = "Students";
-        public const string StudentsMasterFolder = "StudentMaster";
+        public const string DepartmentBterFolder = "BTER";
         public const string StaffMemberFolder = "Staff";
         public const string AllotmentReciept = "Reports/AllotmentReciept";
         public const string AadharCertificate = "/StaticFiles/Certificate";
@@ -301,6 +301,8 @@ namespace Kaushal_Darpan.Core.Helper
         public string? MaxFileSize { get; set; }
         public string? Password { get; set; }
         public bool? IsCopy { get; set; }
+        public int? FileNameWithDynamicPath { get; set; }
+        public string? FilePrefix { get; set; }
     }
 
     public class GetBTEROriginalListModel

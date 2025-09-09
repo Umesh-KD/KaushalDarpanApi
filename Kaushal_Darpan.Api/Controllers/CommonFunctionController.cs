@@ -1484,15 +1484,15 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-        [HttpGet("PreExam_StudentMaster/{StudentID}/{statusId}/{DepartmentID}/{Eng_NonEng}/{EndTermID}/{StudentExamID}")]
-        public async Task<ApiResult<StudentMasterModel>> PreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndTermID, int StudentExamID)
+        [HttpGet("PreExam_StudentMaster/{StudentID}/{statusId}/{DepartmentID}/{Eng_NonEng}/{EndTermID}/{StudentExamID}/{FileNameWithDynamicPath}")]
+        public async Task<ApiResult<StudentMasterModel>> PreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndTermID, int StudentExamID, int FileNameWithDynamicPath)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<StudentMasterModel>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.PreExam_StudentMaster(StudentID, statusId, DepartmentID, Eng_NonEng, status, EndTermID, StudentExamID);
+                    var data = await _unitOfWork.CommonFunctionRepository.PreExam_StudentMaster(StudentID, statusId, DepartmentID, Eng_NonEng, status, EndTermID, StudentExamID, FileNameWithDynamicPath);
                     if (data != null)
                     {
                         result.Data = data;
@@ -3793,17 +3793,35 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
                     }
 
-
-                    string[] Folders = model.FolderName.Split("/");
                     string parentFolder = "";
-                    for (int i = 0; i < Folders.Length; i++)
+                    if (model.FileNameWithDynamicPath == 1)
                     {
-                        if (!System.IO.Directory.Exists($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}"))
+                        var mergedFolderName = model.FolderName + model.FilePrefix;
+                        string[] Folders = mergedFolderName.Split("/");
+                        for (int i = 0; i < Folders.Length; i++)
                         {
-                            System.IO.Directory.CreateDirectory($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}");
+                            if (!System.IO.Directory.Exists($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}"))
+                            {
+                                System.IO.Directory.CreateDirectory($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}");
+                            }
+                            parentFolder = parentFolder + "/" + Folders[i];
                         }
-                        parentFolder = parentFolder + "/" + Folders[i];
                     }
+                    else
+                    {
+                        string[] Folders = model.FolderName.Split("/");
+                        //string parentFolder = "";
+                        for (int i = 0; i < Folders.Length; i++)
+                        {
+                            if (!System.IO.Directory.Exists($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}"))
+                            {
+                                System.IO.Directory.CreateDirectory($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}");
+                            }
+                            parentFolder = parentFolder + "/" + Folders[i];
+                        }
+                    }
+
+                   
 
                     ////set and create the folder
                     //var uploadFolderName = Path.Combine(ConfigurationHelper.StaticFileRootPath, "Students" ?? "");
@@ -3849,7 +3867,13 @@ namespace Kaushal_Darpan.Api.Controllers
                     List<UploadFileWithPathDataModel> uploadFileDataModels = new List<UploadFileWithPathDataModel>();
                     UploadFileWithPathDataModel uploadFileDataModel = new UploadFileWithPathDataModel();
                     uploadFileDataModel.Dis_FileName = OrgfileName;
-                    uploadFileDataModel.FileName = FileName;
+                    if (model.FileNameWithDynamicPath == 1)
+                    {
+                        uploadFileDataModel.FileName = model.FilePrefix + "/" + FileName;
+                    } else
+                    {
+                        uploadFileDataModel.FileName = FileName;
+                    }
                     uploadFileDataModel.FilePath = Path.Combine(uploadFolder ?? "", FileName);
                     uploadFileDataModel.FolderName = uploadFolder;
                     uploadFileDataModels.Add(uploadFileDataModel);

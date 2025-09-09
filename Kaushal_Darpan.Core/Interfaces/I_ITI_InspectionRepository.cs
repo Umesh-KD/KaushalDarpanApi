@@ -1,6 +1,7 @@
 ﻿using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.ITI_Inspection;
+using Kaushal_Darpan.Models.ITIAllotment;
 using Kaushal_Darpan.Models.ITICenterObserver;
 using System;
 using System.Collections.Generic;
@@ -45,5 +46,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAllConsentData(ConsentModel body);
         Task<int> saveConsent(List<ConsentModel> request);
         Task<List<CommonDDLModel>> GetDistrict(ITI_ConsentSearchModel body);
+
+        Task<DataTable> GetById_Consent(int ID);
+        Task<int> updateConsent(ConsentModel request);
     }
 }
