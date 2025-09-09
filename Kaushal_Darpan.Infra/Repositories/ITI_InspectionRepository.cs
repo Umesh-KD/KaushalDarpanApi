@@ -1298,6 +1298,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DocConsent", request.DocConsent);
                         command.Parameters.AddWithValue("@Remark", request.Remark);
                         command.Parameters.AddWithValue("@TentativeDate", request.TentativeDate);
+                        command.Parameters.AddWithValue("@InspectionConsentID", request.InspectionConsentID);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;
