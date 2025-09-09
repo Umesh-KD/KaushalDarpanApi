@@ -222,9 +222,9 @@ namespace Kaushal_Darpan.Api.Controllers
                             dr["FolderType"] = row["FolderType"].ToString();
                             dr["DocumentMasterID"] = docMasterId;
                             var applicationFolderRefFilename = System.IO.Path.Combine(row["FolderYear"].ToString(), row["CourseType"].ToString(), row["StudentID"].ToString());
-                            dr["FileName"] = System.IO.Path.Combine(fileName,applicationFolderRefFilename);
+                            dr["FileName"] = System.IO.Path.Combine(applicationFolderRefFilename, fileName);
                             dr["Dis_FileName"] = fileName;
-                            
+
                             //add in table
                             dt.Rows.Add(dr);
                         }
