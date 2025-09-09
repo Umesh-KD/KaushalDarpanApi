@@ -15,6 +15,11 @@
         public int? UserID { get; set; } = 0;
         public string? ExamDate { get; set; }
 
-          public int? SessionTypeID { get; set; } = 0;
+        public int? CollageID { get; set; } = 0;
+
+        public int? SessionTypeID { get; set; } = 0;
+
+
+        
     }
 }

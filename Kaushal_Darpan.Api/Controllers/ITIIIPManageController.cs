@@ -1,11 +1,17 @@
 ﻿using AspNetCore.Reporting;
 using AutoMapper;
+using DocumentFormat.OpenXml.EMMA;
+using iTextSharp.text.pdf;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.IDfFundDetailsModel;
 using Kaushal_Darpan.Models.ITIIIPManageDataModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+
+using System.Text;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -629,6 +635,128 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 return result;
             });
+        }
+
+        [HttpPost("GetIIPQuaterlyFundReportData")]
+        public async Task<ApiResult<string>> GetIIPQuaterlyFundReportData([FromBody] List<IdModel> mod)
+        {
+
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                   
+                    List<byte[]> pdfFiles = new List<byte[]>();
+
+                    foreach (var x in mod)
+                    {
+                        var data = await _unitOfWork.ITIIIPManageRepository.GetIIPQuaterlyFundReport(x.id);
+
+                        if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+                        {
+                            data.Tables[0].TableName = "IMCReg_Details";
+                            data.Tables[1].TableName = "IMC_Members";
+                            data.Tables[2].TableName = "IMC_FundDetails";
+                            data.Tables[3].TableName = "IMC_QuaterProgressDetails";
+
+                            //data.Tables[0].Rows[0]["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
+                            //data.Tables[0].Rows[0]["NE100"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
+                            //data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
+
+
+
+                            string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.GetITIStudent_MarksheetReport}/GetIIPQuaterlyFundReport.html";
+                            string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+                            html = Utility.PDFWorks.ReplaceCustomTag(html);
+
+                            var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogoWaterMark.png";
+                            pdfFiles.Add(Utility.PDFWorks.GeneratePDFGetByte(new StringBuilder(html), "landscape", watermarkImagePath));
+                        }
+                    }
+
+                    if (pdfFiles.Count > 0)
+                    {
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            Document document = new Document();
+                            PdfCopy copy = new PdfCopy(document, ms);
+                            document.Open();
+
+                            foreach (var pdf in pdfFiles)
+                            {
+                                PdfReader reader = new PdfReader(pdf);
+                                for (int i = 1; i <= reader.NumberOfPages; i++)
+                                {
+                                    copy.AddPage(copy.GetImportedPage(reader, i));
+                                }
+                                reader.Close();
+                            }
+
+                            document.Close();
+                            result.Data = Convert.ToBase64String(ms.ToArray());
+                            result.State = EnumStatus.Success;
+                            result.Message = "Success";
+                        }
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetAllIMCFundDataforReport")]
+        public async Task<ApiResult<DataSet>> GetAllIMCFundDataforReport([FromBody] IIPManageFundSearchModel body)
+        {
+            //ActionName = "GetAllData()";
+            ActionName = "GetAllIMCFundDataforReport()";
+            var result = new ApiResult<DataSet>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITIIIPManageRepository.GetAllIMCFundDataforReport(body));
+                result.State = EnumStatus.Success;
+                if (result.Data != null)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
     }
 }

@@ -5,6 +5,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.ITI_Inspection;
+using Kaushal_Darpan.Models.ITIAllotment;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -364,7 +365,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     return result;
                 }
                 result.State = EnumStatus.Success;
-                result.Message = "Data load successfully .!";
+                result.Message = "Data load successfully.!";
             }
             catch (System.Exception ex)
             {
@@ -1145,5 +1146,261 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+        [HttpPost("saveConsentData")]
+        public async Task<ApiResult<int>> saveConsentData([FromBody] ConsentModel request)
+        {
+            ActionName = " saveConsentData([FromBody] AdminUserDetailModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    request.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    result.Data = await _unitOfWork.ITI_InspectionRepository.saveConsentData(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+        [HttpPost("GetAllConsentData")]
+        public async Task<ApiResult<DataTable>> GetAllConsentData([FromBody] ConsentModel body)
+        {
+            ActionName = "GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITI_InspectionRepository.GetAllConsentData(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpPost("saveConsent")]
+        public async Task<ApiResult<bool>> saveConsent([FromBody] List<ConsentModel> request)
+        {
+            ActionName = "saveConsent([FromBody] List<ConsentModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    //request.ForEach(x =>
+                    //{
+                    //    x.IPAddress = CommonFuncationHelper.GetIpAddress();
+
+                    //});
+                    // Pass the list to the repository for batch update
+                    var isSave = await _unitOfWork.ITI_InspectionRepository.saveConsent(request);
+                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+
+                    if (isSave == -2)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_NO_DATA_SAVE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetDistrict")]
+        public async Task<ApiResult<List<CommonDDLModel>>> GetDistrict([FromBody] ITI_ConsentSearchModel body)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<CommonDDLModel>>();
+                try
+                {
+                    var data = await _unitOfWork.ITI_InspectionRepository.GetDistrict(body);
+                    if (data.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        [HttpGet("GetById_Consent/{ID}")]
+        public async Task<ApiResult<DataTable>> GetById_Consent(int ID)
+        {
+            ActionName = "GetByID(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.ITI_InspectionRepository.GetById_Consent(ID);
+                    result.Data = data;
+                    if (data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+
+        [HttpPost("updateConsent")]
+        public async Task<ApiResult<int>> updateConsent([FromBody] ConsentModel request)
+        {
+            ActionName = "updateConsent([FromBody])";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.ITI_InspectionRepository.updateConsent(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "update successfully .!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
+
     }
 }

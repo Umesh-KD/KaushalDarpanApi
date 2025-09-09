@@ -222,7 +222,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-
         public async Task<DataSet> GetITIConsolidateCertificate(ITICollegeStudentMarksheetSearchModel model)
         {
             _actionName = "GetITICollegeStudent_Marksheet(ITICollegeStudentMarksheetSearchModel model)";
@@ -262,9 +261,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-
-
-
         #endregion
     }
 }

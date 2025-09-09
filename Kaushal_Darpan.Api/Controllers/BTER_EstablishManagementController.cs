@@ -1090,5 +1090,59 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [HttpPost("Bter_RevertStaffProfile")]
+        public async Task<ApiResult<bool>> Bter_RevertStaffProfile([FromBody] BTER_EM_UnlockProfileDataModel request)
+        {
+            ActionName = "Bter_RevertStaffProfile([FromBody] BTER_EM_UnlockProfileDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.BTER_EstablishManagementRepository.Bter_RevertStaffProfile(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (request.StaffID == 0)
+                        {
+                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (request.StaffID == 0)
+                        {
+                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        }
+                        else
+                        {
+                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }
