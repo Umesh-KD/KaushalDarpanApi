@@ -1330,6 +1330,17 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             StringBuilder sb = new StringBuilder();
 
+
+            HashSet<string> uniqueTeachers = new HashSet<string>();
+
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                string teacherClassTotal = row["TeacherClassTotal"].ToString();
+                uniqueTeachers.Add(teacherClassTotal);
+            }
+
+            string result = string.Join(", ", uniqueTeachers);
+
             // Header Section
             sb.AppendLine("<table style='width:100%; border-collapse:collapse; font-size:14px; font-family:Arial, Helvetica, sans-serif;' cellpadding='5' border='1'>");
             sb.AppendLine("  <tr><th colspan='2' style='border:1px solid black;'>" + ds.Tables[0].Rows[0]["InstituteName"].ToString() + "</th></tr>");
@@ -1398,10 +1409,11 @@ namespace Kaushal_Darpan.Api.Controllers
             sb.AppendLine("  <tr><th style='text-align:left; border:1px solid black;'>OIC TIME TABLE <br/> COPY TO: </th></tr>");
             sb.AppendLine("  <tr>");
             sb.AppendLine("    <td style='padding-left:30px; border:1px solid black;'>");
-            sb.AppendLine("       1. HOD (CE,CS,EE,EL&EF,ME,PE,I YEAR)<br/>");
+            sb.AppendLine("       1. HOD (" + ds.Tables[0].Rows[0]["StreamName"].ToString() + ")<br/>");
             sb.AppendLine("       2. PA TO PRINCIPAL<br/>");
             sb.AppendLine("       3. Notice board<br/>");
             sb.AppendLine("       4. Student Section");
+            sb.AppendLine("       5. Teacher Wise Count Class "+ result + "");
             sb.AppendLine("    </td>");
             sb.AppendLine("    <td style='text-align:right; border:1px solid black;'>PRINCIPAL</td>");
             sb.AppendLine("  </tr>");
