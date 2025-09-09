@@ -37,6 +37,7 @@ namespace Kaushal_Darpan.Models.StudentApplyForHostel
         public int BrachId { get; set; }
         public int EndTermId { get; set; }
         public int? status { get; set; }
+        public int? Gender { get; set; }
 
         public int DepartmentID { get; set; }
         public int AllotmentStatus { get; set; }

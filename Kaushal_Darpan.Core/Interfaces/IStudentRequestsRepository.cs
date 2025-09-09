@@ -36,5 +36,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> DeallocateRoom(DeallocateRoomDataModel request);
         Task<DataTable> GetStudentDetailsByENRno(GetStudentDetailDataModel_Hostel SearchReq);
         Task<int> DirectHostelSeatAllotment(RoomAllotmentModel request);
+        Task<int> GenerateProvisionalMerit_Hostel(int Gender, List<PublishHostelMeritListDataModel> model);
+        Task<DataTable> GetMeritGeneratedStudent_Hostel(GetMeritDataModel_Hostel SearchReq);
     }
 }

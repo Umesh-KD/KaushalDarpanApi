@@ -5239,10 +5239,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.CommandText = "usp_Get_NcvtPracticalStudentPhotoReport";
                         }
-                        else {
+                        else
+                        {
                             command.CommandText = "usp_Get_PracticalStudentPhotoReport";
                         }
-              
+
                         command.Parameters.AddWithValue("@CenterID", model.CenterID);
                         command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
@@ -5725,7 +5726,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetVacantSeatReport";
 
-                      
+
                         command.Parameters.AddWithValue("@AcademicYearID", model.AcademicYearID);
                         command.Parameters.AddWithValue("@TradeLevelID", model.TradeLevelID);
                         command.Parameters.AddWithValue("@DivisionID", model.DivisionID);
@@ -6062,7 +6063,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TradeTypeID", model.TradeTypeID);
                         command.Parameters.AddWithValue("@TradeId", model.TradeId);
                         command.Parameters.AddWithValue("@CollegeId", model.CollegeId);
-                        
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
 
@@ -6150,7 +6151,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.Parameters.AddWithValue("@EnrollmentNo", filterModel.EnrollmentNo);
                             command.Parameters.AddWithValue("@RevisedType", filterModel.RevisedType);
                             command.Parameters.AddWithValue("@ResultType", filterModel.ResultType);
-                            command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterID); 
+                            command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterID);
                             command.Parameters.AddWithValue("@RWHEffectedEndTermID", filterModel.RWHEffectedEndTerm);
                         }
                         else if (filterModel.Action == "migration-certificate")
@@ -6230,7 +6231,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
                         command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
                         command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
-                
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -6290,7 +6291,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         }
 
                         // Add parameters to the stored procedure from the model
-                        
+
                         command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);
                         command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterID);
                         command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
@@ -7887,7 +7888,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CenterAssignedID", model.CenterAssignedID);
                         command.Parameters.AddWithValue("@StreamID", model.StreamID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-           
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -7973,9 +7974,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         //command.Parameters.AddWithValue("@StatusID", model.StatusID);
                         //command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
                         //command.Parameters.AddWithValue("@ITICode", model.ITICode);
-                        
+
                         //command.Parameters.AddWithValue("@TradeCode", model.TradeCode);
-                     
+
                         //command.Parameters.AddWithValue("@AllotedCategory", model.AllotedCategory);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
@@ -8247,7 +8248,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.CommandText = "Usp_Bter_ProvisionalCertificate_DuplicateReport";
                             command.Parameters.AddWithValue("@Action", "duplicate-provisional-certificate-download");
                         }
-                        
+
                         // Add parameters to the stored procedure from the model
 
                         command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);
@@ -8281,10 +8282,11 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
-        public async Task<DataSet> GetStudentWithdranSeat(AllotmentReportCollegeRequestModel model)
-        {
-            _actionName = "GetAllotmentReportCollege(AllotmentReportCollegeRequestModel model)";
 
+        #region Applicant Report For Admin
+        public async Task<DataSet> GetApplicantReportForAdmin(ApplicantStudentReport model)
+        {
+            _actionName = "GetITIStudentSeatAllotmentDataList(ITIAddmissionWomenReportSearchModel model)";
             return await Task.Run(async () =>
             {
                 try
@@ -8293,13 +8295,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetStudentWithdranSeat";
+                        command.CommandText = "USP_ApplicantStudent";
                         command.Parameters.AddWithValue("@AcademicYearID", model.AcademicYearID);
-                        command.Parameters.AddWithValue("@TradeLevelID", model.TradeLevelID);
-                        command.Parameters.AddWithValue("@TradeTypeID", model.TradeTypeID);
-                        command.Parameters.AddWithValue("@TradeId", model.TradeId);
-                        command.Parameters.AddWithValue("@CollegeId", model.CollegeId);
-                        command.Parameters.AddWithValue("@AllotmentStatus", model.AllotmentStatus);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                       
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
@@ -8314,19 +8313,18 @@ namespace Kaushal_Darpan.Infra.Repositories
                         ActionName = _actionName,
                         SqlExecutableQuery = _sqlQuery
                     };
-
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
             });
         }
+        #endregion
 
 
-
-        public async Task<DataSet> GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model)
+        #region  Reported Student For Admin
+        public async Task<DataSet> ReportedStudentReport(ReportedStudentReport model)
         {
-            _actionName = "GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model)";
-
+            _actionName = "ReportedStudentReport(ReportedStudentReport model)";
             return await Task.Run(async () =>
             {
                 try
@@ -8335,19 +8333,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetstudentWithdrawnList";
+                        command.CommandText = "USP_GetReportedStudentReport";
                         command.Parameters.AddWithValue("@AcademicYearID", model.AcademicYearID);
-                        command.Parameters.AddWithValue("@TradeLevelID", model.TradeLevelID);
-                        command.Parameters.AddWithValue("@TradeTypeID", model.TradeTypeID);
-                        command.Parameters.AddWithValue("@TradeId", model.TradeId);
-                        command.Parameters.AddWithValue("@CollegeId", model.CollegeId);
-
 
                         _sqlQuery = command.GetSqlExecutableQuery();
-
                         ds = await command.FillAsync();
                     }
-
                     return ds;
                 }
                 catch (Exception ex)
@@ -8359,12 +8350,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                         ActionName = _actionName,
                         SqlExecutableQuery = _sqlQuery
                     };
-
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
             });
         }
+        #endregion
 
     }
 }

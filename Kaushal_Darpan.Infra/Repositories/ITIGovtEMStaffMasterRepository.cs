@@ -1487,13 +1487,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITIGovtStaffProfile_IU";
-                        command.Parameters.AddWithValue("@StaffID",body.StaffID);
-                      
+                        command.Parameters.AddWithValue("@StaffID", body.StaffID);
+
                         command.Parameters.AddWithValue("@RoleID", 0);
                         command.Parameters.AddWithValue("@Name", body.Name);
                         command.Parameters.AddWithValue("@EmployeeID", body.EmployeeID);
                         command.Parameters.AddWithValue("@CurrentBasicDesignationID", body.CurrentBasicDesignationID);
-                        command.Parameters.AddWithValue("@CoreBusiness", body.CoreBusiness); 
+                        command.Parameters.AddWithValue("@CoreBusiness", body.CoreBusiness);
                         command.Parameters.AddWithValue("@CurrentPostingEmp", body.CurrentPostingEmp);
                         command.Parameters.AddWithValue("@DateofPostingEmp", body.DateofPostingEmp ?? null);
                         command.Parameters.AddWithValue("@GenderID", body.GenderID);
@@ -1538,7 +1538,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@isSeniorInstructor", body.isSeniorInstructor);
                         command.Parameters.AddWithValue("@isRenounced", body.isRenounced);
                         command.Parameters.AddWithValue("@isDepartmentalMixed", body.isDepartmentalMixed);
-              
+
                         command.Parameters.AddWithValue("@jsonData", jsonData);
                         //command.Parameters.Add("@Return", SqlDbType.Int);
                         //command.Parameters["@Return"].Direction = ParameterDirection.Output;
@@ -1585,7 +1585,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StatusOfStaff", request.StatusIDs);
                         command.Parameters.AddWithValue("@ProfileStatus", request.ProfileStatusID);
                         command.Parameters.AddWithValue("@Remark", request.Remark);
-                        
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
                         result = await command.ExecuteNonQueryAsync();
@@ -1703,7 +1703,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_DDL_RoleOfficeMapping";                       
+                        command.CommandText = "USP_DDL_RoleOfficeMapping";
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         //command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -1750,7 +1750,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                             _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                             dataSet = await command.FillAsync();
                         }
-                       
+
                         if (dataSet != null)
                         {
                             if (dataSet.Tables.Count > 0)
@@ -1761,7 +1761,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                             {
                                 data.PromotionList = CommonFuncationHelper.ConvertDataTable<List<ITIGovtEMStaff_PromotionIsRenouncedModel>>(dataSet.Tables[1]);
                             }
-                                
+
                         }
                     }
                     if (body.Action == "UserEducationalQualification")
@@ -1806,7 +1806,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                             {
 
                                 data.PostingList = CommonFuncationHelper.ConvertDataTable<List<StaffPostingData>>(dataSet.Tables[0]);
-                                
+
                             }
                         }
                     }
@@ -1930,7 +1930,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_Govt_EM_GetUserLevel";
                         command.Parameters.AddWithValue("@UserID", ID);
-                       
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -2167,7 +2167,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@StaffID", productDetails.ID);
                         command.Parameters.AddWithValue("@ModifyBy", productDetails.CreatedBy);
-                       
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
@@ -2413,7 +2413,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_Govt_EMOfficeDelete";
                         command.Parameters.AddWithValue("@Action", "ITI_Govt_EMOfficeDelete");
                         command.Parameters.AddWithValue("@UserID", body.ID);
-                        command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);                        
+                        command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
                         command.Parameters.Add("@Return", SqlDbType.Int);
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -2493,8 +2493,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_EstablishManagementStaffDuplicateCheck";                 
-                        command.Parameters.AddWithValue("@RoleID", body.RoleID);                  
+                        command.CommandText = "USP_EstablishManagementStaffDuplicateCheck";
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -2516,6 +2516,112 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+
+        public async Task<int> SaveBasicInstructorData(ITIGovtEMAddStaffBasicDetailDataModel request)
+        {
+            _actionName = "SaveBasicInstructorData(AddStaffBasicDetailDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_ITI_Govt_SaveStaffBasicInstructorDetails";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Add parameters with default values or leave them as-is
+                        command.Parameters.AddWithValue("@ProfileID", request.ProfileID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@StatusOfStaff", request.StatusOfStaff);
+
+                        command.Parameters.AddWithValue("@StaffTypeID", request.StaffTypeID);
+                        command.Parameters.AddWithValue("@SSOID", request.SSOID ?? "");
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@DesignationID", request.DesignationID);
+                        command.Parameters.AddWithValue("@DisplayName", request.DisplayName ?? "");
+                        command.Parameters.AddWithValue("@AadhaarId", request.AadhaarId ?? "");
+                        command.Parameters.AddWithValue("@BhamashahId", request.BhamashahId ?? "");
+                        command.Parameters.AddWithValue("@BhamashahMemberId", request.BhamashahMemberId ?? "");
+                        command.Parameters.AddWithValue("@DateOfBirth", request.DateOfBirth ?? "");
+                        command.Parameters.AddWithValue("@Gender", request.Gender ?? "");
+                        command.Parameters.AddWithValue("@MobileNo", request.MobileNo ?? "");
+                        command.Parameters.AddWithValue("@TelephoneNumber", request.TelephoneNumber ?? "");
+                        command.Parameters.AddWithValue("@IpPhone", request.IpPhone ?? "");
+                        command.Parameters.AddWithValue("@MailPersonal", request.MailPersonal ?? "");
+                        command.Parameters.AddWithValue("@PostalAddress", request.PostalAddress ?? "");
+                        command.Parameters.AddWithValue("@PostalCode", request.PostalCode ?? "");
+                        command.Parameters.AddWithValue("@City", request.City ?? "");
+                        command.Parameters.AddWithValue("@State", request.State ?? "");
+                        command.Parameters.AddWithValue("@Photo", request.Photo ?? "");
+                        command.Parameters.AddWithValue("@Designation", request.Designation ?? "");
+                        command.Parameters.AddWithValue("@Department", request.Department);
+                        command.Parameters.AddWithValue("@MailOfficial", request.MailOfficial ?? "");
+                        command.Parameters.AddWithValue("@EmployeeNumber", request.EmployeeNumber ?? "");
+                        command.Parameters.AddWithValue("@DepartmentId", request.DepartmentID);
+                        command.Parameters.AddWithValue("@FirstName", request.FirstName ?? "");
+                        command.Parameters.AddWithValue("@LastName", request.LastName ?? "");
+                        command.Parameters.AddWithValue("@JanaadhaarId", request.JanaadhaarId ?? "");
+                        command.Parameters.AddWithValue("@ManaadhaarMemberId", request.ManaadhaarMemberId ?? "");
+                        command.Parameters.AddWithValue("@UserType", request.UserType ?? "");
+                        command.Parameters.AddWithValue("@Mfa", request.Mfa ?? "");
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+                        command.Parameters.AddWithValue("@ModifyDate", request.ModifyDate);
+                        command.Parameters.AddWithValue("@IPAddress", request.IPAddress ?? "0.0.0.0");
+                        command.Parameters.AddWithValue("@CourseType", request.Eng_NonEng);
+                        command.Parameters.AddWithValue("@HostelID", request.HostelID);
+                        command.Parameters.AddWithValue("@StaffLevelID", request.StaffLevelID);
+                        command.Parameters.AddWithValue("@CourseID", request.BranchID);
+                        command.Parameters.AddWithValue("@TechnicianID", request.TechnicianID);
+                        command.Parameters.AddWithValue("@StaffLevelChildID", request.StaffLevelChildID);
+                        command.Parameters.AddWithValue("@StaffID", request.StaffID);
+                        command.Parameters.AddWithValue("@multiHostelIDs", request.multiHostelIDs);
+                        command.Parameters.AddWithValue("@EMTypeID", request.EMTypeID);
+                        command.Parameters.AddWithValue("@OfficeID", request.OfficeID);
+                        command.Parameters.AddWithValue("@Shift", request.Shift);
+                        command.Parameters.AddWithValue("@Unit", request.Unit);
+                        command.Parameters.AddWithValue("@IsInstructor", request.IsInstructor);
+                        command.Parameters.AddWithValue("@SeatIntakeID", Convert.ToInt32(request.Shift));
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+
+                    }
+                    return result;
+
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
+
+
+
+
+
 
     }
 

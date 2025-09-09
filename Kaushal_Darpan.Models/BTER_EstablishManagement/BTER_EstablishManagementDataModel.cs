@@ -106,6 +106,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? TechnicianID { get; set; }
         public int? StaffLevelChildID { get; set; }
         public int? EMTypeID { get; set; }
+        public int PostID { get; set; }
 
         public string? multiHostelIDs { get; set; }
     }
@@ -233,6 +234,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? StaffUserID { get; set; }
         public int? StaffID { get; set; }
         public string? SSOID { get; set; }
+        public string Remark { get; set; }
         public int? ModifyBy { get; set; }
     }
 

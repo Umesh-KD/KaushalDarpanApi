@@ -45,6 +45,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserID", body.UserID);
                         command.Parameters.AddWithValue("@CollegeID", body.InstituteId);
                         command.Parameters.AddWithValue("@FinancialYearId", body.FinancialYearID);
+                        //command.Parameters.AddWithValue("@CollageID", body.CollageID);
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync();
@@ -666,6 +668,121 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
 
         }
+
+
+          public async Task<DataSet> GetAllDataReportData(ITIIIPManageDataModel body)
+        {
+            _actionName = "GetAllDataReport()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataSet dataTable = new DataSet();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_IIPManage";
+                        command.Parameters.AddWithValue("@Action", "GetAllDataReport");
+                        //command.Parameters.AddWithValue("@UserID", body.UserID);
+                        //command.Parameters.AddWithValue("@CollegeID", body.InstituteId);
+                        //command.Parameters.AddWithValue("@FinancialYearId", body.FinancialYearID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataSet> GetAllIMCFundDataforReport(IIPManageFundSearchModel body)
+        {
+           
+            _actionName = "GetAllData()";
+            try
+            {
+                return await Task.Run(async () =>
+                    {
+                    DataSet dataTable = new DataSet();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_IIPManage";
+                        command.Parameters.AddWithValue("@Action", "GetAllIMCFundDataReport");
+
+                        command.Parameters.AddWithValue("@CollegeID", body.InstituteId);
+                        command.Parameters.AddWithValue("@FinancialYearId", body.FinancialYearID);
+                        command.Parameters.AddWithValue("@RegisterationID", body.IMCRegID);
+
+                        command.Parameters.AddWithValue("@DivisionID", body.DivisionID);
+                        command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
+                        //command.Parameters.AddWithValue("@CollegeID", body.CollageID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        //public async Task<DataSet> GetIIPQuaterlyFundReportData()
+        //{
+        //    return await Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            var dataSet = new DataSet();
+        //            using (var command = _dbContext.CreateCommand())
+        //            {
+        //                command.CommandType = CommandType.StoredProcedure;
+        //                command.CommandText = "USP_ITI_IIP_GetQuaterlyFundReport";
+        //                //command.Parameters.AddWithValue("@ID", Id);
+        //                _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+        //                dataSet = await command.FillAsync();
+        //            }
+        //            return dataSet;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            var errorDesc = new ErrorDescription
+        //            {
+        //                Message = ex.Message,
+        //                PageName = _pageName,
+        //                ActionName = _actionName,
+        //                SqlExecutableQuery = _sqlQuery
+        //            };
+        //            var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+        //            throw new Exception(errordetails, ex);
+        //        }
+
+        //    });
+
+        //}
     }
 }
 

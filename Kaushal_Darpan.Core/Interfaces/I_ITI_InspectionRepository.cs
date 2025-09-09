@@ -41,5 +41,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         //Task<int> IsRequestHistoryCenterObserver(PostIsRequestCenterObserver model);
         Task<int> ApproveRequest(int DeployedID);
         Task<List<CommonDDLModel>> GetDistrictMaster(ITI_InspectionSearchModel body);
+        Task<int> saveConsentData(ConsentModel model);
+        Task<DataTable> GetAllConsentData(ConsentModel body);
+        Task<int> saveConsent(List<ConsentModel> request);
+        Task<List<CommonDDLModel>> GetDistrict(ITI_ConsentSearchModel body);
     }
 }
