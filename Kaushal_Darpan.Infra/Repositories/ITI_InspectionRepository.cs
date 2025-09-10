@@ -1334,7 +1334,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_M_ITI_ConsentSaveData";
+                        command.CommandText = "USP_M_ITI_ConsentData";
                         command.Parameters.AddWithValue("@Action", "GetConsentsByPrincipal");
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
 
