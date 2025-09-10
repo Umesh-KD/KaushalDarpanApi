@@ -1279,5 +1279,44 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> BTER_EM_DesignationWiseBranch(BTER_DesignationWiseBranchDataModel model)
+        {
+            _actionName = "BTER_EM_DesignationWiseBranch(BTER_DesignationWiseBranchDataModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+                        command.CommandText = "USP_DesignationWiseBranch";
+                        //command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        //command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        //command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        //command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        //command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
