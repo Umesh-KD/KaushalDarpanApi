@@ -301,6 +301,8 @@ namespace Kaushal_Darpan.Core.Helper
         public string? MaxFileSize { get; set; }
         public string? Password { get; set; }
         public bool? IsCopy { get; set; }
+        public int? FileNameWithDynamicPath { get; set; }
+        public string? FilePrefix { get; set; }
     }
 
     public class GetBTEROriginalListModel

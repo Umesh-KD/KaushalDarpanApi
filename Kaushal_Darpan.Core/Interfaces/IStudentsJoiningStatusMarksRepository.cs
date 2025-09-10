@@ -17,6 +17,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveReporting(AllotmentReportingModel productDetails);
         Task<int> SaveCorrectDocument(AllotmentReportingModel productDetails);
         Task<DataTable> GetSeatAllotmentData(StudentsJoiningStatusMarksSearchModel body);
+        Task<DataTable> DownloadCollegeJailAllotmentData(StudentsJoiningStatusMarksSearchModel body);
         Task<DataTable> GetCollegeAdminData(ReportCollegeForAdminModel body);
         Task<DataTable> GetCollegeData(ReportCollegeModel body);
         Task<DataTable> GetUpgradedbyUpwardList(StudentsJoiningStatusMarksSearchModel body);
