@@ -6,6 +6,7 @@ using Kaushal_Darpan.Models.CheckListModel;
 using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.ITI_Inspection;
 using Kaushal_Darpan.Models.ITIAdminDashboard;
+using Kaushal_Darpan.Models.ITIAllotment;
 using Kaushal_Darpan.Models.ITICenterObserver;
 using Kaushal_Darpan.Models.ITIFlyingSquad;
 using Microsoft.Data.SqlClient;
@@ -1162,11 +1163,9 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-
-        // work
         public async Task<int> saveConsent(List<ConsentModel> request)
         {
-            _actionName = "saveConsent(ConsentModel request)";
+            _actionName = "SaveConsent(ConsentModel request)";
             return await Task.Run(async () =>
             {
                 try
@@ -1174,20 +1173,18 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
                     using (var command = _dbContext.CreateCommand(true))
                     {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_InspectionDeployment_IU";
+                        command.CommandText = "USP_InspectionConsent";
                         command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_addEditData");
+                        command.Parameters.AddWithValue("@action", "_saveConsentData");
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
-                        command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
-                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                         _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                        await command.ExecuteNonQueryAsync();
 
-                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);
                     }
                     return result;
                 }
@@ -1205,8 +1202,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-
-
 
 
         public async Task<List<CommonDDLModel>> GetDistrict(ITI_ConsentSearchModel body)
@@ -1248,6 +1243,87 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<DataTable> GetById_Consent(int ID)
+        {
+            _actionName = "GetById(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_M_ITI_ConsentData";
+                        command.Parameters.AddWithValue("@InspectionConsentID", ID);
+                        command.Parameters.AddWithValue("@Action", "GetById_Consent");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        #region "update Consent"
+        public async Task<int> updateConsent(ConsentModel request)
+        {
+            return await Task.Run(async () =>
+            {
+                _actionName = "SaveData(GroupMaster request)";
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_updateConsentData";
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@DocConsent", request.DocConsent);
+                        command.Parameters.AddWithValue("@Remark", request.Remark);
+                        command.Parameters.AddWithValue("@TentativeDate", request.TentativeDate);
+                        command.Parameters.AddWithValue("@InspectionConsentID", request.InspectionConsentID);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
 
 
     }

@@ -324,6 +324,116 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+
+        [HttpPost("UpdateInstructorData")]
+        public async Task<ApiResult<int>> UpdateInstructorData([FromBody] ITI_InstructorModel request)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.ITI_InstructorRepository.UpdateInstructorDataAsync(request);
+
+                    _unitOfWork.SaveChanges();
+
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+        [HttpPost("GetInstructorListIsAssign")]
+        public async Task<ApiResult<DataTable>> GetInstructorListIsAssign(ITI_InstructorDataAssign model)
+        {
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                var data = await _unitOfWork.ITI_InstructorRepository.GetInstructorListIsAssign(model);
+                if (data != null && data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    result.Data = data;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+
+        [HttpPost("GetInstructorListIsAssignStatus/{Uid}")]
+        public async Task<ApiResult<DataTable>> GetInstructorListIsAssignStatus(string Uid)
+        {
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                var data = await _unitOfWork.ITI_InstructorRepository.ToggleAssignStatusAsync(Uid);
+
+                if (data != null && data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    result.Data = data;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ADD_ERROR;
+                result.ErrorMessage = ex.Message; 
+            }
+
+            return result;
+        }
+
     }
 }
 

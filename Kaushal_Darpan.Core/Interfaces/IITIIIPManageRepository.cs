@@ -15,7 +15,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataSet> GetAllData(ITIIIPManageDataModel body);
 
-        Task<DataSet> GetAllDataReportData(ITIIIPManageDataModel body);
+      
        
         Task<int> SaveIMCReg(ITIIIPManageDataModel productDetails);  
         Task<DataSet> GetAllIMCFundData(IIPManageFundSearchModel body);

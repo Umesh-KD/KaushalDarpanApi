@@ -246,7 +246,7 @@ namespace Kaushal_Darpan.Models.Report
         public int DepartmentID { get; set; }
         public int EndTermID { get; set; }
         public int Eng_NonEng { get; set; }
-       
+
         public int RoleID { get; set; }
 
         public int SemesterID { get; set; }
@@ -258,7 +258,7 @@ namespace Kaushal_Darpan.Models.Report
         public string ToDate { get; set; }
         public string CSName { get; set; }
 
-             
+
     }
 
     public class StudentExaminerDetailReport
@@ -278,4 +278,20 @@ namespace Kaushal_Darpan.Models.Report
         public string Name { get; set; }
         public string? CenterCode { get; set; }
     }
+
+
+    public class ApplicantStudentReport
+    {
+        public int DepartmentID { get; set; }
+        public int AcademicYearID { get; set; }
+        
+    }
+
+    public class ReportedStudentReport
+    {
+        public int AcademicYearID { get; set; }
+
+    }
+
+
 }

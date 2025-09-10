@@ -95,5 +95,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetITI_Govt_EM_UserProfileStatusHt(ITI_Govt_EM_UserRequestHistoryListSearchDataModel Model);
 
         Task<DataTable> ITIEMStaffDuplicateCheck(ITI_EMStaffDuplicateCheckModel filterModel);
+
+        Task<int> SaveBasicInstructorData(ITIGovtEMAddStaffBasicDetailDataModel request);
     }
 }
