@@ -1136,12 +1136,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_M_ITI_ConsentSaveData";
+                        command.CommandText = "USP_M_ITI_ConsentData";
                         command.Parameters.AddWithValue("@Action", "GetAllConsents");
-                        //command.Parameters.AddWithValue("@ZoneID", body.ZoneID);
-                        //command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
-                        //command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
-                        //command.Parameters.AddWithValue("@UserID", body.UserID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -1324,6 +1321,43 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
         #endregion
+
+
+        public async Task<DataTable> GetAllConsentbyPrincipal(ConsentModel body)
+        {
+            _actionName = "GetAllConsentData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_M_ITI_ConsentData";
+                        command.Parameters.AddWithValue("@Action", "GetConsentsByPrincipal");
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
 
 
     }

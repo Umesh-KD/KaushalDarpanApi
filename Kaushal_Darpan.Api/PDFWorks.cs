@@ -14,6 +14,7 @@ using System.Text;
 using System.Data;
 using System.Text.RegularExpressions;
 using DocumentFormat.OpenXml.Packaging;
+using Kaushal_Darpan.Api.Code.Helper;
 
 namespace Utility
 {
@@ -117,7 +118,7 @@ namespace Utility
             }
         }
 
-        public static byte[] GeneratePDFGetByte(StringBuilder HtmlString, string PageOriantation = "" ,string watermarkImagePath="")
+        public static byte[] GeneratePDFGetByte(StringBuilder HtmlString, string PageOriantation = "" ,string watermarkImagePath="",bool IsShowBorder=false)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -165,6 +166,14 @@ namespace Utility
                 var fontPath1 = $"{ConfigurationHelper.RootPath}/fonts/K010_1.TTF";
                 var fontPath2 = $"{ConfigurationHelper.RootPath}/fonts/krdv011.ttf";
 
+                // Show Borader
+                if (IsShowBorder)
+                {
+                    writer.PageEvent = new PageBorderHelper();
+                }
+
+
+
                 if (!string.IsNullOrWhiteSpace(headerHtml) || !string.IsNullOrWhiteSpace(footerHtml))
                 {
                     var headerFooter = new PdfHeaderFooter(headerHtml, footerHtml, fontPath1, fontPath2);
@@ -204,6 +213,13 @@ namespace Utility
                     {
                         xmlParser.Parse(sr);
                     }
+
+
+
+
+
+
+
 
                     pdfDoc.Close();
                     writer.Close();

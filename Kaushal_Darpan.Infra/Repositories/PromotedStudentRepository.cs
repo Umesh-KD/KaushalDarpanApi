@@ -160,9 +160,9 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<int> SaveEnrolledStudentExam_Next(List<StudentMarkedModel> model)
+        public async Task<int> SaveEnrolledStudentExam_Next(List<PromotedStudentMarkedModel> model)
         {
-            _actionName = "SaveEnrolledStudentExam(List<StudentMarkedModel> model)";
+            _actionName = "SaveEnrolledStudentExam_Next(List<PromotedStudentMarkedModel> model)";
             return await Task.Run(async () =>
             {
                 try

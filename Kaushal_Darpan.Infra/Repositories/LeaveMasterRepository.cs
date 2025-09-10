@@ -159,6 +159,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+       
+        
         public async Task<bool> DeleteDataByID(LeaveMaster request)
         {
             _actionName = "DeleteDataByID(HRMaster request)";
@@ -170,7 +172,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand(true))
                     {
                         command.CommandType = CommandType.Text;
-                        command.CommandText = $" update LeaveMaster  set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'Where HRManagerID={request.StaffLeaveID}";
+                        command.CommandText = $" update M_StaffLeave  set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'Where StaffLeaveID={request.StaffLeaveID}";
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();

@@ -49,5 +49,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetById_Consent(int ID);
         Task<int> updateConsent(ConsentModel request);
+
+        Task<DataTable> GetAllConsentbyPrincipal(ConsentModel body);
     }
 }

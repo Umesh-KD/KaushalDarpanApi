@@ -154,22 +154,22 @@ namespace Kaushal_Darpan.Models.ITI_Inspection
     }
     public class ConsentModel
     {
-        public int InspectionConsentID { get; set; }
-        public int ZoneID { get; set; }
-        public int DistrictID { get; set; } 
-        public int InstituteID { get; set; } 
-        public DateTime TentativeDate { get; set; }
-        public int CreatedBy { get; set; } 
-        public DateTime CreatedDate { get; set; }
-        public DateTime ModifyDate { get; set; }
-        public int ModifyBy { get; set; }
-        public DateTime UpdatedDate { get; set; } 
-        public string IPAddress { get; set; } = string.Empty;
-        public int UserID { get; set; }  
-        public int EndTermID { get; set; }  
-        public int FinancialYearID { get; set; }  
-        public string DocConsent { get; set; }  
-        public string Remark { get; set; }  
+        public int? InspectionConsentID { get; set; }
+        public int? ZoneID { get; set; }
+        public int? DistrictID { get; set; } 
+        public int? InstituteID { get; set; } 
+        public DateTime? TentativeDate { get; set; }
+        public int? CreatedBy { get; set; } 
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? ModifyDate { get; set; }
+        public int? ModifyBy { get; set; }
+        public DateTime? UpdatedDate { get; set; } 
+        public string? IPAddress { get; set; } = string.Empty;
+        public int? UserID { get; set; }  
+        public int? EndTermID { get; set; }  
+        public int? FinancialYearID { get; set; }  
+        public string? DocConsent { get; set; }  
+        public string? Remark { get; set; }  
 
     }
     public class ITI_ConsentSearchModel

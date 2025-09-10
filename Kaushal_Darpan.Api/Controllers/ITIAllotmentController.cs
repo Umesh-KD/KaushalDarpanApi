@@ -751,7 +751,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/iti_logo.jpeg";
 
-                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "", watermarkImagePath);
+                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "", watermarkImagePath,true);
 
                         result.Data = Convert.ToBase64String(pdfBytes); ;
                         result.State = EnumStatus.Success;
