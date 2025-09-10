@@ -5,6 +5,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.ITI_Inspection;
+using Kaushal_Darpan.Models.ITIAllotment;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -364,7 +365,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     return result;
                 }
                 result.State = EnumStatus.Success;
-                result.Message = "Data load successfully .!";
+                result.Message = "Data load successfully.!";
             }
             catch (System.Exception ex)
             {
@@ -1315,6 +1316,90 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [HttpGet("GetById_Consent/{ID}")]
+        public async Task<ApiResult<DataTable>> GetById_Consent(int ID)
+        {
+            ActionName = "GetByID(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.ITI_InspectionRepository.GetById_Consent(ID);
+                    result.Data = data;
+                    if (data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+
+        [HttpPost("updateConsent")]
+        public async Task<ApiResult<int>> updateConsent([FromBody] ConsentModel request)
+        {
+            ActionName = "updateConsent([FromBody])";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.ITI_InspectionRepository.updateConsent(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "update successfully .!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
 
 
     }

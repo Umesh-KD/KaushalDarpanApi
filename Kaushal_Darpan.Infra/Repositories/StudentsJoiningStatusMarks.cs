@@ -394,6 +394,49 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
+        public async Task<DataTable> DownloadCollegeJailAllotmentData(StudentsJoiningStatusMarksSearchModel body)
+        {
+            _actionName = "GetById(int PK_ID)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetITJailAllotmentData";
+
+
+                        //command.Parameters.AddWithValue("@AllotmentId", body.AllotmentId);
+                        //command.Parameters.AddWithValue("@AllotmentMasterId", body.AllotmentMasterId);
+                        command.Parameters.AddWithValue("@ApplicationID", body.ApplicationID);
+                        command.Parameters.AddWithValue("@AcademicYearID", body.FinancialYearID);
+                        command.Parameters.AddWithValue("@InstituteID", body.CollegeId);
+                        command.Parameters.AddWithValue("@TradeLevel", body.TradeLevel);
+
+                        command.Parameters.AddWithValue("@Action", "JailPdfData");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
 
         public async Task<DataTable> CheckAllot(StudentsJoiningStatusMarksSearchModel body)
         {

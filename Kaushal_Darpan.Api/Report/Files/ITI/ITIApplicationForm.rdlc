@@ -2952,7 +2952,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>24.15539cm</Top>
+            <Top>22.56789cm</Top>
             <Left>16.0876cm</Left>
             <Height>0.67937cm</Height>
             <Width>4.9073cm</Width>
@@ -2972,7 +2972,7 @@
             <Value>=First(Fields!StudentSign.Value, "Student_Personal_Details")</Value>
             <MIMEType>image/png</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>22.79452cm</Top>
+            <Top>21.20702cm</Top>
             <Left>16.1152cm</Left>
             <Height>1.25503cm</Height>
             <Width>4.8797cm</Width>
@@ -3009,7 +3009,7 @@
               <BreakLocation>End</BreakLocation>
             </PageBreak>
             <KeepTogether>true</KeepTogether>
-            <Top>25.33421cm</Top>
+            <Top>23.42921cm</Top>
             <Left>0.30382cm</Left>
             <Height>0.14521cm</Height>
             <Width>20.90215cm</Width>
@@ -3041,7 +3041,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>25.58525cm</Top>
+            <Top>23.68025cm</Top>
             <Left>0.38083cm</Left>
             <Height>0.77639cm</Height>
             <Width>20.70177cm</Width>
@@ -3305,7 +3305,7 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>Student_Option_Details</DataSetName>
-            <Top>26.42735cm</Top>
+            <Top>24.52235cm</Top>
             <Left>0.36322cm</Left>
             <Height>1.2cm</Height>
             <Width>20.71938cm</Width>
@@ -3820,7 +3820,7 @@
           </Border>
         </Style>
       </Body>
-      <Width>8.39814in</Width>
+      <Width>8.39813in</Width>
       <Page>
         <PageHeader>
           <Height>3.2512cm</Height>
@@ -4056,7 +4056,7 @@
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>2.01083cm</Height>
+          <Height>1.06729cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -4079,10 +4079,10 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox7</rd:DefaultName>
-              <Top>0.97cm</Top>
-              <Left>0.61395cm</Left>
+              <Top>0.335cm</Top>
+              <Left>0.30382cm</Left>
               <Height>0.6cm</Height>
-              <Width>3.74858cm</Width>
+              <Width>6.51758cm</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -4112,10 +4112,10 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox18</rd:DefaultName>
-              <Top>0.97cm</Top>
-              <Left>4.88067cm</Left>
+              <Top>0.335cm</Top>
+              <Left>6.99779cm</Left>
               <Height>0.6cm</Height>
-              <Width>4.29218cm</Width>
+              <Width>7.67885cm</Width>
               <ZIndex>1</ZIndex>
               <Style>
                 <Border>
@@ -4146,10 +4146,10 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox26</rd:DefaultName>
-              <Top>0.97cm</Top>
-              <Left>9.53059cm</Left>
+              <Top>0.335cm</Top>
+              <Left>14.78247cm</Left>
               <Height>0.6cm</Height>
-              <Width>3.90229cm</Width>
+              <Width>6.4235cm</Width>
               <ZIndex>2</ZIndex>
               <Style>
                 <Border>

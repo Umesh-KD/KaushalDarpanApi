@@ -93,6 +93,8 @@ namespace Kaushal_Darpan.Models.StudentMaster
         public int? His_StatusId { get; set; } = 0;
         public bool? IsVerified { get; set; } = false;
         public int? RoleID { get; set; } = 0;
+        public int? CourseTypeID { get; set; } = 0;
+        public string? FinancialYearName { get; set; } = "";
     }
     public class StudentMaster_QualificationDetails
     {

@@ -44,7 +44,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         //-----HOD_dashboard---
         Task<DataTable> GetHODDash(HODDashboardSearchModel model);
 
+        Task<bool> Bter_RevertStaffProfile(BTER_EM_UnlockProfileDataModel productDetails);
 
+        Task<DataTable> BTER_EM_DesignationWiseBranch(BTER_DesignationWiseBranchDataModel model);
 
     }
 }
