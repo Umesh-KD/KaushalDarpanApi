@@ -348,6 +348,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CurrentDesignationID", request.CurrentDesignationID); 
                         command.Parameters.AddWithValue("@DateOfAppointment", request.DateOfAppointment ?? ""); 
                         command.Parameters.AddWithValue("@DateOfJoining", request.DateOfJoining ?? ""); 
+                        command.Parameters.AddWithValue("@DepartmentJoiningDate", request.DepartmentJoiningDate ?? ""); 
                         command.Parameters.AddWithValue("@Experience", request.Experience); 
                         command.Parameters.AddWithValue("@QualificationAtJoining", request.QualificationAtJoining ?? ""); 
                         command.Parameters.AddWithValue("@QualificationAfterJoining", request.QualificationAfterJoining ?? ""); 
