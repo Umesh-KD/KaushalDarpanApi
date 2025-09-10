@@ -312,5 +312,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetMigrationType();
         Task<DataTable> ITI_DeirectAdmissionOptionFormData(ItiTradeSearchModel request);
         Task<DataSet> Dummy_GetTestUspDataByAction(string action);
+
+        Task<DataTable> GetSSOIDDetailData(string SSOID,string action);
+
     }
 }
