@@ -22,8 +22,8 @@ namespace Kaushal_Darpan.Models.PrometedStudentMaster
         public decimal EarnedCreditsSem1 { get; set; }
         public decimal EarnedCreditsSem2 { get; set; }
         public decimal TotalEarnedCredits { get; set; }
-        public string Detain { get; set; }
-        public string UFM { get; set; }
+        public bool Detain { get; set; }
+        public bool UFM { get; set; }
         public int UFMCategory { get; set; }
         public int InstituteId { get; set; }
     }
