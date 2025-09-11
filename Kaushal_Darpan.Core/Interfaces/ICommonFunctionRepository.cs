@@ -71,7 +71,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<ViewStudentDetailsModel> ViewStudentDetails(ViewStudentDetailsRequestModel model);
         Task<DataTable> ViewStudentAdmittedDetails(ViewStudentDetailsRequestModel model);
         Task<ViewStudentDetailsModel> ITIViewStudentDetails(ViewStudentDetailsRequestModel model);
-        Task<StudentMasterModel> PreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndtermID, int StudentExamID);
+        Task<StudentMasterModel> PreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndtermID, int StudentExamID, int FileNameWithDynamicPath);
         Task<StudentMasterModel> ITIPreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndtermID, int StudentExamID);
         Task<DataTable> UploadFilePath();
         Task<DataTable> CollegeType();
@@ -312,5 +312,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetMigrationType();
         Task<DataTable> ITI_DeirectAdmissionOptionFormData(ItiTradeSearchModel request);
         Task<DataSet> Dummy_GetTestUspDataByAction(string action);
+
+        Task<DataTable> GetSSOIDDetailData(string SSOID,string action);
+
     }
 }

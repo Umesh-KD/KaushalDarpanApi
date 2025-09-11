@@ -55,6 +55,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Mobile", request.Mobile);
                         command.Parameters.AddWithValue("@Email", request.Email);
 
+                        command.Parameters.AddWithValue("@BankAccountNumber", request.BankAccountNumber);
+                        command.Parameters.AddWithValue("@IFSCCode", request.IFSCCode);
+                        command.Parameters.AddWithValue("@BankName", request.BankName);
+                        command.Parameters.AddWithValue("@ConsentToAssignAsExaminer", request.ConsentToAssignAsExaminer);
+
                         command.Parameters.AddWithValue("@PlotHouseBuildingNo", request.PlotHouseBuildingNo);
                         command.Parameters.AddWithValue("@StreetRoadLane", request.StreetRoadLane);
                         command.Parameters.AddWithValue("@AreaLocalitySector", request.AreaLocalitySector);
@@ -105,7 +110,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@JanAadhar", string.IsNullOrEmpty(request.JanAadhar) ? (object)DBNull.Value : request.JanAadhar);
                         command.Parameters.AddWithValue("@QualificationDocument", string.IsNullOrEmpty(request.QualificationDocument) ? (object)DBNull.Value : request.QualificationDocument);
                         command.Parameters.AddWithValue("@TechQualificationDocument", string.IsNullOrEmpty(request.TechQualificationDocument) ? (object)DBNull.Value : request.TechQualificationDocument);
-                        command.Parameters.AddWithValue("@EmploymentDocument", string.IsNullOrEmpty(request.EmploymentDocument)? (object)DBNull.Value : request.EmploymentDocument);
+                        command.Parameters.AddWithValue("@EmploymentDocument", string.IsNullOrEmpty(request.EmploymentDocument) ? (object)DBNull.Value : request.EmploymentDocument);
                         command.Parameters.AddWithValue("@TehsilName", string.IsNullOrEmpty(request.TehsilName) ? (object)DBNull.Value : request.TehsilName);
                         var eduJson = request.EducationalQualifications != null && request.EducationalQualifications.Any()
                             ? JsonConvert.SerializeObject(request.EducationalQualifications)
@@ -318,7 +323,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetITIInstructorByApplicationID";
                         command.Parameters.AddWithValue("@ApplicationID", model.ApplicationID);
-                   
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -419,6 +424,180 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+
+        public async Task<int> UpdateInstructorDataAsync(ITI_InstructorModel request)
+        {
+            _actionName = "UpdateInstructorDataAsync(ITI_InstructorModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "usp_ITI_Instructor_UpdateByUid";
+
+                        // No @Action param now, this SP only updates
+                        command.Parameters.AddWithValue("@Uid", request.Uid);
+                        command.Parameters.AddWithValue("@Name", request.Name);
+                        command.Parameters.AddWithValue("@FatherOrHusbandName", request.FatherOrHusbandName);
+                        command.Parameters.AddWithValue("@MotherName", request.MotherName);
+                        command.Parameters.AddWithValue("@Dob", request.Dob);
+                        command.Parameters.AddWithValue("@Gender", request.Gender);
+                        command.Parameters.AddWithValue("@MaritalStatus", request.MaritalStatus);
+                        command.Parameters.AddWithValue("@Category", request.Category);
+                        command.Parameters.AddWithValue("@Mobile", request.Mobile);
+                        command.Parameters.AddWithValue("@Email", request.Email);
+
+                        command.Parameters.AddWithValue("@BankAccountNumber", request.BankAccountNumber);
+                        command.Parameters.AddWithValue("@IFSCCode", request.IFSCCode);
+                        command.Parameters.AddWithValue("@BankName", request.BankName);
+                        command.Parameters.AddWithValue("@ConsentToAssignAsExaminer", request.ConsentToAssignAsExaminer);
+
+                        command.Parameters.AddWithValue("@PlotHouseBuildingNo", request.PlotHouseBuildingNo);
+                        command.Parameters.AddWithValue("@StreetRoadLane", request.StreetRoadLane);
+                        command.Parameters.AddWithValue("@AreaLocalitySector", request.AreaLocalitySector);
+                        command.Parameters.AddWithValue("@LandMark", request.LandMark);
+                        command.Parameters.AddWithValue("@ddlState", request.DdlState);
+                        command.Parameters.AddWithValue("@ddlDistrict", request.DdlDistrict);
+                        command.Parameters.AddWithValue("@PropTehsilID", request.PropTehsilID);
+                        command.Parameters.AddWithValue("@City", request.City);
+                        command.Parameters.AddWithValue("@Pincode", request.Pincode);
+
+                        command.Parameters.AddWithValue("@Correspondence_PlotHouseBuildingNo", request.Correspondence_PlotHouseBuildingNo);
+                        command.Parameters.AddWithValue("@Correspondence_StreetRoadLane", request.Correspondence_StreetRoadLane);
+                        command.Parameters.AddWithValue("@Correspondence_AreaLocalitySector", request.Correspondence_AreaLocalitySector);
+                        command.Parameters.AddWithValue("@Correspondence_LandMark", request.Correspondence_LandMark);
+                        command.Parameters.AddWithValue("@Correspondence_ddlState", request.Correspondence_ddlState);
+                        command.Parameters.AddWithValue("@Correspondence_ddlDistrict", request.Correspondence_ddlDistrict);
+                        command.Parameters.AddWithValue("@Correspondence_PropTehsilID", request.Correspondence_PropTehsilID);
+                        command.Parameters.AddWithValue("@Correspondence_City", request.Correspondence_City);
+                        command.Parameters.AddWithValue("@Correspondence_Pincode", request.Correspondence_Pincode);
+
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        command.Parameters.AddWithValue("@IsDomicile", request.IsDomicile ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Aadhar", string.IsNullOrEmpty(request.Aadhar) ? (object)DBNull.Value : request.Aadhar);
+                        command.Parameters.AddWithValue("@JanAadhar", string.IsNullOrEmpty(request.JanAadhar) ? (object)DBNull.Value : request.JanAadhar);
+                        command.Parameters.AddWithValue("@TehsilName", string.IsNullOrEmpty(request.TehsilName) ? (object)DBNull.Value : request.TehsilName);
+
+                        // Serialize collections to JSON
+                        var eduJson = request.EducationalQualifications != null && request.EducationalQualifications.Any()
+                            ? JsonConvert.SerializeObject(request.EducationalQualifications)
+                            : null;
+
+                        var techJson = request.TechnicalQualifications != null && request.TechnicalQualifications.Any()
+                            ? JsonConvert.SerializeObject(request.TechnicalQualifications)
+                            : null;
+
+                        var empJson = request.EmploymentDetails != null && request.EmploymentDetails.Any()
+                            ? JsonConvert.SerializeObject(request.EmploymentDetails)
+                            : null;
+
+                        command.Parameters.AddWithValue("@EducationJson", (object?)eduJson ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@TechJson", (object?)techJson ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@EmploymentJson", (object?)empJson ?? DBNull.Value);
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+       
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                        //_sqlQuery = command.GetSqlExecutableQuery();
+                        //result = await command.ExecuteNonQueryAsync();
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> GetInstructorListIsAssign(ITI_InstructorDataAssign model)
+        {
+            _actionName = "GetInstructorListIsAssign(ITI_InstructorBindDataSearchModel model )";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ItiInstructorDataAssigned";
+
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@CollegeId", model.CollegeId);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> ToggleAssignStatusAsync(string uid)
+        {
+            _actionName = "ToggleAssignStatusAsync(uid)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_Instructor_ToggleAssignStatus";
+                        command.Parameters.AddWithValue("@Uid", uid);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
     }
 }

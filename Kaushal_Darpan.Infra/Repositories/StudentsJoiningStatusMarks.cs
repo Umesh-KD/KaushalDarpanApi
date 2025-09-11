@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ApplicationData;
+using Kaushal_Darpan.Models.ITIIIPManageDataModel;
 using Kaushal_Darpan.Models.StudentsJoiningStatusMarks;
 using Kaushal_Darpan.Models.studentve;
 using Newtonsoft.Json;
@@ -393,6 +394,49 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
+        public async Task<DataTable> DownloadCollegeJailAllotmentData(StudentsJoiningStatusMarksSearchModel body)
+        {
+            _actionName = "GetById(int PK_ID)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetITJailAllotmentData";
+
+
+                        //command.Parameters.AddWithValue("@AllotmentId", body.AllotmentId);
+                        //command.Parameters.AddWithValue("@AllotmentMasterId", body.AllotmentMasterId);
+                        command.Parameters.AddWithValue("@ApplicationID", body.ApplicationID);
+                        command.Parameters.AddWithValue("@AcademicYearID", body.FinancialYearID);
+                        command.Parameters.AddWithValue("@InstituteID", body.CollegeId);
+                        command.Parameters.AddWithValue("@TradeLevel", body.TradeLevel);
+
+                        command.Parameters.AddWithValue("@Action", "JailPdfData");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
 
         public async Task<DataTable> CheckAllot(StudentsJoiningStatusMarksSearchModel body)
         {
@@ -607,6 +651,45 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CollegeId", body.CollegeId);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        public async Task<DataSet> downloadIIPManageReportPDF(ITIIIPManageDataModel body)
+        {
+            _actionName = "GetAllDataReport()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataSet dataTable = new DataSet();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_IIPManage";
+                        //command.Parameters.AddWithValue("@Action", "GetAllDataReport");
+                        command.Parameters.AddWithValue("@Action", "GetAllIMCFundDataReport");
+                        //command.Parameters.AddWithValue("@UserID", body.UserID);
+                        //command.Parameters.AddWithValue("@CollegeID", body.InstituteId);
+                        //command.Parameters.AddWithValue("@FinancialYearId", body.FinancialYearID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync();
                     }
                     return dataTable;
                 });

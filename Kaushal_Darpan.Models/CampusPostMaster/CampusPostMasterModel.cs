@@ -162,4 +162,10 @@
 
     }
 
+
+    public class SSOIDDetailRequest
+    {
+        public string SSOID { get; set; }
+        public string Action { get; set; }
+    }
 }

@@ -51,6 +51,11 @@ namespace Kaushal_Darpan.Models.ITIIIPManageDataModel
         public string Remarks { get; set; } = string.Empty;
         public string OrderDate { get; set; } = string.Empty;
 
+        public int DivisionID { get; set; } = 0;
+        public int DistrictID { get; set; } = 0;
+        public int CollageID { get; set; } = 0;
+
+
         public List<TradeList> SanctionedTradeList { get; set; } = new List<TradeList>();
         public List<TradeList> AffilateTradeList { get; set; } = new List<TradeList>();
         public List<TradeList> NotAffilateTradeList { get; set; } = new List<TradeList>();
@@ -100,5 +105,10 @@ namespace Kaushal_Darpan.Models.ITIIIPManageDataModel
         public string? ModifyDate { get; set; }   // nullable (Checked)
 
 
+    }
+
+    public class IdModel
+    {
+        public int id { get; set; }
     }
 }

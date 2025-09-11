@@ -15,6 +15,7 @@ using Kaushal_Darpan.Models.BTER;
 using Kaushal_Darpan.Models.ITIIMCAllocation;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.StudentsJoiningStatusMarks;
+using Kaushal_Darpan.Models.ITIIIPManageDataModel;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -750,7 +751,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/iti_logo.jpeg";
 
-                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "", watermarkImagePath);
+                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "", watermarkImagePath,true);
 
                         result.Data = Convert.ToBase64String(pdfBytes); ;
                         result.State = EnumStatus.Success;
@@ -1370,6 +1371,85 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("DownloadCollegeJailAllotmentData")]
+        public async Task<ApiResult<string>> DownloadCollegeJailAllotmentData([FromBody] StudentsJoiningStatusMarksSearchModel body)
+        {
+            ActionName = "GetAllotmentReceipt(string AllotmentId)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var resultData = await Task.Run(() => _unitOfWork.StudentsJoiningStatusMarksRepository.DownloadCollegeJailAllotmentData(body));
+
+                    if (resultData != null)
+                    {
+                        DataSet data = new DataSet();
+                        data.Tables.Add(resultData);
+
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        data.Tables[0].TableName = "StudentAllotment";
+
+                        data.Tables[0].Rows[0]["logo_left"] = $"{ConfigurationHelper.StaticFileRootPath}/iti_logo.jpeg";
+                        data.Tables[0].Rows[0]["logo_right"] = $"{ConfigurationHelper.StaticFileRootPath}/iti_logo.png";
+
+                        //data.Tables[0].Rows[0]["signlogo"]=$"{ConfigurationHelper.StaticFileRootPath}/iti_signlogo.png";
+                        //data.Tables[0].Rows[0]["mainlogo"]=$"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
+                        //data.Tables[1].TableName = "Consolidated_Marksheet";
+                        string devFontSize = "15px";
+                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+                        string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.StateTradeCertificateITI}/JailAllotmentData.html";
+
+                        string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+
+                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+
+                        //html = Utility.PDFWorks.ReplaceCustomTag(html);
+                        //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+                        sb1.Append(html);
+
+                        //var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogoWaterMark.png";
+
+                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "LANDSCAPE A4", "");
+
+                        result.Data = Convert.ToBase64String(pdfBytes); ;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Success";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+
+
 
         [HttpPost("DownloadCollegeAdminData")]
         public async Task<ApiResult<string>> DownloadCollegeAdminData([FromBody] ReportCollegeForAdminModel body)
@@ -1525,7 +1605,7 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-
+        //IIPManageReport
 
         [HttpPost("StudentSeatWithdrawRequest")]
         public async Task<ApiResult<int>> StudentSeatWithdrawRequest([FromBody] StudentthdranSeatModel request)
@@ -1609,6 +1689,88 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        // Download IIP manage Report
+        [HttpPost("downloadIIPManageReportPDF")]
+        public async Task<ApiResult<string>> downloadIIPManageReportPDF([FromBody] ITIIIPManageDataModel body)
+        {
+
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.StudentsJoiningStatusMarksRepository.downloadIIPManageReportPDF(body);
+
+                    if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+                    {
+
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                        //data.Tables[0].TableName = "IMCReg_Details";
+                        data.Tables[0].TableName = "ITI_IIP_IMCFund";
+                        //data.Tables[0].TableName = "ITI_IIP_IMCFund";
+
+                        //data.Tables[0].Rows[0]["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
+                        //data.Tables[0].Rows[0]["NE100"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
+                        //data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
+
+
+                        //data.Tables[1].TableName = "IMC_Members";
+                        //data.Tables[2].TableName = "IMC_FundDetails";
+                        //data.Tables[3].TableName = "IMC_QuaterProgressDetails";
+                        //data.Tables[1].TableName = "ITI_IIP_IMCFund";
+
+                        string devFontSize = "12px";
+                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+
+                        string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.GetITIStudent_MarksheetReport}/GetIIPQuaterlyFundReportdata.html";
+
+                        string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+
+                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+                        html = Utility.PDFWorks.ReplaceCustomTag(html);
+                        //System.IO.File.WriteAllText("debug.html", html);
+                        sb1.Append(html);
+
+
+                        var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogoWaterMark.png";
+
+                        //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+
+                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", watermarkImagePath);
+
+                        result.Data = Convert.ToBase64String(pdfBytes);
+                        result.State = EnumStatus.Success;
+                        result.Message = "Success";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
 
 
     }

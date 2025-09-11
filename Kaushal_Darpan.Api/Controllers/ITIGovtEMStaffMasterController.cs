@@ -35,7 +35,7 @@ namespace Kaushal_Darpan.Api.Controllers
         public ITIGovtEMStaffMasterController(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
-            _unitOfWork = unitOfWork; 
+            _unitOfWork = unitOfWork;
         }
         [HttpPost("GetAllData")]
         public async Task<ApiResult<DataTable>> GetAllData([FromBody] ITIGovtEMStaffMasterSearchModel body)
@@ -77,7 +77,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
-       
+
         [HttpPost("StaffBasicDetails")]
         public async Task<ApiResult<int>> SaveBasicData([FromBody] ITIGovtEMAddStaffBasicDetailDataModel request)
         {
@@ -91,7 +91,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     _unitOfWork.SaveChanges();
                     if (result.Data > 0)
                     {
-                       
+
 
                         result.State = EnumStatus.Success;
                         if (result.Data == 1)
@@ -103,7 +103,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             result.Message = Constants.MSG_UPDATE_SUCCESS;
                         }
                     }
-                    else if (result.Data == -2) 
+                    else if (result.Data == -2)
                     {
                         result.State = EnumStatus.Warning;
                         result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
@@ -138,7 +138,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-       
+
         [HttpPost("StaffDetails")]
         public async Task<ApiResult<bool>> SaveData([FromBody] ITIGovtEMStaffMasterModel request)
         {
@@ -201,7 +201,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-       
+
         [HttpGet("GetByID/{PK_ID}/{DepartmentID}")]
         public async Task<ApiResult<ITIGovtEMStaffMasterModel>> GetByID(int PK_ID, int DepartmentID)
         {
@@ -544,9 +544,9 @@ namespace Kaushal_Darpan.Api.Controllers
                     return data;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                
+
                 return null;
             }
 
@@ -599,7 +599,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
-        
+
         [HttpPost("StaffLevelChild")]
         public async Task<ApiResult<DataTable>> StaffLevelChild([FromBody] ITIGovtEMStaffMasterSearchModel body)
         {
@@ -1436,7 +1436,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.Message = Constants.MSG_SAVE_Duplicate;
                 }
                 else
-                {                  
+                {
 
                     result.State = EnumStatus.Success;
                     result.Message = Constants.MSG_SAVE_SUCCESS;
@@ -1920,7 +1920,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("ITIGovtEM_ITI_Govt_Em_PersonalDetailByUserID")]
-        public async Task<ApiResult<PersonalDetailByUserIDModel>> ITIGovtEM_ITI_Govt_Em_PersonalDetailByUserID([FromBody]  PersonalDetailByUserIDSearchModel body)
+        public async Task<ApiResult<PersonalDetailByUserIDModel>> ITIGovtEM_ITI_Govt_Em_PersonalDetailByUserID([FromBody] PersonalDetailByUserIDSearchModel body)
         {
             ActionName = "ITIGovtEM_ITI_Govt_Em_PersonalDetailByUserID([FromBody]  PersonalDetailByUserIDSearchModel body)";
             return await Task.Run(async () =>
@@ -2484,7 +2484,7 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<string>> GetJoiningLetter([FromBody] JoiningLetterSearchModel model)
         {
             ActionName = "GetJoiningLetter(string ApplicationID)";
-            
+
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
@@ -2505,12 +2505,12 @@ namespace Kaushal_Darpan.Api.Controllers
                         //images
 
 
-                        
+
 
 
                         /*define table name for read and replace column from table*/
                         data.Tables[0].TableName = "Joining_Details";
-                        
+
 
 
                         string devFontSize = "15px";
@@ -2566,11 +2566,11 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-            [HttpPost("GetRelievingLetter")]
+        [HttpPost("GetRelievingLetter")]
         public async Task<ApiResult<string>> GetRelievingLetter([FromBody] RelievingLetterSearchModel model)
         {
             ActionName = "GetRelievingLetter(string ApplicationID)";
-            
+
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
@@ -2591,12 +2591,12 @@ namespace Kaushal_Darpan.Api.Controllers
                         //images
 
 
-                        
+
 
 
                         /*define table name for read and replace column from table*/
                         data.Tables[0].TableName = "Relieving_Details";
-                        
+
 
 
                         string devFontSize = "15px";
@@ -2669,10 +2669,10 @@ namespace Kaushal_Darpan.Api.Controllers
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Warning;
-                    result.Message = result.Data.Rows[0]["ErrorMessage"].ToString() ?? ""; 
+                    result.Message = result.Data.Rows[0]["ErrorMessage"].ToString() ?? "";
                 }
                 else
-                {                    
+                {
                     result.State = EnumStatus.Success;
                     result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                 }
@@ -2705,7 +2705,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //        var result = new ApiResult<bool>();
         //        try
         //        {
-                    
+
         //            result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITIGovtEM_OfficeDelete(ID, ModifyBy);
         //            _unitOfWork.SaveChanges();
 
@@ -2884,6 +2884,67 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
+        [HttpPost("SaveBasicInstructorData")]
+        public async Task<ApiResult<int>> SaveBasicInstructorData([FromBody] ITIGovtEMAddStaffBasicDetailDataModel request)
+        {
+            ActionName = "SaveData([FromBody] ITIGovtEMAddStaffBasicDetailDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.SaveBasicInstructorData(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (result.Data == 1)
+                        {
+                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.Message = "Assigned Successfully";
+                        }
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = "An instructor is already assigned for this Seat Intake / Shift / Unit combination.";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (request.ProfileID == 0)
+                        {
+                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        }
+                        else
+                        {
+                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
     }
 
 }

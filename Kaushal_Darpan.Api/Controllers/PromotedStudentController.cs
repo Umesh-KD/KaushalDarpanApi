@@ -112,6 +112,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("SavePromotedStudent")]
+        [RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
         public async Task<ApiResult<bool>> SavePromotedStudent([FromBody] List<PromotedStudentMarkedModel> request)
         {
             ActionName = "SavePromotedStudent([FromBody] List<PromotedStudentMarkedModel> request)";
@@ -121,12 +122,6 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     //validation
-                    if (request.Any(x => x.RoleId != (int)EnumRole.Admin))
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_UNAUTHORIZED_ACCESS_FOR_ROLE;
-                        return result;
-                    }
                     if (request.Count == 0)
                     {
                         result.State = EnumStatus.Error;
@@ -143,22 +138,10 @@ namespace Kaushal_Darpan.Api.Controllers
                     if (isSave > 0)
                     {
                         // 2. save student in student exam for regular
-                        var smModel = new List<StudentMarkedModel>();
-                        request.ForEach(x =>
-                        {
-                            smModel.Add(new StudentMarkedModel
-                            {
-                                RoleId = x.RoleId,
-                                ModifyBy = x.ModifyBy,
-                                StudentId = x.StudentId,
-                                Marked = x.Marked,
-                                EndTermID = x.EndTermID
-                            });
-                        });
-                        await _unitOfWork.PromotedStudentRepository.SaveEnrolledStudentExam_Next(smModel);
+                        await _unitOfWork.PromotedStudentRepository.SaveEnrolledStudentExam_Next(request);
 
-                        // 3. save student in student exam for back with papers                      
-                        await _unitOfWork.PromotedStudentRepository.SaveEnrolledStudentExam_Back(smModel);
+                        // 3. save student in student exam for back with papers (uncomment when condition is final)                     
+                        //await _unitOfWork.PromotedStudentRepository.SaveEnrolledStudentExam_Back(smModel);
                     }
                     _unitOfWork.SaveChanges();  // Commit changes if everything is successful
 
@@ -204,14 +187,14 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("SaveItiPromotedStudent")]
         public async Task<ApiResult<bool>> SaveItiPromotedStudent([FromBody] List<PromotedStudentMarkedModel> request)
         {
-            ActionName = "SavePromotedStudent([FromBody] List<PromotedStudentMarkedModel> request)";
+            ActionName = "SaveItiPromotedStudent([FromBody] List<PromotedStudentMarkedModel> request)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<bool>();
                 try
                 {
                     //validation
-                    if (request.Any(x => x.RoleId != (int)EnumRole.Admin))
+                    if (request.Any(x => x.RoleID != (int)EnumRole.Admin))
                     {
                         result.State = EnumStatus.Warning;
                         result.Message = Constants.MSG_UNAUTHORIZED_ACCESS_FOR_ROLE;
@@ -238,7 +221,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             smModel.Add(new StudentMarkedModel
                             {
-                                RoleId = x.RoleId,
+                                RoleId = x.RoleID.Value,
                                 ModifyBy = x.ModifyBy,
                                 StudentId = x.StudentId,
                                 Marked = x.Marked,

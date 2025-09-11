@@ -196,6 +196,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffID", request.StaffID);
                         command.Parameters.AddWithValue("@multiHostelIDs", request.multiHostelIDs);
                         command.Parameters.AddWithValue("@EMTypeID", request.EMTypeID);
+                        command.Parameters.AddWithValue("@PostID", request.PostID);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
@@ -347,6 +348,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CurrentDesignationID", request.CurrentDesignationID); 
                         command.Parameters.AddWithValue("@DateOfAppointment", request.DateOfAppointment ?? ""); 
                         command.Parameters.AddWithValue("@DateOfJoining", request.DateOfJoining ?? ""); 
+                        command.Parameters.AddWithValue("@DepartmentJoiningDate", request.DepartmentJoiningDate ?? ""); 
                         command.Parameters.AddWithValue("@Experience", request.Experience); 
                         command.Parameters.AddWithValue("@QualificationAtJoining", request.QualificationAtJoining ?? ""); 
                         command.Parameters.AddWithValue("@QualificationAfterJoining", request.QualificationAfterJoining ?? ""); 
@@ -1214,6 +1216,94 @@ namespace Kaushal_Darpan.Infra.Repositories
                         return true;
                     else
                         return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> Bter_RevertStaffProfile(BTER_EM_UnlockProfileDataModel request)
+        {
+            _actionName = "Bter_RevertStaffProfile(BTER_EM_UnlockProfileDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_Bter_RevertStaffProfile";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@StaffID", request.StaffID);
+                        command.Parameters.AddWithValue("@StaffUserID", request.StaffUserID);
+                        command.Parameters.AddWithValue("@SSOID", request.SSOID);
+
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@Remark", request.Remark);
+                        command.Parameters.AddWithValue("@Action", "RevertStaffProfile");
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> BTER_EM_DesignationWiseBranch(BTER_DesignationWiseBranchDataModel model)
+        {
+            _actionName = "BTER_EM_DesignationWiseBranch(BTER_DesignationWiseBranchDataModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+                        command.CommandText = "USP_DesignationWiseBranch";
+                        //command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        //command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        //command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        //command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        //command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
                 }
                 catch (Exception ex)
                 {

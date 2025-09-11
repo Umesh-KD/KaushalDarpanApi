@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Kaushal_Darpan.Api.Code.Attribute;
+using Kaushal_Darpan.Api.Email;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.CampusPostMaster;
@@ -7,6 +8,7 @@ using Kaushal_Darpan.Models.CommonSubjectMaster;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.Net;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -19,14 +21,15 @@ namespace Kaushal_Darpan.Api.Controllers
     {
         public override string PageName => "CampusPostMasterController";
         public override string ActionName { get; set; }
-
+        private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CampusPostMasterController(IMapper mapper, IUnitOfWork unitOfWork)
+        public CampusPostMasterController(IMapper mapper, IUnitOfWork unitOfWork , IEmailService emailService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _emailService = emailService;
         }
 
         [HttpGet("GetAllData/{SSOID}/{DepartmentID:int}")]
@@ -206,6 +209,67 @@ namespace Kaushal_Darpan.Api.Controllers
                     _unitOfWork.SaveChanges();
                     if (result.Data)
                     {
+
+                        // email content
+                        string emailContent = "your email code is working";
+                        string email = "divya.sharma@corpnet.co.in";
+
+                        string emailBody = $@"
+                                        <!DOCTYPE html>
+                                        <html>
+                                        <head>
+                                            <meta charset='UTF-8'>
+                                            <style>
+                                                body {{
+                                                    font-family: Arial, sans-serif;
+                                                    background-color: #f4f4f4;
+                                                    margin: 0;
+                                                    padding: 0;
+                                                }}
+                                                .container {{
+                                                    background-color: #ffffff;
+                                                    max-width: 600px;
+                                                    margin: 40px auto;
+                                                    padding: 20px;
+                                                    border-radius: 8px;
+                                                    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                                                }}
+                                                .header {{
+                                                    background-color: #007bff;
+                                                    color: white;
+                                                    padding: 10px 20px;
+                                                    border-radius: 8px 8px 0 0;
+                                                    font-size: 20px;
+                                                }}
+                                                .content {{
+                                                    padding: 20px;
+                                                    color: #333;
+                                                }}
+                                                .footer {{
+                                                    font-size: 12px;
+                                                    color: #999;
+                                                    text-align: center;
+                                                    padding: 10px 20px;
+                                                    border-top: 1px solid #eee;
+                                                }}
+                                            </style>
+                                        </head>
+                                        <body>
+                                            <div class='container'>
+                                                <div class='header'>Kaushal Darpan Notification</div>
+                                                <div class='content'>
+                                                    <p>Hello, <strong>{emailContent}</strong></p>
+                                                </div>
+                                                <div class='footer'>
+                                                    &copy; 2025 Kaushal Darpan. All rights reserved.
+                                                </div>
+                                            </div>
+                                        </body>
+                                        </html>";
+
+                        // Send email
+                        await _emailService.SendEmail(emailBody, email, "Campus Post Status");
+
                         result.State = EnumStatus.Success;
                         result.Message = "Updated successfully .!";
                     }

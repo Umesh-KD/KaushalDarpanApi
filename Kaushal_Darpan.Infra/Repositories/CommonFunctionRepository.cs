@@ -1518,7 +1518,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<StudentMasterModel> PreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndTermID, int StudentExamID)
+        public async Task<StudentMasterModel> PreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndTermID, int StudentExamID, int FileNameWithDynamicPath)
         {
             _actionName = "PreExam_StudentMaster(string StudentID)";
             return await Task.Run(async () =>
@@ -1547,6 +1547,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Eng_NonEng", Eng_NonEng);
                         command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
                         command.Parameters.AddWithValue("@EndTermID", EndTermID);
+                        command.Parameters.AddWithValue("@FileNameWithDynamicPath", FileNameWithDynamicPath);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataSet = await command.FillAsync();
@@ -9725,6 +9726,44 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> GetSSOIDDetailData(string SSOID,string action)
+        {
+            _actionName = "GetSSOIDDetailData(string SSOID,string action)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetSSOIDDetailData";
+                        command.Parameters.AddWithValue("@SSOID", SSOID);
+                        command.Parameters.AddWithValue("@Action", action);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+
+
     }
 }
 

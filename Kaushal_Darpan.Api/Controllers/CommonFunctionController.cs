@@ -10,6 +10,7 @@ using Kaushal_Darpan.Infra;
 using Kaushal_Darpan.Models;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.ApplicationStatus;
+using Kaushal_Darpan.Models.CampusPostMaster;
 using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CenterSuperitendent;
 using Kaushal_Darpan.Models.CollegeMaster;
@@ -1484,15 +1485,15 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-        [HttpGet("PreExam_StudentMaster/{StudentID}/{statusId}/{DepartmentID}/{Eng_NonEng}/{EndTermID}/{StudentExamID}")]
-        public async Task<ApiResult<StudentMasterModel>> PreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndTermID, int StudentExamID)
+        [HttpGet("PreExam_StudentMaster/{StudentID}/{statusId}/{DepartmentID}/{Eng_NonEng}/{EndTermID}/{StudentExamID}/{FileNameWithDynamicPath}")]
+        public async Task<ApiResult<StudentMasterModel>> PreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndTermID, int StudentExamID, int FileNameWithDynamicPath)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<StudentMasterModel>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.PreExam_StudentMaster(StudentID, statusId, DepartmentID, Eng_NonEng, status, EndTermID, StudentExamID);
+                    var data = await _unitOfWork.CommonFunctionRepository.PreExam_StudentMaster(StudentID, statusId, DepartmentID, Eng_NonEng, status, EndTermID, StudentExamID, FileNameWithDynamicPath);
                     if (data != null)
                     {
                         result.Data = data;
@@ -3793,17 +3794,35 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
                     }
 
-
-                    string[] Folders = model.FolderName.Split("/");
                     string parentFolder = "";
-                    for (int i = 0; i < Folders.Length; i++)
+                    if (model.FileNameWithDynamicPath == 1)
                     {
-                        if (!System.IO.Directory.Exists($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}"))
+                        var mergedFolderName = model.FolderName + "/" + Constants.DepartmentBterFolder + "/" + model.FilePrefix;
+                        string[] Folders = mergedFolderName.Split("/");
+                        for (int i = 0; i < Folders.Length; i++)
                         {
-                            System.IO.Directory.CreateDirectory($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}");
+                            if (!System.IO.Directory.Exists($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}"))
+                            {
+                                System.IO.Directory.CreateDirectory($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}");
+                            }
+                            parentFolder = parentFolder + "/" + Folders[i];
                         }
-                        parentFolder = parentFolder + "/" + Folders[i];
                     }
+                    else
+                    {
+                        string[] Folders = model.FolderName.Split("/");
+                        //string parentFolder = "";
+                        for (int i = 0; i < Folders.Length; i++)
+                        {
+                            if (!System.IO.Directory.Exists($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}"))
+                            {
+                                System.IO.Directory.CreateDirectory($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}");
+                            }
+                            parentFolder = parentFolder + "/" + Folders[i];
+                        }
+                    }
+
+                   
 
                     ////set and create the folder
                     //var uploadFolderName = Path.Combine(ConfigurationHelper.StaticFileRootPath, "Students" ?? "");
@@ -3849,7 +3868,13 @@ namespace Kaushal_Darpan.Api.Controllers
                     List<UploadFileWithPathDataModel> uploadFileDataModels = new List<UploadFileWithPathDataModel>();
                     UploadFileWithPathDataModel uploadFileDataModel = new UploadFileWithPathDataModel();
                     uploadFileDataModel.Dis_FileName = OrgfileName;
-                    uploadFileDataModel.FileName = FileName;
+                    if (model.FileNameWithDynamicPath == 1)
+                    {
+                        uploadFileDataModel.FileName = model.FilePrefix + "/" + FileName;
+                    } else
+                    {
+                        uploadFileDataModel.FileName = FileName;
+                    }
                     uploadFileDataModel.FilePath = Path.Combine(uploadFolder ?? "", FileName);
                     uploadFileDataModel.FolderName = uploadFolder;
                     uploadFileDataModels.Add(uploadFileDataModel);
@@ -8345,6 +8370,43 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
+        [HttpPost("GetSSOIDDetailData")]
+        public async Task<ApiResult<DataTable>> GetSSOIDDetailData([FromBody] SSOIDDetailRequest body)
+        {
+            ActionName = " GetSSOIDDetailData([FromBody] SSOIDDetailRequest body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetSSOIDDetailData(body.SSOID,body.Action));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
 
     }
 }
