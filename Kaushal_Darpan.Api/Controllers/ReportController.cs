@@ -1,21 +1,15 @@
 ﻿using AspNetCore.Reporting;
-using AspNetCore.Reporting.ReportExecutionService;
 using AutoMapper;
-using DocumentFormat.OpenXml.EMMA;
-using DocumentFormat.OpenXml.InkML;
-using DocumentFormat.OpenXml.Office2010.Excel;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using iTextSharp.text.pdf.qrcode;
-using iTextSharp.tool.xml.html;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Api.Email;
-using Kaushal_Darpan.Core.Entities;
+using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
-using Kaushal_Darpan.Infra;
 using Kaushal_Darpan.Models.ApplicationData;
-using Kaushal_Darpan.Models.BterApplication;
 using Kaushal_Darpan.Models.BterCertificateReport;
 using Kaushal_Darpan.Models.CampusPostMaster;
 using Kaushal_Darpan.Models.CommonFunction;
@@ -26,7 +20,6 @@ using Kaushal_Darpan.Models.GenerateAdmitCard;
 using Kaushal_Darpan.Models.GenerateEnroll;
 using Kaushal_Darpan.Models.ITIApplication;
 using Kaushal_Darpan.Models.ItiInvigilator;
-using Kaushal_Darpan.Models.ItiStudentActivities;
 using Kaushal_Darpan.Models.ITITheoryMarks;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.NodalApperentship;
@@ -35,31 +28,14 @@ using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.RenumerationExaminer;
 using Kaushal_Darpan.Models.Report;
 using Kaushal_Darpan.Models.StaffMaster;
-using Kaushal_Darpan.Models.Student;
-using Kaushal_Darpan.Models.studentve;
 using Kaushal_Darpan.Models.TheoryMarks;
 using Kaushal_Darpan.Models.TimeTable;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.IO;
-using System.IO;
 using System.Net;
-using System.Net.Http;
-using System.Security;
-using System.Security.Permissions;
 using System.Text;
-using System.Text.Json;
-using System.util;
-using static Kaushal_Darpan.Models.BterApplication.PreviewApplicationFormmodel;
-using static Kaushal_Darpan.Models.ITIApplication.ItiApplicationPreviewDataModel;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -75,11 +51,15 @@ namespace Kaushal_Darpan.Api.Controllers
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         //public ReportController(IMapper mapper, IUnitOfWork unitOfWork, IEmailService emailService)
-        public ReportController(IMapper mapper, IUnitOfWork unitOfWork)
+        private readonly IConverter _converter;
+        private readonly IPrintHtmlFile _printHtmlFile;
+        public ReportController(IMapper mapper, IUnitOfWork unitOfWork, IConverter converter, IPrintHtmlFile printHtmlFile)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             //_emailService = emailService;
+            _converter = converter;
+            _printHtmlFile = printHtmlFile;
         }
 
         [HttpPost("GetAllDataRpt")]
@@ -386,7 +366,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         try
                         {
-                            
+
 
                             if (!data.Tables[0].Columns.Contains("SignatureFile1"))
                             {
@@ -436,21 +416,21 @@ namespace Kaushal_Darpan.Api.Controllers
                             }
 
 
-                        // Generate RDLC PDF
-                        var localReport = new LocalReport(rdlcPath);
-                        localReport.AddDataSource("AdmitCard", data.Tables[0]);
-                        localReport.AddDataSource("AdmitCard_Subject", data.Tables[1]);
+                            // Generate RDLC PDF
+                            var localReport = new LocalReport(rdlcPath);
+                            localReport.AddDataSource("AdmitCard", data.Tables[0]);
+                            localReport.AddDataSource("AdmitCard_Subject", data.Tables[1]);
 
-                        var reportResult = localReport.Execute(RenderType.Pdf);
+                            var reportResult = localReport.Execute(RenderType.Pdf);
 
-                        if (!System.IO.Directory.Exists(folderPath))
-                            Directory.CreateDirectory(folderPath);
+                            if (!System.IO.Directory.Exists(folderPath))
+                                Directory.CreateDirectory(folderPath);
 
-                        System.IO.File.WriteAllBytes(filePath, reportResult.MainStream);
+                            System.IO.File.WriteAllBytes(filePath, reportResult.MainStream);
 
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                            result.Data = fileName;
+                            result.State = EnumStatus.Success;
+                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
 
                         }
                         catch (Exception ex)
@@ -9762,8 +9742,8 @@ namespace Kaushal_Darpan.Api.Controllers
                             Total_Ob += Convert.ToDecimal(dr["Total_Ob"].ToString());
                             Total_Mx += Convert.ToDecimal(dr["Total_Mx"].ToString());
                         }
-                        data.Tables[0].Rows[0]["Percentage"] = Math.Round(( Total_Ob / Total_Mx * 100),2).ToString();
-                        
+                        data.Tables[0].Rows[0]["Percentage"] = Math.Round((Total_Ob / Total_Mx * 100), 2).ToString();
+
 
                         string devFontSize = "15px";
                         System.Text.StringBuilder sb = new System.Text.StringBuilder();
@@ -12639,7 +12619,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         //
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("PmnamMelaReport", data.Tables[0])    ;
+                        localReport.AddDataSource("PmnamMelaReport", data.Tables[0]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
 
 
@@ -13543,7 +13523,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         student.Marksheet = fileName;
                         //provider                      
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                
+
 
                         LocalReport localReport = new LocalReport(rdlcpath);
                         localReport.AddDataSource("StudentDetailsForMarksheet", data.Tables[0]);
@@ -13610,7 +13590,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderBTER}/ProvisionalCertificate.html";
                         model.Action = "provisional-certificate-download";
                     }
-                    
+
 
                     var data = await _unitOfWork.ReportRepository.BterDuplicateProvisionalCertificateDownload(model);
                     if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
@@ -13783,22 +13763,39 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("TabulationDataReport")]
-        public async Task<ApiResult<DataTable>> TabulationDataReport([FromBody] TabluationDataModel body)
+        public async Task<IActionResult> TabulationDataReport([FromBody] TabluationDataModel body)
         {
-            ActionName = "GetAllData([FromBody] TabulationDataReportModel body)";
-            var result = new ApiResult<DataTable>();
+            ActionName = "TabulationDataReport([FromBody] TabluationDataModel body)";
+            var result = new ApiResult<string>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabulationDataReport(body));
-                result.State = EnumStatus.Success;
-                if (result.Data.Rows.Count == 0)
+                var data = await _unitOfWork.ReportRepository.GetTabulationDataReport(body);
+
+                //string html = _printHtmlFile.Dummy_CreatePDF();
+                string html = _printHtmlFile.GetHtmlOfResultTabulation(data);
+
+                var doc = new HtmlToPdfDocument()
                 {
-                    result.State = EnumStatus.Success;
-                    result.Message = "No record found.!";
-                    return result;
-                }
+                    GlobalSettings = {
+                        PaperSize = PaperKind.A3,
+                        Orientation = Orientation.Landscape
+                    },
+                    Objects = {
+                        new ObjectSettings()
+                        {
+                            HtmlContent = html,
+                            WebSettings = { DefaultEncoding = "utf-8" }
+                        }
+                    }
+                };
+
+                byte[] pdfBytes = _converter.Convert(doc);
+
+                result.Data = Convert.ToBase64String(pdfBytes);
                 result.State = EnumStatus.Success;
-                result.Message = "Data load successfully .!";
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                return File(pdfBytes, "application/pdf", "tabulationresult.pdf");
             }
             catch (System.Exception ex)
             {
@@ -13813,8 +13810,9 @@ namespace Kaushal_Darpan.Api.Controllers
                     Ex = ex,
                 };
                 await CreateErrorLog(nex, _unitOfWork);
-            }
-            return result;
+                return StatusCode(500, ex.Message);
+            }            
+            //return result;
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿
 using Kaushal_Darpan.Core.Helper;
+using System.Data;
 using System.Text;
 
 namespace Kaushal_Darpan.Api.HtmlTempleteFile
@@ -177,7 +178,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         #endregion
 
         #region Result Tabulation
-        public string GetHtmlOfResultTabulation()
+        public string GetHtmlOfResultTabulation(DataTable dataTable)
         {
             try
             {
@@ -215,347 +216,46 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("                <td colspan=\"10\"><strong>PROGRAMME : CIVIL ENGINEERING (CE)</strong></td>");
                 sb.AppendLine("            </tr>");
 
+
+                //column
                 // Main Header Row
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <th>SL.No.</th>");
-                sb.AppendLine("                <th>ENROLLMENT NO</th>");
-                sb.AppendLine("                <th>SUB.</th>");
-                sb.AppendLine("                <th>2001</th>");
-                sb.AppendLine("                <th>2002</th>");
-                sb.AppendLine("                <th>2003</th>");
-                sb.AppendLine("                <th>2004</th>");
-                sb.AppendLine("                <th>2005</th>");
-                sb.AppendLine("                <th>2006</th>");
-                sb.AppendLine("                <th>2007</th>");
-                sb.AppendLine("                <th>2008</th>");
-                sb.AppendLine("                <th>2009</th>");
-                sb.AppendLine("                <th>2010</th>");
-                sb.AppendLine("                <th>2222</th>");
-                sb.AppendLine("                <th>Total</th>");
-                sb.AppendLine("                <th>SCA</th>");
-                sb.AppendLine("                <th colspan=\"8\">Result Details</th>");
+                foreach (DataColumn dc in dataTable.Columns)
+                {
+                    sb.AppendLine($"                <th style=\"text-align:left;\">{dc.ColumnName}</th>");
+                }
                 sb.AppendLine("            </tr>");
 
-                // Max/Min Theory
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td>Roll No.</td>");
-                sb.AppendLine("                <td>NameOfCandidate</td>");
-                sb.AppendLine("                <td>Max/Min TH</td>");
-                sb.AppendLine("                <td>60/17</td>");
-                sb.AppendLine("                <td>60/15</td>");
-                sb.AppendLine("                <td>60/14</td>");
-                sb.AppendLine("                <td>60/13</td>");
-                sb.AppendLine("                <td>60/15</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>I Sem</td>");
-                sb.AppendLine("                <td>II Sem</td>");
-                sb.AppendLine("                <td>III Sem</td>");
-                sb.AppendLine("                <td>IV Sem</td>");
-                sb.AppendLine("                <td>V Sem</td>");
-                sb.AppendLine("                <td>VI Sem</td>");
-                sb.AppendLine("                <td>DIV</td>");
-                sb.AppendLine("                <td>Result</td>");
-                sb.AppendLine("            </tr>");
+                //row
+                //column data
+                int headerRowBlockCount = 4;//header row block separation line count (start from 0)
+                int dataRowBlockCount = 7;//data row block separation line count 
+                int lineBlockCount = headerRowBlockCount;//set header default 
+                int i = 0;
+                string seprationCls = string.Empty;
+                foreach (DataRow dr in dataTable.Rows)
+                {
+                    sb.AppendLine($"            <tr {seprationCls}>");
+                    foreach (DataColumn dc in dataTable.Columns)
+                    {
+                        sb.AppendLine($"                <td>{dr[dc.ColumnName]}</td>");
+                    }
+                    sb.AppendLine("            </tr>");
 
-                // Max/Min Practical
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td>Cat</td>");
-                sb.AppendLine("                <td>Father's Name</td>");
-                sb.AppendLine("                <td>MAX/Min PR</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>40/10</td>");
-                sb.AppendLine("                <td>40/10</td>");
-                sb.AppendLine("                <td>40/10</td>");
-                sb.AppendLine("                <td>40/10</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>PRT</td>");
-                sb.AppendLine("                <td>EC</td>");
-                sb.AppendLine("                <td>EC</td>");
-                sb.AppendLine("                <td>EC</td>");
-                sb.AppendLine("                <td>EC</td>");
-                sb.AppendLine("                <td>EC</td>");
-                sb.AppendLine("                <td>EC</td>");
-                sb.AppendLine("                <td>PER</td>");
-                sb.AppendLine("                <td>(R/P/F)</td>");
-                sb.AppendLine("            </tr>");
-
-                // IA Row
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td>Attempt</td>");
-                sb.AppendLine("                <td>Mother's Name</td>");
-                sb.AppendLine("                <td>IA</td>");
-                sb.AppendLine("                <td>40</td>");
-                sb.AppendLine("                <td>40</td>");
-                sb.AppendLine("                <td>40</td>");
-                sb.AppendLine("                <td>40</td>");
-                sb.AppendLine("                <td>40</td>");
-                sb.AppendLine("                <td>60</td>");
-                sb.AppendLine("                <td>60</td>");
-                sb.AppendLine("                <td>60</td>");
-                sb.AppendLine("                <td>60</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>100</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>Project</td>");
-                sb.AppendLine("                <td>SGPA</td>");
-                sb.AppendLine("                <td>SGPA</td>");
-                sb.AppendLine("                <td>SGPA</td>");
-                sb.AppendLine("                <td>SGPA</td>");
-                sb.AppendLine("                <td>SGPA</td>");
-                sb.AppendLine("                <td>SGPA</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("            </tr>");
-
-                // Totals Row
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>Gender/Date of Birth</td>");
-                sb.AppendLine("                <td>Total</td>");
-                sb.AppendLine("                <td>100</td>");
-                sb.AppendLine("                <td>100</td>");
-                sb.AppendLine("                <td>100</td>");
-                sb.AppendLine("                <td>100</td>");
-                sb.AppendLine("                <td>100</td>");
-                sb.AppendLine("                <td>100</td>");
-                sb.AppendLine("                <td>100</td>");
-                sb.AppendLine("                <td>100</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>100</td>");
-                sb.AppendLine("                <td>1000</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>CGPA</td>");
-                sb.AppendLine("                <td>CGPA</td>");
-                sb.AppendLine("                <td>CGPA</td>");
-                sb.AppendLine("                <td>CGPA</td>");
-                sb.AppendLine("                <td>CGPA</td>");
-                sb.AppendLine("                <td>CGPA</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("            </tr>");
-
-                // Credit Row
-                sb.AppendLine("            <tr style=\"border-bottom: 1px solid #000;\">");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>Elective Subjects</td>");
-                sb.AppendLine("                <td>Reg Credit</td>");
-                sb.AppendLine("                <td>5.00</td>");
-                sb.AppendLine("                <td>4.00</td>");
-                sb.AppendLine("                <td>3.00</td>");
-                sb.AppendLine("                <td>4.00</td>");
-                sb.AppendLine("                <td>4.00</td>");
-                sb.AppendLine("                <td>1.00</td>");
-                sb.AppendLine("                <td>2.00</td>");
-                sb.AppendLine("                <td>2.00</td>");
-                sb.AppendLine("                <td>1.00</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>2.00</td>");
-                sb.AppendLine("                <td>28</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>End Term</td>");
-                sb.AppendLine("                <td>End Term</td>");
-                sb.AppendLine("                <td>End Term</td>");
-                sb.AppendLine("                <td>End Term</td>");
-                sb.AppendLine("                <td>End Term</td>");
-                sb.AppendLine("                <td>End Term</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("            </tr>");
-
-                // Student Marks Rows (ALL)
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td>1</td>");
-                sb.AppendLine("                <td>CE20230001/001</td>");
-                sb.AppendLine("                <td>TH.</td>");
-                sb.AppendLine("                <td>20</td>");
-                sb.AppendLine("                <td>08</td>");
-                sb.AppendLine("                <td>19</td>");
-                sb.AppendLine("                <td>10</td>");
-                sb.AppendLine("                <td>20</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>R</td>");
-                sb.AppendLine("            </tr>");
-
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td>2200001</td>");
-                sb.AppendLine("                <td>Chirag Jadam</td>");
-                sb.AppendLine("                <td>PR.</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>30</td>");
-                sb.AppendLine("                <td>30</td>");
-                sb.AppendLine("                <td>24</td>");
-                sb.AppendLine("                <td>30</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("            </tr>");
-
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td>Reg.</td>");
-                sb.AppendLine("                <td>Mahesh Chand Jadam</td>");
-                sb.AppendLine("                <td>IA.</td>");
-                sb.AppendLine("                <td>18</td>");
-                sb.AppendLine("                <td>20</td>");
-                sb.AppendLine("                <td>29</td>");
-                sb.AppendLine("                <td>30</td>");
-                sb.AppendLine("                <td>29</td>");
-                sb.AppendLine("                <td>49</td>");
-                sb.AppendLine("                <td>37</td>");
-                sb.AppendLine("                <td>47</td>");
-                sb.AppendLine("                <td>45</td>");
-                sb.AppendLine("                <td>Pass</td>");
-                sb.AppendLine("                <td>80</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>18.00</td>");
-                sb.AppendLine("                <td>20.00</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("            </tr>");
-
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>Manju Jadam</td>");
-                sb.AppendLine("                <td>Total /RMI</td>");
-                sb.AppendLine("                <td>38/48</td>");
-                sb.AppendLine("                <td>28/35</td>");
-                sb.AppendLine("                <td>48/69</td>");
-                sb.AppendLine("                <td>40/58</td>");
-                sb.AppendLine("                <td>49/62</td>");
-                sb.AppendLine("                <td>79/99</td>");
-                sb.AppendLine("                <td>67/84</td>");
-                sb.AppendLine("                <td>67/84</td>");
-                sb.AppendLine("                <td>75/94</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>80/100</td>");
-                sb.AppendLine("                <td>571/733</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>4.80</td>");
-                sb.AppendLine("                <td>5.29</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("            </tr>");
-
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>Male 17-10-2005</td>");
-                sb.AppendLine("                <td>EC/Grade</td>");
-                sb.AppendLine("                <td>5/D+</td>");
-                sb.AppendLine("                <td>0/F</td>");
-                sb.AppendLine("                <td>3/C+</td>");
-                sb.AppendLine("                <td>0/F</td>");
-                sb.AppendLine("                <td>4/C+</td>");
-                sb.AppendLine("                <td>1/A+</td>");
-                sb.AppendLine("                <td>2/B+</td>");
-                sb.AppendLine("                <td>2/B+</td>");
-                sb.AppendLine("                <td>1/A+</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>2/A+</td>");
-                sb.AppendLine("                <td>20</td>");
-                sb.AppendLine("                <td>A</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("            </tr>");
-
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>GP/PS</td>");
-                sb.AppendLine("                <td>8.5/42.5</td>");
-                sb.AppendLine("                <td>7.5/30</td>");
-                sb.AppendLine("                <td>9/27</td>");
-                sb.AppendLine("                <td>7.5/30</td>");
-                sb.AppendLine("                <td>8.5/34</td>");
-                sb.AppendLine("                <td>10/10</td>");
-                sb.AppendLine("                <td>10/20</td>");
-                sb.AppendLine("                <td>8.5/17</td>");
-                sb.AppendLine("                <td>10/10</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>10/20</td>");
-                sb.AppendLine("                <td>66/148</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>Nov23</td>");
-                sb.AppendLine("                <td>May24</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("            </tr>");
-
-                // Final Result Row
-                sb.AppendLine("            <tr style=\"border-bottom: 2px dotted #000;\">");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>Result</td>");
-                sb.AppendLine("                <td>Pass</td>");
-                sb.AppendLine("                <td>Fail</td>");
-                sb.AppendLine("                <td>Pass</td>");
-                sb.AppendLine("                <td>Fail</td>");
-                sb.AppendLine("                <td>Pass</td>");
-                sb.AppendLine("                <td>Pass</td>");
-                sb.AppendLine("                <td>Pass</td>");
-                sb.AppendLine("                <td>Pass</td>");
-                sb.AppendLine("                <td>Pass</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>Pass</td>");
-                sb.AppendLine("                <td>R</td>");
-                sb.AppendLine("                <td></td>");
-                sb.AppendLine("                <td>R</td>");
-                sb.AppendLine("                <td>R</td>");
-                sb.AppendLine("                <td colspan=\"6\"><strong>REGULATION:</strong>2002,2004</td>");
-                sb.AppendLine("            </tr>");
+                    // for block separation line
+                    seprationCls = string.Empty;//reset after print
+                    ++i;
+                    if (i == lineBlockCount)
+                    {
+                        seprationCls = $"style=\"border-bottom: 2px dotted #000;\"";//set to data row block separation line count 
+                        if (lineBlockCount == headerRowBlockCount)
+                        {
+                            seprationCls = $"style=\"border-bottom: 2px solid #000;\"";//set to header row block separation line count
+                        }
+                        i = 0;//reset
+                        lineBlockCount = dataRowBlockCount;//shift to data row block separation line count
+                    }
+                }
 
                 sb.AppendLine("        </table>");
                 sb.AppendLine("    </div>");
