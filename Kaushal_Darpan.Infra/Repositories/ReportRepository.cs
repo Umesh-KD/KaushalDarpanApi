@@ -112,6 +112,55 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
+
+        #region GetAllDataRpt
+        public async Task<DataTable> GetTabulationDataReport(TabluationDataModel body)
+        {
+            _actionName = "GetAllDataRpt(TheorySearchModel body)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        if (1 == 1)
+                        {
+                            command.CommandText = "USP_ResultRpt_Tabular";
+                        }                       
+                        else
+                        {
+                            throw new Exception(Constants.MSG_INVALID_REQUEST);
+                        }
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);  
+                        command.Parameters.AddWithValue("@CourseType", body.CourseType);  
+                        command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);  
+                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);  
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        #endregion
+
         #region Admit Card
         public async Task<DataSet> GetStudentAdmitCard(GenerateAdmitCardSearchModel model)
         {
