@@ -1257,8 +1257,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         DataTable headerTable = new DataTable();
                         headerTable.Columns.Add("Names", typeof(string));
-
-                        // Only add columns that ARE time columns
                         foreach (DataColumn col in copiedTable.Columns)
                         {
                             string colName = col.ColumnName;
@@ -1278,18 +1276,34 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         string devFontSize = "15px";
                         System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                        //string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.GetRosterDisplay_PDFTimeTableReport}/RosterDisplay_PDFTimeTable.html";
-
-                        // Pass dataset to method
-                        //string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, dsTemp);
-
-
+                        
                         string html = BuildTimeTableHtml(dsTemp);
+
+                        //log 1
+                        var ex = new Exception(html);
+                        var nex = new NewException
+                        {
+                            PageName = "Deepak_1",
+                            ActionName = ActionName,
+                            Ex = ex,
+                        };
+                        await CreateErrorLog(nex, _unitOfWork);
+
                         System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
-
-                      //  html = Utility.PDFWorks.ReplaceCustomTag(html);
-
                         sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+
+
+                        //log 2
+                        var ex1 = new Exception(sb1.ToString());
+                        var nex1 = new NewException
+                        {
+                            PageName = "Deepak_2",
+                            ActionName = ActionName,
+                            Ex = ex1,
+                        };
+                        await CreateErrorLog(nex1, _unitOfWork);
+
+
 
                         byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", "");
 

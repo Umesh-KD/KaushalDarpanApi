@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Kaushal_Darpan.Api.Controllers;
 using System.Data;
 
+
 namespace Kaushal_Darpan.Api.Code.Helper
 {
     public class Helper
@@ -196,4 +197,6 @@ namespace Kaushal_Darpan.Api.Code.Helper
             }
         }
     }
+
+
 }

@@ -67,5 +67,12 @@ namespace Kaushal_Darpan.Core.Helper
         public static readonly string JanAadhaarMemberPhotoURL = "f6de7747-60d3-4cf0-a0ae-71488abd6e95";
         #endregion                                                                                                             //public static readonly string AadharAuthLicenseKey = "MJSazxO49Eh5vQ2BlcbUG--uNQ4tCpqKPF-OoFa0BZo0CE4CDBBtXVA";//"MKmyGwbThaYG35Ahinwx35nLtBYXrNMP4ejWD7A9-x6InP7y4xLROXU";
 
+        public static string FontPath_Noto_Sans_Devanagari => System.IO.Path.Combine(
+                 ConfigurationHelper.RootPath,
+                 "fonts",
+                 "Noto_Sans_Devanagari",
+                 "NotoSansDevanagari-VariableFont_wdth,wght.ttf"
+         );
+
     }
 }

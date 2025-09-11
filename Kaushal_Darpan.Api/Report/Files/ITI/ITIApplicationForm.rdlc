@@ -4060,73 +4060,6 @@
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
-            <Textbox Name="Textbox20">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Created Date : </Value>
-                      <Style />
-                    </TextRun>
-                    <TextRun>
-                      <Value>=First(Fields!CreatedDate.Value, "Student_Personal_Details")</Value>
-                      <Style />
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox7</rd:DefaultName>
-              <Top>0.335cm</Top>
-              <Left>0.30382cm</Left>
-              <Height>0.6cm</Height>
-              <Width>6.51758cm</Width>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox27">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Modify Date : </Value>
-                      <Style />
-                    </TextRun>
-                    <TextRun>
-                      <Value>=First(Fields!ModifyDate.Value, "Student_Personal_Details")</Value>
-                      <Style />
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox18</rd:DefaultName>
-              <Top>0.335cm</Top>
-              <Left>6.99779cm</Left>
-              <Height>0.6cm</Height>
-              <Width>7.67885cm</Width>
-              <ZIndex>1</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
             <Textbox Name="Textbox28">
               <CanGrow>true</CanGrow>
               <KeepTogether>true</KeepTogether>
@@ -4142,15 +4075,15 @@
                       <Style />
                     </TextRun>
                   </TextRuns>
-                  <Style />
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox26</rd:DefaultName>
-              <Top>0.335cm</Top>
-              <Left>14.78247cm</Left>
+              <Top>0.14111cm</Top>
               <Height>0.6cm</Height>
-              <Width>6.4235cm</Width>
-              <ZIndex>2</ZIndex>
+              <Width>9.05565cm</Width>
               <Style>
                 <Border>
                   <Style>None</Style>

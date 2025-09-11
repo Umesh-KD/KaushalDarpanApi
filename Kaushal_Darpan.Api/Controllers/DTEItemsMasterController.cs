@@ -623,6 +623,75 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+        [HttpPost("UpdateStatusRevertData")]
+        public async Task<ApiResult<int>> UpdateStatusRevertData([FromBody] DTEItemsModel request)
+        {
+            ActionName = "UpdateStatusRevertData([FromBody] DTEItemsModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+
+                    result.Data = await _unitOfWork.iDTEItemsMasterRepository.UpdateStatusRevert(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data>0)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (request.ItemId == 1)
+                        {
+                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (request.ItemId == 0)
+                        {
+                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        }
+                        else
+                        {
+                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }
 

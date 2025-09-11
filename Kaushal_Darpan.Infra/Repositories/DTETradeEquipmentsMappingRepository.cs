@@ -1,7 +1,9 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models.DispatchFormDataModel;
 using Kaushal_Darpan.Models.DTEInventoryModels;
+using Newtonsoft.Json;
 using System.Data;
 
 namespace Kaushal_Darpan.Infra.Repositories
@@ -120,18 +122,20 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        
-        public async Task<bool> SaveEquipmentsMappingRequestData(DTERequestTradeEquipmentsMapping request)
+        public async Task<int> SaveEquipmentsMappingRequestData(DTERequestTradeEquipmentsMapping request)
         {
-            _actionName = "SaveData(DTETradeEquipmentsMapping request)";
+            _actionName = "SaveEquipmentsMappingRequestData(DTERequestTradeEquipmentsMapping request)";
             return await Task.Run(async () =>
             {
+                
+
                 try
                 {
                     int result = 0;
                     using (var command = _dbContext.CreateCommand())
                     {
-                        // Set the stored procedure name and type
+
+                        //Set the stored procedure name and type
                         command.CommandText = "USP_DTESaveEquipmentsMappingRequest_IU";
                         command.CommandType = CommandType.StoredProcedure;
                         // Add parameters with appropriate null handling
@@ -146,7 +150,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TotalPrice", request.TotalPrice);
                         command.Parameters.AddWithValue("@VoucherNumber", request.VoucherNumber);
                         command.Parameters.AddWithValue("@Status", request.Status);
-                        command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);  
+                        command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
                         command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
                         command.Parameters.AddWithValue("@RTS", request.RTS ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
@@ -156,6 +160,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TradeIdTypeId", request.TradeIdTypeId);
                         command.Parameters.AddWithValue("@CompanyName", request.CompanyName);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@MappingId", request.MappingId);
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
@@ -164,12 +169,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         result = await command.ExecuteNonQueryAsync();
 
                         result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
-
                     }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    return result;
                 }
                 catch (Exception ex)
                 {
@@ -185,7 +186,73 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        
+
+        //public async Task<bool> SaveEquipmentsMappingRequestData(DTERequestTradeEquipmentsMapping request)
+        //{
+        //    _actionName = "SaveData(DTETradeEquipmentsMapping request)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            int result = 0;
+        //            using (var command = _dbContext.CreateCommand())
+        //            {
+        //                // Set the stored procedure name and type
+        //                command.CommandText = "USP_DTESaveEquipmentsMappingRequest_IU";
+        //                command.CommandType = CommandType.StoredProcedure;
+        //                // Add parameters with appropriate null handling
+        //                command.Parameters.AddWithValue("@TE_MappingId", request.TE_MappingId);
+        //                command.Parameters.AddWithValue("@TradeId", request.TradeId);
+        //                command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+        //                command.Parameters.AddWithValue("@CategoryId", request.CategoryId);
+        //                command.Parameters.AddWithValue("@EquipmentId", request.EquipmentId);
+        //                command.Parameters.AddWithValue("@Quantity", request.Quantity);
+        //                command.Parameters.AddWithValue("@IdentificationMark", request.IdentificationMark);
+        //                command.Parameters.AddWithValue("@PricePerUnit", request.PricePerUnit);
+        //                command.Parameters.AddWithValue("@TotalPrice", request.TotalPrice);
+        //                command.Parameters.AddWithValue("@VoucherNumber", request.VoucherNumber);
+        //                command.Parameters.AddWithValue("@Status", request.Status);
+        //                command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);  
+        //                command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
+        //                command.Parameters.AddWithValue("@RTS", request.RTS ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+        //                command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+        //                command.Parameters.AddWithValue("@ModifyDate", request.ModifyDate ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+        //                command.Parameters.AddWithValue("@TradeIdTypeId", request.TradeIdTypeId);
+        //                command.Parameters.AddWithValue("@CompanyName", request.CompanyName);
+        //                command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@MappingId", request.MappingId);
+        //                command.Parameters.Add("@Return", SqlDbType.Int); // out
+        //                command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
+        //                _sqlQuery = command.GetSqlExecutableQuery();
+        //                // Execute the command
+        //                result = await command.ExecuteNonQueryAsync();
+
+        //                result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+
+        //            }
+        //            if (result > 0)
+        //                return true;
+        //            else
+        //                return false;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            var errorDesc = new ErrorDescription
+        //            {
+        //                Message = ex.Message,
+        //                PageName = _pageName,
+        //                ActionName = _actionName,
+        //                SqlExecutableQuery = _sqlQuery
+        //            };
+        //            var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+        //            throw new Exception(errordetails, ex);
+        //        }
+        //    });
+        //}
+
         public async Task<bool> UpdateStatusData(DTEUpdateStatusMapping request)
         {
             _actionName = "SaveData(DTETradeEquipmentsMapping request)";
@@ -439,6 +506,55 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<int> UpdateStatusRevert(DTETEquipmentsRequestMappingRevert request)
+        {
+            _actionName = "UpdateStatusRevert(DTETEquipmentsRequestMappingRevert request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_DteRequestEquipmentsMappingRevertStatus";
+                        command.CommandType = CommandType.StoredProcedure;
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@Id", request.Id);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@ModifyDate", request.ModifyDate ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Status", request.Status);
+                        command.Parameters.AddWithValue("@Remark", request.Remark);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
 
     }
 }

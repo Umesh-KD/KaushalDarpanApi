@@ -144,6 +144,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? DateOfBirth { get; set; }
         public string? DateOfAppointment { get; set; }
         public string? DateOfJoining { get; set; }
+        public string? DepartmentJoiningDate { get; set; }
         public string? DateOfRetirement { get; set; }
         public string? MobileNumber { get; set; }
         public string? SSOID { get; set; }
@@ -384,5 +385,16 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? StaffID { get; set; }
         public int? StaffUserID { get; set; }
         public string? StaffHostelIDs { get; set; }
+    }
+
+
+    public class BTER_DesignationWiseBranchDataModel
+    {
+        public int DepartmentID { get; set; } = 0;
+        public int DesignationID { get; set; } = 0;
+        public int OfficeID { get; set; } = 0;
+        public int RoleID { get; set; } = 0;
+        public int BranchID { get; set; } = 0;
+        public int StaffID { get; set; } = 0;
     }
 }

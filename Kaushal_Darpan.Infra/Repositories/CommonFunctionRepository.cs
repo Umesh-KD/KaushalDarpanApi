@@ -9727,6 +9727,44 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> GetSSOIDDetailData(string SSOID,string action)
+        {
+            _actionName = "GetSSOIDDetailData(string SSOID,string action)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetSSOIDDetailData";
+                        command.Parameters.AddWithValue("@SSOID", SSOID);
+                        command.Parameters.AddWithValue("@Action", action);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+
+
     }
 }
 
