@@ -13,14 +13,15 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAllData(DTESearchTradeEquipmentsMapping SearchReq);
         Task<DTETradeEquipmentsMapping> GetById(int PK_ID);
         Task<bool> SaveData(DTETradeEquipmentsMapping productDetails);
-        Task<bool> SaveEquipmentsMappingRequestData(DTERequestTradeEquipmentsMapping request);
+        Task<int> SaveEquipmentsMappingRequestData(DTERequestTradeEquipmentsMapping request);
+        //Task<bool> SaveEquipmentsMappingRequestData(DTERequestTradeEquipmentsMapping request);
         Task<bool> UpdateStatusData(DTEUpdateStatusMapping productDetails);
         Task<bool> DeleteDataByID(DTETradeEquipmentsMapping productDetails);
         Task<bool> HOD_EquipmentVerifications(DTETradeEquipmentsMapping productDetails);
         Task<DataTable> GetAllRequestData(DTESearchTradeEquipmentsMapping SearchReq);
         Task<bool> SaveRequestData(DTETEquipmentsRequestMapping request);
 
-
+        Task<int> UpdateStatusRevert(DTETEquipmentsRequestMappingRevert request);
 
     }
 }

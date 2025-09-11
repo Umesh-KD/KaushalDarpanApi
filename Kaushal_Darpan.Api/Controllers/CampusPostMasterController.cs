@@ -393,7 +393,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpGet("CampusValidationList/{CompanyID}/{CollegeID}/{Status}/{DepartmentID}/{Flag}")]
+        [HttpGet("CampusValidationList/{CompanyID}/{CollegeID}/{Status}/{DepartmentID}/{Flag?}")]
         public async Task<ApiResult<DataTable>> CampusValidationList(int CompanyID, int CollegeID, string Status, int DepartmentID,string Flag="")
         {
             ActionName = "CampusValidationList(int CollegeID,string Status)";

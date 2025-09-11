@@ -2,9 +2,11 @@
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Models.DispatchFormDataModel;
 using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.GroupMaster;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Data;
 
 namespace Kaushal_Darpan.Api.Controllers
@@ -188,50 +190,58 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+
         [HttpPost("SaveEquipmentsMappingRequestData")]
-        public async Task<ApiResult<bool>> SaveEquipmentsMappingRequestData([FromBody] DTERequestTradeEquipmentsMapping request)
+        public async Task<ApiResult<int>> SaveEquipmentsMappingRequestData([FromBody] DTERequestTradeEquipmentsMapping request)
         {
-            ActionName = "SaveData([FromBody] DTETradeEquipmentsMapping request)";
+            ActionName = "SaveEquipmentsMappingRequestData([FromBody] DTERequestTradeEquipmentsMapping request)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<bool>();
+                var result = new ApiResult<int>();
                 try
                 {
 
-                    if (!ModelState.IsValid)
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = "Validation failed!";
-                        return result;
-                    }
-
-
                     result.Data = await _unitOfWork.iDTETradeEquipmentsMappingRepository.SaveEquipmentsMappingRequestData(request);
                     _unitOfWork.SaveChanges();
-                    if (result.Data)
+                    if (result.Data > 0)
                     {
                         result.State = EnumStatus.Success;
-                        if (request.TE_MappingId == 0)
+                        if (result.Data == 1)
                         {
                             result.Message = Constants.MSG_SAVE_SUCCESS;
                         }
-                        else
+                        else if (result.Data == 2)
                         {
                             result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+                        else if (result.Data == -1)
+                        {
+                            result.State = EnumStatus.Warning;
+                            result.Message = Constants.MSG_SAVE_Duplicate;
                         }
                     }
                     else
                     {
                         result.State = EnumStatus.Error;
-                        if (request.TE_MappingId == 0)
+                        if (result.Data == 0)
                         {
                             result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        }
+                        else if (result.Data == -1)
+                        {
+                            result.State = EnumStatus.Warning;
+                            result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
                         }
                         else
                         {
                             result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
                         }
                     }
+
+
+
+
                 }
                 catch (System.Exception ex)
                 {
@@ -250,6 +260,70 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+        //[HttpPost("SaveEquipmentsMappingRequestData")]
+        //public async Task<ApiResult<bool>> SaveEquipmentsMappingRequestData([FromBody] DTERequestTradeEquipmentsMapping request)
+        //{
+        //    ActionName = "SaveData([FromBody] DTETradeEquipmentsMapping request)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        var result = new ApiResult<bool>();
+        //        try
+        //        {
+
+        //            if (!ModelState.IsValid)
+        //            {
+        //                result.State = EnumStatus.Error;
+        //                result.ErrorMessage = "Validation failed!";
+        //                return result;
+        //            }
+
+
+        //            result.Data = await _unitOfWork.iDTETradeEquipmentsMappingRepository.SaveEquipmentsMappingRequestData(request);
+        //            _unitOfWork.SaveChanges();
+        //            if (result.Data)
+        //            {
+        //                result.State = EnumStatus.Success;
+        //                if (request.TE_MappingId == 0)
+        //                {
+        //                    result.Message = Constants.MSG_SAVE_SUCCESS;
+        //                }
+        //                else
+        //                {
+        //                    result.Message = Constants.MSG_UPDATE_SUCCESS;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                result.State = EnumStatus.Error;
+        //                if (request.TE_MappingId == 0)
+        //                {
+        //                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+        //                }
+        //                else
+        //                {
+        //                    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+        //                }
+        //            }
+        //        }
+        //        catch (System.Exception ex)
+        //        {
+        //            _unitOfWork.Dispose();
+        //            result.State = EnumStatus.Error;
+        //            result.ErrorMessage = ex.Message;
+        //            // write error log
+        //            var nex = new NewException
+        //            {
+        //                PageName = PageName,
+        //                ActionName = ActionName,
+        //                Ex = ex,
+        //            };
+        //            await CreateErrorLog(nex, _unitOfWork);
+        //        }
+        //        return result;
+        //    });
+        //}
 
         [HttpGet("GetByID/{PK_ID}")]
         public async Task<ApiResult<DTETradeEquipmentsMapping>> GetByID(int PK_ID)
@@ -480,6 +554,74 @@ namespace Kaushal_Darpan.Api.Controllers
                 await CreateErrorLog(nex, _unitOfWork);
             }
             return result;
+        }
+
+        [HttpPost("UpdateStatusRevertData")]
+        public async Task<ApiResult<int>> UpdateStatusRevertData([FromBody] DTETEquipmentsRequestMappingRevert request)
+        {
+            ActionName = "UpdateStatusRevertData([FromBody] DTETEquipmentsRequestMappingRevert request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+
+                    result.Data = await _unitOfWork.iDTETradeEquipmentsMappingRepository.UpdateStatusRevert(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data>0)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (request.Id == 1)
+                        {
+                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (request.Id == 0)
+                        {
+                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        }
+                        else
+                        {
+                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
         }
 
     }
