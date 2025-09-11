@@ -53,6 +53,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int PricePerUnit { get; set; }
         public int TotalPrice { get; set; }
         public string? VoucherNumber { get; set; }
+        public int MappingId { get; set; }
     }
 
     public class DTEUpdateStatusMapping
@@ -137,6 +138,17 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? ItemDetailsId { get; set; }
         public int? TransactionID { get; set; }
 
+    }
+
+
+    public class DTETEquipmentsRequestMappingRevert
+    {
+        public int Id { get; set; }
+        public int ModifyBy { get; set; }
+        public DateTime? ModifyDate { get; set; }
+        public string? IPAddress { get; set; }     
+        public int Status { get; set; }
+        public string? Remark { get; set; }
     }
 
 }
