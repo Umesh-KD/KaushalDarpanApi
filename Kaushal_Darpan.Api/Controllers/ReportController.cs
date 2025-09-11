@@ -1565,10 +1565,10 @@ namespace Kaushal_Darpan.Api.Controllers
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         //images
 
-                        string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["Studentimg"]}";
+                        string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["Studentimg"]}";
                         data.Tables[0].Rows[0]["StudentImgb"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
 
-                        string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentSign"]}";
+                        string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentSign"]}";
                         data.Tables[0].Rows[0]["StudentSignb"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
 
                         string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[0].Rows[0]["RegistrarSign"]}";
@@ -1657,14 +1657,14 @@ namespace Kaushal_Darpan.Api.Controllers
                         string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentExaminationForm.rdlc";
 
                         //temp comment
-                        string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
+                        string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
                         data.Tables[0].Rows[0]["StudentImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
 
                         //string stuimgFilepath = $"{CommonFuncationHelper.GetStudentFilesForOldBter(iCourseType, bisyearly, istudentId)}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
                         //data.Tables[0].Rows[0]["StudentImg"] = await GetByteImages(stuimgFilepath);
 
                         //temp comment
-                        string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
+                        string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
                         data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
 
                         //string stusignFilepath = $"{CommonFuncationHelper.GetStudentFilesForOldBter(iCourseType, bisyearly, istudentId)}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
@@ -13752,6 +13752,46 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.Data = await Task.Run(() => _unitOfWork.ReportRepository.ReportedStudentReport(body));
                 result.State = EnumStatus.Success;
                 if (result.Data.Tables[0].Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+        //tabluation umesh
+
+
+        [HttpPost("TabulationDataReport")]
+        public async Task<ApiResult<DataTable>> TabulationDataReport([FromBody] TabluationDataModel body)
+        {
+            ActionName = "GetAllData([FromBody] TabulationDataReportModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabulationDataReport(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
                 {
                     result.State = EnumStatus.Success;
                     result.Message = "No record found.!";

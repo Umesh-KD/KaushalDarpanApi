@@ -37,7 +37,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
 
         public bool IsConsume { get; set; }
         public int ItemType { get; set; }
-
+        public string? Remark { get; set; }
     }
 
     public class DTEItemsSearchModel

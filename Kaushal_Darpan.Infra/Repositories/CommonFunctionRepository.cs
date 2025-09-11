@@ -1072,6 +1072,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@StudentExamID", model.StudentExamID);
+                        command.Parameters.AddWithValue("@FileNameWithDynamicPath", model.FileNameWithDynamicPath);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataSet = await command.FillAsync();

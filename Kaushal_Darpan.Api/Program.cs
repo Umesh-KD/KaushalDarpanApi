@@ -1,8 +1,13 @@
+﻿using DinkToPdf;
+using DinkToPdf.Contracts;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Hangfire;
 using Kaushal_Darpan.Api.Email;
+using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Infra;
 using Kaushal_Darpan.Infra.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
@@ -13,8 +18,6 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using System.Net;
 using System.Text;
-using Hangfire;
-using Kaushal_Darpan.Infra;
 //using static Org.BouncyCastle.Math.EC.ECCurve;
 //using Hangfire.MemoryStorage;
 
@@ -205,6 +208,19 @@ builder.Services.AddHangfireServer();
 
 // Register your service
 builder.Services.AddScoped<IMyService, MyService>();
+
+
+// Set native DLL path (relative to output)
+var context = new CustomAssemblyLoadContext();
+context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "wkhtmltox", "libwkhtmltox.dll"));
+
+// Register converter
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+
+builder.Services.AddScoped<IPrintHtmlFile, PrintHtmlFile>();
+
+
+
 
 
 // ------------ pipeline ----------------------

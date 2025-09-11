@@ -31,5 +31,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> CheckItemAuction(CheckItemAuctionSearch request);
 
+        Task<int> UpdateStatusRevert(DTEItemsModel request);
+
     }
 }
