@@ -523,14 +523,14 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("Iticollege/{DepartmentID}/{Eng_NonEng}/{EndTermId}/{InsutiteId}")]
-        public async Task<ApiResult<DataTable>> Iticollege(int DepartmentID, int Eng_NonEng, int EndTermId , int InsutiteId)
+        public async Task<ApiResult<DataTable>> Iticollege(int DepartmentID, int Eng_NonEng, int EndTermId, int InsutiteId)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.Iticollege(DepartmentID, Eng_NonEng, EndTermId , InsutiteId);
+                    var data = await _unitOfWork.CommonFunctionRepository.Iticollege(DepartmentID, Eng_NonEng, EndTermId, InsutiteId);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
@@ -564,7 +564,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("IticenterColleges/{DepartmentID}/{Eng_NonEng}/{EndTermId}/{InstituteID}")]
-        public async Task<ApiResult<DataTable>> IticenterColleges(int DepartmentID, int Eng_NonEng, int EndTermId,int InstituteID)
+        public async Task<ApiResult<DataTable>> IticenterColleges(int DepartmentID, int Eng_NonEng, int EndTermId, int InstituteID)
         {
             return await Task.Run(async () =>
             {
@@ -726,15 +726,20 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpGet("SemesterMaster/{ShowAllSemester}")]
-        public async Task<ApiResult<DataTable>> SemesterMaster(int ShowAllSemester)
+        [HttpGet("SemesterMaster/{ShowAllSemester}/{EndTermID}/{IsWithNotYearly}/{IsPromote}")]
+        public async Task<ApiResult<DataTable>> SemesterMaster(int ShowAllSemester, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.SemesterMaster(ShowAllSemester);
+                    var data = await _unitOfWork.CommonFunctionRepository.SemesterMaster(
+                        ShowAllSemester: ShowAllSemester,
+                        EndTermID: EndTermID,
+                        IsWithNotYearly: IsWithNotYearly,
+                        IsPromote: IsPromote
+                        );
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
@@ -2515,7 +2520,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-        
+
         [HttpPost("GetExaminerGroupCode_Reval")]
         public async Task<ApiResult<DataTable>> GetExaminerGroupCode_Reval(CommonDDLExaminerGroupCodeModel model)
         {
@@ -3497,7 +3502,7 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-    
+
         [HttpGet("CheckSSOIDExists/{SSOID}/{RoleID}/{InstituteID}")]
         public async Task<ApiResult<UserRequestModel>> CheckSSOIDExists(string SSOID, string RoleID, string InstituteID)
         {
@@ -3822,7 +3827,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
                     }
 
-                   
+
 
                     ////set and create the folder
                     //var uploadFolderName = Path.Combine(ConfigurationHelper.StaticFileRootPath, "Students" ?? "");
@@ -3871,7 +3876,8 @@ namespace Kaushal_Darpan.Api.Controllers
                     if (model.FileNameWithDynamicPath == 1)
                     {
                         uploadFileDataModel.FileName = model.FilePrefix + "/" + FileName;
-                    } else
+                    }
+                    else
                     {
                         uploadFileDataModel.FileName = FileName;
                     }
@@ -5836,7 +5842,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("GetITICenterDDL/{EndTermId}/{CourseType}")]
-        public async Task<ApiResult<List<CommonDDLModel>>> GetITICenterDDL(int EndTermID,int CourseType)
+        public async Task<ApiResult<List<CommonDDLModel>>> GetITICenterDDL(int EndTermID, int CourseType)
         {
             ActionName = " GetITICenterDDL(int EndTermID)";
             return await Task.Run(async () =>
@@ -5844,7 +5850,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<List<CommonDDLModel>>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetITICenterDDL(EndTermID,CourseType);
+                    var data = await _unitOfWork.CommonFunctionRepository.GetITICenterDDL(EndTermID, CourseType);
                     if (data != null)
                     {
                         result.Data = data;
@@ -7409,7 +7415,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-       
+
         #region  GetStatusFor RollNo And ENrollNo
 
         [HttpGet("GetCommonMasterDDLStatusByType/{type}")]
@@ -7567,13 +7573,13 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("GetNodalExamCenterDistrict/{District}/{EndTermID}")]
-        public async Task<ApiResult<List<CommonDDLModel>>> GetNodalExamCenterDistrict(int District,int EndTermID)
+        public async Task<ApiResult<List<CommonDDLModel>>> GetNodalExamCenterDistrict(int District, int EndTermID)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<List<CommonDDLModel>>();
                 try
-               {
+                {
                     var data = await _unitOfWork.CommonFunctionRepository.GetNodalExamCenterDistrict(District, EndTermID);
                     if (data.Count > 0)
                     {
@@ -7599,7 +7605,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("ItiTrade/{DepartmetnID}/{StreamType}/{EndTermId}/{InstituiteID}/{DivisionId}")]
-        public async Task<ApiResult<DataTable>> ItiTrade(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0,int InstituiteID=0,int DivisionId=0)
+        public async Task<ApiResult<DataTable>> ItiTrade(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0, int InstituiteID = 0, int DivisionId = 0)
         {
             return await Task.Run(async () =>
             {
@@ -7674,14 +7680,14 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpGet("ITI_SemesterMaster/{Parameter1}/{Parameter2}")]
-        public async Task<ApiResult<DataTable>> ITI_SemesterMaster(int Parameter1 =0 , string Parameter2 ="")
+        public async Task<ApiResult<DataTable>> ITI_SemesterMaster(int Parameter1 = 0, string Parameter2 = "")
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.ITI_SemesterMaster(Parameter1 , Parameter2);
+                    var data = await _unitOfWork.CommonFunctionRepository.ITI_SemesterMaster(Parameter1, Parameter2);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
@@ -7944,7 +7950,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("ItiShiftUnitDDL/{ID}/{FinancialYearID}/{CourseTypeID}/{InstituteID}")]
-        public async Task<ApiResult<DataTable>> ItiShiftUnitDDL(int ID , int FinancialYearID, int CourseTypeID, int InstituteID)
+        public async Task<ApiResult<DataTable>> ItiShiftUnitDDL(int ID, int FinancialYearID, int CourseTypeID, int InstituteID)
         {
             return await Task.Run(async () =>
             {
@@ -8379,7 +8385,7 @@ namespace Kaushal_Darpan.Api.Controllers
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetSSOIDDetailData(body.SSOID,body.Action));
+                result.Data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetSSOIDDetailData(body.SSOID, body.Action));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
