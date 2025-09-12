@@ -1,16 +1,20 @@
 ﻿using AspNetCore.Reporting;
-using Kaushal_Darpan.Core.Helper;
-using Microsoft.AspNetCore.Mvc;
-using System.Data;
-using Kaushal_Darpan.Models.DateConfiguration;
-using Newtonsoft.Json;
-using Kaushal_Darpan.Core.Interfaces;
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
-using DocumentFormat.OpenXml;
 using Kaushal_Darpan.Api.Code.Helper;
-using Kaushal_Darpan.Models.Test;
+using Kaushal_Darpan.Api.HtmlTempleteFile;
+using Kaushal_Darpan.Core.Helper;
+using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Models.DateConfiguration;
 using Kaushal_Darpan.Models.SMSConfigurationSetting;
+using Kaushal_Darpan.Models.Test;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Data;
+
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -24,11 +28,15 @@ namespace Kaushal_Darpan.Api.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly SMSConfigurationSettingModel _sMSConfigurationSetting;
 
-        public TestController(IUnitOfWork unitOfWork)
+        private readonly IConverter _converter;
+        private readonly IPrintHtmlFile _printHtmlFile;
+
+        public TestController(IUnitOfWork unitOfWork, IConverter converter, IPrintHtmlFile printHtmlFile)
         {
             _unitOfWork = unitOfWork;
-
             _sMSConfigurationSetting = _unitOfWork.SMSMailRepository.GetSMSConfigurationSetting().Result;
+            _converter = converter;
+            _printHtmlFile = printHtmlFile;
         }
 
         [HttpPost("Test")]
@@ -618,6 +626,39 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 CommonFuncationHelper.WriteTextLog($"Error: {ex.Message}");
                 return $"Error: {ex.Message}";
+            }
+        }
+
+        [HttpGet("Dummy_CreatePDF")]
+        public async Task<IActionResult> Dummy_CreatePDF()
+        {
+            ActionName = "Dummy_CreatePDF()";
+
+            try
+            {
+                string html = _printHtmlFile.Dummy_CreatePDF();
+
+                var doc = new HtmlToPdfDocument()
+                {
+                    GlobalSettings = {
+                        PaperSize = PaperKind.A4,
+                        Orientation = Orientation.Landscape
+                    },
+                    Objects = {
+                        new ObjectSettings()
+                        {
+                            HtmlContent = html,
+                            WebSettings = { DefaultEncoding = "utf-8" }
+                        }
+                    }
+                };
+
+                byte[] pdf = _converter.Convert(doc);
+                return File(pdf, "application/pdf", "HindiDinkToPdf.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
             }
         }
 

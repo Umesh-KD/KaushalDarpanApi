@@ -1,5 +1,9 @@
 ﻿using AspNetCore.Reporting;
 using AutoMapper;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using Kaushal_Darpan.Api.Code.Helper;
+using Kaushal_Darpan.Api.Report.ITI;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.CenterObserver;
@@ -884,7 +888,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     if (result.Data > 0)
                     {
                         result.State = EnumStatus.Success;
-
                     }
                     else if (result.Data == -2)
                     {
@@ -915,6 +918,8 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+    
+
         [HttpPost("GenerateCOAnsweredReport/{id}")]
         public async Task<ApiResult<string>> GenerateCOAnsweredReport(int id)
         {
@@ -928,29 +933,46 @@ namespace Kaushal_Darpan.Api.Controllers
                     var data = await _unitOfWork.ITI_InspectionRepository.GenerateCOAnsweredReport(id);
                     if (data != null)
                     {
-                        //report
-                        var fileName = $"ITIInspectionChekckListReport_{id}.pdf";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIInspectionCheckListReport.rdlc";
+                        ////report
+                        //var fileName = $"ITIInspectionChekckListReport_{id}.pdf";
+                        //string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        //string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIInspectionCheckListReport.rdlc";
 
 
-                        //
-                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        LocalReport localReport = new LocalReport(rdlcpath);
+                        ////
+                        //System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        //LocalReport localReport = new LocalReport(rdlcpath);
 
-                        localReport.AddDataSource("ITICheckListDetails", data.Tables[0]);
-                        localReport.AddDataSource("ITIChecklistAnswers", data.Tables[1]);
+                        //localReport.AddDataSource("ITICheckListDetails", data.Tables[0]);
+                        //localReport.AddDataSource("ITIChecklistAnswers", data.Tables[1]);
 
-                        var reportResult = localReport.Execute(RenderType.Pdf);
+                        //var reportResult = localReport.Execute(RenderType.Pdf);
 
-                        //check file exists
+                        ////check file exists
+                        //if (!System.IO.Directory.Exists(folderPath))
+                        //{
+                        //    Directory.CreateDirectory(folderPath);
+                        //}
+
+                        //System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        ////end report
+                        ///
+                        // Assuming data gives you full file paths OR relative paths
+                        //List<string> files = data.DataSetName.Select(x => Path.Combine("wwwroot/uploads", x.DocFile)).ToList();
+                        
+                        List<string> files = data.Tables[1].AsEnumerable().Select(x => Path.Combine($"{ConfigurationHelper.StaticFileRootPath}/InspectionManagerITI", x["Answer"].ToString())).ToList();
+                       
+                        byte[] mergedPdf = WordHelper.MergePdfFiles(files);
+
                         if (!System.IO.Directory.Exists(folderPath))
                         {
                             Directory.CreateDirectory(folderPath);
                         }
 
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        //end report
+                        string fileName = $"MergedReport_{Guid.NewGuid()}.pdf";
+                        string fullPath = Path.Combine(folderPath, fileName);
+
+                        System.IO.File.WriteAllBytes(fullPath, mergedPdf);
 
                         result.Data = fileName;
                         result.State = EnumStatus.Success;
