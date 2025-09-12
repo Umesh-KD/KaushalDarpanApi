@@ -1189,10 +1189,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
                         LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("HostelAllotment", data.Tables[0]);
-                        localReport.AddDataSource("HostelAllotment1", data.Tables[1]);
-                        localReport.AddDataSource("HostelAllotment2", data.Tables[2]);
-                        localReport.AddDataSource("HostelAllotment3", data.Tables[3]);
+                        localReport.AddDataSource("StudentHostelAllotmentLetter", data.Tables[0]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
 
                         //check file exists
