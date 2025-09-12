@@ -1248,12 +1248,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_Rpt_GetStudentHostelallotment";
+                        command.CommandText = "USP_Rpt_StudentHostelAllotmentLetter";
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                         command.Parameters.AddWithValue("@StudentID", model.StudentID);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEngID);
+                        command.Parameters.AddWithValue("@ReqId", model.ReqId);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
