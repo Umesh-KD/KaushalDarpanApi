@@ -293,9 +293,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandTimeout = 999999999;
-
                         command.CommandText = "USP_ITIGetCollegeTradeList";
-
                         command.Parameters.AddWithValue("@CollegeId", request.CollegeID);
                         command.Parameters.AddWithValue("@CollegeTradeId", request.CollegeTradeId);
                         command.Parameters.AddWithValue("@TradeSchemeId", request.TradeSchemeId);
@@ -313,7 +311,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PageNumber", request.PageNumber);
                         command.Parameters.AddWithValue("@PageSize", request.PageSize);
                         command.Parameters.AddWithValue("@Action", request.Action);
-
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
