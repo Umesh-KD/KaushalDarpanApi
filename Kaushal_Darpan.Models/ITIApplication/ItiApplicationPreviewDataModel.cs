@@ -64,6 +64,7 @@ namespace Kaushal_Darpan.Models.ITIApplication
 
             public bool IsFinalPay { get; set; }
             public int TransactionID { get; set; }
+            public int? DirectAdmissionType { get; set; }
             public string PRN { get; set; } = string.Empty;
             public string TransctionStatus { get; set; } = string.Empty;
                   public int UniqueServiceID { get; set; }
