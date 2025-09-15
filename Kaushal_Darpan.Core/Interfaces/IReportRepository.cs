@@ -280,5 +280,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> BterDuplicateProvisionalCertificateDownload(BterCertificateReportDataModel filterModel);
         Task<DataSet> GetApplicantReportForAdmin(ApplicantStudentReport model);
         Task<DataSet> ReportedStudentReport(ReportedStudentReport model);
+
+        Task<DataSet> GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model);
     }
 }
