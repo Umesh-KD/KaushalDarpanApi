@@ -155,7 +155,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     else if (result.Data == -6)
                     {
-                        result.State = EnumStatus.Warning;
+                        result.State = EnumStatus.Error;
                         result.ErrorMessage = "Seat Already Alloted";
                     }
 
