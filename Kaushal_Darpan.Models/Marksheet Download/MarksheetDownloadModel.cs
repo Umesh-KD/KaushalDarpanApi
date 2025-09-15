@@ -23,6 +23,7 @@
         public bool? IsReval {  get; set; }
         public bool? IsRWHResult { get; set; }
         public bool? IsLateral { get; set; }
+        public int? ReqId { get; set; }
 
     }
 

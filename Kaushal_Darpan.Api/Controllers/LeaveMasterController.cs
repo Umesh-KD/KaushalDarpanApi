@@ -185,7 +185,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         StaffLeaveID = ID,
                         ModifyBy = ModifyBy,
-
                     };
                     result.Data = await _unitOfWork.LeaveMasterRepository.DeleteDataByID(mappedData);
                     _unitOfWork.SaveChanges();

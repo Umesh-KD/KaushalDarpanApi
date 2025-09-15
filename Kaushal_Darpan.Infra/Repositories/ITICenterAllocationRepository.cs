@@ -7,6 +7,7 @@ using Kaushal_Darpan.Models.GenerateEnroll;
 using Kaushal_Darpan.Models.ITICenterAllocaqtion;
 using Kaushal_Darpan.Models.ITIPracticalExaminer;
 using Kaushal_Darpan.Models.TheoryMarks;
+using Kaushal_Darpan.Models.UserMaster;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -143,7 +144,80 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
-        }                                   
+        }
+
+        public async Task<DataTable> GetscvtInstituteByCenterID(ITICenterAllocationSearchFilter filterModel)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIScvtInstituteListWithCenterID";
+                        command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                        command.Parameters.AddWithValue("@CenterID", filterModel.CenterID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> GetscvtTradeByCenterID(ITICenterAllocationSearchFilter filterModel)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIScvtTradeListWithCenterID";
+                        command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                        command.Parameters.AddWithValue("@CenterID", filterModel.CenterID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                        command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);
+                        command.Parameters.AddWithValue("@FinancialYearID", filterModel.FinancialYearID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
         public async Task<int> SaveData(List<ITICenterAllocationModel> entity)
         {
@@ -571,5 +645,55 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<int> Savescvtdata(ITICenterAllocationModel request)
+        {
+            _actionName = "SaveAllData(AdminUserDetailModel entity)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITICenterAlloocation_IUscvt";
+            
+                        command.Parameters.AddWithValue("@CourseTypeID", request.CourseTypeID);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+               
+
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        command.Parameters.AddWithValue("@TradeID", request.TradeID);
+                        command.Parameters.AddWithValue("@CenterID", request.CenterID);
+                        command.Parameters.AddWithValue("@CenterAllocationID", request.CenterAllocationID);
+                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+              
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
     }
 }

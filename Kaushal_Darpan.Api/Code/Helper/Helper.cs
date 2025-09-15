@@ -1,8 +1,10 @@
-﻿using DocumentFormat.OpenXml.Packaging;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
-using DocumentFormat.OpenXml;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using iTextSharp.text.pdf;
 using Kaushal_Darpan.Api.Controllers;
+using Kaushal_Darpan.Core.Helper;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Data;
 
 
@@ -40,6 +42,8 @@ namespace Kaushal_Darpan.Api.Code.Helper
             });
             return lst;
         }
+
+
     }
 
     public static class WordHelper
@@ -196,5 +200,45 @@ namespace Kaushal_Darpan.Api.Code.Helper
                 mainPart.Document.Save();
             }
         }
+
+        public static byte[] MergePdfFiles(List<string> filePaths)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                try
+                {
+                    iTextSharp.text.Document document = new iTextSharp.text.Document();
+                    PdfCopy copy = new PdfCopy(document, memoryStream);
+                    document.Open();
+
+                    foreach (var file in filePaths)
+                    {
+                        string fileToUse = file;
+                        if (!File.Exists(file))
+                        {
+                            fileToUse = $"{ConfigurationHelper.StaticFileRootPath}/default.pdf";
+                        }
+
+                        using (PdfReader reader = new PdfReader(fileToUse))
+                        {
+
+                            for (int i = 1; i <= reader.NumberOfPages; i++)
+                            {
+                                copy.AddPage(copy.GetImportedPage(reader, i));
+                            }
+                        }
+                    }
+                    document.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                return memoryStream.ToArray();
+            }
+        }
     }
+
+
 }

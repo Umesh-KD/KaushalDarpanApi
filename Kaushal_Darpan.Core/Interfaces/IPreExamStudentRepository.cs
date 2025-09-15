@@ -37,7 +37,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveRejectAtBTERApprovalReject(List<StudentMarkedModel> model);
         Task<int> SaveEnrolledStudentExam(List<StudentMarkedModel> model);
         Task<ViewStudentDetailsModel> ViewStudentDetails(ViewStudentDetailsRequestModel model);
-        Task<StudentMasterModel> PreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndtermID, int StudentExamID);
+        Task<StudentMasterModel> PreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndtermID, int StudentExamID, int FileNameWithDynamicPath);
 
         Task<DataTable> GetRejectBTERExcelData(PreExamStudentModel model);
         Task<DataTable> GetMainAnnexure(AnnexureDataModel model);

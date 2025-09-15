@@ -6,6 +6,7 @@ using Kaushal_Darpan.Models.GenerateEnroll;
 using Kaushal_Darpan.Models.IssuedItems;
 using Kaushal_Darpan.Models.ItemCategoryMasterModel;
 using Kaushal_Darpan.Models.ItemsMaster;
+using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.StudentApplyForHostel;
 using Kaushal_Darpan.Models.StudentRequestsModel;
 using Newtonsoft.Json;
@@ -1234,5 +1235,45 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        #region Student Hostel Form
+        public async Task<DataSet> DownloadStudentHostelAllotmentLetter(MarksheetDownloadSearchModel model)
+        {
+            _actionName = "GetStudentHostelallotment(MarksheetDownloadSearchModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Rpt_StudentHostelAllotmentLetter";
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@StudentID", model.StudentID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEngID);
+                        command.Parameters.AddWithValue("@ReqId", model.ReqId);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
     }
 }

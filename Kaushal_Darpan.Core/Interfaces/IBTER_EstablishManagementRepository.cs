@@ -48,5 +48,14 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> BTER_EM_DesignationWiseBranch(BTER_DesignationWiseBranchDataModel model);
 
+        Task<int> Save_BterExtraOrdinaryLeavesForStaff(List<BTER_ExtraOrdinaryLeavesForStaffModel> model);
+
+        Task<DataTable> BterExtraOrdinaryLeavesForStaffList(BTER_ExtraOrdinaryLeavesForStaffModel model);
+
+        Task<int> DeleteBterExtraOrdinaryLeavesForStaff(BTER_ExtraOrdinaryLeavesForStaffModel body);
+
+
+
+
     }
 }

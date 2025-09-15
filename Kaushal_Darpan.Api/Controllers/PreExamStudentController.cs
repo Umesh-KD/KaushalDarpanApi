@@ -1366,15 +1366,15 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpGet("PreExam_StudentMaster/{StudentID}/{statusId}/{DepartmentID}/{Eng_NonEng}/{EndTermID}/{StudentExamID}")]
-        public async Task<ApiResult<StudentMasterModel>> PreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndTermID, int StudentExamID)
+        [HttpGet("PreExam_StudentMaster/{StudentID}/{statusId}/{DepartmentID}/{Eng_NonEng}/{EndTermID}/{StudentExamID}/{FileNameWithDynamicPath}")]
+        public async Task<ApiResult<StudentMasterModel>> PreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndTermID, int StudentExamID, int FileNameWithDynamicPath)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<StudentMasterModel>();
                 try
                 {
-                    var data = await _unitOfWork.PreExamStudentRepository.PreExam_StudentMaster(StudentID, statusId, DepartmentID, Eng_NonEng, status, EndTermID, StudentExamID);
+                    var data = await _unitOfWork.PreExamStudentRepository.PreExam_StudentMaster(StudentID, statusId, DepartmentID, Eng_NonEng, status, EndTermID, StudentExamID, FileNameWithDynamicPath);
                     if (data != null)
                     {
                         result.Data = data;

@@ -15,6 +15,9 @@
         public bool ActiveStatus { get; set; }
         public bool DeleteStatus { get; set; }
 
+        public string HRName { get; set; }
+        public string EmailId { get; set; }
+        public string MobileNo { get; set; }
 
         public int ModifyBy { get; set; }
 
