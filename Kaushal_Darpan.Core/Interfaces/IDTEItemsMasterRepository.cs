@@ -32,6 +32,11 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> CheckItemAuction(CheckItemAuctionSearch request);
 
         Task<int> UpdateStatusRevert(DTEItemsModel request);
-
+        Task<DataTable> GetAll_INV_GetCommonIssueDDL(inventoryIssueHistorySearchModel SearchReq);
+        Task<DataTable> GetConsumeItemList(DTEItemsSearchModel SearchReq);
+        Task<bool> SaveIssueItems(ItemsIssueReturnModels request);
+        Task<DataTable> GetInventoryIssueItemList(inventoryIssueHistorySearchModel SearchReq);
+        Task<DataTable> GetAll_INV_returnItem(ItemsIssueReturnModels SearchReq);
+        Task<DataTable> GetAllinventoryIssueHistory(inventoryIssueHistorySearchModel SearchReq);
     }
 }

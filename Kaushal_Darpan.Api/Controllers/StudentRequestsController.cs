@@ -1176,7 +1176,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.iStudentRequestsRepository.DownloadStudentHostelAllotmentLetter(student);
-                    if (data?.Tables?.Count > 1)
+                    if (data?.Tables?.Count > 0)
                     {
                         //report
                         var fileName = $"HostelAllotmentletter{student.StudentID}.pdf";
