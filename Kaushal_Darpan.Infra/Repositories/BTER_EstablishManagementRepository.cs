@@ -1319,5 +1319,246 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<int> Save_BterExtraOrdinaryLeavesForStaff(List<BTER_ExtraOrdinaryLeavesForStaffModel> body)
+        {
+            _actionName = "Save_BterExtraOrdinaryLeavesForStaff(List<BTER_ExtraOrdinaryLeavesForStaffModel> body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    var jsonData = JsonConvert.SerializeObject(body);
+
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BTER_ExtraOrdinaryLeavesForStaff_IU";
+                        command.Parameters.AddWithValue("@Action", "BTER_ExtraOrdinaryLeavesForStaff_IU");
+                        command.Parameters.AddWithValue("@jsonData", jsonData);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> BterExtraOrdinaryLeavesForStaffList(BTER_ExtraOrdinaryLeavesForStaffModel model)
+        {
+            _actionName = "BterExtraOrdinaryLeavesForStaffList(BTER_ExtraOrdinaryLeavesForStaffModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+                        command.CommandText = "USP_BTER_ExtraOrdinaryLeavesForStaffList";
+                        command.Parameters.AddWithValue("@Action", "View");
+                        command.Parameters.AddWithValue("@ID", model.ID);
+                        command.Parameters.AddWithValue("@StaffUserID", model.StaffUserID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermId);
+                        
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> DeleteBterExtraOrdinaryLeavesForStaff(BTER_ExtraOrdinaryLeavesForStaffModel body)
+        {
+            _actionName = "DeleteBterExtraOrdinaryLeavesForStaff(BTER_ExtraOrdinaryLeavesForStaffModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        // command.CommandText = "USP_ITI_Govt_EM_ServiceDetailsOfPersonnelDeleteByID";
+                        command.CommandText = "USP_Delete_ExtraOrdinaryLeavesForStaffList";
+                        command.Parameters.AddWithValue("@ID", body.ID);
+                        command.Parameters.AddWithValue("@Action", "Delete");
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        public async Task<int> Save_M_OfficeVacancy_IU(List<OfficeVacancyModel> body)
+        {
+            _actionName = "Save_M_OfficeVacancy_IU(List<OfficeVacancyModel> body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    var jsonData = JsonConvert.SerializeObject(body);
+
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_M_OfficeVacancy_IU";
+                        command.Parameters.AddWithValue("@Action", "M_OfficeVacancy_IU");
+                        command.Parameters.AddWithValue("@jsonData", jsonData);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        public async Task<DataTable> OfficeVacancyList(OfficeVacancyModel model)
+        {
+            _actionName = "OfficeVacancyModelList(OfficeVacancyModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+                        command.CommandText = "USP_OfficeVacancyList";
+                        command.Parameters.AddWithValue("@Action", "View");
+                        command.Parameters.AddWithValue("@ID", model.ID);
+                        command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        public async Task<int> DeleteOfficeVacancy(OfficeVacancyModel body)
+        {
+            _actionName = "DeleteOfficeVacancy(OfficeVacancyModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        
+                        command.CommandText = "USP_Delete_OfficeVacancy";
+                        command.Parameters.AddWithValue("@ID", body.ID);
+                        command.Parameters.AddWithValue("@Action", "Delete");
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
     }
 }

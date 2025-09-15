@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AspNetCore.Reporting;
+using AutoMapper;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
@@ -6,6 +7,7 @@ using Kaushal_Darpan.Models.DTEApplicationDashboardModel;
 using Kaushal_Darpan.Models.GenerateEnroll;
 using Kaushal_Darpan.Models.ItemCategoryMasterModel;
 using Kaushal_Darpan.Models.ItemsMaster;
+using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.StudentApplyForHostel;
 using Kaushal_Darpan.Models.StudentRequestsModel;
 using Microsoft.AspNetCore.Http;
@@ -1161,5 +1163,73 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        #region Registration Form For Hostel
+        [HttpPost("DownloadStudentHostelAllotmentLetter")]
+        public async Task<ApiResult<string>> DownloadStudentHostelAllotmentLetter([FromBody] MarksheetDownloadSearchModel student)
+        {
+            ActionName = "GetStudentMarksheet(string EnrollmentNo)";
+            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.iStudentRequestsRepository.DownloadStudentHostelAllotmentLetter(student);
+                    if (data?.Tables?.Count > 0)
+                    {
+                        //report
+                        var fileName = $"HostelAllotmentletter{student.StudentID}.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/HostelAllotmentletter.rdlc";
+
+                        student.MarksheetPath = filepath;
+                        student.Marksheet = fileName;
+                        //provider                      
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                        LocalReport localReport = new LocalReport(rdlcpath);
+                        localReport.AddDataSource("StudentHostelAllotmentLetter", data.Tables[0]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+
+                        //save
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                        //end report
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+        #endregion
     }
 }

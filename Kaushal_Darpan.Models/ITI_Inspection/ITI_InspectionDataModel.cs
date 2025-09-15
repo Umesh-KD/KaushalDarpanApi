@@ -170,6 +170,7 @@ namespace Kaushal_Darpan.Models.ITI_Inspection
         public int? FinancialYearID { get; set; }  
         public string? DocConsent { get; set; }  
         public string? Remark { get; set; }  
+        public int consentTypeID { get; set; }  
 
     }
     public class ITI_ConsentSearchModel

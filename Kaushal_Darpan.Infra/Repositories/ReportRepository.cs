@@ -112,6 +112,55 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
+
+        #region GetAllDataRpt
+        public async Task<DataTable> GetTabulationDataReport(TabluationDataModel body)
+        {
+            _actionName = "GetAllDataRpt(TheorySearchModel body)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        if (1 == 1)
+                        {
+                            command.CommandText = "USP_ResultRpt_Tabular";
+                        }                       
+                        else
+                        {
+                            throw new Exception(Constants.MSG_INVALID_REQUEST);
+                        }
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);  
+                        command.Parameters.AddWithValue("@CourseType", body.CourseType);  
+                        command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);  
+                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);  
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        #endregion
+
         #region Admit Card
         public async Task<DataSet> GetStudentAdmitCard(GenerateAdmitCardSearchModel model)
         {
@@ -8356,6 +8405,49 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
         #endregion
+
+        public async Task<DataSet> GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model)
+        {
+            _actionName = "GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model)";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetstudentWithdrawnList";
+                        command.Parameters.AddWithValue("@AcademicYearID", model.AcademicYearID);
+                        command.Parameters.AddWithValue("@TradeLevelID", model.TradeLevelID);
+                        command.Parameters.AddWithValue("@TradeTypeID", model.TradeTypeID);
+                        command.Parameters.AddWithValue("@TradeId", model.TradeId);
+                        command.Parameters.AddWithValue("@CollegeId", model.CollegeId);
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        ds = await command.FillAsync();
+                    }
+
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
     }
 }
