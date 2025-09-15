@@ -1176,12 +1176,12 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.iStudentRequestsRepository.DownloadStudentHostelAllotmentLetter(student);
-                    if (data?.Tables?.Count > 1)
+                    if (data?.Tables?.Count > 0)
                     {
                         //report
-                        var fileName = $"StudentHostelRegistrationForm{student.StudentID}.pdf";
+                        var fileName = $"HostelAllotmentletter{student.StudentID}.pdf";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/RegistrationFormHostelAllotment.rdlc";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/HostelAllotmentletter.rdlc";
 
                         student.MarksheetPath = filepath;
                         student.Marksheet = fileName;

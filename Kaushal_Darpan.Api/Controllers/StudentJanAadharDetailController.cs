@@ -152,6 +152,13 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.State = EnumStatus.Warning;
                         result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
                     }
+
+                    else if (result.Data == -6)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Seat Already Alloted";
+                    }
+
                     else
                     {
                         result.State = EnumStatus.Error;
