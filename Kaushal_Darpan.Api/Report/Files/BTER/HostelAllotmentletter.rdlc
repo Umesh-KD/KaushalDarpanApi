@@ -1150,8 +1150,6 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <Top>0in</Top>
-            <Left>0in</Left>
             <Height>1.75in</Height>
             <Width>11.66283in</Width>
             <Style>
@@ -1176,7 +1174,6 @@
             </Paragraphs>
             <rd:DefaultName>Textbox46</rd:DefaultName>
             <Top>2.11036in</Top>
-            <Left>0in</Left>
             <Height>0.25in</Height>
             <Width>5.25783in</Width>
             <ZIndex>1</ZIndex>
@@ -1256,7 +1253,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>( Signature of Student )</Value>
+                    <Value>(Signature of Student)</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -1286,7 +1283,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>( Signature of Warden )</Value>
+                    <Value>(Signature of Warden)</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -1315,9 +1312,12 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <RightBorder>
+            <Width>1pt</Width>
+          </RightBorder>
         </Style>
       </Body>
-      <Width>11.86075in</Width>
+      <Width>11.66283in</Width>
       <Page>
         <PageHeader>
           <Height>3.78423in</Height>
