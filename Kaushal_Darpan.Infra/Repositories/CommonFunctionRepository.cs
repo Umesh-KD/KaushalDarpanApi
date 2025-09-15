@@ -740,7 +740,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<DataTable> SemesterMaster(int ShowAllSemester = 0)
+        public async Task<DataTable> SemesterMaster(int ShowAllSemester = 0, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0)
         {
             _actionName = "SemesterMaster()";
             return await Task.Run(async () =>
@@ -752,7 +752,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_DDL_SemesterMaster";
+
                         command.Parameters.AddWithValue("@ShowAllSemester", ShowAllSemester);
+                        command.Parameters.AddWithValue("@EndTermID", EndTermID);
+                        command.Parameters.AddWithValue("@IsWithNotYearly", IsWithNotYearly);
+                        command.Parameters.AddWithValue("@IsPromote", IsPromote);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
