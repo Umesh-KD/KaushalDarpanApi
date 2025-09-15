@@ -21,5 +21,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetSecretaryJDDashData(ITIDashboardSearchModel model);
 
         Task<DataTable> GetAdminDashNCVTData(ITIAdminDashboardSearchModel model);
+
+        Task<DataTable> GetItiJailDashApplicationData(ItiAdminDashApplicationSearchModel model);
     }
 }

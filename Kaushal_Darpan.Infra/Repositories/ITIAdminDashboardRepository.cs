@@ -557,6 +557,68 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        #region ds ITI Jail Application
+
+        public async Task<DataTable> GetItiJailDashApplicationData(ItiAdminDashApplicationSearchModel body)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_AdminDashboardData";
+                        command.Parameters.AddWithValue("@action", "_getAllData");
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@UrlStatus", body.UrlStatus);
+                        command.Parameters.AddWithValue("@ApplicationID", body.ApplicationID);
+                        command.Parameters.AddWithValue("@StudentName", body.StudentName);
+                        command.Parameters.AddWithValue("@MobileNumber", body.MobileNumber);
+                        command.Parameters.AddWithValue("@Gender", body.Gender);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
+                        command.Parameters.AddWithValue("@CategoryA", body.CategoryA);
+                        command.Parameters.AddWithValue("@CategoryB", body.CategoryB);
+                        command.Parameters.AddWithValue("@CategoryC", body.CategoryC);
+                        command.Parameters.AddWithValue("@CategoryD", body.CategoryD);
+                        command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
+                        command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
+                        command.Parameters.AddWithValue("@PageSize", body.PageSize);
+                        command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
+                        command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        #endregion
+
+
     }
 }
 
