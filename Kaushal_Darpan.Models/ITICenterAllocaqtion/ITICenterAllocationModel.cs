@@ -9,13 +9,16 @@ namespace Kaushal_Darpan.Models.ITICenterAllocaqtion
 
     public class ITICenterAllocationModel
     {
+
         public int CenterID { get; set; }
+        public int CenterAllocationID { get; set; }
         public int InstituteID { get; set; }
         public int ModifyBy { get; set; }
         public int DepartmentID { get; set; }
         public int EndTermID { get; set; }
         public int CourseTypeID { get; set; }
         public string? IPAddress { get; set; }
+        public string? TradeID { get; set; } 
     }
 
     public class ITICenterAllocationSearchFilter:RequestBaseModel
