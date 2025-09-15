@@ -9,6 +9,7 @@ using Kaushal_Darpan.Models.GenerateEnroll;
 using Kaushal_Darpan.Models.ITICenterAllocaqtion;
 using Kaushal_Darpan.Models.ITIPracticalExaminer;
 using Kaushal_Darpan.Models.ItiStudentActivities;
+using Kaushal_Darpan.Models.ScholarshipMaster;
 using Kaushal_Darpan.Models.TheoryMarks;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -107,7 +108,78 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("GetscvtInstituteByCenterID")]
+        public async Task<ApiResult<DataTable>> GetscvtInstituteByCenterID([FromBody] ITICenterAllocationSearchFilter filterModel)
+        {
+            ActionName = "GetInstituteByCenterID()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.ITICenterAllocationRepository.GetscvtInstituteByCenterID(filterModel);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
 
+
+        [HttpPost("GetscvtTradeByCenterID")]
+        public async Task<ApiResult<DataTable>> GetscvtTradeByCenterID([FromBody] ITICenterAllocationSearchFilter filterModel)
+        {
+            ActionName = "GetInstituteByCenterID()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.ITICenterAllocationRepository.GetscvtTradeByCenterID(filterModel);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                _unitOfWork.Dispose();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
 
         [HttpPost("SaveAllData")]
         public async Task<ApiResult<bool>> SaveAllData([FromBody] List<ITICenterAllocationModel> request)
@@ -662,6 +734,70 @@ namespace Kaushal_Darpan.Api.Controllers
                     //
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+        [HttpPost("Savescvtdata")]
+        public async Task<ApiResult<int>> Savescvtdata([FromBody] ITICenterAllocationModel request)
+        {
+            ActionName = "SaveData([FromBody] AppointExaminerModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+
+                    //if (!ModelState.IsValid)
+                    //{
+                    //    result.State = EnumStatus.Error;
+                    //    result.ErrorMessage = "Validation failed!";
+                    //    return result;
+                    //}
+
+
+                    result.Data = await _unitOfWork.ITICenterAllocationRepository.Savescvtdata(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data>0)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (request.CenterAllocationID == 0)
+                        {
+                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (request.CenterAllocationID == 0)
+                        {
+                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        }
+                        else
+                        {
+                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
                 }
                 return result;
             });

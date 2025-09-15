@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.ItiCompanyMaster;
+﻿using Kaushal_Darpan.Models.CompanyMaster;
+using Kaushal_Darpan.Models.ItiCompanyMaster;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,6 +16,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> SaveData(ItiCompanyMasterModels productDetails);
         Task<bool> Save_CompanyValidation_NodalAction(ItiCompanyMaster_Action model);
         Task<bool> DeleteDataByID(ItiCompanyMasterModels productDetails);
+
         Task<DataTable> CompanyValidationList(ItiCompanyMasterSearchModel filterModel);
+        Task<DataTable> CompanyMasterReport(ItiCompanyMasterSearchModel filterModel);
+
     }
 }
