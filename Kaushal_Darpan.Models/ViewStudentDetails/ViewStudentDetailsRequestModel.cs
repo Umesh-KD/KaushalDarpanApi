@@ -8,6 +8,7 @@ namespace Kaushal_Darpan.Models.ViewStudentDetailsModel
         public int StudentFilterStatusId { get; set; }
         public int ApplicationID { get; set; }
         public int StudentExamID { get; set; } = 0;
+        public int? FileNameWithDynamicPath { get; set; } = 0;
 
     }
 }

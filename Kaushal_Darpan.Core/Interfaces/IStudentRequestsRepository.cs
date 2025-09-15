@@ -1,4 +1,5 @@
 ﻿using Kaushal_Darpan.Models.DTEApplicationDashboardModel;
+using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.StudentApplyForHostel;
 using Kaushal_Darpan.Models.StudentRequestsModel;
 using System;
@@ -38,5 +39,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> DirectHostelSeatAllotment(RoomAllotmentModel request);
         Task<int> GenerateProvisionalMerit_Hostel(int Gender, List<PublishHostelMeritListDataModel> model);
         Task<DataTable> GetMeritGeneratedStudent_Hostel(GetMeritDataModel_Hostel SearchReq);
+        Task<DataSet> DownloadStudentHostelAllotmentLetter(MarksheetDownloadSearchModel model);
     }
 }

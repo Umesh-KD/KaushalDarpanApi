@@ -1,6 +1,7 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.ItiCompanyMaster;
 using System.Data;
 
@@ -84,11 +85,17 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StateID", request.StateID);
                         command.Parameters.AddWithValue("@Website", request.Website);
                         command.Parameters.AddWithValue("@Address", request.Address);
+
                         command.Parameters.AddWithValue("@CompanyTypeId", request.CompanyTypeId);
                         command.Parameters.AddWithValue("@Logo", request.CompanyPhoto);
                         command.Parameters.AddWithValue("@Dis_Name", request.Dis_CompanyName);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+
+                        command.Parameters.AddWithValue("@HRName", request.HRName);
+                        command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
+                        command.Parameters.AddWithValue("@EmailId", request.EmailId);
+
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -124,7 +131,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = _dbContext.CreateCommand())
                     {
-                        command.CommandText = " select * from M_ITIPlacementCompanyMaster Where ID='" + PK_ID + "' ";
+                        command.CommandText = " select pcm.*, hr.Name As HRName, hr.EmailId,hr.MobileNo from M_ITIPlacementCompanyMaster pcm left join M_ITIHRManagerMaster hr on pcm.ID=hr.PlacementCompanyID Where ID='" + PK_ID + "' ";
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -267,5 +274,51 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+
+
+        public async Task<DataTable> CompanyMasterReport(ItiCompanyMasterSearchModel body)
+        {
+            _actionName = "CompanyMasterReport(CompanyMasterSearchModel body)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CompanyMasterReport";
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        if (body.Name != null)
+                        {
+                            command.Parameters.AddWithValue("@Name", body.Name);
+                        }
+                        command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@Status", body.Status);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+
     }
 }

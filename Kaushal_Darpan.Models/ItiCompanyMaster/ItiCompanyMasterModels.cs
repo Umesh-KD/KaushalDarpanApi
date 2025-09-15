@@ -21,6 +21,10 @@
         public int ModifyBy { get; set; }
 
         public string? IPAddress { get; set; }
+        public string? MobileNo { get; set; }
+        public string? EmailId { get; set; }
+        public string? HRName { get; set; }
+
     }
 
 

@@ -33,6 +33,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IReportRepository
     {
         Task<DataTable> GetAllDataRpt(TheorySearchModel filterModel);
+        Task<DataTable> GetTabulationDataReport(TabluationDataModel filterModel);
 
         Task<DataSet> GetStudentAdmitCard(GenerateAdmitCardSearchModel model);
         Task<DataSet> GetTestRDLC(GenerateAdmitCardSearchModel model);
