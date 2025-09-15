@@ -162,7 +162,7 @@ namespace Kaushal_Darpan.Core.Helper
         {
             get
             {
-                return ConfigurationHelper.IsLocal ? "https://ssotest.rajasthan.gov.in:4443/SSOREST/GetUserDetailJSON/" : "https://sso.rajasthan.gov.in:4443/SSOREST/GetUserDetailJSON/";
+                return ConfigurationHelper.IsLocal ? "https://ssotest.rajasthan.gov.in:4443/SSOREST/GetUserDetailJSON/" : "https://ssotest.rajasthan.gov.in:4443/SSOREST/GetUserDetailJSON/";
             }
         }
         #endregion
