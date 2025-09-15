@@ -476,7 +476,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 using (var httpClient = new HttpClient())
                 {
-                    httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+                    //httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
 
 
                     HttpResponseMessage response = await httpClient.GetAsync(URL);
