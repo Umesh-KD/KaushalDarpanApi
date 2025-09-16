@@ -3221,8 +3221,16 @@ namespace Kaushal_Darpan.Api.Controllers
                         //  var fileName = $"ITIApplicationForm_{Model.StudentName}_{Model.ApplicationID}.pdf";
                         var fileName = $"ITIApplicationForm_{Model.ApplicationID}_{Guid.NewGuid()}.pdf";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationForm.rdlc";
-
+                        string rdlcpath = "";
+                        int admissionType = data.Tables[0].Rows[0].Field<int?>("DirectAdmissionType") ?? 0;
+                        if (admissionType == 1)
+                        {
+                             rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationDirectAdmission.rdlc";
+                        }
+                        else
+                        {
+                             rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationForm.rdlc";
+                        }
                         //provider                      
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         //images

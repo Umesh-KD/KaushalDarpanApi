@@ -258,6 +258,8 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public int EndTermID { get; set; }
       
         public string? EnrollmentNo { get; set; }
+        public int AdmissionType { get; set; }
+
     }
 
     public class ItiApplicationUnlockDataModel: RequestBaseModel
