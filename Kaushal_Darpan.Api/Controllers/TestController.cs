@@ -636,7 +636,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
             try
             {
-                string html = _printHtmlFile.Dummy_CreatePDF();
+                string html = _printHtmlFile.Dummy_CreatePDF()?.ToString();
 
                 var doc = new HtmlToPdfDocument()
                 {

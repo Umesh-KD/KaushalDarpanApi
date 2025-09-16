@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CompanyMaster;
+using Newtonsoft.Json;
 using System.Data;
 
 namespace Kaushal_Darpan.Infra.Repositories
@@ -360,6 +361,65 @@ namespace Kaushal_Darpan.Infra.Repositories
                     }
 
                     return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> SaveData_IIP_Company(IndustryInstitutePartnershipMasterModels request)
+        {
+            _actionName = "SaveData_IIP_Company(IndustryInstitutePartnershipMasterModels request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_IIP_CompanyDetails_IU";
+
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@ID", request.ID);
+                        command.Parameters.AddWithValue("@Name", request.Name ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+                        command.Parameters.AddWithValue("@StateID", request.StateID);
+                        command.Parameters.AddWithValue("@Website", request.Website);
+                        command.Parameters.AddWithValue("@Address", request.Address);
+
+                        command.Parameters.AddWithValue("@Logo", request.CompanyPhoto);
+                        command.Parameters.AddWithValue("@Dis_Name", request.Dis_CompanyName);
+                        command.Parameters.AddWithValue("@CompanyDocument", request.CompanyDocument);
+                        command.Parameters.AddWithValue("@Dis_DocName", request.Dis_DocName);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@ConcernPersonDetails", JsonConvert.SerializeObject(request.ConcernPersonDetails));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        //command.Parameters.AddWithValue("@EventTypeID", request.EventTypeID);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+                    return result;
                 }
                 catch (Exception ex)
                 {

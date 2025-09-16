@@ -109,11 +109,8 @@
     {
         public int SemesterID { get; set; }
         public int StreamID { get; set; }
-        public int EndTermID { get; set; }
         public int CourseType { get; set; }
         public int ResultTypeId { get; set; }
-        public int InstituteId { get; set; }
-
         
     }
 

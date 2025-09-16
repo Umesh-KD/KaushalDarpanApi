@@ -8,7 +8,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
     public class PrintHtmlFile : IPrintHtmlFile
     {
         #region Test
-        public string Dummy_CreatePDF()
+        public StringBuilder Dummy_CreatePDF()
         {
             try
             {
@@ -166,9 +166,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("</body>");
                 sb.AppendLine("</html>");
 
-                string html = sb.ToString();
-
-                return html;
+                return sb;
             }
             catch (Exception)
             {
@@ -178,28 +176,19 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         #endregion
 
         #region Result Tabulation
-        public string GetHtmlOfResultTabulation(DataTable dataTable)
+        public StringBuilder GetHtmlOfHeadingAndTabularForTabulation(DataRow streams_dr, DataTable heading_dt, DataSet tabular_ds)
         {
             try
             {
                 StringBuilder sb = new StringBuilder();
-
-                sb.AppendLine("<!DOCTYPE html>");
-                sb.AppendLine("<html lang=\"en\">");
-                sb.AppendLine("<head>");
-                sb.AppendLine("    <meta charset=\"UTF-8\">");
-                sb.AppendLine("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-                sb.AppendLine("    <title>Tabulation Register</title>");
-                sb.AppendLine("</head>");
-                sb.AppendLine("<body>");
-                sb.AppendLine("    <div style=\"width: 98%; margin: auto;\">");
+                                
                 sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"5\" style=\"width:100%; border-collapse:collapse; border: 1px solid #c3c3c3; font-family:Arial, sans-serif; font-size:14px;\">");
                 sb.AppendLine("            <tr>");
                 sb.AppendLine("                <td style=\"width:20%;\"></td>");
                 sb.AppendLine("                <td style=\"width:60%; text-align:center; line-height:1.5;\">");
-                sb.AppendLine("                    <strong>Government of Rajasthan</strong><br>");
-                sb.AppendLine("                    <strong>Board of Technical Education, Rajasthan, Jodhpur</strong><br>");
-                sb.AppendLine("                    <strong>Tabulation Register - Second Semester - Diploma Engineering Exam End Term May 2024 Session 2023-2024</strong>");
+                sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_1"]}</strong><br>");
+                sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_2"]}</strong><br>");
+                sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_3"]}</strong>");
                 sb.AppendLine("                </td>");
                 sb.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
                 sb.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
@@ -207,20 +196,18 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("                </td>");
                 sb.AppendLine("            </tr>");
                 sb.AppendLine("        </table>");
-
+                
+                // table -1
                 sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;\">");
-
-                // College & Programme Info
                 sb.AppendLine("            <tr style=\"border-bottom: 1px solid #000;\">");
                 sb.AppendLine("                <td colspan=\"14\" style=\"padding-left: 0;\"><strong>Govt. Polytechnic College, Ajmer(001)</strong></td>");
-                sb.AppendLine("                <td colspan=\"10\"><strong>PROGRAMME : CIVIL ENGINEERING (CE)</strong></td>");
+                sb.AppendLine($"                <td colspan=\"10\"><strong>PROGRAMME : ({streams_dr["Code"]}){streams_dr["Name"]}</strong></td>");
                 sb.AppendLine("            </tr>");
 
-
                 //column
-                // Main Header Row
+                // table -2
                 sb.AppendLine("            <tr>");
-                foreach (DataColumn dc in dataTable.Columns)
+                foreach (DataColumn dc in tabular_ds.Tables[0].Columns)
                 {
                     sb.AppendLine($"                <th style=\"text-align:left;\">{dc.ColumnName}</th>");
                 }
@@ -233,10 +220,10 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 int lineBlockCount = headerRowBlockCount;//set header default 
                 int i = 0;
                 string seprationCls = string.Empty;
-                foreach (DataRow dr in dataTable.Rows)
+                foreach (DataRow dr in tabular_ds.Tables[0].Rows)
                 {
                     sb.AppendLine($"            <tr {seprationCls}>");
-                    foreach (DataColumn dc in dataTable.Columns)
+                    foreach (DataColumn dc in tabular_ds.Tables[0].Columns)
                     {
                         sb.AppendLine($"                <td>{dr[dc.ColumnName]}</td>");
                     }
@@ -256,15 +243,77 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         lineBlockCount = dataRowBlockCount;//shift to data row block separation line count
                     }
                 }
-
                 sb.AppendLine("        </table>");
-                sb.AppendLine("    </div>");
-                sb.AppendLine("</body>");
-                sb.AppendLine("</html>");
 
-                string html = sb.ToString();
+                sb.AppendLine("</br>");
 
-                return html;
+                // table -3
+                sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;\">");
+
+                //column
+                // Main Header Row
+                sb.AppendLine("            <tr>");
+                foreach (DataColumn dc in tabular_ds.Tables[1].Columns)
+                {
+                    sb.AppendLine($"                <th style=\"text-align:left;\">{dc.ColumnName}</th>");
+                }
+                sb.AppendLine("            </tr>");
+
+                //row
+                //column data
+                foreach (DataRow dr in tabular_ds.Tables[1].Rows)
+                {
+                    sb.AppendLine($"            <tr>");
+                    foreach (DataColumn dc in tabular_ds.Tables[1].Columns)
+                    {
+                        sb.AppendLine($"                <td>{dr[dc.ColumnName]}</td>");
+                    }
+                    sb.AppendLine("            </tr>");
+                }
+
+                sb.AppendLine("        </table>");                
+
+                return sb;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public StringBuilder GetHtmlOfConsolidateForTabulation(DataTable consolidate_dt)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("</br>");
+                sb.AppendLine("</br>");
+
+                // table -3
+                sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;\">");
+
+                //column
+                // Main Header Row
+                sb.AppendLine("            <tr>");
+                foreach (DataColumn dc in consolidate_dt.Columns)
+                {
+                    sb.AppendLine($"                <th style=\"text-align:left;\">{dc.ColumnName}</th>");
+                }
+                sb.AppendLine("            </tr>");
+
+                //row
+                //column data
+                foreach (DataRow dr in consolidate_dt.Rows)
+                {
+                    sb.AppendLine($"            <tr>");
+                    foreach (DataColumn dc in consolidate_dt.Columns)
+                    {
+                        sb.AppendLine($"                <td>{dr[dc.ColumnName]}</td>");
+                    }
+                    sb.AppendLine("            </tr>");
+                }
+                sb.AppendLine("        </table>");
+
+                return sb;
             }
             catch (Exception)
             {

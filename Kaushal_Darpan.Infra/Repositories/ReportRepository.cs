@@ -113,37 +113,151 @@ namespace Kaushal_Darpan.Infra.Repositories
         #endregion
 
 
-        #region GetAllDataRpt
-        public async Task<DataTable> GetTabulationDataReport(TabluationDataModel body)
+        #region Get Tabulation Report
+        public async Task<DataTable> GetStreamResultRptTabulation(TabluationDataModel body)
         {
-            _actionName = "GetAllDataRpt(TheorySearchModel body)";
+            _actionName = "GetStreamResultRptTabulation(TabluationDataModel body)";
             try
             {
                 return await Task.Run(async () =>
                 {
-                    DataTable dataTable = new DataTable();
+                    DataTable dt = new DataTable();
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetStream_ResultRpt_Tabulation";
 
-                        if (1 == 1)
-                        {
-                            command.CommandText = "USP_ResultRpt_Tabular";
-                        }                       
-                        else
-                        {
-                            throw new Exception(Constants.MSG_INVALID_REQUEST);
-                        }
                         command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
                         command.Parameters.AddWithValue("@StreamID", body.StreamID);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);  
-                        command.Parameters.AddWithValue("@CourseType", body.CourseType);  
-                        command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);  
-                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);  
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
+                        command.Parameters.AddWithValue("@CourseType", body.CourseType);
+                        command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
+                        //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
+                        dt = await command.FillAsync_DataTable();
                     }
-                    return dataTable;
+                    return dt;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        public async Task<DataTable> GetHeadingResultRptTabulation(TabluationDataModel body)
+        {
+            _actionName = "GetHeadingResultRptTabulation(TabluationDataModel body)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dt = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetHeading_ResultRpt_Tabulation";
+
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
+                        command.Parameters.AddWithValue("@CourseType", body.CourseType);
+                        command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
+                        //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dt = await command.FillAsync_DataTable();
+                    }
+                    return dt;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        public async Task<DataSet> GetTabularDetailsResultRptTabulation(TabluationDataModel body)
+        {
+            _actionName = "GetTabularDetailsResultRptTabulation(TabluationDataModel body)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataSet ds = new DataSet();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetTabularDetails_ResultRpt_Tabulation";
+
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
+                        command.Parameters.AddWithValue("@CourseType", body.CourseType);
+                        command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
+                        //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        public async Task<DataTable> GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body)
+        {
+            _actionName = "GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dt = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetConsolidatedDetails_ResultRpt_Tabulation";
+
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
+                        command.Parameters.AddWithValue("@CourseType", body.CourseType);
+                        command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
+                        //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dt = await command.FillAsync_DataTable();
+                    }
+                    return dt;
                 });
             }
             catch (Exception ex)
@@ -5284,7 +5398,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        if (model.Eng_NonEng==1)
+                        if (model.Eng_NonEng == 1)
                         {
                             command.CommandText = "usp_Get_NcvtPracticalStudentPhotoReport";
                         }
@@ -8347,7 +8461,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ApplicantStudent";
                         command.Parameters.AddWithValue("@AcademicYearID", model.AcademicYearID);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                       
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }

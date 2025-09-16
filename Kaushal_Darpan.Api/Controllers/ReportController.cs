@@ -3221,8 +3221,16 @@ namespace Kaushal_Darpan.Api.Controllers
                         //  var fileName = $"ITIApplicationForm_{Model.StudentName}_{Model.ApplicationID}.pdf";
                         var fileName = $"ITIApplicationForm_{Model.ApplicationID}_{Guid.NewGuid()}.pdf";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationForm.rdlc";
-
+                        string rdlcpath = "";
+                        int admissionType = data.Tables[0].Rows[0].Field<int?>("DirectAdmissionType") ?? 0;
+                        if (admissionType == 1)
+                        {
+                             rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationDirectAdmission.rdlc";
+                        }
+                        else
+                        {
+                             rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationForm.rdlc";
+                        }
                         //provider                      
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         //images
@@ -13760,19 +13768,69 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         //tabluation umesh
-
-
         [HttpPost("TabulationDataReport")]
-        public async Task<IActionResult> TabulationDataReport([FromBody] TabluationDataModel body)
+        public async Task<ApiResult<string>> TabulationDataReport([FromBody] TabluationDataModel body)
         {
             ActionName = "TabulationDataReport([FromBody] TabluationDataModel body)";
             var result = new ApiResult<string>();
             try
             {
-                var data = await _unitOfWork.ReportRepository.GetTabulationDataReport(body);
+                // get all streams
+                var streams_data = await _unitOfWork.ReportRepository.GetStreamResultRptTabulation(body);
 
-                //string html = _printHtmlFile.Dummy_CreatePDF();
-                string html = _printHtmlFile.GetHtmlOfResultTabulation(data);
+                if (streams_data?.Rows?.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+
+                StringBuilder sb = new StringBuilder();
+
+                // start
+                sb.AppendLine("<!DOCTYPE html>");
+                sb.AppendLine("<html lang=\"en\">");
+                sb.AppendLine("<head>");
+                sb.AppendLine("    <meta charset=\"UTF-8\">");
+                sb.AppendLine("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+                sb.AppendLine("    <title>Tabulation Register</title>");
+                sb.AppendLine("</head>");
+                sb.AppendLine("<body>");
+                sb.AppendLine("    <div style=\"width: 98%; margin: auto;\">");
+                                
+                foreach (DataRow dr in streams_data.Rows)
+                {
+                    // get heading
+                    var heading_data = await _unitOfWork.ReportRepository.GetHeadingResultRptTabulation(body);
+                    if (heading_data?.Rows.Count == 0)
+                    {
+                        continue;
+                    }
+
+                    // get tabular details
+                    var tabular_data = await _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body);
+                    if (tabular_data.Tables?.Count < 2)
+                    {
+                        continue;
+                    }
+                    // get html
+                    var _sb = _printHtmlFile.GetHtmlOfHeadingAndTabularForTabulation(dr, heading_data, tabular_data);
+                    sb.AppendJoin("</br>", _sb);                    
+                }
+
+                // get consolidate summary
+                var consolidate_data = await _unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body);
+                if (consolidate_data?.Rows.Count > 0)
+                {
+                    //get html
+                    var _sb1 = _printHtmlFile.GetHtmlOfConsolidateForTabulation(consolidate_data);
+                    sb.AppendJoin("</br>", _sb1);
+                }
+
+                // end
+                sb.AppendLine("    </div>");
+                sb.AppendLine("</body>");
+                sb.AppendLine("</html>");
 
                 var doc = new HtmlToPdfDocument()
                 {
@@ -13783,7 +13841,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     Objects = {
                         new ObjectSettings()
                         {
-                            HtmlContent = html,
+                            HtmlContent = sb.ToString(),
                             WebSettings = { DefaultEncoding = "utf-8" }
                         }
                     }
@@ -13794,13 +13852,13 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.Data = Convert.ToBase64String(pdfBytes);
                 result.State = EnumStatus.Success;
                 result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-
-                return File(pdfBytes, "application/pdf", "tabulationresult.pdf");
+                //return File(pdfBytes, "application/pdf", "tabulationresult.pdf");
             }
             catch (System.Exception ex)
             {
                 _unitOfWork.Dispose();
                 result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
                 result.ErrorMessage = ex.Message;
                 // write error log
                 var nex = new NewException
@@ -13810,9 +13868,9 @@ namespace Kaushal_Darpan.Api.Controllers
                     Ex = ex,
                 };
                 await CreateErrorLog(nex, _unitOfWork);
-                return StatusCode(500, ex.Message);
-            }            
-            //return result;
+                //return StatusCode(500, ex.Message);
+            }
+            return result;
         }
 
 
