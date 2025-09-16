@@ -68,3 +68,9 @@ public class ItiSearchCollegeModel
     public string SearchText { get; set; } = string.Empty;
 }
 
+public class ItiCollegeModel
+{
+    public int CollegeID { get; set; } = 0;
+
+}
+

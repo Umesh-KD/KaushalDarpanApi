@@ -2081,7 +2081,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Type", "ReturnItemUpdate");
                         command.Parameters.AddWithValue("@Remarks", SearchReq.Remarks);
                         command.Parameters.AddWithValue("@ItemCategoryId", SearchReq.ItemCategoryId);
-
+                        command.Parameters.AddWithValue("@ReturnDate", SearchReq.ReturnDate);
+                        command.Parameters.AddWithValue("@ConditionAtReturn", SearchReq.ConditionAtReturn);
                         command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(SearchReq.ItemList));
 
 
