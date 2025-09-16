@@ -606,6 +606,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CampusFromDate", request.CampusFromDate);
                         command.Parameters.AddWithValue("@CampusFromTime", request.CampusFromTime);
                         command.Parameters.AddWithValue("@CampusToDate", request.CampusToDate);
+                        //command.Parameters.AddWithValue("@OfficerDocumnet", request.OfficerDocumnet);
+                        //command.Parameters.AddWithValue("@Dis_OfficerDoc", request.Dis_OfficerDoc);
                         _sqlQuery = command.GetSqlExecutableQuery();
 
                         // Execute the command

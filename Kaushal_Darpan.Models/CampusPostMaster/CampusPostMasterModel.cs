@@ -159,6 +159,10 @@
         public string CampusFromTime { get; set; }
         public string CampusToDate { get; set; }
 
+        //public string OfficerDocumnet { get; set; }
+
+        //public string Dis_OfficerDoc { get; set; }
+
 
     }
 
