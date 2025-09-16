@@ -3958,7 +3958,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Fields!AdmissionType.Value</Value>
+                      <Value>=First(Fields!AdmissionType.Value, "Student_Personal_Details")</Value>
                       <Style>
                         <FontFamily>Times New Roman</FontFamily>
                         <FontSize>9pt</FontSize>
@@ -4001,7 +4001,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox89</rd:DefaultName>
-              <Left>5.51492cm</Left>
+              <Left>5.49996cm</Left>
               <Height>2.88078cm</Height>
               <Width>10.16338cm</Width>
               <Style>
