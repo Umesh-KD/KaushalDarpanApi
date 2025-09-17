@@ -338,6 +338,57 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+        public async Task<int> SaveEditQualificationDetailsData(List<QualificationDetailsDataModel> request)
+        {
+            _actionName = "SaveQualificationDetailsData(List<QualificationDetailsDataModel> request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_ITIEditApplication_Qualification_IU";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@QualificationDetails", JsonConvert.SerializeObject(request));
+
+                        // Add IP Address parameter
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        // Add the return parameter
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errorDetails, ex);
+                }
+            });
+        }
+
+
         public async Task<int> SaveDocumentDetailsData(List<DocumentDetailsModel> request)
         {
             _actionName = " SaveDocumentDetailsData(List<DocumentDetailsModel> request)";
@@ -985,6 +1036,41 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+
+        public async Task<DataTable> GetEditQualificationDatabyID(ItiApplicationSearchModel searchRequest)
+        {
+            _actionName = "GetById(int PK_ID)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = _dbContext.CreateCommand())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITIEditApplication_QualificationData_ByID";
+                    command.Parameters.AddWithValue("@ApplicationID", searchRequest.ApplicationID);
+                    command.Parameters.AddWithValue("@DepartmentID", searchRequest.DepartmentID);
+                    command.Parameters.AddWithValue("@SSOID", searchRequest.SSOID);
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
     }
 }
 

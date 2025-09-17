@@ -178,6 +178,8 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public int ModifyBy { get; set; }
         public DateTime? ModifyDate { get; set; }
         public string? IPAddress { get; set; }
+        public string? FileName { get; set; }
+        public string? DisFileName { get; set; }
     }
 
     public class HighestQualificationDetailsDataModel
