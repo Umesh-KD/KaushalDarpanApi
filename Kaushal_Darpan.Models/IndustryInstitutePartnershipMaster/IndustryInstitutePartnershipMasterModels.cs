@@ -1,26 +1,28 @@
-﻿namespace Kaushal_Darpan.Models.CompanyMaster
+﻿using Kaushal_Darpan.Models.ApplicationData;
+
+namespace Kaushal_Darpan.Models.CompanyMaster
 {
     public class IndustryInstitutePartnershipMasterModels
     {
         public int ID { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public string? Website { get; set; }
-        public string Address { get; set; }
+        public string? Address { get; set; }
         public int StateID { get; set; }
         public int DistrictID { get; set; }
         public int DepartmentID { get; set; }
-        public string CompanyPhoto { get; set; }
-        public string Dis_CompanyName { get; set; }
-        public string CompanyDocument { get; set; }
-        public string Dis_DocName { get; set; }
+        public string? CompanyPhoto { get; set; }
+        public string? Dis_CompanyName { get; set; }
+        public string? CompanyDocument { get; set; }
+        public string? Dis_DocName { get; set; }
         public bool ActiveStatus { get; set; }
         public bool DeleteStatus { get; set; }
-
         public int ModifyBy { get; set; }
-
         public string? IPAddress { get; set; }
-
         public int EventTypeID { get; set; }
+        public string? Logo { get; set; }
+        public string? Dis_Logo { get; set; }
+        public List<ConcernPersonDetailsDataModel>? ConcernPersonDetails { get; set; }
     }
 
 
@@ -67,6 +69,18 @@
        
     }
 
+    public class ConcernPersonDetailsDataModel
+    {
+        public int? HRManagerID { get; set; }
+        public int? PlacementCompanyID { get; set; }
+        public string? Name { get; set; }
+        public string? EmailId { get; set; }
+        public string? MobileNo { get; set; }
+        public int? ModifyBy { get; set; }
+        public bool? ActiveStatus { get; set; }
+        public bool? DeleteStatus { get; set; }
+        public int? DepartmentID { get; set; }
+    }
 
 
 

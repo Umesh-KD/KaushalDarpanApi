@@ -17,6 +17,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
 
         Task<DataTable> GetAllIndustryTrainingData(IndustryTrainingSearch filterModel);
+        Task<int> SaveData_IIP_Company(IndustryInstitutePartnershipMasterModels productDetails);
 
     }
 }
