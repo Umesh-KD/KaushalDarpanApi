@@ -368,6 +368,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@JanAadharMemberId", body.JanAadharMemberId);
                         command.Parameters.AddWithValue("@Action", body.Action);
                         command.Parameters.AddWithValue("@CourseTypeID", body.CourseTypeID);
+                        command.Parameters.AddWithValue("@DirectAdmission", body.DirectAdmission);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

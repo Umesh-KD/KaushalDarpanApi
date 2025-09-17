@@ -813,7 +813,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var isSave = await _unitOfWork.ItiApplicationFormRepository.ITI_DirectAdmissionApply(request);
-                    _unitOfWork.SaveChanges();
+                   
 
                     if (isSave == 2)
                     {
@@ -826,6 +826,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.Data = isSave;
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_SAVE_SUCCESS;
+                        _unitOfWork.SaveChanges();
                     }
 
                     else if (isSave == -6)
