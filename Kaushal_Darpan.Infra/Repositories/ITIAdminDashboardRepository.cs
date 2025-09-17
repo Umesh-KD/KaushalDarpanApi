@@ -391,6 +391,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CategoryA", body.CategoryA);
                         command.Parameters.AddWithValue("@CategoryB", body.CategoryB);
                         command.Parameters.AddWithValue("@CategoryC", body.CategoryC);
+                        command.Parameters.AddWithValue("@AdmissionType", body.AdmissionType);
                         command.Parameters.AddWithValue("@CategoryD", body.CategoryD);
                         command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
                         command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
