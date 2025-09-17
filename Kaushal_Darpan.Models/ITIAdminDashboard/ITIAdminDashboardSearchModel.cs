@@ -39,7 +39,10 @@ namespace Kaushal_Darpan.Models.ITIAdminDashboard
 		public int CategoryA { get; set; }
 		public int CategoryB { get; set; }
 		public int CategoryC { get; set; }
-		public int CategoryD { get; set; }
+
+        public int AdmissionType { get; set; }
+
+        public int CategoryD { get; set; }
 		public int FinancialYearID { get; set; }
 		public string? StudentName { get; set; }
 		public string? MobileNumber { get; set; }
