@@ -17,5 +17,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetEligibleStudentListData(EligibleStudentListMasterSearchModel filterModel);
 
+        Task<DataTable> GetDataByStudentId(EligibleStudentForPlacement model);
+
     }
 }

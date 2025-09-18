@@ -24,4 +24,12 @@
         public string? SortColumn { get; set; }
 
     }
+
+    public class EligibleStudentForPlacement
+    {
+        public int ID { get; set; }
+
+    }
+
+
 }
