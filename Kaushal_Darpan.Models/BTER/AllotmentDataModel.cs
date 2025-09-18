@@ -19,6 +19,7 @@
 
     }
 
+
     public class BTERSearchModel
     {
         public int AllotmentId { get; set; }
