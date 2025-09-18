@@ -38,8 +38,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetPromotedStudentData";
+
+                        if (model.StudentTypeId == (int)EnumStudentType.Reg)
+                        {
+                            command.Parameters.AddWithValue("@action", "_getStudentLastSemesterData");
+                        }
+                        else
+                        {
+                            command.Parameters.AddWithValue("@action", "_getExStudentSemesterData");
+                        }
                         //parameter
-                        command.Parameters.AddWithValue("@action", "_getStudentLastSemesterData");
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
@@ -116,9 +124,9 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<int> SaveEnrolledStudentExam_Back(List<StudentMarkedModel> model)
+        public async Task<int> SaveEnrolledStudentExam_Back(List<PromotedStudentMarkedModel> model)
         {
-            _actionName = "SaveEnrolledStudentExam_Back(List<StudentMarkedModel> model)";
+            _actionName = "SaveEnrolledStudentExam_Back(List<PromotedStudentMarkedModel> model)";
             return await Task.Run(async () =>
             {
                 try
@@ -228,8 +236,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsBridge", model.IsBridge);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                         dataTable = await command.FillAsync_DataTable();
-                       
+                        dataTable = await command.FillAsync_DataTable();
+
                     }
                     return dataTable;
                 });

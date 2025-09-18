@@ -378,6 +378,49 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("GetEditQualificationDatabyID")]
+        public async Task<ApiResult<DataTable>> GetEditQualificationDatabyID(ItiApplicationSearchModel request)
+        {
+            ActionName = "GetApplicationDatabyID(int ID, int DepartmentID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.ItiApplicationFormRepository.GetEditQualificationDatabyID(request);
+                    if (data != null)
+                    {
+                        var mappedData = _mapper.Map<DataTable>(data);
+                        result.Data = mappedData;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+
         [HttpPost("GetAddressDetailsbyID")]
         public async Task<ApiResult<AddressDetailsDataModel>> GetAddressDetailsbyID(ItiApplicationSearchModel request)
         {
@@ -813,7 +856,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var isSave = await _unitOfWork.ItiApplicationFormRepository.ITI_DirectAdmissionApply(request);
-                    _unitOfWork.SaveChanges();
+                   
 
                     if (isSave == 2)
                     {
@@ -826,6 +869,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.Data = isSave;
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_SAVE_SUCCESS;
+                        _unitOfWork.SaveChanges();
                     }
 
                     else if (isSave == -6)
@@ -834,6 +878,57 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.ErrorMessage = "Seat Already Alloted";
                     }
 
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
+
+        [HttpPost("SaveEditQualificationDetailsData")]
+        public async Task<ApiResult<bool>> SaveEditQualificationDetailsData([FromBody] List<QualificationDetailsDataModel> request)
+        {
+            ActionName = "SaveQualificationDetailsData([FromBody] List<QualificationDetailsDataModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    var isSave = await _unitOfWork.ItiApplicationFormRepository.SaveEditQualificationDetailsData(request);
+                    _unitOfWork.SaveChanges();
+
+                    if (isSave == -1)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_NO_DATA_SAVE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
                     else
                     {
                         result.State = EnumStatus.Error;

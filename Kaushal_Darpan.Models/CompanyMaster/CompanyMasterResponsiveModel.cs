@@ -10,7 +10,7 @@
         public int DistrictID { get; set; }
         public string Logo { get; set; }
         public string Dis_Name { get; set; }
-
+        public string CompanyTypeId { get; set; }
         public bool ActiveStatus { get; set; }
         public bool DeleteStatus { get; set; }
 

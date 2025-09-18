@@ -15,6 +15,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IITICenterAllocationRepository
     {
         Task<DataTable> GetAllData(ITICenterAllocationSearchFilter filterModel);
+        Task<DataTable> GetCenterCollegeMapList(ITICenterAllocationSearchFilter filterModel);
         Task<DataTable> GetCenterSuperDashboard(ExaminerDashboardModel filterModel);
         Task<DataTable> GetExamCoordinatorData(ITICenterAllocationSearchFilter filterModel);
         Task<int> AssignExamCoordinatorData(PracticalExaminerDetailsModel model);
