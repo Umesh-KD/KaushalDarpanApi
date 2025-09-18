@@ -4,6 +4,7 @@ using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Newtonsoft.Json;
 using System.Data;
+using static Kaushal_Darpan.Models.BterApplication.PreviewApplicationFormmodel;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
@@ -21,6 +22,8 @@ namespace Kaushal_Darpan.Infra.Repositories
             _IPAddress = CommonFuncationHelper.GetIpAddress();
         }
 
+        #region  Previous IIP 
+
         public async Task<DataTable> GetAllData(IndustryInstitutePartnershipMasterSearchModel body)
         {
             _actionName = "GetAllData()";
@@ -35,6 +38,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_GetIndustryInstitutePartnershipMaster";
                         //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@Action", "GetAllData");
+
                         if (body.Name != null)
                         {
                             command.Parameters.AddWithValue("@Name", body.Name);
@@ -376,7 +381,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        #endregion
 
+        // ---------------------------------------------------------- BTER IIP by Ramesh ----------------------------------------------------------------------------
+
+        #region  BTER IIP 
         public async Task<int> SaveData_IIP_Company(IndustryInstitutePartnershipMasterModels request)
         {
             _actionName = "SaveData_IIP_Company(IndustryInstitutePartnershipMasterModels request)";
@@ -400,12 +409,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Website", request.Website);
                         command.Parameters.AddWithValue("@Address", request.Address);
 
-                        command.Parameters.AddWithValue("@Logo", request.CompanyPhoto);
-                        command.Parameters.AddWithValue("@Dis_Name", request.Dis_CompanyName);
+                        command.Parameters.AddWithValue("@Logo", request.Logo);
+                        command.Parameters.AddWithValue("@Dis_Name", request.Dis_Logo);
                         command.Parameters.AddWithValue("@CompanyDocument", request.CompanyDocument);
                         command.Parameters.AddWithValue("@Dis_DocName", request.Dis_DocName);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+
+                        command.Parameters.AddWithValue("@CompanyID", request.CompanyID);
+                        command.Parameters.AddWithValue("@PlacementCompanyID", request.PlacementCompanyID);
+
                         command.Parameters.AddWithValue("@ConcernPersonDetails", JsonConvert.SerializeObject(request.ConcernPersonDetails));
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         //command.Parameters.AddWithValue("@EventTypeID", request.EventTypeID);
@@ -436,5 +449,226 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<IndustryInstitutePartnershipMasterModels> GetById_IIP_CompanyDetails(IIP_SearchModel request)
+        {
+            _actionName = "GetById(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    //DataTable dataTable = new DataTable();
+                    DataSet ds = new DataSet();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetIndustryInstitutePartnershipMaster";
+                        command.Parameters.AddWithValue("@Action", "GetById");
+
+                        command.Parameters.AddWithValue("@CompanyID", request.CompanyID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    var data = new IndustryInstitutePartnershipMasterModels();
+                    if (ds != null)
+                    {
+                        if (ds.Tables.Count > 0)
+                        {
+                            data = CommonFuncationHelper.ConvertDataTable<IndustryInstitutePartnershipMasterModels>(ds.Tables[0]);
+                            if (ds.Tables[1].Rows.Count > 0) { 
+                                data.ConcernPersonDetails = CommonFuncationHelper.ConvertDataTable<List<ConcernPersonDetailsDataModel>>(ds.Tables[1]);
+                            }
+                        }
+                            
+                    }
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> DeleteCompanyById_IIP(IndustryInstitutePartnershipMasterModels request)
+        {
+            _actionName = "DeleteCompanyById_IIP(IndustryInstitutePartnershipMasterModels request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetIndustryInstitutePartnershipMaster";
+                        command.Parameters.AddWithValue("@Action", "Delete_Company");
+
+                        command.Parameters.AddWithValue("@CompanyID", request.CompanyID);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        public async Task<bool> Delete_Hr(ConcernPersonDetailsDataModel request)
+        {
+            _actionName = "Delete_Hr(ConcernPersonDetailsDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetIndustryInstitutePartnershipMaster";
+                        command.Parameters.AddWithValue("@Action", "Delete_Hr");
+
+                        command.Parameters.AddWithValue("@HRManagerID", request.HRManagerID);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> SaveData_IIP_Events(IIP_EventDataModel request)
+        {
+            _actionName = "SaveData_IIP_Events(IIP_EventDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_IIP_EventDetails_IU";
+
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@EventID", request.EventID);
+                        command.Parameters.AddWithValue("@CompanyID", request.CompanyID);
+                        command.Parameters.AddWithValue("@EventTypeID", request.EventTypeID);
+                        command.Parameters.AddWithValue("@Event", request.Event);
+                        command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
+                        command.Parameters.AddWithValue("@EventForID", request.EventForID);
+                        command.Parameters.AddWithValue("@EventStartDate", Convert.ToDateTime(request.EventStartDate));
+                        command.Parameters.AddWithValue("@EventEndDate", Convert.ToDateTime(request.EventEndDate));
+
+                        command.Parameters.AddWithValue("@Semesterlist", JsonConvert.SerializeObject(request.Semesterlist));
+                        command.Parameters.AddWithValue("@Branchlist", JsonConvert.SerializeObject(request.Branchlist));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetCompanyEvents(CompanyEventSearchModel body)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_IIP_GetCompanyEventsData";
+                        command.Parameters.AddWithValue("@Action", "GetByCompanyID");
+
+                        command.Parameters.AddWithValue("@CompanyID", body.CompanyID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        #endregion
     }
 }
