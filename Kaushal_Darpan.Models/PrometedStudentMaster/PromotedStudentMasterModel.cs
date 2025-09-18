@@ -26,6 +26,9 @@ namespace Kaushal_Darpan.Models.PrometedStudentMaster
         public bool UFM { get; set; }
         public int UFMCategory { get; set; }
         public int InstituteId { get; set; }
+        public int StudentTypeId { get; set; }
+        public int StudentExamID { get; set; }
+        public int IsYearly { get; set; }
     }
 
     public class PromotedStudentMarkedModel : RequestBaseModel
@@ -49,6 +52,8 @@ namespace Kaushal_Darpan.Models.PrometedStudentMaster
         public int StreamId { get; set; }
         public int ModifyBy { get; set; }
         public string IPAddress { get; set; }
+        public int? StudentTypeId { get; set; }
+        public int? StudentExamID { get; set; }
     }
 
     public class PromotedStudentSearchModel : RequestBaseModel
@@ -57,6 +62,7 @@ namespace Kaushal_Darpan.Models.PrometedStudentMaster
         public string SemesterID { get; set; }
         public string StreamID { get; set; }
         public string IsBridge { get; set; }
+        public int StudentTypeId { get; set; }
     }
 
 }

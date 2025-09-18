@@ -465,6 +465,12 @@ namespace Kaushal_Darpan.Core.Helper
         Bter_EnrollmentForStudent,
     }
 
+    public enum EnumStudentType
+    {
+        Reg = 1,
+        Ex = 2
+    }
+
     #endregion
 
     #region extensions
