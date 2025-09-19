@@ -26,6 +26,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> Delete_Hr(ConcernPersonDetailsDataModel request);
         Task<int> SaveData_IIP_Events(IIP_EventDataModel productDetails);
         Task<DataTable> GetCompanyEvents(CompanyEventSearchModel body);
-
+        Task<bool> DeleteEvent_ById(IIP_EventDataModel request);
+        Task<IIP_EventDataModel> GetEvent_ById(CompanyEventSearchModel request);
+        Task<int> ApproveCompanyEvents(List<IndustryInstitutePartnershipMasterModels> model);
     }
 }

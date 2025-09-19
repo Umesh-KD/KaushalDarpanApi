@@ -2,6 +2,8 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CompanyMaster;
+using Kaushal_Darpan.Models.PreExamStudent;
+using Kaushal_Darpan.Models.UserMaster;
 using Newtonsoft.Json;
 using System.Data;
 using static Kaushal_Darpan.Models.BterApplication.PreviewApplicationFormmodel;
@@ -38,6 +40,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_GetIndustryInstitutePartnershipMaster";
                         //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@CompanyStatus", body.CompanyStatus);
                         command.Parameters.AddWithValue("@Action", "GetAllData");
 
                         if (body.Name != null)
@@ -653,6 +656,200 @@ namespace Kaushal_Darpan.Infra.Repositories
                     }
 
                     return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> DeleteEvent_ById(IIP_EventDataModel request)
+        {
+            _actionName = "DeleteEvent_ById(IIP_EventDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_IIP_GetCompanyEventsData";
+                        command.Parameters.AddWithValue("@Action", "Delete_Event");
+
+                        command.Parameters.AddWithValue("@EventID", request.EventID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<IIP_EventDataModel> GetEvent_ById(CompanyEventSearchModel request)
+        {
+            _actionName = "GetById(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    //DataTable dataTable = new DataTable();
+                    DataSet ds = new DataSet();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_IIP_GetCompanyEventsData";
+                        command.Parameters.AddWithValue("@Action", "GetEvent_ById");
+
+                        command.Parameters.AddWithValue("@CompanyID", request.CompanyID);
+                        command.Parameters.AddWithValue("@EventID", request.EventID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    var data = new IIP_EventDataModel();
+                    if (ds != null)
+                    {
+                        if (ds.Tables.Count > 0)
+                        {
+                            data = CommonFuncationHelper.ConvertDataTable<IIP_EventDataModel>(ds.Tables[0]);
+                            if (ds.Tables[1].Rows.Count > 0)
+                            {
+                                data.Branchlist = CommonFuncationHelper.ConvertDataTable<List<BranchList>>(ds.Tables[1]);
+                            }
+                            if (ds.Tables[2].Rows.Count > 0)
+                            {
+                                data.Semesterlist = CommonFuncationHelper.ConvertDataTable<List<Semesterlist>>(ds.Tables[2]);
+                            }
+                        }
+
+                    }
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> ApproveCompanyEvents(IIP_EventDataModel request)
+        {
+            _actionName = "SaveData_IIP_Events(IIP_EventDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_IIP_EventDetails_IU";
+
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@EventID", request.EventID);
+                        command.Parameters.AddWithValue("@CompanyID", request.CompanyID);
+                        command.Parameters.AddWithValue("@EventTypeID", request.EventTypeID);
+                        command.Parameters.AddWithValue("@Event", request.Event);
+                        command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
+                        command.Parameters.AddWithValue("@EventForID", request.EventForID);
+                        command.Parameters.AddWithValue("@EventStartDate", Convert.ToDateTime(request.EventStartDate));
+                        command.Parameters.AddWithValue("@EventEndDate", Convert.ToDateTime(request.EventEndDate));
+
+                        command.Parameters.AddWithValue("@Semesterlist", JsonConvert.SerializeObject(request.Semesterlist));
+                        command.Parameters.AddWithValue("@Branchlist", JsonConvert.SerializeObject(request.Branchlist));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> ApproveCompanyEvents(List<IndustryInstitutePartnershipMasterModels> model)
+        {
+            _actionName = "ApproveCompanyEvents(List<IndustryInstitutePartnershipMasterModels> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    int retval = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_IIP_ApproveCompanyEvents";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@action", "ApproveByAdmin");
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        retval = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+                    return retval;
                 }
                 catch (Exception ex)
                 {
