@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CompanyMaster;
+using Kaushal_Darpan.Models.UserMaster;
 using Newtonsoft.Json;
 using System.Data;
 using static Kaushal_Darpan.Models.BterApplication.PreviewApplicationFormmodel;
@@ -653,6 +654,102 @@ namespace Kaushal_Darpan.Infra.Repositories
                     }
 
                     return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> DeleteEvent_ById(IIP_EventDataModel request)
+        {
+            _actionName = "DeleteEvent_ById(IIP_EventDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_IIP_GetCompanyEventsData";
+                        command.Parameters.AddWithValue("@Action", "Delete_Event");
+
+                        command.Parameters.AddWithValue("@EventID", request.EventID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<IIP_EventDataModel> GetEvent_ById(CompanyEventSearchModel request)
+        {
+            _actionName = "GetById(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    //DataTable dataTable = new DataTable();
+                    DataSet ds = new DataSet();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_IIP_GetCompanyEventsData";
+                        command.Parameters.AddWithValue("@Action", "GetEvent_ById");
+
+                        command.Parameters.AddWithValue("@CompanyID", request.CompanyID);
+                        command.Parameters.AddWithValue("@EventID", request.EventID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    var data = new IIP_EventDataModel();
+                    if (ds != null)
+                    {
+                        if (ds.Tables.Count > 0)
+                        {
+                            data = CommonFuncationHelper.ConvertDataTable<IIP_EventDataModel>(ds.Tables[0]);
+                            if (ds.Tables[1].Rows.Count > 0)
+                            {
+                                data.Branchlist = CommonFuncationHelper.ConvertDataTable<List<BranchList>>(ds.Tables[1]);
+                            }
+                            if (ds.Tables[2].Rows.Count > 0)
+                            {
+                                data.Semesterlist = CommonFuncationHelper.ConvertDataTable<List<Semesterlist>>(ds.Tables[2]);
+                            }
+                        }
+
+                    }
+                    return data;
                 }
                 catch (Exception ex)
                 {
