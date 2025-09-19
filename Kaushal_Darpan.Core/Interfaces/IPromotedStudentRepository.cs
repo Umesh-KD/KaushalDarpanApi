@@ -8,7 +8,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<List<PrometedStudentMasterModel>> GetPromotedStudent(PromotedStudentSearchModel model);
         Task<DataTable> GetITIPromotedStudent(PromotedStudentSearchModel model);
-        Task<int> SaveEnrolledStudentExam_Back(List<StudentMarkedModel> model);
+        Task<int> SaveEnrolledStudentExam_Back(List<PromotedStudentMarkedModel> model);
         Task<int> SaveEnrolledStudentExam_Next(List<PromotedStudentMarkedModel> model);
         Task<int> SavePromotedStudent(List<PromotedStudentMarkedModel> model);
         Task<int> SaveItiPromotedStudent(List<PromotedStudentMarkedModel> model);

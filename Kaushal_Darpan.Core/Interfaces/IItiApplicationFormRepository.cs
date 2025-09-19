@@ -19,9 +19,11 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<PersonalDetailsDataModel> GetApplicationDatabyID(ItiApplicationSearchModel searchRequest);
         Task<int> SaveOptionDetailsData(List<OptionDetailsDataModel> productDetails);
         Task<int> SaveQualificationDetailsData(List<QualificationDetailsDataModel> productDetails);
+        Task<int> SaveEditQualificationDetailsData(List<QualificationDetailsDataModel> productDetails);
         Task<int> SaveDocumentDetailsData(List<DocumentDetailsModel> productDetails);
         Task<int> SaveAddressDetailsData(AddressDetailsDataModel productDetails);
         Task<List<QualificationDetailsDataModel>> GetQualificationDatabyID(ItiApplicationSearchModel request);
+        Task<DataTable> GetEditQualificationDatabyID(ItiApplicationSearchModel request);
         Task<AddressDetailsDataModel> GetAddressDetailsbyID(ItiApplicationSearchModel request);
         Task<List<OptionDetailsDataModel>> GetOptionDetailsbyID(ItiApplicationSearchModel request);
         Task<ItiApplicationPreviewModel> GetApplicationPreviewbyID(ItiApplicationSearchModel searchRequest);

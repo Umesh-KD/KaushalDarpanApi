@@ -170,7 +170,8 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpDelete("DeleteByID/{ID:int}/{ModifyBy:int}")]
+        [HttpPost("DeleteByID/{ID:int}/{ModifyBy:int}")]
+      
         public async Task<ApiResult<bool>> DeleteByID(int ID, int ModifyBy)
         {
             ActionName = "DeleteByID(int ID, int ModifyBy)";
@@ -341,6 +342,96 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
+
+        [HttpPost("GetEligibleStudentListData")]
+        public async Task<ApiResult<DataTable>> GetEligibleStudentListData([FromBody] EligibleStudentListMasterSearchModel body)
+        {
+            ActionName = "GetEligibleStudentListData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.CompanyMasterRepository.GetEligibleStudentListData(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                _unitOfWork.Dispose();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        //[HttpPost("GetDataByStudentId/{ID:int}/{ModifyBy:int}")]
+        [HttpPost("GetDataByStudentId/{ID:int}")]
+        public async Task<ApiResult<DataTable>> GetDataByStudentId(int ID)
+        {
+            ActionName = "GetDataByStudentId(int ID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var mappedData = new EligibleStudentForPlacement
+                    {
+                        ID = ID,                    
+                    };
+                    result.Data = await _unitOfWork.CompanyMasterRepository.GetDataByStudentId(mappedData);
+                    _unitOfWork.SaveChanges();
+
+                    if (result.Data.Rows.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
 
     }
 

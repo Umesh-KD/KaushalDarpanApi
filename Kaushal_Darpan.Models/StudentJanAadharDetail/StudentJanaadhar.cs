@@ -354,6 +354,7 @@
         public int ModifyBy { get; set; }
         public int RoleID { get; set; }
         public int CourseTypeID { get; set; }
+        public int DirectAdmission { get; set; }
         public string? JanAadharMemberId { get; set; }
     }
 

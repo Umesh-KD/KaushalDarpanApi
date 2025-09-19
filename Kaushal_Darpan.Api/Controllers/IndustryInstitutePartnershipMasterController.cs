@@ -4,6 +4,7 @@ using Kaushal_Darpan.Api.Email;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.CompanyMaster;
+using Kaushal_Darpan.Models.PreExamStudent;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -63,7 +64,7 @@ namespace Kaushal_Darpan.Api.Controllers
            
         }
 
-
+        #region  Previous IIP 
         [HttpPost("GetAllData")]
         public async Task<ApiResult<DataTable>> GetAllData([FromBody] IndustryInstitutePartnershipMasterSearchModel body)
         {
@@ -105,7 +106,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpGet("GetByID/{PK_ID}")]
+        [HttpGet("GetByID")]
         public async Task<ApiResult<IndustryInstitutePartnershipMasterResponsiveModel>> GetByID(int PK_ID)
         {
             ActionName = "GetByID(int PK_ID)";
@@ -457,6 +458,11 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+#endregion
+
+        // ---------------------------------------------------------- BTER IIP by Ramesh ----------------------------------------------------------------------------
+
+        #region  BTER IIP 
 
         [HttpPost("SaveData_IIP_Company")]
         public async Task<ApiResult<int>> SaveData_IIP_Company([FromBody] IndustryInstitutePartnershipMasterModels request)
@@ -525,6 +531,363 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [HttpPost("GetById_IIP_CompanyDetails")]
+        public async Task<ApiResult<IndustryInstitutePartnershipMasterModels>> GetById_IIP_CompanyDetails(IIP_SearchModel req)
+        {
+            ActionName = "GetByID(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<IndustryInstitutePartnershipMasterModels>();
+                try
+                {
+                    var data = await _unitOfWork.iIndustryInstitutePartnershipRepository.GetById_IIP_CompanyDetails(req);
+                    result.Data = data;
+                    if (data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("DeleteCompanyById_IIP")]
+        public async Task<ApiResult<bool>> DeleteCompanyById_IIP(IndustryInstitutePartnershipMasterModels req)
+        {
+            ActionName = "DeleteCompanyById_IIP(IndustryInstitutePartnershipMasterModels req)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.iIndustryInstitutePartnershipRepository.DeleteCompanyById_IIP(req);
+                    _unitOfWork.SaveChanges();
+
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DELETE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_DELETE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+        
+        [HttpPost("Delete_Hr")]
+        public async Task<ApiResult<bool>> Delete_Hr(ConcernPersonDetailsDataModel req)
+        {
+            ActionName = "Delete_Hr(ConcernPersonDetailsDataModel req)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.iIndustryInstitutePartnershipRepository.Delete_Hr(req);
+                    _unitOfWork.SaveChanges();
+
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DELETE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_DELETE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("SaveData_IIP_Events")]
+        public async Task<ApiResult<int>> SaveData_IIP_Events([FromBody] IIP_EventDataModel request)
+        {
+            ActionName = " SaveData_IIP_Events([FromBody] IIP_EventDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+
+                    result.Data = await _unitOfWork.iIndustryInstitutePartnershipRepository.SaveData_IIP_Events(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (request.EventID == 0)
+                        {
+                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (request.EventID == 0)
+                        {
+                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        }
+                        else
+                        {
+                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetCompanyEvents")]
+        public async Task<ApiResult<DataTable>> GetCompanyEvents([FromBody] CompanyEventSearchModel body)
+        {
+            ActionName = "GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.iIndustryInstitutePartnershipRepository.GetCompanyEvents(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                _unitOfWork.Dispose();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("DeleteEvent_ById")]
+        public async Task<ApiResult<bool>> DeleteEvent_ById(IIP_EventDataModel req)
+        {
+            ActionName = "DeleteEvent_ById(IIP_EventDataModel req)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.iIndustryInstitutePartnershipRepository.DeleteEvent_ById(req);
+                    _unitOfWork.SaveChanges();
+
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DELETE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_DELETE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetEvent_ById")]
+        public async Task<ApiResult<IIP_EventDataModel>> GetEvent_ById(CompanyEventSearchModel req)
+        {
+            ActionName = "GetByID(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<IIP_EventDataModel>();
+                try
+                {
+                    var data = await _unitOfWork.iIndustryInstitutePartnershipRepository.GetEvent_ById(req);
+                    result.Data = data;
+                    if (data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("ApproveCompanyEvents")]
+        public async Task<ApiResult<int>> ApproveCompanyEvents([FromBody] List<IndustryInstitutePartnershipMasterModels> request)
+        {
+            ActionName = "ApproveCompanyEvents([FromBody] List<IndustryInstitutePartnershipMasterModels> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    //validation
+                    if (request.Count == 0)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.Message = Constants.MSG_VALIDATION_FAILED;
+                        return result;
+                    }
+
+                    // Pass the list to the repository for batch update
+                    var isSave = await _unitOfWork.iIndustryInstitutePartnershipRepository.ApproveCompanyEvents(request);
+                    _unitOfWork.SaveChanges(); 
+
+                    if (isSave > 0)
+                    {
+                        result.Data = isSave;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        #endregion
     }
 
 

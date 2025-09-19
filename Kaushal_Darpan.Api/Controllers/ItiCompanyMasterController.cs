@@ -173,7 +173,7 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpDelete("DeleteByID/{ID:int}/{ModifyBy:int}")]
+        [HttpPost("DeleteByID/{ID:int}/{ModifyBy:int}")]
         public async Task<ApiResult<bool>> DeleteByID(int ID, int ModifyBy)
         {
             ActionName = "DeleteByID(int ID, int ModifyBy)";

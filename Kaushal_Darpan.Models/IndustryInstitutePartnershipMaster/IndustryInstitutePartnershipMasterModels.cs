@@ -5,6 +5,8 @@ namespace Kaushal_Darpan.Models.CompanyMaster
     public class IndustryInstitutePartnershipMasterModels
     {
         public int ID { get; set; }
+        public int? CompanyID { get; set; }
+        public int? PlacementCompanyID { get; set; }
         public string? Name { get; set; }
         public string? Website { get; set; }
         public string? Address { get; set; }
@@ -82,6 +84,41 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int? DepartmentID { get; set; }
     }
 
+    public class IIP_SearchModel: RequestBaseModel
+    {
+      public int? CompanyID {  get; set; }
+    }
 
+    public class IIP_EventDataModel: RequestBaseModel
+    {
+        public int? EventID { get; set; } = 0;
+        public int? CompanyID { get; set; } = 0;
+        public int? EventTypeID { get; set; } = 0;
+        public int? Event { get; set; } = 0;
+        public int? SemesterID { get; set; } = 0;
+        public string? EventStartDate { get; set; } = string.Empty;
+        public string? EventEndDate { get; set; } = string.Empty;
+        public int? EventForID { get; set; } = 0;
+        public List<BranchList>? Branchlist { get; set; } = new List<BranchList>();
+        public List<Semesterlist>? Semesterlist { get; set; } = new List<Semesterlist>();
+    }
+
+    public class BranchList
+    {
+        public int? StreamID { get; set; } = 0;
+        public string? StreamName { get; set; } = string.Empty;
+    }
+
+    public class Semesterlist
+    {
+        public int? SemesterID { get; set; } = 0;
+        public string? SemesterName {  get; set; } = string.Empty;
+    }
+
+    public class CompanyEventSearchModel: RequestBaseModel
+    {
+        public int? CompanyID { get; set; } = 0;
+        public int? EventID { get; set; } = 0;
+    }
 
 }
