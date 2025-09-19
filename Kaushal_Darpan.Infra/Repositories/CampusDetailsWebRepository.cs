@@ -142,5 +142,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        // ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,, Industry Institute Partnership ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+
+        public async Task<DataTable> GetAllPost_IIP(IIP_EventSearchModel model)
+        {
+            _actionName = "GetAllPost(int postId)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_IIP_EventDetailsForWebSite";
+                        command.Parameters.AddWithValue("@Action", "GetAllEvents");
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
