@@ -70,6 +70,12 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.State = EnumStatus.Warning;
                         result.Message = "Room Limit exceeds";
                     }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "Room No Already Exists Enter Different Room No";
+                    }
+
                     else
                     {
                         result.State = EnumStatus.Error;

@@ -28,6 +28,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetCompanyEvents(CompanyEventSearchModel body);
         Task<bool> DeleteEvent_ById(IIP_EventDataModel request);
         Task<IIP_EventDataModel> GetEvent_ById(CompanyEventSearchModel request);
-
+        Task<int> ApproveCompanyEvents(List<IndustryInstitutePartnershipMasterModels> model);
     }
 }
