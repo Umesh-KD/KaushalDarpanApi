@@ -50,6 +50,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CenterCode", filterModel.CenterCode);
                         command.Parameters.AddWithValue("@Name", filterModel.Name);
                         command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                        command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);
+                        command.Parameters.AddWithValue("@TradeID", filterModel.TradeID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -235,6 +237,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
                         command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);
                         command.Parameters.AddWithValue("@FinancialYearID", filterModel.FinancialYearID);
+                        command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                        command.Parameters.AddWithValue("@Action", filterModel.Action);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -730,6 +734,55 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<int> DeleteCenterMapping(ITICenterAllocationSearchFilter request)
+        {
+            _actionName = "DeleteCenterMapping(AdminUserDetailModel entity)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITICenterAlloocation_Delete";
+
+
+
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                 
+                        command.Parameters.AddWithValue("@CenterID", request.CenterID);
+            
+                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
 
     }
 }

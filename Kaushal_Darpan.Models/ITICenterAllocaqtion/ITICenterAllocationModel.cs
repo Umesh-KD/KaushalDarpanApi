@@ -28,8 +28,10 @@ namespace Kaushal_Darpan.Models.ITICenterAllocaqtion
         public string? Name { get; set; }
         public string? CenterCode { get; set; }
         public string? CenterName { get; set; }
+        public string? Action { get; set; }
 
         public int UserID { get; set; }
+        public int TradeID { get; set; }
 
         public int InstituteID { get; set; }
         public int DistrictID { get; set; }

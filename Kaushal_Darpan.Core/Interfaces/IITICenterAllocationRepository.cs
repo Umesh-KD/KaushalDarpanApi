@@ -21,6 +21,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> AssignExamCoordinatorData(PracticalExaminerDetailsModel model);
         Task<int> SaveData(List<ITICenterAllocationModel> productDetails);
         Task<int> Savescvtdata(ITICenterAllocationModel productDetails);
+        Task<int> DeleteCenterMapping(ITICenterAllocationSearchFilter productDetails);
 
         Task<DataTable> GetInstituteByCenterID(ITICenterAllocationSearchFilter productDetails);
         Task<DataTable> GetscvtInstituteByCenterID(ITICenterAllocationSearchFilter productDetails);

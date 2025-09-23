@@ -2159,7 +2159,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataSet> GetITIStudentAdmitCardBulk(int StudentExamID, int DepartmentID)
+        public async Task<DataSet> GetITIStudentAdmitCardBulk(int StudentExamID, int DepartmentID,int EndTermID)
         {
             _actionName = "GetStudentAdmitCardBulk(GenerateAdmitCardModel model)";
             return await Task.Run(async () =>
@@ -2174,6 +2174,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@action", "_getITIStudentAdmitCardBulk");
                         command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", EndTermID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
