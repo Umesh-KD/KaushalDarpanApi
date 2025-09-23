@@ -298,7 +298,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = _dbContext.CreateCommand())
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ITIApplication_Qualification_IU";

@@ -62,6 +62,46 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataTable> GetAllPost(int postId, int DepartmentID, string StreamID, int FinancialYearID, string InstituteID, string CampusFromDate, string CampusToDate)
+        {
+            _actionName = "GetAllPost(int postId)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CampusDetailsForWebSiteFilter";
+                        command.Parameters.AddWithValue("@postId", postId);
+                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@StreamID", StreamID);
+                        command.Parameters.AddWithValue("@Academicyear", FinancialYearID);
+                        command.Parameters.AddWithValue("@CampusFromDate", CampusFromDate);
+                        command.Parameters.AddWithValue("@CampusToDate", CampusToDate);
+                        command.Parameters.AddWithValue("@InstituteID", InstituteID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
 
         public async Task<DataTable> GetAllPlacementCompany(CampusDetailsWebSearchModel model)
         {
@@ -124,6 +164,43 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        // ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,, Industry Institute Partnership ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+
+        public async Task<DataTable> GetAllPost_IIP(IIP_EventSearchModel model)
+        {
+            _actionName = "GetAllPost(int postId)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = _dbContext.CreateCommand())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_IIP_EventDetailsForWebSite";
+                        command.Parameters.AddWithValue("@Action", "GetAllEvents");
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;

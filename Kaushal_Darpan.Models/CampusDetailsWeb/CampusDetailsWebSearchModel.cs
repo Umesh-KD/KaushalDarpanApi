@@ -19,4 +19,9 @@ namespace Kaushal_Darpan.Models.CampusDetailsWeb
         public int DepartmentSubID { get; set; }
         public string Key { get; set; }
     }
+
+    public class IIP_EventSearchModel: RequestBaseModel
+    {
+        public int? EventID { get; set; } = 0;
+    }
 }

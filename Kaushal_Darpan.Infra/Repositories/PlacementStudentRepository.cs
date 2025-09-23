@@ -143,6 +143,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CreatedBy", entity.CreatedBy);
                         command.Parameters.AddWithValue("@ModifyBy", entity.ModifyBy);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@UploadedResume", entity.UploadedResume);
+                        command.Parameters.AddWithValue("@Dis_UploadedResume", entity.Dis_UploadedResume);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
                         _sqlQuery = command.GetSqlExecutableQuery();

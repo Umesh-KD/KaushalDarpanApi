@@ -3406,7 +3406,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     var result = 0;
                     var retval_TransactionId = 0;
-                    using (var command = _dbContext.CreateCommand(true))// true to control transaction
+                    using (var command = _dbContext.CreateCommand())// true to control transaction
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_InsertEmitraTransactions";
@@ -3659,7 +3659,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_InsertEmitraTransactions";
