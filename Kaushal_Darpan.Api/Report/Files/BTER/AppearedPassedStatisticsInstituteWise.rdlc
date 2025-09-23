@@ -1413,14 +1413,14 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>2.4966in</Height>
+        <Height>0.71535in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>14.78012in</Width>
+      <Width>11.43637in</Width>
       <Page>
         <PageHeader>
           <Height>2.0244in</Height>
@@ -1471,7 +1471,37 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Appeared / Passed Statistics for the Diploma Engineering Exam End Term May 2024 Session 2023-2024</Value>
+                      <Value>Appeared / Passed Statistics for the Diploma Engineering Exam End Term </Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>arial</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!EndTermName.Value, "AppearedPassedStatistics")</Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>arial</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> Session </Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>arial</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!AcademicYear.Value, "AppearedPassedStatistics")</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>arial</FontFamily>
