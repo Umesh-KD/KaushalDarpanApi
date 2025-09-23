@@ -1402,6 +1402,7 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>AppearedPassedDetails</DataSetName>
+            <Top>0.13229cm</Top>
             <Left>0.3258cm</Left>
             <Height>0.59035in</Height>
             <Width>11.26232in</Width>
@@ -1412,17 +1413,17 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>1.26743in</Height>
+        <Height>0.71535in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>11.41554in</Width>
+      <Width>11.43637in</Width>
       <Page>
         <PageHeader>
-          <Height>1.97232in</Height>
+          <Height>2.0244in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -1470,7 +1471,37 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Appeared / Passed Statistics for the Diploma Engineering Exam End Term May 2024 Session 2023-2024</Value>
+                      <Value>Appeared / Passed Statistics for the Diploma Engineering Exam End Term </Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>arial</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!EndTermName.Value, "AppearedPassedStatistics")</Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>arial</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> Session </Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>arial</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!AcademicYear.Value, "AppearedPassedStatistics")</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>arial</FontFamily>
@@ -2118,7 +2149,7 @@
               <Top>0.94425in</Top>
               <Left>0.63502in</Left>
               <Height>0.25in</Height>
-              <Width>2.30538in</Width>
+              <Width>3.99288in</Width>
               <ZIndex>18</ZIndex>
               <Style>
                 <Border>
