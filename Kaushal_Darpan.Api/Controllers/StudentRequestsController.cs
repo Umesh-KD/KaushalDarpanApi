@@ -1231,5 +1231,56 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
         #endregion
+
+        [HttpPost("ReGenerateProvisionalMerit_Hostel/{Gender}")]
+        public async Task<ApiResult<int>> ReGenerateProvisionalMerit_Hostel([FromRoute] int Gender, [FromBody] List<PublishHostelMeritListDataModel> request)
+        {
+            ActionName = "ReGenerateProvisionalMerit_Hostel([FromBody] List<PublishHostelMeritListDataModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+
+                    // Pass the list to the repository for batch update
+                    var isSave = await _unitOfWork.iStudentRequestsRepository.ReGenerateProvisionalMerit_Hostel(Gender, request);
+                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+
+                    if (isSave == -1)
+                    {
+                        //result.Data = true;
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_NO_DATA_SAVE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        // result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }
