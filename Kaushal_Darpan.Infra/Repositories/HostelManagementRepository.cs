@@ -5,6 +5,7 @@ using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.HostelManagementModel;
 using Kaushal_Darpan.Models.StudentApplyForHostel;
 using Kaushal_Darpan.Models.TSPAreaMaster;
+using Newtonsoft.Json;
 using System.Data;
 
 namespace Kaushal_Darpan.Infra.Repositories
@@ -763,6 +764,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@AffidavitDocument", request.AffidavitDocument);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
                         command.Parameters.AddWithValue("@dis_AffidavitDocument", request.dis_AffidavitDocument);
+                        command.Parameters.AddWithValue("@SelectedRoomTypes", JsonConvert.SerializeObject(request.SelectedRoomTypeID));
 
 
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
