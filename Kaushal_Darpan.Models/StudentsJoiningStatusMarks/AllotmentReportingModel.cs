@@ -48,13 +48,13 @@ namespace Kaushal_Darpan.Models.StudentsJoiningStatusMarks
     {
         public int DocumentDetailsID { get; set; }
         public int DocumentMasterID { get; set; }
-        public string TableName { get; set; }
-        public string ColumnName { get; set; }
-        public string DisplayName { get; set; }
+        public string? TableName { get; set; }
+        public string ?ColumnName { get; set; }
+        public string? DisplayName { get; set; }
         public string FileName { get; set; }
         public string FolderName { get; set; }
-        public string? Dis_FileName { get; set; }
-        public string Remark { get; set; }
+        public string Dis_FileName { get; set; }
+        public string? Remark { get; set; }
         public int GroupNo { get; set; }
         public bool DocumentStatus { get; set; }
 
