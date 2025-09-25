@@ -1284,7 +1284,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int retval = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandText = "USP_GenerateHostelMeritList";
                         command.CommandType = CommandType.StoredProcedure;

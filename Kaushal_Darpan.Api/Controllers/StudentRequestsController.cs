@@ -1244,7 +1244,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.iStudentRequestsRepository.ReGenerateProvisionalMerit_Hostel(Gender, request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
@@ -1266,7 +1266,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
