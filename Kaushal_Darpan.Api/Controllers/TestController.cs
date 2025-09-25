@@ -257,7 +257,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 //db
                 var r = await _unitOfWork.CommonFunctionRepository.Dummy_SaveAndMoveStudentImages(json);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
 
                 //log
                 CommonFuncationHelper.WriteTextLog("DB Insert end:");
@@ -573,7 +573,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 var result = await _unitOfWork.TestRepository.Test_SaveHindiData(model);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 return true.ToString();
             }
             catch (Exception ex)

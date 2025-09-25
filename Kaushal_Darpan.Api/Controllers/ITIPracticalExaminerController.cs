@@ -53,7 +53,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -89,7 +89,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -126,7 +126,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -152,7 +152,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
 
                     var isSave = await _unitOfWork.ITIPracticalExaminerRepository.AssignPracticalExaminer(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (isSave == -2)
                     {
@@ -173,7 +173,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -212,7 +212,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -276,7 +276,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -316,7 +316,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
 
@@ -359,7 +359,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
 
@@ -392,7 +392,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
 
@@ -418,7 +418,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 int responseCode = await _unitOfWork.ITIPracticalExaminerRepository.UpdateStudentExamMarks(modelList);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (responseCode == 1)
                 {
                     result.State = EnumStatus.Success;
@@ -471,7 +471,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
 
                 int responseCode = await _unitOfWork.ITIPracticalExaminerRepository.UpdateStudentExamMarksData(modelList);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
 
                 if (responseCode == 1)
                 {
@@ -520,7 +520,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 
 
                 int responseCode = await _unitOfWork.ITIPracticalExaminerRepository.NcvtUpdateStudentExamMarksData(modelList);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
 
                 if (responseCode == 1)
                 {
@@ -574,7 +574,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -612,7 +612,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -651,7 +651,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
 
@@ -754,7 +754,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -792,7 +792,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -841,7 +841,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
 
                 var nex = new NewException
                 {
@@ -895,7 +895,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
                 }
                 var data = await _unitOfWork.ITIPracticalExaminerRepository.SaveDataSubmitAndForwardToAdmin(filterModel);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 //var objData = CommonFuncationHelper.ConvertDataTable<RenumerationExaminerPDFModel>(data);
                 if (data == 1)
                 {
@@ -910,7 +910,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
 
                 result.State = EnumStatus.Error;
                 result.Message = Constants.MSG_ERROR_OCCURRED;
@@ -946,7 +946,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -970,7 +970,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 var data = await _unitOfWork.ITIPracticalExaminerRepository.UpdateToApprove(filterModel);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 //var objData = CommonFuncationHelper.ConvertDataTable<RenumerationExaminerPDFModel>(data);
                 if (data == 1)
                 {
@@ -985,7 +985,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
 
                 result.State = EnumStatus.Error;
                 result.Message = Constants.MSG_ERROR_OCCURRED;

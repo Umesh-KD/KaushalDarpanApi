@@ -54,7 +54,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -82,7 +82,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     });
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.CenterCreationRepository.SaveData(request, StartValue);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -2)
                     {
@@ -104,7 +104,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -145,7 +145,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -172,7 +172,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     
                     var isSave = await _unitOfWork.CenterCreationRepository.UpdateCCCode(request);
-                    _unitOfWork.SaveChanges(); 
+                    await _unitOfWork.SaveChangesAsync(); 
 
                     if (isSave == -2)
                     {
@@ -193,7 +193,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -226,7 +226,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     });
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.CenterCreationRepository.GenerateCCCode(request, StartValue);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
@@ -248,7 +248,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -281,7 +281,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     });
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.CenterCreationRepository.RemoveCenter(request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -2)
                     {
@@ -303,7 +303,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -347,7 +347,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -370,7 +370,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
 
                     var isSave = await _unitOfWork.CenterCreationRepository.AssignCenterSuperintendent(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (isSave == -2)
                     {
@@ -391,7 +391,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 

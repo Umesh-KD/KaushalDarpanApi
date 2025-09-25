@@ -29,7 +29,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_DesignationMaster_GetData";
@@ -62,7 +62,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = "SELECT * FROM M_DesignationMaster WHERE DesignationID = @DesignationID";
                         command.Parameters.AddWithValue("@DesignationID", designationID);
@@ -101,7 +101,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         // Set the stored procedure name and type
 
@@ -153,7 +153,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = "USP_DesignationMaster_AddUpdate";
                         command.CommandType = CommandType.StoredProcedure;
@@ -200,7 +200,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         var Query = " update M_DesignationMaster set ActiveStatus=0,DeleteStatus=1,ModifyBy='" + request.ModifyBy + "',ModifyDate=GETDATE(),IPAddress='" + CommonFuncationHelper.GetIpAddress() + "' ";
                         Query += " Where DesignationID='" + request.DesignationID.ToString() + "' ";

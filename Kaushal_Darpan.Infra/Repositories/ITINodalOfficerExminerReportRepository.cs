@@ -39,7 +39,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
                     var jsonData = JsonConvert.SerializeObject(body.InspectExaminationCentersList);
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "usp_trn_ITI_NodalOfficersCenterReport";
@@ -105,7 +105,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "usp_trn_ITI_NodalOfficersCenterReportGetData";
@@ -145,7 +145,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetDistrictExamNodalMapping";
@@ -185,7 +185,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "usp_trn_ITI_NodalOfficersCenterReportGetData";
@@ -225,7 +225,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var data = new ITINodalOfficerExminerReportByID();
 
                    
-                        using (var command = _dbContext.CreateCommand())
+                        using (var command = await _dbContext.CreateCommandAsync())
                         {
                             command.CommandType = CommandType.StoredProcedure;
                             command.CommandText = "usp_trn_ITI_NodalOfficersCenterReportGetData";
@@ -280,7 +280,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return await Task.Run(async () =>
                 {
                     DataSet dataSet = new DataSet();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "usp_trn_ITI_NodalOfficersCenterReportGetData";
@@ -328,7 +328,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;                  
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "usp_trn_ITI_NodalOfficersCenterReportDetailsUpdate";                      
@@ -377,7 +377,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "usp_trn_ITI_NodalOfficersCenterReportDetailsUpdate";
@@ -429,7 +429,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var data = new ITINodalOfficerExminerReportByID();
 
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "usp_trn_ITI_NodalOfficersCenterReportGetData";
@@ -485,7 +485,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ItiExamNodalExamMapping";

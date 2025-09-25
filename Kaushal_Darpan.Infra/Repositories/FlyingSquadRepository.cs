@@ -34,7 +34,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetFlyingSquad";
@@ -76,7 +76,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_AddEditDelete_FlyingSquad";
@@ -119,7 +119,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_TeamFlyingSquad_IU";
@@ -171,7 +171,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_TeamFlyingSquad_GET";
@@ -217,7 +217,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     foreach (var shift in shifts)
                     {
-                        using (var command = _dbContext.CreateCommand(true))
+                        using (var command = await _dbContext.CreateCommandAsync(true))
                         {
                             command.CommandText = "USP_FlyingSquadDeployment_IU";
                             command.CommandType = CommandType.StoredProcedure;
@@ -272,7 +272,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandText = "USP_FlyingSquadIsRequest_IU";
                         command.CommandType = CommandType.StoredProcedure;
@@ -318,7 +318,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandText = "USP_FlyingSquad_History";
                         command.CommandType = CommandType.StoredProcedure;
@@ -362,7 +362,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int finalResult = 0;
 
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandText = "USP_UpdateFlyingSquad_Attendance";
                         command.CommandType = CommandType.StoredProcedure;
@@ -416,7 +416,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     foreach(var model in itam)
                     {
                       
-                            using (var command = _dbContext.CreateCommand(true))
+                            using (var command = await _dbContext.CreateCommandAsync(true))
                             {
                                 command.CommandText = "USP_FlyingSquadDeployment_IU";
                                 command.CommandType = CommandType.StoredProcedure;
@@ -469,7 +469,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_FlyingSquadDeployment_GET";
@@ -509,7 +509,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetFlyingSquad_Attendance";
@@ -547,7 +547,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandType = CommandType.StoredProcedure;
@@ -593,7 +593,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetITIFlyingSquad";
@@ -636,7 +636,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_AddEditDelete_ITIFlyingSquad";
@@ -679,7 +679,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ITITeamFlyingSquad_IU";
@@ -731,7 +731,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITITeamFlyingSquad_GET";
@@ -777,7 +777,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     foreach (var shift in shifts)
                     {
-                        using (var command = _dbContext.CreateCommand(true))
+                        using (var command = await _dbContext.CreateCommandAsync(true))
                         {
                             command.CommandText = "USP_ITIFlyingSquadDeployment_IU";
                             command.CommandType = CommandType.StoredProcedure;
@@ -838,7 +838,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     foreach (var model in itam)
                     {
 
-                        using (var command = _dbContext.CreateCommand(true))
+                        using (var command = await _dbContext.CreateCommandAsync(true))
                         {
                             command.CommandText = "USP_ITIFlyingSquadDeployment_IU";
                             command.CommandType = CommandType.StoredProcedure;
@@ -886,7 +886,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITIFlyingSquadDeployment_GET";
@@ -924,7 +924,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandType = CommandType.StoredProcedure;
@@ -969,7 +969,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_AddEditDelete_FlyingSquad_Attendance";

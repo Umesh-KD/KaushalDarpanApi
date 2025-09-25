@@ -32,7 +32,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 int result = 0;
 
                 // Create the command and set up parameters
-                using (var command = _dbContext.CreateCommand(true))
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
                     command.CommandText = "usp_testData";
                     command.CommandType = CommandType.StoredProcedure;
@@ -71,7 +71,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     var dt = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_Dummy_Test";

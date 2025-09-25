@@ -54,7 +54,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -75,7 +75,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.FlyingSquadRepository.PostFlyingSquad(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -96,7 +96,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -118,7 +118,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.FlyingSquadRepository.SetInchargeFlyingSquad(ID, TeamID, Incharge);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -139,7 +139,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -161,7 +161,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.FlyingSquadRepository.PostTeamFlyingSquadForm(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -182,7 +182,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -222,7 +222,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -243,7 +243,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.FlyingSquadRepository.PostTeamDeploymentFlyingSquadForm(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -264,7 +264,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -287,7 +287,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.FlyingSquadRepository.PostTeamDeploymentFlyingSquad(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -308,7 +308,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -349,7 +349,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -388,7 +388,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -410,7 +410,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.FlyingSquadRepository.UpdateFlyingSquad_Attendance(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -431,7 +431,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -454,7 +454,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.FlyingSquadRepository.PostFlyingSquadAttendanceForm(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -475,7 +475,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -502,7 +502,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -523,7 +523,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,

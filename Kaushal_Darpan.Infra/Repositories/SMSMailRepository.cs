@@ -27,7 +27,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     var dt = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetSMSConfiguration";
@@ -65,7 +65,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     var dt = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetSMSTemplateByMessageType";
@@ -100,7 +100,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     var dt = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = " select  * from Trn_SendSMS where IsSend=0 ";
 
@@ -132,7 +132,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = $"update Trn_SendSMS set SMS_Status='{response}',IsSend=1,Sending_RTS=Getdate() Where aid='{AID}'";
 
@@ -171,7 +171,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int retval = 0;
 
 
-                    //using (var command = _dbContext.CreateCommand(true))
+                    //using (var command = await _dbContext.CreateCommandAsync(true))
                     //{
                     //    // Set the stored procedure name and type
                     //    command.CommandText = "USP_SaveAdmittedStudents";

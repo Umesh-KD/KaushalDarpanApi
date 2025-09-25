@@ -29,7 +29,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "usp_Trn_LevelMast";
@@ -80,7 +80,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = "usp_Trn_LevelMast";
                         command.CommandType = CommandType.StoredProcedure;
@@ -126,7 +126,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             try
             {
                 int result = 0;
-                using (var command = _dbContext.CreateCommand())
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
                     var Query = @"
                     UPDATE [dbo].[M_LevelMaster]
@@ -172,7 +172,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = "EXEC USP_LevelMaster ";
 
@@ -203,7 +203,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = "SELECT * FROM M_LevelMaster WHERE LevelID = @LevelID";
                         command.Parameters.AddWithValue("@LevelID", levelId);

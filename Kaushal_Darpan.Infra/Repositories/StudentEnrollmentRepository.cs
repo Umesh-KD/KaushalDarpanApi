@@ -32,7 +32,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return await Task.Run(async () =>
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandTimeout = 0;
                         command.CommandType = CommandType.StoredProcedure;
@@ -82,7 +82,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
-                }); 
+                });
             }
             catch (Exception ex)
             {
@@ -106,7 +106,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return await Task.Run(async () =>
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetAddimittedStudentData";
@@ -168,7 +168,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         storedProcedureName = "USP_EditStudentData_Enroll";
                     }
 
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = storedProcedureName;
@@ -238,7 +238,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
 
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_UpdateEnrollmentCollegeAndBranch";
@@ -288,7 +288,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
                     int retval = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_AdmitedStudentStatus";
@@ -332,7 +332,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
                     int retval = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_SaveAdmittedStudents";
@@ -376,7 +376,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
                     int retval = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_UndoRejectStatus";
@@ -420,7 +420,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
                     int retval = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_SaveEligibleForEnrollment";
@@ -464,7 +464,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
                     int retval = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_SaveSelectedForExamination";
@@ -508,7 +508,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
                     int retval = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_SaveEligibleForExamination";
@@ -552,7 +552,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
                     int retval = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_SaveRejectAtBTEREnrollment";
@@ -596,7 +596,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
                     int retval = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_SaveDropout";
@@ -641,7 +641,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
                     int retval = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_SaveRevokeDropout";
@@ -687,7 +687,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return await Task.Run(async () =>
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetAddimittedStudentData";
@@ -727,7 +727,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return await Task.Run(async () =>
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetAdmittedStudentToVerify";
@@ -772,7 +772,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
                     int retval = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_SaveAdmittedStudentToVerify";
@@ -816,7 +816,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
                     int retval = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_SaveAdmittedStudentToVerify";
@@ -824,6 +824,458 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@action", "_saveAdmittedStudentToReturn");
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                    }
+                    return retval;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
+
+        #region enrolled promoted to verify
+        public async Task<DataTable> GetEnrolledStudent_Promoted(EnrolledPromotedStudentModel model)
+        {
+            _actionName = "GetEnrolledStudent_Promoted(EnrolledPromotedStudentModel model)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetEnrolledStudent_Promoted";
+
+                        command.Parameters.AddWithValue("@action", "_getEnrolledStudent_Promoted");
+                        command.Parameters.AddWithValue("@StudentName", model.StudentName);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@MobileNo", model.MobileNo);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@ApplicationNo", model.ApplicationNo);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetEnrolledStudent_VerifyandForwardtoExamIncharge(EnrolledPromotedStudentModel model)
+        {
+            _actionName = "GetEnrolledStudent_VerifyandForwardtoExamIncharge(EnrolledPromotedStudentModel model)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetEnrolledStudent_VerifyandForwardtoExamIncharge";
+
+                        command.Parameters.AddWithValue("@action", "_getEnrolledStudent_VerifyandForwardtoExamIncharge");
+                        command.Parameters.AddWithValue("@StudentName", model.StudentName);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@MobileNo", model.MobileNo);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@ApplicationNo", model.ApplicationNo);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetEnrolledStudent_VerifyandForwardtoRegistrar(EnrolledPromotedStudentModel model)
+        {
+            _actionName = "GetEnrolledStudent_VerifyandForwardtoRegistrar(EnrolledPromotedStudentModel model)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetEnrolledStudent_VerifyandForwardtoRegistrar";
+
+                        command.Parameters.AddWithValue("@action", "_getEnrolledStudent_VerifyandForwardtoRegistrar");
+                        command.Parameters.AddWithValue("@StudentName", model.StudentName);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@MobileNo", model.MobileNo);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@ApplicationNo", model.ApplicationNo);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetEnrolledStudent_ApprovebyRegistrar(EnrolledPromotedStudentModel model)
+        {
+            _actionName = "GetEnrolledStudent_ApprovebyRegistrar(EnrolledPromotedStudentModel model)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetEnrolledStudent_ApprovebyRegistrar";
+
+                        command.Parameters.AddWithValue("@action", "_getEnrolledStudent_ApprovebyRegistrar");
+                        command.Parameters.AddWithValue("@StudentName", model.StudentName);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@MobileNo", model.MobileNo);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@ApplicationNo", model.ApplicationNo);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetEnrolledStudent_ReturnbyRegistrar(EnrolledPromotedStudentModel model)
+        {
+            _actionName = "GetEnrolledStudent_ReturnbyRegistrar(EnrolledPromotedStudentModel model)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetEnrolledStudent_ReturnbyRegistrar";
+
+                        command.Parameters.AddWithValue("@action", "_getEnrolledStudent_ReturnbyRegistrar");
+                        command.Parameters.AddWithValue("@StudentName", model.StudentName);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@MobileNo", model.MobileNo);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@ApplicationNo", model.ApplicationNo);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> SaveEnrolledStudentVerify_VerifyandForwardtoExamIncharge(List<EnrolledPromotedStudentSaveModel> model)
+        {
+            _actionName = "SaveEnrolledStudentVerify_VerifyandForwardtoExamIncharge(List<EnrolledPromotedStudentSaveModel> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    int retval = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_saveEnrolledStudent_VerifyandForwardtoExamIncharge";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@action", "_saveEnrolledStudent_VerifyandForwardtoExamIncharge");
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                    }
+                    return retval;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> SaveEnrolledStudentVerify_VerifyandForwardtoRegistrar(List<EnrolledPromotedStudentSaveModel> model)
+        {
+            _actionName = "SaveEnrolledStudentVerify_VerifyandForwardtoRegistrar(List<EnrolledPromotedStudentSaveModel> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    int retval = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_saveEnrolledStudent_VerifyandForwardtoRegistrar";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@action", "_saveEnrolledStudent_VerifyandForwardtoRegistrar");
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                    }
+                    return retval;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> SaveEnrolledStudentVerify_ApprovebyRegistrar(List<EnrolledPromotedStudentSaveModel> model)
+        {
+            _actionName = "SaveEnrolledStudentVerify_ApprovebyRegistrar(List<EnrolledPromotedStudentSaveModel> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    int retval = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_saveEnrolledStudent_ApprovebyRegistrar";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@action", "_saveEnrolledStudent_ApprovebyRegistrar");
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                    }
+                    return retval;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> SaveEnrolledStudentVerify_ReturnbyRegistrar(List<EnrolledPromotedStudentSaveModel> model)
+        {
+            _actionName = "SaveEnrolledStudentVerify_ReturnbyRegistrar(List<EnrolledPromotedStudentSaveModel> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    int retval = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_saveEnrolledStudent_ReturnbyRegistrar";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@action", "_saveEnrolledStudent_ReturnbyRegistrar");
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                    }
+                    return retval;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> SaveEnrolledStudentVerify_SelectedforExamination(List<EnrolledPromotedStudentSaveModel> model)
+        {
+            _actionName = "SaveEnrolledStudentVerify_SelectedforExamination(List<EnrolledPromotedStudentSaveModel> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    int retval = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_saveEnrolledStudent_SelectedforExamination";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@action", "_saveEnrolledStudent_SelectedforExamination");
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
                         command.Parameters.Add("@Retval", SqlDbType.Int);// out

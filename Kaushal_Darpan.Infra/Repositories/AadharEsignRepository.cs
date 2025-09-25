@@ -30,7 +30,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     EsignDataHistoryReponseModel data = new EsignDataHistoryReponseModel();
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "usp_getEsignedData_History";
@@ -69,7 +69,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
 
                     // Create the command and set up parameters
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandText = "usp_saveEsignedData_History";
                         command.CommandType = CommandType.StoredProcedure;
