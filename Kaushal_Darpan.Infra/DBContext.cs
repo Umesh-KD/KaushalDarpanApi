@@ -17,7 +17,7 @@ namespace Kaushal_Darpan.Infra
             {
                 command.Transaction = _transaction;
             }
-            command.CommandTimeout = 2 * 60; // 2 minutes
+            //command.CommandTimeout = 2 * 60; // 2 minutes
             return command;
         }
 
