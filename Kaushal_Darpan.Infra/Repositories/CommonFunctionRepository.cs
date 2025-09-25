@@ -3551,7 +3551,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     var result = 0;
                     var retval_TransactionId = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))// true to control transaction
+                    using (var command = await _dbContext.CreateCommandAsync())// true to control transaction
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_InsertEmitraApplicationTransactions";
@@ -3707,7 +3707,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     Int64 result = 0;
                     Int64 retval_TransactionId = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command =await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_InsertEmitraApplicationTransactions";
