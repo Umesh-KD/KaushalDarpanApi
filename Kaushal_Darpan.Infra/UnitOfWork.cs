@@ -7,9 +7,10 @@ namespace Kaushal_Darpan.Infra.Repositories
         private readonly DBContext _dbContext;
         private bool disposedValue;
 
-        public UnitOfWork()
+        public UnitOfWork(DBContext dBContext)
         {
-            _dbContext = new DBContext();
+            //_dbContext = new DBContext();
+            _dbContext = dBContext;
         }
 
         #region UOW
