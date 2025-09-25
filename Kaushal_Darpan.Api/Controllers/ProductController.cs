@@ -110,7 +110,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     };
 
                     var data1 = await _unitOfWork.Products.AddProductChild(pc);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     result.State = EnumStatus.Success;
                     result.Data = data1;
@@ -118,7 +118,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -146,7 +146,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     var entityModel = _mapper.Map<ProductDetails>(model);
                     var data = await _unitOfWork.Products.UpdateProductById(entityModel);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     result.State = EnumStatus.Success;
                     result.Data = data;
@@ -179,7 +179,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         IsDelete = true,
                     };
                     var data = await _unitOfWork.Products.DeleteProductById(productDetails);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     result.State = EnumStatus.Success;
                     result.Data = data;
@@ -204,7 +204,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     var entityData = _mapper.Map<ProductDetails>(model);
                     entityData.ModifiedDate = DateTime.Now;
                     var data = await _unitOfWork.Products.DeleteProductById(entityData);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     result.State = EnumStatus.Success;
                     result.Data = data;

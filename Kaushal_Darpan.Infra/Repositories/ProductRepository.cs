@@ -27,7 +27,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "usp_Trn_Productdetails";
@@ -73,7 +73,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "usp_Trn_Productdetails";
@@ -104,7 +104,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             return await Task.Run(async () =>
             {
                 int result = 0;
-                using (var command = _dbContext.CreateCommand(true))
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "usp_Trn_Productdetails";
@@ -125,7 +125,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             return await Task.Run(async () =>
             {
                 DataSet ds = null;
-                using (var command = _dbContext.CreateCommand())
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "usp_Productdetails";
@@ -153,7 +153,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             return await Task.Run(async () =>
             {
                 DataSet ds = null;
-                using (var command = _dbContext.CreateCommand())
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "usp_Productdetails";
@@ -179,7 +179,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             return await Task.Run(async () =>
             {
                 int result = 0;
-                using (var command = _dbContext.CreateCommand(true))
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "usp_Trn_Productdetails";

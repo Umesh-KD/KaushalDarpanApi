@@ -50,7 +50,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             finally
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
             }
             return result;
         }
@@ -83,7 +83,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 finally
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                 }
                 return result;
             });
@@ -98,7 +98,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.DesignationMasterRepository.SaveData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -134,7 +134,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 finally
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                 }
                 return result;
             });
@@ -149,7 +149,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.DesignationMasterRepository.UpdateData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -175,7 +175,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 finally
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                 }
                 return result;
             });
@@ -195,7 +195,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         ModifyBy = modifyBy,
                     };
                     result.Data = await _unitOfWork.DesignationMasterRepository.DeleteDataById(deleteRequest);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data)
                     {
@@ -222,7 +222,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 finally
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                 }
                 return result;
             });

@@ -70,7 +70,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -107,7 +107,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -144,7 +144,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -182,7 +182,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -220,7 +220,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -241,7 +241,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try {
 
                     var data = await _unitOfWork.StudentRepository.UpdateStudentSsoMapping(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -263,7 +263,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -287,7 +287,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
 
                     var data = await _unitOfWork.StudentRepository.StudentPlacementMapping(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -309,7 +309,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -351,7 +351,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -391,7 +391,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -428,7 +428,7 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -451,7 +451,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.StudentRepository.AddStudentData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -484,7 +484,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -528,7 +528,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -557,7 +557,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     //});
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.StudentRepository.SaveRecheckData(request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -2)
                     {
@@ -579,7 +579,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -621,7 +621,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -699,7 +699,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -721,7 +721,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.StudentRepository.AddStudentAttendance(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -743,7 +743,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -765,7 +765,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.StudentRepository.PostAttendanceTimeTable(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -786,7 +786,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -824,7 +824,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -862,7 +862,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -903,7 +903,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -925,7 +925,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.StudentRepository.ITIAddStudentAttendance(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -947,7 +947,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -986,7 +986,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -1009,7 +1009,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.StudentRepository.PostAttendanceTimeTableList(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -1030,7 +1030,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -1053,7 +1053,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.StudentRepository.SetCalendarEventModel(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -1074,7 +1074,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -1113,7 +1113,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -1151,7 +1151,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -1190,7 +1190,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -1319,7 +1319,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {

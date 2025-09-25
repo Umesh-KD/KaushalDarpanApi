@@ -70,7 +70,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.Data.REQUESTPARAMETERS.RequestType = (int)EnmPaymetRequest.PaymentRequest;
 
                 bool isSuccess = await _unitOfWork.CommonFunctionRepository.RPPCreatePaymentRequest(result.Data);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (!isSuccess)
                 {
                     result.State = EnumStatus.Error;
@@ -83,7 +83,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -126,7 +126,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 if (result.Data != null)
                 {
                     await _unitOfWork.CommonFunctionRepository.RPPSaveData(result.Data);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data.CHECKSUMVALID)
                     {
@@ -154,7 +154,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -191,7 +191,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -262,7 +262,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             objresponse.RESPONSEJSON = RESPONSEJSON;
                             objresponse.RESPONSEPARAMETERS = RESPONSEPARAMS;
                             await _unitOfWork.CommonFunctionRepository.RPPSaveData(objresponse);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                         }
                         else
                         {
@@ -277,7 +277,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             objresponse.RESPONSEJSON = RESPONSEJSON;
                             objresponse.RESPONSEPARAMETERS = RESPONSEPARAMS;
                             await _unitOfWork.CommonFunctionRepository.RPPSaveData(objresponse);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                         }
                     }
                 }
@@ -285,7 +285,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -339,7 +339,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 paymentRequest.REQUESTPARAMETERS.RPPTXNID = Model.RPPTXNID;
                 paymentRequest.SSOID = Model.SSOID;
                 bool isSuccess = await _unitOfWork.CommonFunctionRepository.RPPCreatePaymentRequest(paymentRequest);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
 
                 if (!isSuccess)
                 {
@@ -385,7 +385,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             obj.RESPONSEPARAMETERS.REFUNDSTATUS = RESPONSEPARAMS.REFUNDSTATUS;
                             obj.RESPONSEPARAMETERS.RPPTXNID = Model.RPPTXNID;
                             await _unitOfWork.CommonFunctionRepository.RPPUpdateRefundStatus(obj);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                             #endregion
                         }
                         else
@@ -404,7 +404,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             obj.RESPONSEPARAMETERS.REFUNDSTATUS = RESPONSEPARAMS.STATUS;
                             obj.RESPONSEPARAMETERS.RPPTXNID = Model.RPPTXNID;
                             await _unitOfWork.CommonFunctionRepository.RPPUpdateRefundStatus(obj);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                             #endregion
 
                         }
@@ -413,7 +413,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -481,7 +481,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             RESPONSEPARAMS.PRN = Model.PRN;
                             RESPONSEPARAMS.RESPONSEJSON = RESPONSEJSON;
                             await _unitOfWork.CommonFunctionRepository.RPPUpdateRefundTransactionStatus(RESPONSEPARAMS);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                         }
                         else
                         {
@@ -493,7 +493,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             RESPONSEPARAMS.PRN = Model.PRN;
                             RESPONSEPARAMS.RESPONSEJSON = RESPONSEJSON;
                             await _unitOfWork.CommonFunctionRepository.RPPUpdateRefundTransactionStatus(RESPONSEPARAMS);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                         }
                     }
                 }
@@ -501,7 +501,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -544,7 +544,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log

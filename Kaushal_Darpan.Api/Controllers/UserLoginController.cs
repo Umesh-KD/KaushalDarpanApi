@@ -88,7 +88,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.Users.GetUserById(userId);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     var modelData = _mapper.Map<UserModel>(data);
 
                     result.State = EnumStatus.Success;

@@ -3,92 +3,94 @@ using Microsoft.Data.SqlClient;
 
 namespace Kaushal_Darpan.Infra
 {
-    public class DBContext : IDisposable
+    public class DBContext : IAsyncDisposable
     {
+        private SqlConnection? _connection;
+        private SqlTransaction? _transaction;
         private bool disposedValue;
 
-        private SqlConnection _connection;
-        private SqlTransaction _transaction;
-
-        public DBContext()
+        public async Task<SqlCommand> CreateCommandAsync(bool withTransactionControl = false)
         {
-
-        }
-
-        public SqlCommand CreateCommand(bool withTransactionControl = false)
-        {
-            CreateObject(withTransactionControl);//create connection
-            var command = _connection.CreateCommand();//create command
+            await CreateObjectAsync(withTransactionControl); // ensure connection
+            var command = _connection!.CreateCommand(); // create command
             if (withTransactionControl)
             {
                 command.Transaction = _transaction;
             }
-            command.CommandTimeout = (2 * 60);//5 min.
+            command.CommandTimeout = 2 * 60; // 2 minutes
             return command;
         }
-        public void SaveChanges()
+
+        public async Task SaveChangesAsync()
         {
             try
             {
                 if (_transaction != null)
                 {
-                    _transaction.Commit();
+                    await _transaction.CommitAsync();
                     _transaction = null;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                _transaction = null;
+                if (_transaction != null)
+                {
+                    await _transaction.RollbackAsync();
+                    _transaction = null;
+                }
+                //throw; // rethrow so caller knows commit failed
             }
         }
 
-        protected virtual void Dispose(bool disposing)
+        private async Task CreateObjectAsync(bool withTransactionControl)
+        {
+            if (_connection == null)
+            {
+                var connectionString = ConfigurationHelper.ConnectionString;
+                _connection = new SqlConnection(connectionString);
+                await _connection.OpenAsync();
+
+                if (withTransactionControl)
+                {
+                    _transaction = (SqlTransaction)await _connection.BeginTransactionAsync();
+                }
+            }
+        }
+
+        protected virtual async Task DisposeAsyncCore()
         {
             try
             {
-                // TODO: dispose managed state (managed objects)
                 if (_transaction != null)
                 {
-                    _transaction.Rollback();
+                    await _transaction.RollbackAsync();
+                    await _transaction.DisposeAsync();
                     _transaction = null;
                 }
+
                 if (_connection != null)
                 {
-                    _connection.Close();
+                    await _connection.CloseAsync();
+                    await _connection.DisposeAsync();
                     _connection = null;
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 _transaction = null;
                 _connection = null;
             }
-
-            // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-            // TODO: set large fields to null
-            disposedValue = true;
         }
 
-        public void Dispose()
+        // IAsyncDisposable
+        public async ValueTask DisposeAsync()
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            //GC.SuppressFinalize(this);
-        }
-
-        private void CreateObject(bool withTransactionControl)
-        {
-            if (_connection == null && _transaction == null)
+            //if (!disposedValue)
             {
-                var connectionString = ConfigurationHelper.ConnectionString;
-                _connection = new SqlConnection(connectionString);
-                _connection.Open();
-                if (withTransactionControl)
-                {
-                    _transaction = _connection.BeginTransaction();
-                }
+                await DisposeAsyncCore();
+                disposedValue = true;
+                GC.SuppressFinalize(this);
             }
         }
-
     }
 }
