@@ -1,7 +1,7 @@
 ﻿
 namespace Kaushal_Darpan.Core.Interfaces
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IAsyncDisposable
     {
         IProductRepository Products { get; }
         IUsersRepository Users { get; }
@@ -275,6 +275,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         I_ITI_IIP_TrimashQuaterlyReportRepository ITI_IIP_TrimashQuaterlyReportRepository { get; }
 
         IITIIIPManageRepository ITIIIPManageRepository { get; }
-        void SaveChanges();
+        Task SaveChangesAsync();
     }
 }

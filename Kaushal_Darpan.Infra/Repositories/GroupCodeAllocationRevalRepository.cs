@@ -33,7 +33,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     List<GroupCodeAllocationAddEditModel_Reval> groupCode = new List<GroupCodeAllocationAddEditModel_Reval>();
                     DataTable dt = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetGroupCodeMaster_Reval";
@@ -80,7 +80,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_AddEditGroupCodeAllocation_Reval";
@@ -125,7 +125,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     List<GroupCodeAddEditModel> groupCode = new List<GroupCodeAddEditModel>();
                     DataTable dt = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetGroupCodeMaster_Reval";
@@ -171,7 +171,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_AddEditGroupCodeMaster_Reval";

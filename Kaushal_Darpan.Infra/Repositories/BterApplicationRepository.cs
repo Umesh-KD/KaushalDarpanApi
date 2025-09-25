@@ -45,7 +45,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ApplicationData_IU";
@@ -132,7 +132,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         //command.CommandText = " select * from M_StreamMaster Where StreamID='" + PK_ID + "' "; ;
@@ -179,7 +179,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         if(request.isCorrectMerit == true)
                         {
@@ -257,7 +257,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_InsertHighestQualificationDetails";
@@ -310,7 +310,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_BterAddressForm_IU";
@@ -380,7 +380,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_BterOtherData_IU";
@@ -438,7 +438,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_BterApplication_DocumentsData_IU";
@@ -488,7 +488,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_BteroptionDetailForm_IU";
@@ -540,7 +540,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return await Task.Run(async () =>
                 {
                     DataSet dataSet = new DataSet();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetQualificationData_ByID";
@@ -617,7 +617,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         //command.CommandText = " select * from M_StreamMaster Where StreamID='" + PK_ID + "' "; ;
@@ -662,7 +662,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return await Task.Run(async () =>
                 {
                     DataSet dataSet = new DataSet();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetOptionalData_ByID";
@@ -710,7 +710,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         //command.CommandText = " select * from M_StreamMaster Where StreamID='" + PK_ID + "' "; ;
@@ -755,7 +755,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return await Task.Run(async () =>
                 {
                     DataSet dataSet = new DataSet();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetbterpreviewData_ByID";
@@ -825,7 +825,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             try
             {
                 DataTable dataTable = new DataTable();
-                using (var command = _dbContext.CreateCommand())
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_GetStudentProfileDownload";
@@ -858,7 +858,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return await Task.Run(async () =>
                 {
                     DataSet dataSet = new DataSet();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetDocumentsData_ByID";
@@ -910,7 +910,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_SaveFinalData_IU";
@@ -961,7 +961,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_BteroptionDetailForm_IU";
@@ -1001,7 +1001,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_BteroptionDetailForm_IU";
@@ -1040,7 +1040,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_Application_Qualification_Delete";
@@ -1078,7 +1078,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             try
             {
                 DataTable dataTable = new DataTable();
-                using (var command = _dbContext.CreateCommand())
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_GetQualification";
@@ -1108,7 +1108,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             try
             {
                 DataTable dataTable = new DataTable();
-                using (var command = _dbContext.CreateCommand())
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_GetApplicationDetails";
@@ -1140,7 +1140,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_BterApplication_DeleteDocument";
@@ -1179,7 +1179,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "SP_UpdateDirectPaymentStatus";
@@ -1218,7 +1218,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_UpdateapplicationFees";

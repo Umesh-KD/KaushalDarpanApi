@@ -40,7 +40,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     //DataTable dataTable = new DataTable();
                     int result = 0;
 
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_BTER_EM_AddStaffInitialDetail_Admin";
@@ -98,7 +98,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_BTER_EM_GetStaffList";
@@ -141,7 +141,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_BTER_EM_AddStaffPrinciple";
@@ -233,7 +233,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_BTER_EM_GetStaffMasterData";
@@ -283,7 +283,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_BTER_EM_GetPersonalDetailByUserID";
@@ -320,7 +320,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_BTER_EM_AddStaffDetails";
@@ -386,7 +386,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_BTER_EM_DeleteStaff";
@@ -425,7 +425,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_BTER_EM_CompleteAndApproveStaffProfile";
@@ -506,7 +506,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_BTER_EM_GetPersonalDetailByUserID";
@@ -555,7 +555,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_BTER_EM_GetPersonalDetailByUserID";
@@ -598,7 +598,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                        // command.CommandText = "USP_ITI_Govt_EM_UpdateStaffProfileStatus";
                         command.CommandText = "USP_BTER_Govt_EM_UpdateStaffProfileStatus";
@@ -642,7 +642,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                        // command.CommandText = "USP_ITI_Govt_EM_ServiceDetailsOfPersonnelDeleteByID";
@@ -682,7 +682,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_BTER_Govt_EM_GetUserProfileStatus";
@@ -722,7 +722,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     if (body.Action == "StaffDetails")
                     {
-                        using (var command = _dbContext.CreateCommand())
+                        using (var command = await _dbContext.CreateCommandAsync())
                         {
                             command.CommandType = CommandType.StoredProcedure;
                             command.CommandText = "USP_BTER_Govt_Em_PersonalDetailByUserID";
@@ -749,7 +749,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     }
                     if (body.Action == "UserEducationalQualification")
                     {
-                        using (var command = _dbContext.CreateCommand())
+                        using (var command = await _dbContext.CreateCommandAsync())
                         {
                             command.CommandType = CommandType.StoredProcedure;
                             command.CommandText = "USP_BTER_Govt_Em_PersonalDetailByUserID";
@@ -771,7 +771,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     }
                     if (body.Action == "ServiceDetailsOfPersonnel")
                     {
-                        using (var command = _dbContext.CreateCommand())
+                        using (var command = await _dbContext.CreateCommandAsync())
                         {
                             command.CommandType = CommandType.StoredProcedure;
                             command.CommandText = "USP_BTER_Govt_Em_PersonalDetailByUserID";
@@ -823,7 +823,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     if (body.Action == "StaffDetails")
                     {
-                        using (var command = _dbContext.CreateCommand())
+                        using (var command = await _dbContext.CreateCommandAsync())
                         {
                             command.CommandType = CommandType.StoredProcedure;
                             command.CommandText = "USP_BTER_Govt_Em_PersonalDetailByUserID";
@@ -850,7 +850,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     }
                     if (body.Action == "UserEducationalQualification")
                     {
-                        using (var command = _dbContext.CreateCommand())
+                        using (var command = await _dbContext.CreateCommandAsync())
                         {
                             command.CommandType = CommandType.StoredProcedure;
                             command.CommandText = "USP_BTER_Govt_Em_PersonalDetailByUserID";
@@ -872,7 +872,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     } 
                     if (body.Action == "ServiceDetailsOfPersonnel")
                     {
-                        using (var command = _dbContext.CreateCommand())
+                        using (var command = await _dbContext.CreateCommandAsync())
                         {
                             command.CommandType = CommandType.StoredProcedure;
                             command.CommandText = "USP_BTER_Govt_Em_PersonalDetailByUserID";
@@ -898,7 +898,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     if (body.Action == "ServiceDetailsOfPersonnelList")
                     {
-                        using (var command = _dbContext.CreateCommand())
+                        using (var command = await _dbContext.CreateCommandAsync())
                         {
                             command.CommandType = CommandType.StoredProcedure;
                             command.CommandText = "USP_BTER_Govt_Em_PersonalDetailByUserID";
@@ -948,7 +948,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
                     var jsonData = JsonConvert.SerializeObject(body);
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_BTER_Govt_EM_ServiceDetailsOfPersonnel_IU";
@@ -989,7 +989,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_Bter_Govt_EM_UserProfileStatusHt";
@@ -1028,7 +1028,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandText = "USP_Bter_GOVT_EM_StaffApproveRejectStaff";
                         command.CommandType = CommandType.StoredProcedure;
@@ -1073,7 +1073,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return await Task.Run(async () =>
                 {
                     DataSet dataSet = new DataSet();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_BTER_EM_GetPersonalDetailByUserID";
@@ -1120,7 +1120,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandTimeout = 0;
@@ -1159,7 +1159,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetStaff_HostelIDs";
@@ -1196,7 +1196,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandText = "USP_GetStaff_HostelIDs";
                         command.CommandType = CommandType.StoredProcedure;
@@ -1240,7 +1240,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_Bter_RevertStaffProfile";
@@ -1289,7 +1289,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandTimeout = 0;
@@ -1330,7 +1330,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
                     var jsonData = JsonConvert.SerializeObject(body);
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_BTER_ExtraOrdinaryLeavesForStaff_IU";
@@ -1369,7 +1369,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandTimeout = 0;
@@ -1410,7 +1410,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         // command.CommandText = "USP_ITI_Govt_EM_ServiceDetailsOfPersonnelDeleteByID";
@@ -1450,7 +1450,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
                     var jsonData = JsonConvert.SerializeObject(body);
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_M_OfficeVacancy_IU";
@@ -1488,7 +1488,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandTimeout = 0;
@@ -1529,7 +1529,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         

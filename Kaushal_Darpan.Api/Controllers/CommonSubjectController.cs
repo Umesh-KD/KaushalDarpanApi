@@ -47,7 +47,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -87,7 +87,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -124,7 +124,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     //child
                     mappedData.commonSubjectDetails.ForEach(x => x.CommonSubjectID = pid);
                     result.Data = await _unitOfWork.CommonSubjectMasterRepository.SaveDataChild(mappedData.commonSubjectDetails);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     //result
                     if (result.Data)
                     {
@@ -153,7 +153,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -187,7 +187,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         DeleteStatus = true
                     };
                     result.Data = await _unitOfWork.CommonSubjectMasterRepository.DeleteById(mappedData);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data)
                     {
@@ -202,7 +202,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {

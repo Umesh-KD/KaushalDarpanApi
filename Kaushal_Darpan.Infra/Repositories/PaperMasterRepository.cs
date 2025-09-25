@@ -34,7 +34,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ExamPaperMaster";
@@ -72,7 +72,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = "select * from M_ExamsPapersMaster Where PaperID='" + PK_ID + "' ";
 
@@ -108,7 +108,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ExamPaperMaster_IU";
@@ -175,7 +175,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = $"update M_ExamsPapersMaster  set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'Where PaperID={request.PaperID}";
 
@@ -210,7 +210,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return await Task.Run(async () =>
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         if(body.DepartmentID == 1)
@@ -253,7 +253,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_BTERPaperUpload_IU";
@@ -319,7 +319,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GETSubjectListBranchWise";
@@ -356,7 +356,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
                     var jsonData = JsonConvert.SerializeObject(body);
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ExamPaperMaster_IU";

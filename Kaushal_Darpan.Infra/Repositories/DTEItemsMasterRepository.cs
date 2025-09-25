@@ -36,7 +36,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetAllDTEItems";
@@ -74,7 +74,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = "select * from M_DteItemsMaster Where ItemId ='" + PK_ID + "' ";
 
@@ -110,7 +110,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_DTEItems_IU";
@@ -173,7 +173,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_DTEUpdateStatusItems_IU";
@@ -222,7 +222,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = $"update M_DteItemsMaster  set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'Where ItemId = {request.ItemId}";
 
@@ -258,7 +258,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = "USP_BTER_Get_DteEquipmentsItemDetails_ByID";
                         command.CommandType = CommandType.StoredProcedure;
@@ -298,7 +298,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = "USP_BTER_Get_DteEquipmentsItemDetails_ByID";  // Stored Procedure
                         command.CommandType = CommandType.StoredProcedure;
@@ -362,7 +362,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 // Serialize all items at once
                 string jsonData = JsonConvert.SerializeObject(itemsDetails);
 
-                using (var command = _dbContext.CreateCommand(true))
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
                     command.CommandText = "USP_UpdateDteItemData_IU";
                     command.CommandType = CommandType.StoredProcedure;
@@ -397,7 +397,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetAll_AuctionDetail";
@@ -435,7 +435,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_BTER_Auction_Doc_Update";
@@ -483,7 +483,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_Bter_EquipmentCodeDuplicate";
@@ -526,7 +526,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_CheckItemAuction";
@@ -562,7 +562,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_DTEUpdateRevertStatusItems";
@@ -611,7 +611,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_Bter_INV_GetCommonIssueDDL";
@@ -649,7 +649,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_Bter_INV_ConsumeItemList";
@@ -684,7 +684,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_INV_StaffIssueReturnItemsBter";
@@ -741,7 +741,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_Bter_INV_GetIssueItemList";
@@ -775,7 +775,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_INV_StaffIssueReturnItemsBter";
@@ -817,7 +817,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_Bter_GetAllInventoryIssueHistory";

@@ -120,7 +120,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         UserNameInAadhar = request.UserNameInAadhar
                     };
                     var retval = await _unitOfWork.AadharEsignRepository.SaveEsignDataHistory(saveData);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     result.Data = data;
                     result.State = EnumStatus.Success;
@@ -130,7 +130,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
 
                 result.State = EnumStatus.Error;
                 result.Message = Constants.MSG_ERROR_OCCURRED;
@@ -206,7 +206,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             SignedPDFUrl = data.signedPDFUrl
                         };
                         var objDbUpdate = await _unitOfWork.AadharEsignRepository.SaveEsignDataHistory(saveData);
-                        _unitOfWork.SaveChanges();
+                        await _unitOfWork.SaveChangesAsync();
 
                         //response
                         data.fileName = $"{Constants.EsignedPdfFolder}/{fileName}";
@@ -219,7 +219,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
 
@@ -258,7 +258,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     Txn = txn
                 };
                 var objDbUpdate = await _unitOfWork.AadharEsignRepository.SaveEsignDataHistory(saveData);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
 
                 // cookie
                 var cookieOptions = new CookieOptions
@@ -278,7 +278,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
 
                 var nex = new NewException
                 {

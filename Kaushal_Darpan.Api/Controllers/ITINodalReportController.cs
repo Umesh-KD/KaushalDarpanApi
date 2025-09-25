@@ -44,7 +44,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.SaveData(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -62,7 +62,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -86,7 +86,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.GetAllData(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -104,7 +104,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -127,7 +127,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.PMNAM_report_DeletebyID(PKid);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -145,7 +145,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -168,7 +168,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.GetReportDatabyID(PKid);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -186,7 +186,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -208,7 +208,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.SaveDataMelaReportCount(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -226,7 +226,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -247,7 +247,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.GetAllData(UserID, DistrictID);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -265,7 +265,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -285,7 +285,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.DeleteData_Pmnam_mela_Report(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -303,7 +303,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -342,7 +342,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             result.Message = Constants.MSG_UPDATE_SUCCESS;
                         }
-                        _unitOfWork.SaveChanges();
+                        await _unitOfWork.SaveChangesAsync();
                     }
                     else if (result.Data == -2)
                     {
@@ -367,7 +367,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -393,7 +393,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.GetQuaterProgressList(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -411,7 +411,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -433,7 +433,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.GetQuaterReportById(PKid);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -451,7 +451,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -472,7 +472,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.GetAAADetailsById(PKid);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -490,7 +490,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -511,7 +511,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.QuaterListDelete(PKid);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -529,7 +529,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -551,7 +551,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.Save_ITIWorkshopProgressRPT(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -569,7 +569,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -599,7 +599,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.Data = await _unitOfWork.ITINodalReportRepository.Submit_Apprenticeship_data(entry, businessNameCsv);
 
                 }
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -617,7 +617,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -639,7 +639,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.Get_WorkshopProgressRPT_AllData(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -657,7 +657,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -678,7 +678,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.WorkshopProgressRPTDelete_byID(PKid);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -696,7 +696,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -730,7 +730,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -764,7 +764,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -806,7 +806,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             result.Message = Constants.MSG_UPDATE_SUCCESS;
                         }
-                        _unitOfWork.SaveChanges();
+                        await _unitOfWork.SaveChangesAsync();
                     }
                     else if (result.Data == -2)
                     {
@@ -831,7 +831,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -874,7 +874,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             result.Message = Constants.MSG_UPDATE_SUCCESS;
                         }
-                        _unitOfWork.SaveChanges();
+                        await _unitOfWork.SaveChangesAsync();
                     }
                     else if (result.Data == -2)
                     {
@@ -899,7 +899,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -928,7 +928,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.Get_ApprenticeshipRegistrationReportAllData(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -946,7 +946,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -967,7 +967,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.ApprenticeshipRegistrationRPTDelete_byID(PKid);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -985,7 +985,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -1006,7 +1006,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.Get_PassingRegistrationReportAllData(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -1024,7 +1024,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -1045,7 +1045,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ITINodalReportRepository.Get_FresherRegistrationReportAllData(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -1063,7 +1063,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -1092,7 +1092,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_DELETE_SUCCESS;
-                        _unitOfWork.SaveChanges();
+                        await _unitOfWork.SaveChangesAsync();
                     }
                     else if (result.Data == 0)
                     {
@@ -1102,7 +1102,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -1135,7 +1135,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_DELETE_SUCCESS;
-                        _unitOfWork.SaveChanges();
+                        await _unitOfWork.SaveChangesAsync();
                     }
                     else if (result.Data == 0)
                     {
@@ -1145,7 +1145,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -1181,7 +1181,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log

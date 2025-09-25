@@ -37,7 +37,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
                     DataTable dt = new DataTable();
                     // Create the command and set up parameters
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = "USP_ITIExaminerRelieving";
                         command.CommandType = CommandType.StoredProcedure;
@@ -104,7 +104,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
 
                     // Create the command and set up parameters
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = "USP_ITICoordinatorRelievingForm";
                         command.CommandType = CommandType.StoredProcedure;
@@ -181,7 +181,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     DataTable dataTable = new DataTable();
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                          command.CommandText = "USP_Get_CenterPracticalExaminerRelieving_ById";
@@ -219,7 +219,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_UndertakingByExaminer";
@@ -256,7 +256,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
 
                     // Create the command and set up parameters
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = "USP_UndertakingByExaminer";
                         command.CommandType = CommandType.StoredProcedure;
@@ -327,7 +327,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     DataTable dataTable = new DataTable();
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_Get_CenterExamCoordinatorRelieving_ById";
@@ -365,7 +365,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     DataTable dataTable = new DataTable();
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetCenterExaminerUndertakingDetails";
@@ -406,7 +406,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     DataTable dataTable = new DataTable();
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetCenterExaminerUndertakingDetails";

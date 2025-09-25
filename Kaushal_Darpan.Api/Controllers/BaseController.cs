@@ -81,7 +81,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     data.CreatedDate = DateTime.Now;
                 }
                 await unitOfWork.ErrorLogs.AddErrorLog(data);
-                unitOfWork.SaveChanges();
+                await unitOfWork.SaveChangesAsync();
             });
         }
         #endregion

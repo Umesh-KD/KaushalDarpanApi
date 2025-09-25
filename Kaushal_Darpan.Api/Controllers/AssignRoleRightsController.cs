@@ -46,7 +46,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     });
 
                     result.Data = await _unitOfWork.AssignRoleRightsRepository.SaveData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -61,7 +61,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -102,7 +102,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {

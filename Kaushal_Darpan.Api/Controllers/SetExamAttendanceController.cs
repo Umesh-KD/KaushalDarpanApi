@@ -50,7 +50,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -81,7 +81,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     });
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.SetExamAttendanceRepository.SaveData( request,id);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -2)
                     {
@@ -103,7 +103,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -143,7 +143,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -178,7 +178,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log

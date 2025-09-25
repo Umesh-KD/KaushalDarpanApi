@@ -55,7 +55,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -91,7 +91,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -126,7 +126,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                     result.Data = await _unitOfWork.iStudentRequestsRepository.SaveData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -154,7 +154,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -192,7 +192,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -223,7 +223,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         ModifyBy = ModifyBy,
                     };
                     result.Data = await _unitOfWork.iStudentRequestsRepository.ApprovedReq(UserApprovedReq);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data)
                     {
@@ -238,7 +238,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -274,7 +274,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                     result.Data = await _unitOfWork.iStudentRequestsRepository.AllotmentCancelData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -302,7 +302,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -340,7 +340,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -382,7 +382,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -423,7 +423,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -455,7 +455,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -489,7 +489,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -531,7 +531,7 @@ namespace Kaushal_Darpan.Api.Controllers
             catch (System.Exception ex)
             {
                 //  Handle and log exception
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
 
@@ -575,7 +575,7 @@ namespace Kaushal_Darpan.Api.Controllers
             catch (System.Exception ex)
             {
                 //  Handle and log exception
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
 
@@ -609,7 +609,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.iStudentRequestsRepository.GetAllPublishHostelStudentMeritlist(request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
@@ -631,7 +631,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -661,7 +661,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.iStudentRequestsRepository.GetAllFinalPublishHostelStudentMeritlist(request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
@@ -683,7 +683,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -712,7 +712,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.iStudentRequestsRepository.GetAllFinalCorrectionPublishHostelStudentMeritlist(request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
@@ -734,7 +734,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -776,7 +776,7 @@ namespace Kaushal_Darpan.Api.Controllers
             catch (System.Exception ex)
             {
                 //  Handle and log exception
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
 
@@ -808,7 +808,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.iStudentRequestsRepository.GetAllAffidavitApproved(request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
@@ -830,7 +830,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -859,7 +859,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.iStudentRequestsRepository.GetAllAffidavitObjection(request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
@@ -881,7 +881,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -919,7 +919,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -953,7 +953,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                     result.Data = await _unitOfWork.iStudentRequestsRepository.DeallocateRoom(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -981,7 +981,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -1017,7 +1017,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -1042,7 +1042,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.iStudentRequestsRepository.DirectHostelSeatAllotment(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data > 0)
                     {
@@ -1062,7 +1062,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -1090,7 +1090,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.iStudentRequestsRepository.GenerateProvisionalMerit_Hostel(Gender, request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
@@ -1112,7 +1112,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -1149,7 +1149,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -1214,7 +1214,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -1244,7 +1244,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.iStudentRequestsRepository.ReGenerateProvisionalMerit_Hostel(Gender, request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
@@ -1266,7 +1266,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 

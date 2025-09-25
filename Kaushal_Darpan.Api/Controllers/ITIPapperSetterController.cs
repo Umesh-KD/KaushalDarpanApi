@@ -48,7 +48,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIPapperSetterRepository.SaveData(body);
-                _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -66,7 +66,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -90,7 +90,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIPapperSetterRepository.GetSubjectList(TradeID , ExamType);
-                _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -108,7 +108,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -131,7 +131,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIPapperSetterRepository.GetProfessorList(SubjectId);
-                _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -149,7 +149,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -187,7 +187,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -211,7 +211,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIPapperSetterRepository.PaperSetterAssignListByID(ID);
-                _unitOfWork.SaveChanges();  // Commit changes if everything is ID
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is ID
                 if (result.Data.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -229,7 +229,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -253,7 +253,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIPapperSetterRepository.PaperSetterAssignListRemoveByID(ID , Deletedby , Roleid);
-                _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -271,7 +271,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -295,7 +295,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIPapperSetterRepository.GetTradeListByYearTradeID(YearTradeID , CourseTypeID);
-                _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -313,7 +313,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -336,7 +336,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIPapperSetterRepository.GetListForPaperUploadByProfessorID(ProfessorID, SSOID , Roleid , TypeID);
-                _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -354,7 +354,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -377,7 +377,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIPapperSetterRepository.UpdateUploadedPaperData(UploadedPaperDocument, Remark , userid , PKID , Roleid);
-                _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -395,7 +395,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -418,7 +418,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIPapperSetterRepository.AutoSelectPaperDetailsUpdate(SelectedProfessorID, PKID , userid , roleid , ssoid);
-                _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -436,7 +436,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -460,7 +460,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIPapperSetterRepository.PaperSetterProfessorDashboardCount(userid, EndTermID, RoleID,  ssoid , para1);
-                _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -478,7 +478,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -501,7 +501,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIPapperSetterRepository.PaperRevertByExaminer(ProfessorID, PKID, userid, roleid, ssoid , RevertReason);
-                _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -519,7 +519,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,

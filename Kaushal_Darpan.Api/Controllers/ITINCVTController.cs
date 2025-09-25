@@ -51,7 +51,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -87,7 +87,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -110,7 +110,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.ITINCVTRepository.GetNCVTExamDataFormat(body));
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
@@ -123,7 +123,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -147,7 +147,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.ITINCVTRepository.SaveExamData(body));
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
@@ -160,7 +160,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -190,7 +190,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.Message = "Data load successfully .!";
 
                 result.Data = await Task.Run(() => _unitOfWork.ITINCVTRepository.SaveExamDataBulk(body));
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
@@ -203,7 +203,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -233,7 +233,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await Task.Run(() => _unitOfWork.ITINCVTRepository.SaveImportFileName(model));
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data > 0)
                     {
@@ -249,7 +249,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.Message = Constants.MSG_ERROR_OCCURRED;
                     result.ErrorMessage = ex.Message;

@@ -42,7 +42,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITIinvigilatorData";
@@ -81,7 +81,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ItiSaveInvigilator";
@@ -133,7 +133,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITIGetInvigilator";
@@ -176,7 +176,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_GetTheoryStudentIti";
@@ -218,7 +218,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     var dataTable = new DataTable();
 
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITIinvigilatorData_WithRollRange_UserWise";
@@ -267,7 +267,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     var dataTable = new DataTable();
 
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_GetTheoryStudentIti_WithRollRange";
@@ -321,7 +321,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
 
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_Update_IsPresent_ByStudentExamPaperMarksID";
@@ -365,7 +365,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_InvigilatorDashboard";
@@ -405,7 +405,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dt = new DataTable();
 
 
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "[USP_ITI_RemunerationGetExaminerReport]";
@@ -452,7 +452,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dt = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITISaveRemunerationInvigilator";
@@ -498,7 +498,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dt = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITISaveRemunerationInvigilator";
@@ -542,7 +542,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ITISaveRemunerationInvigilator";
@@ -589,7 +589,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dt = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ITISaveRemunerationInvigilator";
@@ -629,7 +629,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dt = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITISaveRemunerationInvigilator";

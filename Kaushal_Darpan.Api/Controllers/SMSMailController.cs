@@ -91,7 +91,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -237,7 +237,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -280,7 +280,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         string Response = await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, MobileNo, MessageBody, TempletID);
                         var isSend = await _unitOfWork.SMSMailRepository.UpdateUnsendSMSById(AID, Response);
-                        _unitOfWork.SaveChanges();
+                        await _unitOfWork.SaveChangesAsync();
                     }
                     catch (Exception ex)
                     {
@@ -300,7 +300,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -367,7 +367,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log

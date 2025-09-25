@@ -64,7 +64,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 objEmitra.ApplicationIdEnc = Model.ApplicationIdEnc;
                 objEmitra.Amount = Model.Amount;
                 var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransation(objEmitra);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
 
                 if (result.TransactionId > 0)
                 {
@@ -106,7 +106,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             objEmitra.ServiceID = EmitraServiceDetail.SERVICEID;
                             objEmitra.PRN = data.PRN;
                             var UpdateStatus = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransation(objEmitra);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                         }
                         catch (System.Exception ex)
                         {
@@ -128,7 +128,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 requestDetailsModel.State = EnumStatus.Error;
                 requestDetailsModel.ErrorMessage = ex.Message;
                 // write error log
@@ -203,7 +203,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 eGrassPaymentDetails_Req_Res.Response_Amount = 0;
 
                 int row = await _unitOfWork.CommonFunctionRepository.EGrassPaymentDetails_Req_Res(eGrassPaymentDetails_Req_Res);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (row > 0)
                 {
                     result.Data.RequestStatus = true;
@@ -215,7 +215,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 result.Data.RequestStatus = false;
@@ -288,12 +288,12 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     }
                     int row = await _unitOfWork.CommonFunctionRepository.EGrassPaymentDetails_Req_Res(eGrassPaymentDetails_Req_Res);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                 }
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 // write error log
                 var nex = new NewException
                 {
@@ -327,7 +327,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -448,7 +448,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         }
                         int row = await _unitOfWork.CommonFunctionRepository.GRAS_GetPaymentStatus_Req_Res(eGrassPaymentDetails_Req_Res);
-                        _unitOfWork.SaveChanges();
+                        await _unitOfWork.SaveChangesAsync();
                         result.State = EnumStatus.Success;
                         result.Message = "Transaction Updated Successfully .!";
                     }
@@ -456,7 +456,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log

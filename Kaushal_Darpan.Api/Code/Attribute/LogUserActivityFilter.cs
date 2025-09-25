@@ -34,7 +34,7 @@ namespace Kaushal_Darpan.Api.Code.Attribute
             };
 
             _unitOfWork.UserActivityLoggerRepository.SaveUserLogActivity(logModel).Wait();//save
-            _unitOfWork.SaveChanges();
+            _unitOfWork.SaveChangesAsync().Wait();
         }
 
         public void OnActionExecuted(ActionExecutedContext context)

@@ -58,7 +58,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -90,7 +90,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.RenumerationAccounts.SaveDataApprovedFromAccounts(request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave > 0)
                     {
@@ -106,7 +106,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.Message = Constants.MSG_ERROR_OCCURRED;
                     result.ErrorMessage = ex.Message;
@@ -134,7 +134,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var isSave = await _unitOfWork.RenumerationAccounts.UpdateDataApprovedFromAccounts(request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave > 0)
                     {
@@ -150,7 +150,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.Message = Constants.MSG_ERROR_OCCURRED;
                     result.ErrorMessage = ex.Message;

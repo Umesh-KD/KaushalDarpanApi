@@ -87,7 +87,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
                 }
                 var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationITI(objEmitra);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.TransactionId > 0)
                 {
                     PGRequestModel data = new PGRequestModel();
@@ -132,7 +132,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             objEmitra.ServiceID = EmitraServiceDetail.SERVICEID;
                             objEmitra.PRN = data.PRN;
                             var UpdateStatus = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationITI(objEmitra);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                         }
                         catch (System.Exception ex)
                         {
@@ -152,7 +152,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 requestDetailsModel.State = EnumStatus.Error;
                 requestDetailsModel.ErrorMessage = ex.Message;
                 // write error log
@@ -204,7 +204,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 objEmitra.ExamStudentStatus = Model.ExamStudentStatus;
                 objEmitra.StudentFeesTransactionItems = Model.StudentFeesTransactionItems ?? objEmitra.StudentFeesTransactionItems;
                 var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationITI(objEmitra);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.TransactionId > 0)
                 {
                     PGRequestModel data = new PGRequestModel();
@@ -263,7 +263,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             objEmitra.StatusMsg = Convert.ToString(resp.MSG);
                             objEmitra.ReceiptNo = Convert.ToString(resp.RECEIPTNO);
                             var UpdateStatus = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationITI(objEmitra);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                             if (resp.TRANSACTIONSTATUS.Contains("SUCCESS"))
                             {
                                 requestDetailsModel.State = EnumStatus.Success;
@@ -278,7 +278,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
                         catch (System.Exception ex)
                         {
-                            _unitOfWork.Dispose();
+                            await _unitOfWork.DisposeAsync();
                             requestDetailsModel.State = EnumStatus.Error;
                             requestDetailsModel.ErrorMessage = ex.Message;
                             // write error log
@@ -301,7 +301,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 requestDetailsModel.State = EnumStatus.Error;
                 requestDetailsModel.Message = "Something went wrong";
                 requestDetailsModel.ErrorMessage = ex.Message;
@@ -362,7 +362,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
                 }
                 var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransation(objEmitra);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
 
                 if (result.TransactionId > 0)
                 {
@@ -424,7 +424,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             objEmitra.ServiceID = EmitraServiceDetail.SERVICEID;
                             objEmitra.PRN = data.PRN;
                             var UpdateStatus = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransation(objEmitra);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                         }
                         catch (System.Exception ex)
                         {
@@ -444,7 +444,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 requestDetailsModel.State = EnumStatus.Error;
                 requestDetailsModel.ErrorMessage = ex.Message;
                 // write error log
@@ -519,7 +519,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                 RESPONSEPARAMS.TRANSACTIONID = Model.TransactionID;
                                 RESPONSEPARAMS.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
                                 await _unitOfWork.CommonFunctionRepository.UpdateEmitraPaymentStatus(RESPONSEPARAMS);
-                                _unitOfWork.SaveChanges();
+                                await _unitOfWork.SaveChangesAsync();
                             }
                             else
                             {
@@ -533,7 +533,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                 RESPONSEPARAMS.TRANSACTIONID = Model.TransactionID;
                                 RESPONSEPARAMS.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
                                 await _unitOfWork.CommonFunctionRepository.UpdateEmitraPaymentStatus(RESPONSEPARAMS);
-                                _unitOfWork.SaveChanges();
+                                await _unitOfWork.SaveChangesAsync();
                             }
                         }
                         else
@@ -547,7 +547,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.Message = ex.Message;
                 // write error log
@@ -631,7 +631,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         objEmitra.ServiceID = EmitraServiceDetail.SERVICEID;
                         objEmitra.PRN = Model.PRN;
                         var UpdateStatus = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransation(objEmitra);
-                        _unitOfWork.SaveChanges();
+                        await _unitOfWork.SaveChangesAsync();
                     }
                     catch (System.Exception ex)
                     {
@@ -649,7 +649,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 requestDetailsModel.State = EnumStatus.Error;
                 requestDetailsModel.ErrorMessage = ex.Message;
                 // write error log
@@ -684,7 +684,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -746,7 +746,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     EmitraResponseData.TRANSACTIONID = CommonFuncationHelper.EmitraDecrypt(UniquerequestId);
                     EmitraResponseData.ExamStudentStatus = EmitraResponseData.UDF1;
                     await _unitOfWork.CommonFunctionRepository.UpdateEmitraPaymentStatus(EmitraResponseData);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                 }
 
                 if (vIsFailed == "NO")
@@ -760,7 +760,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 // write error log
                 var nex = new NewException
                 {
@@ -796,7 +796,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -833,7 +833,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -873,7 +873,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -940,7 +940,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             objresponse.RESPONSEJSON = RESPONSEJSON;
                             objresponse.RESPONSEPARAMETERS = RESPONSEPARAMS;
                             await _unitOfWork.CommonFunctionRepository.RPPSaveData(objresponse);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                         }
                         else
                         {
@@ -955,7 +955,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             objresponse.RESPONSEJSON = RESPONSEJSON;
                             objresponse.RESPONSEPARAMETERS = RESPONSEPARAMS;
                             await _unitOfWork.CommonFunctionRepository.RPPSaveData(objresponse);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                         }
                     }
                 }
@@ -963,7 +963,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -1000,7 +1000,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -1070,7 +1070,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     EmitraResponseData.TRANSACTIONID = CommonFuncationHelper.EmitraDecrypt(UniquerequestId);
                     EmitraResponseData.ExamStudentStatus = EmitraResponseData.UDF1;
                     await _unitOfWork.CommonFunctionRepository.UpdateITIEmitraPaymentStatus(EmitraResponseData);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                 }
 
                 if (vIsFailed == "NO")
@@ -1084,7 +1084,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 // write error log
                 var nex = new NewException
                 {
@@ -1136,7 +1136,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 objEmitra.ServiceID = Model.ServiceID;
                 objEmitra.KioskID = Model.KIOSKCODE;
                 var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraApplicationTransation(objEmitra);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.TransactionId > 0)
                 {
                     PGRequestModel data = new PGRequestModel();
@@ -1225,7 +1225,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                             var UpdateStatus = await _unitOfWork.CommonFunctionRepository.CreateEmitraApplicationTransation(objEmitra);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
 
                             if (resp.TRANSACTIONSTATUS.Contains("SUCCESS"))
                             {
@@ -1242,7 +1242,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         catch (System.Exception ex)
                         {
 
-                            _unitOfWork.Dispose();
+                            await _unitOfWork.DisposeAsync();
                             requestDetailsModel.State = EnumStatus.Error;
                             requestDetailsModel.ErrorMessage = ex.Message;
                             // write error log
@@ -1269,7 +1269,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 requestDetailsModel.State = EnumStatus.Error;
                 requestDetailsModel.ErrorMessage = ex.Message;
                 // write error log
@@ -1332,7 +1332,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     EmitraResponseData.TRANSACTIONID = CommonFuncationHelper.EmitraDecrypt(UniquerequestId);
                     EmitraResponseData.ExamStudentStatus = EmitraResponseData.UDF1;
                     await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(EmitraResponseData);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                 }
 
                 // EmitraServiceDetail.SuccessFailedURL = "http://localhost:4200/ApplicationPaymentStatus";
@@ -1349,7 +1349,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 // write error log
                 var nex = new NewException
                 {
@@ -1393,7 +1393,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 objEmitra.DepartmentID = Model.DepartmentID;
                 objEmitra.KioskID = Model.KIOSKCODE;
                 var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraApplicationTransation(objEmitra);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.TransactionId > 0)
                 {
                     PGRequestModel data = new PGRequestModel();
@@ -1465,7 +1465,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             objEmitra.ServiceID = EmitraServiceDetail.SERVICEID;
                             objEmitra.PRN = data.PRN;
                             var UpdateStatus = await _unitOfWork.CommonFunctionRepository.CreateEmitraApplicationTransation(objEmitra);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                         }
                         catch (System.Exception ex)
                         {
@@ -1484,7 +1484,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 requestDetailsModel.State = EnumStatus.Error;
                 requestDetailsModel.ErrorMessage = ex.Message;
                 // write error log
@@ -1557,7 +1557,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     EmitraResponseData.TRANSACTIONID = CommonFuncationHelper.EmitraDecrypt(UniquerequestId);
                     EmitraResponseData.ExamStudentStatus = EmitraResponseData.UDF1;
                     applicationNo = await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(EmitraResponseData);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                 }
                 // EmitraServiceDetail.SuccessFailedURL = "http://localhost:4200/ApplicationPaymentStatus";
@@ -1588,7 +1588,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 // write error log
                 var nex = new NewException
                 {
@@ -1656,7 +1656,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             RESPONSEPARAMS.TRANSACTIONID = Model.TransactionID;
                             RESPONSEPARAMS.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
                             await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(RESPONSEPARAMS);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                         }
                         else
                         {
@@ -1669,7 +1669,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             RESPONSEPARAMS.TRANSACTIONID = Model.TransactionID;
                             RESPONSEPARAMS.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
                             await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(RESPONSEPARAMS);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                         }
                     }
                 }
@@ -1677,7 +1677,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -1789,7 +1789,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                     _VerifywallettransactionsResponse.data.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
 
                                     await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(_VerifywallettransactionsResponse.data);
-                                    _unitOfWork.SaveChanges();
+                                    await _unitOfWork.SaveChangesAsync();
                                 }
                                 else
                                 {
@@ -1802,7 +1802,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                     _VerifywallettransactionsResponse.data.TRANSACTIONID = Model.TransactionID;
                                     _VerifywallettransactionsResponse.data.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
                                     await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(_VerifywallettransactionsResponse.data);
-                                    _unitOfWork.SaveChanges();
+                                    await _unitOfWork.SaveChangesAsync();
                                 }
                             }
                         }
@@ -1811,7 +1811,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -1851,7 +1851,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
 
                 // write error log
                 var nex = new NewException
@@ -1905,7 +1905,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // save
                 var result = await _unitOfWork.CommonFunctionRepository.SaveEmitraCollegeTransation(objEmitra);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
 
                 if (result.TransactionId > 0)
                 {
@@ -1969,7 +1969,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             //save
                             var UpdateStatus = await _unitOfWork.CommonFunctionRepository.SaveEmitraCollegeTransation(objEmitra);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
 
                             if (resp.TRANSACTIONSTATUS.Contains("SUCCESS"))
                             {
@@ -1986,7 +1986,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         catch (System.Exception ex)
                         {
 
-                            _unitOfWork.Dispose();
+                            await _unitOfWork.DisposeAsync();
                             requestDetailsModel.State = EnumStatus.Error;
                             requestDetailsModel.ErrorMessage = ex.Message;
                             // write error log
@@ -2013,7 +2013,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 requestDetailsModel.State = EnumStatus.Error;
                 requestDetailsModel.ErrorMessage = ex.Message;
                 // write error log
@@ -2057,7 +2057,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 //save
                 var result = await _unitOfWork.CommonFunctionRepository.SaveEmitraCollegeTransation(objEmitra);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.TransactionId > 0)
                 {
                     PGRequestModel data = new PGRequestModel();
@@ -2134,7 +2134,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             //save
                             var UpdateStatus = await _unitOfWork.CommonFunctionRepository.SaveEmitraCollegeTransation(objEmitra);
-                            _unitOfWork.SaveChanges();
+                            await _unitOfWork.SaveChangesAsync();
                         }
                         catch (System.Exception ex)
                         {
@@ -2153,7 +2153,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 requestDetailsModel.State = EnumStatus.Error;
                 requestDetailsModel.ErrorMessage = ex.Message;
                 // write error log
@@ -2221,7 +2221,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     EmitraResponseData.CollegeIdEnc = CommonFuncationHelper.EmitraDecrypt(CollegeIdEnc);
                     EmitraResponseData.TRANSACTIONID = CommonFuncationHelper.EmitraDecrypt(UniquerequestId);
                     applicationNo = await _unitOfWork.CommonFunctionRepository.UpdateEmitraCollegePaymentStatus(EmitraResponseData);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                 }
                 // EmitraServiceDetail.SuccessFailedURL = "http://localhost:4200/ApplicationPaymentStatus";
@@ -2238,7 +2238,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 // write error log
                 var nex = new NewException
                 {
@@ -2274,7 +2274,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log

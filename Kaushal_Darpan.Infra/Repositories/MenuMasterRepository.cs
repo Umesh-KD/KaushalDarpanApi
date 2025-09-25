@@ -27,7 +27,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        try
         //        {
         //            DataTable dataTable = new DataTable();
-        //            using (var command = _dbContext.CreateCommand())
+        //            using (var command = await _dbContext.CreateCommandAsync())
         //            {
         //                command.CommandType = CommandType.StoredProcedure;
         //                command.CommandText = "MenuList";
@@ -60,7 +60,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "MenuList";
@@ -101,7 +101,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = " select * from M_MenuMaster Where MenuId='" + MenuId + "' ";
 
@@ -137,7 +137,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "InsertMenu"; // Update to match the stored procedure name
@@ -188,7 +188,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_InsertMenuMaster";
@@ -250,7 +250,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         //command.CommandType = CommandType.StoredProcedure;
                         //command.CommandText = "USP_InsertMenuMaster";
@@ -297,7 +297,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_DeleteMenuByID";
@@ -340,7 +340,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetMenuByUserAndRoleWise";//old=USP_MenuUserandRoleWise
@@ -379,7 +379,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             try
             {
                 int result = 0;
-                using (var command = _dbContext.CreateCommand(true))
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
                     command.CommandType = CommandType.Text;
                     var Query = @"

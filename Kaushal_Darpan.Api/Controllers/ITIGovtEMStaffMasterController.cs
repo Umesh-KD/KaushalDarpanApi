@@ -66,7 +66,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -88,7 +88,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.SaveBasicData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data > 0)
                     {
 
@@ -123,7 +123,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -158,7 +158,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.SaveData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -186,7 +186,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -226,7 +226,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -271,7 +271,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -311,7 +311,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -333,7 +333,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.LockandSubmit(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -361,7 +361,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -387,7 +387,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.UnlockStaff(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -415,7 +415,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -441,7 +441,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ApproveStaff(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -469,7 +469,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -588,7 +588,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -629,7 +629,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -654,7 +654,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.IsDownloadCertificate(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -682,7 +682,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -723,7 +723,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -749,7 +749,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ChangeWorkingInstitute(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -777,7 +777,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -822,7 +822,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -845,7 +845,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.UpdateSSOIDByPriciple(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data > 0)
                     {
 
@@ -880,7 +880,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -917,7 +917,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -962,7 +962,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -984,7 +984,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITIGovtEM_OfficeSaveData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data > 0)
                     {
 
@@ -1019,7 +1019,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -1061,7 +1061,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -1089,7 +1089,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
 
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITIGovtEM_OfficeDeleteById(ID, userId);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data)
                     {
@@ -1104,7 +1104,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -1155,7 +1155,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -1178,7 +1178,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ZonalOfficeCreateSSOID(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data > 0)
                     {
 
@@ -1213,7 +1213,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -1259,7 +1259,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -1281,7 +1281,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITIGovtEM_PostSaveData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data > 0)
                     {
 
@@ -1316,7 +1316,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -1358,7 +1358,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -1386,7 +1386,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
 
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITIGovtEM_PostDeleteById(ID, userId);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data)
                     {
@@ -1401,7 +1401,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -1429,7 +1429,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITIGovtEM_Govt_AdminT2Zonal_Save(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Warning;
@@ -1448,7 +1448,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -1486,7 +1486,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -1532,7 +1532,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -1556,7 +1556,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITIGovtEM_Govt_StaffProfileQualification(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data > 0)
                 {
 
@@ -1595,7 +1595,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -1619,7 +1619,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITIGovtEM_Govt_StaffProfileStaffPosting(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data > 0)
                 {
 
@@ -1658,7 +1658,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -1683,7 +1683,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITIGovtEM_Govt_StaffProfileUpdate(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data > 0)
                 {
 
@@ -1722,7 +1722,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -1747,7 +1747,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITI_GOVT_EM_ApproveRejectStaff(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -1775,7 +1775,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -1803,7 +1803,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITIGovtEM_Govt_PersonnelDetailsInstitutionsAccordingBudget_Save(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Warning;
@@ -1822,7 +1822,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -1864,7 +1864,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -1906,7 +1906,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -1944,7 +1944,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -1975,7 +1975,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //            //    ModifyBy = ModifyBy,
         //            //};
         //            result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITIGovtEM_DeleteByIdStaffPromotionHistory(ID, ModifyBy);
-        //            _unitOfWork.SaveChanges();
+        //            await _unitOfWork.SaveChangesAsync();
 
         //            if (result.Data)
         //            {
@@ -1990,7 +1990,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //        }
         //        catch (Exception ex)
         //        {
-        //            _unitOfWork.Dispose();
+        //            await _unitOfWork.DisposeAsync();
         //            // Write error log
         //            var nex = new NewException
         //            {
@@ -2017,7 +2017,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITIGovtEM_DeleteByIdStaffPromotionHistory(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data > 0)
                 {
 
@@ -2056,7 +2056,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -2099,7 +2099,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -2127,7 +2127,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //            //    ModifyBy = ModifyBy,
         //            //};
         //            result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITI_Govt_EM_EducationalQualificationDeleteByID(ID, ModifyBy);
-        //            _unitOfWork.SaveChanges();
+        //            await _unitOfWork.SaveChangesAsync();
 
         //            if (result.Data)
         //            {
@@ -2142,7 +2142,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //        }
         //        catch (Exception ex)
         //        {
-        //            _unitOfWork.Dispose();
+        //            await _unitOfWork.DisposeAsync();
         //            // Write error log
         //            var nex = new NewException
         //            {
@@ -2171,7 +2171,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITI_Govt_EM_EducationalQualificationDeleteByID(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data > 0)
                 {
 
@@ -2210,7 +2210,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -2240,7 +2240,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //            //    ModifyBy = ModifyBy,
         //            //};
         //            result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITI_Govt_EM_ServiceDetailsOfPersonnelDeleteByID(ID, ModifyBy);
-        //            _unitOfWork.SaveChanges();
+        //            await _unitOfWork.SaveChangesAsync();
 
         //            if (result.Data)
         //            {
@@ -2255,7 +2255,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //        }
         //        catch (Exception ex)
         //        {
-        //            _unitOfWork.Dispose();
+        //            await _unitOfWork.DisposeAsync();
         //            // Write error log
         //            var nex = new NewException
         //            {
@@ -2283,7 +2283,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITI_Govt_EM_ServiceDetailsOfPersonnelDeleteByID(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data > 0)
                 {
 
@@ -2322,7 +2322,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -2369,7 +2369,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -2392,7 +2392,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.FinalSubmitUpdateStaffProfileStatus(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -2420,7 +2420,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -2462,7 +2462,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -2549,7 +2549,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -2635,7 +2635,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -2683,7 +2683,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -2707,7 +2707,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //        {
 
         //            result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITIGovtEM_OfficeDelete(ID, ModifyBy);
-        //            _unitOfWork.SaveChanges();
+        //            await _unitOfWork.SaveChangesAsync();
 
         //            if (result.Data)
         //            {
@@ -2722,7 +2722,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //        }
         //        catch (Exception ex)
         //        {
-        //            _unitOfWork.Dispose();
+        //            await _unitOfWork.DisposeAsync();
         //            // Write error log
         //            var nex = new NewException
         //            {
@@ -2750,7 +2750,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITIGovtEM_OfficeDelete(body);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data > 0)
                 {
 
@@ -2789,7 +2789,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -2832,7 +2832,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -2873,7 +2873,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -2896,7 +2896,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.SaveBasicInstructorData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -2929,7 +2929,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log

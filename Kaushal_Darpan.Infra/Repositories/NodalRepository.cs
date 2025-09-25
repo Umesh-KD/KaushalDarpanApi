@@ -39,7 +39,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetNodalOfficersList";
@@ -83,7 +83,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        {
         //            int totalRowsAffected = 0;
 
-        //            using (var command = _dbContext.CreateCommand(true))
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
         //            {
         //                command.CommandText = "USP_AddEditNodalData";
         //                command.CommandType = CommandType.StoredProcedure;
@@ -142,7 +142,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        {
         //            int totalRowsAffected = 0;
 
-        //            using (var command = _dbContext.CreateCommand(true))
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
         //            {
         //                command.CommandText = "USP_AddEditNodalData";
         //                command.CommandType = CommandType.StoredProcedure;
@@ -192,7 +192,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int totalRowsAffected = 0;
 
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.Parameters.Clear();
 
@@ -265,7 +265,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetNodalOfficersBYID";
@@ -298,7 +298,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_NodalOfficersDeleteBYID";
