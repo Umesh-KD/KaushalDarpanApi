@@ -3551,7 +3551,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     var result = 0;
                     var retval_TransactionId = 0;
-                    using (var command = _dbContext.CreateCommand(true))// true to control transaction
+                    using (var command = _dbContext.CreateCommand())// true to control transaction
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_InsertEmitraApplicationTransactions";
@@ -3707,7 +3707,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     Int64 result = 0;
                     Int64 retval_TransactionId = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = _dbContext.CreateCommand())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_InsertEmitraApplicationTransactions";
@@ -3725,10 +3725,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus");
                         command.Parameters.Add("@retval_TransactionId", SqlDbType.Int);// out
                         command.Parameters["@retval_TransactionId"].Direction = ParameterDirection.Output;// out
-
                         _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
                         result = await command.ExecuteNonQueryAsync();
-
                         retval_TransactionId = Convert.ToInt64(command.Parameters["@retval_TransactionId"].Value);// out
                     }
 
