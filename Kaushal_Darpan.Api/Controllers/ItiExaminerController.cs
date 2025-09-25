@@ -52,7 +52,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -88,7 +88,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -126,7 +126,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -176,7 +176,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             result.Message = Constants.MSG_UPDATE_SUCCESS;
                         }
-                        _unitOfWork.SaveChanges();
+                        await _unitOfWork.SaveChangesAsync();
                     }
                     else if (result.Data == -2)
                     {
@@ -201,7 +201,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -241,7 +241,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -268,7 +268,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     int ExaminerID = PK_ID;
                     result.Data = await _unitOfWork.ItiExaminerRepository.DeleteDataByID(ExaminerID, ModifyBy);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data)
                     {
@@ -283,7 +283,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -320,7 +320,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -358,7 +358,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -386,7 +386,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //        {
         //            request.IPAddress = CommonFuncationHelper.GetIpAddress();
         //            result.Data = await _unitOfWork.ItiExaminerRepository.SaveExaminerData(request);
-        //            _unitOfWork.SaveChanges();
+        //            await _unitOfWork.SaveChangesAsync();
         //            if (result.Data > 0)
         //            {
         //                result.State = EnumStatus.Success;
@@ -419,7 +419,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //        }
         //        catch (Exception ex)
         //        {
-        //            _unitOfWork.Dispose();
+        //            await _unitOfWork.DisposeAsync();
         //            result.State = EnumStatus.Error;
         //            result.ErrorMessage = ex.Message;
         //            // Log the error
@@ -455,7 +455,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -490,7 +490,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -526,7 +526,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -563,7 +563,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -609,7 +609,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     });
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.ItiExaminerRepository.SaveStudent(request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
@@ -631,7 +631,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -657,7 +657,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.ItiExaminerRepository.DeleteAssignStudentByExaminerID(examinerId);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 result.State = EnumStatus.Success;
                 result.Message = "Student assignments deleted successfully.";
             }
@@ -681,7 +681,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     
                     result.Data = await _unitOfWork.ItiExaminerRepository.SaveExaminerData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -721,7 +721,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // Log the error
@@ -764,7 +764,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -830,7 +830,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
 
                 var nex = new NewException
                 {
@@ -853,7 +853,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 //var data = await _unitOfWork.ItiExaminerRepository.SaveDataSubmitAndForwardToAdmin(filterModel);
-                //_unitOfWork.SaveChanges();
+                //await _unitOfWork.SaveChangesAsync();
                 //var objData = CommonFuncationHelper.ConvertDataTable<RenumerationExaminerPDFModel>(data);
                 
                     var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
@@ -890,7 +890,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
                 }
                  var data = await _unitOfWork.ItiExaminerRepository.SaveDataSubmitAndForwardToAdmin(filterModel);
-                 _unitOfWork.SaveChanges();
+                 await _unitOfWork.SaveChangesAsync();
                 if (data == 1)
                 {
                     result.State = EnumStatus.Success;
@@ -904,7 +904,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
 
                 result.State = EnumStatus.Error;
                 result.Message = Constants.MSG_ERROR_OCCURRED;
@@ -940,7 +940,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -964,7 +964,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 var data = await _unitOfWork.ItiExaminerRepository.UpdateToApprove(filterModel);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 //var objData = CommonFuncationHelper.ConvertDataTable<RenumerationExaminerPDFModel>(data);
                 if (data == 1)
                 {
@@ -979,7 +979,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
 
                 result.State = EnumStatus.Error;
                 result.Message = Constants.MSG_ERROR_OCCURRED;

@@ -39,7 +39,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                
                         command.CommandText = "USP_Save_PMNAM_MelaReportBeforeAfter";
@@ -89,7 +89,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_Save_PMNAM_MelaReportBeforeAfter";
@@ -134,7 +134,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_Save_PMNAM_MelaReportBeforeAfter";
@@ -171,7 +171,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandText = "USP_Save_PMNAM_MelaReportBeforeAfter";
                         command.CommandType = CommandType.StoredProcedure;
@@ -208,7 +208,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_Save_PMNAM_MelaReport";
@@ -259,7 +259,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ITIApprenticeshipWorkshop_AddEdit";
@@ -331,7 +331,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_ITIApprenticeshipWorkshop_Get";
@@ -372,7 +372,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandText = "USP_ITIApprenticeshipWorkshop_GetByI";
                         command.CommandType = CommandType.StoredProcedure;
@@ -410,7 +410,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandText = "USP_ITIApprenticeshipWorkshop_GetByI";
                         command.CommandType = CommandType.StoredProcedure;
@@ -447,7 +447,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_ITIApprenticeshipWorkshop_GetByI";
@@ -486,7 +486,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_Save_PMNAM_MelaReport";
@@ -528,7 +528,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_Save_PMNAM_MelaReport";
@@ -568,7 +568,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         foreach (var item in request)
@@ -625,7 +625,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_Save_Apprenticeship_Registration_Report";
@@ -673,7 +673,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                       DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_Save_WorkshopProgressReport";
@@ -715,7 +715,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_Save_WorkshopProgressReport";
@@ -755,7 +755,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_GetSamplePassoutDetails";
@@ -792,7 +792,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_GetSampleFresherDetails";
@@ -829,7 +829,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_GetSampleMelaSampleReport";
@@ -865,7 +865,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ItiPassoutRegSave";
@@ -920,7 +920,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ItiFresherRegSave";
@@ -972,7 +972,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_Save_Apprenticeship_Registration_Report";
@@ -1014,7 +1014,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_Save_Apprenticeship_Registration_Report";
@@ -1052,7 +1052,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_ItiPassoutRegDetail";
@@ -1096,7 +1096,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_ItiFresherRegDetail";
@@ -1139,7 +1139,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_ItiPassoutRegSave";
@@ -1178,7 +1178,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0; DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
 
                         command.CommandText = "USP_ItiFresherRegSave";

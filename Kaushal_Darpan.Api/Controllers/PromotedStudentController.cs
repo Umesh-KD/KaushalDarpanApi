@@ -53,7 +53,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -90,7 +90,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -140,7 +140,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         // 2. save student in student exam for regular
                         await _unitOfWork.PromotedStudentRepository.SaveEnrolledStudentExam_Next(request);
                     }
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
@@ -162,7 +162,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.Message = Constants.MSG_ERROR_OCCURRED;
                     result.ErrorMessage = ex.Message;
@@ -204,7 +204,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     });
                     // 1. save student in student exam for back with papers (uncomment when condition is final)                     
                     var isSave = await _unitOfWork.PromotedStudentRepository.SaveEnrolledStudentExam_Back(request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
@@ -226,7 +226,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.Message = Constants.MSG_ERROR_OCCURRED;
                     result.ErrorMessage = ex.Message;
@@ -294,7 +294,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         //// 3. save student in student exam for back with papers                      
                         //await _unitOfWork.PromotedStudentRepository.SaveEnrolledStudentExam_Back(smModel);
                     }
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
@@ -316,7 +316,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.Message = Constants.MSG_ERROR_OCCURRED;
                     result.ErrorMessage = ex.Message;

@@ -13,32 +13,42 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
         #region UOW
-        public void SaveChanges()
+        // Async SaveChanges
+        public async Task SaveChangesAsync()
         {
-            _dbContext.SaveChanges();
-            Dispose();
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            // TODO: dispose managed state (managed objects)
-            if (_dbContext != null)
-            {
-                _dbContext.Dispose();
-            }
-
-            // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-            // TODO: set large fields to null
-            disposedValue = true;
-        }
-
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            //GC.SuppressFinalize(this);
+            await _dbContext.SaveChangesAsync();
         }
         #endregion
+
+        #region Dispose Pattern
+        protected virtual async Task DisposeAsync(bool disposing)
+        {
+            //if (!disposedValue)
+            {
+                //if (disposing)
+                {
+                    await _dbContext.DisposeAsync();
+                }
+                disposedValue = true;
+            }
+        }
+
+        protected virtual async Task DisposeAsyncCore()
+        {
+            //if (!disposedValue)
+            {
+                await _dbContext.DisposeAsync();
+                disposedValue = true;
+            }
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await DisposeAsyncCore();
+            GC.SuppressFinalize(this);
+        }
+        #endregion
+
 
         #region Add Repository Property 
         private IProductRepository _products;
@@ -2056,7 +2066,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return _ITIIIPManagenRepository ??= new ITIIIPManageRepository(_dbContext);
             }
         }
-        #endregion
+
         private I_ITI_IIP_TrimashQuaterlyReportRepository _ITI_IIP_TrimashQuaterlyReportRepository;
         public I_ITI_IIP_TrimashQuaterlyReportRepository ITI_IIP_TrimashQuaterlyReportRepository
         {
@@ -2065,7 +2075,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return _ITI_IIP_TrimashQuaterlyReportRepository ?? new ITI_IIP_TrimashQuaterlyReportRepository(_dbContext);
             }
         }
-
+        #endregion
     }
 }
 

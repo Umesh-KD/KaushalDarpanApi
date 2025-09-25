@@ -38,7 +38,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     request.IPAddress = CommonFuncationHelper.GetIpAddress();
                     result.Data = await _unitOfWork.ITICenterObserverRepository.SaveData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -71,7 +71,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // Log the error
@@ -107,7 +107,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -142,7 +142,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -182,7 +182,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -208,7 +208,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITICenterObserverRepository.DeleteDataByID(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data)
                     {
@@ -223,7 +223,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -255,7 +255,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     });
                     // Pass the list to the repository for batch update
                     SaveDeploymentResult isSave = await _unitOfWork.ITICenterObserverRepository.SaveDeploymentData(request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave.RetvalID == -2)
                     {
@@ -283,7 +283,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -320,7 +320,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -355,7 +355,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -390,7 +390,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -425,7 +425,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -456,7 +456,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     });
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.ITICenterObserverRepository.SaveDeploymentVerifiedData(request);
-                    _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -2)
                     {
@@ -478,7 +478,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
 
@@ -515,7 +515,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -602,7 +602,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -669,7 +669,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -706,7 +706,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -731,7 +731,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITICenterObserverRepository.DeleteDeploymentDataByID(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data)
                     {
@@ -746,7 +746,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -784,7 +784,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -825,7 +825,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -857,7 +857,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //            });
         //            // Pass the list to the repository for batch update
         //            var isSave = await _unitOfWork.CenterObserverRepository.ForwardToVerify(request);
-        //            _unitOfWork.SaveChanges();  // Commit changes if everything is successful
+        //            await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
         //            if (isSave == -2)
         //            {
@@ -879,7 +879,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //        }
         //        catch (Exception ex)
         //        {
-        //            _unitOfWork.Dispose();
+        //            await _unitOfWork.DisposeAsync();
         //            result.State = EnumStatus.Error;
         //            result.ErrorMessage = ex.Message;
 
@@ -920,7 +920,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -947,7 +947,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.ITICenterObserverRepository.UpdateAttendance(model);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data)
                     {
@@ -962,7 +962,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -1002,7 +1002,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -1029,7 +1029,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     var data = await _unitOfWork.ITICenterObserverRepository.IsRequestCenterObserver(model);
                     //var data1 = await _unitOfWork.ITICenterObserverRepository.IsRequestHistoryCenterObserver(model);
 
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -1050,7 +1050,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -1074,7 +1074,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     var data = await _unitOfWork.ITICenterObserverRepository.ApproveRequest(Deployeid);
 
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -1095,7 +1095,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,

@@ -55,7 +55,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             finally
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
             }
             return result;
         }
@@ -89,7 +89,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 finally
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                 }
                 return result;
             });
@@ -104,7 +104,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.MenuMasterRepository.SaveData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -142,7 +142,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 finally
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                 }
                 return result;
             });
@@ -158,7 +158,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.MenuMasterRepository.UpdateData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -186,7 +186,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 finally
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                 }
                 return result;
             });
@@ -207,7 +207,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         ModifyBy = ModifyBy,
                     };
                     result.Data = await _unitOfWork.MenuMasterRepository.DeleteDataByID(DeleteData_Request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data)
                     {
@@ -236,7 +236,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 finally
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                 }
                 return result;
             });
@@ -269,7 +269,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             finally
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
             } 
             return result;
         }
@@ -290,7 +290,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     };
                     result.Data = await _unitOfWork.MenuMasterRepository.UpdateActiveStatusByID(DeleteData_Request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data)
                     {
@@ -305,7 +305,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     // Write error log
                     var nex = new NewException
                     {
@@ -330,7 +330,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.MenuMasterRepository.SaveData_EditMenuDetails(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -368,7 +368,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 finally
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                 }
                 return result;
             });

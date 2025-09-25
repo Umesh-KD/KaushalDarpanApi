@@ -34,7 +34,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     List<RenumerationExaminerModel> obj = new List<RenumerationExaminerModel>();
                     DataTable dt = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_RenumerationExaminerGroupCode";
@@ -91,7 +91,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     List<TrackStatusDataModel> obj = new List<TrackStatusDataModel>();
                     DataTable dt = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "usp_Trackstatus_GetRenumerationExaminer";
@@ -136,7 +136,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dt = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ReptGetExaminerReport";
@@ -180,7 +180,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "usp_SaveRenumerationExaminerGroupCode";

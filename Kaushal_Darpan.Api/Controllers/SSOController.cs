@@ -99,7 +99,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 finally
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                 }
                 return result;
             });
@@ -161,7 +161,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //        }
         //        finally
         //        {
-        //            _unitOfWork.Dispose();
+        //            await _unitOfWork.DisposeAsync();
         //        }
 
         //        return result;
@@ -190,7 +190,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -216,7 +216,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.SSORepository.SaveData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -236,7 +236,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -287,7 +287,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 catch (Exception ex)
                 {
 
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -323,7 +323,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -357,7 +357,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -411,7 +411,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // save
                 var ssoSearchId = await _unitOfWork.SSORepository.AddSSOUserProfileDetails(ssoUserDetailsApi);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
 
                 //encode search id
                 ssoSearchId = HttpUtility.UrlEncode(CommonFuncationHelper.Encrypt(ssoSearchId));
@@ -436,7 +436,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 // file
                 CommonFuncationHelper.WriteTextLog($"error : {ex.Message}");
                 // write error log
@@ -467,7 +467,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 // file
                 CommonFuncationHelper.WriteTextLog($"error : {ex.Message}");
                 // write error log
@@ -496,7 +496,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 // file
                 CommonFuncationHelper.WriteTextLog($"error : {ex.Message}");
                 // write error log
@@ -525,7 +525,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 // file
                 CommonFuncationHelper.WriteTextLog($"error : {ex.Message}");
                 // write error log
@@ -550,7 +550,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.SSORepository.UpdateStudentUserType(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -576,7 +576,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
 
                     // Log the error
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     var nex = new NewException
                     {
                         PageName = PageName,
@@ -646,7 +646,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 finally
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                 }
                 return result;
             });
@@ -694,7 +694,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 finally
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                 }
                 return result;
             });
@@ -738,7 +738,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 finally
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                 }
                 return result;
             });
@@ -781,7 +781,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 finally
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                 }
                 return result;
             });
@@ -798,7 +798,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.SSORepository.CreateCollegePrincipal(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -812,7 +812,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.Message = ex.Message;
                     // write error log
@@ -838,7 +838,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.SSORepository.CreateBTERCollegePrincipal(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -852,7 +852,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.Message = ex.Message;
                     // write error log
@@ -905,7 +905,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         ssoUserDetailsApi.SERVICEID = emitra.SERVICEID;
                         // save
                         var ssoSearchId = await _unitOfWork.SSORepository.AddSSOUserProfileDetails(ssoUserDetailsApi);
-                        _unitOfWork.SaveChanges();
+                        await _unitOfWork.SaveChangesAsync();
 
                         //encode search id
                         ssoSearchId = HttpUtility.UrlEncode(CommonFuncationHelper.Encrypt(ssoSearchId));
@@ -958,7 +958,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 // file
                 CommonFuncationHelper.WriteTextLog($"error : {ex.Message}");
                 // write error log
@@ -1058,7 +1058,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 finally
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                 }
                 return result;
             });
@@ -1085,7 +1085,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log

@@ -38,6 +38,7 @@
         public int ModifyBy { get; set; }
         public string? IPAddress { get; set; }
         public int? CCCode { get; set; }
+        public bool Self { get; set; }
     }
 
     public class GenerateCCCodeDataModel: RequestBaseModel

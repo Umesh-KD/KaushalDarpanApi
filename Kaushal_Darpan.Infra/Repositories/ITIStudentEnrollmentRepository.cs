@@ -31,7 +31,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        return await Task.Run(async () =>
         //        {
         //            DataTable dataTable = new DataTable();
-        //            using (var command = _dbContext.CreateCommand())
+        //            using (var command = await _dbContext.CreateCommandAsync())
         //            {
         //                command.CommandTimeout = 0;
         //                command.CommandType = CommandType.StoredProcedure;
@@ -101,7 +101,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return await Task.Run(async () =>
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITIGetAddimittedStudentData";
@@ -166,7 +166,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //                storedProcedureName = "USP_EditStudentData_Enroll";
         //            }
 
-        //            using (var command = _dbContext.CreateCommand(true))
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
         //            {
         //                command.CommandType = CommandType.StoredProcedure;
         //                command.CommandText = storedProcedureName;
@@ -235,7 +235,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        {
 
         //            int result = 0;
-        //            using (var command = _dbContext.CreateCommand(true))
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
         //            {
         //                command.CommandType = CommandType.StoredProcedure;
         //                command.CommandText = "USP_UpdateEnrollmentCollegeAndBranch";
@@ -285,7 +285,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {   
                     int result = 0;
                     int retval = 0;
-                    using (var command = _dbContext.CreateCommand(true))
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ITI_SaveJoinedStudentsModified";
@@ -329,7 +329,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        {
         //            int result = 0;
         //            int retval = 0;
-        //            using (var command = _dbContext.CreateCommand(true))
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
         //            {
         //                // Set the stored procedure name and type
         //                command.CommandText = "USP_SaveAdmittedStudents";
@@ -373,7 +373,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        {
         //            int result = 0;
         //            int retval = 0;
-        //            using (var command = _dbContext.CreateCommand(true))
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
         //            {
         //                // Set the stored procedure name and type
         //                command.CommandText = "USP_UndoRejectStatus";
@@ -417,7 +417,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        {
         //            int result = 0;
         //            int retval = 0;
-        //            using (var command = _dbContext.CreateCommand(true))
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
         //            {
         //                // Set the stored procedure name and type
         //                command.CommandText = "USP_SaveEligibleForEnrollment";
@@ -461,7 +461,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        {
         //            int result = 0;
         //            int retval = 0;
-        //            using (var command = _dbContext.CreateCommand(true))
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
         //            {
         //                // Set the stored procedure name and type
         //                command.CommandText = "USP_SaveSelectedForExamination";
@@ -505,7 +505,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        {
         //            int result = 0;
         //            int retval = 0;
-        //            using (var command = _dbContext.CreateCommand(true))
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
         //            {
         //                // Set the stored procedure name and type
         //                command.CommandText = "USP_SaveEligibleForExamination";
@@ -549,7 +549,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        {
         //            int result = 0;
         //            int retval = 0;
-        //            using (var command = _dbContext.CreateCommand(true))
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
         //            {
         //                // Set the stored procedure name and type
         //                command.CommandText = "USP_SaveRejectAtBTEREnrollment";
@@ -593,7 +593,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        {
         //            int result = 0;
         //            int retval = 0;
-        //            using (var command = _dbContext.CreateCommand(true))
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
         //            {
         //                // Set the stored procedure name and type
         //                command.CommandText = "USP_SaveDropout";
@@ -638,7 +638,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        {
         //            int result = 0;
         //            int retval = 0;
-        //            using (var command = _dbContext.CreateCommand(true))
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
         //            {
         //                // Set the stored procedure name and type
         //                command.CommandText = "USP_SaveRevokeDropout";
@@ -684,7 +684,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        return await Task.Run(async () =>
         //        {
         //            DataTable dataTable = new DataTable();
-        //            using (var command = _dbContext.CreateCommand())
+        //            using (var command = await _dbContext.CreateCommandAsync())
         //            {
         //                command.CommandType = CommandType.StoredProcedure;
         //                command.CommandText = "USP_GetAddimittedStudentData";

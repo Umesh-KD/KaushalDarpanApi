@@ -25,5 +25,15 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAdmittedStudentToVerify(StudentApplicationModel model);
         Task<int> SaveAdmittedStudentForApproveByAcp(List<StudentApplicationSaveModel> model);
         Task<int> SaveAdmittedStudentForReturnByAcp(List<StudentApplicationSaveModel> model);
+        Task<int> SaveEnrolledStudentVerify_VerifyandForwardtoExamIncharge(List<EnrolledPromotedStudentSaveModel> model);
+        Task<int> SaveEnrolledStudentVerify_VerifyandForwardtoRegistrar(List<EnrolledPromotedStudentSaveModel> model);
+        Task<int> SaveEnrolledStudentVerify_ApprovebyRegistrar(List<EnrolledPromotedStudentSaveModel> model);
+        Task<int> SaveEnrolledStudentVerify_ReturnbyRegistrar(List<EnrolledPromotedStudentSaveModel> model);
+        Task<int> SaveEnrolledStudentVerify_SelectedforExamination(List<EnrolledPromotedStudentSaveModel> model);
+        Task<DataTable> GetEnrolledStudent_Promoted(EnrolledPromotedStudentModel model);
+        Task<DataTable> GetEnrolledStudent_VerifyandForwardtoExamIncharge(EnrolledPromotedStudentModel model);
+        Task<DataTable> GetEnrolledStudent_VerifyandForwardtoRegistrar(EnrolledPromotedStudentModel model);
+        Task<DataTable> GetEnrolledStudent_ApprovebyRegistrar(EnrolledPromotedStudentModel model);
+        Task<DataTable> GetEnrolledStudent_ReturnbyRegistrar(EnrolledPromotedStudentModel model);
     }
 }

@@ -60,7 +60,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     //}
 
                     result.Data = await _unitOfWork.ITIRelievingExamRepository.SaveRelievingExaminerDataAsync(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data.Rows.Count > 0 && Convert.ToInt32(result.Data.Rows[0][0].ToString()) > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -75,7 +75,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
 
                     //result.Data = await _unitOfWork.ITIRelievingExamRepository.SaveRelievingExaminerDataAsync(request);
-                    //_unitOfWork.SaveChanges();
+                    //await _unitOfWork.SaveChangesAsync();
                     //if (result.Data)
                     //{
                     //    result.State = EnumStatus.Success;
@@ -89,7 +89,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -119,7 +119,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                     result.Data = await _unitOfWork.ITIRelievingExamRepository.SaveRelievingCoOrdinatorData(request);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
@@ -133,7 +133,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 catch (System.Exception ex)
                 {
-                    _unitOfWork.Dispose();
+                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                     // write error log
@@ -199,7 +199,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
@@ -230,7 +230,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                
                 result.Data = await _unitOfWork.ITIRelievingExamRepository.SaveUndertakingExaminerData(model);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 if (result.Data)
                 {
                     result.State = EnumStatus.Success;
@@ -243,7 +243,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (System.Exception ex)
             {
-                _unitOfWork.Dispose();
+                await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log

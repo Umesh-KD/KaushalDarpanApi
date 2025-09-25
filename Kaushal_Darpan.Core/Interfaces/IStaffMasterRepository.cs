@@ -43,5 +43,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStreamIDBySemester(SearchBranchDataModel filterModel);
         Task<int> SaveRosterDisplayMultiple(List<SaveRosterDisplayMultipleModel> body);
         Task<int> DeleteRosterDisplay(SaveRosterDisplayMultipleModel body);
+        Task<DataTable> GetAssignedTeacherForSubject_BySecctionID(GetAssignedTeacherForSubjectDataModel body);
     }
 }
