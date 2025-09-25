@@ -55,7 +55,7 @@ ConfigurationHelper.Configure(builder.Configuration, RootPath);
 
 
 builder.Services.AddAutoMapper(typeof(Program));
-//builder.Services.AddScoped<DBContext>();
+builder.Services.AddScoped<DBContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 //builder.Services.AddTransient<RestrictUrlFactory>();// middleware

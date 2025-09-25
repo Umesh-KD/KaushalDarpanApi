@@ -16,6 +16,7 @@ namespace Kaushal_Darpan.Models.Student
         public int StreamID { get; set; } = 0;
         public int SemesterID { get; set; } = 0;
         public bool Selected { get; set; } = false;
+        public string EnrollmentNo { get; set; } = string.Empty;
     }
 
     public class EnrolledPromotedStudentSaveModel : ResponseBaseModel

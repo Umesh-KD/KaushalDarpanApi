@@ -169,20 +169,28 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                        command.CommandText = @"
-                    SELECT pcm.*, hr.Name As HRName, hr.EmailId,hr.MobileNo
-                    FROM M_PlacementCompanyMaster pcm
-                    LEFT JOIN M_HRManagerMaster hr ON pcm.ID = hr.PlacementCompanyID
-                    WHERE pcm.ID = @PK_ID";
+                    //    command.CommandText = @"
+                    //SELECT pcm.*, hr.Name As HRName, hr.EmailId,hr.MobileNo
+                    //FROM M_PlacementCompanyMaster pcm
+                    //LEFT JOIN M_HRManagerMaster hr ON pcm.ID = hr.PlacementCompanyID
+                    //WHERE pcm.ID = @PK_ID";
 
-                        // Parameterize the query
-                        var parameter = command.CreateParameter();
-                        parameter.ParameterName = "@PK_ID";
-                        parameter.Value = PK_ID;
-                        command.Parameters.Add(parameter);
+                    //    // Parameterize the query
+                    //    var parameter = command.CreateParameter();
+                    //    parameter.ParameterName = "@PK_ID";
+                    //    parameter.Value = PK_ID;
+                    //    command.Parameters.Add(parameter);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
+                    //    _sqlQuery = command.GetSqlExecutableQuery();
+                    //    dataTable = await command.FillAsync_DataTable();
+
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CompanyUpdateAction";
+                        command.Parameters.AddWithValue("@PK_ID", PK_ID);
+                        command.Parameters.AddWithValue("@Action", "_GetDataById");
+                        _sqlQuery =command.GetSqlExecutableQuery();
+                        dataTable=await command.FillAsync_DataTable();
+
                     }
 
                     var data = new CompanyMasterResponsiveModel();
@@ -219,10 +227,20 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
-                        command.CommandType = CommandType.Text;
-                        command.CommandText = $" update [M_PlacementCompanyMaster] set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'Where ID={request.ID}";
+                        //command.CommandType = CommandType.Text;
+                       // command.CommandText = $" update [M_PlacementCompanyMaster] set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'Where ID={request.ID}";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
+                        //_sqlQuery = command.GetSqlExecutableQuery();
+                        //result = await command.ExecuteNonQueryAsync();
+
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CompanyUpdateAction";
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@ID", request.ID);
+                        command.Parameters.AddWithValue("@_IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@Action", "_DeleteDataByID");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// sql query
                         result = await command.ExecuteNonQueryAsync();
                     }
                     if (result > 0)
@@ -431,11 +449,30 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                        command.CommandType = CommandType.Text;
-                        //command.CommandText = $" update [M_PlacementCompanyMaster] set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'Where ID={request.ID}";
-                        command.CommandText = $" SELECT ApplicationID,StudentID,SSOID,EnrollmentNo,DOB, StudentName as Name,SemesterID FROM M_StudentMaster WHERE StudentID='{request.ID}' and ActiveStatus = 1 AND SemesterID in (5,6)";
+                        //command.CommandType = CommandType.Text;
+                        ////command.CommandText = $" update [M_PlacementCompanyMaster] set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'Where ID={request.ID}";
+                        //command.CommandText = $" SELECT ApplicationID,StudentID,SSOID,EnrollmentNo,DOB, StudentName as Name,SemesterID FROM M_StudentMaster WHERE StudentID='{request.ID}' and ActiveStatus = 1 AND SemesterID in (5,6)";
+                        //_sqlQuery = command.GetSqlExecutableQuery();
+                        //dataTable = await command.FillAsync_DataTable();
+
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CompanyUpdateAction";
+                        command.Parameters.AddWithValue("@ID", request.ID);
+                        command.Parameters.AddWithValue("@Action", "_GetDataByStudentId");
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
+
+
+
+                        //command.CommandType = CommandType.StoredProcedure;
+                        //command.CommandText = "USP_GetCompanyMaster";
+                        ////command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
+                        //command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        //command.Parameters.AddWithValue("@Status", body.Status);
+                        //command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                        //command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        //_sqlQuery = command.GetSqlExecutableQuery();
+                        //dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
                 }
