@@ -6213,7 +6213,6 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataSet> GetAllotmentReportCollege(AllotmentReportCollegeRequestModel model)
         {
             _actionName = "GetAllotmentReportCollege(AllotmentReportCollegeRequestModel model)";
-
             return await Task.Run(async () =>
             {
                 try
@@ -6228,13 +6227,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TradeTypeID", model.TradeTypeID);
                         command.Parameters.AddWithValue("@TradeId", model.TradeId);
                         command.Parameters.AddWithValue("@CollegeId", model.CollegeId);
-
-
                         _sqlQuery = command.GetSqlExecutableQuery();
-
                         ds = await command.FillAsync();
                     }
-
                     return ds;
                 }
                 catch (Exception ex)

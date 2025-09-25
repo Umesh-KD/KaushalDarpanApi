@@ -532,6 +532,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                 RESPONSEPARAMS.ApplicationIdEnc = Model.ApplicationID;
                                 RESPONSEPARAMS.TRANSACTIONID = Model.TransactionID;
                                 RESPONSEPARAMS.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
+
                                 await _unitOfWork.CommonFunctionRepository.UpdateEmitraPaymentStatus(RESPONSEPARAMS);
                                 _unitOfWork.SaveChanges();
                             }
