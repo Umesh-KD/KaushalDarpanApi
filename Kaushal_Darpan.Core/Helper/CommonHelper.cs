@@ -166,7 +166,7 @@ namespace Kaushal_Darpan.Core.Helper
             }
         }
         #endregion
-        
+
         #region JanAadhaar
         public static string JanAadhaarMembersUrl
         {
@@ -468,7 +468,8 @@ namespace Kaushal_Darpan.Core.Helper
     public enum EnumStudentType
     {
         Reg = 1,
-        Ex = 2
+        Ex = 2,
+        NotFormFilled = 3
     }
 
     #endregion

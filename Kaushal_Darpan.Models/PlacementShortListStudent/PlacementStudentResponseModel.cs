@@ -23,6 +23,7 @@ namespace Kaushal_Darpan.Models.PlacementShortListStudentMaster
         public string IPAddress { get; set; }
         public string ModifyBy { get; set; }
         public string? PostNo { get; set; }
+        public string? UploadedResume { get; set; }
 
 
     }

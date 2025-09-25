@@ -1340,52 +1340,53 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         }
+
+
+
         public static string BuildTimeTableHtml(System.Data.DataSet ds)
         {
             StringBuilder sb = new StringBuilder();
 
-
+            // ===== Get unique teacher-class totals =====
             HashSet<string> uniqueTeachers = new HashSet<string>();
-
             foreach (DataRow row in ds.Tables[0].Rows)
             {
-                string teacherClassTotal = row["TeacherClassTotal"].ToString();
-                uniqueTeachers.Add(teacherClassTotal);
+                string teacherClassTotal = row["TeacherClassTotal"]?.ToString();
+                if (!string.IsNullOrWhiteSpace(teacherClassTotal))
+                    uniqueTeachers.Add(teacherClassTotal);
             }
-
             string result = string.Join(", ", uniqueTeachers);
 
-            // Header Section
-            sb.AppendLine("<table style='width:100%; border-collapse:collapse; font-size:14px; font-family:Arial, Helvetica, sans-serif;' cellpadding='5' border='1'>");
-            sb.AppendLine("  <tr><th colspan='2' style='border:1px solid black;'>" + ds.Tables[0].Rows[0]["InstituteName"].ToString() + "</th></tr>");
-            sb.AppendLine("  <tr><th colspan='2' style='border:1px solid black;'> TIME TABLE " + ds.Tables[0].Rows[0]["FinancialYearName"].ToString() + "</th></tr>");
-            sb.AppendLine("  <tr><th style='border:1px solid black;'>" + ds.Tables[0].Rows[0]["StreamName"].ToString() + "</th><th style='border:1px solid black;'>W.E.F. " + ds.Tables[0].Rows[0]["Date"].ToString() + "</th></tr>");
+            // ===== Header Table (Institute + Info) =====
+            sb.AppendLine("<table style='width:100%; font-size:14px; font-family:Arial, Helvetica, sans-serif;' cellpadding='5'>");
+            sb.AppendLine($"  <tr><th colspan='2' style='text-align:center;'>{ds.Tables[0].Rows[0]["InstituteName"]}</th></tr>");
+            sb.AppendLine($"  <tr><th colspan='2' style='text-align:center;'>TIME TABLE {ds.Tables[0].Rows[0]["FinancialYearName"]}</th></tr>");
+            sb.AppendLine("  <tr>");
+            sb.AppendLine($"    <th style='text-align:left; padding-left:20px;'>{ds.Tables[0].Rows[0]["StreamName"]}: {ds.Tables[0].Rows[0]["SemesterName"]}</th>");
+            sb.AppendLine($"    <th style='text-align:right;'>W.E.F. {ds.Tables[0].Rows[0]["Date"]}</th>");
+            sb.AppendLine("  </tr>");
             sb.AppendLine("</table>");
 
-            // Time Table Start
+            // ===== Main Timetable Table =====
             sb.AppendLine("<table style='width:100%; border-collapse:collapse; font-size:12px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; text-align:center; border:1px solid black;' cellpadding='5'>");
 
-            // Header Row
+            // Header Row (Period Numbers)
             sb.AppendLine("<tr style='background-color:#f0f0f0;'>");
-            sb.AppendLine("<td style='border:1px solid black;'>Day</td>");
-            sb.AppendLine("<td style='border:1px solid black;'>Semester</td>");
-            sb.AppendLine("<td style='border:1px solid black;'>Group</td>");
-
-            bool lunchInsertedInHeader = false;
-
-            foreach (DataRow col in ds.Tables[1].Rows)
+            sb.AppendLine("<td rowspan='2' style='border:1px solid black;'>Day</td>");
+            sb.AppendLine("<td rowspan='2' style='border:1px solid black;'>Group</td>");
+            for (int period = 1; period <= 6; period++)
             {
-                string timeSlot = col["Names"].ToString();
-                sb.AppendLine($"<td style='border:1px solid black;'>{timeSlot}</td>");
-
-                // Insert Lunch Break *after* 12:00-01:00 (13:00–14:00 slot is missing)
-                if ((timeSlot == "12:00-01:00" || timeSlot == "12:00-13:00") && !lunchInsertedInHeader)
-                {
-                    sb.AppendLine("<td style='border:1px solid black; background-color:#FFD700;'>Lunch Break</td>");
-                    lunchInsertedInHeader = true;
-                }
+                sb.AppendLine($"<td style='border:1px solid black;'>{period}</td>");
             }
+            sb.AppendLine("</tr>");
 
+            // Header Row (Time Slots)
+            sb.AppendLine("<tr style='background-color:#f9f9f9;'>");
+            for (int i = 0; i < 6; i++)
+            {
+                string timeSlot = (i < ds.Tables[1].Rows.Count) ? ds.Tables[1].Rows[i]["Names"].ToString() : "";
+                sb.AppendLine($"<td style='border:1px solid black;'>{timeSlot}</td>");
+            }
             sb.AppendLine("</tr>");
 
             // Data Rows
@@ -1393,48 +1394,44 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 sb.AppendLine("<tr>");
                 sb.AppendLine($"<td style='border:1px solid black;'>{row["ClassDayName"]}</td>");
-                sb.AppendLine($"<td style='border:1px solid black;'>{row["SemesterName"]}</td>");
                 sb.AppendLine($"<td style='border:1px solid black;'>{row["GroupName"]}</td>");
 
-                bool lunchInsertedInRow = false;
-
-                foreach (DataRow col in ds.Tables[1].Rows)
+                for (int i = 0; i < 6; i++)
                 {
-                    string slotName = col["Names"].ToString();
-                    string value = row.Table.Columns.Contains(slotName) ? row[slotName]?.ToString() : "";
-
+                    string slotName = (i < ds.Tables[1].Rows.Count) ? ds.Tables[1].Rows[i]["Names"].ToString() : "";
+                    string value = (!string.IsNullOrEmpty(slotName) && row.Table.Columns.Contains(slotName))
+                                    ? row[slotName]?.ToString() ?? ""
+                                    : "";
                     sb.AppendLine($"<td style='border:1px solid black;'>{value}</td>");
-
-                    // Insert "Lunch Break" cell after 12:00–01:00 (which means lunch is 01:00–02:00)
-                    if ((slotName == "12:00-01:00" || slotName == "12:00-13:00") && !lunchInsertedInRow)
-                    {
-                        sb.AppendLine("<td style='border:1px solid black; background-color:#FFD700;'>Lunch Break</td>");
-                        lunchInsertedInRow = true;
-                    }
                 }
-
                 sb.AppendLine("</tr>");
             }
 
             sb.AppendLine("</table>");
 
-            // Footer Section
-            sb.AppendLine("<table style='width:100%; margin-top:20px; border-collapse:collapse;' border='1'>");
-            sb.AppendLine("  <tr><th style='text-align:left; border:1px solid black;'>OIC TIME TABLE <br/> COPY TO: </th></tr>");
+            // ===== Footer Section =====
+            sb.AppendLine("<table style='width:100%; margin-top:20px; font-size:12px; font-family:Arial, Helvetica, sans-serif;'>");
+            sb.AppendLine($"  <tr><td colspan='2'>Teacher Wise Count Class: {result}</td></tr>");
             sb.AppendLine("  <tr>");
-            sb.AppendLine("    <td style='padding-left:30px; border:1px solid black;'>");
-            sb.AppendLine("       1. HOD (" + ds.Tables[0].Rows[0]["StreamName"].ToString() + ")<br/>");
-            sb.AppendLine("       2. PA TO PRINCIPAL<br/>");
-            sb.AppendLine("       3. Notice board<br/>");
-            sb.AppendLine("       4. Student Section");
-            sb.AppendLine("       5. Teacher Wise Count Class "+ result + "");
+            sb.AppendLine("    <td style='text-align:left; vertical-align:top;'>");
+            sb.AppendLine("      <b>OIC TIME TABLE</b><br/><br/><br/>");
+            sb.AppendLine("      <div style='margin-left:60px;'><b>COPY TO:</b></div>");
+            sb.AppendLine("      <div style='margin-left:80px; display:block;'>");
+            sb.AppendLine($"        1. HOD ({ds.Tables[0].Rows[0]["StreamName"]})<br/>");
+            sb.AppendLine("        2. PA TO PRINCIPAL<br/>");
+            sb.AppendLine("        3. Notice board<br/>");
+            sb.AppendLine("        4. Student Section<br/>");
+            sb.AppendLine("      </div>");
             sb.AppendLine("    </td>");
-            sb.AppendLine("    <td style='text-align:right; border:1px solid black;'>PRINCIPAL</td>");
+            sb.AppendLine("    <td style='text-align:right; vertical-align:top;'>PRINCIPAL</td>");
             sb.AppendLine("  </tr>");
             sb.AppendLine("</table>");
 
             return sb.ToString();
         }
+
+
+
 
 
 

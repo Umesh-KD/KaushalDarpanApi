@@ -2,6 +2,7 @@
 using AutoMapper;
 using DinkToPdf;
 using DinkToPdf.Contracts;
+using DocumentFormat.OpenXml.EMMA;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Kaushal_Darpan.Api.Code.Attribute;
@@ -3405,7 +3406,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             GenerateAdmitCardModel objStudent = new GenerateAdmitCardModel();
                             var data = await _unitOfWork.ReportRepository.GetITIStudentAdmitCardBulk(Convert.ToInt32(StudentExamID),
-                                Model.DepartmentID);
+                                Model.DepartmentID,Model.EndTermID);
                             if (data?.Tables?.Count == 2)
                             {
                                 if (data.Tables[0].Rows.Count > 0)
@@ -3552,7 +3553,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                                     GenerateAdmitCardModel objStudent = new GenerateAdmitCardModel();
                                     var data = await _unitOfWork.ReportRepository.GetITIStudentAdmitCardBulk(Convert.ToInt32(StudentExamID),
-                                        Model.DepartmentID);
+                                        Model.DepartmentID,Model.EndTermID);
                                     if (data?.Tables?.Count == 2)
                                     {
                                         if (data.Tables[0].Rows.Count > 0)

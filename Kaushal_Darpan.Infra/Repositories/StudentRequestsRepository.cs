@@ -1275,5 +1275,48 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
         #endregion
+
+        public async Task<int> ReGenerateProvisionalMerit_Hostel(int Gender, List<PublishHostelMeritListDataModel> model)
+        {
+            _actionName = "ReGenerateProvisionalMerit_Hostel(List<PublishHostelMeritListDataModel> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int retval = 0;
+                    using (var command = _dbContext.CreateCommand(true))
+                    {
+                        command.CommandText = "USP_GenerateHostelMeritList";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+
+                        command.Parameters.AddWithValue("@action", "ReGenerateMeritList");
+                        command.Parameters.AddWithValue("@Gender", Gender);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        await command.ExecuteNonQueryAsync();
+
+                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);
+                    }
+                    return retval;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }

@@ -8,6 +8,9 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
 
         Task<DataTable> GetAllPost( int postId,int DepartmentID,int StreamID, int FinancialYearID, int InstituteID,  string CampusFromDate,string CampusToDate);
+
+        Task<DataTable> GetAllPost(int postId, int DepartmentID, string StreamID, int FinancialYearID, string InstituteID, string CampusFromDate, string CampusToDate);
+
         Task<DataTable> GetAllPlacementCompany(CampusDetailsWebSearchModel model);
 
         Task<DataTable> GetAllPostExNonList(int postId,int DepartmentID,int StreamID,int FinancialYearID, int InstituteID, string  CampusFromDate,string CampusToDate);

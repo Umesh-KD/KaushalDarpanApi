@@ -110,7 +110,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetITIStudentApplicationFeeReceipt(string EnrollmentNo);
         Task<DataSet> GetITICollegeProfile(int CollegeId);
         Task<DataSet> GetITIApplicationForm(ItiApplicationSearchModel model);
-        Task<DataSet> GetITIStudentAdmitCardBulk(int StudentExamID, int DepartmentID);
+        Task<DataSet> GetITIStudentAdmitCardBulk(int StudentExamID, int DepartmentID,int EndTermID);
         Task<DataSet> GetITIStudentAdmitCard(GenerateAdmitCardModel model);
         Task<DataTable> GetEnrollmentList(ReportBaseModel model);
         Task<DataTable> GetBlankReport(BlankReportModel model);

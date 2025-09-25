@@ -94,33 +94,35 @@ namespace Kaushal_Darpan.Models.HostelManagementModel
     }
     public class StudentApplyHostelData
     {
-        public int ReqId { get; set; } 
-        public int StudentID { get; set; } 
-        public int PartnerApplicationID { get; set; }
+        public int? ReqId { get; set; } 
+        public int? StudentID { get; set; } 
+        public int? PartnerApplicationID { get; set; }
         public string? FatherContactNo { get; set; }
         public string? LocalGuardianName { get; set; } 
         public string? LocalGuardianContactNo { get; set; }
-        public int AllotedHostelLastEndTerm { get; set; }
-        public int AllotedHostelInLastSessionRoomNo { get; set; } 
-        public int AllotedHostelInLastSessionFeeDetails { get; set; } 
-        public int AnyWorningForShortOfAttendance { get; set; }
-        public int AnyWarningForInvovementAgainstDiscipline { get; set; }
+        public int? AllotedHostelLastEndTerm { get; set; }
+        public int? AllotedHostelInLastSessionRoomNo { get; set; } 
+        public int? AllotedHostelInLastSessionFeeDetails { get; set; } 
+        public int? AnyWorningForShortOfAttendance { get; set; }
+        public int? AnyWarningForInvovementAgainstDiscipline { get; set; }
         public string? RoomPartnerName { get; set; }
         public string? RoomPartnerYear { get; set; }
         public string? RoomPartnerBranch { get; set; }
         public string? RoomPartnerSFS { get; set; }
         public string? RoomPartnerRegular { get; set; } 
-        public int EndTermId { get; set; } 
-        public int HostelID { get; set; } 
-        public int DepartmentID { get; set; } 
+        public int? EndTermId { get; set; } 
+        public int? HostelID { get; set; } 
+        public int? DepartmentID { get; set; } 
         public string? AffidavitDocument { get; set; } 
         public string? dis_AffidavitDocument { get; set; }
         public string? SupportingDocument { get; set; }
         public string? dis_SupportingDocument { get; set; }
         public decimal TotalAvg { get; set; }
 
-        public int CurrentEndTermId { get; set; }
-        public int CourseTypeID { get; set; }
+        public int? CurrentEndTermId { get; set; }
+        public int? CourseTypeID { get; set; }
+
+        public List<SelectedRoomTyps> ? SelectedRoomTypeID { get; set; }
 
     }
 
@@ -221,6 +223,12 @@ namespace Kaushal_Darpan.Models.HostelManagementModel
         public int ModifyBy { get; set; }
     }
 
+
+    public class SelectedRoomTyps
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+    }
 
 }
 

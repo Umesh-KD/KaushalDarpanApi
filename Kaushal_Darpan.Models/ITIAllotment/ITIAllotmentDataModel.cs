@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kaushal_Darpan.Models.StudentsJoiningStatusMarks;
+using System;
 
 namespace Kaushal_Darpan.Models.ITIAllotment
 {
@@ -63,6 +64,8 @@ namespace Kaushal_Darpan.Models.ITIAllotment
         public int SeatMetrixId { get; set; }
         public string AllotedCategory { get; set; }
         public string SeatMetrixColumn { get; set; }
+        public List<AllotmentDocumentModel>? DocumentList { get; set; }
+
     }
     public class ITIDirectAllocationSearchModel
     {

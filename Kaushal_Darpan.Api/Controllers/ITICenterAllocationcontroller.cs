@@ -841,5 +841,58 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("DeleteCenterMapping")]
+        public async Task<ApiResult<int>> DeleteCenterMapping([FromBody] ITICenterAllocationSearchFilter request)
+        {
+            ActionName = "SaveData([FromBody] AppointExaminerModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+
+                    //if (!ModelState.IsValid)
+                    //{
+                    //    result.State = EnumStatus.Error;
+                    //    result.ErrorMessage = "Validation failed!";
+                    //    return result;
+                    //}
+
+
+                    result.Data = await _unitOfWork.ITICenterAllocationRepository.DeleteCenterMapping(request);
+                    _unitOfWork.SaveChanges();
+                    if (result.Data>0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DELETE_SUCCESS;
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                 
+                        
+                            result.ErrorMessage = Constants.MSG_DELETE_ERROR;
+                  
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    _unitOfWork.Dispose();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
     }
 }

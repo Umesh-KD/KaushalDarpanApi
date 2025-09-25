@@ -43,12 +43,20 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.Parameters.AddWithValue("@action", "_getStudentLastSemesterData");
                         }
-                        else
+                        else if (model.StudentTypeId == (int)EnumStudentType.Ex)
                         {
                             command.Parameters.AddWithValue("@action", "_getExStudentSemesterData");
                         }
-                        //parameter
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        else if (model.StudentTypeId == (int)EnumStudentType.NotFormFilled)
+                        {
+                            command.Parameters.AddWithValue("@action", "_getNotFormFilledStudentSemesterData");
+                        }
+                        else
+                        {
+                            throw new Exception("invalid use of sp");
+                        }
+                            //parameter
+                            command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);

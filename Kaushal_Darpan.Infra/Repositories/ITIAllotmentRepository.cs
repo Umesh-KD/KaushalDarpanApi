@@ -12,6 +12,7 @@ using Kaushal_Darpan.Models.BTER;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.ITIAllotment;
 using Kaushal_Darpan.Models.ITIApplication;
+using Newtonsoft.Json;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
@@ -671,6 +672,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SeatMetrixId", request.SeatMetrixId);
                         command.Parameters.AddWithValue("@DirectAdmissionType", request.DirectAdmissionType);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@AllotmentDocumentModel", JsonConvert.SerializeObject(request.DocumentList));
                         command.Parameters.AddWithValue("@Action", "SaveUpdateAllotments");
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
