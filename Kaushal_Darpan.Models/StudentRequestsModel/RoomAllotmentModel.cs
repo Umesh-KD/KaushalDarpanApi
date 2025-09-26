@@ -58,5 +58,6 @@ namespace Kaushal_Darpan.Models.StudentRequestsModel
         public int? Gender { get; set; }
         public int? HostelID    { get; set; }
         public int? InstituteID { get; set; }
+        public int? ReqId { get; set; }
     }
 }
