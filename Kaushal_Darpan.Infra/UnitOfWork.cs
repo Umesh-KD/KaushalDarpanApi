@@ -2076,6 +2076,24 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return _ITI_IIP_TrimashQuaterlyReportRepository ?? new ITI_IIP_TrimashQuaterlyReportRepository(_dbContext);
             }
         }
+
+        private ICounsellingMasterRepository _CounsellingMasterRepository;
+        public ICounsellingMasterRepository CounsellingMasterRepository
+        {
+            get
+            {
+                return _CounsellingMasterRepository ??= new CounsellingMasterRepository(_dbContext);
+            }
+        }
+
+        private ICounsellingApplicationFormRepository _CounsellingApplicationFormRepository;
+        public ICounsellingApplicationFormRepository CounsellingApplicationFormRepository
+        {
+            get
+            {
+                return _CounsellingApplicationFormRepository ??= new CounsellingApplicationFormRepository(_dbContext);
+            }
+        }
         #endregion
     }
 }

@@ -275,6 +275,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         I_ITI_IIP_TrimashQuaterlyReportRepository ITI_IIP_TrimashQuaterlyReportRepository { get; }
 
         IITIIIPManageRepository ITIIIPManageRepository { get; }
+        ICounsellingMasterRepository CounsellingMasterRepository { get; }
+        ICounsellingApplicationFormRepository CounsellingApplicationFormRepository { get; }
         Task SaveChangesAsync();
     }
 }
