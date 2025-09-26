@@ -11,50 +11,6 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="AppearedPassedStatistics">
-      <Query>
-        <DataSourceName>KD_DBScript</DataSourceName>
-        <CommandText>/* Local Query */</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="EndTermName">
-          <DataField>EndTermName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="AcademicYear">
-          <DataField>AcademicYear</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="SemesterName">
-          <DataField>SemesterName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CourseType">
-          <DataField>CourseType</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="StreamName">
-          <DataField>StreamName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="InstituteName">
-          <DataField>InstituteName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="StreamCode">
-          <DataField>StreamCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-      <rd:DataSetInfo>
-        <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Project\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
-        <rd:TableName>AppearedPassedStatistics</rd:TableName>
-        <rd:TableAdapterFillMethod />
-        <rd:TableAdapterGetDataMethod />
-        <rd:TableAdapterName />
-      </rd:DataSetInfo>
-    </DataSet>
     <DataSet Name="AppearedPassedDetails">
       <Query>
         <DataSourceName>KD_DBScript</DataSourceName>
@@ -117,10 +73,58 @@
           <DataField>Class</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="InstituteType">
+          <DataField>InstituteType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RegulationTotal">
+          <DataField>RegulationTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RegulationPercentage">
+          <DataField>RegulationPercentage</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NotPromoted">
+          <DataField>NotPromoted</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="UFM">
+          <DataField>UFM</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RWH">
+          <DataField>RWH</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Court">
+          <DataField>Court</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Dropped">
+          <DataField>Dropped</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Detain">
+          <DataField>Detain</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FinancialYearName">
+          <DataField>FinancialYearName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="YearName">
+          <DataField>YearName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EndTermName">
+          <DataField>EndTermName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Project\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Kaushal_Darpan\API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
         <rd:TableName>AppearedPassedDetails</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -1084,7 +1088,37 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Appeared / Passed Statistics for the Diploma Engineering Exam End Term May 2024 Session 2023-2024</Value>
+                      <Value>Appeared / Passed Statistics for the Diploma Engineering Exam End Term </Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>arial</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!EndTermName.Value, "AppearedPassedDetails")</Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>arial</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> Session </Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>arial</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!FinancialYearName.Value, "AppearedPassedDetails")</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>arial</FontFamily>
