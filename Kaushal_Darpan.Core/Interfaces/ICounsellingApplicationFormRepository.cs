@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Models.CounsellingMaster;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,10 @@ namespace Kaushal_Darpan.Core.Interfaces
 {
     public interface ICounsellingApplicationFormRepository
     {
-        Task<int> SaveData(CounsellingApplicationFormDataModel productDetails);
+        Task<CounsellingApplicationFormDataModel> GetApplicationDataByID_Counselling(CounsellingApplicationSearchModel searchRequest);
+        Task<int> SavePersonalDetails(CounsellingApplicationFormDataModel productDetails);
+        Task<int> Counselling_SaveOption(CounsellingOptionFormDataModel request);
+        Task<DataTable> Counselling_GetOptionDetailsByID(CounsellingOptionFormDataModel model);
+        Task<DataTable> Counselling_GetDropdownByAction(Counselling_DropdownDataModel model);
     }
 }

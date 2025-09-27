@@ -69,7 +69,6 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-
         [HttpPost("GetITIPromotedStudent")]
         public async Task<ApiResult<DataTable>> GetITIPromotedStudent(PromotedStudentSearchModel model)
         {
@@ -104,12 +103,6 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
-
-
-
-
-
-
 
         [HttpPost("SavePromotedStudent")]
         [RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
@@ -255,12 +248,12 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     //validation
-                    if (request.Any(x => x.RoleID != (int)EnumRole.Admin))
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_UNAUTHORIZED_ACCESS_FOR_ROLE;
-                        return result;
-                    }
+                    //if (request.Any(x => x.RoleID != (int)EnumRole.))
+                    //{
+                    //    result.State = EnumStatus.Warning;
+                    //    result.Message = Constants.MSG_UNAUTHORIZED_ACCESS_FOR_ROLE;
+                    //    return result;
+                    //}
                     if (request.Count == 0)
                     {
                         result.State = EnumStatus.Error;
@@ -335,6 +328,232 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("SaveITIPromotedStudentReg")]
+        public async Task<ApiResult<bool>> SaveITIPromotedStudentReg([FromBody] List<PromotedStudentMarkedModel> request)
+        {
+            ActionName = "SaveITIPromotedStudentReg([FromBody] List<PromotedStudentMarkedModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    //validation
+                    //if (request.Any(x => x.RoleID != (int)EnumRole.))
+                    //{
+                    //    result.State = EnumStatus.Warning;
+                    //    result.Message = Constants.MSG_UNAUTHORIZED_ACCESS_FOR_ROLE;
+                    //    return result;
+                    //}
+                    if (request.Count == 0)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.Message = Constants.MSG_VALIDATION_FAILED;
+                        return result;
+                    }
+                    //ipaddress
+                    request.ForEach(x =>
+                    {
+                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    });
+                    // 1. promoted student in next term
+                    var isSave = await _unitOfWork.PromotedStudentRepository.SaveITIPromotedStudentReg(request);
+                    if (isSave > 0)
+                    {
+                        // 2. save student in student exam for regular
+                        var smModel = new List<StudentMarkedModel>();
+                        request.ForEach(x =>
+                        {
+                            smModel.Add(new StudentMarkedModel
+                            {
+                                RoleId = x.RoleID.Value,
+                                ModifyBy = x.ModifyBy,
+                                StudentId = x.StudentId,
+                                Marked = x.Marked,
+                                EndTermID = x.EndTermID
+                            });
+                        });
+                        //await _unitOfWork.PromotedStudentRepository.SaveEnrolledStudentExam_Next(smModel);
+
+                        //// 3. save student in student exam for back with papers                      
+                        //await _unitOfWork.PromotedStudentRepository.SaveEnrolledStudentExam_Back(smModel);
+                    }
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                    if (isSave == -1)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_NO_DATA_SAVE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_ERROR_OCCURRED;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("SaveFormNotFilledPromotedStudent")]
+        [RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
+        public async Task<ApiResult<bool>> SaveFormNotFilledPromotedStudent([FromBody] List<PromotedStudentMarkedModel> request)
+        {
+            ActionName = "SaveFormNotFilledPromotedStudent([FromBody] List<PromotedStudentMarkedModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    //validation
+                    if (request.Count == 0)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.Message = Constants.MSG_VALIDATION_FAILED;
+                        return result;
+                    }
+                    //ipaddress
+                    request.ForEach(x =>
+                    {
+                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    });
+                    // 1. promoted student in next term
+                    var isSave = await _unitOfWork.PromotedStudentRepository.SaveFormNotFilledPromotedStudent(request);
+                    if (isSave > 0)
+                    {
+                        // 2. save student in student exam for regular
+                        await _unitOfWork.PromotedStudentRepository.SaveFormNotFilledEnrolledStudentExam_Next(request);
+                    }
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                    if (isSave == -1)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_NO_DATA_SAVE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_ERROR_OCCURRED;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("SaveDetainedPromotedStudent")]
+        [RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
+        public async Task<ApiResult<bool>> SaveDetainedPromotedStudent([FromBody] List<PromotedStudentMarkedModel> request)
+        {
+            ActionName = "SaveDetainedPromotedStudent([FromBody] List<PromotedStudentMarkedModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    //validation
+                    if (request.Count == 0)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.Message = Constants.MSG_VALIDATION_FAILED;
+                        return result;
+                    }
+                    //ipaddress
+                    request.ForEach(x =>
+                    {
+                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    });
+                    // 1. promoted student in next term
+                    var isSave = await _unitOfWork.PromotedStudentRepository.SaveDetainedPromotedStudent(request);
+                    if (isSave > 0)
+                    {
+                        // 2. save student in student exam for regular
+                        await _unitOfWork.PromotedStudentRepository.SaveDetainedEnrolledStudentExam_Next(request);
+                    }
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                    if (isSave == -1)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_NO_DATA_SAVE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_ERROR_OCCURRED;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
 
     }
 }

@@ -740,7 +740,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<DataTable> SemesterMaster(int ShowAllSemester = 0, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0)
+        public async Task<DataTable> SemesterMaster(int ShowAllSemester = 0, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0, int IsWithNot6thSem = 0)
         {
             _actionName = "SemesterMaster()";
             return await Task.Run(async () =>
@@ -758,6 +758,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsWithNotYearly", IsWithNotYearly);
                         command.Parameters.AddWithValue("@IsPromote", IsPromote);
                         command.Parameters.AddWithValue("@IsForEx", IsForEx);
+                        command.Parameters.AddWithValue("@IsWithNot6thSem", IsWithNot6thSem);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -3555,7 +3556,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_InsertEmitraApplicationTransactions";
-
                         command.Parameters.AddWithValue("@ApplicationIdEnc", Model.ApplicationIdEnc);
                         command.Parameters.AddWithValue("@ApplicationNo", Model.ApplicationNo);
                         command.Parameters.AddWithValue("@KioskID", Model.KioskID);
@@ -3707,7 +3707,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     Int64 result = 0;
                     Int64 retval_TransactionId = 0;
-                    using (var command =await _dbContext.CreateCommandAsync())
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_InsertEmitraApplicationTransactions";
@@ -4269,7 +4269,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     };
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
-                }   
+                }
             });
         }
         public async Task<DataTable> BterCollegesGetAllData(BterCollegesSearchModel request)
@@ -9731,7 +9731,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> GetSSOIDDetailData(string SSOID,string action)
+        public async Task<DataTable> GetSSOIDDetailData(string SSOID, string action)
         {
             _actionName = "GetSSOIDDetailData(string SSOID,string action)";
             try
