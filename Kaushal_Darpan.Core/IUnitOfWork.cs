@@ -58,6 +58,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         IViewPlacedStudentsRepository ViewPlacedStudentsRepository { get; }
         IHrMasterRepository HrMasterRepository { get; }
         ICompanyMasterRepository CompanyMasterRepository { get; }
+        ICollegeWiseScholarshipRepository CollegeWiseScholarshipRepository { get; }
         IStaffMasterRepository StaffMasterRepository { get; }
         IAssignRoleRightsRepository AssignRoleRightsRepository { get; }
         IStaffDashboardRepository StaffDashboardRepository { get; }

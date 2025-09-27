@@ -501,6 +501,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return _companyMasterRepository ??= new CompanyMasterRepository(_dbContext);
             }
         }
+
+        private ICollegeWiseScholarshipRepository _collegeWiseScholarshipRepository;
+        public ICollegeWiseScholarshipRepository CollegeWiseScholarshipRepository
+        {
+            get
+            {
+                return _collegeWiseScholarshipRepository ??= new CollegeWiseScholarshipRepository(_dbContext);
+            }
+        }
+
         private IStaffMasterRepository _staffMasterRepository;
         public IStaffMasterRepository StaffMasterRepository
         {
