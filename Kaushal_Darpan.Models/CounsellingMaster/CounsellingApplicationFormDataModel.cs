@@ -41,7 +41,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? ApplicationNo { get; set; }
         public int ReligionID { get; set; }
         public int NationalityID { get; set; }
-        public int MaritialID { get; set; }
+        public int MaritalID { get; set; }
         public int PWDCategoryID { get; set; }
         public bool IsMinority { get; set; }
         public int IsFinalSubmit { get; set; }
@@ -59,4 +59,23 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? CandidateName { get; set; }
 
     }
+
+    public class CounsellingOptionFormDataModel : RequestBaseModel
+    {
+        public int? OptionID { get; set; }
+        public int? Priority { get; set; }
+        public int? CandidateID { get; set; }
+        public int? TradeId { get; set; }
+        public int? InstituteID { get; set; }
+        public int? CourseType { get; set; }
+        public int? ModifyBy { get; set; }
+    }
+
+    public class Counselling_DropdownDataModel : RequestBaseModel
+    {
+        public string? Action {  get; set; }
+        public int? TradeID { get; set; }
+        public int? InstituteID { get; set; }
+    }
+
 }
