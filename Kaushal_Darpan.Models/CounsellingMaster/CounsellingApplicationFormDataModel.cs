@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kaushal_Darpan.Models.DocumentDetails;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -69,6 +70,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public int? InstituteID { get; set; }
         public int? CourseType { get; set; }
         public int? ModifyBy { get; set; }
+        public string? Type { get; set; }
     }
 
     public class Counselling_DropdownDataModel : RequestBaseModel
@@ -76,6 +78,29 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? Action {  get; set; }
         public int? TradeID { get; set; }
         public int? InstituteID { get; set; }
+    }
+
+    public class Counselling_DocumentDataModel
+    {
+        public int? CandidateID { get; set; }
+        public int? ModifyBy { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? IsFinalSubmit { get; set; }
+        public List<Counselling_DocumentDetailList>? Counselling_DocumentDetailList { get; set; }
+        public List<Counselling_DocumentDetailsModel>? Counselling_DocumentDetails { get; set; }
+    }
+
+    public class Counselling_DocumentDetailList
+    {
+
+        public int? CandidateID { get; set; }
+        public string? ColumnName { get; set; }
+        public string? TableName { get; set; }
+        public string? FileName { get; set; }
+        public string? DisFileName { get; set; }
+        public string? Folder { get; set; }
+        public int? DocumentMasterID { get; set; }
+        public int? ModifyBy { get; set; }
     }
 
 }

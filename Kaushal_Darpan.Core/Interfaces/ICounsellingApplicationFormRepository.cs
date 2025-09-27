@@ -16,5 +16,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> Counselling_SaveOption(CounsellingOptionFormDataModel request);
         Task<DataTable> Counselling_GetOptionDetailsByID(CounsellingOptionFormDataModel model);
         Task<DataTable> Counselling_GetDropdownByAction(Counselling_DropdownDataModel model);
+        Task<bool> DeleteOptionByID_Counselling(CounsellingOptionFormDataModel model);
+        Task<bool> PriorityChange_Counselling(CounsellingOptionFormDataModel model);
+        Task<Counselling_DocumentDataModel> GetDocumentDatabyID_Counselling(CounsellingApplicationSearchModel searchRequest);
     }
 }

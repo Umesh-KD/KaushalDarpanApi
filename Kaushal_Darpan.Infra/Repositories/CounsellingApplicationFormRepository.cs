@@ -3,6 +3,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.CounsellingMaster;
+using Kaushal_Darpan.Models.DocumentDetails;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -248,6 +249,137 @@ namespace Kaushal_Darpan.Infra.Repositories
                     dataTable = await command.FillAsync_DataTable();
                 }
                 return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<bool> DeleteOptionByID_Counselling(CounsellingOptionFormDataModel model)
+        {
+            _actionName = "DeleteOptionByID_Counselling(CounsellingOptionFormDataModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_OptionDetails_IU";
+                        command.Parameters.AddWithValue("@action", "DeleteOption");
+
+                        command.Parameters.AddWithValue("@OptionID", model.OptionID);
+                        
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> PriorityChange_Counselling(CounsellingOptionFormDataModel model)
+        {
+            _actionName = "PriorityChange_Counselling(CounsellingOptionFormDataModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_OptionDetails_IU";
+                        command.Parameters.AddWithValue("@action", "PriorityChange");
+
+                        command.Parameters.AddWithValue("@OptionID", model.OptionID);
+                        command.Parameters.AddWithValue("@CandidateID", model.CandidateID);
+                        command.Parameters.AddWithValue("@Type", model.Type);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<Counselling_DocumentDataModel> GetDocumentDatabyID_Counselling(CounsellingApplicationSearchModel searchRequest)
+        {
+            _actionName = "GetDocumentDatabyID_Counselling(CounsellingApplicationSearchModel searchRequest)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataSet dataSet = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetDocumentsData_ByID";
+                        command.Parameters.AddWithValue("@SSOID", searchRequest.SSOID);
+                        command.Parameters.AddWithValue("@DepartmentID", searchRequest.DepartmentID);
+                        command.Parameters.AddWithValue("@JanAadharMemberID", searchRequest.JanAadharMemberID);
+                        command.Parameters.AddWithValue("@JanAadharNo", searchRequest.JanAadharNo);
+                        command.Parameters.AddWithValue("@CandidateID", searchRequest.CandidateId);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataSet = await command.FillAsync();
+                    }
+                    var data = new Counselling_DocumentDataModel();
+                    if (dataSet != null)
+                    {
+                        if (dataSet.Tables.Count > 0)
+                        {
+                            data = CommonFuncationHelper.ConvertDataTable<Counselling_DocumentDataModel>(dataSet.Tables[0]);
+
+                            if (dataSet.Tables[1].Rows.Count > 0)
+                            {
+
+                                data.Counselling_DocumentDetails = CommonFuncationHelper.ConvertDataTable<List<Counselling_DocumentDetailsModel>>(dataSet.Tables[1]);
+                            }
+                        }
+                    }
+                    return data;
+                });
             }
             catch (Exception ex)
             {

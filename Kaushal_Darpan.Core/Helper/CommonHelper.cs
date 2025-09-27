@@ -305,6 +305,27 @@ namespace Kaushal_Darpan.Core.Helper
         public string? FilePrefix { get; set; }
     }
 
+    public class UploadCounsellingFileModel
+    {
+        public int? CandidateID { get; set; }
+        public int? DocumentMasterID { get; set; }
+        public int? AcademicYear { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? EndTermID { get; set; }
+        public int? Eng_NonEng { get; set; }
+        public string? FileName { get; set; }
+        public IFormFile? file { get; set; }
+        public string? FolderName { get; set; }
+        public string? FileExtention { get; set; }
+        public string? MinFileSize { get; set; }
+        public string? MaxFileSize { get; set; }
+        public string? Password { get; set; }
+        public bool? IsCopy { get; set; }
+        public int? FileNameWithDynamicPath { get; set; }
+        public string? FilePrefix { get; set; }
+    }
+
+
     public class GetBTEROriginalListModel
     {
         public List<int>? DocumentMasterID { get; set; }
@@ -314,6 +335,8 @@ namespace Kaushal_Darpan.Core.Helper
     {
         public int DocumentMasterID { get; set; }
     }
+
+
     #endregion
 
     #region enums
