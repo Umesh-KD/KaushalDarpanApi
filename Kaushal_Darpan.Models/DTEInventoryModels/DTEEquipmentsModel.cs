@@ -21,5 +21,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public string? IPAddress { get; set; }
         public int DepartmentID { get; set; }
         public int ItemCategoryId { get; set; }
+        public int IsConsumable { get; set; }
+        public int IsSerialNo { get; set; }
     }
 }

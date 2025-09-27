@@ -67,6 +67,7 @@ namespace Kaushal_Darpan.Models.CitizenSuggestion
         public string? MobileNo { get; set; }
         public int QueryAging { get; set; }
         public int CitizenQueryStatus { get; set; }
+        public int RoleId { get; set; }
     }
 
     public class UserRatingDataModel

@@ -137,6 +137,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Status", request.Status);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@IsConsume", request.IsConsume);
+                        command.Parameters.AddWithValue("@voucherdate", request.voucherdate);
+                        command.Parameters.AddWithValue("@unitId", request.unitId);
 
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out

@@ -3556,7 +3556,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_InsertEmitraApplicationTransactions";
-
                         command.Parameters.AddWithValue("@ApplicationIdEnc", Model.ApplicationIdEnc);
                         command.Parameters.AddWithValue("@ApplicationNo", Model.ApplicationNo);
                         command.Parameters.AddWithValue("@KioskID", Model.KioskID);
