@@ -58,6 +58,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         IViewPlacedStudentsRepository ViewPlacedStudentsRepository { get; }
         IHrMasterRepository HrMasterRepository { get; }
         ICompanyMasterRepository CompanyMasterRepository { get; }
+        ICollegeWiseScholarshipRepository CollegeWiseScholarshipRepository { get; }
         IStaffMasterRepository StaffMasterRepository { get; }
         IAssignRoleRightsRepository AssignRoleRightsRepository { get; }
         IStaffDashboardRepository StaffDashboardRepository { get; }
@@ -275,6 +276,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         I_ITI_IIP_TrimashQuaterlyReportRepository ITI_IIP_TrimashQuaterlyReportRepository { get; }
 
         IITIIIPManageRepository ITIIIPManageRepository { get; }
+        ICounsellingMasterRepository CounsellingMasterRepository { get; }
+        ICounsellingApplicationFormRepository CounsellingApplicationFormRepository { get; }
         Task SaveChangesAsync();
     }
 }

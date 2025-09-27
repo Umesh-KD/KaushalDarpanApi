@@ -7,9 +7,10 @@ namespace Kaushal_Darpan.Infra.Repositories
         private readonly DBContext _dbContext;
         private bool disposedValue;
 
-        public UnitOfWork()
+        public UnitOfWork(DBContext dBContext)
         {
-            _dbContext = new DBContext();
+            //_dbContext = new DBContext();
+            _dbContext = dBContext;
         }
 
         #region UOW
@@ -500,6 +501,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return _companyMasterRepository ??= new CompanyMasterRepository(_dbContext);
             }
         }
+
+        private ICollegeWiseScholarshipRepository _collegeWiseScholarshipRepository;
+        public ICollegeWiseScholarshipRepository CollegeWiseScholarshipRepository
+        {
+            get
+            {
+                return _collegeWiseScholarshipRepository ??= new CollegeWiseScholarshipRepository(_dbContext);
+            }
+        }
+
         private IStaffMasterRepository _staffMasterRepository;
         public IStaffMasterRepository StaffMasterRepository
         {
@@ -2073,6 +2084,24 @@ namespace Kaushal_Darpan.Infra.Repositories
             get
             {
                 return _ITI_IIP_TrimashQuaterlyReportRepository ?? new ITI_IIP_TrimashQuaterlyReportRepository(_dbContext);
+            }
+        }
+
+        private ICounsellingMasterRepository _CounsellingMasterRepository;
+        public ICounsellingMasterRepository CounsellingMasterRepository
+        {
+            get
+            {
+                return _CounsellingMasterRepository ??= new CounsellingMasterRepository(_dbContext);
+            }
+        }
+
+        private ICounsellingApplicationFormRepository _CounsellingApplicationFormRepository;
+        public ICounsellingApplicationFormRepository CounsellingApplicationFormRepository
+        {
+            get
+            {
+                return _CounsellingApplicationFormRepository ??= new CounsellingApplicationFormRepository(_dbContext);
             }
         }
         #endregion

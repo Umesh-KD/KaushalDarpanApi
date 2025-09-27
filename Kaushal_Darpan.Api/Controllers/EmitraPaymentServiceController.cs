@@ -1624,6 +1624,17 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
 
                 var d = data.VerifyURL + "?MERCHANTCODE=" + data.MERCHANTCODE + "&SERVICEID=" + data.SERVICEID + "&PRN=" + Model.PRN + "";
+
+
+
+//                "MERCHANTCODE": "<mCode>",
+//"SERVICEID": "<srvId>",
+//"REQUESTID": "<requestId>",
+//"SSOTOKEN ": "<sso_Token>",
+//"CHECKSUM": "<checksum>"
+
+
+
                 HttpWebRequest webrequest = (HttpWebRequest)WebRequest.Create(d);
                 webrequest.Method = "POST";
                 webrequest.ContentType = "application/x-www-form-urlencoded";

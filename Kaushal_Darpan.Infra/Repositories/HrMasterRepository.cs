@@ -70,10 +70,18 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                        command.CommandText = " select * from M_HRManagerMaster Where HRManagerID='" + PK_ID + "' ";
+                        //command.CommandText = " select * from M_HRManagerMaster Where HRManagerID='" + PK_ID + "' ";
+
+                        
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_HrMasterUpdateAction";
+                        command.Parameters.AddWithValue("@ID", PK_ID);
+                        command.Parameters.AddWithValue("@Action", "_GetDataById");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
+
+
                     }
                     var data = new HRMaster();
                     if (dataTable != null)
@@ -154,10 +162,20 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
-                        command.CommandType = CommandType.Text;
-                        command.CommandText = $" update M_HRManagerMaster  set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'Where HRManagerID={request.HRManagerID}";
+                        //command.CommandType = CommandType.Text;
+                        //command.CommandText = $" update M_HRManagerMaster  set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'Where HRManagerID={request.HRManagerID}";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
+                        //_sqlQuery = command.GetSqlExecutableQuery();
+                        //result = await command.ExecuteNonQueryAsync();
+
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_HrMasterUpdateAction";
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@ID", request.HRManagerID);
+                        command.Parameters.AddWithValue("@_IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@Action", "_DeleteDataByID");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// sql query
                         result = await command.ExecuteNonQueryAsync();
                     }
                     if (result > 0)

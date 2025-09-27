@@ -469,7 +469,8 @@ namespace Kaushal_Darpan.Core.Helper
     {
         Reg = 1,
         Ex = 2,
-        NotFormFilled = 3
+        NotFormFilled = 3,
+        Detained = 4
     }
 
     #endregion
