@@ -37,6 +37,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
 
         public bool IsConsume { get; set; }
         public int ItemType { get; set; }
+        public DateTime? voucherdate { get; set; }
+        public int unitId { get; set; }
         public string? Remark { get; set; }
     }
 
