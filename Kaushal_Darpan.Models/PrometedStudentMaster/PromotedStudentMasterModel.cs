@@ -29,6 +29,7 @@ namespace Kaushal_Darpan.Models.PrometedStudentMaster
         public int StudentTypeId { get; set; }
         public int StudentExamID { get; set; }
         public int IsYearly { get; set; }
+        public string EndTermName { get; set; }
     }
 
     public class PromotedStudentMarkedModel : RequestBaseModel

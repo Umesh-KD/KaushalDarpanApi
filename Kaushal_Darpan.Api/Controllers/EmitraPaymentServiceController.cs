@@ -436,7 +436,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     Model.PaymentRequestURL = EmitraServiceDetail.ServiceURL;
                     Model.ServiceID = EmitraServiceDetail.SERVICEID;
                     Model.IsSucccess = true;
-
                     requestDetailsModel.Data = Model;
                     requestDetailsModel.State = EnumStatus.Success;
                     requestDetailsModel.Message = "successfully .!";
@@ -456,12 +455,8 @@ namespace Kaushal_Darpan.Api.Controllers
                 };
                 await CreateErrorLog(nex, _unitOfWork);
             }
-
             return requestDetailsModel;
         }
-
-
-
 
 
         [HttpPost("GetTransactionStatus")]
@@ -1179,7 +1174,6 @@ namespace Kaushal_Darpan.Api.Controllers
                         SSOTOKEN = data.SSOTOKEN,
                     };
                     data.CHECKSUM = CommonFuncationHelper.CreateMD5(JsonConvert.SerializeObject(dRequestChecksum));
-
 
 
 

@@ -3,6 +3,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.CounsellingMaster;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -26,9 +27,49 @@ namespace Kaushal_Darpan.Infra.Repositories
             _IPAddress = CommonFuncationHelper.GetIpAddress();
         }
 
-        public async Task<int> SaveData(CounsellingApplicationFormDataModel request)
+        public async Task<CounsellingApplicationFormDataModel> GetApplicationDataByID_Counselling(CounsellingApplicationSearchModel searchRequest)
         {
-            _actionName = "CounsellingApplicationFormDataModel(ApplicationDataModel request)";
+            _actionName = "GetApplicationDataByID_Counselling(CounsellingApplicationSearchModel searchRequest)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_GetApplicationDataById";
+                        
+                        command.Parameters.AddWithValue("@CandidateId", searchRequest.CandidateId);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    var data = new CounsellingApplicationFormDataModel();
+                    if (dataTable != null)
+                    {
+                        data = CommonFuncationHelper.ConvertDataTable<CounsellingApplicationFormDataModel>(dataTable);
+                    }
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> SavePersonalDetails(CounsellingApplicationFormDataModel request)
+        {
+            _actionName = "SavePersonalDetails(CounsellingApplicationFormDataModel request)";
             return await Task.Run(async () =>
             {
                 try
@@ -59,13 +100,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Pincode", request.Pincode);
                         command.Parameters.AddWithValue("@AadharNo", request.AadharNo);
                         command.Parameters.AddWithValue("@JanAadharNo", request.JanAadharNo);
-                        command.Parameters.AddWithValue("@JanAadharMobileNo", request.JanAadharMobileNo);
-                        command.Parameters.AddWithValue("@JanAadharName", request.JanAadharName);
-                        command.Parameters.AddWithValue("@JanAadharMemberId", request.JanAadharMemberId);
+                        command.Parameters.AddWithValue("@CategoryA_ID", request.CategoryA_ID);
+                        
                         command.Parameters.AddWithValue("@Remark", request.Remark);
-                        command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
-                        command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
-                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+                        
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
                         command.Parameters.AddWithValue("@CourseType", request.CourseType);
@@ -73,7 +111,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ApplicationNo", request.ApplicationNo);
                         command.Parameters.AddWithValue("@ReligionID", request.ReligionID);
                         command.Parameters.AddWithValue("@NationalityID", request.NationalityID);
-                        command.Parameters.AddWithValue("@MaritialID", request.MaritialID);
+                        command.Parameters.AddWithValue("@MaritalID", request.MaritalID);
                         command.Parameters.AddWithValue("@PWDCategoryID", request.PWDCategoryID);
                         command.Parameters.AddWithValue("@IsMinority", request.IsMinority);
                         command.Parameters.AddWithValue("@IsFinalSubmit", request.IsFinalSubmit);
@@ -109,6 +147,120 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errorDetails, ex);
                 }
             });
+        }
+
+        public async Task<int> Counselling_SaveOption(CounsellingOptionFormDataModel request)
+        {
+            _actionName = "SaveData(ApplicationDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandText = "USP_Counselling_OptionDetails_IU";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@action", "_addEditData");
+                        command.Parameters.AddWithValue("@OptionID", request.OptionID);
+                        command.Parameters.AddWithValue("@Priority", request.Priority);
+                        command.Parameters.AddWithValue("@CandidateID", request.CandidateID);
+                        command.Parameters.AddWithValue("@TradeId", request.TradeId);
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+
+                        // Add IP Address parameter
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        // Add the return parameter
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int); // out
+                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value); // out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errorDetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> Counselling_GetOptionDetailsByID(CounsellingOptionFormDataModel model)
+        {
+            _actionName = "Counselling_GetOptionDetailsByID(CounsellingOptionFormDataModel model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Counselling_GetOptionsById";
+                    command.Parameters.AddWithValue("@CandidateID", model.CandidateID);
+                    command.Parameters.AddWithValue("@action", "GetOptionsByID");
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> Counselling_GetDropdownByAction(Counselling_DropdownDataModel model)
+        {
+            _actionName = "Counselling_GetOptionDetailsByID(CounsellingOptionFormDataModel model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Counselling_Dropdowns";
+                    command.Parameters.AddWithValue("@TradeId", model.TradeID);
+                    command.Parameters.AddWithValue("@Action", model.Action);
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
     }
 }
