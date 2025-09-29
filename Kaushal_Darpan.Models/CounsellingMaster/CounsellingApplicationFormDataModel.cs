@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Kaushal_Darpan.Models.BterApplication.PreviewApplicationFormmodel;
 
 namespace Kaushal_Darpan.Models.CounsellingMaster
 {
@@ -101,6 +102,59 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? Folder { get; set; }
         public int? DocumentMasterID { get; set; }
         public int? ModifyBy { get; set; }
+    }
+
+    public class CounsellingApplicationPreviewDataModel
+    {
+        public int CandidateID { get; set; }
+        public string? ApplicationNo { get; set; }
+        public string? CandidateName { get; set; }
+        public string? FatherName { get; set; }
+        public string? MotherName { get; set; }
+        public string? AadharNo { get; set; }
+        public string? MaritalStatusName { get; set; }
+        public string? Religion { get; set; }
+        public string? DOB { get; set; }
+        public string? Email { get; set; }
+        public string? CategoryA { get; set; }
+        public string? MobileNo { get; set; }
+        public string? AddressLine1 { get; set; }
+        public string? AddressLine2 { get; set; }
+        public string? AddressLine3 { get; set; }
+        public string? StateName { get; set; }
+        public string? DistrictName { get; set; }
+        public string? BlockName { get; set; }
+        public string? Pincode { get; set; }
+        public string? Age { get; set; }
+        public string? StudentPhoto { get; set; }
+        public string? SignaturePhoto { get; set; }
+        public int? ProfileStatus { get; set; }
+        public int? IsfinalSubmit { get; set; }
+        public int? ServiceID { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? CourseTypeID { get; set; }
+        public int? UniqueServiceID { get; set; }
+        public List<OptionviewData_Counselling>? OptionViewData { get; set; }
+        public List<PendingDataModel_Counselling>? PendingDataModel { get; set; }
+        public List<Counselling_DocumentDetailsModel>? DocumentDetailList { get; set; }
+        public int? CategoryAId { get; set; }
+        public int? GenderId { get; set; }
+        public string? Nationality { get; set; }
+        public string? Category_E { get; set; }
+    }
+
+    public class OptionviewData_Counselling
+    {
+        public string? InstituteName { get; set; }
+        public int? TradeId { get; set; }
+        public int? Priority { get; set; }
+        public string? TradeName { get; set; }
+    }
+
+    public class PendingDataModel_Counselling
+    {
+        public string Pending { get; set; }
+        public int Index { get; set; }
     }
 
 }
