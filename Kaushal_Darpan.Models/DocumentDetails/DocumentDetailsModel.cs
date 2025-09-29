@@ -35,4 +35,30 @@ namespace Kaushal_Darpan.Models.DocumentDetails
         public int? EndTermID { get; set; }
         public int? CourseType { get; set; }
     }
+
+    public class Counselling_DocumentDetailsModel
+    {
+        public int? CandidateDocumentID { get; set; }
+        public int? DocumentMasterID { get; set; }
+        public int? CandidateID { get; set; }
+        public string? TableName { get; set; }
+        public string? ColumnName { get; set; }
+        public string? DisplayColumnNameEn { get; set; }
+        public string? DisplayColumnNameHi { get; set; }
+        public string? FolderName { get; set; }
+        public string? FileName { get; set; }
+        public string? Dis_FileName { get; set; }
+        public int? ModifyBy { get; set; }
+        public string? IPAddress { get; set; }
+        public bool? IsMandatory { get; set; }
+        public int? GroupNo { get; set; }
+        public int? SortOrder { get; set; }
+        public string? MaxFileSize { get; set; }
+        public string? MinFileSize { get; set; }
+        public string? FileExtention { get; set; }
+        public string? Remark { get; set; }
+        public string? OldFileName { get; set; }
+        public int? Status { get; set; }
+        public int? AcademicYearID { get; set; }
+    }
 }

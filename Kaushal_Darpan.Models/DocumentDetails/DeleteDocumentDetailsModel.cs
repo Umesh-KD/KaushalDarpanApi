@@ -16,4 +16,15 @@ namespace Kaushal_Darpan.Models.DocumentDetails
         public string? FolderName { get; set; }
         public string? FileName { get; set; }
     }
+
+    public class DeleteCounsellingDocumentDetailsModel
+    {
+        public int? CandidateID { get; set; }
+        public int? AcademicYear { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? EndTermID { get; set; }
+        public int? Eng_NonEng { get; set; }
+        public string? FolderName { get; set; }
+        public string? FileName { get; set; }
+    }
 }
