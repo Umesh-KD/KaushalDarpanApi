@@ -5,8 +5,10 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.CounsellingMaster;
 using Kaushal_Darpan.Models.Student;
+using Kaushal_Darpan.Models.DocumentDetails;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using static Kaushal_Darpan.Models.BterApplication.PreviewApplicationFormmodel;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -419,52 +421,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     await CreateErrorLog(nex, _unitOfWork);
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
-                }
-                return result;
-            });
-        }
-
-
-        [HttpPost("UpdateCandidateSsoMapping")]
-        public async Task<ApiResult<int>> UpdateCandidateSsoMapping([FromBody] CounsellingApplicationSearchModel model)
-        {
-            return await Task.Run(async () =>
-            {
-                var result = new ApiResult<int>();
-                try
-                {
-
-                    var data = await _unitOfWork.CounsellingApplicationFormRepository.UpdateStudentSsoMapping(model);
-                    await _unitOfWork.SaveChangesAsync();
-                    if (data > 0)
-                    {
-                        result.State = EnumStatus.Success;
-                        result.Data = data;
-                        result.Message = "Candidate Mapped Successfully";
-
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = "Something went wrong";
-                        result.Data = data;
-                    }
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-
-                    // Log the error
-                    await _unitOfWork.DisposeAsync();
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
                 }
                 return result;
             });

@@ -11,6 +11,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Kaushal_Darpan.Models.BterApplication.PreviewApplicationFormmodel;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
@@ -430,7 +431,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetDocumentsData_ByID";
+                        command.CommandText = "USP_Counselling_GetDocumentsData_ByID";
                         command.Parameters.AddWithValue("@SSOID", searchRequest.SSOID);
                         command.Parameters.AddWithValue("@DepartmentID", searchRequest.DepartmentID);
                         command.Parameters.AddWithValue("@JanAadharMemberID", searchRequest.JanAadharMemberID);
@@ -450,6 +451,115 @@ namespace Kaushal_Darpan.Infra.Repositories
                             {
 
                                 data.Counselling_DocumentDetails = CommonFuncationHelper.ConvertDataTable<List<Counselling_DocumentDetailsModel>>(dataSet.Tables[1]);
+                            }
+                        }
+                    }
+                    return data;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> SaveDocumentData_Counselling(List<Counselling_DocumentDetailsModel> request)
+        {
+            _actionName = "SaveDocumentData_Counselling(List<Counselling_DocumentDetailsModel> request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_DocumentsData_IU";
+                        command.Parameters.AddWithValue("@action", "_addEditData");
+
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        // Add the return parameter
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int); // out
+                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value); // out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errorDetails, ex);
+                }
+            });
+        }
+
+        public async Task<CounsellingApplicationPreviewDataModel> PreviewData_ByID_Counselling(CounsellingApplicationSearchModel searchRequest)
+        {
+            _actionName = "GetPreviewDatabyID(BterSearchModel searchRequest)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataSet dataSet = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_PreviewData_ByID";
+                        command.Parameters.AddWithValue("@CandidateID", searchRequest.CandidateId);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataSet = await command.FillAsync();
+                    }
+                    var data = new CounsellingApplicationPreviewDataModel();
+                    if (dataSet != null)
+                    {
+                        if (dataSet.Tables.Count > 0)
+                        {
+                            data = CommonFuncationHelper.ConvertDataTable<CounsellingApplicationPreviewDataModel>(dataSet.Tables[0]);
+
+                            if (dataSet.Tables.Count > 0 && dataSet.Tables[1].Rows.Count > 0)
+                            {
+
+                                data.OptionViewData = CommonFuncationHelper.ConvertDataTable<List<OptionviewData_Counselling>>(dataSet.Tables[1]);
+                            }
+
+                            if (dataSet.Tables.Count > 1 && dataSet.Tables[2].Rows.Count > 0)
+                            {
+                                try
+                                {
+                                    data.PendingDataModel = CommonFuncationHelper.ConvertDataTable<List<PendingDataModel_Counselling>>(dataSet.Tables[2]);
+                                }
+                                catch { }
+                            }
+                            if (dataSet.Tables.Count > 2 && dataSet.Tables[3].Rows.Count > 0)
+                            {
+                                try
+                                {
+                                    data.DocumentDetailList = CommonFuncationHelper.ConvertDataTable<List<Counselling_DocumentDetailsModel>>(dataSet.Tables[3]);
+                                }
+                                catch { }
                             }
                         }
                     }

@@ -1,5 +1,6 @@
 ﻿using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.CounsellingMaster;
+using Kaushal_Darpan.Models.DocumentDetails;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -23,6 +24,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         //Ravi Raj Singh
         Task<DataTable> MapCandidateSSO(CounsellingApplicationSearchModel filterModel);
         Task<int> UpdateStudentSsoMapping(CounsellingApplicationSearchModel request);
+        Task<int> SaveDocumentData_Counselling(List<Counselling_DocumentDetailsModel> request);
+        Task<CounsellingApplicationPreviewDataModel> PreviewData_ByID_Counselling(CounsellingApplicationSearchModel searchRequest);
     }
 
 
