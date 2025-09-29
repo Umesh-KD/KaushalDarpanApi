@@ -273,11 +273,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                 _actionName = "Save_CompanyValidation_NodalAction(CompanyMaster_Action request)";
                 try
                 {
+
+                    
                     int result = 0;
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "sp_scholershipcollegewisetest";
+                        command.CommandText = "USP_CollegeWiseScholarship";
                         command.Parameters.AddWithValue("@action", "SaveData");
                         command.Parameters.AddWithValue("@data", JsonConvert.SerializeObject(model));
 
@@ -408,6 +410,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.Parameters.AddWithValue("@Name", body.Name);
                         }
+                        if (body.Enrollment != null)
+                        {
+                            command.Parameters.AddWithValue("@Enrollment", body.Enrollment);
+                        }
+                        if (body.Category != null)
+                        {
+                            command.Parameters.AddWithValue("@Category", body.Category);
+                        }
                         command.Parameters.AddWithValue("@Status", body.Status);
                         command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
                         command.Parameters.AddWithValue("@RoleID", body.RoleID);
@@ -417,7 +427,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PageSize", body.PageSize);
                         command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
                         command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
-                        command.Parameters.AddWithValue("@Action", "_GetCollegeWiseScholarshipList");
+                        command.Parameters.AddWithValue("@action", "_GetCollegeWiseScholarshipList");
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -451,7 +461,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "sp_scholershipcollegewisetest";
+                        command.CommandText = "USP_CollegeWiseScholarship";
                         //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
 
 
@@ -503,7 +513,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "sp_scholershipcollegewisetest";
+                        command.CommandText = "USP_CollegeWiseScholarship";
                         //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
 
 
@@ -555,7 +565,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "sp_scholershipcollegewisetest";
+                        command.CommandText = "USP_CollegeWiseScholarship";
                         //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
 
 
