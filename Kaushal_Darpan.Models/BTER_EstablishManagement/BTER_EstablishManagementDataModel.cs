@@ -42,6 +42,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? CreatedBy { get; set; }
         public int? RoleID { get; set; }
         public int? UserID { get; set; }
+        public int? BranchID { get; set; }
         public string? SSOID { get; set; }
         public string? Name { get; set; }
     }
