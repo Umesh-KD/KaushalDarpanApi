@@ -16,5 +16,12 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> Counselling_SaveOption(CounsellingOptionFormDataModel request);
         Task<DataTable> Counselling_GetOptionDetailsByID(CounsellingOptionFormDataModel model);
         Task<DataTable> Counselling_GetDropdownByAction(Counselling_DropdownDataModel model);
+
+        //Ravi Raj Singh
+        Task<DataTable> MapCandidateSSO(CounsellingApplicationSearchModel filterModel);
+        Task<int> UpdateStudentSsoMapping(CounsellingApplicationSearchModel request);
     }
+
+
+
 }

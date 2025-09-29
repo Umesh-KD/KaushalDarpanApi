@@ -8,7 +8,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
 {
     public class CounsellingApplicationFormDataModel
     {
-        public int CandidateID { get; set; }
+        public int? CandidateID { get; set; }
         public string? SSOID { get; set; }
         public string? CandidateName { get; set; }
         public string? FatherName { get; set; }
@@ -57,6 +57,10 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? JanAadharMemberID { get; set; }
         public string? JanAadharNo { get; set; }
         public string? CandidateName { get; set; }
+        public string? MobileNo { get; set; }
+        public string? AadharNo { get; set; }
+        public string? DOB { get; set; }
+        public string? Action { get; set; }
 
     }
 
@@ -77,5 +81,10 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public int? TradeID { get; set; }
         public int? InstituteID { get; set; }
     }
+
+
+   
+
+
 
 }

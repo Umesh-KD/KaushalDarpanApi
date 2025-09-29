@@ -3,6 +3,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.CounsellingMaster;
+using Kaushal_Darpan.Models.Student;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -262,5 +263,84 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<DataTable> MapCandidateSSO(CounsellingApplicationSearchModel filterModel)
+        {
+            _actionName = "MapCandidateSSO()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_GetCandidateDetails";
+                        // Add parameters to the stored procedure from the model
+                        command.Parameters.AddWithValue("@MobileNo", filterModel.MobileNo);
+                        command.Parameters.AddWithValue("@AadharNo", filterModel.AadharNo);
+                        command.Parameters.AddWithValue("@Action", filterModel.Action ?? string.Empty);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<int> UpdateStudentSsoMapping(CounsellingApplicationSearchModel request)
+        {
+            return await Task.Run(async () =>
+            {
+                _actionName = "UpdateStudentSsoMapping(StudentDetailsModel request)";
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_UpdateSsoMapping";
+                        command.Parameters.AddWithValue("@CandidateId", request.CandidateId);
+                        command.Parameters.AddWithValue("@SSOID", request.SSOID);
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
+                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
+                        _sqlQuery = command.GetSqlExecutableQuery();// sql query
+                        await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
+
     }
 }

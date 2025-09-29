@@ -2,6 +2,8 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ApplicationData;
+using Kaushal_Darpan.Models.CounsellingMaster;
+using Kaushal_Darpan.Models.Student;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -111,5 +113,44 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> MapCandidateSSO(CounsellingApplicationSearchModel filterModel)
+        {
+            _actionName = "MapCandidateSSO()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_GetCandidateDetails";
+                        // Add parameters to the stored procedure from the model
+                        command.Parameters.AddWithValue("@MobileNo", filterModel.MobileNo);
+                        command.Parameters.AddWithValue("@AadharNo", filterModel.AadharNo);
+                        command.Parameters.AddWithValue("@Action", filterModel.Action ?? string.Empty);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
     }
 }
