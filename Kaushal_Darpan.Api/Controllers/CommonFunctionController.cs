@@ -8415,6 +8415,258 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        #region Counselling Application document 
+        [HttpPost("Counselling_UploadDocument"), DisableRequestSizeLimit]
+        [ActionName("Counselling_UploadDocument")]
+        public async Task<ApiResult<List<UploadFileWithPathDataModel_Counselling>>> Counselling_UploadDocument([FromForm] UploadCounsellingFileModel model)
+        {
+            ActionName = "UploadDocument([FromForm] UploadFileModel model)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<UploadFileWithPathDataModel_Counselling>>();
+                try
+                {
+                    //required file
+                    if (model.file == null || model.file.Length == 0)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_INVALID_REQUEST;
+                        return result;
+                    }
+
+                    //type(extention)
+                    if (!string.IsNullOrWhiteSpace(model.FileExtention))
+                    {
+                        var fileExtensions = Path.GetExtension(model.file.FileName).ToLower();
+                        if (model.FileExtention?.Split().Any(x => x.ToLower() == fileExtensions) == true)
+                        {
+                            result.State = EnumStatus.Error;
+                            result.ErrorMessage = $"Invalid extension, allowed only {string.Join(", ", model.FileExtention)}";
+                            return result;
+                        }
+                    }
+
+                    //Special Char
+                    var (isValid, message) = FileValidationHelper.IsValidFileName(model.file.FileName);
+                    if (!isValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = $"{message}";
+                        return result;
+                    }
+
+                    //min size
+                    if (!string.IsNullOrWhiteSpace(model.MinFileSize) && int.TryParse(model.MinFileSize.Replace("mb", string.Empty).Replace("kb", string.Empty), out int acceptMinFileSize) == true)
+                    {
+                        decimal fileSize = 0;
+                        if (model.MinFileSize.ToLower().EndsWith("mb"))
+                        {
+                            fileSize = Math.Round((decimal)model.file.Length / 1024 / 1024);
+                        }
+                        else if (model.MinFileSize.ToLower().EndsWith("kb"))
+                        {
+                            fileSize = Math.Round((decimal)model.file.Length / 1024);
+                        }
+                        if (fileSize < acceptMinFileSize)
+                        {
+                            result.State = EnumStatus.Error;
+                            result.ErrorMessage = $"Invalid file size, Min allowed only {model.MinFileSize}";
+                            return result;
+                        }
+                    }
+
+                    //max size
+                    if (!string.IsNullOrWhiteSpace(model.MaxFileSize) && int.TryParse(model.MaxFileSize.Replace("mb", string.Empty).Replace("kb", string.Empty), out int acceptMaxFileSize) == true)
+                    {
+                        decimal fileSize = 0;
+                        if (model.MaxFileSize.ToLower().EndsWith("mb"))
+                        {
+                            fileSize = Math.Round((decimal)model.file.Length / 1024 / 1024);
+                        }
+                        else if (model.MaxFileSize.ToLower().EndsWith("kb"))
+                        {
+                            fileSize = Math.Round((decimal)model.file.Length / 1024);
+                        }
+                        if (fileSize > acceptMaxFileSize)
+                        {
+                            result.State = EnumStatus.Error;
+                            result.ErrorMessage = $"Invalid file size, Max allowed only {model.MaxFileSize}";
+                            return result;
+                        }
+                    }
+
+                    string parentFolder = "";
+                    if (model.FileNameWithDynamicPath == 1)
+                    {
+                        var mergedFolderName = model.FolderName + "/" + Constants.DepartmentBterFolder + "/" + model.FilePrefix;
+                        string[] Folders = mergedFolderName.Split("/");
+                        for (int i = 0; i < Folders.Length; i++)
+                        {
+                            if (!System.IO.Directory.Exists($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}"))
+                            {
+                                System.IO.Directory.CreateDirectory($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}");
+                            }
+                            parentFolder = parentFolder + "/" + Folders[i];
+                        }
+                    }
+                    else
+                    {
+                        string[] Folders = model.FolderName.Split("/");
+                        //string parentFolder = "";
+                        for (int i = 0; i < Folders.Length; i++)
+                        {
+                            if (!System.IO.Directory.Exists($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}"))
+                            {
+                                System.IO.Directory.CreateDirectory($"{ConfigurationHelper.StaticFileRootPath}{parentFolder}/{Folders[i]}");
+                            }
+                            parentFolder = parentFolder + "/" + Folders[i];
+                        }
+                    }
+
+                    var uploadFolder = $"{ConfigurationHelper.StaticFileRootPath}{parentFolder}";
+                    //read the file name of the received file
+                    var OrgfileName = ContentDispositionHeaderValue.Parse(model.file.ContentDisposition).FileName.Trim('"');
+
+                    // save the file on Path
+                    //var FileName = $"{System.DateTime.Now.ToString("MMMddyyyyhhmmssffffff")}{Path.GetExtension(OrgfileName)}";
+                    var FileName = $"{model.FileName}{Path.GetExtension(OrgfileName)}";
+                    var finalPathSave = Path.Combine(uploadFolder, FileName);
+
+                    //model
+                    List<UploadFileWithPathDataModel_Counselling> uploadFileDataModels = new List<UploadFileWithPathDataModel_Counselling>();
+                    UploadFileWithPathDataModel_Counselling uploadFileDataModel = new UploadFileWithPathDataModel_Counselling();
+                    uploadFileDataModel.Dis_FileName = OrgfileName;
+                    if (model.FileNameWithDynamicPath == 1)
+                    {
+                        uploadFileDataModel.FileName = model.FilePrefix + "/" + FileName;
+                    }
+                    else
+                    {
+                        uploadFileDataModel.FileName = FileName;
+                    }
+                    uploadFileDataModel.FilePath = Path.Combine(uploadFolder ?? "", FileName);
+                    uploadFileDataModel.FolderName = uploadFolder;
+                    uploadFileDataModels.Add(uploadFileDataModel);
+
+                    // copy the old file and past in same location
+                    if (model.IsCopy == true)
+                    {
+                        var files = Directory.GetFiles(uploadFolder);
+                        var matchedFile = files.FirstOrDefault(file =>
+                                            string.Equals(Path.GetFileNameWithoutExtension(file), model.FileName, StringComparison.OrdinalIgnoreCase)
+                                        );
+
+                        if (!string.IsNullOrWhiteSpace(matchedFile))
+                        {
+                            var FileName_old = $"{model.FileName}_old_{System.DateTime.Now:MMMddyyyyhhmmssffffff}{Path.GetExtension(matchedFile)}";
+                            var finalPathSave_old = Path.Combine(uploadFolder, FileName_old);
+
+                            using (var sourceStream = new FileStream(matchedFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                            using (var destinationStream = new FileStream(finalPathSave_old, FileMode.Create, FileAccess.Write))
+                            {
+                                await sourceStream.CopyToAsync(destinationStream);
+                            }
+
+                            uploadFileDataModel.OldFileName = FileName_old;
+                        }
+                        else
+                        {
+                            var matchedOldFile = files.FirstOrDefault(file =>
+                                Path.GetFileNameWithoutExtension(file)
+                                    .StartsWith($"{model.FileName}_old_", StringComparison.OrdinalIgnoreCase)
+                            );
+
+                            uploadFileDataModel.OldFileName = !string.IsNullOrWhiteSpace(matchedOldFile) ? Path.GetFileName(matchedOldFile) : "";
+                        }
+                    }
+
+                    result.Data = uploadFileDataModels;
+
+                    //physical save
+                    var finalPath = Path.Combine(uploadFolder, FileName);
+
+                    if (System.IO.File.Exists(finalPath))
+                    {
+                        System.IO.File.Delete(finalPath);
+                    }
+
+                    using (var fileStream = new FileStream(finalPath, FileMode.Create))
+                    {
+                        model.file.CopyTo(fileStream);
+                    }
+
+                    //resize
+                    using (FileStream pngStream = new FileStream(finalPath, FileMode.OpenOrCreate))
+                    {
+                        CommonFuncationHelper.ResizeImage(pngStream, finalPathSave, 0, 0);
+                    }
+
+                    //success
+
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_ERROR_OCCURRED;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+
+                return result;
+            });
+        }
+
+        [HttpPost("Counselling_DeleteDocument")]
+        public async Task<ApiResult<bool>> Counselling_DeleteDocument([FromBody] DeleteCounsellingDocumentDetailsModel model)
+        {
+            ActionName = "Counselling_DeleteDocument([FromBody] DeleteCounsellingDocumentDetailsModel model)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    var filePath = Path.Combine(ConfigurationHelper.StaticFileRootPath, model.FolderName ?? "", model.FileName);
+                    if (!System.IO.File.Exists(filePath))
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_FILE_NOT_FOUND;
+                        return result;
+                    }
+                    System.IO.File.Delete(filePath);
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DELETE_SUCCESS;
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_ERROR_OCCURRED;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+        #endregion
 
     }
 }

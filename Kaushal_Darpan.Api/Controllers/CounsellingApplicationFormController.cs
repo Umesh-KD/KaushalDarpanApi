@@ -261,8 +261,128 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("DeleteOptionByID_Counselling")]
+        public async Task<ApiResult<bool>> DeleteOptionByID_Counselling(CounsellingOptionFormDataModel model)
+        {
+            ActionName = "DeleteOptionByID_Counselling(CounsellingOptionFormDataModel model)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.CounsellingApplicationFormRepository.DeleteOptionByID_Counselling(model);
+                    await _unitOfWork.SaveChangesAsync();
 
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DELETE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_DELETE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
 
+        [HttpPost("PriorityChange_Counselling")]
+        public async Task<ApiResult<bool>> PriorityChange_Counselling(CounsellingOptionFormDataModel model)
+        {
+            ActionName = "PriorityChange(CounsellingOptionFormDataModel model)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.CounsellingApplicationFormRepository.PriorityChange_Counselling(model);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetDocumentDatabyID_Counselling")]
+        public async Task<ApiResult<Counselling_DocumentDataModel>> GetDocumentDatabyID_Counselling(CounsellingApplicationSearchModel searchRequest)
+        {
+            ActionName = "GetDocumentDatabyID_Counselling(CounsellingApplicationSearchModel searchRequest)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<Counselling_DocumentDataModel>();
+                try
+                {
+                    var data = await _unitOfWork.CounsellingApplicationFormRepository.GetDocumentDatabyID_Counselling(searchRequest);
+                    if (data != null)
+                    {
+                        var mappedData = _mapper.Map<Counselling_DocumentDataModel>(data);
+                        result.Data = mappedData;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
         [HttpPost("MapCandidateSSO")]
         public async Task<ApiResult<DataTable>> MapCandidateSSO(CounsellingApplicationSearchModel model)
         {
@@ -349,6 +469,5 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-
     }
 }

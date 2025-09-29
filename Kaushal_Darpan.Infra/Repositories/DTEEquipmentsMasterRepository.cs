@@ -130,6 +130,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@ItemCategoryId",request.ItemCategoryId);
+                        command.Parameters.AddWithValue("@IsConsumable", request.IsConsumable);
+                        command.Parameters.AddWithValue("@IsSerialNo", request.IsSerialNo);
                         
 
                         _sqlQuery = command.GetSqlExecutableQuery();
