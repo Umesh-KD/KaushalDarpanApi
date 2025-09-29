@@ -711,6 +711,7 @@
         public string ToDate { get; set; }           
         public int CreatedBy { get; set; }           
         public int ModifyBy { get; set; }            
+        
         public string ModifyDate { get; set; }    
         public string IPAddress { get; set; }        
     }
@@ -734,6 +735,7 @@
         public int ModifyBy { get; set; }
         public string ModifyDate { get; set; }
         public string IPAddress { get; set; }
+        public int PostedSeat { get; set; }
     }
 
 }

@@ -4,6 +4,7 @@ using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.CounsellingMaster;
+using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.DocumentDetails;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -384,69 +385,19 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-
-        [HttpPost("SaveDocumentData_Counselling")]
-        public async Task<ApiResult<bool>> SaveDocumentData_Counselling([FromBody] List<Counselling_DocumentDetailsModel> request)
+        [HttpPost("MapCandidateSSO")]
+        public async Task<ApiResult<DataTable>> MapCandidateSSO(CounsellingApplicationSearchModel model)
         {
-            ActionName = "SaveDocumentData_Counselling([FromBody] List<Counselling_DocumentDetailsModel> request)";
+            ActionName = " Counselling_GetDropdownByAction(Counselling_DropdownDataModel model)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<bool>();
+                var result = new ApiResult<DataTable>();
                 try
                 {
-                    var isSave = await _unitOfWork.CounsellingApplicationFormRepository.SaveDocumentData_Counselling(request);
-                    await _unitOfWork.SaveChangesAsync();
-
-                    if (isSave == -1)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_NO_DATA_SAVE;
-                    }
-                    else if (isSave > 0)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_SAVE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                }
-                return result;
-            });
-        }
-
-        [HttpPost("PreviewData_ByID_Counselling")]
-        public async Task<ApiResult<CounsellingApplicationPreviewDataModel>> PreviewData_ByID_Counselling(CounsellingApplicationSearchModel searchRequest)
-        {
-            ActionName = "GetByID(int AppointExaminerID)";
-            return await Task.Run(async () =>
-            {
-                var result = new ApiResult<CounsellingApplicationPreviewDataModel>();
-                try
-                {
-                    var data = await _unitOfWork.CounsellingApplicationFormRepository.PreviewData_ByID_Counselling(searchRequest);
+                    var data = await _unitOfWork.CounsellingApplicationFormRepository.MapCandidateSSO(model);
                     if (data != null)
                     {
-                        var mappedData = _mapper.Map<CounsellingApplicationPreviewDataModel>(data);
+                        var mappedData = _mapper.Map<DataTable>(data);
                         result.Data = mappedData;
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
