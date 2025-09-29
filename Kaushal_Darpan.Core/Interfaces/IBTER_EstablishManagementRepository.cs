@@ -62,5 +62,8 @@ namespace Kaushal_Darpan.Core.Interfaces
 
 
         Task<int> OfficeVacancyActiveDeActive(OfficeVacancyModel model);
+
+
+        Task<DataTable> GetStaffWorkRegular_ArrangementReort(BTER_EM_GetStaffListDataModel body);
     }
 }

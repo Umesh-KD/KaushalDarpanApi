@@ -1692,5 +1692,50 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<DataTable> GetStaffWorkRegular_ArrangementReort(BTER_EM_GetStaffListDataModel body)
+        {
+            _actionName = "GetStaffWorkRegular_ArrangementReort(BTER_EM_GetStaffListDataModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_B_EM_GetStaffWorkRegular_ArrangementReort";
+                        command.Parameters.AddWithValue("@action", "WorkRegular_ArrangementReort");
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                        command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                        command.Parameters.AddWithValue("@Name", body.Name);
+                        command.Parameters.AddWithValue("@LevelID", body.LevelID);
+                        command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
+                        command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@BranchID", body.BranchID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
