@@ -3,6 +3,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.ITIIIPManageDataModel;
+using Kaushal_Darpan.Models.Report;
 using Kaushal_Darpan.Models.StudentsJoiningStatusMarks;
 using Kaushal_Darpan.Models.studentve;
 using Newtonsoft.Json;
@@ -707,6 +708,50 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+
+
+
+        public async Task<DataSet> GetChangeShiftUnitData(ReportCollegeModel model)
+        {
+            _actionName = "GetAllotmentReportCollege(AllotmentReportCollegeRequestModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ChangeShiftUnitColleges";
+                        command.Parameters.AddWithValue("@AcademicYearID", model.AcademicYearID);
+                        command.Parameters.AddWithValue("@TradeLevelID", model.TradeLevelID);
+                        command.Parameters.AddWithValue("@TradeTypeID", model.TradeTypeID);
+                        command.Parameters.AddWithValue("@TradeId", model.TradeId);
+                        command.Parameters.AddWithValue("@CollegeId", model.CollegeId);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
 
 
     }

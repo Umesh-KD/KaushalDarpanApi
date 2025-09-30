@@ -39,6 +39,9 @@
         public int ? PageSize { get; set; }
         public string? SortOrder { get; set; }
         public string? SortColumn { get; set; }
+        public string? ScholarshipMode { get; set; }
+        public string? SchemeName { get; set; }
+        public int? CourseType { get; set; }
 
     }
 
@@ -63,6 +66,7 @@
         public bool DeleteStatus { get; set; }
         public int CreatedBy { get; set; }
         public int ModifyBy { get; set; }
+        public string? ScholarshipMode { get; set; }
     }
 
 

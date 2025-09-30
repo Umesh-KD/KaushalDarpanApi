@@ -4,6 +4,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.BterStudentJoinStatus;
+using Kaushal_Darpan.Models.Report;
 using Kaushal_Darpan.Models.StudentsJoiningStatusMarks;
 using Kaushal_Darpan.Models.studentve;
 using Microsoft.AspNetCore.Mvc;
@@ -422,6 +423,48 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
+        [HttpPost("GetChangeShiftUnitData")]
+        public async Task<ApiResult<DataSet>> GetChangeShiftUnitData([FromBody] ReportCollegeModel model)
+        {
+            ActionName = "GetAllotmentReportCollege([FromBody] AllotmentReportCollegeRequestModel model)";
+            var result = new ApiResult<DataSet>();
+
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.StudentsJoiningStatusMarksRepository.GetChangeShiftUnitData(model));
+                result.State = EnumStatus.Success;
+
+                if (result.Data.Tables.Count == 0 || result.Data.Tables[0].Rows.Count == 0)
+                {
+                    result.Message = "No record found.!";
+                    return result;
+                }
+
+                result.Message = "Data loaded successfully.!";
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
+
+
+
 
 
 
