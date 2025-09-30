@@ -405,7 +405,13 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.State = EnumStatus.Success;
                     if (result.Data == 1)
                     {
+                        result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else if (result.Data == 3)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "This office has already reached its post limit.";
                     }
                     else
                     {
