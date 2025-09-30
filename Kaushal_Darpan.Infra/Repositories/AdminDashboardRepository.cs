@@ -45,7 +45,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@IsYearly", model.IsYearly);
                     command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
 
-                    _sqlQuery = command.GetSqlExecutableQuery();
+                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }
                 return dataTable;
