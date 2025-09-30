@@ -1,4 +1,5 @@
 ﻿using Kaushal_Darpan.Models.ApplicationData;
+using Kaushal_Darpan.Models.CollegeWiseScholarship;
 using Kaushal_Darpan.Models.CounsellingMaster;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,9 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<int> SaveData(ApplicationDataModel productDetails);
         Task<DataTable> MapCandidateSSO(CounsellingApplicationSearchModel filterModel);
+        Task<DataTable> GetCounsellingAllotmentList(CounsellingAllotmentListModel filterModel);
 
+        Task<DataTable> GetCandidateList(CounsellingAllotmentListModel filterModel);
 
     }
 }

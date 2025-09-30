@@ -40,6 +40,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public DateTime? voucherdate { get; set; }
         public int unitId { get; set; }
         public string? Remark { get; set; }
+        public string? abbreviation { get; set; }
+        public string? batchId { get; set; }
     }
 
     public class DTEItemsSearchModel
@@ -54,6 +56,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int StatusID { get; set; }
         public int ItemId { get; set; }
         public int ActionType { get; set; }
+        public int ItemType { get; set; }
+        public int IsConsumable { get; set; }
     }
     public class DTEItemsDetailsModel
     {
@@ -71,6 +75,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? EquipmentWorking { get; set; }
         public bool isOption { get; set; }
         public string? AuctionStatus { get; set; }
+        public int IsSerialNo { get; set; }
 
     }
 
@@ -134,8 +139,20 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public string Type { get; set; }
 
     }
+
+    public class DTEItemsSaveModel
+    {
+        public int EquipmentsId { get; set; }
+        public int ItemId { get; set; }
+        public int CategoryId { get; set; }
+        public int TradeId { get; set; }
+        public string? IssueNumber { get; set; }
+        public DateTime IssueDate { get; set; }
+        public string? CreatedBy { get; set; }
+        public string? IPAddress { get; set; }
+        public string? ReturnIssueNumber { get; set; }
+        public DateTime ReturnIssueDate { get; set; }
+        public int IssueQuantity { get; set; }
+    }
 }
 
-
-
-    

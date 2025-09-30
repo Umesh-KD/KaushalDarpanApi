@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ApplicationData;
+using Kaushal_Darpan.Models.CollegeWiseScholarship;
 using Kaushal_Darpan.Models.CounsellingMaster;
 using Kaushal_Darpan.Models.Student;
 using System;
@@ -151,6 +152,85 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetCounsellingAllotmentList(CounsellingAllotmentListModel body)
+        {
+            _actionName = "GetCounsellingAllotmentList(CollegeWiseScholarshipSearchModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CounsellingAllotmentList";
+                        
+                        command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
+                        command.Parameters.AddWithValue("@PageSize", body.PageSize);
+                        command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
+                        command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
+                        command.Parameters.AddWithValue("@action", "_GetTradeWiseList");
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> GetCandidateList(CounsellingAllotmentListModel body)
+        {
+            _actionName = "GetCounsellingAllotmentList(CollegeWiseScholarshipSearchModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CounsellingAllotmentList";
+                      
+                        command.Parameters.AddWithValue("@TradeID", body.TradeID);
+                        command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
+                        command.Parameters.AddWithValue("@PageSize", body.PageSize);
+                        command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
+                        command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
+                        command.Parameters.AddWithValue("@action", "_GetcandidateList");
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
     }
 }

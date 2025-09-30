@@ -117,12 +117,14 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? InstituteID { get; set; }
         public int? UserId { get; set; }
         public int? TransactionID { get; set; }
+    
         public int? ConditionAtReturn { get; set; }
         public string? StaffName { get; set; }
         public DateTime? DueDate { get; set; }
         public DateTime? IssueDate { get; set; }
         public DateTime? ReturnDate { get; set; }
         public string? Remarks { get; set; }
+        public string? FileName { get; set; }
 
         public List<ItemsDetails>? ItemList { get; set; }
     }
