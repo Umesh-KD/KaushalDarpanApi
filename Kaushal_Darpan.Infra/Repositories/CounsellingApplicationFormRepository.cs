@@ -171,6 +171,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TradeId", request.TradeId);
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@InstituteList", JsonConvert.SerializeObject(request.InstituteList));
 
                         // Add IP Address parameter
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
@@ -203,22 +204,77 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> Counselling_GetOptionDetailsByID(CounsellingOptionFormDataModel model)
+        //public async Task<DataTable> Counselling_GetOptionDetailsByID(CounsellingOptionFormDataModel model)
+        //{
+        //    _actionName = "Counselling_GetOptionDetailsByID(CounsellingOptionFormDataModel model)";
+        //    try
+        //    {
+        //        DataTable dataTable = new DataTable();
+        //        using (var command = await _dbContext.CreateCommandAsync())
+        //        {
+        //            command.CommandType = CommandType.StoredProcedure;
+        //            command.CommandText = "USP_Counselling_GetOptionsById";
+        //            command.Parameters.AddWithValue("@CandidateID", model.CandidateID);
+        //            command.Parameters.AddWithValue("@action", "GetOptionsByID");
+        //            _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+        //            dataTable = await command.FillAsync_DataTable();
+        //        }
+        //        return dataTable;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var errorDesc = new ErrorDescription
+        //        {
+        //            Message = ex.Message,
+        //            PageName = _pageName,
+        //            ActionName = _actionName,
+        //            SqlExecutableQuery = _sqlQuery
+        //        };
+        //        var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+        //        throw new Exception(errordetails, ex);
+        //    }
+        //}
+
+        public async Task<List<CounsellingOptionFormDataModel>> Counselling_GetOptionDetailsByID(CounsellingOptionFormDataModel searchRequest)
         {
-            _actionName = "Counselling_GetOptionDetailsByID(CounsellingOptionFormDataModel model)";
+            _actionName = "Counselling_GetOptionDetailsByID(CounsellingOptionFormDataModel searchRequest)";
             try
             {
-                DataTable dataTable = new DataTable();
-                using (var command = await _dbContext.CreateCommandAsync())
+                return await Task.Run(async () =>
                 {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_Counselling_GetOptionsById";
-                    command.Parameters.AddWithValue("@CandidateID", model.CandidateID);
-                    command.Parameters.AddWithValue("@action", "GetOptionsByID");
-                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                    dataTable = await command.FillAsync_DataTable();
-                }
-                return dataTable;
+                    DataSet dataSet = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_GetOptionsById";
+                        command.Parameters.AddWithValue("@CandidateID", searchRequest.CandidateID);
+                        command.Parameters.AddWithValue("@action", "GetOptionsByID");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataSet = await command.FillAsync();
+                    }
+                    var data = new List<CounsellingOptionFormDataModel>();
+                    var childData = new List<InstituteListDataModel_Coun>();
+
+                    if (dataSet != null)
+                    {
+                        if (dataSet.Tables.Count > 0)
+                        {
+                            data = CommonFuncationHelper.ConvertDataTable<List<CounsellingOptionFormDataModel>>(dataSet.Tables[0]);
+
+                            childData = CommonFuncationHelper.ConvertDataTable<List<InstituteListDataModel_Coun>>(dataSet.Tables[1]);
+
+                            data.ForEach(option =>
+                            {
+                                if (option.OptionID.HasValue)
+                                {
+                                    option.InstituteList = childData.Where(x => x.OptionID == option.OptionID).ToList();
+                                }
+                            });
+                        }
+                    }
+                    return data;
+                });
             }
             catch (Exception ex)
             {
@@ -578,6 +634,86 @@ namespace Kaushal_Darpan.Infra.Repositories
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                 throw new Exception(errordetails, ex);
             }
+        }
+
+        public async Task<bool> DeleteChildOptionByID_Counselling(InstituteListDataModel_Coun model)
+        {
+            _actionName = "DeleteChildOptionByID_Counselling(InstituteListDataModel_Coun model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_OptionDetails_IU";
+                        command.Parameters.AddWithValue("@action", "DeleteOption_child");
+
+                        command.Parameters.AddWithValue("@InstituteOptionID", model.InstituteOptionID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> ChildPriorityChange_Counselling(InstituteListDataModel_Coun model)
+        {
+            _actionName = "ChildPriorityChange_Counselling(InstituteListDataModel_Coun model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_OptionDetails_IU";
+                        command.Parameters.AddWithValue("@action", "PriorityChange_Child");
+
+                        command.Parameters.AddWithValue("@OptionID", model.OptionID);
+                        command.Parameters.AddWithValue("@InstituteOptionID", model.InstituteOptionID);
+                        command.Parameters.AddWithValue("@Type", model.Type);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
         }
     }
 }
