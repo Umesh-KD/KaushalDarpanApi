@@ -518,7 +518,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<CounsellingApplicationPreviewDataModel> PreviewData_ByID_Counselling(CounsellingApplicationSearchModel searchRequest)
         {
-            _actionName = "GetPreviewDatabyID(BterSearchModel searchRequest)";
+            _actionName = "PreviewData_ByID_Counselling(CounsellingApplicationSearchModel searchRequest)";
             try
             {
                 return await Task.Run(async () =>

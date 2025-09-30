@@ -385,10 +385,11 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
         [HttpPost("MapCandidateSSO")]
         public async Task<ApiResult<DataTable>> MapCandidateSSO(CounsellingApplicationSearchModel model)
         {
-            ActionName = " Counselling_GetDropdownByAction(Counselling_DropdownDataModel model)";
+            ActionName = "MapCandidateSSO(CounsellingApplicationSearchModel model)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
@@ -398,6 +399,145 @@ namespace Kaushal_Darpan.Api.Controllers
                     if (data != null)
                     {
                         var mappedData = _mapper.Map<DataTable>(data);
+                        result.Data = mappedData;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+        [HttpPost("UpdateCandidateSsoMapping")]
+        public async Task<ApiResult<int>> UpdateCandidateSsoMapping([FromBody] CounsellingApplicationSearchModel model)
+        {
+            ActionName = "UpdateCandidateSsoMapping([FromBody] CounsellingApplicationSearchModel model)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+
+                    var data = await _unitOfWork.CounsellingApplicationFormRepository.UpdateStudentSsoMapping(model);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Data = data;
+                        result.Message = "Candidate Mapped Successfully";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Something went wrong";
+                        result.Data = data;
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    await _unitOfWork.DisposeAsync();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("SaveDocumentData_Counselling")]
+        public async Task<ApiResult<bool>> SaveDocumentData_Counselling([FromBody] List<Counselling_DocumentDetailsModel> request)
+        {
+            ActionName = "SaveDocumentData_Counselling([FromBody] List<Counselling_DocumentDetailsModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    // Pass the list to the repository for batch update
+                    var isSave = await _unitOfWork.CounsellingApplicationFormRepository.SaveDocumentData_Counselling(request);
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                    if (isSave == -1)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_NO_DATA_SAVE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("PreviewData_ByID_Counselling")]
+        public async Task<ApiResult<CounsellingApplicationPreviewDataModel>> PreviewData_ByID_Counselling(CounsellingApplicationSearchModel searchRequest)
+        {
+            ActionName = "PreviewData_ByID_Counselling(CounsellingApplicationSearchModel searchRequest)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<CounsellingApplicationPreviewDataModel>();
+                try
+                {
+                    var data = await _unitOfWork.CounsellingApplicationFormRepository.PreviewData_ByID_Counselling(searchRequest);
+                    if (data != null)
+                    {
+                        var mappedData = _mapper.Map<CounsellingApplicationPreviewDataModel>(data);
                         result.Data = mappedData;
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
