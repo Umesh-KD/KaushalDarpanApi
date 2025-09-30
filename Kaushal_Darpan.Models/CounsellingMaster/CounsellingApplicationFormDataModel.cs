@@ -49,6 +49,19 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public int IsFinalSubmit { get; set; }
         public string? DepartmentName { get; set; }
         public string? SubmittedStep { get; set; }
+        public string? RollNumber { get; set; }
+        public string? Designation { get; set; }
+        public string? Trade { get; set; }
+        public string? MeritNo { get; set; }
+        public int SelectionCategoryID { get; set; } = 0;
+        public bool IsTSP { get; set; } = false;
+        public int HomeDistrictID { get; set; } = 0;
+        public bool IsPH { get; set; } = false;
+        public bool IsExServicemen { get; set; } = false;
+        public bool IsSportsPerson { get; set; } = false;
+        public bool IsSpouseInSameService { get; set; } = false;
+        public bool IsShahidDependent { get; set; } = false;
+        public bool IsAnyIncurableDiseases { get; set; } = false;
     }
 
     public class CounsellingApplicationSearchModel

@@ -120,6 +120,20 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentName", request.DepartmentName);
                         command.Parameters.AddWithValue("@SubmittedStep", request.SubmittedStep);
 
+                        command.Parameters.AddWithValue("@RollNumber", request.RollNumber);
+                        command.Parameters.AddWithValue("@Designation", request.Designation);
+                        command.Parameters.AddWithValue("@Trade", request.Trade);
+                        command.Parameters.AddWithValue("@MeritNo", request.MeritNo);
+                        command.Parameters.AddWithValue("@SelectionCategoryID", request.SelectionCategoryID);
+                        command.Parameters.AddWithValue("@IsTSP", request.IsTSP);
+                        command.Parameters.AddWithValue("@HomeDistrictID", request.HomeDistrictID);
+                        command.Parameters.AddWithValue("@IsPH", request.IsPH);
+                        command.Parameters.AddWithValue("@IsExServicemen", request.IsExServicemen);
+                        command.Parameters.AddWithValue("@IsSportsPerson", request.IsSportsPerson);
+                        command.Parameters.AddWithValue("@IsSpouseInSameService", request.IsSpouseInSameService);
+                        command.Parameters.AddWithValue("@IsShahidDependent", request.IsShahidDependent);
+                        command.Parameters.AddWithValue("@IsAnyIncurableDiseases", request.IsAnyIncurableDiseases);
+
                         // Add IP Address parameter
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
