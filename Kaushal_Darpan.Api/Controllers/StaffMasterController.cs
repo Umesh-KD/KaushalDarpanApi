@@ -978,13 +978,15 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     var student = new GetSectionStudentDataModel
                     {
-                        StudentID = Convert.ToInt32(row["StudentID"]),
-                        EnrollmentNo = Convert.ToString(row["EnrollmentNo"]),
-                        StreamID = Convert.ToInt32(row["StreamID"]),
-                        ApplicationID = Convert.ToInt32(row["ApplicationID"])
+                        StudentID = row["StudentID"] != DBNull.Value ? Convert.ToInt32(row["StudentID"]) : 0,
+                        EnrollmentNo = row["EnrollmentNo"] != DBNull.Value ? Convert.ToString(row["EnrollmentNo"]) : string.Empty,
+                        StreamID = row["StreamID"] != DBNull.Value ? Convert.ToInt32(row["StreamID"]) : 0,
+                        ApplicationID = row["ApplicationID"] != DBNull.Value ? Convert.ToInt32(row["ApplicationID"]) : 0
                     };
+
                     getSectionStudentDataModels.Add(student);
                 }
+
 
                 var BranchSectionList = new ApiResult<DataTable>();
                 BranchSectionList.Data = await _unitOfWork.StaffMasterRepository.GetBranchSectionData(getSectionDataModel);
@@ -993,20 +995,22 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     var section = new GetSectionDataModel
                     {
-                        SectionID = Convert.ToInt32(row["SectionID"]),
-                        DepartmentID = Convert.ToInt32(row["DepartmentID"]),
-                        EndTermID = Convert.ToInt32(row["EndTermID"]),
-                        Eng_NonEng = Convert.ToInt32(row["Eng_NonEng"]),
-                        StreamID = Convert.ToInt32(row["StreamID"]),
-                        StudentCount = Convert.ToInt32(row["StudentCount"]),
-                        ActiveStatus = Convert.ToBoolean(row["ActiveStatus"]),
-                        DeleteStatus = Convert.ToBoolean(row["DeleteStatus"]),
-                        CreatedBy = Convert.ToInt32(row["CreatedBy"]),
-                        ModifyBy = Convert.ToInt32(row["ModifyBy"]),
-                        CreatedDate = Convert.ToDateTime(row["CreatedDate"]),
+                        SectionID = row.Field<int?>("SectionID") ?? 0,
+                        DepartmentID = row.Field<int?>("DepartmentID") ?? 0,
+                        EndTermID = row.Field<int?>("EndTermID") ?? 0,
+                        Eng_NonEng = row.Field<int?>("Eng_NonEng") ?? 0,
+                        StreamID = row.Field<int?>("StreamID") ?? 0,
+                        StudentCount = row.Field<int?>("StudentCount") ?? 0,
+                        ActiveStatus = row.Field<bool?>("ActiveStatus") ?? false,
+                        DeleteStatus = row.Field<bool?>("DeleteStatus") ?? false,
+                        CreatedBy = row.Field<int?>("CreatedBy") ?? 0,
+                        ModifyBy = row.Field<int?>("ModifyBy") ?? 0,
+                        CreatedDate = row.Field<DateTime?>("CreatedDate") ?? DateTime.MinValue
                     };
+
                     getSectionDataList.Add(section);
                 }
+
 
                 List<AllSectionBranchStudentDataModel> allSectionBranchStudentDataModel = new List<AllSectionBranchStudentDataModel>();
 
@@ -1014,10 +1018,18 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 foreach (var section in getSectionDataList)
                 {
+                    // Skip invalid or negative counts
+                    if (section.StudentCount <= 0)
+                        continue;
+
                     for (int i = 0; i < section.StudentCount; i++)
                     {
+                        if (getSectionStudentDataModels.Count == 0)
+                            break; // No students available at all
+
+                        // Reset index if it goes out of range
                         if (studentIndex >= getSectionStudentDataModels.Count)
-                            studentIndex=0;
+                            studentIndex = 0;
 
                         var student = getSectionStudentDataModels[studentIndex];
 
@@ -1025,23 +1037,57 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             StudentID = student.StudentID,
                             EnrollmentNo = student.EnrollmentNo,
-                            StreamID = student.StreamID, // Or section.StreamID if you want to override
+                            StreamID = student.StreamID, // Or use section.StreamID if required
                             ApplicationID = student.ApplicationID,
                             SectionID = section.SectionID,
                             DepartmentID = section.DepartmentID,
                             EndTermID = section.EndTermID,
                             Eng_NonEng = section.Eng_NonEng,
-                            ActiveStatus = section.ActiveStatus.Value,
-                            DeleteStatus = section.DeleteStatus.Value,
-                            CreatedBy = section.ModifyBy,
-                            ModifyBy = section.Eng_NonEng,
-                            CreatedDate = section.CreatedDate,
+                            ActiveStatus = section.ActiveStatus ?? false,
+                            DeleteStatus = section.DeleteStatus ?? false,
+                            CreatedBy = section.CreatedBy,  // Fix: don’t use ModifyBy for CreatedBy
+                            ModifyBy = section.ModifyBy,
+                            CreatedDate = section.CreatedDate
                         };
 
                         allSectionBranchStudentDataModel.Add(combined);
                         studentIndex++;
                     }
                 }
+
+
+                //int studentIndex = 0;
+
+                //foreach (var section in getSectionDataList)
+                //{
+                //    for (int i = 0; i < section.StudentCount; i++)
+                //    {
+                //        if (studentIndex >= getSectionStudentDataModels.Count)
+                //            studentIndex=0;
+
+                //        var student = getSectionStudentDataModels[studentIndex];
+
+                //        var combined = new AllSectionBranchStudentDataModel
+                //        {
+                //            StudentID = student.StudentID,
+                //            EnrollmentNo = student.EnrollmentNo,
+                //            StreamID = student.StreamID, // Or section.StreamID if you want to override
+                //            ApplicationID = student.ApplicationID,
+                //            SectionID = section.SectionID,
+                //            DepartmentID = section.DepartmentID,
+                //            EndTermID = section.EndTermID,
+                //            Eng_NonEng = section.Eng_NonEng,
+                //            ActiveStatus = section.ActiveStatus.Value,
+                //            DeleteStatus = section.DeleteStatus.Value,
+                //            CreatedBy = section.ModifyBy,
+                //            ModifyBy = section.Eng_NonEng,
+                //            CreatedDate = section.CreatedDate,
+                //        };
+
+                //        allSectionBranchStudentDataModel.Add(combined);
+                //        studentIndex++;
+                //    }
+                //}
 
                 var Data = await _unitOfWork.StaffMasterRepository.SaveBranchSectionEnrollmentData(allSectionBranchStudentDataModel);
                 if (result.Data)
