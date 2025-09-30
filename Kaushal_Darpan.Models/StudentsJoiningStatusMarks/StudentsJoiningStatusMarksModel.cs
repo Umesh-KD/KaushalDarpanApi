@@ -20,10 +20,11 @@
 
 
         public int AllotmentId { get; set; }
+        public int ErrorID { get; set; }
 
         public int AllotmentMasterId { get; set; }
 
-        public int ApplicationID { get; set; }
+        public int? ApplicationID { get; set; }
 
         public int CollegeId { get; set; }
 

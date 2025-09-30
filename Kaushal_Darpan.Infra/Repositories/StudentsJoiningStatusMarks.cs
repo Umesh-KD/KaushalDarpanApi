@@ -726,6 +726,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TradeLevelID", model.TradeLevel);
                         command.Parameters.AddWithValue("@TradeId", model.TradeId);
                         command.Parameters.AddWithValue("@CollegeId", model.CollegeId);
+                        command.Parameters.AddWithValue("@ApplicationID", model.ApplicationID);
+                        command.Parameters.AddWithValue("@TradeSchemeId", model.TradeSchemeId);
+                        command.Parameters.AddWithValue("@ErrorID", model.ErrorID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
