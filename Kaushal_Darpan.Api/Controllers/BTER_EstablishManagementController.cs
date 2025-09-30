@@ -41,9 +41,18 @@ namespace Kaushal_Darpan.Api.Controllers
                 await _unitOfWork.SaveChangesAsync();
                 if (result.Data > 0)
                 {
-                    result.State = EnumStatus.Success;
-                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                    if (result.Data == 1)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else if (result.Data == 3)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "This office has already reached its post limit.";
+                    }
                 }
+
                 else if (result.Data == -2)
                 {
                     result.State = EnumStatus.Warning;
@@ -132,6 +141,10 @@ namespace Kaushal_Darpan.Api.Controllers
                         if (result.Data == 1)
                         {
                             result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        if (result.Data == 3)
+                        {
+                            result.Message = "This office has already reached its post limit.";
                         }
                         else
                         {
@@ -392,7 +405,13 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.State = EnumStatus.Success;
                     if (result.Data == 1)
                     {
+                        result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else if (result.Data == 3)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "This office has already reached its post limit.";
                     }
                     else
                     {
@@ -1522,6 +1541,215 @@ namespace Kaushal_Darpan.Api.Controllers
 
         }
 
+        [HttpPost("UpdateOfficeVacancy")]
+        public async Task<ApiResult<int>> UpdateOfficeVacancy([FromBody] OfficeVacancyModel body)
+        {
 
+            ActionName = "UpdateOfficeVacancy([FromBody] OfficeVacancyModel body)";
+            var result = new ApiResult<int>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.BTER_EstablishManagementRepository.UpdateOfficeVacancy(body);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+
+
+                    result.State = EnumStatus.Success;
+                    if (result.Data == 1)
+                    {
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                }
+                else if (result.Data == -1)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (result.Data == 0)
+                    {
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
+
+
+        [HttpGet("ViewByIDOfficeVacancy/{PK_ID}")]
+        public async Task<ApiResult<OfficeVacancyModel>> ViewByIDOfficeVacancy(int PK_ID)
+        {
+            ActionName = "ViewByIDOfficeVacancy(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<OfficeVacancyModel>();
+                try
+                {
+                    var data = await _unitOfWork.BTER_EstablishManagementRepository.ViewByIDOfficeVacancy(PK_ID);
+                    result.Data = data;
+                    if (data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+        [HttpPost("OfficeVacancyActiveDeActive")]
+        public async Task<ApiResult<int>> OfficeVacancyActiveDeActive([FromBody] OfficeVacancyModel body)
+        {
+
+            ActionName = "OfficeVacancyActiveDeActive([FromBody] OfficeVacancyModel body)";
+            var result = new ApiResult<int>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.BTER_EstablishManagementRepository.OfficeVacancyActiveDeActive(body);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+
+
+                    result.State = EnumStatus.Success;
+                    if (result.Data == 1)
+                    {
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                }
+                else if (result.Data == -1)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (result.Data == 0)
+                    {
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
+
+
+
+        [HttpPost("GetStaffWorkRegular_ArrangementReort")]
+        public async Task<ApiResult<DataTable>> GetStaffWorkRegular_ArrangementReort([FromBody] BTER_EM_GetStaffListDataModel body)
+        {
+
+            ActionName = "GetStaffWorkRegular_ArrangementReort([FromBody] BTER_EM_GetStaffListDataModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.BTER_EstablishManagementRepository.GetStaffWorkRegular_ArrangementReort(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }

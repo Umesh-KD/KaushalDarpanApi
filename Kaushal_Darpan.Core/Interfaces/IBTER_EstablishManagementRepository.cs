@@ -55,5 +55,15 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> Save_M_OfficeVacancy_IU(List<OfficeVacancyModel> model);
         Task<DataTable> OfficeVacancyList(OfficeVacancyModel model);
         Task<int> DeleteOfficeVacancy(OfficeVacancyModel body);
+
+        Task<int> UpdateOfficeVacancy(OfficeVacancyModel model);
+
+        Task<OfficeVacancyModel> ViewByIDOfficeVacancy(int PK_ID);
+
+
+        Task<int> OfficeVacancyActiveDeActive(OfficeVacancyModel model);
+
+
+        Task<DataTable> GetStaffWorkRegular_ArrangementReort(BTER_EM_GetStaffListDataModel body);
     }
 }

@@ -1,31 +1,8 @@
-﻿namespace Kaushal_Darpan.Models.CollegeWiseScholarship
+﻿namespace Kaushal_Darpan.Models.ITICollegeWiseScholarship
 {
-    //public class CompanyMasterSearchModel
-    //{
-    //    public string Name { get; set; }
-    //    public string Status { get; set; }
-    //    public int ModifyBy { get; set; }
-    //    public int RoleID { get; set; }
-    //    public int DepartmentID { get; set; }
-    //}
 
-    //public class EligibleStudentListMasterSearchModel
-    //{
-    //    public string Name { get; set; }
-    //    public string Status { get; set; }
-    //    public int ModifyBy { get; set; }
-    //    public int RoleID { get; set; }
-    //    public int DepartmentID { get; set; }
-    //    public int InstituteID { get; set; }
 
-    //    public int? PageNumber { get; set; }
-    //    public int? PageSize { get; set; }
-    //    public string? SortOrder { get; set; }
-    //    public string? SortColumn { get; set; }
-
-    //}
-
-    public class CollegeWiseScholarshipSearchModel
+    public class ITICollegeWiseScholarshipSearchModel
     {
         public string Name { get; set; }
         public string Enrollment { get; set; }
@@ -40,18 +17,11 @@
         public string? SortOrder { get; set; }
         public string? SortColumn { get; set; }
         public string? ScholarshipMode { get; set; }
-        public string? SchemeName { get; set; }
-        public int? CourseType { get; set; }
 
     }
 
-    //public class EligibleStudentForPlacement
-    //{
-    //    public int ID { get; set; }
 
-    //}
-
-    public class SaveCollegeWiseScholershipDetails
+    public class SaveITICollegeWiseScholershipDetails
     {
         public int ID { get; set; }
         public int SchemeID { get; set; }

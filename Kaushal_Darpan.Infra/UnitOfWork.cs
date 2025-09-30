@@ -511,6 +511,15 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        private I_ITICollegeWiseScholarshipRepository _iticollegeWiseScholarshipRepository;
+        public I_ITICollegeWiseScholarshipRepository ITICollegeWiseScholarshipRepository
+        {
+            get
+            {
+                return _iticollegeWiseScholarshipRepository ??= new ITICollegeWiseScholarshipRepository(_dbContext);
+            }
+        }
+
         private IStaffMasterRepository _staffMasterRepository;
         public IStaffMasterRepository StaffMasterRepository
         {

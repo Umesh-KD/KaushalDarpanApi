@@ -1561,5 +1561,181 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<int> UpdateOfficeVacancy(OfficeVacancyModel body)
+        {
+            _actionName = "UpdateOfficeVacancy(OfficeVacancyModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    var jsonData = JsonConvert.SerializeObject(body);
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_M_OfficeVacancy_Update";
+                        command.Parameters.AddWithValue("@Action", "M_OfficeVacancy_Update");
+                        command.Parameters.AddWithValue("@ID", body.ID);
+                        command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        command.Parameters.AddWithValue("@DesignationID", body.DesignationID);
+                        command.Parameters.AddWithValue("@TotalSeatID", body.TotalSeatID);
+                        command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
+                        command.Parameters.AddWithValue("@RemainingSeatID", body.RemainingSeatID);
+                        command.Parameters.AddWithValue("@Comments", body.Comments);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@PostedSeat", body.PostedSeat);
+                        command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<OfficeVacancyModel> ViewByIDOfficeVacancy(int ID)
+        {
+            _actionName = "ViewByIDOfficeVacancy(int ID)";
+            try
+            {
+                DataSet dataSet = new DataSet();
+                OfficeVacancyModel data = null;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_OfficeVacancyList";
+                    command.Parameters.AddWithValue("@Action", "ViewByID");
+                    command.Parameters.AddWithValue("@ID", ID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery(); // Log or debug SQL
+                    dataSet = await command.FillAsync();
+                }
+
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count > 0)
+                {
+                    var dataList = CommonFuncationHelper.ConvertDataTable<List<OfficeVacancyModel>>(dataSet.Tables[0]);
+                    data = dataList.FirstOrDefault(); // Get first row (or null if none)
+                }
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> OfficeVacancyActiveDeActive(OfficeVacancyModel body)
+        {
+            _actionName = "OfficeVacancyActiveDeActive(OfficeVacancyModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    var jsonData = JsonConvert.SerializeObject(body);
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_OfficeVacancyActiveDeActive";
+                        command.Parameters.AddWithValue("@ID", body.ID);
+                        command.Parameters.AddWithValue("@IsActive", body.ActiveStatus);
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> GetStaffWorkRegular_ArrangementReort(BTER_EM_GetStaffListDataModel body)
+        {
+            _actionName = "GetStaffWorkRegular_ArrangementReort(BTER_EM_GetStaffListDataModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_B_EM_GetStaffWorkRegular_ArrangementReort";
+                        command.Parameters.AddWithValue("@action", "WorkRegular_ArrangementReort");
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                        command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                        command.Parameters.AddWithValue("@Name", body.Name);
+                        command.Parameters.AddWithValue("@LevelID", body.LevelID);
+                        command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
+                        command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@BranchID", body.BranchID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }

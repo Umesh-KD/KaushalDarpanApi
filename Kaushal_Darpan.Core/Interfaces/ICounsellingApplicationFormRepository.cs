@@ -1,5 +1,6 @@
 ﻿using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.CounsellingMaster;
+using Kaushal_Darpan.Models.DocumentDetails;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,6 +20,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> DeleteOptionByID_Counselling(CounsellingOptionFormDataModel model);
         Task<bool> PriorityChange_Counselling(CounsellingOptionFormDataModel model);
         Task<Counselling_DocumentDataModel> GetDocumentDatabyID_Counselling(CounsellingApplicationSearchModel searchRequest);
+        Task<int> SaveDocumentData_Counselling(List<Counselling_DocumentDetailsModel> request);
+        Task<CounsellingApplicationPreviewDataModel> PreviewData_ByID_Counselling(CounsellingApplicationSearchModel searchRequest);
 
         //Ravi Raj Singh
         Task<DataTable> MapCandidateSSO(CounsellingApplicationSearchModel filterModel);

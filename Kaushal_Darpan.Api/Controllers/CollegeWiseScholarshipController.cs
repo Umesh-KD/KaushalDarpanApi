@@ -385,6 +385,260 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+        [HttpPost("GetCollegeWiseScholarshipListReport")]
+        public async Task<ApiResult<DataSet>> GetCollegeWiseScholarshipListReport([FromBody] CollegeWiseScholarshipSearchModel body)
+        {
+            ActionName = "GetCollegeWiseScholarshipListReport()";
+            var result = new ApiResult<DataSet>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.CollegeWiseScholarshipRepository.GetCollegeWiseScholarshipListReport(body);
+
+                if (result.Data.Tables.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpGet("GetSchemeList")]
+        public async Task<ApiResult<DataTable>> GetSchemeList()
+        {
+            ActionName = "GetSchemeList()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.CollegeWiseScholarshipRepository.GetSchemeList();
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpGet("GetTypeList")]
+        public async Task<ApiResult<DataTable>> GetTypeList()
+        {
+            ActionName = "GetTypeList()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.CollegeWiseScholarshipRepository.GetTypeList();
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpGet("GetDetailsById/{id}")]
+        public async Task<ApiResult<DataTable>> GetDetailsById(int id)
+        {
+            ActionName = "GetTypeList()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.CollegeWiseScholarshipRepository.GetDetailList(id);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        //[HttpPost("SaveCollegeWiseScholarshipDetails")]
+        //public async Task<ApiResult<bool>> SaveCollegeWiseScholarshipDetails([FromBody] List<SaveCollegeWiseScholershipDetails> body)
+        //{
+        //    ActionName = "SaveCollegeWiseScholarshipDetails()";
+        //    var result = new ApiResult<bool>();
+        //    try
+        //    {
+
+        //        // Pass the entire model to the repository
+        //        result.Data = await _unitOfWork.CollegeWiseScholarshipRepository.SaveCollegeWiseScholarshipDetails(body);
+
+        //        if (result.Data.Rows.Count > 0)
+        //        {
+        //            result.State = EnumStatus.Success;
+        //            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+        //        }
+        //        else
+        //        {
+        //            result.State = EnumStatus.Warning;
+        //            result.Message = Constants.MSG_DATA_NOT_FOUND;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.State = EnumStatus.Error;
+        //        result.ErrorMessage = ex.Message;
+
+        //        // Log the error
+        //        await _unitOfWork.DisposeAsync();
+        //        var nex = new NewException
+        //        {
+        //            PageName = PageName,
+        //            ActionName = ActionName,
+        //            Ex = ex,
+        //        };
+        //        await CreateErrorLog(nex, _unitOfWork);
+        //    }
+        //    return result;
+        //}
+
+        [HttpPost("SaveCollegeWiseScholarshipDetails")]
+        public async Task<ApiResult<bool>> SaveCollegeWiseScholarshipDetails([FromBody] List<SaveCollegeWiseScholershipDetails> request)
+        {
+            ActionName = "SaveCollegeWiseScholarshipDetails([FromBody] CompanyMaster_Action request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+
+                    result.Data = await _unitOfWork.CollegeWiseScholarshipRepository.SaveCollegeWiseScholarshipDetails(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Updated successfully .!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+
+                        result.ErrorMessage = "There was an error updating data.!";
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
 
 
         ////[HttpPost("GetDataByStudentId/{ID:int}/{ModifyBy:int}")]

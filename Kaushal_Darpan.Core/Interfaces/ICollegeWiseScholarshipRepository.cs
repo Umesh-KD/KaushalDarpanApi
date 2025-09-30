@@ -17,6 +17,13 @@ namespace Kaushal_Darpan.Core.Interfaces
         //Task<DataTable> CompanyMasterReport(CompanyMasterSearchModel filterModel);
 
         Task<DataTable> GetCollegeWiseScholarshipList(CollegeWiseScholarshipSearchModel filterModel);
+        Task<DataSet> GetCollegeWiseScholarshipListReport(CollegeWiseScholarshipSearchModel filterModel);
+        Task<DataTable> GetSchemeList();
+        Task<DataTable> GetTypeList();
+
+        Task<bool> SaveCollegeWiseScholarshipDetails(List<SaveCollegeWiseScholershipDetails> model);
+
+        Task<DataTable> GetDetailList(int id);
 
         //Task<DataTable> GetDataByStudentId(EligibleStudentForPlacement model);
 
