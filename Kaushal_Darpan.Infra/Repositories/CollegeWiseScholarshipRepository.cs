@@ -452,14 +452,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<DataTable> GetCollegeWiseScholarshipListReport(CollegeWiseScholarshipSearchModel body)
+        public async Task<DataSet> GetCollegeWiseScholarshipListReport(CollegeWiseScholarshipSearchModel body)
         {
             _actionName = "_GetCollegeWiseScholarshipListRpt(CollegeWiseScholarshipSearchModel body)";
             return await Task.Run(async () =>
             {
                 try
                 {
-                    DataTable dataTable = new DataTable();
+                    //DataTable dataTable = new DataTable();
+                    DataSet dataset = new DataSet();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
@@ -480,9 +481,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.Parameters.AddWithValue("@Category", body.Category);
                         }
-                        if (body.ScholarshipMode != null)
+                        if (body.SchemeName != null)
                         {
-                            command.Parameters.AddWithValue("@ScholarshipMode", body.ScholarshipMode);
+                            command.Parameters.AddWithValue("@SchemeName", body.SchemeName);
+                        }
+                        if (body.CourseType != null)
+                        {
+                            command.Parameters.AddWithValue("@CourseType", body.CourseType);
                         }
                         command.Parameters.AddWithValue("@Status", body.Status);
                         command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
@@ -495,10 +500,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
                         command.Parameters.AddWithValue("@action", "_GetCollegeWiseScholarshipListRpt");
                         _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
+                        dataset = await command.FillAsync();
                     }
 
-                    return dataTable;
+                    return dataset;
                 }
                 catch (Exception ex)
                 {

@@ -39,7 +39,9 @@
         public int ? PageSize { get; set; }
         public string? SortOrder { get; set; }
         public string? SortColumn { get; set; }
-        public string? ScholarshipMode { get; set; } 
+        public string? ScholarshipMode { get; set; }
+        public string? SchemeName { get; set; }
+        public int? CourseType { get; set; }
 
     }
 

@@ -386,17 +386,17 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
         [HttpPost("GetCollegeWiseScholarshipListReport")]
-        public async Task<ApiResult<DataTable>> GetCollegeWiseScholarshipListReport([FromBody] CollegeWiseScholarshipSearchModel body)
+        public async Task<ApiResult<DataSet>> GetCollegeWiseScholarshipListReport([FromBody] CollegeWiseScholarshipSearchModel body)
         {
             ActionName = "GetCollegeWiseScholarshipListReport()";
-            var result = new ApiResult<DataTable>();
+            var result = new ApiResult<DataSet>();
             try
             {
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.CollegeWiseScholarshipRepository.GetCollegeWiseScholarshipListReport(body);
 
-                if (result.Data.Rows.Count > 0)
+                if (result.Data.Tables.Count > 0)
                 {
                     result.State = EnumStatus.Success;
                     result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
