@@ -279,7 +279,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITICollegeWiseScholarship";
+                        command.CommandText = "USP_CollegeWiseScholarship";
                         command.Parameters.AddWithValue("@action", "SaveData");
                         command.Parameters.AddWithValue("@data", JsonConvert.SerializeObject(model));
 
@@ -401,7 +401,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITICollegeWiseScholarship";
+                        command.CommandText = "USP_CollegeWiseScholarship";
                         //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
                         
                         
@@ -417,6 +417,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         if (body.Category != null)
                         {
                             command.Parameters.AddWithValue("@Category", body.Category);
+                        }
+                        if (body.ScholarshipMode != null)
+                        {
+                            command.Parameters.AddWithValue("@ScholarshipMode", body.ScholarshipMode);
                         }
                         command.Parameters.AddWithValue("@Status", body.Status);
                         command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
@@ -448,7 +452,68 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        public async Task<DataTable> GetCollegeWiseScholarshipListReport(CollegeWiseScholarshipSearchModel body)
+        {
+            _actionName = "_GetCollegeWiseScholarshipListRpt(CollegeWiseScholarshipSearchModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CollegeWiseScholarship";
+                        //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
 
+
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        if (body.Name != null)
+                        {
+                            command.Parameters.AddWithValue("@Name", body.Name);
+                        }
+                        if (body.Enrollment != null)
+                        {
+                            command.Parameters.AddWithValue("@Enrollment", body.Enrollment);
+                        }
+                        if (body.Category != null)
+                        {
+                            command.Parameters.AddWithValue("@Category", body.Category);
+                        }
+                        if (body.ScholarshipMode != null)
+                        {
+                            command.Parameters.AddWithValue("@ScholarshipMode", body.ScholarshipMode);
+                        }
+                        command.Parameters.AddWithValue("@Status", body.Status);
+                        command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+
+                        command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
+                        command.Parameters.AddWithValue("@PageSize", body.PageSize);
+                        command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
+                        command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
+                        command.Parameters.AddWithValue("@action", "_GetCollegeWiseScholarshipListRpt");
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
         public async Task<DataTable> GetSchemeList()
         {
@@ -461,7 +526,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITICollegeWiseScholarship";
+                        command.CommandText = "USP_CollegeWiseScholarship";
                         //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
 
 
@@ -479,7 +544,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         //command.Parameters.AddWithValue("@PageSize", body.PageSize);
                         //command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
                         //command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
-                        command.Parameters.AddWithValue("@Action", "GetScheme");
+                        command.Parameters.AddWithValue("@action", "GetScheme");
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -513,7 +578,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITICollegeWiseScholarship";
+                        command.CommandText = "USP_CollegeWiseScholarship";
                         //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
 
 
@@ -531,7 +596,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         //command.Parameters.AddWithValue("@PageSize", body.PageSize);
                         //command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
                         //command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
-                        command.Parameters.AddWithValue("@Action", "GetType");
+                        command.Parameters.AddWithValue("@action", "GetType");
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -565,7 +630,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITICollegeWiseScholarship";
+                        command.CommandText = "USP_CollegeWiseScholarship";
                         //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
 
 
@@ -583,7 +648,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         //command.Parameters.AddWithValue("@PageSize", body.PageSize);
                         //command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
                         //command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
-                        command.Parameters.AddWithValue("@Action", "GetDataByStudentId");
+                        command.Parameters.AddWithValue("@action", "GetDataByStudentId");
                         command.Parameters.AddWithValue("@studentId", id);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

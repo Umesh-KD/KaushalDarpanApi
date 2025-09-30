@@ -36,7 +36,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_CollegeWiseScholarship";
+                        command.CommandText = "USP_ITICollegeWiseScholarship";
                         command.Parameters.AddWithValue("@action", "SaveData");
                         command.Parameters.AddWithValue("@data", JsonConvert.SerializeObject(model));
 
@@ -76,7 +76,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_CollegeWiseScholarship";
+                        command.CommandText = "USP_ITICollegeWiseScholarship";
                         //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
                         
                         
@@ -92,6 +92,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         if (body.Category != null)
                         {
                             command.Parameters.AddWithValue("@Category", body.Category);
+                        }
+                        if (body.ScholarshipMode != null)
+                        {
+                            command.Parameters.AddWithValue("@ScholarshipMode", body.ScholarshipMode);
                         }
                         command.Parameters.AddWithValue("@Status", body.Status);
                         command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
@@ -136,7 +140,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_CollegeWiseScholarship";
+                        command.CommandText = "USP_ITICollegeWiseScholarship";
                         //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
 
 
@@ -188,7 +192,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_CollegeWiseScholarship";
+                        command.CommandText = "USP_ITICollegeWiseScholarship";
                         //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
 
 
@@ -240,7 +244,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_CollegeWiseScholarship";
+                        command.CommandText = "USP_ITICollegeWiseScholarship";
                         //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
 
 
