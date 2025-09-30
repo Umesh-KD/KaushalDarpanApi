@@ -710,10 +710,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-
-
-
-        public async Task<DataSet> GetChangeShiftUnitData(ReportCollegeModel model)
+        public async Task<DataSet> GetChangeShiftUnitData(StudentsJoiningStatusMarksSearchModel model)
         {
             _actionName = "GetAllotmentReportCollege(AllotmentReportCollegeRequestModel model)";
             return await Task.Run(async () =>
@@ -725,11 +722,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ChangeShiftUnitColleges";
-                        command.Parameters.AddWithValue("@AcademicYearID", model.AcademicYearID);
-                        command.Parameters.AddWithValue("@TradeLevelID", model.TradeLevelID);
-                        command.Parameters.AddWithValue("@TradeTypeID", model.TradeTypeID);
+                        command.Parameters.AddWithValue("@AcademicYearID", model.FinancialYearID);
+                        command.Parameters.AddWithValue("@TradeLevelID", model.TradeLevel);
                         command.Parameters.AddWithValue("@TradeId", model.TradeId);
                         command.Parameters.AddWithValue("@CollegeId", model.CollegeId);
+                        command.Parameters.AddWithValue("@ApplicationID", model.ApplicationID);
+                        command.Parameters.AddWithValue("@TradeSchemeId", model.TradeSchemeId);
+                        command.Parameters.AddWithValue("@ErrorID", model.ErrorID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }

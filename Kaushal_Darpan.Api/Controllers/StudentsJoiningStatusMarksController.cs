@@ -426,7 +426,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("GetChangeShiftUnitData")]
-        public async Task<ApiResult<DataSet>> GetChangeShiftUnitData([FromBody] ReportCollegeModel model)
+        public async Task<ApiResult<DataSet>> GetChangeShiftUnitData([FromBody] StudentsJoiningStatusMarksSearchModel model)
         {
             ActionName = "GetAllotmentReportCollege([FromBody] AllotmentReportCollegeRequestModel model)";
             var result = new ApiResult<DataSet>();
