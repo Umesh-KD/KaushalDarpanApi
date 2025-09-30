@@ -1,5 +1,6 @@
 ﻿
 using Kaushal_Darpan.Models.ITIIIPManageDataModel;
+using Kaushal_Darpan.Models.Report;
 using Kaushal_Darpan.Models.StudentsJoiningStatusMarks;
 using System.Data;
 
@@ -21,7 +22,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetCollegeAdminData(ReportCollegeForAdminModel body);
         Task<DataTable> GetCollegeData(ReportCollegeModel body);
         Task<DataTable> GetUpgradedbyUpwardList(StudentsJoiningStatusMarksSearchModel body);
-
         Task<DataSet> downloadIIPManageReportPDF(ITIIIPManageDataModel body);
+        Task<DataSet> GetChangeShiftUnitData(StudentsJoiningStatusMarksSearchModel model);
     }
 }

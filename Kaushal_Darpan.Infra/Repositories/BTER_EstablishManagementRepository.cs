@@ -469,6 +469,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Remark", request.Remark ?? "");
                         command.Parameters.AddWithValue("@StaffID", request.StaffID ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@StaffUserID", request.StaffUserID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@WorkOfficeID", request.WorkOfficeID ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy ?? (object)DBNull.Value);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out

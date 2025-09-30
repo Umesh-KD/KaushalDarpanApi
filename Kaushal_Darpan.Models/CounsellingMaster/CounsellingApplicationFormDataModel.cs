@@ -72,9 +72,21 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public int? Priority { get; set; }
         public int? CandidateID { get; set; }
         public int? TradeId { get; set; }
+        public string? TradeName { get; set; }
         public int? InstituteID { get; set; }
         public int? CourseType { get; set; }
         public int? ModifyBy { get; set; }
+        public string? Type { get; set; }
+        public List<InstituteListDataModel_Coun>? InstituteList { get; set; }
+    }
+
+    public class InstituteListDataModel_Coun
+    {
+        public int? InstituteOptionID { set; get; }
+        public int? OptionID { set; get; }
+        public int? InstituteID { set; get; }
+        public string? InstituteName { get; set; }
+        public int? Priority {  set; get; }
         public string? Type { get; set; }
     }
 
