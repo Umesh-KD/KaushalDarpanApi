@@ -23,6 +23,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetCollegeData(ReportCollegeModel body);
         Task<DataTable> GetUpgradedbyUpwardList(StudentsJoiningStatusMarksSearchModel body);
         Task<DataSet> downloadIIPManageReportPDF(ITIIIPManageDataModel body);
-        Task<DataSet> GetChangeShiftUnitData(ReportCollegeModel model);
+        Task<DataSet> GetChangeShiftUnitData(StudentsJoiningStatusMarksSearchModel model);
     }
 }
