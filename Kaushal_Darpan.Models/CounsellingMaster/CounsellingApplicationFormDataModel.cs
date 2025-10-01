@@ -103,6 +103,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? InstituteName { get; set; }
         public int? Priority {  set; get; }
         public string? Type { get; set; }
+        public int? CandidateID { get; set; }
     }
 
     public class Counselling_DropdownDataModel : RequestBaseModel
