@@ -228,6 +228,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? StaffID { get; set; }
         public int? UserID { get; set; }
         public int? StaffUserID { get; set; }
+        public int? WorkOfficeID { get; set; }
         public int? ModifyBy { get; set; }
     }
 

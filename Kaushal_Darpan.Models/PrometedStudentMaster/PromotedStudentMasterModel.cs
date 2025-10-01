@@ -63,7 +63,7 @@ namespace Kaushal_Darpan.Models.PrometedStudentMaster
         public string SemesterID { get; set; }
         public string StreamID { get; set; }
         public string IsBridge { get; set; }
-        public int StudentTypeId { get; set; }
+        public int PromoteStatusID { get; set; }
     }
 
 }
