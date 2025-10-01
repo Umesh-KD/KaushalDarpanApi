@@ -134,6 +134,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsShahidDependent", request.IsShahidDependent);
                         command.Parameters.AddWithValue("@IsAnyIncurableDiseases", request.IsAnyIncurableDiseases);
                         command.Parameters.AddWithValue("@CategoryB_ID", request.CategoryB_ID);
+                        command.Parameters.AddWithValue("@AcademicYearID", request.AcademicYearID);
 
                         // Add IP Address parameter
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
@@ -807,6 +808,46 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+        public async Task<bool> DeleteDocumentById_Counselling(Counselling_DocumentDetailsModel model)
+        {
+            _actionName = "GetById(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_DeleteDocumentById";
+                        command.Parameters.AddWithValue("@CandidateID", model.CandidateID);
+                        command.Parameters.AddWithValue("@CandidateDocumentID", model.CandidateDocumentID);
+                        command.Parameters.AddWithValue("@ModifyBy", model.ModifyBy);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+
         }
     }
 }

@@ -63,6 +63,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public bool IsSpouseInSameService { get; set; } = false;
         public bool IsShahidDependent { get; set; } = false;
         public bool IsAnyIncurableDiseases { get; set; } = false;
+        public int? AcademicYearID { get; set; } = 0;
     }
 
     public class CounsellingApplicationSearchModel
