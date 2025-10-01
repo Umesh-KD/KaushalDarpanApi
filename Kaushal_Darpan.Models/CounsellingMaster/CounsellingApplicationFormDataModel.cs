@@ -18,6 +18,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public int GenderId { get; set; }
         public string? DOB { get; set; }
         public int CategoryA_ID { get; set; }
+        public int CategoryB_ID { get; set; }
         public string? MobileNo { get; set; }
         public string? Email { get; set; }
         public string? Address1 { get; set; }
@@ -76,6 +77,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? AadharNo { get; set; }
         public string? DOB { get; set; }
         public string? Action { get; set; }
+        public int? ModifyBy { get; set; }
 
     }
 
@@ -158,7 +160,6 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? StudentPhoto { get; set; }
         public string? SignaturePhoto { get; set; }
         public int? ProfileStatus { get; set; }
-        public int? IsfinalSubmit { get; set; }
         public int? ServiceID { get; set; }
         public int? DepartmentID { get; set; }
         public int? CourseTypeID { get; set; }
@@ -170,12 +171,14 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public int? GenderId { get; set; }
         public string? Nationality { get; set; }
         public string? Category_E { get; set; }
+        public int? IsFinalSubmit { get; set; }
     }
 
     public class OptionviewData_Counselling
     {
         public string? InstituteName { get; set; }
         public int? TradeId { get; set; }
+        public int? OptionID { get; set; }
         public int? Priority { get; set; }
         public string? TradeName { get; set; }
     }

@@ -25,6 +25,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<CounsellingOptionFormDataModel>> Counselling_GetOptionDetailsByID(CounsellingOptionFormDataModel searchRequest);
         Task<bool> DeleteChildOptionByID_Counselling(InstituteListDataModel_Coun model);
         Task<bool> ChildPriorityChange_Counselling(InstituteListDataModel_Coun model);
+        Task<bool> ApplicationFinalSubmit_Counselling(CounsellingApplicationSearchModel model);
 
         //Ravi Raj Singh
         Task<DataTable> MapCandidateSSO(CounsellingApplicationSearchModel filterModel);
