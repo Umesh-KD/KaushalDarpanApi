@@ -18,6 +18,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public int GenderId { get; set; }
         public string? DOB { get; set; }
         public int CategoryA_ID { get; set; }
+        public int CategoryB_ID { get; set; }
         public string? MobileNo { get; set; }
         public string? Email { get; set; }
         public string? Address1 { get; set; }
@@ -49,6 +50,20 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public int IsFinalSubmit { get; set; }
         public string? DepartmentName { get; set; }
         public string? SubmittedStep { get; set; }
+        public string? RollNumber { get; set; }
+        public string? Designation { get; set; }
+        public string? Trade { get; set; }
+        public string? MeritNo { get; set; }
+        public int SelectionCategoryID { get; set; } = 0;
+        public bool IsTSP { get; set; } = false;
+        public int HomeDistrictID { get; set; } = 0;
+        public bool IsPH { get; set; } = false;
+        public bool IsExServicemen { get; set; } = false;
+        public bool IsSportsPerson { get; set; } = false;
+        public bool IsSpouseInSameService { get; set; } = false;
+        public bool IsShahidDependent { get; set; } = false;
+        public bool IsAnyIncurableDiseases { get; set; } = false;
+        public int? AcademicYearID { get; set; } = 0;
     }
 
     public class CounsellingApplicationSearchModel
@@ -63,6 +78,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? AadharNo { get; set; }
         public string? DOB { get; set; }
         public string? Action { get; set; }
+        public int? ModifyBy { get; set; }
 
     }
 
@@ -88,6 +104,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? InstituteName { get; set; }
         public int? Priority {  set; get; }
         public string? Type { get; set; }
+        public int? CandidateID { get; set; }
     }
 
     public class Counselling_DropdownDataModel : RequestBaseModel
@@ -145,7 +162,6 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? StudentPhoto { get; set; }
         public string? SignaturePhoto { get; set; }
         public int? ProfileStatus { get; set; }
-        public int? IsfinalSubmit { get; set; }
         public int? ServiceID { get; set; }
         public int? DepartmentID { get; set; }
         public int? CourseTypeID { get; set; }
@@ -157,12 +173,14 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public int? GenderId { get; set; }
         public string? Nationality { get; set; }
         public string? Category_E { get; set; }
+        public int? IsFinalSubmit { get; set; }
     }
 
     public class OptionviewData_Counselling
     {
         public string? InstituteName { get; set; }
         public int? TradeId { get; set; }
+        public int? OptionID { get; set; }
         public int? Priority { get; set; }
         public string? TradeName { get; set; }
     }

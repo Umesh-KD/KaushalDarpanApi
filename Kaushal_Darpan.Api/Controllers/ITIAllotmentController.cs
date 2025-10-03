@@ -16,6 +16,13 @@ using Kaushal_Darpan.Models.ITIIMCAllocation;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.StudentsJoiningStatusMarks;
 using Kaushal_Darpan.Models.ITIIIPManageDataModel;
+using DinkToPdf.Contracts;
+using Kaushal_Darpan.Api.HtmlTempleteFile;
+using DinkToPdf;
+using Kaushal_Darpan.Models.TheoryMarks;
+using System.Text;
+using Kaushal_Darpan.Models.ITIPlacementStudentMaster;
+using iTextSharp.tool.xml.html;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -30,10 +37,16 @@ namespace Kaushal_Darpan.Api.Controllers
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ITIAllotmentController(IMapper mapper, IUnitOfWork unitOfWork)
+        private readonly IConverter _converter;
+        private readonly IPrintHtmlFile _printHtmlFile;
+
+        public ITIAllotmentController(IMapper mapper, IUnitOfWork unitOfWork, IConverter converter, IPrintHtmlFile printHtmlFile)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _converter = converter;
+            _printHtmlFile = printHtmlFile;
+
         }
 
         [HttpPost("GetGenerateAllotment")]
@@ -751,7 +764,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/iti_logo.jpeg";
 
-                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "", watermarkImagePath,true);
+                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "", watermarkImagePath, true);
 
                         result.Data = Convert.ToBase64String(pdfBytes); ;
                         result.State = EnumStatus.Success;
@@ -1529,8 +1542,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpPost("DownloadForCollegeData")]
-        public async Task<ApiResult<string>> DownloadForCollegeData([FromBody] ReportCollegeModel body)
+        [HttpPost("DownloadForCollegeDataOLD")]
+        public async Task<ApiResult<string>> DownloadForCollegeDataOLD([FromBody] ReportCollegeModel body)
         {
             ActionName = "DownloadCollegeAdminData([FromBody] ReportCollegeForAdminModel body)";
             return await Task.Run(async () =>
@@ -1605,6 +1618,193 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+        //tabluation umesh
+        [HttpPost("DownloadForCollegeData")]
+        public async Task<ApiResult<string>> DownloadForCollegeData([FromBody] ReportCollegeModel body)
+        {
+            ActionName = "TabulationDataReport([FromBody] TabluationDataModel body)";
+            var result = new ApiResult<string>();
+            try
+            {
+                // get all streams
+                var streams_data = await Task.Run(() => _unitOfWork.StudentsJoiningStatusMarksRepository.GetCollegeData(body));
+
+                if (streams_data?.Rows?.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+
+
+                var data = new List<StudentAllotmentReportDataModel>();
+                if (streams_data != null)
+                {
+                    data = CommonFuncationHelper.ConvertDataTable<List<StudentAllotmentReportDataModel>>(streams_data);
+                }
+
+                StringBuilder sb = new StringBuilder();
+
+                // Add a style block at the top of your HTML
+                sb.Append(@"
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        font-size: 11pt; /* Global font size */
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        border: 1px solid #494949;
+        padding: 4px;
+        font-size: 11pt; /* Cell font size */
+       
+    }
+    b {
+        font-size: 13pt; /* Trade name header */
+    }
+</style>
+");
+
+                foreach (var collegeGroup in data.GroupBy(f => f.CollegeId))
+                {
+
+                    if (collegeGroup != data.GroupBy(f => f.CollegeId).First())
+                    {
+                        sb.Append("<div style='page-break-before: always;'>&nbsp;</div>");
+                    }
+
+
+
+                    sb.Append($@"
+<table id='pdf-header' style='width:100%'>
+    <tr>
+        <td style='text-align:center'>
+            {collegeGroup.FirstOrDefault()?.CollegeName}<br /><br />
+            Reported Applicant List
+        </td>
+    </tr>
+    <tr>
+        <th colspan='3' style='border-bottom: 1px solid #494949; padding-top:1px;'>&nbsp;</th>
+    </tr>
+</table>");    int rowTradeC = 1;
+
+                    foreach (var tradeGroup in collegeGroup.GroupBy(f => f.BranchName))
+                    {
+
+                        sb.Append($@"
+<div style='margin-top:3px;'>&nbsp;</div>
+<b> {rowTradeC}. {tradeGroup.Key}</b>
+
+<table cellpadding='2' cellspacing='0'>
+    <tr>
+        <th>Serial No</th>
+        <th>Application No</th>
+        <th>Name</th>
+        <th>Father Name</th>
+        <th>Trade Code</th>
+        <th>Trade Name</th>
+        <th>Shift</th>
+        <th>Unit</th>
+        <th>Allotted Category</th>
+        <th>Reporting Date and Time</th>
+    </tr>");
+
+                        int rowNumber = 1;
+                        foreach (var s in tradeGroup.OrderBy(f=>f.Shift).ThenBy(f=>f.Shift))
+                        {
+                            sb.Append($@"
+<tr>
+    <td>{rowNumber}</td>
+    <td>{s.ApplicationNo}</td>
+    <td>{s.Name}</td>
+    <td>{s.FatherName}</td>
+    <td>{s.TradeCode}</td>
+    <td>{s.TradeName}</td>
+    <td>{s.Shift}</td>
+    <td>{s.UnitNo}</td>
+    <td>{s.AllotedCategory}</td>
+    <td>{s.ReportingDate}</td>
+</tr>");
+                            rowNumber++;
+                        }
+
+                        sb.Append("</table>");
+
+                        rowTradeC++;
+                    }
+
+                    sb.Append($@"
+<table id='pdf-footer'>
+    <tr>
+        <td style='text-align:left'>
+            System print date: {DateTime.Now:dd/MM/yyyy HH:mm}
+        </td>
+    </tr>
+</table>");
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                var doc = new HtmlToPdfDocument()
+                {
+                    GlobalSettings = {
+                        PaperSize = PaperKind.A3,
+                        Orientation = Orientation.Landscape,
+                       
+                    },
+                    Objects = {
+                        new ObjectSettings()
+                        {
+                            HtmlContent = sb.ToString(),
+                            WebSettings = { DefaultEncoding = "utf-8" }
+                        }
+                    }
+                };
+                byte[] pdfBytes = _converter.Convert(doc);
+
+                result.Data = Convert.ToBase64String(pdfBytes); 
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                //return File(pdfBytes, "application/pdf", "tabulationresult.pdf");
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //return StatusCode(500, ex.Message);
+            }
+            return result;
+        }
+
+
+
         //IIPManageReport
 
         [HttpPost("StudentSeatWithdrawRequest")]
@@ -1620,8 +1820,8 @@ namespace Kaushal_Darpan.Api.Controllers
                     await _unitOfWork.SaveChangesAsync();
                     if (result.Data > 0)
                     {
-                        result.State = EnumStatus.Success;                  
-                            result.Message = "Saved successfully .!";
+                        result.State = EnumStatus.Success;
+                        result.Message = "Saved successfully .!";
                     }
                     else
                     {
