@@ -847,7 +847,48 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
 
+        public async Task<bool> UnlockApplication_Counselling(CounsellingApplicationSearchModel model)
+        {
+            _actionName = "UnlockApplication_Counselling(CounsellingApplicationSearchModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_FinalSubmit";
+                        command.Parameters.AddWithValue("@action", "UnlockApplication");
+
+                        command.Parameters.AddWithValue("@CandidateID", model.CandidateId);
+                        command.Parameters.AddWithValue("@IsFinalSubmit", model.IsFinalSubmit);
+                        command.Parameters.AddWithValue("@ModifyBy", model.ModifyBy);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
         }
     }
 }
