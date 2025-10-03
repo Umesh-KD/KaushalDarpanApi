@@ -712,6 +712,45 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("GetStudentAttendanceSubjectWise")]
+        public async Task<ApiResult<DataTable>> GetStudentAttendanceSubjectWise([FromBody] AttendanceTimeTableModal request)
+        {
+            ActionName = "GetStudentAttendanceSubjectwise()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    result.Data = await _unitOfWork.StudentRepository.GetStudentAttendanceSubjectwise(request);
+                    
+                    if (result.Data.Rows.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    await _unitOfWork.DisposeAsync();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
         [HttpPost("AddStudentAttendance")]
         public async Task<ApiResult<int>> AddStudentAttendance([FromBody] List<PostAttendanceTimeTableModal> model)
         {

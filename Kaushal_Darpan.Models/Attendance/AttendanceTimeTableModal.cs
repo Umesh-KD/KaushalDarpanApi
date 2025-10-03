@@ -23,6 +23,10 @@ namespace Kaushal_Darpan.Models.Attendance
         public int RoleID { get; set; }
         public DateTime? AttendanceStartDate { get; set; }
         public DateTime? AttendanceEndDate { get; set; }
+        public string EnrollmentNo { get; set; } 
+        public int StudentId{ get; set; }
+
+        public string ActionName {  get; set; }
     }
 
     public class PostAttendanceTimeTableModal
