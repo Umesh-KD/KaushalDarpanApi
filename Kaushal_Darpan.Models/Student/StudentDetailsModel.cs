@@ -98,6 +98,8 @@ namespace Kaushal_Darpan.Models.Student
         public int TrasactionStatus { get; set; }
         public int? StudentExamID { get; set; }
 
+        public string? Receipt_Number { get; set; }
+
     }
 
     public class StudentExamMarksUpdateModel
