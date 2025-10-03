@@ -137,13 +137,15 @@ namespace Kaushal_Darpan.Api.Controllers
                     await _unitOfWork.SaveChangesAsync();
                     if (result.Data > 0)
                     {
-                        result.State = EnumStatus.Success;
+                       
                         if (result.Data == 1)
                         {
+                            result.State = EnumStatus.Success;
                             result.Message = Constants.MSG_SAVE_SUCCESS;
                         }
                         if (result.Data == 3)
                         {
+                            result.State = EnumStatus.Warning;
                             result.Message = "This office has already reached its post limit.";
                         }
                         else
@@ -1557,20 +1559,22 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
 
 
-                    result.State = EnumStatus.Success;
+                    
                     if (result.Data == 1)
                     {
+                        result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_SAVE_SUCCESS;
                     }
                     else
                     {
-                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_ERROR_OCCURRED;
                     }
                 }
                 else if (result.Data == -1)
                 {
                     result.State = EnumStatus.Warning;
-                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    result.ErrorMessage = Constants.MSG_ERROR_OCCURRED;
                 }
                 else
                 {
