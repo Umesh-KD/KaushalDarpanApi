@@ -62,5 +62,32 @@
 
     }
 
+    public class StudentAllotmentReportDataModel
+    {
+        public int SrNo { get; set; }
+        public int CollegeId { get; set; }
+        public string? ApplicationNo { get; set; }
+        public string? Name { get; set; }
+        public string? FatherName { get; set; }
+        public string? DOB { get; set; }
+        public string? TradeCode { get; set; }
+        public string? TradeName { get; set; }
+        public string? CollegeName { get; set; }
+        public string? BranchName { get; set; }
+        public string? MobileNo { get; set; }
+        public string? Gender { get; set; }
+        public string? AllotmentStatus { get; set; }
+        public int Priority { get; set; }
+        public string? AllotedCategory { get; set; }
+        public int Priority2 { get; set; }
+        public string? ReportingDate { get; set; }
+        public int UnitNo { get; set; }
+        public int Shift { get; set; }
+        public string? PrintDateTime { get; set; }
+        public int ApplicationID { get; set; }
+        public int AllotmentId { get; set; }
+        public int TradeId { get; set; }
+        public int CollegeId2 { get; set; }   // duplicate of CollegeId in your row
+    }
 
 }

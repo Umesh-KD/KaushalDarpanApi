@@ -21,7 +21,9 @@ namespace Kaushal_Darpan.Models.LeaveMaster
         public string? SSOID {  get; set; }
         public int ModifyBy {  get; set; }
         public int InstituteID {  get; set; }
-        public int TotalDays { get; set; }
+        public decimal TotalDays { get; set; }
+        public bool IsHeadQuarter { get; set; }
+        public int LeaveTypeID { get; set; }
 
     }
     public class LeaveMasterSearchModel:RequestBaseModel

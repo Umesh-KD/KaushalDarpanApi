@@ -133,8 +133,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SSOID", request.SSOID);
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
                         command.Parameters.AddWithValue("@TotalDays", request.TotalDays);
+                        command.Parameters.AddWithValue("@IsHeadQuarter", request.IsHeadQuarter);
+                        command.Parameters.AddWithValue("@LeaveTypeID", request.LeaveTypeID);
                         command.Parameters.AddWithValue("@ActionBy", request.UserID);
-
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command

@@ -41,5 +41,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetItemListType(DTEItemsSearchModel SearchReq);
         Task<DataTable> GetAllItemList(DTEItemsSearchModel SearchReq);
         Task<int> SaveIssueItemsList(List<ItemsIssueReturnModels> request);
+        Task<DataTable> GetAllinventoryIssueReport(ItemsIssueReturnModels SearchReq);
+        Task<DataTable> GetIssueItemList(ItemsIssueReturnModels SearchReq);
     }
 }
