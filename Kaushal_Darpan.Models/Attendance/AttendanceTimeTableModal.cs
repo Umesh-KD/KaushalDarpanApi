@@ -20,6 +20,8 @@ namespace Kaushal_Darpan.Models.Attendance
         public int UnitID { get; set; }
         public int ShiftID { get; set; }
         public string SSOID { get; set; }
+        public int StaffID { get; set; }
+        public int TimeDDLID { get; set; }
         public int RoleID { get; set; }
         public DateTime? AttendanceStartDate { get; set; }
         public DateTime? AttendanceEndDate { get; set; }

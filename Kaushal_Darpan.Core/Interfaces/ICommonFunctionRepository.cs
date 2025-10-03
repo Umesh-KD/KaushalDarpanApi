@@ -315,5 +315,8 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetSSOIDDetailData(string SSOID,string action);
 
+
+        Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID);
+
     }
 }
