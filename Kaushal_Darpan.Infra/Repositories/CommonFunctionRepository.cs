@@ -19,6 +19,7 @@ using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
 using Kaushal_Darpan.Models.RPPPayment;
 using Kaushal_Darpan.Models.SSOUserDetails;
+using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
 using Kaushal_Darpan.Models.StudentMeritIInfoModel;
@@ -9766,6 +9767,37 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        public async Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID)
+        {
+            _actionName = "GetStudentAttandanceTimeDDL(int StaffID, int SubjectID)";
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StudentAttandanceTimeDDL";
+                    command.Parameters.AddWithValue("@StaffID", StaffID);
+                    command.Parameters.AddWithValue("@SubjectID", SubjectID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery(); // Get SQL query string for logging/debugging
+                    var dataTable = await command.FillAsync_DataTable();
+
+                    return dataTable;
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
 
 
     }

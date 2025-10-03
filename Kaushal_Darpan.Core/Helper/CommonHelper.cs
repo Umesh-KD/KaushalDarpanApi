@@ -491,9 +491,14 @@ namespace Kaushal_Darpan.Core.Helper
     public enum EnumStudentType
     {
         Reg = 1,
-        Ex = 2,
-        NotFormFilled = 3,
-        Detained = 4
+        Ex = 2
+    }
+    public enum PromoteStatus
+    {
+        Reg = 1322,
+        Ex = 1323,
+        NotFormFilled = 1324,
+        Detained = 1330
     }
 
     #endregion

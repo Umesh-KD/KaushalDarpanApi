@@ -125,6 +125,12 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public DateTime? ReturnDate { get; set; }
         public string? Remarks { get; set; }
         public string? FileName { get; set; }
+        public int staffId { get; set; }
+        public int EquipmentsId { get; set; }
+        public string? issuedTo { get; set; }
+        public string? EquipmentName { get; set; }
+        public int IssuedId { get; set; }
+        public int itemCategoryId { get; set; }
 
         public List<ItemsDetails>? ItemList { get; set; }
     }
@@ -151,6 +157,14 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public string? IPAddress { get; set; }     
         public int Status { get; set; }
         public string? Remark { get; set; }
+    }
+
+
+    public class InventoryIssueHistoryListModels
+    {
+       
+        public int staffId { get; set; }
+        
     }
 
 }

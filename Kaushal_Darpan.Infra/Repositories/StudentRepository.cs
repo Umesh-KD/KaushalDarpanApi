@@ -585,6 +585,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                         command.Parameters.AddWithValue("@ShiftNo", model.ShiftID);
                         command.Parameters.AddWithValue("@UnitNo", model.UnitID);
+                        command.Parameters.AddWithValue("@StaffID", model.StaffID);
+                        command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);
                         command.Parameters.AddWithValue("@AttendanceStartDate", model.AttendanceStartDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB"))); 
                         command.Parameters.AddWithValue("@AttendanceEndDate", model.AttendanceEndDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
                         _sqlQuery = command.GetSqlExecutableQuery();
