@@ -352,6 +352,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Add parameters to the stored procedure from the model
                         command.Parameters.AddWithValue("@MobileNo", filterModel.MobileNo);
                         command.Parameters.AddWithValue("@AadharNo", filterModel.AadharNo);
+                        command.Parameters.AddWithValue("@SsoID", filterModel.SSOID);
                         command.Parameters.AddWithValue("@Action", filterModel.Action ?? string.Empty);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
