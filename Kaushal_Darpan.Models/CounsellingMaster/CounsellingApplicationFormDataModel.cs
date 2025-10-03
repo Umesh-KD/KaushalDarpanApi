@@ -79,6 +79,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? DOB { get; set; }
         public string? Action { get; set; }
         public int? ModifyBy { get; set; }
+        public int? IsFinalSubmit { get; set; }
 
     }
 
@@ -174,6 +175,15 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? Nationality { get; set; }
         public string? Category_E { get; set; }
         public int? IsFinalSubmit { get; set; }
+        public bool? IsTSP { get; set; }
+        public bool? IsExServicemen { get; set; }
+        public bool? IsSportsPerson { get; set; }
+        public bool? IsSpouseInSameService { get; set; }
+        public bool? IsShahidDependent { get; set; }
+        public bool? IsAnyIncurableDiseases { get; set; }
+        public string? CategoryB { get; set; }
+        public string? GenderName { get; set; }
+        public string? SelectionCategory { get; set; }
     }
 
     public class OptionviewData_Counselling
