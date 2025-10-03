@@ -1672,14 +1672,20 @@ namespace Kaushal_Darpan.Api.Controllers
                 foreach (var collegeGroup in data.GroupBy(f => f.CollegeId))
                 {
 
-                    if (collegeGroup != data.GroupBy(f => f.CollegeId).First())
+                   
+
+
+
+    int rowTradeC = 1;
+
+                    foreach (var tradeGroup in collegeGroup.GroupBy(f => f.BranchName))
                     {
-                        sb.Append("<div style='page-break-before: always;'>&nbsp;</div>");
-                    }
+                        if (tradeGroup != collegeGroup.GroupBy(f => f.BranchName).First())
+                        {
+                            sb.Append("<div style='page-break-before: always;'>&nbsp;</div>");
+                        }
 
-
-
-                    sb.Append($@"
+                        sb.Append($@"
 <table id='pdf-header' style='width:100%'>
     <tr>
         <td style='text-align:center'>
@@ -1690,14 +1696,11 @@ namespace Kaushal_Darpan.Api.Controllers
     <tr>
         <th colspan='3' style='border-bottom: 1px solid #494949; padding-top:1px;'>&nbsp;</th>
     </tr>
-</table>");    int rowTradeC = 1;
-
-                    foreach (var tradeGroup in collegeGroup.GroupBy(f => f.BranchName))
-                    {
+</table>");
 
                         sb.Append($@"
 <div style='margin-top:3px;'>&nbsp;</div>
-<b> {rowTradeC}. {tradeGroup.Key}</b>
+<b>  {tradeGroup.Key}</b>
 
 <table cellpadding='2' cellspacing='0'>
     <tr>
@@ -1705,12 +1708,11 @@ namespace Kaushal_Darpan.Api.Controllers
         <th>Application No</th>
         <th>Name</th>
         <th>Father Name</th>
-        <th>Trade Code</th>
-        <th>Trade Name</th>
         <th>Shift</th>
         <th>Unit</th>
         <th>Allotted Category</th>
-        <th>Reporting Date and Time</th>
+        <th>Reported Date and Time</th>
+ <th>Admission Round</th>
     </tr>");
 
                         int rowNumber = 1;
@@ -1722,29 +1724,22 @@ namespace Kaushal_Darpan.Api.Controllers
     <td>{s.ApplicationNo}</td>
     <td>{s.Name}</td>
     <td>{s.FatherName}</td>
-    <td>{s.TradeCode}</td>
-    <td>{s.TradeName}</td>
     <td>{s.Shift}</td>
     <td>{s.UnitNo}</td>
     <td>{s.AllotedCategory}</td>
     <td>{s.ReportingDate}</td>
+    <td>{s.AdmissionRound}</td>
 </tr>");
                             rowNumber++;
                         }
 
                         sb.Append("</table>");
+                        
 
                         rowTradeC++;
                     }
 
-                    sb.Append($@"
-<table id='pdf-footer'>
-    <tr>
-        <td style='text-align:left'>
-            System print date: {DateTime.Now:dd/MM/yyyy HH:mm}
-        </td>
-    </tr>
-</table>");
+                   
                 }
 
 
@@ -1770,12 +1765,20 @@ namespace Kaushal_Darpan.Api.Controllers
                        
                     },
                     Objects = {
-                        new ObjectSettings()
-                        {
-                            HtmlContent = sb.ToString(),
-                            WebSettings = { DefaultEncoding = "utf-8" }
-                        }
-                    }
+        new ObjectSettings()
+        {
+            HtmlContent = sb.ToString(),
+            WebSettings = { DefaultEncoding = "utf-8" },
+            FooterSettings = new FooterSettings
+            {
+                FontName = "Arial",
+                FontSize = 9,
+                Right = "Page [page] of [toPage]",
+                Left = "Printed on: [date]",
+                Line = true // Adds a line above footer
+            }
+        }
+    }
                 };
                 byte[] pdfBytes = _converter.Convert(doc);
 
