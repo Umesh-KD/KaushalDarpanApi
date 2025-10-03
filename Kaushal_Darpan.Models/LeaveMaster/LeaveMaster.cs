@@ -33,5 +33,9 @@ namespace Kaushal_Darpan.Models.LeaveMaster
         public int InstituteID {  set; get; }
         public string? Status { get; set; }
         public string? SSOID { get; set; }
+
+        public int StaffID { get; set; }
+        public string? From_Date { get; set; }
+        public string? To_Date { get; set; }
     }
 }
