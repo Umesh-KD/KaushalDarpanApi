@@ -1016,20 +1016,19 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 int studentIndex = 0;
 
+               
+
                 foreach (var section in getSectionDataList)
                 {
-                    // Skip invalid or negative counts
+                    // Skip sections with no required students
                     if (section.StudentCount <= 0)
                         continue;
 
                     for (int i = 0; i < section.StudentCount; i++)
                     {
-                        if (getSectionStudentDataModels.Count == 0)
-                            break; // No students available at all
-
-                        // Reset index if it goes out of range
+                        // Stop if we've exhausted the student list
                         if (studentIndex >= getSectionStudentDataModels.Count)
-                            studentIndex = 0;
+                            break;
 
                         var student = getSectionStudentDataModels[studentIndex];
 
@@ -1037,7 +1036,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             StudentID = student.StudentID,
                             EnrollmentNo = student.EnrollmentNo,
-                            StreamID = student.StreamID, // Or use section.StreamID if required
+                            StreamID = student.StreamID, // Use section.StreamID if needed
                             ApplicationID = student.ApplicationID,
                             SectionID = section.SectionID,
                             DepartmentID = section.DepartmentID,
@@ -1045,15 +1044,16 @@ namespace Kaushal_Darpan.Api.Controllers
                             Eng_NonEng = section.Eng_NonEng,
                             ActiveStatus = section.ActiveStatus ?? false,
                             DeleteStatus = section.DeleteStatus ?? false,
-                            CreatedBy = section.CreatedBy,  // Fix: don’t use ModifyBy for CreatedBy
+                            CreatedBy = section.CreatedBy,
                             ModifyBy = section.ModifyBy,
                             CreatedDate = section.CreatedDate
                         };
 
                         allSectionBranchStudentDataModel.Add(combined);
-                        studentIndex++;
+                        studentIndex++; // Move to the next student
                     }
                 }
+
 
 
                 //int studentIndex = 0;
