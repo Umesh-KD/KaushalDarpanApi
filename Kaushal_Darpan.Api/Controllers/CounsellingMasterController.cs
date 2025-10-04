@@ -6,6 +6,7 @@ using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.CollegeWiseScholarship;
 using Kaushal_Darpan.Models.CounsellingMaster;
 using Kaushal_Darpan.Models.Student;
+using Kaushal_Darpan.Models.StudentApplyForHostel;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -258,5 +259,135 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [HttpPost("SaveCandidateAllotment_Counselling/{TradeID}")]
+        public async Task<ApiResult<int>> SaveCandidateAllotment_Counselling([FromRoute] int TradeID, [FromBody] List<Counselling_AllotmentDataModel> request)
+        {
+            ActionName = "Task<ApiResult<int>> SaveCandidateAllotment_Counselling([FromRoute] int TradeID, [FromBody] List<Counselling_AllotmentDataModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    var isSave = await _unitOfWork.CounsellingMasterRepository.SaveCandidateAllotment_Counselling(TradeID, request);
+                    await _unitOfWork.SaveChangesAsync(); 
+
+                    if (isSave == -1)
+                    {
+                        //result.Data = true;
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_NO_DATA_SAVE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        // result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetAllottedCandidateList_Counselling")]
+        public async Task<ApiResult<DataTable>> GetAllottedCandidateList_Counselling([FromBody] CounsellingAllottedListSearchModel body)
+
+        {
+            ActionName = "GetAllottedCandidateList_Counselling([FromBody] CounsellingAllottedListSearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.CounsellingMasterRepository.GetAllottedCandidateList_Counselling(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("SaveFinalInstituteAllotment_Counselling")]
+        public async Task<ApiResult<bool>> SaveFinalInstituteAllotment_Counselling(EditInstituteDataModel_Counselling model)
+        {
+            ActionName = "SaveFinalInstituteAllotment_Counselling(EditInstituteDataModel_Counselling model)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.CounsellingMasterRepository.SaveFinalInstituteAllotment_Counselling(model);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
     }
 }
