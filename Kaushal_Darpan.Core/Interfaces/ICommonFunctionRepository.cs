@@ -318,5 +318,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID);
 
+        Task<DataTable> GetStaff_InstituteAndWorkWise(StaffMasterDDLDataModel body);
+
     }
 }

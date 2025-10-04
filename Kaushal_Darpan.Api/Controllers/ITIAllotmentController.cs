@@ -1650,8 +1650,8 @@ namespace Kaushal_Darpan.Api.Controllers
                 sb.Append(@"
 <style>
     body {
-        font-family: Arial, sans-serif;
-        font-size: 11pt; /* Global font size */
+         font-family: Arial, sans-serif;
+        font-size: 10pt; /* Global font size */
     }
     table {
         border-collapse: collapse;
@@ -1660,24 +1660,17 @@ namespace Kaushal_Darpan.Api.Controllers
     th, td {
         border: 1px solid #494949;
         padding: 4px;
-        font-size: 11pt; /* Cell font size */
+        font-size: 10pt; /* Cell font size */
        
     }
     b {
-        font-size: 13pt; /* Trade name header */
+        font-size: 12pt; /* Trade name header */
     }
 </style>
 ");
 
                 foreach (var collegeGroup in data.GroupBy(f => f.CollegeId))
                 {
-
-                    if (collegeGroup != data.GroupBy(f => f.CollegeId).First())
-                    {
-                        sb.Append("<div style='page-break-before: always;'>&nbsp;</div>");
-                    }
-
-
 
                     sb.Append($@"
 <table id='pdf-header' style='width:100%'>
@@ -1688,29 +1681,38 @@ namespace Kaushal_Darpan.Api.Controllers
         </td>
     </tr>
     <tr>
-        <th colspan='3' style='border-bottom: 1px solid #494949; padding-top:1px;'>&nbsp;</th>
+        <th colspan='3' style='border-bottom: 1px solid #494949; padding-top:1px;'>Total Applicant {data.Count}</th>
     </tr>
-</table>");    int rowTradeC = 1;
+</table>");
+
+
+
+                    int rowTradeC = 1;
 
                     foreach (var tradeGroup in collegeGroup.GroupBy(f => f.BranchName))
                     {
+                        //if (tradeGroup != collegeGroup.GroupBy(f => f.BranchName).First())
+                        //{
+                        //    sb.Append("<div style='page-break-before: always;'>&nbsp;</div>");
+                        //}
+
+                     
 
                         sb.Append($@"
 <div style='margin-top:3px;'>&nbsp;</div>
-<b> {rowTradeC}. {tradeGroup.Key}</b>
+<b>  {tradeGroup.Key}</b>
 
 <table cellpadding='2' cellspacing='0'>
     <tr>
-        <th>Serial No</th>
+        <th>Sr No</th>
         <th>Application No</th>
         <th>Name</th>
         <th>Father Name</th>
-        <th>Trade Code</th>
-        <th>Trade Name</th>
         <th>Shift</th>
         <th>Unit</th>
         <th>Allotted Category</th>
-        <th>Reporting Date and Time</th>
+        <th>Reported Date and Time</th>
+ <th>Admission Round</th>
     </tr>");
 
                         int rowNumber = 1;
@@ -1722,29 +1724,22 @@ namespace Kaushal_Darpan.Api.Controllers
     <td>{s.ApplicationNo}</td>
     <td>{s.Name}</td>
     <td>{s.FatherName}</td>
-    <td>{s.TradeCode}</td>
-    <td>{s.TradeName}</td>
     <td>{s.Shift}</td>
     <td>{s.UnitNo}</td>
     <td>{s.AllotedCategory}</td>
     <td>{s.ReportingDate}</td>
+    <td>{s.AdmissionRound}</td>
 </tr>");
                             rowNumber++;
                         }
 
                         sb.Append("</table>");
+                        
 
                         rowTradeC++;
                     }
 
-                    sb.Append($@"
-<table id='pdf-footer'>
-    <tr>
-        <td style='text-align:left'>
-            System print date: {DateTime.Now:dd/MM/yyyy HH:mm}
-        </td>
-    </tr>
-</table>");
+                   
                 }
 
 
@@ -1765,17 +1760,25 @@ namespace Kaushal_Darpan.Api.Controllers
                 var doc = new HtmlToPdfDocument()
                 {
                     GlobalSettings = {
-                        PaperSize = PaperKind.A3,
-                        Orientation = Orientation.Landscape,
+                       PaperSize = PaperKind.A4,
+        Orientation = Orientation.Portrait, // ✅ spelling fixed
                        
                     },
                     Objects = {
-                        new ObjectSettings()
-                        {
-                            HtmlContent = sb.ToString(),
-                            WebSettings = { DefaultEncoding = "utf-8" }
-                        }
-                    }
+        new ObjectSettings()
+        {
+            HtmlContent = sb.ToString(),
+            WebSettings = { DefaultEncoding = "utf-8" },
+            FooterSettings = new FooterSettings
+            {
+                FontName = "Arial",
+                FontSize = 9,
+                Right = "Page [page] of [toPage]",
+                Left = "Printed on: [date]",
+                Line = true // Adds a line above footer
+            }
+        }
+    }
                 };
                 byte[] pdfBytes = _converter.Convert(doc);
 
