@@ -795,7 +795,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandText = "USP_CounsellingImportCandidateList";
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@Action", "SaveDaa");
+                        command.Parameters.AddWithValue("@Action", "SaveData");
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
 
                         command.Parameters.Add("@Retval", SqlDbType.Int);// out
