@@ -75,6 +75,7 @@
   
   <ItemGroup>
     <None Remove="Report\Files\ITI\CounsellingAllotmentOrder.rdlc" />
+    <None Remove="Report\ITI\CounsellingAllotmentOrder.html" />
   </ItemGroup>
 
 </Project>
