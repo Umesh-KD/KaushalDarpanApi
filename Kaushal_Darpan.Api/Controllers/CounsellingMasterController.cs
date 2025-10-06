@@ -1,8 +1,10 @@
-﻿using AutoMapper;
+﻿using AspNetCore.Reporting;
+using AutoMapper;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ApplicationData;
+using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CollegeWiseScholarship;
 using Kaushal_Darpan.Models.CounsellingMaster;
 using Kaushal_Darpan.Models.Student;
@@ -383,6 +385,87 @@ namespace Kaushal_Darpan.Api.Controllers
                         Ex = ex,
                     };
                     await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GenerateAllotmentOrder_Counselling")]
+        public async Task<ApiResult<string>> GenerateAllotmentOrder_Counselling([FromBody] List<EditInstituteDataModel_Counselling> model)
+        {
+            ActionName = "GenerateAllotmentOrder_Counselling([FromBody] List<EditInstituteDataModel_Counselling> model)";
+            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.CounsellingMasterRepository.GenerateAllotmentOrder_Counselling(model);
+                    if (data != null)
+                    {
+                        string guid = Guid.NewGuid().ToString().ToUpper();
+                        var fileName = $"CounsellingAllotmentOrder_{guid}.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/CounsellingAllotmentOrder.rdlc";
+
+                        model.ForEach(x =>
+                        {
+                            x.AllotmentOrderPath = filepath;
+                            x.AllotmentOrder = fileName;
+                        });
+
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+
+                        localReport.AddDataSource("CounsellingAllotmentOrderTable", data.Tables[0]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+
+                        //result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+
+                    //var Issuccess = await _unitOfWork.CenterObserverRepository.UpdateDutyOrder(model);
+                    //if (Issuccess > 0)
+                    //{
+                    //    result.Data = Issuccess.ToString();
+                    //    result.State = EnumStatus.Success;
+                    //    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    //}
+                    //else
+                    //{
+                    //    result.State = EnumStatus.Warning;
+                    //    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    //}
+
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                 }

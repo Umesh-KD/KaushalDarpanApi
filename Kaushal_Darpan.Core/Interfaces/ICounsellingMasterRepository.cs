@@ -19,5 +19,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveCandidateAllotment_Counselling(int TradeID, List<Counselling_AllotmentDataModel> model);
         Task<DataTable> GetAllottedCandidateList_Counselling(CounsellingAllottedListSearchModel body);
         Task<bool> SaveFinalInstituteAllotment_Counselling(EditInstituteDataModel_Counselling model);
+        Task<DataSet> GenerateAllotmentOrder_Counselling(List<EditInstituteDataModel_Counselling> model);
     }
 }

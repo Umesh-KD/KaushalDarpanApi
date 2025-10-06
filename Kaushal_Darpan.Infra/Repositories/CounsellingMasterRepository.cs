@@ -2,8 +2,10 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ApplicationData;
+using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CollegeWiseScholarship;
 using Kaushal_Darpan.Models.CounsellingMaster;
+using Kaushal_Darpan.Models.Report;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentApplyForHostel;
 using Newtonsoft.Json;
@@ -349,6 +351,41 @@ namespace Kaushal_Darpan.Infra.Repositories
                         return true;
                     else
                         return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataSet> GenerateAllotmentOrder_Counselling(List<EditInstituteDataModel_Counselling> model)
+        {
+            _actionName = "GenerateAllotmentOrder_Counselling(List<EditInstituteDataModel_Counselling> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_RPT_GenerateAllotmentOrder";
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
                 }
                 catch (Exception ex)
                 {

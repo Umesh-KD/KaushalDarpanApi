@@ -61,6 +61,8 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public int? ModifyBy { get; set; }
         public int? OptionID { get; set; }
         public int? AllotmentID { get; set; }
+        public string? AllotmentOrderPath { get; set; }
+        public string? AllotmentOrder { get; set; }
     }
 
 }

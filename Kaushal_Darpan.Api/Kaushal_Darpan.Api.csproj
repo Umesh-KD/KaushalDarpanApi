@@ -72,5 +72,9 @@
     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
   </Content>
 </ItemGroup>
+  
+  <ItemGroup>
+    <None Remove="Report\Files\ITI\CounsellingAllotmentOrder.rdlc" />
+  </ItemGroup>
 
 </Project>
