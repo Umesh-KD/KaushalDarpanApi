@@ -279,6 +279,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         IITIIIPManageRepository ITIIIPManageRepository { get; }
         ICounsellingMasterRepository CounsellingMasterRepository { get; }
         ICounsellingApplicationFormRepository CounsellingApplicationFormRepository { get; }
+
+        ICounsellingImportCandidateListRepository CounsellingImportCandidateListRepository { get; }
         Task SaveChangesAsync();
     }
 }
