@@ -39,19 +39,19 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetPromotedStudentData";
 
-                        if (model.StudentTypeId == (int)EnumStudentType.Reg)
+                        if (model.PromoteStatusID == (int)PromoteStatus.Reg)
                         {
                             command.Parameters.AddWithValue("@action", "_getStudentLastSemesterData");
                         }
-                        else if (model.StudentTypeId == (int)EnumStudentType.Ex)
+                        else if (model.PromoteStatusID == (int)PromoteStatus.Ex)
                         {
                             command.Parameters.AddWithValue("@action", "_getExStudentSemesterData");
                         }
-                        else if (model.StudentTypeId == (int)EnumStudentType.NotFormFilled)
+                        else if (model.PromoteStatusID == (int)PromoteStatus.NotFormFilled)
                         {
                             command.Parameters.AddWithValue("@action", "_getNotFormFilledStudentSemesterData");
                         }
-                        else if (model.StudentTypeId == (int)EnumStudentType.Detained)
+                        else if (model.PromoteStatusID == (int)PromoteStatus.Detained)
                         {
                             command.Parameters.AddWithValue("@action", "_getDetainedStudentSemesterData");
                         }
@@ -59,8 +59,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             throw new Exception("invalid use of sp!");
                         }
-                            //parameter
-                            command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        //parameter
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
@@ -238,7 +238,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetPromotedStudentDataITI";
                         //parameter
-                        if (model.StudentTypeId==2)
+                        if (model.PromoteStatusID == (int)PromoteStatus.Ex)
                         {
                             command.Parameters.AddWithValue("@action", "_getExStudentSemesterData");
                         }
@@ -247,7 +247,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.Parameters.AddWithValue("@action", "_getStudentLastSemesterData");
                         }
 
-                      
+
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);

@@ -488,7 +488,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         if (body.CourseType != null)
                         {
                             command.Parameters.AddWithValue("@CourseType", body.CourseType);
-                        }
+                        } 
+                        command.Parameters.AddWithValue("@GenderID", body.GenderID);
                         command.Parameters.AddWithValue("@Status", body.Status);
                         command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
                         command.Parameters.AddWithValue("@RoleID", body.RoleID);

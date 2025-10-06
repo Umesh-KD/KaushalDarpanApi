@@ -27,6 +27,7 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public int StreamID { get; set; }
         public int TradeSchemeID { get; set; }
         public string? AdmittStatus { get; set; }
+        public int? PromoteStatus { get; set; }
     }
 
     public class PreExam_UpdateEnrollmentNoModel :RequestBaseModel

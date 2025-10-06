@@ -98,7 +98,7 @@ namespace Kaushal_Darpan.Api.Controllers
             //end report
         }
 
-
+        // new method to move old file into new file structure
         [HttpPost("Dummy_SaveAndMoveStudentImages")]
         public async Task<string> Dummy_SaveAndMoveStudentImages()
         {

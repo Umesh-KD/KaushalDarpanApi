@@ -91,7 +91,7 @@ namespace Kaushal_Darpan.Core.Helper
         public const string ReportsFolder_ITI = $"{ReportsFolder}/ITI";
 
         public const string RemunerationFolder = "/Remuneration/Invigilator";
-
+        
         public const string JoiningLetterITI = "Report/ITI";
         public const string GetITIStudent_MarksheetReport = "Report/ITI";
         public const string GetRosterDisplay_PDFTimeTableReport = "Report/BTER";
@@ -491,9 +491,14 @@ namespace Kaushal_Darpan.Core.Helper
     public enum EnumStudentType
     {
         Reg = 1,
-        Ex = 2,
-        NotFormFilled = 3,
-        Detained = 4
+        Ex = 2
+    }
+    public enum PromoteStatus
+    {
+        Reg = 1322,
+        Ex = 1323,
+        NotFormFilled = 1324,
+        Detained = 1330
     }
 
     #endregion

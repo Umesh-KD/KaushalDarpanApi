@@ -139,6 +139,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsConsume", request.IsConsume);
                         command.Parameters.AddWithValue("@voucherdate", request.voucherdate);
                         command.Parameters.AddWithValue("@unitId", request.unitId);
+                        command.Parameters.AddWithValue("@abbreviation", request.abbreviation);
+                        command.Parameters.AddWithValue("@batchId", request.batchId);
 
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
@@ -325,8 +327,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                                 EquipmentWorking = row.Field<int?>("EquipmentWorking") ?? 0,
                                 isOption = row["isOption"] != DBNull.Value && Convert.ToBoolean(row["isOption"]),
                                 AuctionStatus = row["AuctionStatus"].ToString(),
-                                ItemId = Convert.ToInt32(row["ItemId"].ToString())
-                               
+                                ItemId = Convert.ToInt32(row["ItemId"].ToString()),
+                                IsSerialNo = row.Field<int?>("IsSerialNo") ?? 0
+
                             };
                             itemsList.Add(item);
                         }
@@ -777,17 +780,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_INV_StaffIssueReturnItemsBter";
-
-                        command.Parameters.AddWithValue("@Type", "ReturnItemUpdate");
-                        command.Parameters.AddWithValue("@Remarks", SearchReq.Remarks);
-                        command.Parameters.AddWithValue("@ItemCategoryId", SearchReq.ItemCategoryId);
-                        command.Parameters.AddWithValue("@ReturnDate", SearchReq.ReturnDate);
-                        command.Parameters.AddWithValue("@ConditionAtReturn", SearchReq.ConditionAtReturn);
-
+                        command.CommandText = "USP_StaffIssueReturnItems";
                         command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(SearchReq.ItemList));
 
 
@@ -845,6 +841,227 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> GetItemListType(DTEItemsSearchModel SearchReq)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Bter_INV_ItemListType";
+
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.CollegeId);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.EquipmentsId);
+                        command.Parameters.AddWithValue("@ItemType", SearchReq.ItemType);
+                        command.Parameters.AddWithValue("@ActionType", "GetItemListType");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetAllItemList(DTEItemsSearchModel SearchReq)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Bter_INV_ItemListType";
+
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.CollegeId);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.EquipmentsId);
+                        command.Parameters.AddWithValue("@ItemType", SearchReq.IsConsumable);
+                        command.Parameters.AddWithValue("@ActionType", "GetItemList");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                            dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<int> SaveIssueItemsList(List<ItemsIssueReturnModels> request)
+        {
+            _actionName = "SaveIssueItems(List<DTEItemsSaveModel> request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0; 
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "SP_SaveDTEIssuedItems";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int);
+                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetAllinventoryIssueReport(ItemsIssueReturnModels SearchReq)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Bter_INV_ItemReportList";
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> GetIssueItemList(ItemsIssueReturnModels SearchReq)
+        {
+            _actionName = "GetInventoryIssueItemList()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Bter_GetIssueItemList";
+                        command.Parameters.AddWithValue("@StaffID", SearchReq.StaffId);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetInventoryIssueHistoryList(InventoryIssueHistoryListModels SearchReq)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetInventoryIssueHistoryList";
+
+                        //command.Parameters.AddWithValue("@IssuedId", SearchReq.IssuedId);
+                        command.Parameters.AddWithValue("@staffId", SearchReq.staffId);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
     }
 }
 

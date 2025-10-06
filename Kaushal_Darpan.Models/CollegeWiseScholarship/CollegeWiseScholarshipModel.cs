@@ -42,7 +42,7 @@
         public string? ScholarshipMode { get; set; }
         public string? SchemeName { get; set; }
         public int? CourseType { get; set; }
-
+        public int GenderID { get; set; }
     }
 
     //public class EligibleStudentForPlacement
@@ -67,6 +67,7 @@
         public int CreatedBy { get; set; }
         public int ModifyBy { get; set; }
         public string? ScholarshipMode { get; set; }
+        
     }
 
 
