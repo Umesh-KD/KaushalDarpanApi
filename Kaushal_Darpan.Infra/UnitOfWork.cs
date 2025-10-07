@@ -519,7 +519,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return _iticollegeWiseScholarshipRepository ??= new ITICollegeWiseScholarshipRepository(_dbContext);
             }
         }
-
+        private I_ApplyDuplicateDocument _applyDuplicateDocumentRepository;
+        public I_ApplyDuplicateDocument ApplyDuplicateDocumentRepository
+        {
+            get
+            {
+                return _applyDuplicateDocumentRepository ??= new ApplyDuplicateDocumentRepository(_dbContext);
+            }
+        }
         private IStaffMasterRepository _staffMasterRepository;
         public IStaffMasterRepository StaffMasterRepository
         {
