@@ -58,6 +58,7 @@ namespace Kaushal_Darpan.Models.StaffMaster
     {
         public string? SectionName { get; set; }
         public int StudentCount { get; set; }
+        public string studentids { get; set; }
     }
 
     public class SectionDataModel
@@ -73,6 +74,7 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public int CreatedBy { get; set; }
         public int ModifyBy { get; set; }
         public int SemesterID { get; set; }
+        public int InstituteId { get; set; }
         public DateTime? CreatedDate { get; set; }
     }
     
@@ -91,6 +93,7 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public bool? DeleteStatus { get; set; }
         public int CreatedBy { get; set; }
         public int ModifyBy { get; set; }
+        public int InstituteId { get; set; }
         public DateTime? CreatedDate { get; set; }
     }
     
