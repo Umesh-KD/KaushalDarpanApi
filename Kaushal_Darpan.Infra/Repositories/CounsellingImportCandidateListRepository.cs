@@ -712,10 +712,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_CounsellingImportCandidateList";
 
                         //command.Parameters.AddWithValue("@TradeID", body.TradeID);
-                        //if (body.CandidateID != null)
-                        //{
-                        //    command.Parameters.AddWithValue("@CandidateID", body.CandidateID);
-                        //}
+                        if (body.CandidateID != null && body.CandidateID!=0)
+                        {
+                            command.Parameters.AddWithValue("@CandidateID", body.CandidateID);
+                        }
                         //command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
                         //command.Parameters.AddWithValue("@PageSize", body.PageSize);
                         //command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
