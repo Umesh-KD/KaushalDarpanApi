@@ -62,7 +62,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", searchModel.RoleID);
                         command.Parameters.AddWithValue("@ServiceID", searchModel.ServiceID);
                         command.Parameters.AddWithValue("@StudentExamID", searchModel.StudentExamID);
-        
+                        command.Parameters.AddWithValue("@Receipt_Number", searchModel.Receipt_Number);
                         command.Parameters.AddWithValue("@action", searchModel.Action);
                         
                         

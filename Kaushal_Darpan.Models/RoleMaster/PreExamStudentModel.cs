@@ -25,6 +25,7 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public int? IsYearly { get; set; }
         public int EligibilityStatus { get; set; }
         public int StreamID { get; set; }
+        public int TradeSchemeID { get; set; }
         public string? AdmittStatus { get; set; }
         public int? PromoteStatus { get; set; }
     }

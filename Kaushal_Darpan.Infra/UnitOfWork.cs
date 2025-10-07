@@ -2120,6 +2120,18 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return _CounsellingApplicationFormRepository ??= new CounsellingApplicationFormRepository(_dbContext);
             }
         }
+
+        private ICounsellingImportCandidateListRepository _counsellingImportCandidateListRepository;
+        public ICounsellingImportCandidateListRepository CounsellingImportCandidateListRepository
+        {
+            get
+            {
+                return _counsellingImportCandidateListRepository ??= new CounsellingImportCandidateListRepository(_dbContext);
+            }
+        }
+
+
+
         #endregion
     }
 }
