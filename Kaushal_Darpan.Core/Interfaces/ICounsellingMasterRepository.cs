@@ -20,5 +20,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAllottedCandidateList_Counselling(CounsellingAllottedListSearchModel body);
         Task<bool> SaveFinalInstituteAllotment_Counselling(EditInstituteDataModel_Counselling model);
         Task<DataSet> GenerateAllotmentOrder_Counselling(List<EditInstituteDataModel_Counselling> model);
+        Task<bool> UpdateAllotmentOrder_Counselling(List<EditInstituteDataModel_Counselling> model);
     }
 }

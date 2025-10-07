@@ -552,10 +552,10 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<bool>();
                 try
                 {
-                    request.ForEach(x =>
-                    {
-                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
-                    });
+                    //request.ForEach(x =>
+                    //{
+                    //    x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    //});
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.CounsellingImportCandidateListRepository.SaveImportExcelData(request);
                     await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful

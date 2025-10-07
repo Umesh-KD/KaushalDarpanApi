@@ -60,6 +60,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         ICompanyMasterRepository CompanyMasterRepository { get; }
         ICollegeWiseScholarshipRepository CollegeWiseScholarshipRepository { get; }
         I_ITICollegeWiseScholarshipRepository ITICollegeWiseScholarshipRepository { get; }
+        I_ApplyDuplicateDocument ApplyDuplicateDocumentRepository { get; }
         IStaffMasterRepository StaffMasterRepository { get; }
         IAssignRoleRightsRepository AssignRoleRightsRepository { get; }
         IStaffDashboardRepository StaffDashboardRepository { get; }

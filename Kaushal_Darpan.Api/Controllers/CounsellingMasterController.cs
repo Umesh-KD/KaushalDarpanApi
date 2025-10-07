@@ -1,5 +1,6 @@
 ﻿using AspNetCore.Reporting;
 using AutoMapper;
+using DocumentFormat.OpenXml.EMMA;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
@@ -7,6 +8,7 @@ using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CollegeWiseScholarship;
 using Kaushal_Darpan.Models.CounsellingMaster;
+using Kaushal_Darpan.Models.ITIMaster;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentApplyForHostel;
 using Microsoft.AspNetCore.Mvc;
@@ -392,67 +394,176 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        //[HttpPost("GenerateAllotmentOrder_Counselling")]
+        //public async Task<ApiResult<string>> GenerateAllotmentOrder_Counselling([FromBody] List<EditInstituteDataModel_Counselling> model)
+        //{
+        //    ActionName = "GenerateAllotmentOrder_Counselling([FromBody] List<EditInstituteDataModel_Counselling> model)";
+        //    var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+        //    return await Task.Run(async () =>
+        //    {
+        //        var result = new ApiResult<string>();
+        //        try
+        //        {
+        //            var data = await _unitOfWork.CounsellingMasterRepository.GenerateAllotmentOrder_Counselling(model);
+        //            if (data != null)
+        //            {
+        //                string guid = Guid.NewGuid().ToString().ToUpper();
+        //                var fileName = $"CounsellingAllotmentOrder_{guid}.pdf";
+        //                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+        //                string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/CounsellingAllotmentOrder.rdlc";
+
+        //                model.ForEach(x =>
+        //                {
+        //                    x.AllotmentOrderPath = filepath;
+        //                    x.AllotmentOrder = fileName;
+        //                });
+
+        //                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+        //                LocalReport localReport = new LocalReport(rdlcpath);
+
+        //                localReport.AddDataSource("CounsellingAllotmentOrderTable", data.Tables[0]);
+        //                var reportResult = localReport.Execute(RenderType.Pdf);
+
+        //                //check file exists
+        //                if (!System.IO.Directory.Exists(folderPath))
+        //                {
+        //                    Directory.CreateDirectory(folderPath);
+        //                }
+
+        //                System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+
+        //                //result.Data = fileName;
+        //                result.State = EnumStatus.Success;
+        //                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+        //            }
+        //            else
+        //            {
+        //                result.State = EnumStatus.Warning;
+        //                result.Message = Constants.MSG_DATA_NOT_FOUND;
+        //            }
+
+        //            //var Issuccess = await _unitOfWork.CenterObserverRepository.UpdateDutyOrder(model);
+        //            //if (Issuccess > 0)
+        //            //{
+        //            //    result.Data = Issuccess.ToString();
+        //            //    result.State = EnumStatus.Success;
+        //            //    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+        //            //}
+        //            //else
+        //            //{
+        //            //    result.State = EnumStatus.Warning;
+        //            //    result.Message = Constants.MSG_DATA_NOT_FOUND;
+        //            //}
+
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            await _unitOfWork.DisposeAsync();
+        //            // Write error log
+        //            var nex = new NewException
+        //            {
+        //                PageName = PageName,
+        //                ActionName = ActionName,
+        //                Ex = ex,
+        //            };
+        //            await CreateErrorLog(nex, _unitOfWork);
+        //            //
+        //            result.State = EnumStatus.Error;
+        //            result.ErrorMessage = ex.Message;
+        //        }
+        //        return result;
+        //    });
+        //}
+
         [HttpPost("GenerateAllotmentOrder_Counselling")]
-        public async Task<ApiResult<string>> GenerateAllotmentOrder_Counselling([FromBody] List<EditInstituteDataModel_Counselling> model)
+        public async Task<ApiResult<string>> GenerateAllotmentOrder_Counselling([FromBody] List<EditInstituteDataModel_Counselling> body)
         {
-            ActionName = "GenerateAllotmentOrder_Counselling([FromBody] List<EditInstituteDataModel_Counselling> model)";
-            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
                 try
                 {
-                    var data = await _unitOfWork.CounsellingMasterRepository.GenerateAllotmentOrder_Counselling(model);
-                    if (data != null)
+                    var data = await Task.Run(() => _unitOfWork.CounsellingMasterRepository.GenerateAllotmentOrder_Counselling(body));
+
+                    if (data?.Tables?.Count == 1)
                     {
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+
                         string guid = Guid.NewGuid().ToString().ToUpper();
                         var fileName = $"CounsellingAllotmentOrder_{guid}.pdf";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/CounsellingAllotmentOrder.rdlc";
 
-                        model.ForEach(x =>
-                        {
-                            x.AllotmentOrderPath = filepath;
-                            x.AllotmentOrder = fileName;
-                        });
-
+                        //provider                      
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        LocalReport localReport = new LocalReport(rdlcpath);
+                        data.Tables[0].TableName = "AllottedCandidateList";
 
-                        localReport.AddDataSource("CounsellingAllotmentOrderTable", data.Tables[0]);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
+                        string devFontSize = "15px";
+                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
-                        //check file exists
-                        if (!System.IO.Directory.Exists(folderPath))
+                        string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderITI}/CounsellingAllotmentOrder.html";
+
+                        string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+
+                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+                        html = Utility.PDFWorks.ReplaceCustomTag(html);
+
+                        sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+
+
+                        if (System.IO.File.Exists(filepath))
                         {
-                            Directory.CreateDirectory(folderPath);
+                            System.IO.File.Delete(filepath);
+                        }
+                        if (Utility.PDFWorks.GeneratePDF(sb1, filepath, ""))
+                        {
+                            //byte[] fileBytes = System.IO.File.ReadAllBytes(filepath);
+                            //string file_Name = filepath.Split('/')[filepath.Split('/').Length - 1];
+                            //return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, file_Name);
+                        }
+                        else
+                        {
+                            //return null;
                         }
 
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
 
-                        //result.Data = fileName;
+                        ////check file exists
+                        //if (!System.IO.Directory.Exists(folderPath))
+                        //{
+                        //    Directory.CreateDirectory(folderPath);
+                        //}
+
+                        result.Data = fileName;
                         result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                        result.Message = "Success";
+
+                        if (result.State == EnumStatus.Success)
+                        {
+                            foreach (var item in body)
+                            {
+                                item.AllotmentOrder = fileName;
+                            }
+                            var updateData = new ApiResult<bool>();
+
+                            updateData.Data = await _unitOfWork.CounsellingMasterRepository.UpdateAllotmentOrder_Counselling(body);
+                            await _unitOfWork.SaveChangesAsync();
+                            if (updateData.Data)
+                            {
+                                result.State = EnumStatus.Success;
+                                result.Message = Constants.MSG_UPDATE_SUCCESS;
+                            }
+                            else
+                            {
+                                result.State = EnumStatus.Error;
+                                result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                            }
+                        }
                     }
                     else
                     {
                         result.State = EnumStatus.Warning;
                         result.Message = Constants.MSG_DATA_NOT_FOUND;
                     }
-
-                    //var Issuccess = await _unitOfWork.CenterObserverRepository.UpdateDutyOrder(model);
-                    //if (Issuccess > 0)
-                    //{
-                    //    result.Data = Issuccess.ToString();
-                    //    result.State = EnumStatus.Success;
-                    //    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                    //}
-                    //else
-                    //{
-                    //    result.State = EnumStatus.Warning;
-                    //    result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    //}
-
                 }
                 catch (Exception ex)
                 {
@@ -469,6 +580,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                 }
+
                 return result;
             });
         }
