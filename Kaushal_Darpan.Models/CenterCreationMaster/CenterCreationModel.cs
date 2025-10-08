@@ -20,6 +20,7 @@
         public string? Email { get; set; }
         public int EndTerm { get; set; }
         public int Capacity { get; set; }
+        public int BterCollege { get; set; }
     }
     public class ITICenterCreationAddEditModel : RequestBaseModel
     {
