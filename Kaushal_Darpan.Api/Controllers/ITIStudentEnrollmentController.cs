@@ -843,12 +843,33 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     var response = await ThirdPartyServiceHelper.UploadTraineeData(request);
                     {
+                        if (response!=null)
+                        {
+                            var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(response?.ResponseData);
+                            await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
-                        result.Data = response;
-                        result.State = EnumStatus.Success;
-                        result.Message = "Success";
+                            if (isSave>0)
+                            {
+                                result.Data = response;
+                                result.State = EnumStatus.Success;
+                                result.Message = "Success";
+                            }
+                            else
+                            {
+                                result.Data = response;
+                                result.State = EnumStatus.Warning;
+                                result.Message = "Something went Wrong";
+                            }
 
+                        }
+                        else
+
+                            result.Data = response;
+                        result.State = EnumStatus.Warning;
+                        result.Message = "Something went Wrong";
                     }
+                
+                    
                 }
                 catch (Exception ex)
                 {
