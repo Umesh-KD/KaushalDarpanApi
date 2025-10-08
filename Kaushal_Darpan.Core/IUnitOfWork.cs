@@ -288,6 +288,5 @@ namespace Kaushal_Darpan.Core.Interfaces
         ITeacherHigherEducationApplicationVerificationRepository TeacherHigherEducationApplicationVerificationRepository { get; }
 
         ICounsellingImportCandidateListRepository CounsellingImportCandidateListRepository { get; }
-        Task SaveChangesAsync();
     }
 }
