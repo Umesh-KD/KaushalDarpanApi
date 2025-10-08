@@ -191,5 +191,69 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("OnRevert")]
+        public async Task<ApiResult<bool>> OnRevert([FromBody] ITIGenerateEnrollMaster request)
+        {
+            ActionName = "SaveEnrolledData([FromBody] List<GenerateEnrollMaster> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    // 1. generate the enrollment no.
+                    var isSave = await _unitOfWork.ITIGenerateEnrollRepository.OnRevert(request);
+                    if (isSave > 0)
+                    {
+                        // 2. save student in student exam for regular
+                        var smModel = new List<StudentMarkedModel>();
+                      
+
+                        //await _unitOfWork.PreExamStudentRepository.SaveITIEnrolledStudentExam(smModel);
+                    }
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                    if (isSave == -1)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_NO_DATA_SAVE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+
+
+
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }
