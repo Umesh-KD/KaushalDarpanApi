@@ -803,7 +803,14 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-
+        private IITIDataMasterRepository _iITIDataMasterRepository;
+        public IITIDataMasterRepository ITIDataMasterRepository
+        {
+            get
+            {
+                return _iITIDataMasterRepository ??= new ITIDataMasterRepository(_dbContext);
+            }
+        }
 
 
         private IITIFeeRepository _iitiFeeRepository;

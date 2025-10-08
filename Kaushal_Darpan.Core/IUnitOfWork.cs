@@ -94,6 +94,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         IStudentJanAadharDetailRepository StudentJanAadharDetailRepository { get; }
         IITISeatIntakeMasterRepository ITISeatIntakeMasterRepository { get; }
 
+        IITIDataMasterRepository ITIDataMasterRepository { get; }
+
         ITSPAreaMasterRepository TSPAreaMasterRepository { get; }
         IStudentsJoiningStatusMarksRepository StudentsJoiningStatusMarksRepository { get; }
         
