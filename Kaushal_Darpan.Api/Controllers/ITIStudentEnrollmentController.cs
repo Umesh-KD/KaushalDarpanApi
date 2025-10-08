@@ -7,6 +7,7 @@ using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.PlacementSelectedStudentMaster;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
+using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -826,40 +827,48 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #endregion
 
-        //[HttpPost("GetAnnextureListPreExamStudent")]
-        //public async Task<ApiResult<DataTable>> GetAnnextureListPreExamStudent(PreExamStudentModel model)
-        //{
-        //    ActionName = "GetAnnextureListPreExamStudent()";
-        //    var result = new ApiResult<DataTable>();
-        //    try
-        //    {
-        //        result.Data = await Task.Run(() => _unitOfWork.StudentEnrollmentRepository.GetAnnextureListPreExamStudent(model));
-        //        result.State = EnumStatus.Success;
-        //        if (result.Data.Rows.Count == 0)
-        //        {
-        //            result.State = EnumStatus.Success;
-        //            result.Message = "No record found.!";
-        //            return result;
-        //        }
-        //        result.State = EnumStatus.Success;
-        //        result.Message = "Data load successfully .!";
-        //    }
-        //    catch (System.Exception ex)
-        //    {
-        //        await _unitOfWork.DisposeAsync();
-        //        result.State = EnumStatus.Error;
-        //        result.ErrorMessage = ex.Message;
-        //        // write error log
-        //        var nex = new NewException
-        //        {
-        //            PageName = PageName,
-        //            ActionName = ActionName,
-        //            Ex = ex,
-        //        };
-        //        await CreateErrorLog(nex, _unitOfWork);
-        //    }
-        //    return result;
-        //}
+
+
+
+        [HttpPost("UploadTraineeData")]
+        public async Task<ApiResult<TraineeUploadResponse>> UploadTraineeData([FromBody] List<ITITraineeUploadModel> request)
+        {
+
+            TraineeUploadResponse objResponse = new TraineeUploadResponse();
+            ActionName = "        public async Task<ApiResult<bool>> UploadTraineeData([FromBody] List<StudentMarkedModelForJoined> request)\r\n([FromBody] List<StudentMarkedModelForJoined> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<TraineeUploadResponse>();
+                try
+                {
+                    var response = await ThirdPartyServiceHelper.UploadTraineeData(request);
+                    {
+
+                        result.Data = response;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Success";
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
 
     }
 }
