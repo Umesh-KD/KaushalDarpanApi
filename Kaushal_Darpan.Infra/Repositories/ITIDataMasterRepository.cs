@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CompanyMaster;
+using Kaushal_Darpan.Models.CounsellingMaster;
 using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.ITIApplication;
@@ -31,14 +32,15 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
      
-        public async Task<DataTable> GetAllData(SeatIntakesDataListSearchModel request)
+        public async Task<TechnicalDataModel> GetAllData(SeatIntakesDataListSearchModel request)
         {
             _actionName = "GetAllData(SeatIntakeSearchModel request)";
             return await Task.Run(async () =>
             {
                 try
                 {
-                    DataTable dataTable = new DataTable();
+                    //DataTable dataTable = new DataTable();
+                    DataSet dataset = new DataSet();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
@@ -51,14 +53,28 @@ namespace Kaushal_Darpan.Infra.Repositories
                         //command.Parameters.AddWithValue("@action", "_getAllData");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
+                        dataset = await command.FillAsync();
                     }
-                    //var data = new List<SeatIntakesDataListModel>();
-                    //if (dataTable != null)
-                    //{
-                    //    data = CommonFuncationHelper.ConvertDataTable<List<SeatIntakesDataListModel>>(dataTable);
-                    //}
-                    return dataTable;
+
+
+                    //TechnicalDataModel obj = new TechnicalDataModel();
+                    //obj.APPLICATIONID= dataSet.Tables[1]['']
+                    //obj.CourseDetails = CommonFuncationHelper.ConvertDataTable<List<CourseDetail>>(dataSet.Tables[1]);
+                    TechnicalDataModel data = new TechnicalDataModel();
+                    var coursedata = new List<CourseDetail>();
+
+                    if (dataset != null)
+                    {
+                        if (dataset.Tables.Count > 0)
+                        {
+                            //data.COLLEGECODE = dataset.Tables[0]['collegecode']
+                            data = CommonFuncationHelper.ConvertDataTable<TechnicalDataModel>(dataset.Tables[0]);
+                            coursedata = CommonFuncationHelper.ConvertDataTable<List<CourseDetail>>(dataset.Tables[1]);
+                        }
+                        data.CourseDetailsList = coursedata;
+                       
+                    }
+                    return data;
                 }
                 catch (Exception ex)
                 {
@@ -72,6 +88,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
+            
             });
         }
 
