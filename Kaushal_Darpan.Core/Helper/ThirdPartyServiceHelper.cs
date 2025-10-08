@@ -2,11 +2,13 @@
 
 using Kaushal_Darpan.Models.RPPPayment;
 using Kaushal_Darpan.Models.SSOUserDetails;
+using Kaushal_Darpan.Models.Student;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 using System.Web;
 using System.Xml;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Kaushal_Darpan.Core.Helper
 {
@@ -390,6 +392,41 @@ namespace Kaushal_Darpan.Core.Helper
 
                 throw ex;
 
+            }
+        }
+        #endregion
+
+        #region "Api for Data"
+        public static async Task<TraineeUploadResponse> UploadTraineeData(List<ITITraineeUploadModel> data)
+        {
+
+            string apiUrl = "http://164.100.68.244:8082/MIS/api/traineeupload/UploadTrainees";
+            string apiUsername = "NCVTRJMIS";
+            string apiPassword = "3D5pMzxalWNz77kZXXW8hQ==";
+            using (var client = new HttpClient())
+            {
+                // Add custom headers
+                client.DefaultRequestHeaders.Add("accept", "application/json");
+                client.DefaultRequestHeaders.Add("username", apiUsername);
+                client.DefaultRequestHeaders.Add("password", apiPassword);
+                // Serialize data to JSON
+                var json = JsonConvert.SerializeObject(data);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                try
+                {
+                    // Send POST request
+                    var response = await client.PostAsync(apiUrl, content);
+                    string responseString = await response.Content.ReadAsStringAsync();
+                    // Deserialize to list of SSOResponse
+                    var result = JsonConvert.DeserializeObject<TraineeUploadResponse>(responseString);
+                    return result ?? new TraineeUploadResponse();
+                }
+                catch (Exception ex)
+                {
+                    CommonFuncationHelper.WriteTextLog(ex.Message);
+                    return new TraineeUploadResponse();
+                }
             }
         }
         #endregion

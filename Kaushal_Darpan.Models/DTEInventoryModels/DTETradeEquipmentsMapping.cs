@@ -145,6 +145,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? EquipmentCode { get; set; }
         public int? ItemDetailsId { get; set; }
         public int? TransactionID { get; set; }
+        public int? equipmentStatus { get; set; }
 
     }
 
