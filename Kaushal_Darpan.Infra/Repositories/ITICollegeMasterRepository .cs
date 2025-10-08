@@ -38,8 +38,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = " ";
-                    
+                        command.CommandText = "USP_ITICollegeMasterList";
                         command.Parameters.AddWithValue("@ZoneID", model.ZoneID);
                         command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
                         command.Parameters.AddWithValue("@TradeID", model.TradeID);

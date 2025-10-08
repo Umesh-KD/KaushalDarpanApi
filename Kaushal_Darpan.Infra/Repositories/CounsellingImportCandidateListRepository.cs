@@ -716,11 +716,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.Parameters.AddWithValue("@CandidateID", body.CandidateID);
                         }
-                        command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
-                        command.Parameters.AddWithValue("@PageSize", body.PageSize);
-                        command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
-                        command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
-                        command.Parameters.AddWithValue("@action", body.action);
+                        //command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
+                        //command.Parameters.AddWithValue("@PageSize", body.PageSize);
+                        //command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
+                        //command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
+                        command.Parameters.AddWithValue("@Action", body.action);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

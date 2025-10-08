@@ -1738,5 +1738,89 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<int> BTER_EM_ApproveStaffProfileOterFaculty(BTER_EM_ApproveStaffDataModel request)
+        {
+            _actionName = "BTER_EM_ApproveStaffProfileOterFaculty(BTER_EM_ApproveStaffDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_BTER_EM_ApproveStaffProfileOterFaculty";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Add parameters with default values or leave them as-is
+                        command.Parameters.AddWithValue("@UserID", request.UserID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@SSOID", request.SSOID ?? "");
+                        command.Parameters.AddWithValue("@DesignationID", request.DesignationID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@DateOfBirth", request.DateOfBirth ?? "");
+                        command.Parameters.AddWithValue("@Gender", request.Gender ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@MobileNumber", request.MobileNumber ?? "");
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@BranchID", request.BranchID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@SanctionedPosts", request.SanctionedPosts ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@IsWorking", request.IsWorking ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@IsExtraWorking", request.IsExtraWorking ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@IsVacant", request.IsVacant ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@OccupiedVacant", request.OccupiedVacant ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Name", request.Name ?? "");
+                        command.Parameters.AddWithValue("@EmployeeID", request.EmployeeID ?? "");
+                        command.Parameters.AddWithValue("@IsEmpWorkingOnPost", request.IsEmpWorkingOnPost ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@IsEmpWorkingOnDeputationFromOther", request.IsEmpWorkingOnDeputationFromOther ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@EmpInstituteID", request.EmpInstituteID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@EmpBranchID", request.EmpBranchID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@IsEmpWorkingOnDeputationToOther", request.IsEmpWorkingOnDeputationToOther ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@EmpDeputatedInstituteID", request.EmpDeputatedInstituteID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@IsSalaryDrawnFromSamePost", request.IsSalaryDrawnFromSamePost ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@SalaryDrawnPostID", request.SalaryDrawnPostID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@IsSalaryDrawnFromOtherInstitute", request.IsSalaryDrawnFromOtherInstitute ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@SalaryDrawnInstituteID", request.SalaryDrawnInstituteID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@DateOfRetirement", request.DateOfRetirement ?? "");
+                        command.Parameters.AddWithValue("@AnyCourtCasePending", request.AnyCourtCasePending ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@AnyDisciplinaryActionPending", request.AnyDisciplinaryActionPending ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@ExtraOrdinaryLeave", request.ExtraOrdinaryLeave ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@SelectionCategory", request.SelectionCategory ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@HigherEduPermission", request.HigherEduPermission ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Experience", request.Experience ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@HigherEduInstitute", request.HigherEduInstitute ?? "");
+                        command.Parameters.AddWithValue("@Remark", request.Remark ?? "");
+                        command.Parameters.AddWithValue("@StaffID", request.StaffID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@StaffUserID", request.StaffUserID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@WorkOfficeID", request.WorkOfficeID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy ?? (object)DBNull.Value);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+
+                    }
+                    return result;
+
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
     }
 }

@@ -13,6 +13,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetGenerateEnrollData(ITIGenerateEnrollSearchModel model);
         Task<int> SaveEnrolledData(List<ITIGenerateEnrollMaster> model);
-        Task<int> OnPublish(List<ITIGenerateEnrollMaster    > model);
+        Task<int> OnPublish(List<ITIGenerateEnrollMaster> model);
+        Task<int> OnRevert(ITIGenerateEnrollMaster model);
     }
 }
