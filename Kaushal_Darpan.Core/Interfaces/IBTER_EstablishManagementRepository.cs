@@ -65,5 +65,8 @@ namespace Kaushal_Darpan.Core.Interfaces
 
 
         Task<DataTable> GetStaffWorkRegular_ArrangementReort(BTER_EM_GetStaffListDataModel body);
+
+
+        Task<int> BTER_EM_ApproveStaffProfileOterFaculty(BTER_EM_ApproveStaffDataModel request);
     }
 }
