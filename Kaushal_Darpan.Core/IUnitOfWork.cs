@@ -3,6 +3,9 @@ namespace Kaushal_Darpan.Core.Interfaces
 {
     public interface IUnitOfWork : IAsyncDisposable
     {
+
+        Task SaveChangesAsync();
+
         IProductRepository Products { get; }
         IUsersRepository Users { get; }
         IErrorLogRepository ErrorLogs { get; }
@@ -60,6 +63,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         ICompanyMasterRepository CompanyMasterRepository { get; }
         ICollegeWiseScholarshipRepository CollegeWiseScholarshipRepository { get; }
         I_ITICollegeWiseScholarshipRepository ITICollegeWiseScholarshipRepository { get; }
+        I_ApplyDuplicateDocument ApplyDuplicateDocumentRepository { get; }
         IStaffMasterRepository StaffMasterRepository { get; }
         IAssignRoleRightsRepository AssignRoleRightsRepository { get; }
         IStaffDashboardRepository StaffDashboardRepository { get; }
@@ -92,6 +96,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         IITIMasterRepository ITIMasterRepository { get; }
         IStudentJanAadharDetailRepository StudentJanAadharDetailRepository { get; }
         IITISeatIntakeMasterRepository ITISeatIntakeMasterRepository { get; }
+
+        IITIDataMasterRepository ITIDataMasterRepository { get; }
 
         ITSPAreaMasterRepository TSPAreaMasterRepository { get; }
         IStudentsJoiningStatusMarksRepository StudentsJoiningStatusMarksRepository { get; }
@@ -279,6 +285,10 @@ namespace Kaushal_Darpan.Core.Interfaces
         IITIIIPManageRepository ITIIIPManageRepository { get; }
         ICounsellingMasterRepository CounsellingMasterRepository { get; }
         ICounsellingApplicationFormRepository CounsellingApplicationFormRepository { get; }
-        Task SaveChangesAsync();
+
+        ITeacherHigherEducationApplicationRepository TeacherHigherEducationApplicationRepository { get; }
+        ITeacherHigherEducationApplicationVerificationRepository TeacherHigherEducationApplicationVerificationRepository { get; }
+
+        ICounsellingImportCandidateListRepository CounsellingImportCandidateListRepository { get; }
     }
 }

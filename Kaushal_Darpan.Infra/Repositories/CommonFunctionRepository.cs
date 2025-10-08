@@ -6681,7 +6681,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
-                        command.CommandText = "USP_SaveStudentImagesData_dummy";
+                        //command.CommandText = "USP_SaveStudentImagesData_dummy";
+                        command.CommandText = "USP_SaveStudentImagesData_dummy_jsontest";
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandTimeout = 0;
 
@@ -9836,6 +9837,77 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataTable> GetStaff_InstituteAcRoster(StaffMasterDDLDataModel body)
+        {
+            _actionName = "GetStaff_InstituteAcRoster()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BTER_GetStaff_InstituteAcRoster";
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                        command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetHostelStatusDDL()
+        {
+            _actionName = "GetHostelStatusDDL()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Hostel_GetHostelStatusDDL";
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
 

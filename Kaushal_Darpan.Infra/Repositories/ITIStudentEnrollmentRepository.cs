@@ -126,6 +126,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@AdmittStatus", model.AdmittStatus);
+                        command.Parameters.AddWithValue("@TradeSchemeID", model.TradeSchemeID);
             
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query

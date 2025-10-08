@@ -1,0 +1,27 @@
+﻿
+
+
+
+<div style="margin-top:10px;">&nbsp;</div>
+
+<table style="width:100%" cellpadding="2" cellspacing="0">
+    <tr>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Sno</th>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Candidate Name</th>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Father Name</th>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>DOB</th>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Trade Name</th>
+        <th style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>Allotted Institute Name</th>
+    </tr>
+    {#LOOP.AllottedCandidateList#}
+    <tr>
+        <td style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=AllottedCandidateList.Sno=#}</td>
+        <td style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=AllottedCandidateList.CandidateName=#}</td>
+        <td style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=AllottedCandidateList.FatherName=#}</td>
+        <td style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=AllottedCandidateList.DOB=#}</td>
+        <td style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=AllottedCandidateList.TradeName=#}</td>
+        <td style='padding:2px;font-weight:600;font-size: 12px;vertical-align:top;border: 1px solid #494949'>{#=AllottedCandidateList.AllottedInstitute=#}</td>
+
+    </tr>
+    {#ENDLOOP.AllottedCandidateList#}
+</table>

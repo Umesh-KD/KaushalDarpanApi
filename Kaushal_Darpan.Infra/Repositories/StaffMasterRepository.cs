@@ -797,38 +797,77 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        //public async Task<bool> SaveBranchSectionData(SectionDataModel body)
+        //{
+        //    _actionName = "SaveBranchHOD()";
+        //    try
+        //    {
+        //        int result = 0;
+        //        using (var command = await _dbContext.CreateCommandAsync())
+        //        {
+        //            command.CommandType = CommandType.StoredProcedure;
+        //            command.CommandText = "USP_BTER_BranchSectionSave";
 
+        //            command.Parameters.AddWithValue("@ActionType", body.Action ?? "SAVE");
+        //            command.Parameters.AddWithValue("@rowjson", JsonConvert.SerializeObject(body.Section));
+
+        //            command.Parameters.Add("@Return", SqlDbType.Int);
+        //            command.Parameters["@Return"].Direction = ParameterDirection.Output;
+
+        //            _sqlQuery = command.GetSqlExecutableQuery(); // Optional logging
+
+        //            await command.ExecuteNonQueryAsync(); // Assuming insert with no result set
+        //            result = Convert.ToInt32(command.Parameters["@Return"].Value);
+        //        }
+
+        //        return true; // All inserts succeeded
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var errorDesc = new ErrorDescription
+        //        {
+        //            Message = ex.Message,
+        //            PageName = _pageName,
+        //            ActionName = _actionName,
+        //            SqlExecutableQuery = _sqlQuery
+        //        };
+        //        var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+        //        throw new Exception(errordetails, ex);
+        //    }
+        //}
         public async Task<bool> SaveBranchSectionData(SectionDataModel body)
         {
             _actionName = "SaveBranchHOD()";
             try
             {
-                foreach (var item in body.Section)
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_BTER_BranchSection";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_BTER_BranchSection";
 
-                        command.Parameters.AddWithValue("@ActionType", body.Action ?? "SAVE");
-                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@SectionName", item.SectionName);
-                        command.Parameters.AddWithValue("@StudentCount", item.StudentCount);
-                        command.Parameters.AddWithValue("@ActiveStatus", body.ActiveStatus);
-                        command.Parameters.AddWithValue("@DeleteStatus", body.DeleteStatus);
-                        command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
-                        command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
-                        command.Parameters.AddWithValue("@CreatedDate", body.CreatedDate ?? DateTime.Now);
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        //command.Parameters.AddWithValue("@SectionJson", body.Section);
+                    command.Parameters.AddWithValue("@ActionType", body.Action ?? "SAVE");
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@SectionName", "");
+                    command.Parameters.AddWithValue("@StudentCount", "");
+                    command.Parameters.AddWithValue("@ActiveStatus", body.ActiveStatus);
+                    command.Parameters.AddWithValue("@DeleteStatus", body.DeleteStatus);
+                    command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                    command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                    command.Parameters.AddWithValue("@CreatedDate", body.CreatedDate ?? DateTime.Now);
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@rowjson", JsonConvert.SerializeObject(body.Section));
 
-                        _sqlQuery = command.GetSqlExecutableQuery(); // Optional logging
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
 
-                        await command.ExecuteNonQueryAsync(); // Assuming insert with no result set
-                    }
+                    _sqlQuery = command.GetSqlExecutableQuery(); // Optional logging
+
+                    await command.ExecuteNonQueryAsync(); // Assuming insert with no result set
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
                 }
 
                 return true; // All inserts succeeded
@@ -899,6 +938,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_BTER_BranchStudentData";
                         command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
@@ -1231,6 +1272,47 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@SectionID", body.SectionID);
 
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
+        public async Task<DataTable> GetBranchSectionAcRosterData(GetDDlSectionDataModel body)
+        {
+            _actionName = "GetBranchSectionAcRosterData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Bter_GetBranchSectionAcRosterData";
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                        command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
+                        command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

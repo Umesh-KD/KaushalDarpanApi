@@ -1,0 +1,21 @@
+﻿using Kaushal_Darpan.Models.CompanyMaster;
+using Kaushal_Darpan.Models.ITI_DataMasterModel;
+using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
+using Kaushal_Darpan.Models.ITIApplication;
+using Kaushal_Darpan.Models.MenuMaster;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Kaushal_Darpan.Core.Interfaces
+{
+    public interface IITIDataMasterRepository
+    {
+
+        Task<DataTable> GetAllData(SeatIntakesDataListSearchModel request);
+
+    }
+}

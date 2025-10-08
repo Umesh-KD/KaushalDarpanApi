@@ -857,7 +857,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.CollegeId);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.EquipmentsId);
-                        command.Parameters.AddWithValue("@ItemType", SearchReq.IsConsumable);
+                        command.Parameters.AddWithValue("@ItemType", SearchReq.ItemType);
                         command.Parameters.AddWithValue("@ActionType", "GetItemListType");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -895,7 +895,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.CollegeId);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.EquipmentsId);
-                        command.Parameters.AddWithValue("@ItemType", SearchReq.IsConsumable);
+                        command.Parameters.AddWithValue("@ItemType", SearchReq.ItemType);
                         command.Parameters.AddWithValue("@ActionType", "GetItemList");
 
                         _sqlQuery = command.GetSqlExecutableQuery();

@@ -21,6 +21,7 @@ using Kaushal_Darpan.Models.Results;
 using Kaushal_Darpan.Models.SSOUserDetails;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
+using Kaushal_Darpan.Models.StudentRequestsModel;
 using Kaushal_Darpan.Models.SubjectMaster;
 using Kaushal_Darpan.Models.UploadFileWithPathData;
 using Kaushal_Darpan.Models.UserMaster;
@@ -8745,6 +8746,76 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+        [HttpPost("GetStaff_InstituteAcRoster")]
+        public async Task<ApiResult<DataTable>> GetStaff_InstituteAcRoster([FromBody] StaffMasterDDLDataModel body)
+        {
+            ActionName = "GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetStaff_InstituteAcRoster(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("GetHostelStatusDDL")]
+        public async Task<ApiResult<DataTable>> GetHostelStatusDDL()
+        {
+            ActionName = " GetHostelStatusDDL()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetHostelStatusDDL());
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }
 

@@ -134,6 +134,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         //command.Parameters.AddWithValue("@action", "_OnPublish");
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@Action", "Publish");
 
                         command.Parameters.Add("@Retval", SqlDbType.Int);// out
                         command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
@@ -161,6 +162,52 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        public async Task<int> OnRevert(ITIGenerateEnrollMaster model)
+        {
+            _actionName = "SaveEnrolledData(List<GenerateEnrollMaster> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    int retval = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIPublishEnrollmentNumber";
+
+                        // Add parameters with appropriate null handling
+                        //command.Parameters.AddWithValue("@action", "_OnPublish");
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@Action", "Revert");
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                    }
+                    return retval;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
 
     }
