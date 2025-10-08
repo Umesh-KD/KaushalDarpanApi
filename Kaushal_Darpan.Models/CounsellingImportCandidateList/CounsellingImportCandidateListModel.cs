@@ -11,6 +11,12 @@
 
         public string? SSOID { get; set; }
 
+        public int? DepartmentID { get; set; }
+
+        public int? ModifyBy { get; set; }
+
+
+
         //public string IPAddress { get; set; }
 
     }

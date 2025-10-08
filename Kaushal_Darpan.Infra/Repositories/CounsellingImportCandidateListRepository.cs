@@ -712,14 +712,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_CounsellingImportCandidateList";
 
                         //command.Parameters.AddWithValue("@TradeID", body.TradeID);
-                        //if (body.CandidateID != null)
-                        //{
-                        //    command.Parameters.AddWithValue("@CandidateID", body.CandidateID);
-                        //}
-                        //command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
-                        //command.Parameters.AddWithValue("@PageSize", body.PageSize);
-                        //command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
-                        //command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
+                        if (body.CandidateID != null && body.CandidateID!=0)
+                        {
+                            command.Parameters.AddWithValue("@CandidateID", body.CandidateID);
+                        }
+                        command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
+                        command.Parameters.AddWithValue("@PageSize", body.PageSize);
+                        command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
+                        command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
                         command.Parameters.AddWithValue("@action", body.action);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
