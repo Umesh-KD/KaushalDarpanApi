@@ -3,6 +3,9 @@ namespace Kaushal_Darpan.Core.Interfaces
 {
     public interface IUnitOfWork : IAsyncDisposable
     {
+
+        Task SaveChangesAsync();
+
         IProductRepository Products { get; }
         IUsersRepository Users { get; }
         IErrorLogRepository ErrorLogs { get; }
@@ -280,6 +283,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         IITIIIPManageRepository ITIIIPManageRepository { get; }
         ICounsellingMasterRepository CounsellingMasterRepository { get; }
         ICounsellingApplicationFormRepository CounsellingApplicationFormRepository { get; }
+
+        ITeacherHigherEducationApplicationRepository TeacherHigherEducationApplicationRepository { get; }
+        ITeacherHigherEducationApplicationVerificationRepository TeacherHigherEducationApplicationVerificationRepository { get; }
 
         ICounsellingImportCandidateListRepository CounsellingImportCandidateListRepository { get; }
         Task SaveChangesAsync();
