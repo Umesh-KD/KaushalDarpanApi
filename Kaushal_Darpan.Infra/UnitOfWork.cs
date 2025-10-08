@@ -2127,6 +2127,24 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return _CounsellingApplicationFormRepository ??= new CounsellingApplicationFormRepository(_dbContext);
             }
         }
+        
+        private ITeacherHigherEducationApplicationRepository _TeacherHigherEducationApplicationRepository;
+        public ITeacherHigherEducationApplicationRepository TeacherHigherEducationApplicationRepository
+        {
+            get
+            {
+                return _TeacherHigherEducationApplicationRepository ??= new TeacherHigherEducationApplicationRepository(_dbContext);
+            }
+        }
+        
+        private ITeacherHigherEducationApplicationVerificationRepository _TeacherHigherEducationApplicationVerificationRepository;
+        public ITeacherHigherEducationApplicationVerificationRepository TeacherHigherEducationApplicationVerificationRepository
+        {
+            get
+            {
+                return _TeacherHigherEducationApplicationVerificationRepository ??= new TeacherHigherEducationApplicationVerificationRepository(_dbContext);
+            }
+        }
 
         private ICounsellingImportCandidateListRepository _counsellingImportCandidateListRepository;
         public ICounsellingImportCandidateListRepository CounsellingImportCandidateListRepository

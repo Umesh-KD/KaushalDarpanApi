@@ -82,6 +82,9 @@ namespace Kaushal_Darpan.Models.CenterObserver
     {
         public int InstituteID { get; set; }
         public int WorkInstituteID { get; set; }
+        public int SemesterID { get; set; }
+        public int StreamID { get; set; }
+        public int SubjectID { get; set; }
     }
 
     public class CenterMasterDDLDataModel : RequestBaseModel
