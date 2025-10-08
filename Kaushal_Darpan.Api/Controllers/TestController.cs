@@ -662,6 +662,28 @@ namespace Kaushal_Darpan.Api.Controllers
             }
         }
 
+        [HttpGet("Dummy_SaveAndMoveStudentImages_Querytest")]
+        public async Task<string> Dummy_SaveAndMoveStudentImages_Querytest()
+        {
+            try
+            {
+                string path = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, "Client_StudentImageDetail_migrate_json.txt");
+                string json = System.IO.File.ReadAllText(path);
+
+                //db
+                var r = await _unitOfWork.CommonFunctionRepository.Dummy_SaveAndMoveStudentImages(json);
+                await _unitOfWork.SaveChangesAsync();
+
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                //log
+                CommonFuncationHelper.WriteTextLog($"Error: {ex.Message}");
+                return $"Error: {ex.Message}";
+            }
+        }
+
     }
     public class Test
     {

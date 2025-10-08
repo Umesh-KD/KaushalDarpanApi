@@ -803,7 +803,14 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-
+        private IITIDataMasterRepository _iITIDataMasterRepository;
+        public IITIDataMasterRepository ITIDataMasterRepository
+        {
+            get
+            {
+                return _iITIDataMasterRepository ??= new ITIDataMasterRepository(_dbContext);
+            }
+        }
 
 
         private IITIFeeRepository _iitiFeeRepository;
@@ -2118,6 +2125,24 @@ namespace Kaushal_Darpan.Infra.Repositories
             get
             {
                 return _CounsellingApplicationFormRepository ??= new CounsellingApplicationFormRepository(_dbContext);
+            }
+        }
+        
+        private ITeacherHigherEducationApplicationRepository _TeacherHigherEducationApplicationRepository;
+        public ITeacherHigherEducationApplicationRepository TeacherHigherEducationApplicationRepository
+        {
+            get
+            {
+                return _TeacherHigherEducationApplicationRepository ??= new TeacherHigherEducationApplicationRepository(_dbContext);
+            }
+        }
+        
+        private ITeacherHigherEducationApplicationVerificationRepository _TeacherHigherEducationApplicationVerificationRepository;
+        public ITeacherHigherEducationApplicationVerificationRepository TeacherHigherEducationApplicationVerificationRepository
+        {
+            get
+            {
+                return _TeacherHigherEducationApplicationVerificationRepository ??= new TeacherHigherEducationApplicationVerificationRepository(_dbContext);
             }
         }
 

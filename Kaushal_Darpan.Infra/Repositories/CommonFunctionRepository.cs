@@ -6681,7 +6681,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
-                        command.CommandText = "USP_SaveStudentImagesData_dummy";
+                        //command.CommandText = "USP_SaveStudentImagesData_dummy";
+                        command.CommandText = "USP_SaveStudentImagesData_dummy_jsontest";
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandTimeout = 0;
 
