@@ -728,11 +728,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
-                        command.CommandText = "USP_ITI_SaveJoinedStudentsModified";
+                        command.CommandText = "USP_ITI_SaveEnrollresponse";
                         command.CommandType = CommandType.StoredProcedure;
 
                         // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_addStudentAdmittedData");
+          
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
                         command.Parameters.Add("@Retval", SqlDbType.Int);// out
