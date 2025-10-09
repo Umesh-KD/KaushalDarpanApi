@@ -281,7 +281,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                        _sqlQuery = $"select GRSMasterID, GuestHouseID, RoomType, SeatCapacity, RoomQuantity,FeePerBad as RoomFee  from M_GuestRoomSeatMaster where GRSMasterID='{PK_ID}'";
+                        _sqlQuery = $"select GRSMasterID, GuestHouseID, RoomType, SeatCapacity, RoomQuantity,FeePerBad as RoomFee, RoomStatus  from M_GuestRoomSeatMaster where GRSMasterID='{PK_ID}'";
                         command.CommandText = _sqlQuery;
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -587,6 +587,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IPAddress", request.IPAddress);
                         command.Parameters.AddWithValue("@Action", "SaveRoomSeatMaster");
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@RoomStatus", request.RoomStatus);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
                         
@@ -669,6 +670,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GuestApplyForGuestRoom";
+                        command.Parameters.AddWithValue("@Action", "Insert_Update");
+
                         command.Parameters.AddWithValue("@GuestReqID", request.GuestReqID);
                         command.Parameters.AddWithValue("@GuestHouseID", request.GuestHouseID);
                         command.Parameters.AddWithValue("@UserID", request.UserID);
@@ -698,9 +701,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoomFee", request.RoomFee);
                         command.Parameters.AddWithValue("@RoleID", request.RoleID);
                         command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                        command.Parameters.AddWithValue("@Purpose", request.Purpose);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
-                        command.Parameters.AddWithValue("@Action", "Insert_Update");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
