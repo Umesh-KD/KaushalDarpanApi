@@ -359,7 +359,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 _actionName = "SaveFacilities(M_GuestHouseMaster request)";
                 try
                 {
-                    int result = 0;
+                    int result = 0; 
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
@@ -631,7 +631,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         command.Parameters.AddWithValue("@UserID", body.UserID);
-                        command.Parameters.AddWithValue("@CollegeID", body.CollegeID);
                
                         command.Parameters.AddWithValue("@Action", "_GuestRequestApplyList");
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -818,9 +817,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GuestRequestList";
+                        command.Parameters.AddWithValue("@action", "_GuestRequestList");
+
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@Status", body.Status);
-                        command.Parameters.AddWithValue("@action", "_GuestRequestList");
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -855,13 +858,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GuestApplyForGuestRoom";
+                        command.Parameters.AddWithValue("@Action", "_updateReqStatusGuestRoom");
+
                         command.Parameters.AddWithValue("@GuestReqID", request.GuestReqID);
                         command.Parameters.AddWithValue("@Status", request.Status);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@Remark", request.Remark);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
-                        command.Parameters.AddWithValue("@Action", "_updateReqStatusGuestRoom");
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
                         result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
@@ -1177,6 +1181,47 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<int> ReqApproveByAdmin(GuestApplyForGuestRoomDataModel request)
+        {
+            return await Task.Run(async () =>
+            {
+                _actionName = "ReqApproveByAdmin(GuestApplyForGuestRoomDataModel request)";
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GuestApplyForGuestRoom";
+                        command.Parameters.AddWithValue("@Action", "ReqApproveByAdmin");
+
+                        command.Parameters.AddWithValue("@GuestReqID", request.GuestReqID);
+                        command.Parameters.AddWithValue("@Status", request.Status);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@Remark", request.Remark);
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
 
