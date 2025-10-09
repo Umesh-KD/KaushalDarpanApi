@@ -34,18 +34,18 @@ namespace Kaushal_Darpan.Api.Controllers
 
       
         [HttpPost("GetAllData")]
-        public async Task<ApiResult<TechnicalDataModel>> GetAllData(SeatIntakesDataListSearchModel request)
+        public async Task<ApiResult<dynamic>> GetAllData(SeatIntakesDataListSearchModel request)
         {
             ActionName = "GetAllData(SeatIntakeSearchModel request)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<TechnicalDataModel>();
+                var result = new ApiResult<dynamic>();
                 try
                 {
                     var data = await _unitOfWork.ITIDataMasterRepository.GetAllData(request);
                     if (data != null)
                     {
-                        var mappedData = _mapper.Map<TechnicalDataModel>(data);
+                        var mappedData = _mapper.Map<dynamic>(data);
                         result.Data = mappedData;
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
