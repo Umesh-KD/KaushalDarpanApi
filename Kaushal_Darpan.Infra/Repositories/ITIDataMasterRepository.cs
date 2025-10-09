@@ -65,13 +65,18 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     if (dataset != null)
                     {
-                        if (dataset.Tables.Count > 0)
+                        if (dataset.Tables.Count > 1)
                         {
                             //data.COLLEGECODE = dataset.Tables[0]['collegecode']
                             data = CommonFuncationHelper.ConvertDataTable<TechnicalDataModel>(dataset.Tables[0]);
                             coursedata = CommonFuncationHelper.ConvertDataTable<List<CourseDetail>>(dataset.Tables[1]);
+                            data.CourseDetailsList = coursedata;
                         }
-                        data.CourseDetailsList = coursedata;
+                        else
+                        {
+                            data = CommonFuncationHelper.ConvertDataTable<TechnicalDataModel>(dataset.Tables[0]);
+                        }
+                      
                        
                     }
                     return data;
