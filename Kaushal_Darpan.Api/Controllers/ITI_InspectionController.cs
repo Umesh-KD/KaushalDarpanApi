@@ -666,7 +666,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     if (data != null)
                     {
                         //var fileName = $"InspectionDutyOrder.pdf";
-                        var fileName = $"InspectionDutyOrder_{data.Tables[0].Rows[0]["InstituteID"]}{Convert.ToDateTime(data.Tables[0].Rows[0]["DeploymentDateFrom"]).ToString("dd/MM/yyyy")}.pdf";
+                        var fileName = $"InspectionDutyOrder_{data.Tables[0].Rows[0]["InstituteID"]}{Guid.NewGuid()}.pdf";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
                         string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/InspectionDutyOrder.rdlc";
                         //string pdfpath = "http://localhost:5230/Kaushal_Darpan.Api/StaticFiles/Reports/" + fileName;
