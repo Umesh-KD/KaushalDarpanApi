@@ -46,4 +46,25 @@ namespace Kaushal_Darpan.Models.Student
         public string? ErrorDescription { get; set; }
         public string? RecordStatus { get; set; }
     }
+
+
+    public class TokenResponse
+    {
+        public bool IsSuccess { get; set; }
+        public int StatusCode { get; set; }
+        public string? Message { get; set; }
+        public TokenData? Data { get; set; }
+    }
+
+    public class TokenData
+    {
+        public string? accessToken { get; set; }
+        public string? refreshToken { get; set; }
+        public string? tokenType { get; set; }
+        public int? expiresIn { get; set; }
+        public int? refreshExpiresIn { get; set; }
+        public string[]? roles { get; set; }
+        public string? sessionId { get; set; }
+    }
+
 }
