@@ -29,6 +29,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? EmailID { get; set; }
         public int? DistrictID { get; set; }
         public int? ModifyBy { get; set; }
+        public int? GuestHouseID { get; set; }
     }
 
     public class BTER_EM_GetStaffListDataModel

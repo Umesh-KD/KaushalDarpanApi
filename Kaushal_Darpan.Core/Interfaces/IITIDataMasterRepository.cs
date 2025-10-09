@@ -15,7 +15,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IITIDataMasterRepository
     {
 
-        Task<DataTable> GetAllData(SeatIntakesDataListSearchModel request);
+        Task<dynamic> GetAllData(SeatIntakesDataListSearchModel request);
 
     }
 }

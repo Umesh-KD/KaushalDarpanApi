@@ -62,6 +62,7 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public bool DeleteStatus { get; set; }
         public int CreatedBy { get; set; }
         public int ModifyBy { get; set; }
+        public int? RoomStatus { get; set; }
         public DateTime? RTS { get; set; }
         public DateTime? ModifyDate { get; set; }
         public string? IPAddress { get; set; }
@@ -170,6 +171,8 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public string? TelephoneNumber { get; set; }
         public string? State { get; set; }
         public int EndTermID { get; set; }
+        public int? Purpose { get; set; }
+        public string? Purpose_str { get; set; }
     }
 
 

@@ -30,35 +30,35 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
         public int DepartmentID { get; set; }
         public int TradeLevel { get; set; }
 
-        public string? OrderNo { get; set; }
-        public string? ActiveOrderNo { get; set; }
-        public string? ActiveOrderDate { get; set; }
-        public string? InActiveOrderNo { get; set; }
-        public string? InActiveOrderDate { get; set; }
-
-        public string? OrderDate { get; set; }
-
-        public int AcademicYearID { get; set; }
-
-        public bool ActiveStatus { get; set; }
-        public bool DeleteStatus { get; set; }
-        public DateTime? RTS { get; set; }
-        public int CreatedBy { get; set; }
-        public int ModifyBy { get; set; }
-        public DateTime? ModifyDate { get; set; }
-        public string? CollegeName { get; set; }
-        public string? TradeName { get; set; }
-        public string? TradeScheme { get; set; }
-        public string? Remark { get; set; }
-        public string? Unit_no { get; set; }
-        public string? Sanctioned { get; set; }
-        public string? LastSessionStr { get; set; }
-        public string? LastUpdated { get; set; }
-        public string? MinPercentageInMath { get; set; }
-        public string? MinPercentageInScience { get; set; }
-        public string? DurationYear { get; set; }
-        public int NoOfSanctionedSeats { get; set; }
+        
     }
+
+
+    public class CourseDetail
+    {
+        public string CourseType { get; set; }
+        public string SeatIntakeID { get; set; }
+        public string CourseName { get; set; }
+        public string TradeName { get; set; }
+        public string Shift { get; set; }
+        public string CourseStatus { get; set; }
+    }
+
+    public class TechnicalDataModel
+    {
+        public string CollegeCode { get; set; }
+        public string ApplicationID { get; set; }
+        public string AcademicYearID { get; set; }
+        public string InstituteName { get; set; }
+        public string Address { get; set; }
+        public string AreaCity { get; set; }
+        public string DistrictNameEn { get; set; }
+        //public string UNIVERSITYNAME_EN { get; set; }
+        public int IS_GOVT { get; set; }
+        public List<CourseDetail> CourseDetailsList { get; set; }
+    }
+
+
 
 
 }
