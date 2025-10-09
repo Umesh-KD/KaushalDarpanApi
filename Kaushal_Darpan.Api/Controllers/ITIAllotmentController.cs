@@ -1684,19 +1684,9 @@ namespace Kaushal_Darpan.Api.Controllers
         <th colspan='3' style='border-bottom: 1px solid #494949; padding-top:1px;'>Total Applicant {data.Count}</th>
     </tr>
 </table>");
-
-
-
                     int rowTradeC = 1;
-
                     foreach (var tradeGroup in collegeGroup.GroupBy(f => f.BranchName))
                     {
-                        //if (tradeGroup != collegeGroup.GroupBy(f => f.BranchName).First())
-                        //{
-                        //    sb.Append("<div style='page-break-before: always;'>&nbsp;</div>");
-                        //}
-
-                     
 
                         sb.Append($@"
 <div style='margin-top:3px;'>&nbsp;</div>
@@ -1716,52 +1706,31 @@ namespace Kaushal_Darpan.Api.Controllers
     </tr>");
 
                         int rowNumber = 1;
-                        foreach (var s in tradeGroup.OrderBy(f=>f.Shift).ThenBy(f=>f.Shift))
+                        foreach (var s in tradeGroup.OrderBy(f => f.Shift).ThenBy(f => f.UnitNo))
                         {
-                            sb.Append($@"
-<tr>
-    <td>{rowNumber}</td>
-    <td>{s.ApplicationNo}</td>
-    <td>{s.Name}</td>
-    <td>{s.FatherName}</td>
-    <td>{s.Shift}</td>
-    <td>{s.UnitNo}</td>
-    <td>{s.AllotedCategory}</td>
-    <td>{s.ReportingDate}</td>
-    <td>{s.AdmissionRound}</td>
-</tr>");
-                            rowNumber++;
+                           sb.Append($@"
+                                <tr>
+                                    <td>{rowNumber}</td>
+                                    <td>{s.ApplicationNo}</td>
+                                    <td>{s.Name}</td>
+                                    <td>{s.FatherName}</td>
+                                    <td>{s.Shift}</td>
+                                    <td>{s.UnitNo}</td>
+                                    <td>{s.AllotedCategory}</td>
+                                    <td>{s.ReportingDate}</td>
+                                    <td>{s.AdmissionRound}</td>
+                                </tr>");
+                             rowNumber++;
                         }
-
                         sb.Append("</table>");
-                        
-
                         rowTradeC++;
                     }
-
-                   
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 var doc = new HtmlToPdfDocument()
                 {
                     GlobalSettings = {
-                       PaperSize = PaperKind.A4,
-        Orientation = Orientation.Portrait, // ✅ spelling fixed
+                   PaperSize = PaperKind.A4,
+                   Orientation = Orientation.Portrait, // ✅ spelling fixed
                        
                     },
                     Objects = {
@@ -1782,7 +1751,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 };
                 byte[] pdfBytes = _converter.Convert(doc);
 
-                result.Data = Convert.ToBase64String(pdfBytes); 
+                result.Data = Convert.ToBase64String(pdfBytes);
                 result.State = EnumStatus.Success;
                 result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                 //return File(pdfBytes, "application/pdf", "tabulationresult.pdf");
