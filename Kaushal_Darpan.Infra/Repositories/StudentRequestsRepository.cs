@@ -400,6 +400,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModifyBy", filterModel.ModifyBy);
                         command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
                         command.Parameters.AddWithValue("@GuestHouseID", filterModel.GuestHouseID);
+                        command.Parameters.AddWithValue("@RoleID", filterModel.RoleID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
