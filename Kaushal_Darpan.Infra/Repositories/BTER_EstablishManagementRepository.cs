@@ -63,7 +63,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@MobileNo", request.MobileNo ?? "");
                         command.Parameters.AddWithValue("@EmailID", request.EmailID ?? "");
                         command.Parameters.AddWithValue("@DistrictID", request.DistrictID ?? 0);
-                        command.Parameters.AddWithValue("@GuestHouseID", request.DistrictID ?? 0);
+                        command.Parameters.AddWithValue("@GuestHouseID", request.GuestHouseID ?? 0);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out

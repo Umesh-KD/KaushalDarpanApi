@@ -49,7 +49,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //                command.Parameters.AddWithValue("@AcademicYearID", request.AcademicYearID);
         //                //command.Parameters.AddWithValue("@RequestType", request.RequestType);
         //                command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
-        //                command.Parameters.AddWithValue("@action",request.action);
+        //                command.Parameters.AddWithValue("@action", request.action);
 
         //                //command.Parameters.AddWithValue("@action", "_getAllData");
 
@@ -100,15 +100,15 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<dynamic> GetAllData(SeatIntakesDataListSearchModel request)
+        public async Task<DataTable> GetAllData(DataListSearchModel request)
         {
             _actionName = "GetAllData(SeatIntakeSearchModel request)";
             return await Task.Run(async () =>
             {
                 try
                 {
-                    //DataTable dataTable = new DataTable();
-                    DataSet dataset = new DataSet();
+                    DataTable dataTable = new DataTable();
+                    //DataSet dataset = new DataSet();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
@@ -116,12 +116,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@AcademicYearID", request.AcademicYearID);
                         //command.Parameters.AddWithValue("@RequestType", request.RequestType);
                         command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
-                        command.Parameters.AddWithValue("@action", request.action);
+                        command.Parameters.AddWithValue("@action", request.RequestType);
 
                         //command.Parameters.AddWithValue("@action", "_getAllData");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
-                        dataset = await command.FillAsync();
+                        dataTable = await command.FillAsync_DataTable();
                     }
 
 
@@ -129,22 +129,23 @@ namespace Kaushal_Darpan.Infra.Repositories
                     //obj.APPLICATIONID= dataSet.Tables[1]['']
                     //obj.CourseDetails = CommonFuncationHelper.ConvertDataTable<List<CourseDetail>>(dataSet.Tables[1]);
                     // ✅ Build a dynamic object to hold everything
-                    dynamic result = new ExpandoObject();
-                    var resultDict = (IDictionary<string, object>)result;
+                    //dynamic result = new ExpandoObject();
+                    //var resultDict = (IDictionary<string, object>)result;
 
-                    if (dataset != null && dataset.Tables.Count > 0)
-                    {
-                        // Convert first table dynamically
-                        resultDict["MainData"] = ConvertDataTableToDynamicList(dataset.Tables[0]);
+                    //if (dataTable != null && dataTable.Tables.Count > 0)
+                    //if (dataTable != null )
+                    //{
+                    //    // Convert first table dynamically
+                    //    resultDict["MainData"] = ConvertDataTableToDynamicList(dataTable.Tables[0]);
 
-                        // If additional tables exist, add them too
-                        for (int i = 1; i < dataset.Tables.Count; i++)
-                        {
-                            resultDict[$"Table{i}"] = ConvertDataTableToDynamicList(dataset.Tables[i]);
-                        }
-                    }
+                    //    // If additional tables exist, add them too
+                    //    for (int i = 1; i < dataTable.Tables.Count; i++)
+                    //    {
+                    //        resultDict[$"Table{i}"] = ConvertDataTableToDynamicList(dataTable.Tables[i]);
+                    //    }
+                    //}
 
-                    return result;
+                    return dataTable;
                 }
                 catch (Exception ex)
                 {

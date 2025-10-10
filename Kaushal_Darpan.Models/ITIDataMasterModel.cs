@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Kaushal_Darpan.Models.ITI_DataMasterModel
 {
-    public class SeatIntakesDataListSearchModel
+    public class DataListSearchModel
     {
        
         public int AcademicYearID { get; set; } = 0;
      
         public string CollegeCode { get; set; }
        // public string RequestType { get; set; }
-        public string action {  get; set; }
+        public string RequestType {  get; set; }
     }
 
     public class SeatIntakesDataListModel

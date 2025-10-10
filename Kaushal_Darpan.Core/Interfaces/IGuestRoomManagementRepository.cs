@@ -69,5 +69,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAllGuestRoomDetails(RoomDetailsDataModel request);
         Task<RoomDetailsDataModel> GetByIDGuestRoomDetails(int id);
         Task<bool> DeleteGuestRoomDetails(StatusChangeGuestModel request);
+        Task<int> ReqApproveByAdmin(GuestApplyForGuestRoomDataModel request);
     }
 }
