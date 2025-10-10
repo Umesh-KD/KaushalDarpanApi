@@ -35,7 +35,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
       
         [HttpPost("GetAllData")]
-        public async Task<ApiResult<string>> GetAllData(SeatIntakesDataListSearchModel request)
+        public async Task<ApiResult<string>> GetAllData(DataListSearchModel request)
         {
             ActionName = "GetAllData(SeatIntakeSearchModel request)";
             return await Task.Run(async () =>

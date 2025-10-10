@@ -100,7 +100,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> GetAllData(SeatIntakesDataListSearchModel request)
+        public async Task<DataTable> GetAllData(DataListSearchModel request)
         {
             _actionName = "GetAllData(SeatIntakeSearchModel request)";
             return await Task.Run(async () =>
@@ -116,7 +116,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@AcademicYearID", request.AcademicYearID);
                         //command.Parameters.AddWithValue("@RequestType", request.RequestType);
                         command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
-                        command.Parameters.AddWithValue("@action", request.action);
+                        command.Parameters.AddWithValue("@action", request.RequestType);
 
                         //command.Parameters.AddWithValue("@action", "_getAllData");
 
