@@ -843,12 +843,12 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     var response = await ThirdPartyServiceHelper.UploadTraineeData(request);
                     {
-                        if (response!=null)
+                        if (response != null)
                         {
                             var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(response?.ResponseData);
                             await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
-                            if (isSave>0)
+                            if (isSave > 0)
                             {
                                 result.Data = response;
                                 result.State = EnumStatus.Success;
@@ -863,10 +863,12 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         }
                         else
+                        {
 
                             result.Data = response;
-                        result.State = EnumStatus.Warning;
-                        result.Message = "Something went Wrong";
+                            result.State = EnumStatus.Warning;
+                            result.Message = "Something went Wrong";
+                        }
                     }
                 
                     
