@@ -4,6 +4,7 @@ using Kaushal_Darpan.Models.RPPPayment;
 using Kaushal_Darpan.Models.SSOUserDetails;
 using Kaushal_Darpan.Models.Student;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Asn1.Ocsp;
 using System.Net;
 using System.Text;
@@ -427,11 +428,8 @@ namespace Kaushal_Darpan.Core.Helper
                     };
                     var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(responseString);
 
-                    if (tokenResponse != null && tokenResponse.IsSuccess && tokenResponse.Data != null)
-                    {
-                        return tokenResponse;
-                    }
-                    return null;
+                  
+                    return tokenResponse;
                 }
             }
             catch (Exception ex)
