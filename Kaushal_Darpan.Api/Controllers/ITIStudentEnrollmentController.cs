@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
@@ -833,7 +834,6 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("UploadTraineeData")]
         public async Task<ApiResult<TraineeUploadResponse>> UploadTraineeData([FromBody] List<ITITraineeUploadModel> request)
         {
-
             TraineeUploadResponse objResponse = new TraineeUploadResponse();
             ActionName = "        public async Task<ApiResult<bool>> UploadTraineeData([FromBody] List<StudentMarkedModelForJoined> request)\r\n([FromBody] List<StudentMarkedModelForJoined> request)";
             return await Task.Run(async () =>
@@ -841,42 +841,53 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<TraineeUploadResponse>();
                 try
                 {
-                    var response = await ThirdPartyServiceHelper.UploadTraineeData(request);
+                    var token = await ThirdPartyServiceHelper.GetAccessTokenAsync();
+                    if (token != null && token.IsSuccess && token.Data != null)
                     {
-                        if (response!=null)
-                        {
-                            var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(response?.ResponseData);
-                            await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+                        //get data from database 
 
-                            if (isSave>0)
+
+                        var response = await ThirdPartyServiceHelper.UploadTraineeData(request, token.Data.sessionId,token.Data.accessToken);
+                        {
+                            if (response != null)
                             {
-                                result.Data = response;
-                                result.State = EnumStatus.Success;
-                                result.Message = "Success";
+                                var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(response?.ResponseData);
+                                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                                if (isSave > 0)
+                                {
+                                    result.Data = response;
+                                    result.State = EnumStatus.Success;
+                                    result.Message = "Success";
+                                }
+                                else
+                                {
+                                    result.Data = response;
+                                    result.State = EnumStatus.Warning;
+                                    result.Message = "Something went Wrong";
+                                }
+
                             }
                             else
                             {
+
                                 result.Data = response;
                                 result.State = EnumStatus.Warning;
                                 result.Message = "Something went Wrong";
                             }
-
                         }
-                        else
-
-                            result.Data = response;
-                        result.State = EnumStatus.Warning;
-                        result.Message = "Something went Wrong";
                     }
-                
-                    
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = token?.Message;
+                    }
                 }
                 catch (Exception ex)
                 {
                     await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
-
                     // Log the error
                     var nex = new NewException
                     {

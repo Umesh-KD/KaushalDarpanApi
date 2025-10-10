@@ -17,5 +17,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveDetainedPromotedStudent(List<PromotedStudentMarkedModel> model);
         Task<int> SaveDetainedEnrolledStudentExam_Next(List<PromotedStudentMarkedModel> model);
         Task<int> SaveITIPromotedStudentReg(List<PromotedStudentMarkedModel> model);
+        Task<int> SaveFormNotFilledExEnrolledStudentExam_Back(List<PromotedStudentMarkedModel> model);
     }
 }

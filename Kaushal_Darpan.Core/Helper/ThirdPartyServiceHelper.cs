@@ -4,8 +4,11 @@ using Kaushal_Darpan.Models.RPPPayment;
 using Kaushal_Darpan.Models.SSOUserDetails;
 using Kaushal_Darpan.Models.Student;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Web;
 using System.Xml;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -397,7 +400,45 @@ namespace Kaushal_Darpan.Core.Helper
         #endregion
 
         #region "Api for Data"
-        public static async Task<TraineeUploadResponse> UploadTraineeData(List<ITITraineeUploadModel> data)
+        public static async Task<TokenResponse?> GetAccessTokenAsync()
+        {
+            try
+            {
+                var url = "https://api-fe.skillindiadigital.gov.in/api/discovery-account/token";
+                // Prepare request body
+                var requestBody = new
+                {
+                    Body = "eyJtb2JpbGVOdW1iZXIiOiAiODI3ODY2MjI0NiIsInBpbiI6ICIxMjM0IiwidXNlclR5cGUiOiAiU3RhdGVVc2VyIn0="
+                };
+                var json = JsonConvert.SerializeObject(requestBody);
+
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                using (var client = new HttpClient())
+                {
+                    var response = await client.PostAsync(url, content);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        string error = await response.Content.ReadAsStringAsync();
+                    }
+                    string responseString = await response.Content.ReadAsStringAsync();
+                    // Deserialize response
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(responseString);
+
+                  
+                    return tokenResponse;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static async Task<TraineeUploadResponse> UploadTraineeData(List<ITITraineeUploadModel> data,string sessionId="",string accessToken="")
         {
 
             string apiUrl = "http://164.100.68.244:8082/MIS/api/traineeupload/UploadTrainees";
@@ -409,10 +450,11 @@ namespace Kaushal_Darpan.Core.Helper
                 client.DefaultRequestHeaders.Add("accept", "application/json");
                 client.DefaultRequestHeaders.Add("username", apiUsername);
                 client.DefaultRequestHeaders.Add("password", apiPassword);
+                client.DefaultRequestHeaders.Add("sessionId", sessionId);
+                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
                 // Serialize data to JSON
                 var json = JsonConvert.SerializeObject(data);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-
                 try
                 {
                     // Send POST request

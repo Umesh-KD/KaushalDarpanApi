@@ -322,7 +322,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         /*delete is used to remove the existing record*/
-        [HttpDelete("DeleteDataByID/{PK_ID}/{ModifyBy}")]
+        [HttpPost("DeleteDataByID/{PK_ID}/{ModifyBy}")]
         public async Task<ApiResult<bool>> DeleteDataByID(int PK_ID, int ModifyBy)
         {
             ActionName = "DeleteDataByID(int PK_ID, int ModifyBy)";

@@ -4,6 +4,7 @@ using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.CounsellingMaster;
 using Kaushal_Darpan.Models.DocumentDetails;
+using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -269,6 +270,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataSet = await command.FillAsync();
                     }
+
+
+                    //TechnicalDataModel obj = new TechnicalDataModel();
+                    //obj.APPLICATIONID= dataSet.Tables[1]['']
+                    //obj.CourseDetails = CommonFuncationHelper.ConvertDataTable<List<CourseDetail>>(dataSet.Tables[1]);
+
+
                     var data = new List<CounsellingOptionFormDataModel>();
                     var childData = new List<InstituteListDataModel_Coun>();
 

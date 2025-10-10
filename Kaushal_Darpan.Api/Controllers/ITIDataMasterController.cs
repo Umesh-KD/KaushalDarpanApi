@@ -11,6 +11,7 @@ using Kaushal_Darpan.Models.MenuMaster;
 using Kaushal_Darpan.Models.TSPAreaMaster;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using Newtonsoft.Json;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -34,19 +35,20 @@ namespace Kaushal_Darpan.Api.Controllers
 
       
         [HttpPost("GetAllData")]
-        public async Task<ApiResult<DataTable>> GetAllData(SeatIntakesDataListSearchModel request)
+        public async Task<ApiResult<string>> GetAllData(DataListSearchModel request)
         {
             ActionName = "GetAllData(SeatIntakeSearchModel request)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<DataTable>();
+                var result = new ApiResult<string>();
                 try
                 {
-                    var data = await _unitOfWork.ITIDataMasterRepository.GetAllData(request);
+                   var data = await _unitOfWork.ITIDataMasterRepository.GetAllData(request);
                     if (data != null)
                     {
-                        var mappedData = _mapper.Map<DataTable>(data);
-                        result.Data = mappedData;
+                        //var mappedData = _mapper.Map<DataTable>(data);
+                        //result.Data = mappedData.rows[0];
+                        result.Data = data.Rows[0]["data"].ToString();
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                     }
@@ -55,6 +57,23 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.State = EnumStatus.Warning;
                         result.Message = Constants.MSG_DATA_NOT_FOUND;
                     }
+
+
+                    //result.Data = await _unitOfWork.ITIDataMasterRepository.GetAllData(request);
+                    //if (result.Data.Rows.Count > 0)
+                    //{
+                    //    result.State = EnumStatus.Success;
+                    //    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    //}
+                    //else
+                    //{
+                    //    result.State = EnumStatus.Warning;
+                    //    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    //}
+
+
+
+
                 }
                 catch (Exception ex)
                 {
