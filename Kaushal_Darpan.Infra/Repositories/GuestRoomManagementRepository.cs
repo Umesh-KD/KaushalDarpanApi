@@ -1222,6 +1222,45 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> GuestHouseRoomListForApply(GuestRoomSeatSearchModel body)
+        {
+            _actionName = "GuestHouseRoomListForApply(GuestRoomSeatSearchModel body)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GuestRoomSeatMaster";
+                        command.Parameters.AddWithValue("@action", "List_forApply");
+
+                        command.Parameters.AddWithValue("@GuestHouseID", body.GuestHouseID);
+                        command.Parameters.AddWithValue("@RoomType", body.RoomType);
+                        command.Parameters.AddWithValue("@SeatCapacity", body.SeatCapacity);
+                        command.Parameters.AddWithValue("@RoomQuantity", body.RoomQuantity);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
 

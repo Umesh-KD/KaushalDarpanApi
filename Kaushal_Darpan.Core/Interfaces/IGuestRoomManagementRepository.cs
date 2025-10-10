@@ -64,7 +64,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GuestRequestReportList(GuestApplyForGuestRoomSearchModel filterModel);
 
         Task<DataTable> GuestStaffProfile(GuestStaffProfileSearchModel body);
-
+        Task<DataTable> GuestHouseRoomListForApply(GuestRoomSeatSearchModel body);
         Task<int> SaveGuestRoomDetails(RoomDetailsDataModel request);
         Task<DataTable> GetAllGuestRoomDetails(RoomDetailsDataModel request);
         Task<RoomDetailsDataModel> GetByIDGuestRoomDetails(int id);
