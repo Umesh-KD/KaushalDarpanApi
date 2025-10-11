@@ -28,83 +28,188 @@ namespace Kaushal_Darpan.Infra.Repositories
             _IPAddress = CommonFuncationHelper.GetIpAddress();
         }
 
+        //public async Task<int> SaveInstructorData(ITI_InstructorModel request)
+        //{
+        //    _actionName = "SaveInstructorData(ITI_InstructorModel request)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            int result = 0;
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
+        //            {
+        //                // Set the stored procedure name and type
+        //                command.CommandType = CommandType.StoredProcedure;
+        //                command.CommandText = "USP_ITI_Instructor";
+        //                command.Parameters.AddWithValue("@Action", "Insert");
+
+        //                command.Parameters.AddWithValue("@ID", request.id);
+        //                command.Parameters.AddWithValue("@Uid", request.Uid);
+        //                command.Parameters.AddWithValue("@Name", request.Name);
+        //                command.Parameters.AddWithValue("@FatherOrHusbandName", request.FatherOrHusbandName);
+        //                command.Parameters.AddWithValue("@MotherName", request.MotherName);
+        //                command.Parameters.AddWithValue("@Dob", request.Dob);
+        //                command.Parameters.AddWithValue("@Gender", request.Gender);
+        //                command.Parameters.AddWithValue("@MaritalStatus", request.MaritalStatus);
+        //                command.Parameters.AddWithValue("@Category", request.Category);
+        //                command.Parameters.AddWithValue("@Mobile", request.Mobile);
+        //                command.Parameters.AddWithValue("@Email", request.Email);
+
+        //                command.Parameters.AddWithValue("@BankAccountNumber", request.BankAccountNumber);
+        //                command.Parameters.AddWithValue("@IFSCCode", request.IFSCCode);
+        //                command.Parameters.AddWithValue("@BankName", request.BankName);
+        //                command.Parameters.AddWithValue("@ConsentToAssignAsExaminer", request.ConsentToAssignAsExaminer);
+
+        //                command.Parameters.AddWithValue("@PlotHouseBuildingNo", request.PlotHouseBuildingNo);
+        //                command.Parameters.AddWithValue("@StreetRoadLane", request.StreetRoadLane);
+        //                command.Parameters.AddWithValue("@AreaLocalitySector", request.AreaLocalitySector);
+        //                command.Parameters.AddWithValue("@LandMark", request.LandMark);
+        //                command.Parameters.AddWithValue("@ddlState", request.DdlState);
+        //                command.Parameters.AddWithValue("@ddlDistrict", request.DdlDistrict);
+        //                command.Parameters.AddWithValue("@PropTehsilID", request.PropTehsilID);
+        //                command.Parameters.AddWithValue("@City", request.City);
+        //                command.Parameters.AddWithValue("@pincode", request.Pincode);
+
+        //                command.Parameters.AddWithValue("@Correspondence_PlotHouseBuildingNo", request.Correspondence_PlotHouseBuildingNo);
+        //                command.Parameters.AddWithValue("@Correspondence_StreetRoadLane", request.Correspondence_StreetRoadLane);
+        //                command.Parameters.AddWithValue("@Correspondence_AreaLocalitySector", request.Correspondence_AreaLocalitySector);
+        //                command.Parameters.AddWithValue("@Correspondence_LandMark", request.Correspondence_LandMark);
+        //                command.Parameters.AddWithValue("@Correspondence_ddlState", request.Correspondence_ddlState);
+        //                command.Parameters.AddWithValue("@Correspondence_ddlDistrict", request.Correspondence_ddlDistrict);
+        //                command.Parameters.AddWithValue("@Correspondence_PropTehsilID", request.Correspondence_PropTehsilID);
+        //                command.Parameters.AddWithValue("@Correspondence_City", request.Correspondence_City);
+        //                command.Parameters.AddWithValue("@Correspondence_pincode", request.Correspondence_Pincode);
+
+        //                //command.Parameters.AddWithValue("@Education_Exam", request.Education_Exam);
+        //                //command.Parameters.AddWithValue("@Education_Board", request.Education_Board);
+        //                //command.Parameters.AddWithValue("@Education_Year", request.Education_Year);
+        //                //command.Parameters.AddWithValue("@Education_Subjects", request.Education_Subjects);
+        //                //command.Parameters.AddWithValue("@Education_Percentage", request.Education_Percentage);
+
+        //                //command.Parameters.AddWithValue("@Tech_Exam", request.Tech_Exam);
+        //                //command.Parameters.AddWithValue("@Tech_Board", request.Tech_Board);
+        //                //command.Parameters.AddWithValue("@Tech_Subjects", request.Tech_Subjects);
+        //                //command.Parameters.AddWithValue("@Tech_Year", request.Tech_Year);
+        //                //command.Parameters.AddWithValue("@Tech_Percentage", request.Tech_Percentage);
+
+        //                //command.Parameters.AddWithValue("@Pan_No", request.Pan_No);
+        //                //command.Parameters.AddWithValue("@Employee_Type", request.Employee_Type);
+        //                //command.Parameters.AddWithValue("@Employer_Name", request.Employer_Name);
+        //                //command.Parameters.AddWithValue("@Employer_Address", request.Employer_Address);
+        //                //command.Parameters.AddWithValue("@Tan_No", request.Tan_No);
+        //                //command.Parameters.AddWithValue("@Employment_From", request.Employment_From);
+        //                //command.Parameters.AddWithValue("@Employment_To", request.Employment_To);
+        //                //command.Parameters.AddWithValue("@Basic_Pay", request.Basic_Pay);
+
+        //                command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+        //                command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+
+        //                command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+        //                command.Parameters.AddWithValue("@IsDomicile", request.IsDomicile ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@Aadhar", string.IsNullOrEmpty(request.Aadhar) ? (object)DBNull.Value : request.Aadhar);
+        //                command.Parameters.AddWithValue("@JanAadhar", string.IsNullOrEmpty(request.JanAadhar) ? (object)DBNull.Value : request.JanAadhar);
+        //                command.Parameters.AddWithValue("@QualificationDocument", string.IsNullOrEmpty(request.QualificationDocument) ? (object)DBNull.Value : request.QualificationDocument);
+        //                command.Parameters.AddWithValue("@TechQualificationDocument", string.IsNullOrEmpty(request.TechQualificationDocument) ? (object)DBNull.Value : request.TechQualificationDocument);
+        //                command.Parameters.AddWithValue("@EmploymentDocument", string.IsNullOrEmpty(request.EmploymentDocument) ? (object)DBNull.Value : request.EmploymentDocument);
+        //                command.Parameters.AddWithValue("@TehsilName", string.IsNullOrEmpty(request.TehsilName) ? (object)DBNull.Value : request.TehsilName);
+        //                var eduJson = request.EducationalQualifications != null && request.EducationalQualifications.Any()
+        //                    ? JsonConvert.SerializeObject(request.EducationalQualifications)
+        //                    : null;
+
+        //                var techJson = request.TechnicalQualifications != null && request.TechnicalQualifications.Any()
+        //                    ? JsonConvert.SerializeObject(request.TechnicalQualifications)
+        //                    : null;
+
+        //                var empJson = request.EmploymentDetails != null && request.EmploymentDetails.Any()
+        //                    ? JsonConvert.SerializeObject(request.EmploymentDetails)
+        //                    : null;
+
+        //                command.Parameters.AddWithValue("@EducationJson", (object?)eduJson ?? DBNull.Value);
+        //                command.Parameters.AddWithValue("@TechJson", (object?)techJson ?? DBNull.Value);
+        //                command.Parameters.AddWithValue("@EmploymentJson", (object?)empJson ?? DBNull.Value);
+
+        //                _sqlQuery = command.GetSqlExecutableQuery();
+        //                result = await command.ExecuteNonQueryAsync();
+        //            }
+        //            return result;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            var errorDesc = new ErrorDescription
+        //            {
+        //                Message = ex.Message,
+        //                PageName = _pageName,
+        //                ActionName = _actionName,
+        //                SqlExecutableQuery = _sqlQuery
+        //            };
+        //            var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+        //            throw new Exception(errordetails, ex);
+        //        }
+        //    });
+        //}
+
+
         public async Task<int> SaveInstructorData(ITI_InstructorModel request)
         {
             _actionName = "SaveInstructorData(ITI_InstructorModel request)";
             return await Task.Run(async () =>
             {
+                //int result = 0;
+                int retval = 0;
+
                 try
                 {
-                    int result = 0;
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
-                        // Set the stored procedure name and type
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_Instructor";
                         command.Parameters.AddWithValue("@Action", "Insert");
 
+                        // Basic Details
                         command.Parameters.AddWithValue("@ID", request.id);
-                        command.Parameters.AddWithValue("@Uid", request.Uid);
-                        command.Parameters.AddWithValue("@Name", request.Name);
-                        command.Parameters.AddWithValue("@FatherOrHusbandName", request.FatherOrHusbandName);
-                        command.Parameters.AddWithValue("@MotherName", request.MotherName);
-                        command.Parameters.AddWithValue("@Dob", request.Dob);
-                        command.Parameters.AddWithValue("@Gender", request.Gender);
-                        command.Parameters.AddWithValue("@MaritalStatus", request.MaritalStatus);
-                        command.Parameters.AddWithValue("@Category", request.Category);
-                        command.Parameters.AddWithValue("@Mobile", request.Mobile);
-                        command.Parameters.AddWithValue("@Email", request.Email);
 
-                        command.Parameters.AddWithValue("@BankAccountNumber", request.BankAccountNumber);
-                        command.Parameters.AddWithValue("@IFSCCode", request.IFSCCode);
-                        command.Parameters.AddWithValue("@BankName", request.BankName);
+                        command.Parameters.AddWithValue("@Uid", request.Uid ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Name", request.Name ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@FatherOrHusbandName", request.FatherOrHusbandName ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@MotherName", request.MotherName ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Dob", request.Dob ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Gender", request.Gender ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@MaritalStatus", request.MaritalStatus ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Category", request.Category ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Mobile", request.Mobile ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Email", request.Email ?? (object)DBNull.Value);
+
+                        // Address & Bank Info
+                        command.Parameters.AddWithValue("@BankAccountNumber", request.BankAccountNumber ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@IFSCCode", request.IFSCCode ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@BankName", request.BankName ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@ConsentToAssignAsExaminer", request.ConsentToAssignAsExaminer);
+                        //command.Parameters.AddWithValue("@ConsentToAssignAsExaminer", request.ConsentToAssignAsExaminer);
+                        command.Parameters.AddWithValue("@PlotHouseBuildingNo", request.PlotHouseBuildingNo ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@StreetRoadLane", request.StreetRoadLane ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@AreaLocalitySector", request.AreaLocalitySector ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@LandMark", request.LandMark ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@ddlState", request.DdlState ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@ddlDistrict", request.DdlDistrict ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@PropTehsilID", request.PropTehsilID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@City", request.City ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@pincode", request.Pincode ?? (object)DBNull.Value);
 
-                        command.Parameters.AddWithValue("@PlotHouseBuildingNo", request.PlotHouseBuildingNo);
-                        command.Parameters.AddWithValue("@StreetRoadLane", request.StreetRoadLane);
-                        command.Parameters.AddWithValue("@AreaLocalitySector", request.AreaLocalitySector);
-                        command.Parameters.AddWithValue("@LandMark", request.LandMark);
-                        command.Parameters.AddWithValue("@ddlState", request.DdlState);
-                        command.Parameters.AddWithValue("@ddlDistrict", request.DdlDistrict);
-                        command.Parameters.AddWithValue("@PropTehsilID", request.PropTehsilID);
-                        command.Parameters.AddWithValue("@City", request.City);
-                        command.Parameters.AddWithValue("@pincode", request.Pincode);
+                        // Correspondence
+                        command.Parameters.AddWithValue("@Correspondence_PlotHouseBuildingNo", request.Correspondence_PlotHouseBuildingNo ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Correspondence_StreetRoadLane", request.Correspondence_StreetRoadLane ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Correspondence_AreaLocalitySector", request.Correspondence_AreaLocalitySector ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Correspondence_LandMark", request.Correspondence_LandMark ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Correspondence_ddlState", request.Correspondence_ddlState ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Correspondence_ddlDistrict", request.Correspondence_ddlDistrict ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Correspondence_PropTehsilID", request.Correspondence_PropTehsilID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Correspondence_City", request.Correspondence_City ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Correspondence_pincode", request.Correspondence_Pincode ?? (object)DBNull.Value);
 
-                        command.Parameters.AddWithValue("@Correspondence_PlotHouseBuildingNo", request.Correspondence_PlotHouseBuildingNo);
-                        command.Parameters.AddWithValue("@Correspondence_StreetRoadLane", request.Correspondence_StreetRoadLane);
-                        command.Parameters.AddWithValue("@Correspondence_AreaLocalitySector", request.Correspondence_AreaLocalitySector);
-                        command.Parameters.AddWithValue("@Correspondence_LandMark", request.Correspondence_LandMark);
-                        command.Parameters.AddWithValue("@Correspondence_ddlState", request.Correspondence_ddlState);
-                        command.Parameters.AddWithValue("@Correspondence_ddlDistrict", request.Correspondence_ddlDistrict);
-                        command.Parameters.AddWithValue("@Correspondence_PropTehsilID", request.Correspondence_PropTehsilID);
-                        command.Parameters.AddWithValue("@Correspondence_City", request.Correspondence_City);
-                        command.Parameters.AddWithValue("@Correspondence_pincode", request.Correspondence_Pincode);
-
-                        //command.Parameters.AddWithValue("@Education_Exam", request.Education_Exam);
-                        //command.Parameters.AddWithValue("@Education_Board", request.Education_Board);
-                        //command.Parameters.AddWithValue("@Education_Year", request.Education_Year);
-                        //command.Parameters.AddWithValue("@Education_Subjects", request.Education_Subjects);
-                        //command.Parameters.AddWithValue("@Education_Percentage", request.Education_Percentage);
-
-                        //command.Parameters.AddWithValue("@Tech_Exam", request.Tech_Exam);
-                        //command.Parameters.AddWithValue("@Tech_Board", request.Tech_Board);
-                        //command.Parameters.AddWithValue("@Tech_Subjects", request.Tech_Subjects);
-                        //command.Parameters.AddWithValue("@Tech_Year", request.Tech_Year);
-                        //command.Parameters.AddWithValue("@Tech_Percentage", request.Tech_Percentage);
-
-                        //command.Parameters.AddWithValue("@Pan_No", request.Pan_No);
-                        //command.Parameters.AddWithValue("@Employee_Type", request.Employee_Type);
-                        //command.Parameters.AddWithValue("@Employer_Name", request.Employer_Name);
-                        //command.Parameters.AddWithValue("@Employer_Address", request.Employer_Address);
-                        //command.Parameters.AddWithValue("@Tan_No", request.Tan_No);
-                        //command.Parameters.AddWithValue("@Employment_From", request.Employment_From);
-                        //command.Parameters.AddWithValue("@Employment_To", request.Employment_To);
-                        //command.Parameters.AddWithValue("@Basic_Pay", request.Basic_Pay);
-
-                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
-                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
-
-                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        // Common fields
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@IsDomicile", request.IsDomicile ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Aadhar", string.IsNullOrEmpty(request.Aadhar) ? (object)DBNull.Value : request.Aadhar);
                         command.Parameters.AddWithValue("@JanAadhar", string.IsNullOrEmpty(request.JanAadhar) ? (object)DBNull.Value : request.JanAadhar);
@@ -112,15 +217,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TechQualificationDocument", string.IsNullOrEmpty(request.TechQualificationDocument) ? (object)DBNull.Value : request.TechQualificationDocument);
                         command.Parameters.AddWithValue("@EmploymentDocument", string.IsNullOrEmpty(request.EmploymentDocument) ? (object)DBNull.Value : request.EmploymentDocument);
                         command.Parameters.AddWithValue("@TehsilName", string.IsNullOrEmpty(request.TehsilName) ? (object)DBNull.Value : request.TehsilName);
-                        var eduJson = request.EducationalQualifications != null && request.EducationalQualifications.Any()
+
+                        // JSON Serialization
+                        string eduJson = request.EducationalQualifications?.Any() == true
                             ? JsonConvert.SerializeObject(request.EducationalQualifications)
                             : null;
-
-                        var techJson = request.TechnicalQualifications != null && request.TechnicalQualifications.Any()
+                        string techJson = request.TechnicalQualifications?.Any() == true
                             ? JsonConvert.SerializeObject(request.TechnicalQualifications)
                             : null;
-
-                        var empJson = request.EmploymentDetails != null && request.EmploymentDetails.Any()
+                        string empJson = request.EmploymentDetails?.Any() == true
                             ? JsonConvert.SerializeObject(request.EmploymentDetails)
                             : null;
 
@@ -128,10 +233,18 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TechJson", (object?)techJson ?? DBNull.Value);
                         command.Parameters.AddWithValue("@EmploymentJson", (object?)empJson ?? DBNull.Value);
 
+                        //_sqlQuery = command.GetSqlExecutableQuery();
+                        //result = await command.ExecuteNonQueryAsync();
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                         _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                        await command.ExecuteNonQueryAsync();
+
+                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);
                     }
-                    return result;
+
+                    return retval;
                 }
                 catch (Exception ex)
                 {
@@ -142,11 +255,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         ActionName = _actionName,
                         SqlExecutableQuery = _sqlQuery
                     };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
+                    throw new Exception(CommonFuncationHelper.MakeError(errorDesc), ex);
                 }
             });
         }
+
 
 
         public async Task<DataTable> GetInstructorDataByID(int id)
