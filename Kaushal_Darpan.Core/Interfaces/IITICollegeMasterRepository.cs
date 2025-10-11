@@ -8,6 +8,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IITICollegeMasterRepository
     {
         Task<DataTable> GetAllData(ITIsSearchModel model);
+        Task<DataTable> GetAllEstablishmentIti(ItiEstablishmentSearchModel model);
         Task<DataTable> GetPlanningList(int CollegeID ,int Status);
         Task<DataTable> ViewWorkflow(int CollegeID);
         Task<ITICollegeMasterModel> Get_ITIsData_ByID(int Id);
