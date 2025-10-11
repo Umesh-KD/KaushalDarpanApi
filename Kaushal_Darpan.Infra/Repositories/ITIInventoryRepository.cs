@@ -1373,6 +1373,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModifyDate", request.ModifyDate ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@IsConsumable", request.IsConsumable);
+                        command.Parameters.AddWithValue("@IsSerialNo", request.IsSerialNo);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
@@ -1516,10 +1518,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
                         command.Parameters.AddWithValue("@Status", request.Status);
                         command.Parameters.AddWithValue("@ItemType", request.ItemType);
-                        command.Parameters.AddWithValue("@IsConsume", request.IsConsume);
-          
+                        command.Parameters.AddWithValue("@IsConsume", request.IsConsume); 
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
 
+                        command.Parameters.AddWithValue("@voucherdate", request.voucherdate);
+                        command.Parameters.AddWithValue("@unitId", request.unitId);
+                        command.Parameters.AddWithValue("@abbreviation", request.abbreviation);
+                        command.Parameters.AddWithValue("@batchId", request.batchId);
 
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
@@ -2176,6 +2181,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_INV_GetIssueItemList";
                         command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        command.Parameters.AddWithValue("@InsituteID", SearchReq.InstituteID);
+                        command.Parameters.AddWithValue("@ActionName", SearchReq.TypeName);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

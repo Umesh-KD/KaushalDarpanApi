@@ -555,5 +555,68 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("SaveFormNotFilledExEnrolledStudentExam")]
+        [RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
+        public async Task<ApiResult<bool>> SaveFormNotFilledExEnrolledStudentExam([FromBody] List<PromotedStudentMarkedModel> request)
+        {
+            ActionName = "SaveFormNotFilledExEnrolledStudentExam([FromBody] List<PromotedStudentMarkedModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    //validation
+                    if (request.Count == 0)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.Message = Constants.MSG_VALIDATION_FAILED;
+                        return result;
+                    }
+                    //ipaddress
+                    request.ForEach(x =>
+                    {
+                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    });
+                    // 1. save student in student exam for back with papers (uncomment when condition is final)                     
+                    var isSave = await _unitOfWork.PromotedStudentRepository.SaveFormNotFilledExEnrolledStudentExam_Back(request);
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                    if (isSave == -1)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_NO_DATA_SAVE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_ERROR_OCCURRED;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }
