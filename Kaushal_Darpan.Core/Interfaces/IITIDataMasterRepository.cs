@@ -17,5 +17,9 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetAllData(DataListSearchModel request);
 
+
+
+        Task<DataTable> GetStudentCorrectionListData(StudentCorrectionMasterSearchModel filterModel);
+
     }
 }

@@ -164,7 +164,59 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        
+        #region ncvt student corrected data
+
+        public async Task<DataTable> GetStudentCorrectionListData(StudentCorrectionMasterSearchModel body)
+        {
+            _actionName = "GetStudentCorrectionListData(StudentCorrectionMasterSearchModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_StudData_CorrectionMaster";
+                        //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
+
+
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        if (body.Name != null || body.Name!="")
+                        {
+                            command.Parameters.AddWithValue("@Name", body.Name);
+                        }
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+
+                        command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
+                        command.Parameters.AddWithValue("@PageSize", body.PageSize);
+                        command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
+                        command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
+                        command.Parameters.AddWithValue("@action", body.action);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
+        #endregion
 
     }
 }
