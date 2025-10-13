@@ -63,6 +63,24 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
         public List<CourseDetail> CourseDetailsList { get; set; }
     }
 
+    public class StudentCorrectionMasterSearchModel
+    {
+        public string Name { get; set; }
+        public string? UIDNumber { get; set; }
+       // public string Status { get; set; }
+        //public int ModifyBy { get; set; }
+        //public int RoleID { get; set; }
+        public int DepartmentID { get; set; }
+        public int InstituteID { get; set; }
+        //public int InstituteID { get; set; }
+        // public int? AcademicYearID { get; set; }
+        public string action { get; set; }
+        public int? PageNumber { get; set; }
+        public int? PageSize { get; set; }
+        public string? SortOrder { get; set; }
+        public string? SortColumn { get; set; }
+
+    }
 
 
 

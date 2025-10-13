@@ -783,7 +783,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITI_GetDataMaster";
+                        command.CommandText = "USP_ITI_StudData_CorrectionMaster";
                         command.Parameters.AddWithValue("@action", "GetNCVT_Data_API");
                         command.Parameters.AddWithValue("@pageSize", pageSize);
                         command.Parameters.AddWithValue("@pageNum", pageNumber);
