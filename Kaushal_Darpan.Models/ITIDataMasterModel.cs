@@ -8,12 +8,12 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
 {
     public class DataListSearchModel
     {
-       
-        public int AcademicYearID { get; set; } = 0;
-     
+
+        //public int AcademicYearID { get; set; } = 0;
         public string CollegeCode { get; set; }
        // public string RequestType { get; set; }
         public string RequestType {  get; set; }
+        public String SessionYear { get; set; }
     }
 
     public class SeatIntakesDataListModel
