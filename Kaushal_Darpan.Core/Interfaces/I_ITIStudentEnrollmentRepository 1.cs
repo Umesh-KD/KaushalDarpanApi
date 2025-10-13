@@ -26,5 +26,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         //Task<int> SaveRejectAtBTER(List<StudentMarkedModel> model);
         //Task<int> SaveSelectedForExamination(List<StudentMarkedModel> model);
         //Task<int> UndoRejectAtbter(List<RejectMarkModel> model);
+
+        Task<List<ITITraineeUploadModel>> GetNCVTStudentData(int pageNumber, int pageSize);
     }
 }

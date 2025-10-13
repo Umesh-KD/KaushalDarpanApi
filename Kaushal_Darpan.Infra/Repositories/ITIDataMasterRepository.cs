@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Core.Helper;
+﻿using Azure;
+using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CompanyMaster;
@@ -7,7 +8,9 @@ using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.ITIApplication;
 using Kaushal_Darpan.Models.MenuMaster;
+using Kaushal_Darpan.Models.Student;
 using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,6 +18,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
@@ -105,18 +109,33 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetAllData(SeatIntakeSearchModel request)";
             return await Task.Run(async () =>
             {
+                string apiUsername = "ITIINSTITUE";
+                string apiPassword = "DSP@@pMzxalWNz77kZXXW8hQ==";
                 try
                 {
                     DataTable dataTable = new DataTable();
+                    
                     //DataSet dataset = new DataSet();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_GetDataMaster";
-                        command.Parameters.AddWithValue("@AcademicYearID", request.AcademicYearID);
-                        //command.Parameters.AddWithValue("@RequestType", request.RequestType);
-                        command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
-                        command.Parameters.AddWithValue("@action", request.RequestType);
+                        if (request.Username == apiUsername && request.Password == apiPassword)
+                        {
+                            command.Parameters.AddWithValue("@sessionYear", request.SessionYear);
+                            //command.Parameters.AddWithValue("@RequestType", request.RequestType);
+                            command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
+                            command.Parameters.AddWithValue("@action", request.RequestType);
+                        }
+                        else
+                        {
+                            request.RequestType = "UserNotValid";
+                            command.Parameters.AddWithValue("@sessionYear", request.SessionYear);
+                            //command.Parameters.AddWithValue("@RequestType", request.RequestType);
+                            command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
+                            command.Parameters.AddWithValue("@action", request.RequestType);
+                        }
+                        
 
                         //command.Parameters.AddWithValue("@action", "_getAllData");
 
@@ -125,25 +144,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     }
 
 
-                    //TechnicalDataModel obj = new TechnicalDataModel();
-                    //obj.APPLICATIONID= dataSet.Tables[1]['']
-                    //obj.CourseDetails = CommonFuncationHelper.ConvertDataTable<List<CourseDetail>>(dataSet.Tables[1]);
-                    // ✅ Build a dynamic object to hold everything
-                    //dynamic result = new ExpandoObject();
-                    //var resultDict = (IDictionary<string, object>)result;
-
-                    //if (dataTable != null && dataTable.Tables.Count > 0)
-                    //if (dataTable != null )
-                    //{
-                    //    // Convert first table dynamically
-                    //    resultDict["MainData"] = ConvertDataTableToDynamicList(dataTable.Tables[0]);
-
-                    //    // If additional tables exist, add them too
-                    //    for (int i = 1; i < dataTable.Tables.Count; i++)
-                    //    {
-                    //        resultDict[$"Table{i}"] = ConvertDataTableToDynamicList(dataTable.Tables[i]);
-                    //    }
-                    //}
 
                     return dataTable;
                 }
@@ -164,23 +164,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        private List<dynamic> ConvertDataTableToDynamicList(DataTable table)
-        {
-            var list = new List<dynamic>();
-
-            foreach (DataRow row in table.Rows)
-            {
-                IDictionary<string, object> expando = new ExpandoObject();
-                foreach (DataColumn col in table.Columns)
-                {
-                    expando[col.ColumnName] = row[col] == DBNull.Value ? null : row[col];
-                }
-                list.Add(expando);
-            }
-
-            return list;
-        }
-
+        
 
     }
 }
