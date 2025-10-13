@@ -31,6 +31,7 @@ namespace Kaushal_Darpan.Models.Student
         public string? EconomicWeakerSection { get; set; }
         public string? TraineeType { get; set; }
     }
+    
     public class TraineeUploadResponse
     {
         public int? SucessRec { get; set; }
@@ -65,6 +66,37 @@ namespace Kaushal_Darpan.Models.Student
         public int? refreshExpiresIn { get; set; }
         public string[]? roles { get; set; }
         public string? sessionId { get; set; }
+    }
+
+
+    public class NCVT_APIDataModel
+    {
+        public string? StateRegNumber { get; set; }
+        public string? TraineeName { get; set; }
+        public string? UIDNumber { get; set; }
+        public string? DateOfBirth { get; set; }
+        public string? Gender { get; set; }
+        public string? Category { get; set; }
+        public string? FatherGuardianName { get; set; }
+        public string? MotherName { get; set; }
+        public string? MobileNumber { get; set; }
+        public string? EmailID { get; set; }
+        public string? Session { get; set; }
+        public string? AdmissionDate { get; set; }
+        public string? HighestQualification { get; set; }
+        public string? Trade { get; set; }
+        public string? Shift { get; set; }
+        public string? Unit { get; set; }
+        public string? IsTraineeDualMode { get; set; }
+        public string? MISITICode { get; set; }
+        public string? PersonwithDisability { get; set; }
+        public string? PWDcategory { get; set; }
+        public string? EconomicWeakerSection { get; set; }
+        public string? TraineeType { get; set; }
+
+        public string? createddate { get; set; }
+        public int? pagesize { get; set; }
+        public List<dynamic>? ResponseData { get; set; }
     }
 
 }

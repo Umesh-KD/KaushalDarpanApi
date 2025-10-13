@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Core.Helper;
+﻿using Azure;
+using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CompanyMaster;
@@ -7,7 +8,9 @@ using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.ITIApplication;
 using Kaushal_Darpan.Models.MenuMaster;
+using Kaushal_Darpan.Models.Student;
 using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,6 +18,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
@@ -160,23 +164,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        private List<dynamic> ConvertDataTableToDynamicList(DataTable table)
-        {
-            var list = new List<dynamic>();
-
-            foreach (DataRow row in table.Rows)
-            {
-                IDictionary<string, object> expando = new ExpandoObject();
-                foreach (DataColumn col in table.Columns)
-                {
-                    expando[col.ColumnName] = row[col] == DBNull.Value ? null : row[col];
-                }
-                list.Add(expando);
-            }
-
-            return list;
-        }
-
+        
 
     }
 }
