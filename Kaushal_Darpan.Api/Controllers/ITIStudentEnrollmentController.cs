@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Azure;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
@@ -829,191 +828,53 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #endregion
 
-        
 
+       
 
-        //[HttpPost("UploadTraineeData")]
-        //public async Task<ApiResult<TraineeUploadResponse>> UploadTraineeData([FromBody] List<ITITraineeUploadModel> request)
-        //{
-        //    TraineeUploadResponse objResponse = new TraineeUploadResponse();
-        //    ActionName = "        public async Task<ApiResult<bool>> UploadTraineeData([FromBody] List<StudentMarkedModelForJoined> request)\r\n([FromBody] List<StudentMarkedModelForJoined> request)";
-        //    return await Task.Run(async () =>
-        //    {
-        //        var result = new ApiResult<TraineeUploadResponse>();
-        //        // var apiResponse = new ApiResult<DataTable>();
-        //        try
-        //        {
-        //            var token = await ThirdPartyServiceHelper.GetAccessTokenAsync();
-        //            if (token != null && token.IsSuccess && token.Data != null)
-        //            {
-        //                //get data from database 
-
-        //                // var apiResponse = await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData();
-        //                var request = await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData();
-
-        //                var response = await ThirdPartyServiceHelper.UploadTraineeData(request, token.Data.sessionId, token.Data.accessToken);
-        //                {
-        //                    if (response != null)
-        //                    {
-        //                        var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(response?.ResponseData);
-        //                        await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
-
-        //                        if (isSave > 0)
-        //                        {
-        //                            result.Data = response;
-        //                            result.State = EnumStatus.Success;
-        //                            result.Message = "Success";
-        //                        }
-        //                        else
-        //                        {
-        //                            result.Data = response;
-        //                            result.State = EnumStatus.Warning;
-        //                            result.Message = "Something went Wrong";
-        //                        }
-
-        //                    }
-        //                    else
-        //                    {
-
-        //                        result.Data = response;
-        //                        result.State = EnumStatus.Warning;
-        //                        result.Message = "Something went Wrong";
-        //                    }
-        //                }
-        //            }
-        //            else
-        //            {
-        //                result.State = EnumStatus.Warning;
-        //                result.Message = token?.Message;
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            await _unitOfWork.DisposeAsync();
-        //            result.State = EnumStatus.Error;
-        //            result.ErrorMessage = ex.Message;
-        //            // Log the error
-        //            var nex = new NewException
-        //            {
-        //                PageName = PageName,
-        //                ActionName = ActionName,
-        //                Ex = ex,
-        //            };
-        //            await CreateErrorLog(nex, _unitOfWork);
-        //        }
-        //        return result;
-        //    });
-        //}
-
-
-
-        /* for testing clone the above action */
         [HttpPost("UploadTraineeData")]
-        public async Task<ApiResult<TraineeUploadResponse>> UploadTraineeData(int pageSize = 100)
+        public async Task<ApiResult<TraineeUploadResponse>> UploadTraineeData([FromBody] List<ITITraineeUploadModel> request)
         {
             TraineeUploadResponse objResponse = new TraineeUploadResponse();
-            int chunkSize = pageSize ;
-            ActionName = " UploadTraineeData(int pageSize = 100)";
+            ActionName = "        public async Task<ApiResult<bool>> UploadTraineeData([FromBody] List<StudentMarkedModelForJoined> request)\r\n([FromBody] List<StudentMarkedModelForJoined> request)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<TraineeUploadResponse>();
-                // var apiResponse = new ApiResult<DataTable>();
                 try
                 {
                     var token = await ThirdPartyServiceHelper.GetAccessTokenAsync();
                     if (token != null && token.IsSuccess && token.Data != null)
                     {
+
                         //get data from database 
-
-                        // var apiResponse = await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData();
-                        var request = new List<ITITraineeUploadModel>();
-                        if (chunkSize == 0)
+                        var response = await ThirdPartyServiceHelper.UploadTraineeData(request, token.Data.sessionId,token.Data.accessToken);
                         {
-                            int internalChunk = 50;
-                            request = await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData(0, 0);
-                            List<List<ITITraineeUploadModel>> chunkList = request
-                            .Select((s, i) => new { s, i })
-                            .GroupBy(x => x.i / internalChunk)
-                            .Select(g => g.Select(x => x.s).ToList())
-                            .ToList();
-                            foreach (var item in chunkList)
+                            if (response != null)
                             {
-                                var response = await ThirdPartyServiceHelper.UploadTraineeData(item, token.Data.sessionId, token.Data.accessToken);
+                                var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(response?.ResponseData);
+                                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                                if (isSave > 0)
                                 {
-                                    if (response != null)
-                                    {
-                                        var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(response?.ResponseData);
-                                        await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
-
-                                        if (isSave > 0)
-                                        {
-                                            result.Data = response;
-                                            result.State = EnumStatus.Success;
-                                            result.Message = "Success";
-                                        }
-                                        else
-                                        {
-                                            result.Data = response;
-                                            result.State = EnumStatus.Warning;
-                                            result.Message = "Something went Wrong";
-                                        }
-
-                                    }
-                                    else
-                                    {
-
-                                        result.Data = response;
-                                        result.State = EnumStatus.Warning;
-                                        result.Message = "Something went Wrong";
-                                    }
+                                    result.Data = response;
+                                    result.State = EnumStatus.Success;
+                                    result.Message = "Success";
+                                }
+                                else
+                                {
+                                    result.Data = response;
+                                    result.State = EnumStatus.Warning;
+                                    result.Message = "Something went Wrong";
                                 }
 
                             }
-                        }
-                        else
-                        {
-                            int pageNumber = 0;
-                
-                            do
+                            else
                             {
-                                request = await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData(pageNumber, chunkSize);
-                                var response = await ThirdPartyServiceHelper.UploadTraineeData(request, token.Data.sessionId, token.Data.accessToken);
-                                {
-                                    if (response != null)
-                                    {
-                                        var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(response?.ResponseData);
-                                        await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
-                                        if (isSave > 0)
-                                        {
-                                            result.Data = response;
-                                            result.State = EnumStatus.Success;
-                                            result.Message = "Success";
-                                        }
-                                        else
-                                        {
-                                            result.Data = response;
-                                            result.State = EnumStatus.Warning;
-                                            result.Message = "Something went Wrong";
-                                        }
-
-                                    }
-                                    else
-                                    {
-
-                                        result.Data = response;
-                                        result.State = EnumStatus.Warning;
-                                        result.Message = "Something went Wrong";
-                                    }
-                                }
-
-                                
-                                pageNumber++;
-                            } while (request.Count == pageSize);
-
+                                result.Data = response;
+                                result.State = EnumStatus.Warning;
+                                result.Message = "Something went Wrong";
+                            }
                         }
-
-                    
                     }
                     else
                     {
@@ -1038,6 +899,10 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+
+
 
 
 

@@ -310,6 +310,9 @@ namespace Kaushal_Darpan.Core.Helper
 
         public static async Task<List<SSOResponseModel>> SSOLoginWithIDPass(string ssoid, string password)
         {
+
+             ssoid = AesEncryptionHelperMobile.DecryptData(ssoid);
+            password = AesEncryptionHelperMobile.DecryptData(password);
             string SSOAutenticationUrl = ConfigurationHelper.SSOAutenticationUrl;
 
             using var client = new HttpClient();
