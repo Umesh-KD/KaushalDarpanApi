@@ -829,7 +829,7 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
 
-
+       
 
         [HttpPost("UploadTraineeData")]
         public async Task<ApiResult<TraineeUploadResponse>> UploadTraineeData([FromBody] List<ITITraineeUploadModel> request)
@@ -844,6 +844,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     var token = await ThirdPartyServiceHelper.GetAccessTokenAsync();
                     if (token != null && token.IsSuccess && token.Data != null)
                     {
+
                         //get data from database 
                         var response = await ThirdPartyServiceHelper.UploadTraineeData(request, token.Data.sessionId,token.Data.accessToken);
                         {
