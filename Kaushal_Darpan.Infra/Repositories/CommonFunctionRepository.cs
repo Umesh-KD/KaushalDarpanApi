@@ -673,7 +673,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> StreamMasterwithcount(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0)
+        public async Task<DataTable> StreamMasterwithcount(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0 ,int SemesterID=0 ,int InstituteId =0)
         {
             _actionName = "StreamMaster()";
             return await Task.Run(async () =>
@@ -688,6 +688,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
                         command.Parameters.AddWithValue("@EndTermId", EndTermId);
                         command.Parameters.AddWithValue("@StreamType", StreamType);
+                        command.Parameters.AddWithValue("@SemesterID", SemesterID);
+                        command.Parameters.AddWithValue("@InstituteId", InstituteId);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
