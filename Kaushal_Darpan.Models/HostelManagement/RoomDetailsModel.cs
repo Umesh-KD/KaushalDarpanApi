@@ -16,6 +16,7 @@ namespace Kaushal_Darpan.Models.HostelManagement
         public int AttachedBathFacilities { get; set; }
         public int FanFacilities { get; set; }
         public int CoolingFacilities { get; set; }
+        public int AlmirahFacility { get; set; }
 
         public bool ActiveStatus { get; set; }
         public bool DeleteStatus { get; set; }
