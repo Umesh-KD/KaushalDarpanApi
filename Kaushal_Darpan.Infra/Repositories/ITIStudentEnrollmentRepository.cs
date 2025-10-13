@@ -1,11 +1,14 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
 using Newtonsoft.Json;
 using System.Data;
+using System.Dynamic;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace Kaushal_Darpan.Infra.Repositories
@@ -122,13 +125,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@OptionalSubjectStatus", model.OptionalSubjectStatus);
                         command.Parameters.AddWithValue("@BridgeCourseID", model.BridgeCourseID);
                         command.Parameters.AddWithValue("@ApplicationNo", model.ApplicationNo);
-                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@StreamId", model.StreamID);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@AdmittStatus", model.AdmittStatus);
                         command.Parameters.AddWithValue("@TradeSchemeID", model.TradeSchemeID);
-            
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -284,7 +287,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             return await Task.Run(async () =>
             {
                 try
-                {   
+                {
                     int result = 0;
                     int retval = 0;
                     using (var command = await _dbContext.CreateCommandAsync(true))
@@ -732,7 +735,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
 
                         // Add parameters with appropriate null handling
-          
+
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
                         command.Parameters.Add("@Retval", SqlDbType.Int);// out
@@ -760,6 +763,108 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+
+        #region  NCVT API Data
+        //NCVT_APIDataModel
+        public async Task<List<ITITraineeUploadModel>> GetNCVTStudentData(int pageNumber, int pageSize)
+        {
+            _actionName = "GetNCVTStudentData()";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+
+                    DataTable dataTable = new DataTable();
+
+                    //List<dynamic> resultlist =  List<NCVT_APIDataModel>();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_GetDataMaster";
+                        command.Parameters.AddWithValue("@action", "GetNCVT_Data_API");
+                        command.Parameters.AddWithValue("@pageSize", pageSize);
+                        command.Parameters.AddWithValue("@pageNum", pageNumber);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    // Create a list to hold the mapped data
+                    //List<ITITraineeUploadModel> resultList = new List<ITITraineeUploadModel>();
+                    List<ITITraineeUploadModel> resultList = CommonFuncationHelper.ConvertDataTable<List<ITITraineeUploadModel>>(dataTable);
+
+                    // Check if DataTable is not null and contains data
+                  /*  if (dataTable != null && dataTable.Rows.Count > 0)
+                    {
+                        // Loop through each row in the DataTable and convert it to NCVT_APIDataModel
+                        foreach (DataRow row in dataTable.Rows)
+                        {
+                            ITITraineeUploadModel dataModel = new ITITraineeUploadModel();
+
+                            // Map the columns from DataTable to NCVT_APIDataModel fields
+                            //dataModel.StudentID = row["StudentID"].ToString();
+                            dataModel.StateRegNumber = row["StateRegNumber"].ToString();
+                            dataModel.TraineeName = row["TraineeName"].ToString();
+                            dataModel.UIDNumber = row["UIDNumber"].ToString();
+                            dataModel.Gender = row["Gender"].ToString();
+                            dataModel.Category = row["Category"].ToString();
+                            dataModel.FatherGuardianName = row["FatherGuardianName"].ToString();
+                            dataModel.MotherName = row["MotherName"].ToString();
+                            dataModel.MobileNumber = row["MobileNumber"].ToString();
+                            dataModel.EmailID = row["EmailID"].ToString();
+                            dataModel.Session = row["Session"].ToString();
+                            dataModel.AdmissionDate = row["AdmissionDate"].ToString();
+                            dataModel.HighestQualification = row["HighestQualification"].ToString();
+
+                            dataModel.Trade = row["Trade"].ToString();
+                            dataModel.Shift = row["Shift"].ToString();
+                            dataModel.Unit = row["Unit"].ToString();
+                            dataModel.IsTraineeDualMode = row["IsTraineeDualMode"].ToString();
+                            dataModel.MISITICode = row["MISITICode"].ToString();
+                            dataModel.PersonwithDisability = row["PersonwithDisability"].ToString();
+
+                            dataModel.PWDcategory = row["PWDcategory"].ToString();
+                            dataModel.EconomicWeakerSection = row["EconomicWeakerSection"].ToString();
+                            dataModel.TraineeType = row["TraineeType"].ToString();
+                            //dataModel.ErrorDescription = row["ErrorDescription"].ToString();
+                            //dataModel.RecordStatus = row["RecordStatus"].ToString();
+                            //dataModel.createddate = row["createddate"].ToString();
+
+                            // Continue for all other fields in your model
+                            // Ensure you handle nullable fields properly using row[columnName] ?? null or appropriate conversion
+
+                            resultList.Add(dataModel);
+                        }
+                    }  */
+
+                    return resultList;
+
+
+                    //return dataTable;
+                    //});
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+
+
+            });
+
+
+
+        }
+
+        #endregion
     }
 }
 
