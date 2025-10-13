@@ -845,8 +845,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     if (token != null && token.IsSuccess && token.Data != null)
                     {
                         //get data from database 
-
-
                         var response = await ThirdPartyServiceHelper.UploadTraineeData(request, token.Data.sessionId,token.Data.accessToken);
                         {
                             if (response != null)
@@ -900,6 +898,11 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+
+
+
 
 
     }
