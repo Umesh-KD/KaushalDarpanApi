@@ -11,6 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Web;
 using System.Xml;
+using static System.Net.WebRequestMethods;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Kaushal_Darpan.Core.Helper
@@ -441,7 +442,9 @@ namespace Kaushal_Darpan.Core.Helper
         public static async Task<TraineeUploadResponse> UploadTraineeData(List<ITITraineeUploadModel> data,string sessionId="",string accessToken="")
         {
 
-            string apiUrl = "http://164.100.68.244:8082/MIS/api/traineeupload/UploadTrainees";
+        //  string apiUrl = "http://164.100.68.244:8082/MIS/api/traineeupload/UploadTrainees";
+
+            string apiUrl = "https://uat-api-fe-sid.betalaunch.in/api/iti/state/trainee/register";
             string apiUsername = "NCVTRJMIS";
             string apiPassword = "3D5pMzxalWNz77kZXXW8hQ==";
             using (var client = new HttpClient())

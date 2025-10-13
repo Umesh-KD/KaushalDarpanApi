@@ -647,15 +647,15 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpGet("StreamMasterwithcount/{DepartmetnID}/{StreamType}/{EndTermId}")]
-        public async Task<ApiResult<DataTable>> StreamMasterwithcount(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0)
+        [HttpGet("StreamMasterwithcount/{DepartmetnID}/{StreamType}/{EndTermId}/{SemesterID}/{InstituteId}")]
+        public async Task<ApiResult<DataTable>> StreamMasterwithcount(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0,int SemesterID =0,int InstituteId=0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.StreamMasterwithcount(DepartmetnID, StreamType, EndTermId);
+                    var data = await _unitOfWork.CommonFunctionRepository.StreamMasterwithcount(DepartmetnID, StreamType, EndTermId, SemesterID, InstituteId);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;

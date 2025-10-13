@@ -61,7 +61,18 @@ public class ITIsSearchModel
     public int InstituteID { get; set; } = 0;
 }
 
+
+
+
 public class ItiSearchCollegeModel
+{
+    public int DistrictID { get; set; } = 0;
+    public int DivisionID { get; set; } = 0;
+    public string SearchText { get; set; } = string.Empty;
+    public int DepartmentID { get; set; } = 0;
+}
+
+public class PolotectnicSearchCollegeModel
 {
     public int DistrictID { get; set; } = 0;
     public int DivisionID { get; set; } = 0;
@@ -74,3 +85,10 @@ public class ItiCollegeModel
 
 }
 
+public class ItiEstablishmentSearchModel
+{
+    
+    public int InstituteID { get; set; } 
+    public int IsNewCollege { get; set; }
+    public string? CollegeName { get; set; }
+}

@@ -74,7 +74,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        
         public async Task<ITICollegeMasterModel> Get_ITIsData_ByID(int Id)
         {
                 _actionName = "GetById(int PK_ID)";
@@ -626,8 +625,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITICollegeReport_IU";
                         command.CommandType = CommandType.StoredProcedure;
 
+                        command.Parameters.AddWithValue("@ID", request.Eid);
                         command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
-                        //command.Parameters.AddWithValue("@CollegeName", request.CollegeName);
+                        command.Parameters.AddWithValue("@CollegeName", request.CollegeName);
                         command.Parameters.AddWithValue("@Loksabha", request.Loksabha);
                         command.Parameters.AddWithValue("@Vidhansabha", request.Vidhansabha);
                         command.Parameters.AddWithValue("@LandAvailable", request.LandAvailable);
@@ -687,7 +687,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ContractLoad", request.ContractLoad);
                         command.Parameters.AddWithValue("@ShilanyasName", request.ShilanyasName);
                         command.Parameters.AddWithValue("@ShilanyasPost", request.ShilanyasPost);
-                        //command.Parameters.AddWithValue("@IsNewCollege", request.IsNewCollege);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@rowjson", JsonConvert.SerializeObject(request.FinancialSanctionList));
+                        command.Parameters.AddWithValue("@IsNewCollege", request.IsNewCollege);
 
                         // Output parameter
                         var returnParam = new SqlParameter("@Return", SqlDbType.Int) { Direction = ParameterDirection.Output };
@@ -713,7 +715,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+                });
         }
 
         public async Task<ItiReportDataModel> Get_ITIsReportData_ByID(int Id)
@@ -741,6 +743,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                             data = CommonFuncationHelper.ConvertDataTable<ItiReportDataModel>(dataSet.Tables[0]);
 
                            
+                        }
+
+
+                        if (dataSet.Tables[1].Rows.Count > 0)
+                        {
+                            data.FinancialSanctionList = CommonFuncationHelper.ConvertDataTable<List<FinancialSanctionList>>(dataSet.Tables[1]);
+
+
                         }
                     }
                     return data;
@@ -911,6 +921,43 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> PolotechnicSearchCollege(PolotectnicSearchCollegeModel model)
+        {
+            _actionName = "PolotechnicSearchCollege()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_PolotechnicCollegeSearch";
+                        command.Parameters.AddWithValue("@action", "_getAllData");
+                        command.Parameters.AddWithValue("@DivisionID", model.DivisionID);
+                        command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
+                        command.Parameters.AddWithValue("@SearchText", model.SearchText ?? (object)DBNull.Value);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<DataSet> Get_ITIsPlanningData_ByIDReport(int Id)
         {
             _actionName = "GetById(int PK_ID)";
@@ -1058,10 +1105,47 @@ namespace Kaushal_Darpan.Infra.Repositories
                     };
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
+                    }
+                });
+        }
+
+        public async Task<DataTable> GetAllEstablishmentIti(ItiEstablishmentSearchModel model)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITICollegeEstablishmentList";
+                        command.Parameters.AddWithValue("@IsNewCollege", model.IsNewCollege);
+           
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@Name", model.CollegeName ?? (object)DBNull.Value);
+             
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
                 }
             });
         }
-
     }
 }
 
