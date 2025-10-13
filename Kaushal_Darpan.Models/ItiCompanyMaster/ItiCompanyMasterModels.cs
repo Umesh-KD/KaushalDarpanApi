@@ -43,6 +43,7 @@
 
     public class ItiReportDataModel
     {
+        public int Eid { get; set; }
         public int CollegeID { get; set; }
         public string? CollegeName { get; set; }
         public string? Loksabha { get; set; }
@@ -104,9 +105,24 @@
         public int IsNewCollege { get; set; }
         public int ModifyBy { get; set; }
         public int Esttablishment_Year { get; set; }
-
+        public List<FinancialSanctionList>? FinancialSanctionList { get; set; }
+        public int RoleID { get; set; }
     }
 
+
+    public class FinancialSanctionList
+    {
+        public string? FinancialSanction { get; set; }
+        public string? FinancialCopy { get; set; }
+        public string? PercentCivilWork { get; set; }
+        public string? PercentCivilDate { get; set; }
+        public string? ContractLoad { get; set; }
+        public string? IsPurposeHall { get; set; }
+        public string? IsMainITI { get; set; }
+        public string? IsBuildingTaken { get; set; }
+        public string? TakenOverDate { get; set; }
+        public string? IsOperatingOwn { get; set; }
+    }
 
 
 }
