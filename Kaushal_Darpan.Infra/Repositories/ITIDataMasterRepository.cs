@@ -113,7 +113,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_GetDataMaster";
-                        command.Parameters.AddWithValue("@AcademicYearID", request.AcademicYearID);
+                        command.Parameters.AddWithValue("@sessionYear", request.SessionYear);
                         //command.Parameters.AddWithValue("@RequestType", request.RequestType);
                         command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
                         command.Parameters.AddWithValue("@action", request.RequestType);
@@ -125,25 +125,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     }
 
 
-                    //TechnicalDataModel obj = new TechnicalDataModel();
-                    //obj.APPLICATIONID= dataSet.Tables[1]['']
-                    //obj.CourseDetails = CommonFuncationHelper.ConvertDataTable<List<CourseDetail>>(dataSet.Tables[1]);
-                    // ✅ Build a dynamic object to hold everything
-                    //dynamic result = new ExpandoObject();
-                    //var resultDict = (IDictionary<string, object>)result;
-
-                    //if (dataTable != null && dataTable.Tables.Count > 0)
-                    //if (dataTable != null )
-                    //{
-                    //    // Convert first table dynamically
-                    //    resultDict["MainData"] = ConvertDataTableToDynamicList(dataTable.Tables[0]);
-
-                    //    // If additional tables exist, add them too
-                    //    for (int i = 1; i < dataTable.Tables.Count; i++)
-                    //    {
-                    //        resultDict[$"Table{i}"] = ConvertDataTableToDynamicList(dataTable.Tables[i]);
-                    //    }
-                    //}
 
                     return dataTable;
                 }
