@@ -60,8 +60,17 @@ namespace Kaushal_Darpan.Api.Controllers
                             //result.ErrorMessage = "0";
                         }
                         else {
-                            result.State = EnumStatus.Warning;
-                            result.Message = Constants.MSG_DATA_NOT_FOUND;
+                            if(request.RequestType== "UserNotValid")
+                            {
+                                result.State = EnumStatus.Warning;
+                                result.Message = "User not Valid";
+                            }
+                            else
+                            {
+                                result.State = EnumStatus.Warning;
+                                result.Message = Constants.MSG_DATA_NOT_FOUND;
+                            }
+                            
                         }
                     }
                     else

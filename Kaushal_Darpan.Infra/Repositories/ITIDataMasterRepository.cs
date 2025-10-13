@@ -105,18 +105,33 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetAllData(SeatIntakeSearchModel request)";
             return await Task.Run(async () =>
             {
+                string apiUsername = "ITIINSTITUE";
+                string apiPassword = "DSP@@pMzxalWNz77kZXXW8hQ==";
                 try
                 {
                     DataTable dataTable = new DataTable();
+                    
                     //DataSet dataset = new DataSet();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_GetDataMaster";
-                        command.Parameters.AddWithValue("@sessionYear", request.SessionYear);
-                        //command.Parameters.AddWithValue("@RequestType", request.RequestType);
-                        command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
-                        command.Parameters.AddWithValue("@action", request.RequestType);
+                        if (request.Username == apiUsername && request.Password == apiPassword)
+                        {
+                            command.Parameters.AddWithValue("@sessionYear", request.SessionYear);
+                            //command.Parameters.AddWithValue("@RequestType", request.RequestType);
+                            command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
+                            command.Parameters.AddWithValue("@action", request.RequestType);
+                        }
+                        else
+                        {
+                            request.RequestType = "UserNotValid";
+                            command.Parameters.AddWithValue("@sessionYear", request.SessionYear);
+                            //command.Parameters.AddWithValue("@RequestType", request.RequestType);
+                            command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
+                            command.Parameters.AddWithValue("@action", request.RequestType);
+                        }
+                        
 
                         //command.Parameters.AddWithValue("@action", "_getAllData");
 
