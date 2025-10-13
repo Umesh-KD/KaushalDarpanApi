@@ -832,7 +832,7 @@ namespace Kaushal_Darpan.Api.Controllers
        
 
         [HttpPost("UploadTraineeData")]
-        public async Task<ApiResult<TraineeUploadResponse>> UploadTraineeData([FromBody] List<ITITraineeUploadModel> request)
+        public async Task<ApiResult<TraineeUploadResponse>> UploadTraineeData([FromBody] List<NCVTChunkInfoDataModel> request)
         {
             TraineeUploadResponse objResponse = new TraineeUploadResponse();
             ActionName = "        public async Task<ApiResult<bool>> UploadTraineeData([FromBody] List<StudentMarkedModelForJoined> request)\r\n([FromBody] List<StudentMarkedModelForJoined> request)";
@@ -841,10 +841,14 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<TraineeUploadResponse>();
                 try
                 {
+
+                 
+
+
                     var token = await ThirdPartyServiceHelper.GetAccessTokenAsync();
                     if (token != null && token.IsSuccess && token.Data != null)
                     {
-
+                        List<ITITraineeUploadModel> request = new List<ITITraineeUploadModel>();
                         //get data from database 
                         var response = await ThirdPartyServiceHelper.UploadTraineeData(request, token.Data.sessionId,token.Data.accessToken);
                         {
@@ -881,6 +885,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.State = EnumStatus.Warning;
                         result.Message = token?.Message;
                     }
+
                 }
                 catch (Exception ex)
                 {
@@ -897,7 +902,43 @@ namespace Kaushal_Darpan.Api.Controllers
                     await CreateErrorLog(nex, _unitOfWork);
                 }
                 return result;
+
             });
+        }
+
+        [HttpPost("GetNcvtStudentData_Chunks")]
+        public async Task<ApiResult<DataTable>> GetNcvtStudentData_Chunks(ChunksSearchModel model)
+        {
+            ActionName = "GetStudentAdmitted()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.ITIStudentEnrollmentRepository.GetNcvtStudentData_Chunks(model);
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
 
