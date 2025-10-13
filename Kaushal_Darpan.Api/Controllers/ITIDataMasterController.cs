@@ -57,7 +57,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             result.Data = data.Rows[0]["data"].ToString();
                             result.State = EnumStatus.Success;
                             result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                            result.ErrorMessage = "0";
+                            //result.ErrorMessage = "0";
                         }
                         else {
                             result.State = EnumStatus.Warning;
