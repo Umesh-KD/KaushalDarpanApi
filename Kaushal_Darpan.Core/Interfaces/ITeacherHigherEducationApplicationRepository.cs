@@ -1,7 +1,10 @@
-﻿using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
+﻿using Kaushal_Darpan.Models.BTER_EstablishManagement;
+using Kaushal_Darpan.Models.CenterObserver;
+using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
+using Kaushal_Darpan.Models.Test;
 using System.Data;
 
 namespace Kaushal_Darpan.Core.Interfaces
@@ -9,6 +12,11 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface ITeacherHigherEducationApplicationRepository
     {
         Task<DataTable> GetEnrolledStudent_Promoted(EnrolledPromotedStudentModel model);
-        Task<int> SaveEnrolledStudentVerify_ReturnbyExamIncharge(List<EnrolledPromotedStudentSaveModel> model);
+        Task<DataTable> GetTHTE_ApplicationData(THTE_ApplicationSearchModel model);
+        Task<int> SaveTeacherHighEduApp(TeacherHigherEducationApplicationModel model);
+
+        Task<DataTable> GetCategoryOfApplyCourseInstitute(THTE_DDL body);
+
+        Task<DataTable> THTE_GetStaffPersonalDetailByUserID(BTER_EM_GetPersonalDetailByUserID body);
     }
 }

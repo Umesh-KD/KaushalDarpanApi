@@ -31,7 +31,6 @@ namespace Kaushal_Darpan.Models.Student
         public string? EconomicWeakerSection { get; set; }
         public string? TraineeType { get; set; }
     }
-    
     public class TraineeUploadResponse
     {
         public int? SucessRec { get; set; }
@@ -68,35 +67,26 @@ namespace Kaushal_Darpan.Models.Student
         public string? sessionId { get; set; }
     }
 
-
-    public class NCVT_APIDataModel
+    public class ChunksSearchModel
     {
-        public string? StateRegNumber { get; set; }
-        public string? TraineeName { get; set; }
-        public string? UIDNumber { get; set; }
-        public string? DateOfBirth { get; set; }
-        public string? Gender { get; set; }
-        public string? Category { get; set; }
-        public string? FatherGuardianName { get; set; }
-        public string? MotherName { get; set; }
-        public string? MobileNumber { get; set; }
-        public string? EmailID { get; set; }
-        public string? Session { get; set; }
-        public string? AdmissionDate { get; set; }
-        public string? HighestQualification { get; set; }
-        public string? Trade { get; set; }
-        public string? Shift { get; set; }
-        public string? Unit { get; set; }
-        public string? IsTraineeDualMode { get; set; }
-        public string? MISITICode { get; set; }
-        public string? PersonwithDisability { get; set; }
-        public string? PWDcategory { get; set; }
-        public string? EconomicWeakerSection { get; set; }
-        public string? TraineeType { get; set; }
+        public int pageSize { get; set; }
+        public int UserID { get; set; }
+        public int RoleID { get; set; }
+        public int AcedmicYearID { get; set; }
+        public string? Action { get; set; }
 
-        public string? createddate { get; set; }
-        public int? pagesize { get; set; }
-        public List<dynamic>? ResponseData { get; set; }
     }
 
+    public class NCVTChunkInfoDataModel
+    {
+        public int PageNumber { get; set; }
+        public int RowCount { get; set; }
+        public int MinAID { get; set; }
+        public int MaxAID { get; set; }
+        public string? AIDS { get; set; }
+        public int TotalRecord { get; set; }
+        public int TotalPage { get; set; }
+        public string? SessionID { get; set; }
+
+    }
 }

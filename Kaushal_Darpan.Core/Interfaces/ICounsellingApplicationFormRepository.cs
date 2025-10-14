@@ -14,6 +14,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<CounsellingApplicationFormDataModel> GetApplicationDataByID_Counselling(CounsellingApplicationSearchModel searchRequest);
         Task<int> SavePersonalDetails(CounsellingApplicationFormDataModel productDetails);
+        Task<int> SavePersonalDetailsFromAdmin(CounsellingApplicationFormDataModel productDetails);
         Task<int> Counselling_SaveOption(CounsellingOptionFormDataModel request);
         //Task<DataTable> Counselling_GetOptionDetailsByID(CounsellingOptionFormDataModel model);
         Task<DataTable> Counselling_GetDropdownByAction(Counselling_DropdownDataModel model);
