@@ -113,6 +113,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? Action {  get; set; }
         public int? TradeID { get; set; }
         public int? InstituteID { get; set; }
+        public int? CandidateID { get; set; }
     }
 
     public class Counselling_DocumentDataModel

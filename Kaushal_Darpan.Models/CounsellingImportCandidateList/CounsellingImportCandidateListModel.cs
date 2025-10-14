@@ -10,6 +10,8 @@
         public string? Email { get; set; }
 
         public string? SSOID { get; set; }
+        public string? Trade { get; set; }
+        public string? Designation { get; set; }
 
         public int? DepartmentID { get; set; }
 
