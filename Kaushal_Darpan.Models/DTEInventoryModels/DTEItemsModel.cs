@@ -76,6 +76,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public bool isOption { get; set; }
         public string? AuctionStatus { get; set; }
         public int IsSerialNo { get; set; }
+        public bool? isRepaired { get; set; }
 
     }
 

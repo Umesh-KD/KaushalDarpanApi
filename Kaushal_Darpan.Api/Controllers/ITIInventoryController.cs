@@ -2296,7 +2296,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     // Pass the list to the repository for batch update
-                    var isSave = await _unitOfWork.iDTEItemsMasterRepository.SaveIssueItemsList(request);
+                    var isSave = await _unitOfWork.i_ITIInventoryRepository.SaveIssueItemsList(request);
                     await _unitOfWork.SaveChangesAsync();
 
                     if (isSave == -2)
@@ -2515,6 +2515,40 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.i_ITIInventoryRepository.GetAllStoksNew(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+        [HttpGet("GetIssueItemListPermanent/{itemId}")]
+        public async Task<ApiResult<DataTable>> GetIssueItemListPermanent(int itemId)
+        {
+            ActionName = "GetIssueItemListPermanent(int itemId)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.i_ITIInventoryRepository.GetIssueItemListPermanent(itemId));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
