@@ -172,7 +172,7 @@ namespace Kaushal_Darpan.Core.Helper
         {
             get
             {
-                return ConfigurationHelper.IsLocal ? "https://api.sewadwaar.rajasthan.gov.in/app/live/Janaadhaar/Prod/Service/action/fetchJayFamily/" : "https://api.sewadwaar.rajasthan.gov.in/app/live/Janaadhaar/Prod/Service/action/fetchJayFamily/";
+                return ConfigurationHelper.IsLocal ? "https://api.sewadwaar.rajasthan.gov.in/app/live/Janaadhaar/Prod/Service/action/fetchJayFamily/" : "https://apitest.sewadwaar.rajasthan.gov.in/app/live/Janaadhaar/Prod/Service/action/fetchJayFamily/";
             }
         }
         #endregion
