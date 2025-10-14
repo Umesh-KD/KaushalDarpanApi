@@ -1,4 +1,5 @@
 ﻿using Kaushal_Darpan.Models.CompanyMaster;
+using Kaushal_Darpan.Models.CounsellingMaster;
 using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.ITIApplication;
@@ -21,5 +22,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetStudentCorrectionListData(StudentCorrectionMasterSearchModel filterModel);
 
+        Task<DataTable> GetStudentCorrectionDataByID(StudentCorrectionMasterSearchModel filterModel);
     }
 }

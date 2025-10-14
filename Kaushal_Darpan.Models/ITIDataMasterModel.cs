@@ -8,9 +8,9 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
 {
     public class DataListSearchModel
     {
-        public String Username { get; set; }
+        //public String Username { get; set; }
 
-        public String Password { get; set; }
+        //public String Password { get; set; }
 
         //public int AcademicYearID { get; set; } = 0;
         public string CollegeCode { get; set; }
@@ -67,7 +67,9 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
     {
         public string Name { get; set; }
         public string? UIDNumber { get; set; }
-       // public string Status { get; set; }
+
+        public int? CandidateID { get; set; }
+        // public string Status { get; set; }
         //public int ModifyBy { get; set; }
         //public int RoleID { get; set; }
         public int DepartmentID { get; set; }
