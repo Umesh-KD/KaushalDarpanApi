@@ -9943,7 +9943,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> THTE_StatusDDL(DropdownDataModel model)
+        public async Task<DataTable> THTE_StatusDDL(THTE_DropdownDataModel model)
         {
             _actionName = "THTE_StatusDDL(DropdownDataModel model)";
             return await Task.Run(async () =>
