@@ -1007,7 +1007,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<bool> DeallocateRoom(DeallocateRoomDataModel request)
+        public async Task<int> DeallocateRoom(DeallocateRoomDataModel request)
         {
             _actionName = "DeallocateRoom(DeallocateRoomDataModel request)";
             return await Task.Run(async () =>
@@ -1029,14 +1029,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@action", request.Action);
                         command.Parameters.AddWithValue("@Remark", request.Remark);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-
+                        command.Parameters.Add("@Retval", SqlDbType.Int);
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Retval"].Value);
+                      
+
                     }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    return result;
                 }
                 catch (Exception ex)
                 {
