@@ -935,12 +935,12 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("DeallocateRoom")]
-        public async Task<ApiResult<bool>> DeallocateRoom([FromBody] DeallocateRoomDataModel request)
+        public async Task<ApiResult<int>> DeallocateRoom([FromBody] DeallocateRoomDataModel request)
         {
             ActionName = "DeallocateRoom([FromBody] DeallocateRoomDataModel request)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<bool>();
+                var result = new ApiResult<int>();
                 try
                 {
 
@@ -954,29 +954,15 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     result.Data = await _unitOfWork.iStudentRequestsRepository.DeallocateRoom(request);
                     await _unitOfWork.SaveChangesAsync();
-                    if (result.Data)
+                    if (result.Data > 0)
                     {
                         result.State = EnumStatus.Success;
-                        if (request.ReqId == 0)
-                        {
-                            result.Message = Constants.MSG_SAVE_SUCCESS;
-                        }
-                        else
-                        {
-                            result.Message = Constants.MSG_UPDATE_SUCCESS;
-                        }
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
                     }
                     else
                     {
                         result.State = EnumStatus.Error;
-                        if (request.ReqId == 0)
-                        {
-                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                        }
-                        else
-                        {
-                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
-                        }
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
                     }
                 }
                 catch (System.Exception ex)

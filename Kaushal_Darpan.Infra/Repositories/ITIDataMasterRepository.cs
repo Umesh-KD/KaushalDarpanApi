@@ -109,8 +109,8 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetAllData(SeatIntakeSearchModel request)";
             return await Task.Run(async () =>
             {
-                string apiUsername = "ITIINSTITUE";
-                string apiPassword = "DSP@@pMzxalWNz77kZXXW8hQ==";
+                //string apiUsername = "ITIINSTITUE";
+                //string apiPassword = "DSP@@pMzxalWNz77kZXXW8hQ==";
                 try
                 {
                     DataTable dataTable = new DataTable();
@@ -120,21 +120,21 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_GetDataMaster";
-                        if (request.Username == apiUsername && request.Password == apiPassword)
-                        {
+                        //if (request.Username == apiUsername && request.Password == apiPassword)
+                        //{
                             command.Parameters.AddWithValue("@sessionYear", request.SessionYear);
                             //command.Parameters.AddWithValue("@RequestType", request.RequestType);
                             command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
                             command.Parameters.AddWithValue("@action", request.RequestType);
-                        }
-                        else
-                        {
-                            request.RequestType = "UserNotValid";
-                            command.Parameters.AddWithValue("@sessionYear", request.SessionYear);
-                            //command.Parameters.AddWithValue("@RequestType", request.RequestType);
-                            command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
-                            command.Parameters.AddWithValue("@action", request.RequestType);
-                        }
+                        //}
+                        //else
+                        //{
+                        //    request.RequestType = "UserNotValid";
+                        //    command.Parameters.AddWithValue("@sessionYear", request.SessionYear);
+                        //    //command.Parameters.AddWithValue("@RequestType", request.RequestType);
+                        //    command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
+                        //    command.Parameters.AddWithValue("@action", request.RequestType);
+                        //}
                         
 
                         //command.Parameters.AddWithValue("@action", "_getAllData");
@@ -214,6 +214,49 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetStudentCorrectionDataByID(StudentCorrectionMasterSearchModel body)
+        {
+            _actionName = "GetStudentCorrectionDataByID(StudentCorrectionMasterSearchModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_StudData_CorrectionMaster";
+
+                        //command.Parameters.AddWithValue("@TradeID", body.TradeID);
+                        if (body.CandidateID != null && body.CandidateID != 0)
+                        {
+                            command.Parameters.AddWithValue("@CandidateID", body.CandidateID);
+                        }
+                        //command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
+                        //command.Parameters.AddWithValue("@PageSize", body.PageSize);
+                        //command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
+                        //command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
+                        command.Parameters.AddWithValue("@Action", body.action);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
 
         #endregion

@@ -70,6 +70,7 @@ namespace Kaushal_Darpan.Models.Student
         public bool isPublish { get; set; }
         public string? ResultStatus { get; set; }
         public string? ServiceType { get; set; }
+        public decimal? FormCommision { get; set; } = 0;
     }
 
     public class StudentSearchModel : RequestBaseModel
