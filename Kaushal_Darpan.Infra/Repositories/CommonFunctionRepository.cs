@@ -9956,6 +9956,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_THTE_Dropdowns";
                         command.Parameters.AddWithValue("@action", model.action);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
