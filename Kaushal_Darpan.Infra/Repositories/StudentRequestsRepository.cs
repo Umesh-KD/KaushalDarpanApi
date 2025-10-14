@@ -938,13 +938,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetAllHostelStudentMeritlist";
+                        command.Parameters.AddWithValue("@Action", SearchReq.Action);
+
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@SemesterId", SearchReq.SemesterId);
                         command.Parameters.AddWithValue("@HostelID", SearchReq.HostelID);
                         command.Parameters.AddWithValue("@BrachId", SearchReq.BrachId);
                         command.Parameters.AddWithValue("@EndTermId", SearchReq.EndTermId);
-                        command.Parameters.AddWithValue("@Action", SearchReq.Action);
                         command.Parameters.AddWithValue("@Gender", SearchReq.Gender);
+                        command.Parameters.AddWithValue("@status", SearchReq.status);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1005,7 +1007,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<bool> DeallocateRoom(DeallocateRoomDataModel request)
+        public async Task<int> DeallocateRoom(DeallocateRoomDataModel request)
         {
             _actionName = "DeallocateRoom(DeallocateRoomDataModel request)";
             return await Task.Run(async () =>
@@ -1027,14 +1029,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@action", request.Action);
                         command.Parameters.AddWithValue("@Remark", request.Remark);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-
+                        command.Parameters.Add("@Retval", SqlDbType.Int);
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Retval"].Value);
+                      
+
                     }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    return result;
                 }
                 catch (Exception ex)
                 {
@@ -1340,6 +1343,50 @@ namespace Kaushal_Darpan.Infra.Repositories
                         dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> WithdrawHostelRequest(DeallocateRoomDataModel request)
+        {
+            _actionName = "WithdrawHostelRequest(DeallocateRoomDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.CommandText = "USP_BTER_Hostel_DeallocateRoom";
+                        command.Parameters.AddWithValue("@action", "WithdrawHostelRequest");
+
+                        command.Parameters.AddWithValue("@ReqId", request.ReqId);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@Remark", request.Remark);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
                 }
                 catch (Exception ex)
                 {

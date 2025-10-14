@@ -23,6 +23,7 @@ using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
 using Kaushal_Darpan.Models.StudentRequestsModel;
 using Kaushal_Darpan.Models.SubjectMaster;
+using Kaushal_Darpan.Models.Test;
 using Kaushal_Darpan.Models.UploadFileWithPathData;
 using Kaushal_Darpan.Models.UserMaster;
 using Kaushal_Darpan.Models.ViewStudentDetailsModel;
@@ -7647,6 +7648,47 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+        [HttpGet("ItiTradecouncelling/{DesignationID}")]
+        public async Task<ApiResult<DataTable>> ItiTradecouncelling(string DesignationID )
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.ItiTradecouncelling(DesignationID);
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
         [HttpGet("DC2ndYear_BranchesDDL/{CourseType}/{CoreBranch}")]
         public async Task<ApiResult<DataTable>> DC2ndYear_BranchesDDL(int CourseType, int CoreBranch)
         {
@@ -8790,6 +8832,41 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetHostelStatusDDL());
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("THTE_StatusDDL")]
+        public async Task<ApiResult<DataTable>> THTE_StatusDDL(DropdownDataModel model)
+        {
+            ActionName = "THTE_StatusDDL(DropdownDataModel model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.THTE_StatusDDL(model));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {

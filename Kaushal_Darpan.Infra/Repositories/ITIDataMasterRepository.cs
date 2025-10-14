@@ -7,6 +7,7 @@ using Kaushal_Darpan.Models.CounsellingMaster;
 using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.ITIApplication;
+using Kaushal_Darpan.Models.ItiCompanyMaster;
 using Kaushal_Darpan.Models.MenuMaster;
 using Kaushal_Darpan.Models.Student;
 using Microsoft.Data.SqlClient;
@@ -109,8 +110,8 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetAllData(SeatIntakeSearchModel request)";
             return await Task.Run(async () =>
             {
-                string apiUsername = "ITIINSTITUE";
-                string apiPassword = "DSP@@pMzxalWNz77kZXXW8hQ==";
+                //string apiUsername = "ITIINSTITUE";
+                //string apiPassword = "DSP@@pMzxalWNz77kZXXW8hQ==";
                 try
                 {
                     DataTable dataTable = new DataTable();
@@ -120,21 +121,21 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_GetDataMaster";
-                        if (request.Username == apiUsername && request.Password == apiPassword)
-                        {
+                        //if (request.Username == apiUsername && request.Password == apiPassword)
+                        //{
                             command.Parameters.AddWithValue("@sessionYear", request.SessionYear);
                             //command.Parameters.AddWithValue("@RequestType", request.RequestType);
                             command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
                             command.Parameters.AddWithValue("@action", request.RequestType);
-                        }
-                        else
-                        {
-                            request.RequestType = "UserNotValid";
-                            command.Parameters.AddWithValue("@sessionYear", request.SessionYear);
-                            //command.Parameters.AddWithValue("@RequestType", request.RequestType);
-                            command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
-                            command.Parameters.AddWithValue("@action", request.RequestType);
-                        }
+                        //}
+                        //else
+                        //{
+                        //    request.RequestType = "UserNotValid";
+                        //    command.Parameters.AddWithValue("@sessionYear", request.SessionYear);
+                        //    //command.Parameters.AddWithValue("@RequestType", request.RequestType);
+                        //    command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
+                        //    command.Parameters.AddWithValue("@action", request.RequestType);
+                        //}
                         
 
                         //command.Parameters.AddWithValue("@action", "_getAllData");
@@ -164,7 +165,158 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        
+        #region ncvt student corrected data
+
+        public async Task<DataTable> GetStudentCorrectionListData(StudentCorrectionMasterSearchModel body)
+        {
+            _actionName = "GetStudentCorrectionListData(StudentCorrectionMasterSearchModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_StudData_CorrectionMaster";
+                        //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
+
+
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        if (body.Name != null || body.Name!="")
+                        {
+                            command.Parameters.AddWithValue("@Name", body.Name);
+                        }
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+
+                        command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
+                        command.Parameters.AddWithValue("@PageSize", body.PageSize);
+                        command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
+                        command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
+                        command.Parameters.AddWithValue("@action", body.action);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetStudentCorrectionDataByID(StudentCorrectionMasterSearchModel body)
+        {
+            _actionName = "GetStudentCorrectionDataByID(StudentCorrectionMasterSearchModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_StudData_CorrectionMaster";
+
+                        //command.Parameters.AddWithValue("@TradeID", body.TradeID);
+                        if (body.CandidateID != null && body.CandidateID != 0)
+                        {
+                            command.Parameters.AddWithValue("@CandidateID", body.CandidateID);
+                        }
+                        //command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
+                        //command.Parameters.AddWithValue("@PageSize", body.PageSize);
+                        //command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
+                        //command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
+                        command.Parameters.AddWithValue("@action", body.action);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> SaveStudentCorrectionData(StudentCorrectionMasterSearchModel request)
+        {
+            _actionName = "SaveStudentCorrectionData(StudentCorrectionMasterSearchModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_StudData_CorrectionMaster";
+
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@CandidateID", request.CandidateID);
+                        command.Parameters.AddWithValue("@Name", request.Name ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@UIDNumber", request.UIDNumber);
+                        command.Parameters.AddWithValue("@Gender", request.Gender);
+                        command.Parameters.AddWithValue("@FatherGuardianName", request.CandidateFatherName);
+                        command.Parameters.AddWithValue("@MotherName", request.CandidateMotherName);
+                        command.Parameters.AddWithValue("@MobileNumber", request.MobileNo);
+
+                        command.Parameters.AddWithValue("@EmailID", request.Email);
+
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        command.Parameters.AddWithValue("@action", request.action);
+
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        #endregion
 
     }
 }

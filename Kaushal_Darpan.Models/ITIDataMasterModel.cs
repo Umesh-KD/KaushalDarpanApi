@@ -8,9 +8,9 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
 {
     public class DataListSearchModel
     {
-        public String Username { get; set; }
+        //public String Username { get; set; }
 
-        public String Password { get; set; }
+        //public String Password { get; set; }
 
         //public int AcademicYearID { get; set; } = 0;
         public string CollegeCode { get; set; }
@@ -61,6 +61,36 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
         //public string UNIVERSITYNAME_EN { get; set; }
         public int IS_GOVT { get; set; }
         public List<CourseDetail> CourseDetailsList { get; set; }
+    }
+
+    public class StudentCorrectionMasterSearchModel
+    {
+        public string Name { get; set; }
+        public string? UIDNumber { get; set; }
+
+        public int? CandidateID { get; set; }
+        // public string Status { get; set; }
+
+        //public int RoleID { get; set; }
+        public int DepartmentID { get; set; }
+        public int InstituteID { get; set; }
+   
+        // public int? AcademicYearID { get; set; }
+        public string action { get; set; }
+        public int? PageNumber { get; set; }
+        public int? PageSize { get; set; }
+        public string? SortOrder { get; set; }
+        public string? SortColumn { get; set; }
+
+
+        public int? Gender { get; set; }
+        public string? CandidateFatherName { get; set; }
+        public string? CandidateMotherName { get; set; }
+        public string? MobileNo { get; set; }
+        public string? Email { get; set; }
+
+        public int ModifyBy { get; set; }
+     
     }
 
 
