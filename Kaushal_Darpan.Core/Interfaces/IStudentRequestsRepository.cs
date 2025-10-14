@@ -34,7 +34,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> GetAllAffidavitObjection(List<PublishHostelMeritListDataModel> SearchReq);
         Task<DataTable> GetAllPrincipalstudentmeritlist(SearchStudentApplyForHostel SearchReq);
         Task<DataTable> GetAllDataStatus(SearchStudentApplyForHostel SearchReq);
-        Task<bool> DeallocateRoom(DeallocateRoomDataModel request);
+        Task<int> DeallocateRoom(DeallocateRoomDataModel request);
         Task<DataTable> GetStudentDetailsByENRno(GetStudentDetailDataModel_Hostel SearchReq);
         Task<int> DirectHostelSeatAllotment(RoomAllotmentModel request);
         Task<int> GenerateProvisionalMerit_Hostel(int Gender, List<PublishHostelMeritListDataModel> model);

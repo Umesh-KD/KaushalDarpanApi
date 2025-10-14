@@ -1,7 +1,11 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models.BTER_EstablishManagement;
+using Kaushal_Darpan.Models.CenterObserver;
+using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.Student;
+using Kaushal_Darpan.Models.Test;
 using Newtonsoft.Json;
 using System.Data;
 
@@ -70,35 +74,55 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<int> SaveEnrolledStudentVerify_ReturnbyExamIncharge(List<EnrolledPromotedStudentSaveModel> model)
+        public async Task<int> SaveTeacherHighEduApp(TeacherHigherEducationApplicationModel model)
         {
-            _actionName = "SaveEnrolledStudentVerify_ReturnbyExamIncharge(List<EnrolledPromotedStudentSaveModel> model)";
+            _actionName = "SaveTeacherHighEduApp(TeacherHigherEducationApplicationModel model)";
             return await Task.Run(async () =>
             {
                 try
                 {
+
+                    //var jsonData = JsonConvert.SerializeObject(request);
+                    //DataTable dataTable = new DataTable();
                     int result = 0;
-                    int retval = 0;
+
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_saveEnrolledStudent_ReturnbyExamIncharge";
+
+                        command.CommandText = "USP_THTE_ApplicationIU";
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandTimeout = 0;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_saveEnrolledStudent_ReturnbyExamIncharge");
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                        // Set parameters as per stored procedure signature
+                        command.Parameters.AddWithValue("@THTEAppID", model.THTEAppID); // Assuming 0 for new insert
+                        command.Parameters.AddWithValue("@StaffID", model.StaffID);
+                        command.Parameters.AddWithValue("@SSOID", model.SSOID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TeacherName", model.TeacherName ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@DOB", string.IsNullOrEmpty(model.DOB) ? (object)DBNull.Value : model.DOB);
+                        command.Parameters.AddWithValue("@JoiningDate", string.IsNullOrEmpty(model.JoiningDate) ? (object)DBNull.Value : model.JoiningDate);
+                        command.Parameters.AddWithValue("@InstituteID", DBNull.Value); // Set accordingly if you have this info in model
+                        command.Parameters.AddWithValue("@AppliedCourse", model.AppliedCourse);
+                        command.Parameters.AddWithValue("@AppliedInstitute", model.AppliedInstitute ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@PHDStatus", model.PHDStatus);
+                        command.Parameters.AddWithValue("@AppliedInstituteDistance", model.AppliedInstituteDistance);
+                        command.Parameters.AddWithValue("@AppliedInstituteCourseCategory", model.AppliedInstituteCourseCategory);
+                        command.Parameters.AddWithValue("@AppliedInstituteSubCategory", model.AppliedInstituteSubCategory);
+                        command.Parameters.AddWithValue("@Remark", model.Remark ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@ActiveStatus", 1);
+                        command.Parameters.AddWithValue("@DeleteStatus", 0);
+                        command.Parameters.AddWithValue("@CreatedBy", model.CreatedBy); // Set if you have this info
+                        command.Parameters.AddWithValue("@UpdatedBy", model.CreatedBy); // Set if you have this info
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress); // Set if you have this info
 
-                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
                         result = await command.ExecuteNonQueryAsync();
-
-                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
                     }
-                    return retval;
+                    return result;
                 }
                 catch (Exception ex)
                 {
@@ -114,7 +138,256 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
         #endregion
+
+
+        public async Task<DataTable> GetCategoryOfApplyCourseInstitute(THTE_DDL body)
+        {
+            _actionName = "GetCategoryOfApplyCourseInstitute()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_HigherStudyPermissionCategoryDDl";
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        public async Task<DataTable> THTE_GetStaffPersonalDetailByUserID(BTER_EM_GetPersonalDetailByUserID body)
+        {
+            _actionName = "BTER_EM_GetPersonalDetailByUserID(BTER_EM_GetPersonalDetailByUserID body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_THTE_GetPersonalDetailByUserID";
+                        command.Parameters.AddWithValue("@Action", "GetDetailStaffIDAC");
+                        command.Parameters.AddWithValue("@StaffUserID", body.StaffUserID);                        
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetTHTE_ApplicationData(THTE_ApplicationSearchModel model)
+        {
+            _actionName = "GetTHTE_ApplicationData(THTE_ApplicationSearchModel model)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_THTE_ApplicationList";
+                        command.Parameters.AddWithValue("@THTEAppID", model.THTEAppID);
+                        command.Parameters.AddWithValue("@StaffID", model.StaffID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<TeacherHigherEducationApplicationModel> GetTHTE_ApplicationByID(THTE_ApplicationSearchModel body)
+        {
+            _actionName = "GetTHTE_ApplicationByID(THTE_ApplicationSearchModel body)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataSet dataSet = new DataSet();
+                    var data = new TeacherHigherEducationApplicationModel();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_THTE_ApplicationByID";
+                        command.Parameters.AddWithValue("@THTEAppID", body.THTEAppID);
+                        command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataSet = await command.FillAsync();
+                    }
+
+                        if (dataSet != null)
+                        {
+                            if (dataSet.Tables.Count > 0)
+                            {
+                                data = CommonFuncationHelper.ConvertDataTable<TeacherHigherEducationApplicationModel>(dataSet.Tables[0]);
+                            }
+                        }
+                    return data;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<bool> DeleteTHTE_ApplicationByID(THTE_ApplicationSearchModel request)
+        {
+            _actionName = "DeleteTHTE_ApplicationByID(THTE_ApplicationSearchModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandText = "USP_THTE_ApplicationHistoryDelete";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@THTEAppID", request.THTEAppID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
+        public async Task<DataTable> GetAllAppliedCoursesDDL(THTE_DDL body)
+        {
+            _actionName = " GetAllAppliedCoursesDDL(THTE_DDL body)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_THTE_GetAllAppliedCoursesDDL";
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetAllInstitutionalsDDL(THTE_DDL body)
+        {
+            _actionName = "GetAllInstitutionalsDDL(THTE_DDL body)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_THTE_GetAllInstitutionalsDDL";
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
 

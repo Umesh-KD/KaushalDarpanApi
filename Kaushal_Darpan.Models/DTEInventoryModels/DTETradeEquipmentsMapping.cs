@@ -133,6 +133,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int itemCategoryId { get; set; }
 
         public List<ItemsDetails>? ItemList { get; set; }
+        public int? ItemDetailsId { get; set; }
     }
 
     public class ItemsDetails

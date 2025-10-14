@@ -19,6 +19,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
     {
         public int TradeID { get; set; }
         public int? CandidateID { get; set; }
+        public int? DesignationID { get; set; }
         //public string TradeName { get; set; }
 
         //public int CandidateCount { get; set; }
@@ -28,6 +29,8 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? SortOrder { get; set; }
         public string? SortColumn { get; set; }
         public string? action { get; set; }
+        public string? Designation { get; set; }
+        public int? DeleteStatus { get; set; }
     }
 
     public class Counselling_AllotmentDataModel

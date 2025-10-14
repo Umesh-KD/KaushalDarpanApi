@@ -62,6 +62,16 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> SaveIssueItems(ItemsIssueReturnModels request);
 
         Task<DataTable> GetInventoryIssueItemList(inventoryIssueHistorySearchModel SearchReq);
+        Task<int> SaveIssueItemsList(List<ItemsIssueReturnModels> request);
+        Task<DataTable> GetConsumeItemListNew(DTEItemsSearchModel SearchReq);
 
+        Task<DataTable> GetAll_INV_GetCommonIssueDDLNew(inventoryIssueHistorySearchModel SearchReq);
+        Task<DataTable> GetInventoryIssueItemListNew(inventoryIssueHistorySearchModel SearchReq);
+
+        Task<DataTable> GetAll_INV_returnItemNew(ItemsIssueReturnModels SearchReq);
+        Task<DataTable> GetAllinventoryIssueHistoryNew(inventoryIssueHistorySearchModel SearchReq);
+
+        Task<DataTable> GetAllStoksNew(DTEStoksSearchModel SearchReq);
+        Task<DataTable> GetIssueItemListPermanent(int itemId);
     }
 }

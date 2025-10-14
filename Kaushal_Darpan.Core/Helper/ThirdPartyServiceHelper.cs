@@ -404,11 +404,12 @@ namespace Kaushal_Darpan.Core.Helper
         #endregion
 
         #region "Api for Data"
-        public static async Task<TokenResponse?> GetAccessTokenAsync()
+        public static async Task<TokenResponse?> GetAccessTokenAsync(string pURL="")
+
         {
             try
             {
-                var url = "https://api-fe.skillindiadigital.gov.in/api/discovery-account/token";
+                var url = pURL;
                 // Prepare request body
                 var requestBody = new
                 {
@@ -442,12 +443,11 @@ namespace Kaushal_Darpan.Core.Helper
             }
         }
 
-        public static async Task<TraineeUploadResponse> UploadTraineeData(List<ITITraineeUploadModel> data,string sessionId="",string accessToken="")
+        public static async Task<TraineeUploadResponse> UploadTraineeData(List<ITITraineeUploadModel> data,string sessionId="",string accessToken="",string ApiURl="")
         {
 
         //  string apiUrl = "http://164.100.68.244:8082/MIS/api/traineeupload/UploadTrainees";
-
-            string apiUrl = "https://uat-api-fe-sid.betalaunch.in/api/iti/state/trainee/register";
+            string apiUrl = ApiURl;
             string apiUsername = "NCVTRJMIS";
             string apiPassword = "3D5pMzxalWNz77kZXXW8hQ==";
             using (var client = new HttpClient())

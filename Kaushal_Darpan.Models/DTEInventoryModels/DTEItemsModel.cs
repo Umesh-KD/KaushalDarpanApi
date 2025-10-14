@@ -76,6 +76,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public bool isOption { get; set; }
         public string? AuctionStatus { get; set; }
         public int IsSerialNo { get; set; }
+        public bool? isRepaired { get; set; }
 
     }
 
@@ -124,6 +125,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int StaffID { get; set; }
         public int UserID { get; set; }
         public int ItemID { get; set; }
+        public int ItemType { get; set; }
 
     }
     public class itemReturnModel
