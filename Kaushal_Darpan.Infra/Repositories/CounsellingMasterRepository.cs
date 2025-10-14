@@ -168,14 +168,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_CounsellingAllotmentList";
-                        if (body.TradeID != 0)
-                        {
-                            command.Parameters.AddWithValue("@TradeID", body.TradeID);
-                        }
+                        
+                        command.Parameters.AddWithValue("@TradeID", body.TradeID);
                         command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
                         command.Parameters.AddWithValue("@PageSize", body.PageSize);
                         command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
                         command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
+                        command.Parameters.AddWithValue("@DesignationID", body.DesignationID);
                         command.Parameters.AddWithValue("@action", "_GetTradeWiseList");
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -213,15 +212,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_CounsellingAllotmentList";
                       
                         command.Parameters.AddWithValue("@TradeID", body.TradeID);
-                        if (body.CandidateID != null)
-                        {
-                            command.Parameters.AddWithValue("@CandidateID", body.CandidateID);
-                        }
+                        command.Parameters.AddWithValue("@CandidateID", body.CandidateID);
                         command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
                         command.Parameters.AddWithValue("@PageSize", body.PageSize);
                         command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
                         command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
                         command.Parameters.AddWithValue("@action", body.action);
+                        command.Parameters.AddWithValue("@Designation", body.Designation);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
