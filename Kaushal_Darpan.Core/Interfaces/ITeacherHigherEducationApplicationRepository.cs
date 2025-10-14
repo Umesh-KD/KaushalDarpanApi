@@ -15,8 +15,17 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetTHTE_ApplicationData(THTE_ApplicationSearchModel model);
         Task<int> SaveTeacherHighEduApp(TeacherHigherEducationApplicationModel model);
 
+
+        Task<DataTable> GetAllAppliedCoursesDDL(THTE_DDL body);
+        Task<DataTable> GetAllInstitutionalsDDL(THTE_DDL body);
+
         Task<DataTable> GetCategoryOfApplyCourseInstitute(THTE_DDL body);
 
         Task<DataTable> THTE_GetStaffPersonalDetailByUserID(BTER_EM_GetPersonalDetailByUserID body);
+
+        Task<TeacherHigherEducationApplicationModel> GetTHTE_ApplicationByID(THTE_ApplicationSearchModel model);
+
+
+        Task<bool> DeleteTHTE_ApplicationByID(THTE_ApplicationSearchModel productDetails);
     }
 }

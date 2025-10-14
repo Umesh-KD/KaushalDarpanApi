@@ -2155,6 +2155,15 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        private IITIStudentRevaluationRepository _ITIStudentRevaluationRepository;
+        public IITIStudentRevaluationRepository ITIStudentRevaluationRepository
+        {
+            get
+            {
+                return _ITIStudentRevaluationRepository ??= new ITIStudentRevaluationRepository(_dbContext);
+            }
+        }
+
 
 
         #endregion

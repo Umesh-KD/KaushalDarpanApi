@@ -8860,7 +8860,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("THTE_StatusDDL")]
-        public async Task<ApiResult<DataTable>> THTE_StatusDDL(DropdownDataModel model)
+        public async Task<ApiResult<DataTable>> THTE_StatusDDL(THTE_DropdownDataModel model)
         {
             ActionName = "THTE_StatusDDL(DropdownDataModel model)";
             var result = new ApiResult<DataTable>();
