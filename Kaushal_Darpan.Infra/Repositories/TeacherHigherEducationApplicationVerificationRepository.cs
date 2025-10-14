@@ -202,7 +202,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        #endregion
+        
 
 
         public async Task<DataTable> ApplicationList_ForDTE_THTE(PrincipleApplicationListSearchModel model)
