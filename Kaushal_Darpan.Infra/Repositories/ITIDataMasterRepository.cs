@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Core.Helper;
+﻿using Azure;
+using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CompanyMaster;
@@ -7,7 +8,9 @@ using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.ITIApplication;
 using Kaushal_Darpan.Models.MenuMaster;
+using Kaushal_Darpan.Models.Student;
 using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,6 +18,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
@@ -105,18 +109,33 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetAllData(SeatIntakeSearchModel request)";
             return await Task.Run(async () =>
             {
+                string apiUsername = "ITIINSTITUE";
+                string apiPassword = "DSP@@pMzxalWNz77kZXXW8hQ==";
                 try
                 {
                     DataTable dataTable = new DataTable();
+                    
                     //DataSet dataset = new DataSet();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_GetDataMaster";
-                        command.Parameters.AddWithValue("@sessionYear", request.SessionYear);
-                        //command.Parameters.AddWithValue("@RequestType", request.RequestType);
-                        command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
-                        command.Parameters.AddWithValue("@action", request.RequestType);
+                        if (request.Username == apiUsername && request.Password == apiPassword)
+                        {
+                            command.Parameters.AddWithValue("@sessionYear", request.SessionYear);
+                            //command.Parameters.AddWithValue("@RequestType", request.RequestType);
+                            command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
+                            command.Parameters.AddWithValue("@action", request.RequestType);
+                        }
+                        else
+                        {
+                            request.RequestType = "UserNotValid";
+                            command.Parameters.AddWithValue("@sessionYear", request.SessionYear);
+                            //command.Parameters.AddWithValue("@RequestType", request.RequestType);
+                            command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
+                            command.Parameters.AddWithValue("@action", request.RequestType);
+                        }
+                        
 
                         //command.Parameters.AddWithValue("@action", "_getAllData");
 
@@ -145,23 +164,59 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        private List<dynamic> ConvertDataTableToDynamicList(DataTable table)
+        #region ncvt student corrected data
+
+        public async Task<DataTable> GetStudentCorrectionListData(StudentCorrectionMasterSearchModel body)
         {
-            var list = new List<dynamic>();
-
-            foreach (DataRow row in table.Rows)
+            _actionName = "GetStudentCorrectionListData(StudentCorrectionMasterSearchModel body)";
+            return await Task.Run(async () =>
             {
-                IDictionary<string, object> expando = new ExpandoObject();
-                foreach (DataColumn col in table.Columns)
+                try
                 {
-                    expando[col.ColumnName] = row[col] == DBNull.Value ? null : row[col];
-                }
-                list.Add(expando);
-            }
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_StudData_CorrectionMaster";
+                        //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
 
-            return list;
+
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        if (body.Name != null || body.Name!="")
+                        {
+                            command.Parameters.AddWithValue("@Name", body.Name);
+                        }
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+
+                        command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
+                        command.Parameters.AddWithValue("@PageSize", body.PageSize);
+                        command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
+                        command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
+                        command.Parameters.AddWithValue("@action", body.action);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
         }
 
+
+
+        #endregion
 
     }
 }

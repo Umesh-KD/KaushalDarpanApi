@@ -689,7 +689,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ShilanyasPost", request.ShilanyasPost);
                         command.Parameters.AddWithValue("@RoleID", request.RoleID);
                         command.Parameters.AddWithValue("@rowjson", JsonConvert.SerializeObject(request.FinancialSanctionList));
+                        command.Parameters.AddWithValue("@rowjson2", JsonConvert.SerializeObject(request.BasicDetailsList));
                         command.Parameters.AddWithValue("@IsNewCollege", request.IsNewCollege);
+                        command.Parameters.AddWithValue("@LandTypeID", request.LandTypeID);
+                        command.Parameters.AddWithValue("@PanchayatId", request.PanchayatId);
 
                         // Output parameter
                         var returnParam = new SqlParameter("@Return", SqlDbType.Int) { Direction = ParameterDirection.Output };
@@ -752,6 +755,14 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
                         }
+
+                        if (dataSet.Tables[2].Rows.Count > 0)
+                        {
+                            data.BasicDetailsList = CommonFuncationHelper.ConvertDataTable<List<BasicDetailsList>>(dataSet.Tables[2]);
+
+
+                        }
+
                     }
                     return data;
                 });

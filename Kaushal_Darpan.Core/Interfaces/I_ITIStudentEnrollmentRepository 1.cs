@@ -14,6 +14,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStudentAdmitted(PreExamStudentModel model);
         Task<int> SaveAdmittedFinalStudentData(List<StudentMarkedModelForJoined> model);
         Task<int> updateOnResponseData(List<ResponseData> model);
+        Task<List<ITITraineeUploadModel>> GetNCVTStudentData(int pageNumber, int pageSize);
         Task<DataTable> GetNcvtStudentData_Chunks(ChunksSearchModel model);
     }
 
