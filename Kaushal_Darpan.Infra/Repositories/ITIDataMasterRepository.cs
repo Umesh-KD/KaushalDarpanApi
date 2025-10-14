@@ -7,6 +7,7 @@ using Kaushal_Darpan.Models.CounsellingMaster;
 using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.ITIApplication;
+using Kaushal_Darpan.Models.ItiCompanyMaster;
 using Kaushal_Darpan.Models.MenuMaster;
 using Kaushal_Darpan.Models.Student;
 using Microsoft.Data.SqlClient;
@@ -236,7 +237,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         //command.Parameters.AddWithValue("@PageSize", body.PageSize);
                         //command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
                         //command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
-                        command.Parameters.AddWithValue("@Action", body.action);
+                        command.Parameters.AddWithValue("@action", body.action);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -258,6 +259,62 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<bool> SaveStudentCorrectionData(StudentCorrectionMasterSearchModel request)
+        {
+            _actionName = "SaveStudentCorrectionData(StudentCorrectionMasterSearchModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_StudData_CorrectionMaster";
+
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@CandidateID", request.CandidateID);
+                        command.Parameters.AddWithValue("@Name", request.Name ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@UIDNumber", request.UIDNumber);
+                        command.Parameters.AddWithValue("@Gender", request.Gender);
+                        command.Parameters.AddWithValue("@FatherGuardianName", request.CandidateFatherName);
+                        command.Parameters.AddWithValue("@MotherName", request.CandidateMotherName);
+                        command.Parameters.AddWithValue("@MobileNumber", request.MobileNo);
+
+                        command.Parameters.AddWithValue("@EmailID", request.Email);
+
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        command.Parameters.AddWithValue("@action", request.action);
+
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
         #endregion
 
