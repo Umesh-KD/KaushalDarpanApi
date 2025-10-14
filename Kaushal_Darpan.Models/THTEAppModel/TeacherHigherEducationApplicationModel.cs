@@ -34,4 +34,17 @@ namespace Kaushal_Darpan.Models.Test
         public string Name { get; set; }
         public int StaffID { get; set; }
     }
+
+    public class PrincipleApplicationListSearchModel: RequestBaseModel
+    {
+        public int Id { get; set; }
+        public int THTEAppID { get; set; }
+        public string Name { get; set; }
+        public int StaffID { get; set; }
+    }
+
+    public class DropdownDataModel
+    {
+        public string? action { get; set; }
+    }
 }
