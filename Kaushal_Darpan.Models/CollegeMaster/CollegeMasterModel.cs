@@ -45,6 +45,8 @@
     {
         public int InstituteID { get; set; }
         public string SSOID { get; set; }
+
+        public int DivisionID { get; set; }
     }
 
     public class CollegeAddressModel 

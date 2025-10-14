@@ -70,11 +70,11 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
 
         public int? CandidateID { get; set; }
         // public string Status { get; set; }
-        //public int ModifyBy { get; set; }
+
         //public int RoleID { get; set; }
         public int DepartmentID { get; set; }
         public int InstituteID { get; set; }
-        //public int InstituteID { get; set; }
+   
         // public int? AcademicYearID { get; set; }
         public string action { get; set; }
         public int? PageNumber { get; set; }
@@ -82,8 +82,24 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
         public string? SortOrder { get; set; }
         public string? SortColumn { get; set; }
 
+
+        public int? Gender { get; set; }
+        public string? CandidateFatherName { get; set; }
+        public string? CandidateMotherName { get; set; }
+        public string? MobileNo { get; set; }
+        public string? Email { get; set; }
+
+        public int ModifyBy { get; set; }
+     
     }
 
+    public class NCVT_APIDetailsModel
+    {
+        public string? TokenApiURL { get; set; }
+        public string? DataPushApiUrl { get; set; }
+        public string? action { get; set; }
+
+    }
 
 
 }
