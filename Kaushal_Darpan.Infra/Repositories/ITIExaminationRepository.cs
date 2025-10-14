@@ -9,6 +9,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ITIApplication;
 using Kaushal_Darpan.Models.PreExamStudent;
+using Kaushal_Darpan.Models.RevaluationDataModel;
 using Kaushal_Darpan.Models.StudentMaster;
 using Newtonsoft.Json;
 
@@ -986,7 +987,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
-        } 
+        }
+        public async Task<DataTable> GetDetails(ITIRevaluationDataModel body)
+        {
+            _actionName = "GetTeacherForExaminer()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIGetStudentDetailsByRollNo";
+
+                        command.Parameters.AddWithValue("@RollNo", body.RollNo);
+                        command.Parameters.AddWithValue("@DOB", body.DOB);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
 
     }
 }
