@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kaushal_Darpan.Models.PreExamStudent;
+using Kaushal_Darpan.Models.RevaluationDataModel;
 using Kaushal_Darpan.Models.StudentMaster;
 
 namespace Kaushal_Darpan.Core.Interfaces
@@ -32,6 +33,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> UpdateDropout(ITIExamination_UpdateEnrollmentNoModel model);
         Task<int> ReturnToAdmitted(int StudentID);
         Task<bool> RevertStatus(RevertDataModel productDetails);
+        Task<DataTable> GetDetails(ITIRevaluationDataModel filterModel);
 
 
 
