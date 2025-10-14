@@ -1,6 +1,7 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
@@ -845,6 +846,41 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         }
 
+
+        public async Task<DataTable> GetNcvt_APIDetails()
+        {
+            _actionName = "GetNcvt_APIDetails(PreExamStudentModel model)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_StudData_CorrectionMaster";
+                        command.Parameters.AddWithValue("@action", "_GetNcvt_APIDetails");
+                        
+                       
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
 
 
     }
