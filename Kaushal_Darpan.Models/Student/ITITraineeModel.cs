@@ -86,5 +86,7 @@ namespace Kaushal_Darpan.Models.Student
         public string? AIDS { get; set; }
         public int TotalRecord { get; set; }
         public int TotalPage { get; set; }
+        public string? SessionID { get; set; }
+
     }
 }
