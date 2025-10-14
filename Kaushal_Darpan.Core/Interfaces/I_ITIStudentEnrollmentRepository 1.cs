@@ -1,4 +1,5 @@
 ﻿using Kaushal_Darpan.Models;
+using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Student;
@@ -16,6 +17,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> updateOnResponseData(List<ResponseData> model);
         Task<List<ITITraineeUploadModel>> GetNCVTStudentData(NCVTChunkInfoDataModel model);
         Task<DataTable> GetNcvtStudentData_Chunks(ChunksSearchModel model);
+
+        Task<DataTable> GetNcvt_APIDetails();
+
     }
 
 

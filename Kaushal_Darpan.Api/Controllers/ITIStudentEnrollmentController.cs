@@ -7,6 +7,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Repositories;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.EmitraPayment;
+using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Kaushal_Darpan.Models.PlacementSelectedStudentMaster;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
@@ -842,54 +843,68 @@ namespace Kaushal_Darpan.Api.Controllers
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<TraineeUploadResponse>();
+                //var apidetails = new NCVT_APIDetailsModel();
                 try
                 {
-                    foreach (var record in request)
+
+                    var apidetails = await _unitOfWork.ITIStudentEnrollmentRepository.GetNcvt_APIDetails();
+                    NCVT_APIDetailsModel resultList = CommonFuncationHelper.ConvertDataTable<NCVT_APIDetailsModel>(apidetails);
+                    if (resultList != null)
                     {
-                        //get token 
-                         var token = await ThirdPartyServiceHelper.GetAccessTokenAsync();
-
-                         var  dataresult=  await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData(record);
-
-                        if (token != null && token.IsSuccess && token.Data != null)
+                        foreach (var record in request)
                         {
-                            List<ITITraineeUploadModel> request = new List<ITITraineeUploadModel>();
-                            //get data from database 
-                            var response = await ThirdPartyServiceHelper.UploadTraineeData(dataresult, token.Data.sessionId, token.Data.accessToken);
-                            {
-                                if (response.ResponseData != null)
-                                {
-                                    var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(response?.ResponseData);
-                                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+                            //get token 
+                            var token = await ThirdPartyServiceHelper.GetAccessTokenAsync(resultList.TokenApiURL);
 
-                                    if (isSave > 0)
+                            var dataresult = await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData(record);
+
+                            if (token != null && token.IsSuccess && token.Data != null)
+                            {
+                                List<ITITraineeUploadModel> request = new List<ITITraineeUploadModel>();
+                                //get data from database 
+                                var response = await ThirdPartyServiceHelper.UploadTraineeData(dataresult, token.Data.sessionId, token.Data.accessToken, resultList.DataPushApiUrl);
+                                {
+                                    if (response.ResponseData != null)
                                     {
-                                        result.Data = response;
-                                        result.State = EnumStatus.Success;
-                                        result.Message = "Success";
+                                        var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(response?.ResponseData);
+                                        await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                                        if (isSave > 0)
+                                        {
+                                            result.Data = response;
+                                            result.State = EnumStatus.Success;
+                                            result.Message = "Success";
+                                        }
+                                        else
+                                        {
+                                            result.Data = response;
+                                            result.State = EnumStatus.Warning;
+                                            result.Message = "Something went Wrong";
+                                        }
                                     }
                                     else
                                     {
+
                                         result.Data = response;
                                         result.State = EnumStatus.Warning;
                                         result.Message = "Something went Wrong";
                                     }
                                 }
-                                else
-                                {
-
-                                    result.Data = response;
-                                    result.State = EnumStatus.Warning;
-                                    result.Message = "Something went Wrong";
-                                }
+                            }
+                            else
+                            {
+                                result.State = EnumStatus.Warning;
+                                result.Message = token?.Message;
                             }
                         }
-                        else
-                        {
-                            result.State = EnumStatus.Warning;
-                            result.Message = token?.Message;
-                        }
+
                     }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "service details not found.";
+                    }
+
                 }
                 catch (Exception ex)
                 {

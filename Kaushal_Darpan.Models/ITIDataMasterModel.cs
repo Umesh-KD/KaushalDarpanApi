@@ -93,7 +93,13 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
      
     }
 
+    public class NCVT_APIDetailsModel
+    {
+        public string? TokenApiURL { get; set; }
+        public string? DataPushApiUrl { get; set; }
+        public string? action { get; set; }
 
+    }
 
 
 }
