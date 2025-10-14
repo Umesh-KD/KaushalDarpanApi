@@ -67,4 +67,26 @@ namespace Kaushal_Darpan.Models.Student
         public string? sessionId { get; set; }
     }
 
+    public class ChunksSearchModel
+    {
+        public int pageSize { get; set; }
+        public int UserID { get; set; }
+        public int RoleID { get; set; }
+        public int AcedmicYearID { get; set; }
+        public string? Action { get; set; }
+
+    }
+
+    public class NCVTChunkInfoDataModel
+    {
+        public int PageNumber { get; set; }
+        public int RowCount { get; set; }
+        public int MinAID { get; set; }
+        public int MaxAID { get; set; }
+        public string? AIDS { get; set; }
+        public int TotalRecord { get; set; }
+        public int TotalPage { get; set; }
+        public string? SessionID { get; set; }
+
+    }
 }

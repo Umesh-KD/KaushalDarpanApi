@@ -45,7 +45,9 @@
     {
         public int Eid { get; set; }
         public int CollegeID { get; set; }
+        public int PanchayatId { get; set; }
         public string? CollegeName { get; set; }
+        public string? LandTypeID { get; set; }
         public string? Loksabha { get; set; }
         public string? Vidhansabha { get; set; }
         public string? LandAvailable { get; set; }
@@ -106,6 +108,7 @@
         public int ModifyBy { get; set; }
         public int Esttablishment_Year { get; set; }
         public List<FinancialSanctionList>? FinancialSanctionList { get; set; }
+        public List<BasicDetailsList>? BasicDetailsList { get; set; }
         public int RoleID { get; set; }
     }
 
@@ -122,6 +125,28 @@
         public string? IsBuildingTaken { get; set; }
         public string? TakenOverDate { get; set; }
         public string? IsOperatingOwn { get; set; }
+    }
+
+
+
+    public class BasicDetailsList
+    {
+        public string? ApproachRoad { get; set; }
+        public string? InternalRoad { get; set; }
+
+        public string? Harvesting { get; set; }
+        public string? ElectPhase { get; set; }
+        public string? ElectPhaserequired { get; set; }
+        public string? ElectConnection { get; set; }
+        public string? IsSolarPanel { get; set; }
+        public string? PanelCapacity { get; set; }
+        public string? IsBoundaryWall { get; set; }
+        public string? BuildShortage { get; set; }
+        public string? IsHostel { get; set; }
+        public string? HostelUtilized { get; set; }
+        public string? NoOfTree { get; set; }
+        public string? Remarks { get; set; }
+        public string? ContractLoad { get; set; }
     }
 
 

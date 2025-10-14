@@ -760,6 +760,93 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+        public async Task<DataTable> GetNcvtStudentData_Chunks(ChunksSearchModel model)
+        {
+            _actionName = "GetPreExamStudent(PreExamStudentModel model)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_CreaetApi_NCVT_Chunks";
+                        command.Parameters.AddWithValue("@action", "GetNCVTChunksList");
+                        command.Parameters.AddWithValue("@pageSize", model.pageSize);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@AcedmicYearID", model.AcedmicYearID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        //NCVT_APIDataModel
+        public async Task<List<ITITraineeUploadModel>> GetNCVTStudentData(NCVTChunkInfoDataModel model)
+        {
+            _actionName = "GetNCVTStudentData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_CreaetApi_NCVT_Chunks";
+                        command.Parameters.AddWithValue("@action", "GetNcvtData");
+                        command.Parameters.AddWithValue("@AIDS", model.AIDS);
+                        command.Parameters.AddWithValue("@MaxAID", model.MaxAID);
+                        command.Parameters.AddWithValue("@MinAID", model.MinAID);
+                        command.Parameters.AddWithValue("@SessionID", model.SessionID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    List<ITITraineeUploadModel> resultList = CommonFuncationHelper.ConvertDataTable<List<ITITraineeUploadModel>>(dataTable);
+                    return resultList;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+
+
+            });
+
+
+
+        }
+
+
+
     }
 }
 

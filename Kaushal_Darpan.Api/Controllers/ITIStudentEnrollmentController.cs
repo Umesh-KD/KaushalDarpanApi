@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Azure;
+using DocumentFormat.OpenXml.EMMA;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Repositories;
 using Kaushal_Darpan.Models.ApplicationData;
+using Kaushal_Darpan.Models.EmitraPayment;
 using Kaushal_Darpan.Models.PlacementSelectedStudentMaster;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
@@ -12,6 +14,7 @@ using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json.Linq;
 using System.Data;
 
 namespace Kaushal_Darpan.Api.Controllers
@@ -829,10 +832,10 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
 
-
+       
 
         [HttpPost("UploadTraineeData")]
-        public async Task<ApiResult<TraineeUploadResponse>> UploadTraineeData([FromBody] List<ITITraineeUploadModel> request)
+        public async Task<ApiResult<TraineeUploadResponse>> UploadTraineeData([FromBody] List<NCVTChunkInfoDataModel> request)
         {
             TraineeUploadResponse objResponse = new TraineeUploadResponse();
             ActionName = "        public async Task<ApiResult<bool>> UploadTraineeData([FromBody] List<StudentMarkedModelForJoined> request)\r\n([FromBody] List<StudentMarkedModelForJoined> request)";
@@ -841,44 +844,51 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<TraineeUploadResponse>();
                 try
                 {
-                    var token = await ThirdPartyServiceHelper.GetAccessTokenAsync();
-                    if (token != null && token.IsSuccess && token.Data != null)
+                    foreach (var record in request)
                     {
-                        //get data from database 
-                        var response = await ThirdPartyServiceHelper.UploadTraineeData(request, token.Data.sessionId,token.Data.accessToken);
-                        {
-                            if (response != null)
-                            {
-                                var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(response?.ResponseData);
-                                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+                        //get token 
+                        // var token = await ThirdPartyServiceHelper.GetAccessTokenAsync();
+                         var  dataresult=  await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData(record);
+                      
+                        //if (token != null && token.IsSuccess && token.Data != null)
+                        //{
+                        //    List<ITITraineeUploadModel> request = new List<ITITraineeUploadModel>();
+                        //    //get data from database 
+                        //    var response = await ThirdPartyServiceHelper.UploadTraineeData(dataresult, token.Data.sessionId, token.Data.accessToken);
+                        //    {
+                        //        if (response != null)
+                        //        {
+                        //            var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(response?.ResponseData);
+                        //            await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
-                                if (isSave > 0)
-                                {
-                                    result.Data = response;
-                                    result.State = EnumStatus.Success;
-                                    result.Message = "Success";
-                                }
-                                else
-                                {
-                                    result.Data = response;
-                                    result.State = EnumStatus.Warning;
-                                    result.Message = "Something went Wrong";
-                                }
+                        //            if (isSave > 0)
+                        //            {
+                        //                result.Data = response;
+                        //                result.State = EnumStatus.Success;
+                        //                result.Message = "Success";
+                        //            }
+                        //            else
+                        //            {
+                        //                result.Data = response;
+                        //                result.State = EnumStatus.Warning;
+                        //                result.Message = "Something went Wrong";
+                        //            }
 
-                            }
-                            else
-                            {
+                        //        }
+                        //        else
+                        //        {
 
-                                result.Data = response;
-                                result.State = EnumStatus.Warning;
-                                result.Message = "Something went Wrong";
-                            }
-                        }
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = token?.Message;
+                        //            result.Data = response;
+                        //            result.State = EnumStatus.Warning;
+                        //            result.Message = "Something went Wrong";
+                        //        }
+                        //    }
+                        //}
+                        //else
+                       // {
+                          //  result.State = EnumStatus.Warning;
+                           // result.Message = token?.Message;
+                        //}
                     }
                 }
                 catch (Exception ex)
@@ -896,7 +906,43 @@ namespace Kaushal_Darpan.Api.Controllers
                     await CreateErrorLog(nex, _unitOfWork);
                 }
                 return result;
+
             });
+        }
+
+        [HttpPost("GetNcvtStudentData_Chunks")]
+        public async Task<ApiResult<DataTable>> GetNcvtStudentData_Chunks(ChunksSearchModel model)
+        {
+            ActionName = "GetStudentAdmitted()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.ITIStudentEnrollmentRepository.GetNcvtStudentData_Chunks(model);
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
 

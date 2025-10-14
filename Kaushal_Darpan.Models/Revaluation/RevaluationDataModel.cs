@@ -34,4 +34,15 @@
         public bool IsSelected { get; set; }
         
     }
+
+    public class ITIRevaluationDataModel
+    {
+
+        public string DOB { get; set; }
+        public int? RollNo { get; set; }
+        public int DepartmentID { get; set; }
+        public int CourseTypeIDs { get; set; }
+
+    }
+
 }

@@ -1176,19 +1176,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     data.CHECKSUM = CommonFuncationHelper.CreateMD5(JsonConvert.SerializeObject(dRequestChecksum));
 
 
-
-                    // data.CHECKSUM = CommonFuncationHelper.CreateMD5(data.PRN + "|" + data.AMOUNT + "|" + EmitraServiceDetail.CHECKSUMKEY);
-
-                    //EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration endpointConfiguration = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration();
-
-                    //ServicePointManager.SecurityProtocol = (SecurityProtocolType)768 | (SecurityProtocolType)3072;
-                    //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-                    //System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
-
-                    //EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient emitraencsev = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient(endpointConfiguration, EmitraServiceDetail.WebServiceURL);
-                    //EmitraEncryptStringResponse response = await emitraencsev.EmitraEncryptStringAsync(EmitraServiceDetail.EncryptionKey, JsonConvert.SerializeObject(data));
-
-
                     string retVal = ThirdPartyServiceHelper.MakeEmitraTransactionsEncrypted(EmitraServiceDetail.ServiceURL, JsonConvert.SerializeObject(data), EmitraServiceDetail.EncryptionKey);
 
                     string decVal = EmitraHelper.Decrypt(retVal, EmitraServiceDetail.EncryptionKey);
@@ -2296,6 +2283,8 @@ namespace Kaushal_Darpan.Api.Controllers
         }
         #endregion
 
+
+        #region emitra payment by student
         [HttpPost("EnrollmentExaminationFeePayment")]
         public async Task<ApiResult<EmitraRequestDetailsModel>> EnrollmentExaminationFeePayment(EmitraRequestDetailsModel Model)
         {
@@ -2528,6 +2517,199 @@ namespace Kaushal_Darpan.Api.Controllers
             //return response;
             return new RedirectResult(RetrunUrL);
         }
+        #endregion
+
+        #region emitra payment by kiyosk
+        [HttpPost("EnrollmentExaminationFeePaymentByKiyosk")]
+        public async Task<ApiResult<EmitraRequestDetailsModel>> EnrollmentExaminationFeePaymentByKiyosk(EmitraRequestDetailsModel Model)
+        {
+            ActionName = "EnrollmentExaminationFeePaymentByKiyosk(EmitraRequestDetailsModel Model)";
+            var requestDetailsModel = new ApiResult<EmitraRequestDetailsModel>();
+            try
+            {
+                Model.IsKiosk = true;
+                var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(Model);
+                if (EmitraServiceDetail == null)
+                {
+                    requestDetailsModel.Data = Model;
+                    requestDetailsModel.State = EnumStatus.Error;
+                    requestDetailsModel.ErrorMessage = "Service Id Not Mapped";
+                    return requestDetailsModel;
+                }
+                Random rnd = new Random();
+                string prnNo = "KD" + rnd.Next(100000, 999999) + rnd.Next(100000, 999999);
+
+                EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
+                objEmitra.key = "_InsertDetails";
+                objEmitra.ApplicationIdEnc = Model.ApplicationIdEnc;
+                //objEmitra.Amount = Model.Amount;
+                objEmitra.Amount = Model.Amount + Model.FormCommision;
+                objEmitra.EnrollFeeAmount = (Model.EnrollFeeAmount ?? 0);
+                objEmitra.StudentID = Model.StudentID;
+                objEmitra.SemesterID = Model.SemesterID;
+                objEmitra.ExamStudentStatus = Model.ExamStudentStatus;
+                objEmitra.StudentFeesTransactionItems = Model.StudentFeesTransactionItems;
+                objEmitra.SSOID = Model.SsoID;
+                objEmitra.IsEmitra = Model.IsKiosk;
+                objEmitra.DepartmentID = Model.DepartmentID;
+                objEmitra.UniqueServiceID = Model.ID;
+                objEmitra.FeeFor = Model.FeeFor;
+                objEmitra.PRN = prnNo;
+                objEmitra.ServiceID = Model.ServiceID;
+                objEmitra.KioskID = Model.KIOSKCODE;
+
+                if (Model.TransactionApplicationIDs != null)
+                {
+                    if (Model.TransactionApplicationIDs.Length > 0)
+                    {
+                        objEmitra.TransactionApplicationID = string.Join(',', Model.TransactionApplicationIDs);
+                    }
+                }
+                var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransation(objEmitra);
+                // CreateEmitraApplicationTransation = old
+                await _unitOfWork.SaveChangesAsync();
+
+                if (result.TransactionId > 0)
+                {
+                    PGRequestModel data = new PGRequestModel();
+                    data.MERCHANTCODE = EmitraServiceDetail.MERCHANTCODE;
+
+                    if (Model.FeeFor == "EnrollmentFee")
+                    {
+                        data.ExamFeeAmount = Convert.ToString(Model.Amount);
+                        data.EnrollFeeAmount = (Model.EnrollFeeAmount ?? 0).ToString();
+                    }
+                    else
+                    {
+                        data.ExamFeeAmount = Convert.ToString(Model.Amount);
+                    }
+
+                    data.PRN = prnNo;
+                    data.REQUESTID = Convert.ToString(result.TransactionId);
+                    data.REQTIMESTAMP = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+
+                    data.AMOUNT = Convert.ToString(objEmitra.Amount);// amount
+
+                    data.USERNAME = Model.UserName;
+                    data.USERMOBILE = Model.MobileNo;
+                    data.COMMTYPE = EmitraServiceDetail.COMMTYPE;
+                    data.OFFICECODE = EmitraServiceDetail.OFFICECODE;
+                    data.SUBSERVICEID = "";
+                    data.CONSUMERKEY = prnNo;
+                    data.CONSUMERNAME = Model.UserName;
+
+                    data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("{fee}", Model.Amount.ToString())
+                        .Replace("{form_commission}", Convert.ToString(Model.FormCommision));
+
+                    data.SERVICEID = EmitraServiceDetail.SERVICEID;
+                    data.UDF1 = "";
+                    data.UDF2 = Model.SsoID;
+                    data.USEREMAIL = Model.USEREMAIL;
+                    data.SSOTOKEN = Model.SSoToken;
+                    data.SSOID = Model.SsoID;
+
+                    // create checksum
+                    var dRequestChecksum = new DRequestChecksum
+                    {
+                        SSOID = data.SSOID,
+                        REQUESTID = data.REQUESTID,
+                        REQTIMESTAMP = data.REQTIMESTAMP,
+                        SSOTOKEN = data.SSOTOKEN,
+                    };
+                    data.CHECKSUM = CommonFuncationHelper.CreateMD5(JsonConvert.SerializeObject(dRequestChecksum));
+
+
+                    string retVal = ThirdPartyServiceHelper.MakeEmitraTransactionsEncrypted(EmitraServiceDetail.ServiceURL, JsonConvert.SerializeObject(data), EmitraServiceDetail.EncryptionKey);
+
+                    string decVal = EmitraHelper.Decrypt(retVal, EmitraServiceDetail.EncryptionKey);
+                    DResponse resp = JsonConvert.DeserializeObject<DResponse>(decVal);
+
+                    if (resp != null)
+                    {
+                        try
+                        {
+
+                            //{ "REQUESTID":"64","TRANSACTIONSTATUSCODE":"200","RECEIPTNO":"25677939790","TRANSACTIONID":"250696960263",
+                            //        "TRANSAMT":"80.0000",
+                            //        "REMAININGWALLET":"867219.30","EMITRATIMESTAMP":"20250513232840000",
+                            //        "TRANSACTIONSTATUS":"SUCCESS","MSG":"Transaction Successfully Done",
+                            //        "RECEIPT_URL":"https://emitraapp.rajasthan.gov.in/emitrashared1/document/RECEIPT_ONLY/13-05-2025/RECEIPTNO_25677939790.pdf",
+                            //        "CHECKSUM":"6c139b18094fa60b84bc28be31cc627b"}
+
+                            objEmitra.key = "_UpdateEmitraPaymentStatus";
+                            objEmitra.ResponseString = JsonConvert.SerializeObject(resp);
+                            objEmitra.RequestString = JsonConvert.SerializeObject(data);
+                            objEmitra.TransactionId = Convert.ToInt32(resp.REQUESTID);
+                            objEmitra.ServiceID = EmitraServiceDetail.SERVICEID;
+                            objEmitra.PRN = data.PRN;
+                            objEmitra.TransactionNo = Convert.ToString(resp.TRANSACTIONID);
+                            objEmitra.PaidAmount = Convert.ToDecimal(resp.TRANSAMT);
+                            objEmitra.RequestStatus = Convert.ToString(resp.TRANSACTIONSTATUS);
+                            objEmitra.StatusMsg = Convert.ToString(resp.MSG);
+                            objEmitra.ReceiptNo = Convert.ToString(resp.RECEIPTNO);
+
+                                                        
+                            var UpdateStatus = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransation(objEmitra);
+                            // CreateEmitraApplicationTransation = old
+                            await _unitOfWork.SaveChangesAsync();
+
+                            if (resp.TRANSACTIONSTATUS.Contains("SUCCESS"))
+                            {
+                                requestDetailsModel.State = EnumStatus.Success;
+                                requestDetailsModel.Message = resp.MSG;
+                                requestDetailsModel.PDFURL = resp.RECEIPT_URL;
+                            }
+                            else
+                            {
+                                requestDetailsModel.State = EnumStatus.Error;
+                                requestDetailsModel.Message = resp.MSG;
+                            }
+                        }
+                        catch (System.Exception ex)
+                        {
+
+                            await _unitOfWork.DisposeAsync();
+                            requestDetailsModel.State = EnumStatus.Error;
+                            requestDetailsModel.ErrorMessage = ex.Message;
+                            // write error log
+                            var nex = new NewException
+                            {
+                                PageName = PageName,
+                                ActionName = ActionName,
+                                Ex = ex,
+                            };
+                            await CreateErrorLog(nex, _unitOfWork);
+
+
+                        }
+                    }
+                    else
+                    {
+                        requestDetailsModel.State = EnumStatus.Error;
+                        requestDetailsModel.Message = "something went wrong!";
+                    }
+
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                requestDetailsModel.State = EnumStatus.Error;
+                requestDetailsModel.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return requestDetailsModel;
+        }
+        #endregion
+
 
         #region Private
 
