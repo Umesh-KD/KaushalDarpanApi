@@ -69,7 +69,7 @@ namespace Kaushal_Darpan.Api.Controllers
         #region
 
         [HttpPost("GetITIAllData")]
-        public async Task<ApiResult<DataTable>> GetITIAllData([FromBody] PlacementDashboardModel model)
+        public async Task<ApiResult<DataTable>> GetITIAllData([FromBody] ITIPlacementDashboardModel model)
 
         {
             ActionName = "GetITIAllData()";
