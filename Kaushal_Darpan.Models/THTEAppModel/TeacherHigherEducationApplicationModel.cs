@@ -19,6 +19,8 @@ namespace Kaushal_Darpan.Models.Test
         public string Remark { get; set; }
         public int CreatedBy{ get; set; }
 
+        public string InstituteID { get; set; }
+
     }
 
     public class THTE_DDL
@@ -42,6 +44,7 @@ namespace Kaushal_Darpan.Models.Test
         public string Name { get; set; }
         public int StaffID { get; set; }
         public int? status { get; set; }
+        
     }
 
     public class THTE_DropdownDataModel
@@ -73,5 +76,16 @@ namespace Kaushal_Darpan.Models.Test
     public class ApplicationListDataModel_THTE
     {
         public int? THTEAppID { get; set; }
+    }
+
+    public class ApplicationGenrateOrderByDteListSearchModel : RequestBaseModel
+    {
+        public int Id { get; set; }
+        public int THTEAppID { get; set; }
+
+        public string Name { get; set; }
+        public int StaffID { get; set; }
+        public int? status { get; set; }
+        public string THTEAppIDs { get; set; }
     }
 }

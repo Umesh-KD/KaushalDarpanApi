@@ -12,8 +12,8 @@ namespace Kaushal_Darpan.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[ValidationActionFilter]
-    [RoleActionFilter(EnumRole.Principal, EnumRole.Principal_NonEng)]
+    [ValidationActionFilter]
+//    [RoleActionFilter(EnumRole.Principal, EnumRole.Principal_NonEng)]
     public class AdminUserController : BaseController
     {
         public override string PageName => "AdminUser";
@@ -40,16 +40,17 @@ namespace Kaushal_Darpan.Api.Controllers
                 if (result.Data.Rows.Count == 0)
                 {
                     result.State = EnumStatus.Success;
-                    result.Message = "No record found.!";
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                     return result;
                 }
                 result.State = EnumStatus.Success;
-                result.Message = "Data load successfully .!";
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
             }
             catch (System.Exception ex)
             {
                 await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
                 result.ErrorMessage = ex.Message;
                 // write error log
                 var nex = new NewException
@@ -98,58 +99,6 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
-
-        //[HttpPost("SaveData")]
-        //public async Task<ApiResult<bool>> SaveData([FromBody] AdminUserDetailModel request)
-        //{
-        //    ActionName = "SaveData([FromBody] AdminUserDetailModel request)";
-        //    return await Task.Run(async () =>
-        //    {
-        //        var result = new ApiResult<bool>();
-        //        try
-        //        {
-        //            result.Data = await _unitOfWork.AdminUserRepository.SaveData(request);
-        //            await _unitOfWork.SaveChangesAsync();
-        //            if (result.Data)
-        //            {
-        //                result.State = EnumStatus.Success;
-        //                if (request.UserID == 0)
-        //                    result.Message = "Saved successfully .!";
-        //                else
-        //                    result.Message = "Updated successfully .!";
-        //            }
-        //            else if (result.Data == -2)
-        //            {
-        //                result.State = EnumStatus.Warning;
-        //                result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
-        //            }
-        //            else
-        //            {
-        //                result.State = EnumStatus.Error;
-        //                if (request.UserID == 0)
-        //                    result.ErrorMessage = "There was an error adding data.!";
-        //                else
-        //                    result.ErrorMessage = "There was an error updating data.!";
-        //            }
-
-        //        }
-        //        catch (System.Exception ex)
-        //        {
-        //            await _unitOfWork.DisposeAsync();
-        //            result.State = EnumStatus.Error;
-        //            result.ErrorMessage = ex.Message;
-        //            // write error log
-        //            var nex = new NewException
-        //            {
-        //                PageName = PageName,
-        //                ActionName = ActionName,
-        //                Ex = ex,
-        //            };
-        //            await CreateErrorLog(nex, _unitOfWork);
-        //        }
-        //        return result;
-        //    });
-        //}
 
         [HttpPost("SaveData")]
         public async Task<ApiResult<int>> SaveData([FromBody] AdminUserDetailModel request)

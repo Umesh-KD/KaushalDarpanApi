@@ -46,6 +46,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         command.Parameters.AddWithValue("@RoleID", body.UserRole);
                         command.Parameters.AddWithValue("@UserID", body.ModifyBy);
+                        command.Parameters.AddWithValue("@SSOID", body.SSOID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();

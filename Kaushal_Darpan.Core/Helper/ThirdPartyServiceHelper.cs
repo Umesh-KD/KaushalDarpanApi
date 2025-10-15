@@ -409,6 +409,8 @@ namespace Kaushal_Darpan.Core.Helper
             try
             {
                 var url = pURL;
+
+
                 // Prepare request body
                 var requestBody = new
                 {
@@ -442,10 +444,12 @@ namespace Kaushal_Darpan.Core.Helper
             }
         }
 
-        public static async Task<RootDataModel> UploadTraineeData(List<ITITraineeUploadModel> data,string sessionId="",string accessToken="",string ApiURl="")
+        public static async Task<ApiResult<string>> UploadTraineeData(List<ITITraineeUploadModel> data,string sessionId="",string accessToken="",string ApiURl="")
+
         {
 
-        //  string apiUrl = "http://164.100.68.244:8082/MIS/api/traineeupload/UploadTrainees";
+            var apiresult = new ApiResult<string>();
+            //  string apiUrl = "http://164.100.68.244:8082/MIS/api/traineeupload/UploadTrainees";
             string apiUrl = ApiURl;
             string apiUsername = "NCVTRJMIS";
             string apiPassword = "3D5pMzxalWNz77kZXXW8hQ==";
@@ -466,14 +470,21 @@ namespace Kaushal_Darpan.Core.Helper
                     var response = await client.PostAsync(apiUrl, content);
                     string responseString = await response.Content.ReadAsStringAsync();
                     // Deserialize to list of SSOResponse
-                    var result = JsonConvert.DeserializeObject<RootDataModel>(responseString);
-                    return result ?? new RootDataModel();
+
+                    apiresult.State = EnumStatus.Success;
+                    apiresult.Message = "Success";
+                    apiresult.Data = responseString;
+              
                 }
                 catch (Exception ex)
                 {
-                    CommonFuncationHelper.WriteTextLog(ex.Message);
-                    return new RootDataModel();
+
+                    apiresult.State = EnumStatus.Error;
+                    apiresult.Message = "Error";
+                    apiresult.Data = ex.ToString();
                 }
+                return apiresult;
+
             }
         }
         #endregion

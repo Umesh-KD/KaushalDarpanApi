@@ -99,7 +99,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TeacherName", model.TeacherName ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@DOB", string.IsNullOrEmpty(model.DOB) ? (object)DBNull.Value : model.DOB);
                         command.Parameters.AddWithValue("@JoiningDate", string.IsNullOrEmpty(model.JoiningDate) ? (object)DBNull.Value : model.JoiningDate);
-                        command.Parameters.AddWithValue("@InstituteID", DBNull.Value); // Set accordingly if you have this info in model
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID); // Set accordingly if you have this info in model
                         command.Parameters.AddWithValue("@AppliedCourse", model.AppliedCourse);
                         command.Parameters.AddWithValue("@AppliedInstitute", model.AppliedInstitute ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@PHDStatus", model.PHDStatus);
@@ -388,6 +388,41 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<DataTable> THTE_GrtApplicationStatusHistory(THTE_ApplicationSearchModel body)
+        {
+            _actionName = "THTE_GrtApplicationStatusHistory(THTE_ApplicationSearchModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_THTE_ApplicationStatusHistory";
+                        command.Parameters.AddWithValue("@THTEAppID", body.THTEAppID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
     }
 }
 

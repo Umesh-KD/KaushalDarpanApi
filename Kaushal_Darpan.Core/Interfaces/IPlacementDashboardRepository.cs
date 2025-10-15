@@ -6,5 +6,9 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IPlacementDashboardRepository
     {
         Task<DataTable> GetAllData(PlacementDashboardModel model);
+
+        //-------------------ITI PLACEMENT-----------------------------
+
+        Task<DataTable> GetITIAllData(ITIPlacementDashboardModel model);
     }
 }
