@@ -311,8 +311,7 @@ namespace Kaushal_Darpan.Core.Helper
         public static async Task<List<SSOResponseModel>> SSOLoginWithIDPass(string ssoid, string password)
         {
 
-             ssoid = AesEncryptionHelperMobile.DecryptData(ssoid);
-            password = AesEncryptionHelperMobile.DecryptData(password);
+           
             string SSOAutenticationUrl = ConfigurationHelper.SSOAutenticationUrl;
 
             using var client = new HttpClient();
@@ -443,7 +442,7 @@ namespace Kaushal_Darpan.Core.Helper
             }
         }
 
-        public static async Task<TraineeUploadResponse> UploadTraineeData(List<ITITraineeUploadModel> data,string sessionId="",string accessToken="",string ApiURl="")
+        public static async Task<RootDataModel> UploadTraineeData(List<ITITraineeUploadModel> data,string sessionId="",string accessToken="",string ApiURl="")
         {
 
         //  string apiUrl = "http://164.100.68.244:8082/MIS/api/traineeupload/UploadTrainees";
@@ -467,13 +466,13 @@ namespace Kaushal_Darpan.Core.Helper
                     var response = await client.PostAsync(apiUrl, content);
                     string responseString = await response.Content.ReadAsStringAsync();
                     // Deserialize to list of SSOResponse
-                    var result = JsonConvert.DeserializeObject<TraineeUploadResponse>(responseString);
-                    return result ?? new TraineeUploadResponse();
+                    var result = JsonConvert.DeserializeObject<RootDataModel>(responseString);
+                    return result ?? new RootDataModel();
                 }
                 catch (Exception ex)
                 {
                     CommonFuncationHelper.WriteTextLog(ex.Message);
-                    return new TraineeUploadResponse();
+                    return new RootDataModel();
                 }
             }
         }
