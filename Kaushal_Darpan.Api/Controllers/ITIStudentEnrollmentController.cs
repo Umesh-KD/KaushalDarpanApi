@@ -14,6 +14,7 @@ using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -863,6 +864,20 @@ namespace Kaushal_Darpan.Api.Controllers
                                 List<ITITraineeUploadModel> request = new List<ITITraineeUploadModel>();
                                 //get data from database 
                                 var response = await ThirdPartyServiceHelper.UploadTraineeData(dataresult, token.Data.sessionId, token.Data.accessToken, resultList.DataPushApiUrl);
+
+                               
+                                try
+                                {
+                                    UploadTrainee_LogsModel logsData = new UploadTrainee_LogsModel();
+                                    logsData.Response = response.Data;
+                                    logsData.RequestID = token.Data.sessionId;
+                                    var log = await _unitOfWork.ITIStudentEnrollmentRepository.SaveUploadTraineeLogs(logsData);
+                                    await _unitOfWork.SaveChangesAsync();
+                                }
+                                catch (Exception ex)
+                                {                  
+                                }
+
                                 if (response.State == EnumStatus.Success)
                                 {
 
@@ -968,70 +983,70 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        //-------------------API TO SAVE LOGS-------------------------------
+        ////-------------------API TO SAVE LOGS-------------------------------
 
-        [HttpPost("SaveUploadTraineeLogs")]
-        public async Task<ApiResult<bool>> SaveUploadTraineeLogs([FromBody] UploadTrainee_LogsModel request)
-        {
-            ActionName = "SaveUploadTraineeLogs([FromBody] UploadTrainee_LogsModel request)";
-            return await Task.Run(async () =>
-            {
-                var result = new ApiResult<bool>();
-                try
-                {
+        //[HttpPost("SaveUploadTraineeLogs")]
+        //public async Task<ApiResult<bool>> SaveUploadTraineeLogs([FromBody] UploadTrainee_LogsModel request)
+        //{
+        //    ActionName = "SaveUploadTraineeLogs([FromBody] UploadTrainee_LogsModel request)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        var result = new ApiResult<bool>();
+        //        try
+        //        {
 
-                    if (!ModelState.IsValid)
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = "Validation failed!";
-                        return result;
-                    }
+        //            if (!ModelState.IsValid)
+        //            {
+        //                result.State = EnumStatus.Error;
+        //                result.ErrorMessage = "Validation failed!";
+        //                return result;
+        //            }
 
 
-                    result.Data = await _unitOfWork.ITIStudentEnrollmentRepository.SaveUploadTraineeLogs(request);
-                    await _unitOfWork.SaveChangesAsync();
-                    if (result.Data)
-                    {
-                        result.State = EnumStatus.Success;
-                        if (request.LogID == 0)
-                        {
-                            result.Message = Constants.MSG_SAVE_SUCCESS;
-                        }
-                        else
-                        {
-                            result.Message = Constants.MSG_UPDATE_SUCCESS;
-                        }
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        if (request.LogID == 0)
-                        {
-                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                        }
-                        else
-                        {
-                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
-                        }
-                    }
-                }
-                catch (System.Exception ex)
-                {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                }
-                return result;
-            });
-        }
+        //            result.Data = await _unitOfWork.ITIStudentEnrollmentRepository.SaveUploadTraineeLogs(request);
+        //            await _unitOfWork.SaveChangesAsync();
+        //            if (result.Data)
+        //            {
+        //                result.State = EnumStatus.Success;
+        //                if (request.LogID == 0)
+        //                {
+        //                    result.Message = Constants.MSG_SAVE_SUCCESS;
+        //                }
+        //                else
+        //                {
+        //                    result.Message = Constants.MSG_UPDATE_SUCCESS;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                result.State = EnumStatus.Error;
+        //                if (request.LogID == 0)
+        //                {
+        //                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+        //                }
+        //                else
+        //                {
+        //                    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+        //                }
+        //            }
+        //        }
+        //        catch (System.Exception ex)
+        //        {
+        //            await _unitOfWork.DisposeAsync();
+        //            result.State = EnumStatus.Error;
+        //            result.ErrorMessage = ex.Message;
+        //            // write error log
+        //            var nex = new NewException
+        //            {
+        //                PageName = PageName,
+        //                ActionName = ActionName,
+        //                Ex = ex,
+        //            };
+        //            await CreateErrorLog(nex, _unitOfWork);
+        //        }
+        //        return result;
+        //    });
+        //}
 
 
     }

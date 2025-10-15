@@ -898,6 +898,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@RequestID", request.RequestID);
                         command.Parameters.AddWithValue("@Response", request.Response);
+                        command.Parameters.AddWithValue("@action", "_SaveUploadTraineeLogs");
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
 
