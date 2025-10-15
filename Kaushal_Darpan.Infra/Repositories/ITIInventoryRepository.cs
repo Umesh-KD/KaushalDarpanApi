@@ -2399,6 +2399,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
                         _sqlQuery = command.GetSqlExecutableQuery();
+                        
                         dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
@@ -2468,6 +2469,44 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure; 
                         command.CommandText = "USP_ITI_GetIssueItemList_Permanent";
                         command.Parameters.AddWithValue("@ItemId", itemId); 
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        public async Task<DataTable> GetIssueSubmitPermanent(ItemsIssueReturnModels SearchReq)
+        {
+            _actionName = "GetIssueSubmitPermanent()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "SP_SaveITIIssuedItemsPermanent";
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(SearchReq.ItemList));
+                        command.Parameters.AddWithValue("@StaffID", SearchReq.StaffId);
+                        command.Parameters.AddWithValue("@EndTermID", SearchReq.EndTermID);
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
+                        command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
+                        command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
+                        command.Parameters.AddWithValue("@FileName", SearchReq.FileName);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
