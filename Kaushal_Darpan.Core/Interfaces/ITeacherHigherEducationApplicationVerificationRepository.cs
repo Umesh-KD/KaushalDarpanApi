@@ -15,5 +15,11 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> ApplicationList_ForDTE_THTE(PrincipleApplicationListSearchModel model);
         Task<int> UpdateApplicationStatus_Principle_THTE(List<UpdateApplicationStatusDataModel_Principle> model);
         Task<int> UpdateApplicationStatus_DTE_THTE(List<UpdateApplicationStatusDataModel_Principle> model);
+        Task<DataTable> GetApplication_GenrateOrder_Dte_THTE(ApplicationGenrateOrderByDteListSearchModel model);
+
+
+        Task<DataTable> ApplicationList_ForCommitteeAfterPrinciple_THTE(PrincipleApplicationListSearchModel model);
+
+        Task<int> UpdateApplicationStatus_CommitteeAfterPrinciple_THTE(List<UpdateApplicationStatusDataModel_Principle> model);
     }
 }
