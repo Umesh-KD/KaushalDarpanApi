@@ -14,5 +14,6 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IITIStudentRevaluationRepository
     {
         Task<DataTable> GetStudentRevaluationDetails(ITIStudentRevaluationDataModel filterModel);
+        Task<DataTable> GetAllStudentRevaluation(StudentDetailsByRollNoModel filterModel);
     }
 }

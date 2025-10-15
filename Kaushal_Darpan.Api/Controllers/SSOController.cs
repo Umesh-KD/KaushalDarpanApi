@@ -985,6 +985,9 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<SSOUserDetailsModel>();
                 try
                 {
+                    Model.SSOID = AesEncryptionHelperMobile.DecryptData(Model.SSOID);
+                    Model.Password = AesEncryptionHelperMobile.DecryptData(Model.Password);
+
                     if (Model.Password.ToUpper() == Constants.Login_DefaultPassword) //default password user
                     {
                         isValid = true;

@@ -1,6 +1,7 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Student;
@@ -883,6 +884,48 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+      public async Task<bool> SaveUploadTraineeLogs (UploadTrainee_LogsModel request)
+        {
+            _actionName = "SaveUploadTraineeLogs (UploadTrainee_LogsModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using(var command=await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandText = "USP_ITI_StudData_CorrectionMaster";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@RequestID", request.RequestID);
+                        command.Parameters.AddWithValue("@Response", request.Response);
+                        command.Parameters.AddWithValue("@action", "_SaveUploadTraineeLogs");
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                    }
+                    if (result > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch(Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
 
