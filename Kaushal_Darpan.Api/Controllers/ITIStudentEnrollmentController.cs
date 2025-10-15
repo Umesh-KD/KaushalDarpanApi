@@ -13,6 +13,7 @@ using Kaushal_Darpan.Models.PlacementSelectedStudentMaster;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Student;
+using Kaushal_Darpan.Models.StudentJanAadharDetail;
 using Kaushal_Darpan.Models.StudentMaster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -858,14 +859,15 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             //get token 
                             var token = await ThirdPartyServiceHelper.GetAccessTokenAsync(resultList.TokenApiURL);
-                            var dataresult = await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData(record);
                             if (token != null && token.IsSuccess && token.Data != null)
                             {
+                                var dataresult = await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData(record);
+
                                 List<ITITraineeUploadModel> request = new List<ITITraineeUploadModel>();
                                 //get data from database 
                                 var response = await ThirdPartyServiceHelper.UploadTraineeData(dataresult, token.Data.sessionId, token.Data.accessToken, resultList.DataPushApiUrl);
 
-                               
+                                #region "LOGS"
                                 try
                                 {
                                     UploadTrainee_LogsModel logsData = new UploadTrainee_LogsModel();
@@ -875,8 +877,10 @@ namespace Kaushal_Darpan.Api.Controllers
                                     await _unitOfWork.SaveChangesAsync();
                                 }
                                 catch (Exception ex)
-                                {                  
+                                {
+
                                 }
+                                #endregion
 
                                 if (response.State == EnumStatus.Success)
                                 {
@@ -918,6 +922,8 @@ namespace Kaushal_Darpan.Api.Controllers
                             {
                                 result.State = EnumStatus.Error;
                                 result.ErrorMessage = "something went wrong when generate token";
+                                result.Message = token.Message;
+                              
                             }
                         }
                     }

@@ -132,8 +132,8 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         // 2. save student in student exam for regular
                         await _unitOfWork.PromotedStudentRepository.SaveEnrolledStudentExam_Next(request);
+                        await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
                     }
-                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
@@ -445,8 +445,8 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         // 2. save student in student exam for regular
                         await _unitOfWork.PromotedStudentRepository.SaveFormNotFilledEnrolledStudentExam_Next(request);
+                        await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
                     }
-                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
@@ -514,8 +514,8 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         // 2. save student in student exam for regular
                         await _unitOfWork.PromotedStudentRepository.SaveDetainedEnrolledStudentExam_Next(request);
+                        await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
                     }
-                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave == -1)
                     {
