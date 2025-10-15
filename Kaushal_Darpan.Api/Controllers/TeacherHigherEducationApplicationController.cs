@@ -85,23 +85,45 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<int>();
                 try
                 {
-                    //ipaddress
-                   
-                    // regular subject
+                    
                     var isSave = await _unitOfWork.TeacherHigherEducationApplicationRepository.SaveTeacherHighEduApp(request);
-                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
-
+                    await _unitOfWork.SaveChangesAsync(); 
                     if (isSave == -1)
                     {
-                        result.Data = 1;
+                        result.Data = -1;
                         result.State = EnumStatus.Warning;
                         result.Message = Constants.MSG_NO_DATA_SAVE;
                     }
-                    else if (isSave > 0)
+                    else if (isSave == -2)
                     {
-                        result.Data = isSave;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                        result.Data = -1;
+                        result.State = EnumStatus.Warning;
+                        result.Message = "Cannot add new request because one is already pending";
+                        
+                    }
+                    else if (isSave == -3)
+                    {
+                        result.Data = -1;
+                        result.State = EnumStatus.Warning;
+                        result.Message = "Cannot re-apply for same course if already approved";
+
+                    }else if (isSave > 0)
+                    {
+
+                        if(isSave==1)
+                        {
+                            result.Data = isSave;
+                            result.State = EnumStatus.Success;
+                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+
+                        if (isSave==2)
+                        {
+                            result.Data = isSave;
+                            result.State = EnumStatus.Success;
+                            result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+                        
                     }
                     else
                     {
@@ -229,6 +251,175 @@ namespace Kaushal_Darpan.Api.Controllers
                 await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
                 result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpPost("GetTHTE_ApplicationByID")]
+        public async Task<ApiResult<TeacherHigherEducationApplicationModel>> GetTHTE_ApplicationByID([FromBody] THTE_ApplicationSearchModel body)
+        {
+            ActionName = "GetTHTE_ApplicationByID([FromBody] THTE_ApplicationSearchModel body)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<TeacherHigherEducationApplicationModel>();
+                try
+                {
+                    var data = await _unitOfWork.TeacherHigherEducationApplicationRepository.GetTHTE_ApplicationByID(body);
+                    if (data != null)
+                    {
+                        var mappedData = _mapper.Map<TeacherHigherEducationApplicationModel>(data);
+                        result.Data = mappedData;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("DeleteTHTE_ApplicationByID")]
+        public async Task<ApiResult<bool>> DeleteTHTE_ApplicationByID([FromBody] THTE_ApplicationSearchModel request)
+        {
+            ActionName = "DeleteTHTE_ApplicationByID([FromBody] THTE_ApplicationSearchModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.TeacherHigherEducationApplicationRepository.DeleteTHTE_ApplicationByID(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (request.StaffID == 0)
+                        {
+                            result.Message = Constants.MSG_DELETE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.Message = Constants.MSG_DELETE_SUCCESS;
+                        }
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (request.StaffID == 0)
+                        {
+                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        }
+                        else
+                        {
+                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
+        [HttpPost("GetAllAppliedCoursesDDL")]
+        public async Task<ApiResult<DataTable>> GetAllAppliedCoursesDDL([FromBody] THTE_DDL body)
+        {
+            ActionName = "GetAllAppliedCoursesDDL([FromBody] THTE_DDL body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.TeacherHigherEducationApplicationRepository.GetAllAppliedCoursesDDL(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpPost("GetAllInstitutionalsDDL")]
+        public async Task<ApiResult<DataTable>> GetAllInstitutionalsDDL([FromBody] THTE_DDL body)
+        {
+            ActionName = "GetAllInstitutionalsDDL([FromBody] THTE_DDL body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.TeacherHigherEducationApplicationRepository.GetAllInstitutionalsDDL(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
                 // write error log
                 var nex = new NewException

@@ -2,8 +2,11 @@
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
-using Kaushal_Darpan.Models.AppointExaminer;
-using Kaushal_Darpan.Models.PlacementDashboard;
+using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
+using Kaushal_Darpan.Models.ITIFeeModel;
+using Kaushal_Darpan.Models.ITIMaster;
+using Kaushal_Darpan.Models.RevaluationDataModel;
+using Kaushal_Darpan.Models.TheoryMarks;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -11,41 +14,39 @@ namespace Kaushal_Darpan.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[CustomeAuthorize]
     //[ValidationActionFilter]
-    public class PlacementDashboardController : BaseController
+    public class ITIStudentRevaluationController : BaseController
     {
-        public override string PageName => "PlacementDashboardController";
+        public override string PageName => "ITIStudentRevaluationController";
         public override string ActionName { get; set; }
 
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-
-        public PlacementDashboardController(IMapper mapper, IUnitOfWork unitOfWork)
+        public ITIStudentRevaluationController(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
 
-        [HttpPost("GetAllData")]
-        public async Task<ApiResult<DataTable>> GetAllData([FromBody] PlacementDashboardModel model)
 
+        [HttpPost("GetStudentRevaluationDetails")]
+        public async Task<ApiResult<DataTable>> GetStudentRevaluationDetails([FromBody] ITIStudentRevaluationDataModel body)
         {
-            ActionName = "GetAllData()";
+            ActionName = "GetStudentRevaluationDetails()";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await _unitOfWork.PlacementDashboardRepository.GetAllData(model);
-                if (result.Data.Rows.Count > 0)
+                result.Data = await Task.Run(() => _unitOfWork.ITIStudentRevaluationRepository.GetStudentRevaluationDetails(body));
+               
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
                 {
-                    result.State = EnumStatus.Success;
-                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    result.State = EnumStatus.Error;
+                    result.Message = "No record found.!";
+                    return result;
                 }
-                else
-                {
-                    result.State = EnumStatus.Warning;
-                    result.Message = Constants.MSG_DATA_NOT_FOUND;
-                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
             }
             catch (System.Exception ex)
             {
@@ -64,29 +65,23 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-
-
-        #region
-
-        [HttpPost("GetITIAllData")]
-        public async Task<ApiResult<DataTable>> GetITIAllData([FromBody] PlacementDashboardModel model)
-
+        [HttpPost("GetAllStudentRevaluation")]
+        public async Task<ApiResult<DataTable>> GetAllStudentRevaluation([FromBody] StudentDetailsByRollNoModel body)
         {
-            ActionName = "GetITIAllData()";
+            ActionName = "GetExaminerData()";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await _unitOfWork.PlacementDashboardRepository.GetITIAllData(model);
-                if (result.Data.Rows.Count > 0)
+                result.Data = await Task.Run(() => _unitOfWork.ITIStudentRevaluationRepository.GetAllStudentRevaluation(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
                 {
                     result.State = EnumStatus.Success;
-                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    result.Message = "No record found.!";
+                    return result;
                 }
-                else
-                {
-                    result.State = EnumStatus.Warning;
-                    result.Message = Constants.MSG_DATA_NOT_FOUND;
-                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
             }
             catch (System.Exception ex)
             {
@@ -104,13 +99,6 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
-
-
-
-        #endregion
-
 
     }
 }
-
-
