@@ -16,6 +16,7 @@ using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Data;
 
@@ -834,16 +835,16 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
 
-       
+
 
         [HttpPost("UploadTraineeData")]
-        public async Task<ApiResult<TraineeUploadResponse>> UploadTraineeData([FromBody] List<NCVTChunkInfoDataModel> request)
+        public async Task<ApiResult<RootDataModel>> UploadTraineeData([FromBody] List<NCVTChunkInfoDataModel> request)
         {
             TraineeUploadResponse objResponse = new TraineeUploadResponse();
-            ActionName = "        public async Task<ApiResult<bool>> UploadTraineeData([FromBody] List<StudentMarkedModelForJoined> request)\r\n([FromBody] List<StudentMarkedModelForJoined> request)";
+            ActionName = "public async Task<ApiResult<bool>> UploadTraineeData([FromBody] List<StudentMarkedModelForJoined> request)\r\n([FromBody] List<StudentMarkedModelForJoined> request)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<TraineeUploadResponse>();
+                var result = new ApiResult<RootDataModel>();
                 //var apidetails = new NCVT_APIDetailsModel();
                 try
                 {
@@ -856,29 +857,30 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             //get token 
                             var token = await ThirdPartyServiceHelper.GetAccessTokenAsync(resultList.TokenApiURL);
-
                             var dataresult = await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData(record);
-
                             if (token != null && token.IsSuccess && token.Data != null)
                             {
                                 List<ITITraineeUploadModel> request = new List<ITITraineeUploadModel>();
                                 //get data from database 
                                 var response = await ThirdPartyServiceHelper.UploadTraineeData(dataresult, token.Data.sessionId, token.Data.accessToken, resultList.DataPushApiUrl);
+                                if (response.State == EnumStatus.Success)
                                 {
-                                    if (response.ResponseData != null)
+
+                                    var apirespose = JsonConvert.DeserializeObject<RootDataModel>(response.Data);
+                                    if (apirespose.Data != null)
                                     {
-                                        var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(response?.ResponseData);
+                                        var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(apirespose?.Data.ResponseData);
                                         await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                                         if (isSave > 0)
                                         {
-                                            result.Data = response;
+                                            result.Data = apirespose;
                                             result.State = EnumStatus.Success;
                                             result.Message = "Success";
                                         }
                                         else
                                         {
-                                            result.Data = response;
+                                            result.Data = apirespose;
                                             result.State = EnumStatus.Warning;
                                             result.Message = "Something went Wrong";
                                         }
@@ -886,26 +888,29 @@ namespace Kaushal_Darpan.Api.Controllers
                                     else
                                     {
 
-                                        result.Data = response;
+                                        result.Data = apirespose;
                                         result.State = EnumStatus.Warning;
                                         result.Message = "Something went Wrong";
                                     }
                                 }
+                                else
+                                {
+                                    result.State = EnumStatus.Error;
+                                    result.Message = response?.Data;
+                                }
                             }
                             else
                             {
-                                result.State = EnumStatus.Warning;
-                                result.Message = token?.Message;
+                                result.State = EnumStatus.Error;
+                                result.ErrorMessage = "something went wrong when generate token";
                             }
                         }
-
                     }
                     else
                     {
                         result.State = EnumStatus.Error;
                         result.ErrorMessage = "service details not found.";
                     }
-
                 }
                 catch (Exception ex)
                 {

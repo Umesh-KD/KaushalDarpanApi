@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Kaushal_Darpan.Models.Student
 {
@@ -45,7 +46,29 @@ namespace Kaushal_Darpan.Models.Student
         public string? TraineeName { get; set; }
         public string? ErrorDescription { get; set; }
         public string? RecordStatus { get; set; }
+        public string? MobileNumber { get; set; }
     }
+
+    public class RootDataModel
+    {
+        public bool IsSuccess { get; set; }
+        public int StatusCode { get; set; }
+        public string? Message { get; set; }
+        public TraineeUploadResponse? Data { get; set; }
+        public object? MetaData { get; set; }
+    }
+
+
+
+
+  
+
+
+
+
+
+
+
 
 
     public class TokenResponse
