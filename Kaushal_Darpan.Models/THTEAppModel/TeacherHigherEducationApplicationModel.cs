@@ -19,6 +19,8 @@ namespace Kaushal_Darpan.Models.Test
         public string Remark { get; set; }
         public int CreatedBy{ get; set; }
 
+        public string InstituteID { get; set; }
+
     }
 
     public class THTE_DDL

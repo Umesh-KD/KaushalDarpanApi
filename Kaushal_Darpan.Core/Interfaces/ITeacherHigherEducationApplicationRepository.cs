@@ -27,5 +27,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
 
         Task<bool> DeleteTHTE_ApplicationByID(THTE_ApplicationSearchModel productDetails);
+
+        Task<DataTable> THTE_GrtApplicationStatusHistory(THTE_ApplicationSearchModel productDetails);
     }
 }
