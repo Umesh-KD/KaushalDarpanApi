@@ -836,13 +836,13 @@ namespace Kaushal_Darpan.Api.Controllers
        
 
         [HttpPost("UploadTraineeData")]
-        public async Task<ApiResult<TraineeUploadResponse>> UploadTraineeData([FromBody] List<NCVTChunkInfoDataModel> request)
+        public async Task<ApiResult<RootDataModel>> UploadTraineeData([FromBody] List<NCVTChunkInfoDataModel> request)
         {
             TraineeUploadResponse objResponse = new TraineeUploadResponse();
-            ActionName = "        public async Task<ApiResult<bool>> UploadTraineeData([FromBody] List<StudentMarkedModelForJoined> request)\r\n([FromBody] List<StudentMarkedModelForJoined> request)";
+            ActionName = "public async Task<ApiResult<bool>> UploadTraineeData([FromBody] List<StudentMarkedModelForJoined> request)\r\n([FromBody] List<StudentMarkedModelForJoined> request)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<TraineeUploadResponse>();
+                var result = new ApiResult<RootDataModel>();
                 //var apidetails = new NCVT_APIDetailsModel();
                 try
                 {
@@ -857,16 +857,16 @@ namespace Kaushal_Darpan.Api.Controllers
                             var token = await ThirdPartyServiceHelper.GetAccessTokenAsync(resultList.TokenApiURL);
 
                             var dataresult = await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData(record);
-
                             if (token != null && token.IsSuccess && token.Data != null)
+
                             {
                                 List<ITITraineeUploadModel> request = new List<ITITraineeUploadModel>();
                                 //get data from database 
                                 var response = await ThirdPartyServiceHelper.UploadTraineeData(dataresult, token.Data.sessionId, token.Data.accessToken, resultList.DataPushApiUrl);
                                 {
-                                    if (response.ResponseData != null)
+                                    if (response.Data != null)
                                     {
-                                        var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(response?.ResponseData);
+                                        var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(response?.Data.ResponseData);
                                         await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                                         if (isSave > 0)
@@ -897,14 +897,12 @@ namespace Kaushal_Darpan.Api.Controllers
                                 result.Message = token?.Message;
                             }
                         }
-
                     }
                     else
                     {
                         result.State = EnumStatus.Error;
                         result.ErrorMessage = "service details not found.";
                     }
-
                 }
                 catch (Exception ex)
                 {
