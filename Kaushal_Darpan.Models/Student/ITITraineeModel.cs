@@ -89,4 +89,12 @@ namespace Kaushal_Darpan.Models.Student
         public string? SessionID { get; set; }
 
     }
+
+    public class UploadTrainee_LogsModel
+    {
+        public int LogID { get; set; }
+        public string RequestID { get; set; }
+        public string Response { get; set; }
+    }
+
 }

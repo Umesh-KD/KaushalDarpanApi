@@ -1,4 +1,5 @@
 ﻿using Kaushal_Darpan.Models;
+using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
@@ -20,6 +21,10 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetNcvt_APIDetails();
 
+
+        //uploadTraineeData log api 
+        Task<bool> SaveUploadTraineeLogs(UploadTrainee_LogsModel request);
+      
     }
 
 
