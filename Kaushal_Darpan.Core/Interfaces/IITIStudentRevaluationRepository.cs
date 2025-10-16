@@ -15,5 +15,8 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetStudentRevaluationDetails(ITIStudentRevaluationDataModel filterModel);
         Task<DataTable> GetAllStudentRevaluation(StudentDetailsByRollNoModel filterModel);
+
+        //iti student reval request details
+        Task<DataTable> GetAllRevalRequestDetails(ITIRevalRequestStudentDetailsModel filtermodel);
     }
 }

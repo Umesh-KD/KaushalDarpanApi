@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.ITIFeeModel;
 using Kaushal_Darpan.Models.ITIMaster;
@@ -100,5 +101,112 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+
+
+        #region iti student reval request details 
+
+        [HttpPost("GetAllRevalRequestDetails")]
+        public async Task<ApiResult<DataTable>> GetAllRevalRequestDetails([FromBody] ITIRevalRequestStudentDetailsModel body)
+        {
+            ActionName = "GetStudentRevaluationDetails()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITIStudentRevaluationRepository.GetAllRevalRequestDetails(body));
+
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        //[HttpPost("UploadDocument")]
+        //public async Task<ApiResult<bool>> UploadDocument([FromBody]  )
+        //{
+        //    ActionName = "UploadDocument([FromBody] CompanyMasterModels request)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        var result = new ApiResult<bool>();
+        //        try
+        //        {
+
+        //            if (!ModelState.IsValid)
+        //            {
+        //                result.State = EnumStatus.Error;
+        //                result.ErrorMessage = "Validation failed!";
+        //                return result;
+        //            }
+
+
+        //            result.Data = await _unitOfWork.CompanyMasterRepository.SaveData(request);
+        //            await _unitOfWork.SaveChangesAsync();
+        //            if (result.Data)
+        //            {
+        //                result.State = EnumStatus.Success;
+        //                if (request.ID == 0)
+        //                {
+        //                    result.Message = Constants.MSG_SAVE_SUCCESS;
+        //                }
+        //                else
+        //                {
+        //                    result.Message = Constants.MSG_UPDATE_SUCCESS;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                result.State = EnumStatus.Error;
+        //                if (request.ID == 0)
+        //                {
+        //                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+        //                }
+        //                else
+        //                {
+        //                    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+        //                }
+        //            }
+        //        }
+        //        catch (System.Exception ex)
+        //        {
+        //            await _unitOfWork.DisposeAsync();
+        //            result.State = EnumStatus.Error;
+        //            result.ErrorMessage = ex.Message;
+        //            // write error log
+        //            var nex = new NewException
+        //            {
+        //                PageName = PageName,
+        //                ActionName = ActionName,
+        //                Ex = ex,
+        //            };
+        //            await CreateErrorLog(nex, _unitOfWork);
+        //        }
+        //        return result;
+        //    });
+        //}
+
+
+        #endregion
     }
 }

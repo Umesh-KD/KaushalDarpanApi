@@ -10,6 +10,7 @@ using Kaushal_Darpan.Models.ITIApplication;
 using Kaushal_Darpan.Models.ItiCompanyMaster;
 using Kaushal_Darpan.Models.MenuMaster;
 using Kaushal_Darpan.Models.Student;
+using Kaushal_Darpan.Models.StudentJanAadharDetail;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using System;
@@ -318,5 +319,15 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         #endregion
 
+
+
+
+
+
     }
+
+
+
+
+
 }

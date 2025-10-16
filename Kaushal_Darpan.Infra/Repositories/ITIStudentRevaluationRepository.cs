@@ -103,5 +103,55 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+
+        #region
+
+        public async Task<DataTable> GetAllRevalRequestDetails(ITIRevalRequestStudentDetailsModel body)
+        {
+            _actionName = " GetAllRevalRequestDetails(ITIRevalRequestStudentDetailsModel body)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_RVl_StudentRevalRequest_Details";
+                        if (!string.IsNullOrWhiteSpace(body.RollNo))
+                        {
+                            command.Parameters.AddWithValue("@RollNo", body.RollNo);
+                        }
+                        if (!string.IsNullOrEmpty(body.DOB))
+                        {
+                            command.Parameters.AddWithValue("@DOB", body.DOB);
+                        }
+                        if (body.RevalReqID!=null )
+                        {
+                            command.Parameters.AddWithValue("@RevalReqID", body.RevalReqID);
+                        }
+                        command.Parameters.AddWithValue("@action", body.action);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        #endregion
     }
 }
