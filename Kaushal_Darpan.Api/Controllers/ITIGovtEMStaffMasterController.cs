@@ -2945,6 +2945,346 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        //post OfficeVacancy
+
+        [HttpPost("Save_M_OfficeVacancy_IU")]
+        public async Task<ApiResult<int>> Save_M_OfficeVacancy_IU([FromBody] List<ITIOfficeVacancyModel> body)
+        {
+
+            ActionName = "Save_M_OfficeVacancy_IU([FromBody] List<OfficeVacancyModel> body)";
+            var result = new ApiResult<int>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.Save_M_OfficeVacancy_IU(body);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+
+
+                    result.State = EnumStatus.Success;
+                    if (result.Data == 1)
+                    {
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                }
+                else if (result.Data == -1)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (result.Data == 0)
+                    {
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
+
+        [HttpPost("OfficeVacancyList")]
+        public async Task<ApiResult<DataTable>> OfficeVacancyList(ITIOfficeVacancyModel model)
+        {
+            ActionName = "OfficeVacancyList(OfficeVacancyModel model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.OfficeVacancyList(model);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpPost("DeleteOfficeVacancy")]
+        public async Task<ApiResult<int>> DeleteOfficeVacancy([FromBody] ITIOfficeVacancyModel body)
+        {
+
+            ActionName = "DeleteOfficeVacancy([FromBody] OfficeVacancyModel body)";
+            var result = new ApiResult<int>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.DeleteOfficeVacancy(body);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+
+
+                    result.State = EnumStatus.Success;
+                    if (result.Data == 1)
+                    {
+                        result.Message = Constants.MSG_DELETE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.Message = Constants.MSG_DELETE_ERROR;
+                    }
+                }
+                else if (result.Data == -1)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (result.Data == 0)
+                    {
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
+
+        [HttpPost("UpdateOfficeVacancy")]
+        public async Task<ApiResult<int>> UpdateOfficeVacancy([FromBody] ITIOfficeVacancyModel body)
+        {
+
+            ActionName = "UpdateOfficeVacancy([FromBody] OfficeVacancyModel body)";
+            var result = new ApiResult<int>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.UpdateOfficeVacancy(body);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+
+
+
+                    if (result.Data == 1)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_ERROR_OCCURRED;
+                    }
+                }
+                else if (result.Data == -1)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_ERROR_OCCURRED;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (result.Data == 0)
+                    {
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
+
+
+        [HttpGet("ViewByIDOfficeVacancy/{PK_ID}")]
+        public async Task<ApiResult<ITIOfficeVacancyModel>> ViewByIDOfficeVacancy(int PK_ID)
+        {
+            ActionName = "ViewByIDOfficeVacancy(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<ITIOfficeVacancyModel>();
+                try
+                {
+                    var data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ViewByIDOfficeVacancy(PK_ID);
+                    result.Data = data;
+                    if (data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+        [HttpPost("OfficeVacancyActiveDeActive")]
+        public async Task<ApiResult<int>> OfficeVacancyActiveDeActive([FromBody] ITIOfficeVacancyModel body)
+        {
+
+            ActionName = "OfficeVacancyActiveDeActive([FromBody] OfficeVacancyModel body)";
+            var result = new ApiResult<int>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.OfficeVacancyActiveDeActive(body);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+
+
+                    result.State = EnumStatus.Success;
+                    if (result.Data == 1)
+                    {
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                }
+                else if (result.Data == -1)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (result.Data == 0)
+                    {
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
+
+
     }
 
 }
