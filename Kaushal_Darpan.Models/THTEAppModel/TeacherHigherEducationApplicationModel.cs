@@ -1,4 +1,6 @@
 ﻿
+using Kaushal_Darpan.Models.ITI_Inspection;
+
 namespace Kaushal_Darpan.Models.Test
 {
     public class TeacherHigherEducationApplicationModel : RequestBaseModel
@@ -87,5 +89,99 @@ namespace Kaushal_Darpan.Models.Test
         public int StaffID { get; set; }
         public int? status { get; set; }
         public string THTEAppIDs { get; set; }
+    }
+
+
+    public class CommitteeDataModel : RequestBaseModel
+    {
+        public int? InspectionTeamID { get; set; }
+        public string? InspectionTeamName { get; set; }
+        public int? UserID { get; set; }
+        public int? LevelId { get; set; }
+        public string? TeamInitials { get; set; }
+        public string? IPAddress { get; set; }
+        public List<CommitteeMemberDetailsDataModel>? InspectionMemberDetails { get; set; }
+        public List<CommitteeDeploymentDataModel>? InspectionDeploymentDetails { get; set; }
+        public int? TeamTypeID { get; set; }
+        public string? TeamTypeName { get; set; }
+        public string? DeploymentDateFrom { get; set; }
+        public string? DeploymentDateTo { get; set; }
+        public string? DeploymentStatus { get; set; }
+        public CommitteeMember? inspectionMember { get; set; }
+
+    }
+
+
+    public class CommitteeMemberDetailsDataModel : RequestBaseModel
+    {
+        public int? ID { get; set; }
+        public int? DistrictID { get; set; }
+        public int? InstituteID { get; set; }
+        public int? StreamID { get; set; }
+        public int? SemesterID { get; set; }
+        public string? SSOID { get; set; }
+        public int? ShiftID { get; set; }
+        public int? StaffID { get; set; }
+        public int? ManagementTypeID { get; set; }
+        public bool? IsIncharge { get; set; }
+
+        public string? DistrictName { get; set; }
+        public string? InstituteName { get; set; }
+        public string? StreamName { get; set; }
+        public string? SemesterName { get; set; }
+        public string? ShiftName { get; set; }
+        public string? StaffName { get; set; }
+        public string? latitude { get; set; }
+        public string? longitude { get; set; }
+        public string? photo { get; set; }
+
+        public string? DeploymentDateFrom { get; set; }
+        public string? DeploymentDateTo { get; set; }
+    }
+
+    public class CommitteeDeploymentDataModel : RequestBaseModel
+    {
+        public int DistrictID { get; set; }
+        public int DeploymentID { get; set; }
+        public int InstituteID { get; set; }
+        public string? DeploymentDate { get; set; }
+        public string? DeploymentDateFrom { get; set; }
+        public string? DeploymentDateTo { get; set; }
+        public int InspectionTeamID { get; set; }
+        public int UserID { get; set; }
+        public int DeploymentType { get; set; }
+        public int DeploymentStatus { get; set; }
+        public string? DistrictName { get; set; }
+        public string? InstituteName { get; set; }
+        public string? IPAddress { get; set; }
+        public string? NodalOfficerMobile { get; set; }
+        public string? SerialNo { get; set; }
+        public int? AnswerStatus { get; set; }
+    }
+
+    public class CommitteeMember : RequestBaseModel
+    {
+        public string? StaffDetails { get; set; }
+        public string? DeployDate { get; set; }
+        public string? CurrentYear { get; set; }
+        public string? Date { get; set; }
+    }
+
+    public class CommitteeSearchModel : RequestBaseModel
+    {
+        public int? InspectionTeamID { get; set; }
+        public int? Status { get; set; }
+        public int? InspectionID { get; set; }
+        public int? TypeID { get; set; }
+        public string? DeploymentDate { get; set; }
+        public string? DeploymentDateFrom { get; set; }
+        public string? DeploymentDateTo { get; set; }
+        public string? InspectionTeamName { get; set; }
+        public int? DeploymentStatus { get; set; }
+        public string? TeamName { get; set; }
+        public int? StaffID { get; set; }
+        public int? UserID { get; set; }
+        public int? LevelId { get; set; }
+        public int? DistrictID { get; set; }
     }
 }
