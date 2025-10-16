@@ -62,7 +62,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         //-------------------------------ITI PLACEMENT-------------------------------------------
 
-        public async Task<DataTable> GetITIAllData(PlacementDashboardModel model)
+        public async Task<DataTable> GetITIAllData(ITIPlacementDashboardModel model)
         {
             _actionName = "GetAllData()";
             return await Task.Run(async () =>
@@ -73,7 +73,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "usp_PlacementDashboard";
+                        command.CommandText = "usp_ITIPlacementDashboard";
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@CollegeID", model.CollegeID);
                         command.Parameters.AddWithValue("@UserId", model.UserId);

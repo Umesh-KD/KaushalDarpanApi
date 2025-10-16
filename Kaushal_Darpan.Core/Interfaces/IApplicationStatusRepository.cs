@@ -15,6 +15,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetAllData(StudentSearchModel filterModel);
         Task<DataTable> StudentJailAdmission(StudentSearchModel filterModel);
+        Task<DataTable> EditQualificationList(StudentSearchModel filterModel);
         Task<List<DocumentDetailsModel>> GetByID(int ApplicationID);
         Task<int> SaveRevertData(List<DocumentDetailsModel> productDetails);
     }
