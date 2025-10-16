@@ -1,5 +1,6 @@
 ﻿using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.CenterObserver;
+using Kaushal_Darpan.Models.ITI_Inspection;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Student;
@@ -29,5 +30,11 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> DeleteTHTE_ApplicationByID(THTE_ApplicationSearchModel productDetails);
 
         Task<DataTable> THTE_GrtApplicationStatusHistory(THTE_ApplicationSearchModel productDetails);
+
+        Task<int> CommitteeSaveData(CommitteeDataModel productDetails);
+
+        Task<DataTable> GetCommitteeAllData(CommitteeSearchModel body);
+
+        Task<CommitteeDataModel> GetCommitteeById_Team(int ID);
     }
 }
