@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.Examiners;
+﻿using Kaushal_Darpan.Models.DTEInventoryModels;
+using Kaushal_Darpan.Models.Examiners;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.ITIFeeModel;
 using Kaushal_Darpan.Models.RevaluationDataModel;
@@ -15,5 +16,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetStudentRevaluationDetails(ITIStudentRevaluationDataModel filterModel);
         Task<DataTable> GetAllStudentRevaluation(StudentDetailsByRollNoModel filterModel);
+        Task<DataTable> SaveRVLPaymentData(RVLStudentDetailsModel body);
+        Task<DataTable> GetRVLDetailByStudentApplicationNo(RVLStudentRevalRequestModel body);
     }
 }

@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.ITIFeeModel;
 using Kaushal_Darpan.Models.ITIMaster;
@@ -100,5 +101,94 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+        [HttpPost("SaveRVLPaymentData")]
+        public async Task<ApiResult<DataTable>> SaveRVLPaymentData([FromBody] RVLStudentDetailsModel body)
+        {
+            ActionName = "SaveRVLPaymentData()";
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                result.Data = await _unitOfWork.ITIStudentRevaluationRepository.SaveRVLPaymentData(body);
+
+                result.State = EnumStatus.Success;
+
+                if (result.Data == null || result.Data.Rows.Count == 0)
+                {
+                    result.Message = "No record found!";
+                }
+                else
+                {
+                    var firstRow = result.Data.Rows[0];
+
+                    var state = firstRow["State"]?.ToString();
+                    var message = firstRow["Message"]?.ToString();
+
+                    if (string.Equals(state, "Error", StringComparison.OrdinalIgnoreCase))
+                    {
+                        result.State = EnumStatus.Error;
+                        result.Message = message ?? "Failed to save data.";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = message ?? "Student data saved successfully!";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
+
+        [HttpPost("GetRVLDetailByStudentApplicationNo")]
+        public async Task<ApiResult<DataTable>> GetRVLDetailByStudentApplicationNo([FromBody] RVLStudentRevalRequestModel body)
+        {
+            ActionName = "GetRVLDetailByStudentApplicationNo()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITIStudentRevaluationRepository.GetRVLDetailByStudentApplicationNo(body));
+
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }
