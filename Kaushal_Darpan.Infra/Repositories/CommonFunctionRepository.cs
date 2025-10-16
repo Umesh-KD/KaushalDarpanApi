@@ -9977,6 +9977,46 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<List<CommonDDLModel>> DDL_ITI_GovtEMDDLOfficeVacancy(int DepartmentID, int LevelID)
+        {
+            _actionName = "DDL_ITI_GovtEMDDLOfficeVacancy()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_GovtEMDDLOfficeVacancy";
+                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@LevelID", LevelID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    var data = new List<CommonDDLModel>();
+                    if (dataTable != null)
+                    {
+                        data = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    }
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
 
