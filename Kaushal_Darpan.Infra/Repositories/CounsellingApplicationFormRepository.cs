@@ -184,57 +184,18 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@CandidateID", request.CandidateID);
                         command.Parameters.AddWithValue("@SSOID", request.SSOID);
-                        command.Parameters.AddWithValue("@CandidateName", request.CandidateName);
-                        command.Parameters.AddWithValue("@FatherName", request.FatherName);
-                        command.Parameters.AddWithValue("@MotherName", request.MotherName);
-                        command.Parameters.AddWithValue("@GenderId", request.GenderId);
-                        command.Parameters.AddWithValue("@DOB", request.DOB);
-                        command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
-                        command.Parameters.AddWithValue("@Email", request.Email);
-                        command.Parameters.AddWithValue("@Address1", request.Address1);
-                        command.Parameters.AddWithValue("@Address2", request.Address2);
-                        command.Parameters.AddWithValue("@Address3", request.Address3);
-                        command.Parameters.AddWithValue("@StateID", request.StateID);
-                        command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
-                        command.Parameters.AddWithValue("@BlockID", request.BlockID);
-                        command.Parameters.AddWithValue("@Pincode", request.Pincode);
-                        command.Parameters.AddWithValue("@AadharNo", request.AadharNo);
-                        command.Parameters.AddWithValue("@JanAadharNo", request.JanAadharNo);
-                        command.Parameters.AddWithValue("@CategoryA_ID", request.CategoryA_ID);
-                        
-                        command.Parameters.AddWithValue("@Remark", request.Remark);
-                        
+
+                        command.Parameters.AddWithValue("@IsPH_ByAdmin", request.IsPH_ByAdmin);
+                        command.Parameters.AddWithValue("@IsExServicemen_ByAdmin", request.IsExServicemen_ByAdmin);
+                        command.Parameters.AddWithValue("@IsSportsPerson_ByAdmin", request.IsSportsPerson_ByAdmin);
+                        command.Parameters.AddWithValue("@IsShahidDependent_ByAdmin", request.IsShahidDependent_ByAdmin);
+                        command.Parameters.AddWithValue("@IsAnyIncurableDiseases_ByAdmin", request.IsAnyIncurableDiseases_ByAdmin);
+                        command.Parameters.AddWithValue("@IsSpouseInSameService_ByAdmin", request.IsSpouseInSameService_ByAdmin);
+                        command.Parameters.AddWithValue("@CategoryB_ID_ByAdmin", request.CategoryB_ID_ByAdmin);
+                        command.Parameters.AddWithValue("@GenderId_ByAdmin", request.GenderId_ByAdmin);
+                        command.Parameters.AddWithValue("@MaritialID_ByAdmin", request.MaritialID_ByAdmin);
+                        command.Parameters.AddWithValue("@SelectionCategoryID_ByAdmin", request.SelectionCategoryID_ByAdmin);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
-                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
-                        command.Parameters.AddWithValue("@CourseType", request.CourseType);
-                        command.Parameters.AddWithValue("@ProfileStatus", request.ProfileStatus);
-                        command.Parameters.AddWithValue("@ApplicationNo", request.ApplicationNo);
-                        command.Parameters.AddWithValue("@ReligionID", request.ReligionID);
-                        command.Parameters.AddWithValue("@NationalityID", request.NationalityID);
-                        command.Parameters.AddWithValue("@MaritalID", request.MaritalID);
-                        command.Parameters.AddWithValue("@PWDCategoryID", request.PWDCategoryID);
-                        command.Parameters.AddWithValue("@IsMinority", request.IsMinority);
-                        command.Parameters.AddWithValue("@IsFinalSubmit", request.IsFinalSubmit);
-                        command.Parameters.AddWithValue("@DepartmentName", request.DepartmentName);
-                        command.Parameters.AddWithValue("@SubmittedStep", request.SubmittedStep);
-
-                        command.Parameters.AddWithValue("@RollNumber", request.RollNumber);
-                        command.Parameters.AddWithValue("@Designation", request.Designation);
-                        command.Parameters.AddWithValue("@Trade", request.Trade);
-                        command.Parameters.AddWithValue("@MeritNo", request.MeritNo);
-                        command.Parameters.AddWithValue("@SelectionCategoryID", request.SelectionCategoryID);
-                        command.Parameters.AddWithValue("@IsTSP", request.IsTSP);
-                        command.Parameters.AddWithValue("@HomeDistrictID", request.HomeDistrictID);
-                        command.Parameters.AddWithValue("@IsPH", request.IsPH);
-                        command.Parameters.AddWithValue("@IsExServicemen", request.IsExServicemen);
-                        command.Parameters.AddWithValue("@IsSportsPerson", request.IsSportsPerson);
-                        command.Parameters.AddWithValue("@IsSpouseInSameService", request.IsSpouseInSameService);
-                        command.Parameters.AddWithValue("@IsShahidDependent", request.IsShahidDependent);
-                        command.Parameters.AddWithValue("@IsAnyIncurableDiseases", request.IsAnyIncurableDiseases);
-                        command.Parameters.AddWithValue("@CategoryB_ID", request.CategoryB_ID);
-                        command.Parameters.AddWithValue("@AcademicYearID", request.AcademicYearID);
-
-                        // Add IP Address parameter
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
                         // Add the return parameter
