@@ -12,5 +12,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetCandidateList(CounsellingAllotmentListModel filterModel);
         Task<List<CounsellingImportExcelModel>> ImportExcelFile(List<CounsellingImportExcelModel> model);
         Task<int> SaveImportExcelData(List<CounsellingImportExcelModel> request);
+        Task<int> EditCandidateExcelDataById(CounsellingImportExcelModel request);
     }
 }

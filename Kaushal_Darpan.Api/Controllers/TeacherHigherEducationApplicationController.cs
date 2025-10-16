@@ -6,6 +6,7 @@ using Kaushal_Darpan.Infra.Repositories;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.CenterObserver;
+using Kaushal_Darpan.Models.ITI_Inspection;
 using Kaushal_Darpan.Models.PlacementSelectedStudentMaster;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
@@ -432,5 +433,165 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
+        [HttpPost("THTE_GrtApplicationStatusHistory")]
+        public async Task<ApiResult<DataTable>> THTE_GrtApplicationStatusHistory([FromBody] THTE_ApplicationSearchModel body)
+        {
+            ActionName = "THTE_GrtApplicationStatusHistory([FromBody] THTE_ApplicationSearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.TeacherHigherEducationApplicationRepository.THTE_GrtApplicationStatusHistory(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpPost("CommitteeSaveData")]
+        public async Task<ApiResult<int>> CommitteeSaveData([FromBody] CommitteeDataModel request)
+        {
+            ActionName = " CommitteeSaveData([FromBody] CommitteeDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    request.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    result.Data = await _unitOfWork.TeacherHigherEducationApplicationRepository.CommitteeSaveData(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetCommitteeAllData")]
+        public async Task<ApiResult<DataTable>> GetCommitteeAllData([FromBody] CommitteeSearchModel body)
+        {
+            ActionName = "GetCommitteeAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.TeacherHigherEducationApplicationRepository.GetCommitteeAllData(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpGet("GetCommitteeById_Team/{ID}")]
+        public async Task<ApiResult<CommitteeDataModel>> GetCommitteeById_Team(int ID)
+        {
+            ActionName = "GetByID(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<CommitteeDataModel>();
+                try
+                {
+                    var data = await _unitOfWork.TeacherHigherEducationApplicationRepository.GetCommitteeById_Team(ID);
+                    result.Data = data;
+                    if (data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
     }
 }

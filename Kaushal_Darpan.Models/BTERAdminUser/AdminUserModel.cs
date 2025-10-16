@@ -14,13 +14,13 @@
         public int StateID { get; set; }
         public int DistrictID { get; set; }
         public int RoleID { get; set; }
-        public string AadhaarID { get; set; }
+        public string? AadhaarID { get; set; }
         public string SSOID { get; set; }
         public string Email { get; set; }
-        public string EmailOfficial { get; set; }
-        public string State { get; set; }
+        public string? EmailOfficial { get; set; }
+        public string? State { get; set; }
         public string MobileNo { get; set; }
-        public string Gender { get; set; }
+        public string? Gender { get; set; }
         public bool ActiveStatus { get; set; }
         public bool DeleteStatus { get; set; }
         public DateTime? RTS { get; set; }
