@@ -97,5 +97,18 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> ITIEMStaffDuplicateCheck(ITI_EMStaffDuplicateCheckModel filterModel);
 
         Task<int> SaveBasicInstructorData(ITIGovtEMAddStaffBasicDetailDataModel request);
+
+
+        //Post OfficeVacancy
+        Task<int> Save_M_OfficeVacancy_IU(List<ITIOfficeVacancyModel> model);
+        Task<DataTable> OfficeVacancyList(ITIOfficeVacancyModel model);
+        Task<int> DeleteOfficeVacancy(ITIOfficeVacancyModel body);
+
+        Task<int> UpdateOfficeVacancy(ITIOfficeVacancyModel model);
+
+        Task<ITIOfficeVacancyModel> ViewByIDOfficeVacancy(int PK_ID);
+
+
+        Task<int> OfficeVacancyActiveDeActive(ITIOfficeVacancyModel model);
     }
 }

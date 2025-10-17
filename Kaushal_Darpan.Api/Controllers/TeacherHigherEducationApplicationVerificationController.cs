@@ -483,7 +483,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [RoleActionFilter(EnumRole.Principal, EnumRole.Principal_NonEng)]
+        //[RoleActionFilter(EnumRole.Principal, EnumRole.Principal_NonEng)]
         [HttpPost("ApplicationList_ForCommitteeAfterPrinciple_THTE")]
         public async Task<ApiResult<DataTable>> ApplicationList_ForCommitteeAfterPrinciple_THTE(PrincipleApplicationListSearchModel model)
         {
@@ -520,7 +520,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        [RoleActionFilter(EnumRole.Principal, EnumRole.Principal_NonEng)]
+        //[RoleActionFilter(EnumRole.Principal, EnumRole.Principal_NonEng)]
         [HttpPost("UpdateApplicationStatus_CommitteeAfterPrinciple_THTE")]
         public async Task<ApiResult<bool>> UpdateApplicationStatus_CommitteeAfterPrinciple_THTE([FromBody] List<UpdateApplicationStatusDataModel_Principle> request)
         {

@@ -41,20 +41,21 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 120;//2 min.
                         command.CommandText = "USP_PreExamStudentData";
 
                         if (model.StudentFilterStatusId == (int)EnumExamStudentStatus.RejectatBTER)
                         {
                             command.Parameters.AddWithValue("@action", "getStudentRejectAtBter");
-                        } 
+                        }
                         else if (model.StudentFilterStatusId == (int)EnumExamStudentStatus.Dropout)
                         {
                             command.Parameters.AddWithValue("@action", "getDropoutStudent");
-                        } 
+                        }
                         else if (model.StudentFilterStatusId == (int)EnumExamStudentStatus.Detained)
                         {
                             command.Parameters.AddWithValue("@action", "getDetainedStudent");
-                        } 
+                        }
                         else
                         {
                             command.Parameters.AddWithValue("@action", "getStudentExamData");
@@ -1359,8 +1360,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_PreExam_StudentMaster";
 
-                           command.Parameters.AddWithValue("@action", "getStudentExamData");
-                    
+                        command.Parameters.AddWithValue("@action", "getStudentExamData");
+
                         command.Parameters.AddWithValue("@StudentID", StudentID);
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", Eng_NonEng);
@@ -1475,7 +1476,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-        
+
         public async Task<DataTable> GetMainAnnexure(AnnexureDataModel model)
         {
             _actionName = "GetPreExamStudent()";
@@ -1516,7 +1517,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-        
+
         public async Task<DataTable> GetSpecialAnnexure(AnnexureDataModel model)
         {
             _actionName = "GetPreExamStudent()";
@@ -1787,7 +1788,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        
+
         public async Task<int> VerifyStudent_Registrar(List<StudentMarkedModel> model)
         {
             _actionName = "SaveEligibleForExamination(List<StudentMarkedModel> model)";
@@ -1830,6 +1831,39 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+        public async Task<bool> HaveOptionalSubject(int StudentExamID)
+        {
+            _actionName = "HaveOptionalSubject(int StudentExamID)";
+            try
+            {
+                bool result = false;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_HaveOptionalSubject";
+                    command.CommandType = CommandType.StoredProcedure;
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = Convert.ToBoolean(await command.ExecuteScalarAsync());
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
     }
 }
