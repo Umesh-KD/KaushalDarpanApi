@@ -4,6 +4,7 @@ using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.Examiners;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
+using Kaushal_Darpan.Models.ItiCompanyMaster;
 using Kaushal_Darpan.Models.ITIFeeModel;
 using Kaushal_Darpan.Models.RevaluationDataModel;
 using Newtonsoft.Json;
@@ -253,10 +254,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.Parameters.AddWithValue("@DOB", body.DOB);
                         }
+                        if (!string.IsNullOrEmpty(body.Name))
+                        {
+                            command.Parameters.AddWithValue("@Name", body.Name);
+                        }
                         if (body.RevalReqID!=null )
                         {
                             command.Parameters.AddWithValue("@RevalReqID", body.RevalReqID);
                         }
+                     
                         command.Parameters.AddWithValue("@action", body.action);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -278,6 +284,58 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<bool> UploadDocument(ITIRevalRequestStudentDetailsModel request)
+        {
+            _actionName = "UploadDocument(ITIRevalRequestStudentDetailsModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_RVl_StudentRevalRequest_Details";
+
+
+                        //// Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request.StudentOptionList));
+                        if (request.RevalReqID != null)
+                        {
+                            command.Parameters.AddWithValue("@RevalReqID", request.RevalReqID);
+                        }
+                        if (request.ActionBy != null)
+                        {
+                            command.Parameters.AddWithValue("@ActionBy", request.ActionBy);
+                        }
+                        command.Parameters.AddWithValue("@action", "_updateRevalReqUploadFile");
+
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
         #endregion
     }
