@@ -24,7 +24,21 @@
 
         public int DepartmentID { get; set; }
         public int CourseTypeIDs { get; set; }
+
+        public List<StudentOptionItem>? StudentOptionList { get; set; } = new List<StudentOptionItem>();
         public string action { get; set; }
+    }
+
+
+
+
+    public class StudentOptionItem
+    {
+        public int RequestSubjectID { get; set; }
+        public int StudentExamPaperMarksID { get; set; }
+        public string UploadedCopy { get; set; }
+
+      
     }
 
 }

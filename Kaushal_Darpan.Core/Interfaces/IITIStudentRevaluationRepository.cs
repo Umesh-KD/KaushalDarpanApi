@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.DTEInventoryModels;
+﻿using Kaushal_Darpan.Core.Helper;
+using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.Examiners;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.ITIFeeModel;
@@ -21,5 +22,8 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         //iti student reval request details
         Task<DataTable> GetAllRevalRequestDetails(ITIRevalRequestStudentDetailsModel filtermodel);
+
+        Task<bool> UploadDocument(ITIRevalRequestStudentDetailsModel body);
+
     }
 }

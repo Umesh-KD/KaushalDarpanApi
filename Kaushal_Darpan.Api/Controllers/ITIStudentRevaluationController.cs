@@ -11,6 +11,7 @@ using Kaushal_Darpan.Models.RevaluationDataModel;
 using Kaushal_Darpan.Models.TheoryMarks;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using Kaushal_Darpan.Models.ItiCompanyMaster;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -296,6 +297,100 @@ namespace Kaushal_Darpan.Api.Controllers
         //    });
         //}
 
+        //[HttpPost]
+        //[Route("UploadDocument")]
+        //public async Task<IActionResult> UploadDocument([FromBody] ITIRevalRequestStudentDetailsModel model)
+        //{
+        //    try
+        //    {
+        //        // Example: Save to DB or validate
+        //        foreach (var item in model.StudentOptionList)
+        //        {
+        //            // Access item.UploadedCopy, item.SubjectCode etc.
+        //            // Save or process each file reference
+        //        }
+
+        //        return Ok(new
+        //        {
+        //            State = true,
+        //            Message = "Documents uploaded successfully.",
+        //            ErrorMessage = ""
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new
+        //        {
+        //            State = false,
+        //            Message = "Failed to upload documents.",
+        //            ErrorMessage = ex.Message
+        //        });
+        //    }
+        //}
+
+
+        [HttpPost("UploadDocument")]
+        public async Task<ApiResult<bool>> UploadDocument([FromBody] ITIRevalRequestStudentDetailsModel request)
+        {
+            ActionName = "UploadDocument([FromBody] ITIRevalRequestStudentDetailsModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+
+                    result.Data = await _unitOfWork.ITIStudentRevaluationRepository.UploadDocument(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        //if (request.ID == 0)
+                        //{
+                        //    result.Message = Constants.MSG_SAVE_SUCCESS;
+                        //}
+                        //else
+                        //{
+                        //    result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        //}
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        //if (request.ID == 0)
+                        //{
+                        //    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        //}
+                        //else
+                        //{
+                        //    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        //}
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
 
         #endregion
     }
