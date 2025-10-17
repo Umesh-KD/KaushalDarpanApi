@@ -193,6 +193,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PageSize", body.PageSize);
                         command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
                         command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
                         command.Parameters.AddWithValue("@action", body.action);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

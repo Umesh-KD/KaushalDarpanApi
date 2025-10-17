@@ -90,6 +90,9 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
         public string? Email { get; set; }
 
         public int ModifyBy { get; set; }
+        public int? RoleID { get; set; }
+        public int? DistrictID { get; set; }
+
      
     }
 
