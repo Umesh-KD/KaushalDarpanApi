@@ -8893,6 +8893,48 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
+        [HttpGet("DDL_ITI_GovtEMDDLOfficeVacancy/{DepartmentID}/{LevelID}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> DDL_ITI_GovtEMDDLOfficeVacancy(int DepartmentID, int LevelID)
+        {
+            ActionName = "DDL_ITI_GovtEMDDLOfficeVacancy()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<CommonDDLModel>>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.DDL_ITI_GovtEMDDLOfficeVacancy(DepartmentID, LevelID);
+                    if (data != null)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }
 

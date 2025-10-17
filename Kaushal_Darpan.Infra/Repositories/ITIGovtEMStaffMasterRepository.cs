@@ -2618,7 +2618,259 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
+        //post OfficeVacancy
 
+        public async Task<int> Save_M_OfficeVacancy_IU(List<ITIOfficeVacancyModel> body)
+        {
+            _actionName = "Save_M_OfficeVacancy_IU(List<OfficeVacancyModel> body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    var jsonData = JsonConvert.SerializeObject(body);
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_M_ITI_OfficeVacancy_IU";
+                        command.Parameters.AddWithValue("@Action", "M_OfficeVacancy_IU");
+                        command.Parameters.AddWithValue("@jsonData", jsonData);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        public async Task<DataTable> OfficeVacancyList(ITIOfficeVacancyModel model)
+        {
+            _actionName = "OfficeVacancyModelList(OfficeVacancyModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+                        command.CommandText = "USP_ITI_OfficeVacancyList";
+                        command.Parameters.AddWithValue("@Action", "View");
+                        command.Parameters.AddWithValue("@ID", model.ID);
+                        command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        public async Task<int> DeleteOfficeVacancy(ITIOfficeVacancyModel body)
+        {
+            _actionName = "DeleteOfficeVacancy(OfficeVacancyModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.CommandText = "USP_ITI_Delete_OfficeVacancy";
+                        command.Parameters.AddWithValue("@ID", body.ID);
+                        command.Parameters.AddWithValue("@Action", "Delete");
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<int> UpdateOfficeVacancy(ITIOfficeVacancyModel body)
+        {
+            _actionName = "UpdateOfficeVacancy(OfficeVacancyModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    var jsonData = JsonConvert.SerializeObject(body);
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_M_ITI_OfficeVacancy_Update";
+                        command.Parameters.AddWithValue("@Action", "M_OfficeVacancy_Update");
+                        command.Parameters.AddWithValue("@ID", body.ID);
+                        command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        command.Parameters.AddWithValue("@DesignationID", body.DesignationID);
+                        command.Parameters.AddWithValue("@TotalSeatID", body.TotalSeatID);
+                        command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
+                        command.Parameters.AddWithValue("@RemainingSeatID", body.RemainingSeatID);
+                        command.Parameters.AddWithValue("@Comments", body.Comments);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@PostedSeat", body.PostedSeat);
+                        command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<ITIOfficeVacancyModel> ViewByIDOfficeVacancy(int ID)
+        {
+            _actionName = "ViewByIDOfficeVacancy(int ID)";
+            try
+            {
+                DataSet dataSet = new DataSet();
+                ITIOfficeVacancyModel data = null;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_OfficeVacancyList";
+                    command.Parameters.AddWithValue("@Action", "ViewByID");
+                    command.Parameters.AddWithValue("@ID", ID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery(); // Log or debug SQL
+                    dataSet = await command.FillAsync();
+                }
+
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count > 0)
+                {
+                    var dataList = CommonFuncationHelper.ConvertDataTable<List<ITIOfficeVacancyModel>>(dataSet.Tables[0]);
+                    data = dataList.FirstOrDefault(); // Get first row (or null if none)
+                }
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> OfficeVacancyActiveDeActive(ITIOfficeVacancyModel body)
+        {
+            _actionName = "OfficeVacancyActiveDeActive(OfficeVacancyModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    var jsonData = JsonConvert.SerializeObject(body);
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_OfficeVacancyActiveDeActive";
+                        command.Parameters.AddWithValue("@ID", body.ID);
+                        command.Parameters.AddWithValue("@IsActive", body.ActiveStatus);
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
 
 
