@@ -352,6 +352,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
                         //if (request.ID == 0)
                         //{
                         //    result.Message = Constants.MSG_SAVE_SUCCESS;
@@ -364,6 +365,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     else
                     {
                         result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
                         //if (request.ID == 0)
                         //{
                         //    result.ErrorMessage = Constants.MSG_ADD_ERROR;
