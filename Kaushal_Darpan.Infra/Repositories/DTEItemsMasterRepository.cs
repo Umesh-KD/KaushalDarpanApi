@@ -1111,6 +1111,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
                         command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
                         command.Parameters.AddWithValue("@FileName", SearchReq.FileName);
+                        command.Parameters.AddWithValue("@StreamID", SearchReq.StreamID);
+                        command.Parameters.AddWithValue("@LabID", SearchReq.LabID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1130,7 +1132,50 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-
+        public async Task<DataTable> GetDTEGetSetLabMaster(DTELabMasterModel SearchReq)
+        {
+            _actionName = "GetDTEGetSetLabMaster()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DTELabMaster_Operation";
+                        command.Parameters.AddWithValue("@ActionName", SearchReq.ActionName);
+                        command.Parameters.AddWithValue("@Lab_Id", SearchReq.Lab_Id);
+                        command.Parameters.AddWithValue("@Lab_Name", SearchReq.Lab_Name ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Lab_DepartmentId", SearchReq.Lab_DepartmentId);
+                        command.Parameters.AddWithValue("@Lab_BranchId", SearchReq.Lab_BranchId);
+                        command.Parameters.AddWithValue("@Lab_CollegeId", SearchReq.Lab_CollegeId);
+                        command.Parameters.AddWithValue("@Lab_TechnicianId", SearchReq.Lab_TechnicianId);
+                        command.Parameters.AddWithValue("@Lab_ActiveStatus", SearchReq.Lab_ActiveStatus);
+                        command.Parameters.AddWithValue("@Lab_DeleteStatus", SearchReq.Lab_DeleteStatus);
+                        command.Parameters.AddWithValue("@Lab_RTS", SearchReq.Lab_RTS ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Lab_CreatedBy", SearchReq.Lab_CreatedBy);
+                        command.Parameters.AddWithValue("@Lab_ModifyBy", SearchReq.Lab_ModifyBy);
+                        command.Parameters.AddWithValue("@Lab_ModifyDate", SearchReq.Lab_ModifyDate ?? (object)DBNull.Value); 
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
 
