@@ -64,6 +64,19 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public bool IsShahidDependent { get; set; } = false;
         public bool IsAnyIncurableDiseases { get; set; } = false;
         public int? AcademicYearID { get; set; } = 0;
+
+
+        public bool? IsPH_ByAdmin { get; set; } = false;
+        public bool? IsExServicemen_ByAdmin { get; set; } = false;
+        public bool? IsSportsPerson_ByAdmin { get; set; } = false;
+        public bool? IsShahidDependent_ByAdmin { get; set; } = false;
+        public bool? IsAnyIncurableDiseases_ByAdmin { get; set; } = false;
+        public bool? IsSpouseInSameService_ByAdmin { get; set; } = false;
+        public int? CategoryB_ID_ByAdmin { get; set; } = 0;
+        public int? GenderId_ByAdmin { get; set; } = 0;
+        public int? MaritialID_ByAdmin { get; set; } = 0;
+        public int? CategoryA_ID_ByAdmin { get; set; } = 0;
+        public int? SelectionCategoryID_ByAdmin { get; set; } = 0;
     }
 
     public class CounsellingApplicationSearchModel
