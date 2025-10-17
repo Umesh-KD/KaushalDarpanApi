@@ -324,5 +324,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetHostelStatusDDL();
         Task<DataTable> THTE_StatusDDL(THTE_DropdownDataModel model);
 
+
+        Task<List<CommonDDLModel>> DDL_ITI_GovtEMDDLOfficeVacancy(int DepartmentID, int LevelID);
+
     }
 }

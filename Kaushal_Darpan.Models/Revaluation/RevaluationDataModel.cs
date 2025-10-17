@@ -1,4 +1,6 @@
-﻿namespace Kaushal_Darpan.Models.RevaluationDataModel
+﻿using Kaushal_Darpan.Models.DTEInventoryModels;
+
+namespace Kaushal_Darpan.Models.RevaluationDataModel
 {
     public class RevaluationDataModel
     {
@@ -32,7 +34,31 @@
         public int DepartmentID { get; set; }
         public int CourseTypeID { get; set; }
         public bool IsSelected { get; set; }
+    }
+
+    public class RVLStudentDetailsModel
+    {
+        public int StudentID { get; set; }
+        public string RollNo { get; set; }
+        public string EnrollNo { get; set; }
+        public decimal PaymentAmount { get; set; }
+        public int CreatedBy { get; set; }
+        public string Remarks { get; set; }
+        public int StudentExamID { get; set; }
+
+        public List<ItemList> ItemList { get; set; } = new List<ItemList>();
+    }
+
         
+
+    public class ItemList
+    {
+        public int StudentExamID { get; set; }
+        public int StudentExamPaperMarksID { get; set; }
+        public decimal OldMarks { get; set; }
+        public decimal NewMarks { get; set; }
+        public string Reason { get; set; }
+        public string Remarks { get; set; }
     }
 
     public class ITIRevaluationDataModel
@@ -44,5 +70,19 @@
         public int CourseTypeIDs { get; set; }
 
     }
+
+    public class RVLStudentRevalRequestModel
+    {
+        public int RevalRequestID { get; set; }
+        public int StudentID { get; set; }
+        public string? RollNo { get; set; }
+        public int RevalStatus { get; set; }
+        public decimal PaymentAmount { get; set; }
+        public string? Remarks { get; set; }
+        public string? ApplicationNo { get; set; }
+        public int ActionID { get; set; }
+        public int StudentExamID { get; set; }
+    }
+
 
 }

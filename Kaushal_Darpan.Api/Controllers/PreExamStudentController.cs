@@ -2023,5 +2023,46 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [HttpGet("HaveOptionalSubject/{StudentExamID}")]
+        public async Task<ApiResult<bool>> HaveOptionalSubject(int StudentExamID)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    var data = await _unitOfWork.PreExamStudentRepository.HaveOptionalSubject(StudentExamID);
+                    if (data != null)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.Message = ex.Message;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }
