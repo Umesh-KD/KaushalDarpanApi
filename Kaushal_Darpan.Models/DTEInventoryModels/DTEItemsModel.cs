@@ -156,5 +156,24 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public DateTime ReturnIssueDate { get; set; }
         public int IssueQuantity { get; set; }
     }
+    public class DTELabMasterModel
+    {
+        public int Lab_Id { get; set; }
+        public string Lab_Name { get; set; }
+        public int Lab_DepartmentId { get; set; }
+        public int Lab_BranchId { get; set; }
+        public int Lab_CollegeId { get; set; }
+        public int Lab_TechnicianId { get; set; }
+        public bool Lab_ActiveStatus { get; set; }
+        public bool Lab_DeleteStatus { get; set; }
+        public DateTime? Lab_RTS { get; set; }
+        public int Lab_CreatedBy { get; set; }
+        public int Lab_ModifyBy { get; set; }
+        public DateTime? Lab_ModifyDate { get; set; }
+        public string Lab_IPAddress { get; set; }
+
+        // Optional field for stored procedure operation type
+        public string ActionName { get; set; }
+    }
 }
 

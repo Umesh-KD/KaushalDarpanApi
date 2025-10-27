@@ -19,6 +19,9 @@
 
         public string DOB { get; set; }
         public string? RollNo { get; set; }
+        public string? Name { get; set; }
+
+        public int? ActionBy { get; set; }
 
         public int? RevalReqID { get; set; }
 
@@ -36,9 +39,10 @@
     {
         public int RequestSubjectID { get; set; }
         public int StudentExamPaperMarksID { get; set; }
-        public string UploadedCopy { get; set; }
+        public string UploadedCopy { get; set; } 
 
-      
+        public string Remarks { get; set; }
+
     }
 
 }

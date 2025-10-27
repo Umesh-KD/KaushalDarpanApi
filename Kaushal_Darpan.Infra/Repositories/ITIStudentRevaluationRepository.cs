@@ -254,10 +254,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.Parameters.AddWithValue("@DOB", body.DOB);
                         }
+                        if (!string.IsNullOrEmpty(body.Name))
+                        {
+                            command.Parameters.AddWithValue("@Name", body.Name);
+                        }
                         if (body.RevalReqID!=null )
                         {
                             command.Parameters.AddWithValue("@RevalReqID", body.RevalReqID);
                         }
+                     
                         command.Parameters.AddWithValue("@action", body.action);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -296,6 +301,14 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         //// Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request.StudentOptionList));
+                        if (request.RevalReqID != null)
+                        {
+                            command.Parameters.AddWithValue("@RevalReqID", request.RevalReqID);
+                        }
+                        if (request.ActionBy != null)
+                        {
+                            command.Parameters.AddWithValue("@ActionBy", request.ActionBy);
+                        }
                         command.Parameters.AddWithValue("@action", "_updateRevalReqUploadFile");
 
 
