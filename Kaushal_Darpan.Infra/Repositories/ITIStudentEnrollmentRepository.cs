@@ -942,6 +942,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_StudData_CorrectionMaster";
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@RequestID", request.RequestID);
+                        command.Parameters.AddWithValue("@LogID", request.LogID);
                         command.Parameters.AddWithValue("@Response", request.Response);
                         command.Parameters.AddWithValue("@LogID", request.log_id);
                         command.Parameters.AddWithValue("@action", "_SaveUploadTraineeLogs");

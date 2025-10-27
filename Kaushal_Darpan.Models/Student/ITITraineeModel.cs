@@ -122,9 +122,8 @@ public class TokenResponse
     public class UploadTrainee_LogsModel
     {
         public int LogID { get; set; }
-        public string? RequestID { get; set; }
-        public string? Response { get; set; }
-        public string ?log_id { get; set; }
+        public string RequestID { get; set; }
+        public string Response { get; set; }
     }
 
 }
