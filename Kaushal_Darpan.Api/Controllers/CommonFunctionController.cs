@@ -5051,7 +5051,6 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.Data = data;
                         result.State = EnumStatus.Success;
                         result.Message = "Data load successfully .!";
-
                     }
                     else
                     {

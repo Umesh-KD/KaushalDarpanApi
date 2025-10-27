@@ -1,5 +1,5 @@
 ﻿using Kaushal_Darpan.Api.Models;
-
+using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Kaushal_Darpan.Models.RPPPayment;
 using Kaushal_Darpan.Models.SSOUserDetails;
 using Kaushal_Darpan.Models.Student;
@@ -403,19 +403,19 @@ namespace Kaushal_Darpan.Core.Helper
         #endregion
 
         #region "Api for Data"
-        public static async Task<TokenResponse?> GetAccessTokenAsync(string pURL="")
+        public static async Task<TokenResponse?> GetAccessTokenAsync(NCVT_APIDetailsModel model)
 
         {
             try
             {
-                var url = pURL;
-
-
+                var url = model.TokenApiURL;
                 // Prepare request body
                 var requestBody = new
                 {
-                    Body = "eyJtb2JpbGVOdW1iZXIiOiAiODI3ODY2MjI0NiIsInBpbiI6ICIxMjM0IiwidXNlclR5cGUiOiAiU3RhdGVVc2VyIn0="
-                };
+                   mobile= model.MobileNo, 
+                   password= model.UserPassword, 
+                   role= "admission_state_admin"
+            };
                 var json = JsonConvert.SerializeObject(requestBody);
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -433,7 +433,6 @@ namespace Kaushal_Darpan.Core.Helper
                         PropertyNameCaseInsensitive = true
                     };
                     var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(responseString);
-
                   
                     return tokenResponse;
                 }
@@ -443,9 +442,7 @@ namespace Kaushal_Darpan.Core.Helper
                 return null;
             }
         }
-
         public static async Task<ApiResult<string>> UploadTraineeData(List<ITITraineeUploadModel> data,string sessionId="",string accessToken="",string ApiURl="")
-
         {
 
             var apiresult = new ApiResult<string>();
