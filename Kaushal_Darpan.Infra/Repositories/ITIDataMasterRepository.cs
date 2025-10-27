@@ -334,8 +334,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_StudData_CorrectionMaster";
                         command.Parameters.AddWithValue("@action", "_getAPILogsData");
-
-                        command.Parameters.AddWithValue("@LogID", body.LogID);
+                        if (!string.IsNullOrEmpty(body.log_id))
+                        {
+                            command.Parameters.AddWithValue("@LogID", body.log_id);
+                        }
+                        
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
