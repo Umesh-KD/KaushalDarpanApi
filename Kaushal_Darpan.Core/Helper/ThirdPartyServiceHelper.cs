@@ -442,9 +442,7 @@ namespace Kaushal_Darpan.Core.Helper
                 return null;
             }
         }
-
         public static async Task<ApiResult<string>> UploadTraineeData(List<ITITraineeUploadModel> data,string sessionId="",string accessToken="",string ApiURl="")
-
         {
 
             var apiresult = new ApiResult<string>();
