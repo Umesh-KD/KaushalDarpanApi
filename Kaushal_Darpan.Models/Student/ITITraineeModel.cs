@@ -115,7 +115,7 @@ namespace Kaushal_Darpan.Models.Student
 
     public class UploadTrainee_LogsModel
     {
-        public int LogID { get; set; }
+        public string LogID { get; set; }
         public string RequestID { get; set; }
         public string Response { get; set; }
     }
