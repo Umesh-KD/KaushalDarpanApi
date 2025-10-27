@@ -15,7 +15,7 @@ namespace Kaushal_Darpan.Api.Controllers
     [Route("api/[controller]")]
     public class ITIBudgetHeadController : BaseController
     {
-        public override string PageName => "GrivienceController";
+        public override string PageName => "ITIBudgetHeadController";
         public override string ActionName { get; set; }
 
         private readonly IMapper _mapper;
@@ -302,11 +302,48 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [HttpPost("SaveBudgetUtilization_Admin")]
+        public async Task<ApiResult<int>> SaveBudgetUtilization_Admin(CollegeBudgetAllotedModel request)
+        {
+            ActionName = "SaveBudgetUtilization_Admin([FromBody] CollegeBudgetAllotedModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
 
+                    result.Data = await _unitOfWork.BudgetHeadManagementRepository.SaveBudgetUtilization_Admin(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
 
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
 
-
-
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
 
     }
 }
