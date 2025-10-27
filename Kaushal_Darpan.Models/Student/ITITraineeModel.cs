@@ -54,29 +54,31 @@ namespace Kaushal_Darpan.Models.Student
         public bool IsSuccess { get; set; }
         public int StatusCode { get; set; }
         public string? Message { get; set; }
-        public TraineeUploadResponse? Data { get; set; }
+        public string? error { get; set; }
+        public string? errorRec { get; set; }
+        public string? log_id { get; set; }
+        public string? totalRec { get; set; }
+
+        public List<TraineeUploadResponse?> responseData { get; set; }
         public object? MetaData { get; set; }
-    }
 
 
 
-
-  
-
+ 
 
 
+}
 
 
 
 
 
-
-    public class TokenResponse
+public class TokenResponse
     {
         public bool IsSuccess { get; set; }
-        public int StatusCode { get; set; }
-        public string? Message { get; set; }
-        public TokenData? Data { get; set; }
+        public string? status { get; set; }
+        public string? message { get; set; }
+        public string? data { get; set; }
     }
 
     public class TokenData
@@ -110,6 +112,10 @@ namespace Kaushal_Darpan.Models.Student
         public int TotalRecord { get; set; }
         public int TotalPage { get; set; }
         public string? SessionID { get; set; }
+        public string? Log_id { get; set; }
+
+
+  
 
     }
 
@@ -118,6 +124,10 @@ namespace Kaushal_Darpan.Models.Student
         public int LogID { get; set; }
         public string RequestID { get; set; }
         public string Response { get; set; }
+        public string? log_id { get; set; }
+
+
+        
     }
 
 }

@@ -858,51 +858,60 @@ namespace Kaushal_Darpan.Api.Controllers
                         foreach (var record in request)
                         {
                             //get token 
-                            var token = await ThirdPartyServiceHelper.GetAccessTokenAsync(resultList.TokenApiURL);
-                            if (token != null && token.IsSuccess && token.Data != null)
+                            var token = await ThirdPartyServiceHelper.GetAccessTokenAsync(resultList);
+                            if (token != null && token.status =="success" && token.data != null)
                             {
                                 var dataresult = await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData(record);
-
                                 List<ITITraineeUploadModel> request = new List<ITITraineeUploadModel>();
                                 //get data from database 
-                                var response = await ThirdPartyServiceHelper.UploadTraineeData(dataresult, token.Data.sessionId, token.Data.accessToken, resultList.DataPushApiUrl);
+                                var response = await ThirdPartyServiceHelper.UploadTraineeData(dataresult, "", token.data, resultList?.DataPushApiUrl);
 
-                                #region "LOGS"
-                                try
-                                {
-                                    UploadTrainee_LogsModel logsData = new UploadTrainee_LogsModel();
-                                    logsData.Response = response.Data;
-                                    logsData.RequestID = token.Data.sessionId;
-                                    var log = await _unitOfWork.ITIStudentEnrollmentRepository.SaveUploadTraineeLogs(logsData);
-                                    await _unitOfWork.SaveChangesAsync();
-                                }
-                                catch (Exception ex)
-                                {
-
-                                }
-                                #endregion
-
+                               
                                 if (response.State == EnumStatus.Success)
                                 {
-
                                     var apirespose = JsonConvert.DeserializeObject<RootDataModel>(response.Data);
-                                    if (apirespose.Data != null)
+                                    if (apirespose.log_id != null)
                                     {
-                                        var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(apirespose?.Data.ResponseData);
-                                        await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
-                                        if (isSave > 0)
+
+                                        #region "LOGS"
+                                        try
                                         {
-                                            result.Data = apirespose;
-                                            result.State = EnumStatus.Success;
-                                            result.Message = "Success";
+                                            UploadTrainee_LogsModel logsData = new UploadTrainee_LogsModel();
+                                            logsData.Response = response.Data;
+                                            logsData.log_id = apirespose.log_id;
+                                            var log = await _unitOfWork.ITIStudentEnrollmentRepository.SaveUploadTraineeLogs(logsData);
+                                            await _unitOfWork.SaveChangesAsync();
                                         }
-                                        else
+                                        catch (Exception ex)
                                         {
-                                            result.Data = apirespose;
-                                            result.State = EnumStatus.Warning;
-                                            result.Message = "Something went Wrong";
+
                                         }
+                                        #endregion
+                                        result.Data = apirespose;
+                                        result.State = EnumStatus.Warning;
+                                        result.Message = apirespose?.Message;
+                                        try
+                                        {
+                                            record.Log_id= apirespose.log_id;
+                                            var isSave = await _unitOfWork.ITIStudentEnrollmentRepository.updateLogIdOnData(record);
+                                            await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                        }
+                                        //  if (isSave > 0)
+                                        //  {
+                                        //      result.Data = apirespose;
+                                        //      result.State = EnumStatus.Success;
+                                        //      result.Message = apirespose.Message;
+                                        //  }
+                                        //  else
+                                        //  {
+                                        //      result.Data = apirespose;
+                                        //      result.State = EnumStatus.Warning;
+                                        //      result.Message = apirespose.Message;
+                                        //  }
                                     }
                                     else
                                     {
@@ -922,7 +931,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             {
                                 result.State = EnumStatus.Error;
                                 result.ErrorMessage = "something went wrong when generate token";
-                                result.Message = token.Message;
+                                result.Message = token.message;
                               
                             }
                         }

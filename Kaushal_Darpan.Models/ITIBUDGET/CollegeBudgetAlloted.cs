@@ -23,5 +23,6 @@ namespace Kaushal_Darpan.Models.ITIBUDGET
         public string? IPAddress { get; set; }
         public string? ActionType { get; set; }
         public string? Remarks { get; set; }
+        public List<CollegeBudgetUtilizationModel>? CollegeBudgetUtilizationModel { get; set; }
     }
 }

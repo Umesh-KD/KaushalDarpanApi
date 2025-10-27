@@ -20,8 +20,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetUtilizationsData(BudgetHeadSearchFilter model);
         Task<int> Save_CollegeBudgetRequest(BudgetRequestModel request);
         Task<DataTable> GetBudgetRequestData(BudgetHeadSearchFilter model);
+        Task<int> SaveBudgetUtilization_Admin(CollegeBudgetAllotedModel request);
 
-        
+
 
 
     }
