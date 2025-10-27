@@ -298,15 +298,15 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpGet("GetParliamentMaster")]
-        public async Task<ApiResult<List<CommonDDLModel>>> GetParliamentMaster()
+        [HttpGet("GetParliamentMaster/{DistrictID}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> GetParliamentMaster(int DistrictID)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<List<CommonDDLModel>>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetParliamentMaster();
+                    var data = await _unitOfWork.CommonFunctionRepository.GetParliamentMaster(DistrictID);
                     if (data.Count > 0)
                     {
                         result.Data = data;
@@ -5051,7 +5051,6 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.Data = data;
                         result.State = EnumStatus.Success;
                         result.Message = "Data load successfully .!";
-
                     }
                     else
                     {

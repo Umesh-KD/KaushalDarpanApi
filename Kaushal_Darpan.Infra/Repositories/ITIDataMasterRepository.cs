@@ -319,11 +319,49 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+        public async Task<DataTable> GetTraineeLogsList(UploadTrainee_LogsModel body)
+        {
+            _actionName = "GetTraineeLogsList(UploadTrainee_LogsModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_StudData_CorrectionMaster";
+                        command.Parameters.AddWithValue("@action", "_getAPILogsData");
+                        if (!string.IsNullOrEmpty(body.log_id))
+                        {
+                            command.Parameters.AddWithValue("@LogID", body.log_id);
+                        }
+                        
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
         #endregion
-
-
-
-
 
 
     }
