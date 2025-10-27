@@ -145,7 +145,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #region ncvt student corrected master api's
 
-
         [HttpPost("GetStudentCorrectionListData")]
         public async Task<ApiResult<DataTable>> GetStudentCorrectionListData([FromBody] StudentCorrectionMasterSearchModel body)
         {
