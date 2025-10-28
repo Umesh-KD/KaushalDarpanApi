@@ -1,21 +1,23 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.EMMA;
 using ExcelDataReader;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.BTEReatsDistributionsMaster;
 using Kaushal_Darpan.Models.CompanyMaster;
-using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
+using Kaushal_Darpan.Models.CounsellingMaster;
 using Kaushal_Darpan.Models.ITI_DataMasterModel;
+using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.ITIApplication;
+using Kaushal_Darpan.Models.ItiCompanyMaster;
 using Kaushal_Darpan.Models.MenuMaster;
+using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.TSPAreaMaster;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
-using Newtonsoft.Json;
 using Microsoft.IdentityModel.Tokens;
-using Kaushal_Darpan.Models.CounsellingMaster;
-using Kaushal_Darpan.Models.ItiCompanyMaster;
-using Kaushal_Darpan.Models.Student;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -37,13 +39,13 @@ namespace Kaushal_Darpan.Api.Controllers
             _unitOfWork = unitOfWork;
         }
 
-      
+
         [HttpPost("GetAllData")]
         public async Task<ApiResult<string>> GetAllData(DataListSearchModel request)
         {
             // (`ITIINSTITUE:DSP@@pMzxalWNz77kZXXW8hQ==`)
             // 'SVRJSU5TVElUVUU6RFNQQEBwTXp4YWxXTno3N2taWFhXOGhRPT0='
-         
+
             ActionName = "GetAllData(SeatIntakeSearchModel request)";
             return await Task.Run(async () =>
             {
@@ -91,21 +93,22 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 try
                 {
-                   var data = await _unitOfWork.ITIDataMasterRepository.GetAllData(request);
+                    var data = await _unitOfWork.ITIDataMasterRepository.GetAllData(request);
 
-                    if (data.Rows[0]["data"]!=null)
-                    { 
-       
-                        if (!string.IsNullOrEmpty( Convert.ToString(data.Rows[0]["data"])))
+                    if (data.Rows[0]["data"] != null)
+                    {
+
+                        if (!string.IsNullOrEmpty(Convert.ToString(data.Rows[0]["data"])))
                         {
-                          
+
                             result.Data = data.Rows[0]["data"].ToString();
                             result.State = EnumStatus.Success;
                             result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                     
+
                         }
-                        else {
-                            if(request.RequestType== "UserNotValid")
+                        else
+                        {
+                            if (request.RequestType == "UserNotValid")
                             {
                                 result.State = EnumStatus.Warning;
                                 result.Message = "User not Valid";
@@ -115,7 +118,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                 result.State = EnumStatus.Warning;
                                 result.Message = Constants.MSG_DATA_NOT_FOUND;
                             }
-                            
+
                         }
                     }
                     else
@@ -124,7 +127,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.Message = Constants.MSG_DATA_NOT_FOUND;
                     }
 
-            }
+                }
                 catch (Exception ex)
                 {
                     await _unitOfWork.DisposeAsync();
@@ -332,10 +335,103 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
-
-
         #endregion
 
+       
+        [HttpPost("UploadStatusCheckNew")]
+        public async Task<ApiResult<RootUploadStatusCheckDataModel>> UploadStatusCheckNew([FromBody] List<NCVTUploadStatusCheckDataModel> request)
+        {
+            var result = new ApiResult<RootUploadStatusCheckDataModel>();
+
+            try
+            {
+                if (request.Count > 0)
+                {
+                    var apidetails = await _unitOfWork.ITIDataMasterRepository.GetNcvt_APIDetails();
+                    NCVT_APIDetailsModel resultList = CommonFuncationHelper.ConvertDataTable<NCVT_APIDetailsModel>(apidetails);
+
+                    if (resultList == null)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Service details not found.";
+                        return result;
+                    }
+
+                    foreach (var items in request)
+                    {
+                        var token = await ThirdPartyServiceHelper.GetAccessTokenAsync(resultList);
+                        if (token == null || token.status != "success" || token.data == null)
+                        {
+                            result.State = EnumStatus.Error;
+                            result.ErrorMessage = "Failed to generate access token.";
+                            result.Message = token?.message ?? "No token response.";
+                            return result;
+                        }
+                        resultList.log_Id = items.Log_id;
+                        resultList.TokenNo = token.data;
+                        var response = await ThirdPartyServiceHelper.CheckUploadStatusNew(resultList);
+                        result.Data = response;
+                        
+                        var responseDataList = new List<ResponseData>();
+                        if (result?.Data?.results != null)
+                        {
+                            foreach (var item in result.Data.results)
+                            {
+                                responseDataList.Add(new ResponseData
+                                {
+                                    ErrorDescription = item.ErrorDescription,
+                                    MISITICode = item.MISITICode,
+                                    MobileNumber = item.MobileNumber,
+                                    RecordStatus = item.RecordStatus,
+                                    Shift = item.Shift,
+                                    StateRegNumber = item.StateRegNumber,
+                                    Trade = item.Trade,
+                                    TraineeName = item.TraineeName,
+                                    Unit = item.Unit
+                                });
+                            }
+                        }
+                      
+                        if (responseDataList.Count > 0)
+                        {
+                            var saveResult = await _unitOfWork.ITIStudentEnrollmentRepository.updateOnResponseData(responseDataList);
+
+                            if (saveResult > 0)
+                                result.Message = "Response data updated successfully.";
+                            else
+                                result.Message = "No data updated.";
+                        }
+                        else
+                        {
+                            result.Message = "No records found in API response.";
+                        }
+                        result.State = EnumStatus.Success;
+                    }
+                }
+                else 
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage ="nodata found";
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
 
 
 

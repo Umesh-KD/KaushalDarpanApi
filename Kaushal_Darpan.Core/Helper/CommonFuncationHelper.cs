@@ -1202,5 +1202,10 @@ namespace Kaushal_Darpan.Core.Helper
             return RetrunValue;
 
         }
+
+        public static T ConvertDataTable<T>(string apidetails)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

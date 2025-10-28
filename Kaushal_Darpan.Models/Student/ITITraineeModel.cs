@@ -40,14 +40,27 @@ namespace Kaushal_Darpan.Models.Student
         public List<ResponseData>? ResponseData { get; set; }
     }
 
+    //public class ResponseData
+    //{
+    //    public string? StateRegNumber { get; set; }
+    //    public string? TraineeName { get; set; }
+    //    public string? ErrorDescription { get; set; }
+    //    public string? RecordStatus { get; set; }
+    //    public string? MobileNumber { get; set; }
+    //}
     public class ResponseData
     {
-        public string? StateRegNumber { get; set; }
-        public string? TraineeName { get; set; }
         public string? ErrorDescription { get; set; }
-        public string? RecordStatus { get; set; }
+        public string? MISITICode { get; set; }
         public string? MobileNumber { get; set; }
+        public string? RecordStatus { get; set; }
+        public int Shift { get; set; }
+        public string? StateRegNumber { get; set; }
+        public string? Trade { get; set; }
+        public string? TraineeName { get; set; }
+        public int Unit { get; set; }
     }
+
 
     public class RootDataModel
     {
@@ -129,5 +142,53 @@ public class TokenResponse
 
         
     }
+
+
+    public class NCVTUploadStatusCheckDataModel
+    {
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
+        public string? Log_id { get; set; }
+        //public int CurrentPageNumber { get; set; }
+        //public int CurrentPageSize { get; set; }
+        //public int TotalCount { get; set; }
+    }
+
+    public class RootUploadStatusCheckDataModel
+    {
+        public string error { get; set; }
+        public pagination pagination { get; set; }
+        public List<ResultModel?> results { get; set; }
+
+
+        
+    }
+
+
+
+    public class pagination
+    {
+        public int CurrentPageNumber { get; set; }
+        public int CurrentPageSize { get; set; }
+        public int TotalCount { get; set; }
+    }
+
+
+    public class ResultModel
+    {
+        public string ErrorDescription { get; set; }
+        public string MISITICode { get; set; }
+        public string MobileNumber { get; set; }
+        public string RecordStatus { get; set; }
+        public int Shift { get; set; }
+        public string StateRegNumber { get; set; }
+        public string Trade { get; set; }
+        public string TraineeName { get; set; }
+        public int Unit { get; set; }
+
+        
+    }
+
+
 
 }
