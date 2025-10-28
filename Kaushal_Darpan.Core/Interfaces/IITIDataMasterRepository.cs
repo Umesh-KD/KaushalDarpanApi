@@ -30,5 +30,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> SaveStudentCorrectionData(StudentCorrectionMasterSearchModel productDetails);
 
         Task<DataTable> GetTraineeLogsList(UploadTrainee_LogsModel filtermodel);
+        Task<List<ResultModel>> UploadStatusCheck(NCVTUploadStatusCheckDataModel model);
+        Task<DataTable> GetNcvt_APIDetails();
+        Task<bool> SaveUploadTraineeLog(UploadTrainee_LogsModel request);
     }
 }

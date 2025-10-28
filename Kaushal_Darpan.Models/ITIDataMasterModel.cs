@@ -100,9 +100,13 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
     {
         public string? TokenApiURL { get; set; }
         public string? DataPushApiUrl { get; set; }
+        public string? DataUpdloadcheckApiUrl { get; set; }
         public string? action { get; set; }
         public string? MobileNo { get; set; }
         public string? UserPassword { get; set; }
+        public string? log_Id { get; set; }
+        public string? TokenNo { get; set; }
+        public string? Session { get; set; }
     }
 }
 //

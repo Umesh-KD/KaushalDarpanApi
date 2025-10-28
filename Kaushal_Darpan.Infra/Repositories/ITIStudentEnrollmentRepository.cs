@@ -718,49 +718,92 @@ namespace Kaushal_Darpan.Infra.Repositories
         //    }
         //}
 
+        //public async Task<int> updateOnResponseData(List<ResponseData> model)
+        //{
+        //    _actionName = "updateOnResponseData(List<ResponseData> model)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            int result = 0;
+        //            int retval = 0;
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
+        //            {
+        //                // Set the stored procedure name and type
+        //                command.CommandText = "USP_ITI_SaveEnrollresponse";
+        //                command.CommandType = CommandType.StoredProcedure;
+
+        //                // Add parameters with appropriate null handling
+
+        //                command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+
+        //                command.Parameters.Add("@Retval", SqlDbType.Int);// out
+        //                command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+
+        //                _sqlQuery = command.GetSqlExecutableQuery();
+        //                result = await command.ExecuteNonQueryAsync();
+
+        //                retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+        //            }
+        //            return retval;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            var errorDesc = new ErrorDescription
+        //            {
+        //                Message = ex.Message,
+        //                PageName = _pageName,
+        //                ActionName = _actionName,
+        //                SqlExecutableQuery = _sqlQuery
+        //            };
+        //            var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+        //            throw new Exception(errordetails, ex);
+        //        }
+        //    });
+        //}
+
+
         public async Task<int> updateOnResponseData(List<ResponseData> model)
         {
             _actionName = "updateOnResponseData(List<ResponseData> model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    int retval = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_ITI_SaveEnrollresponse";
-                        command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_SaveEnrollresponse";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-          
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                    var json = JsonConvert.SerializeObject(model);
+                    command.Parameters.AddWithValue("@rowJson", json);
 
-                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                    var retvalParam = command.Parameters.Add("@Retval", SqlDbType.Int);
+                    retvalParam.Direction = ParameterDirection.Output;
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    System.Diagnostics.Debug.WriteLine("SP Query => " + _sqlQuery);
+                    System.Diagnostics.Debug.WriteLine("JSON Data => " + json);
 
-                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
-                    }
-                    return retval;
+                    await command.ExecuteNonQueryAsync();
+
+                    retval = Convert.ToInt32(retvalParam.Value);
                 }
-                catch (Exception ex)
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
+
 
 
         public async Task<int> updateLogIdOnData(NCVTChunkInfoDataModel model)
