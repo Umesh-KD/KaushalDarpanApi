@@ -33,7 +33,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@ActionName", modal.ActionName);
-                        command.Parameters.AddWithValue("@Lab_Id", modal.LabID);  
+                        command.Parameters.AddWithValue("@Lab_Id", modal.LabID);
+                        command.Parameters.AddWithValue("@Lab_Name", modal.LabName);
+                        command.Parameters.AddWithValue("@Lab_DepartmentId", modal.DepartmentID);
+                        command.Parameters.AddWithValue("@Lab_CollegeId", modal.InstituteID);
+                        command.Parameters.AddWithValue("@Lab_BranchId", modal.StreamID);
                         command.CommandText = "USP_DTELabMaster_Operation";
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
