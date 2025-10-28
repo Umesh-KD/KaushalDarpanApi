@@ -96,6 +96,7 @@ namespace Kaushal_Darpan.Models.Test
     public class CommitteeDataModel : RequestBaseModel
     {
         public int? InspectionTeamID { get; set; }
+        public int? CommitteeID { get; set; }
         public string? InspectionTeamName { get; set; }
         public int? UserID { get; set; }
         public int? LevelId { get; set; }
@@ -138,6 +139,7 @@ namespace Kaushal_Darpan.Models.Test
 
         public string? DeploymentDateFrom { get; set; }
         public string? DeploymentDateTo { get; set; }
+        public int? CommitteeID { get; set; }
     }
 
     public class CommitteeDeploymentDataModel : RequestBaseModel
