@@ -75,14 +75,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Compile Update="Report\DataSource\KD_DBScript.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>KD_DBScript.xsd</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  
-  <ItemGroup>
     <Content Update="Report\DataSource\KD_DBScript.Designer.cs">
       <SubType>Code</SubType>
       <DesignTime>True</DesignTime>
