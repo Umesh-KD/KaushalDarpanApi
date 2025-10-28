@@ -356,6 +356,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModifyBy", model.ModifyBy);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@status", model.status);
+                        command.Parameters.AddWithValue("@CommitteeID", model.CommitteeID);
                         command.Parameters.AddWithValue("@Remark", model.Remark);
                         command.Parameters.AddWithValue("@CommitteeDocs", model.CommitteeDocs);
                         command.Parameters.AddWithValue("@Dis_CommitteeDocs", model.Dis_CommitteeDocs);
