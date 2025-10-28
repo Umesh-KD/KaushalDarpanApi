@@ -19,6 +19,7 @@ using System.Data;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -319,7 +320,199 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+        public async Task<DataTable> GetTraineeLogsList(UploadTrainee_LogsModel body)
+        {
+            _actionName = "GetTraineeLogsList(UploadTrainee_LogsModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_StudData_CorrectionMaster";
+                        command.Parameters.AddWithValue("@action", "_getAPILogsData");
+                        if (!string.IsNullOrEmpty(body.log_id))
+                        {
+                            command.Parameters.AddWithValue("@LogID", body.log_id);
+                        }
+                        
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
         #endregion
+
+
+
+        public async Task<DataTable> GetNcvt_APIDetails()
+        {
+            _actionName = "GetNcvt_APIDetails(PreExamStudentModel model)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_StudData_CorrectionMaster";
+                        command.Parameters.AddWithValue("@action", "_GetNcvt_APIDetails");
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+
+                //string apiUrl = "https://iti-api.skillindiadigital.gov.in/v1/state/api-upload-status";
+
+                //using (HttpClient client = new HttpClient())
+                //{
+                //    client.Timeout = TimeSpan.FromSeconds(60);
+                //    client.DefaultRequestHeaders.Accept.Clear();
+                //    client.DefaultRequestHeaders.Accept.Add(
+                //        new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+
+                //    var requestBody = new
+                //    {
+                //        state_code = "RJ" // <-- example; replace with dynamic value if needed
+                //    };
+
+                //    string jsonBody = Newtonsoft.Json.JsonConvert.SerializeObject(requestBody);
+                //    var content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
+
+
+                //    HttpResponseMessage response = await client.PostAsync(apiUrl, content);
+                //    response.EnsureSuccessStatusCode();
+
+                //    string jsonResponse = await response.Content.ReadAsStringAsync();
+
+
+                //    DataTable dataTable = Newtonsoft.Json.JsonConvert.DeserializeObject<DataTable>(jsonResponse);
+
+                //    return dataTable;
+                //}
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        public async Task<List<ResultModel>> UploadStatusCheck(NCVTUploadStatusCheckDataModel model)
+        {
+            _actionName = "UploadStatusCheck()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_UploadStatusCheck";
+                        command.Parameters.AddWithValue("@action", "GetNcvtData");
+                        
+                        command.Parameters.AddWithValue("@Log_id", model.Log_id ?? (object)DBNull.Value);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    List<ResultModel> resultList = CommonFuncationHelper.ConvertDataTable<List<ResultModel>>(dataTable);
+                    return resultList;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+                
+        public async Task<bool> SaveUploadTraineeLog(UploadTrainee_LogsModel request)
+        {
+            _actionName = "SaveUploadTraineeLogs (UploadTrainee_LogsModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandText = "USP_ITI_StudData_CorrectionMaster";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@RequestID", request.RequestID);
+                        command.Parameters.AddWithValue("@LogID", request.LogID);
+                        command.Parameters.AddWithValue("@Response", request.Response);
+                        command.Parameters.AddWithValue("@LogID", request.log_id);
+                        command.Parameters.AddWithValue("@action", "_SaveUploadTraineeLogs");
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                    }
+                    if (result > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
 
 
 
@@ -327,9 +520,4 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
     }
-
-
-
-
-
 }

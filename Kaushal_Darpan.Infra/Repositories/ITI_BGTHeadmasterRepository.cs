@@ -246,7 +246,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> GetBGTHeadmasterData()
+        public async Task<DataTable> GetBGTHeadmasterData(ITI_BGT_HeadMasterSearchModel model)
         {
             _actionName = "GetInstructorData(ITI_InstructorDataSearchModel model )";
             return await Task.Run(async () =>
@@ -259,12 +259,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_BGT_HeadMasters";
                         command.Parameters.AddWithValue("@Action", "GetData");
-                        //command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        //command.Parameters.AddWithValue("@Uid", model.Uid);
-                        //command.Parameters.AddWithValue("@Name", model.Name);
-                        //command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        //command.Parameters.AddWithValue("@RoleId", model.RoleID);
-                        //command.Parameters.AddWithValue("@Code", model.CollegeCode);
+                        command.Parameters.AddWithValue("@HeadName", model.Name);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -286,6 +282,43 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<int> DeleteBudgetHeadById(int HeadId, int UserID)
+        {
+            _actionName = " DeleteBudgetHeadById(int id)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_BGT_HeadMasters";
+                        command.Parameters.AddWithValue("@Action", "deleteById");
+                        command.Parameters.AddWithValue("@HeadId", HeadId);
+                        command.Parameters.AddWithValue("@CreatedBy", UserID);
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 
 

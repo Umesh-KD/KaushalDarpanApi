@@ -6,6 +6,7 @@ using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.ITIApplication;
 using Kaushal_Darpan.Models.ItiCompanyMaster;
 using Kaushal_Darpan.Models.MenuMaster;
+using Kaushal_Darpan.Models.Student;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -27,5 +28,10 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStudentCorrectionDataByID(StudentCorrectionMasterSearchModel filterModel);
 
         Task<bool> SaveStudentCorrectionData(StudentCorrectionMasterSearchModel productDetails);
+
+        Task<DataTable> GetTraineeLogsList(UploadTrainee_LogsModel filtermodel);
+        Task<List<ResultModel>> UploadStatusCheck(NCVTUploadStatusCheckDataModel model);
+        Task<DataTable> GetNcvt_APIDetails();
+        Task<bool> SaveUploadTraineeLog(UploadTrainee_LogsModel request);
     }
 }

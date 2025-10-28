@@ -1153,10 +1153,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Lab_TechnicianId", SearchReq.Lab_TechnicianId);
                         command.Parameters.AddWithValue("@Lab_ActiveStatus", SearchReq.Lab_ActiveStatus);
                         command.Parameters.AddWithValue("@Lab_DeleteStatus", SearchReq.Lab_DeleteStatus);
-                        command.Parameters.AddWithValue("@Lab_RTS", SearchReq.Lab_RTS ?? (object)DBNull.Value);
+                        //command.Parameters.AddWithValue("@Lab_RTS", SearchReq.Lab_RTS ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Lab_CreatedBy", SearchReq.Lab_CreatedBy);
                         command.Parameters.AddWithValue("@Lab_ModifyBy", SearchReq.Lab_ModifyBy);
-                        command.Parameters.AddWithValue("@Lab_ModifyDate", SearchReq.Lab_ModifyDate ?? (object)DBNull.Value); 
+                        //command.Parameters.AddWithValue("@Lab_ModifyDate", SearchReq.Lab_ModifyDate ?? (object)DBNull.Value); 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

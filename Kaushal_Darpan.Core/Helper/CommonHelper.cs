@@ -1,4 +1,5 @@
 ﻿using Kaushal_Darpan.Models.CommonFunction;
+using Kaushal_Darpan.Models.Student;
 using Microsoft.AspNetCore.Http;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -261,6 +262,11 @@ namespace Kaushal_Darpan.Core.Helper
 
         public string? ErrorMessage { get; set; }
         public T Data { get; set; }
+
+        public void AddRange(List<ResultModel> dataresult)
+        {
+            throw new NotImplementedException();
+        }
     }
     public class NewException
     {

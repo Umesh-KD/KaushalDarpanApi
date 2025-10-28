@@ -48435,6 +48435,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnFeeStatus;
             
+            private global::System.Data.DataColumn columnTransactionID;
+            
+            private global::System.Data.DataColumn columnAuthorizedSignature;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public StudentEnrollmentFeeDetailsDataTable() {
@@ -48520,6 +48524,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TransactionIDColumn {
+                get {
+                    return this.columnTransactionID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AuthorizedSignatureColumn {
+                get {
+                    return this.columnAuthorizedSignature;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -48555,7 +48575,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public StudentEnrollmentFeeDetailsRow AddStudentEnrollmentFeeDetailsRow(string TransctionStatus, string TransctionDate, string TransAmt, string ExamFee, string EnrollmentFee, string FeeStatus) {
+            public StudentEnrollmentFeeDetailsRow AddStudentEnrollmentFeeDetailsRow(string TransctionStatus, string TransctionDate, string TransAmt, string ExamFee, string EnrollmentFee, string FeeStatus, string TransactionID, string AuthorizedSignature) {
                 StudentEnrollmentFeeDetailsRow rowStudentEnrollmentFeeDetailsRow = ((StudentEnrollmentFeeDetailsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         TransctionStatus,
@@ -48563,7 +48583,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         TransAmt,
                         ExamFee,
                         EnrollmentFee,
-                        FeeStatus};
+                        FeeStatus,
+                        TransactionID,
+                        AuthorizedSignature};
                 rowStudentEnrollmentFeeDetailsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStudentEnrollmentFeeDetailsRow);
                 return rowStudentEnrollmentFeeDetailsRow;
@@ -48592,6 +48614,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnExamFee = base.Columns["ExamFee"];
                 this.columnEnrollmentFee = base.Columns["EnrollmentFee"];
                 this.columnFeeStatus = base.Columns["FeeStatus"];
+                this.columnTransactionID = base.Columns["TransactionID"];
+                this.columnAuthorizedSignature = base.Columns["AuthorizedSignature"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -48609,6 +48633,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnEnrollmentFee);
                 this.columnFeeStatus = new global::System.Data.DataColumn("FeeStatus", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnFeeStatus);
+                this.columnTransactionID = new global::System.Data.DataColumn("TransactionID", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTransactionID);
+                this.columnAuthorizedSignature = new global::System.Data.DataColumn("AuthorizedSignature", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAuthorizedSignature);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -86322,6 +86350,40 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string TransactionID {
+                get {
+                    try {
+                        return ((string)(this[this.tableStudentEnrollmentFeeDetails.TransactionIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TransactionID\' in table \'StudentEnrollmentFeeDetails\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableStudentEnrollmentFeeDetails.TransactionIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string AuthorizedSignature {
+                get {
+                    try {
+                        return ((string)(this[this.tableStudentEnrollmentFeeDetails.AuthorizedSignatureColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AuthorizedSignature\' in table \'StudentEnrollmentFeeDetails\'" +
+                                " is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStudentEnrollmentFeeDetails.AuthorizedSignatureColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsTransctionStatusNull() {
                 return this.IsNull(this.tableStudentEnrollmentFeeDetails.TransctionStatusColumn);
             }
@@ -86390,6 +86452,30 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetFeeStatusNull() {
                 this[this.tableStudentEnrollmentFeeDetails.FeeStatusColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTransactionIDNull() {
+                return this.IsNull(this.tableStudentEnrollmentFeeDetails.TransactionIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTransactionIDNull() {
+                this[this.tableStudentEnrollmentFeeDetails.TransactionIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAuthorizedSignatureNull() {
+                return this.IsNull(this.tableStudentEnrollmentFeeDetails.AuthorizedSignatureColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAuthorizedSignatureNull() {
+                this[this.tableStudentEnrollmentFeeDetails.AuthorizedSignatureColumn] = global::System.Convert.DBNull;
             }
         }
         

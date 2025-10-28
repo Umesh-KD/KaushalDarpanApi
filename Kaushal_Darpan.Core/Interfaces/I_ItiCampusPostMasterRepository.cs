@@ -20,7 +20,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> Save_CampusValidation_NodalAction(ItiCampusPostMaster_Action model);
         Task<bool> UpdateData(ItiCampusPostMasterModel productDetails);
         Task<bool> DeleteDataByID(ItiCampusPostMasterModel productDetails);
-        Task<DataTable> CampusValidationList(int CompanyID, int CollegeID, string Status, int DepartmentID);
+        Task<DataTable> CampusValidationList(int CompanyID, int CollegeID, string Status, int DepartmentID,string Flag="");
         Task<List<CommonDDLModel>> GetHiringRoleMaster();
         Task<DataTable> Iticollege(int DepartmentID, int EndTermId);
     }

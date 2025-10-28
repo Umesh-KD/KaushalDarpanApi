@@ -26,7 +26,6 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
 
     public class ITI_BGT_HeadMasterSearchModel
     {
-        // Personal Details
         public string? Uid { get; set; }
         public string? Name { get; set; }
         public int? DepartmentID { get; set; }

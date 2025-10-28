@@ -1,16 +1,22 @@
 ﻿using Kaushal_Darpan.Api.Models;
+using Kaushal_Darpan.Models.EmitraPayment;
 using Kaushal_Darpan.Models.ITI_DataMasterModel;
 using Kaushal_Darpan.Models.RPPPayment;
 using Kaushal_Darpan.Models.SSOUserDetails;
 using Kaushal_Darpan.Models.Student;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Org.BouncyCastle.Asn1.Cmp;
+using Org.BouncyCastle.Asn1.Crmf;
 using Org.BouncyCastle.Asn1.Ocsp;
+using RestSharp;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Web;
 using System.Xml;
+using static QRCoder.PayloadGenerator.ShadowSocksConfig;
 using static System.Net.WebRequestMethods;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -311,7 +317,7 @@ namespace Kaushal_Darpan.Core.Helper
         public static async Task<List<SSOResponseModel>> SSOLoginWithIDPass(string ssoid, string password)
         {
 
-           
+
             string SSOAutenticationUrl = ConfigurationHelper.SSOAutenticationUrl;
 
             using var client = new HttpClient();
@@ -412,10 +418,10 @@ namespace Kaushal_Darpan.Core.Helper
                 // Prepare request body
                 var requestBody = new
                 {
-                   mobile= model.MobileNo, 
-                   password= model.UserPassword, 
-                   role= "admission_state_admin"
-            };
+                    mobile = model.MobileNo,
+                    password = model.UserPassword,
+                    role = "admission_state_admin"
+                };
                 var json = JsonConvert.SerializeObject(requestBody);
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -433,7 +439,7 @@ namespace Kaushal_Darpan.Core.Helper
                         PropertyNameCaseInsensitive = true
                     };
                     var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(responseString);
-                  
+
                     return tokenResponse;
                 }
             }
@@ -442,7 +448,7 @@ namespace Kaushal_Darpan.Core.Helper
                 return null;
             }
         }
-        public static async Task<ApiResult<string>> UploadTraineeData(List<ITITraineeUploadModel> data,string sessionId="",string accessToken="",string ApiURl="")
+        public static async Task<ApiResult<string>> UploadTraineeData(List<ITITraineeUploadModel> data, string sessionId = "", string accessToken = "", string ApiURl = "")
         {
 
             var apiresult = new ApiResult<string>();
@@ -471,7 +477,7 @@ namespace Kaushal_Darpan.Core.Helper
                     apiresult.State = EnumStatus.Success;
                     apiresult.Message = "Success";
                     apiresult.Data = responseString;
-              
+
                 }
                 catch (Exception ex)
                 {
@@ -482,6 +488,95 @@ namespace Kaushal_Darpan.Core.Helper
                 }
                 return apiresult;
 
+            }
+        }
+
+
+        public static async Task<RootUploadStatusCheckDataModel?> CheckUploadStatus(NCVT_APIDetailsModel model)
+        {
+            try
+            {
+                //var url = model.TokenApiURL;
+                var url = "https://iti-api.skillindiadigital.gov.in/v1/state/api-upload-status";
+                var requestBody = new
+                {
+                    log_id = model.log_Id,
+                    pageNumber = 1,
+                    pageSize = 20000
+                };
+                var json = JsonConvert.SerializeObject(requestBody);
+
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                using (var client = new HttpClient())
+                {
+                    var response = await client.PostAsync(url, content);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        string error = await response.Content.ReadAsStringAsync();
+                    }
+                    string responseString = await response.Content.ReadAsStringAsync();
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    var tokenResponse = JsonConvert.DeserializeObject<RootUploadStatusCheckDataModel>(responseString);
+
+                    return tokenResponse;
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public static async Task<RootUploadStatusCheckDataModel?> CheckUploadStatusNew(NCVT_APIDetailsModel model)
+        {
+            try
+            {
+                //var url = "https://iti-api.skillindiadigital.gov.in/v1/state/api-upload-status";
+                var url = model.DataUpdloadcheckApiUrl;
+
+                var requestBody = new
+                {
+                    log_id = model.log_Id,   
+                    pageNumber = 1,
+                    pageSize = 20000
+                };
+                
+                var json = JsonConvert.SerializeObject(requestBody);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.DefaultRequestHeaders.Authorization =
+                        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", model.TokenNo);
+                    //httpClient.DefaultRequestHeaders.Add("X-ADMISSION-SESSION", "2025");
+
+                    var response = await httpClient.PostAsync(url, content);
+                    var responseString = await response.Content.ReadAsStringAsync();
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        throw new HttpRequestException($"Request failed: {response.StatusCode} - {responseString}");
+                    }
+                    var jsonObject = JObject.Parse(responseString);
+                    var dataJson = jsonObject["Data"]?.ToString();
+
+                    if (!string.IsNullOrEmpty(dataJson))
+                    {
+                        var result = JsonConvert.DeserializeObject<RootUploadStatusCheckDataModel>(dataJson);
+                        return result;
+                    }
+
+                        return null;
+                   
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[CheckUploadStatusNew] Error: {ex.Message}");
+                return null;
             }
         }
         #endregion
