@@ -6,6 +6,7 @@ using Kaushal_Darpan.Infra.Repositories;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.CenterObserver;
+using Kaushal_Darpan.Models.GuestRoomManagementModel;
 using Kaushal_Darpan.Models.ITI_Inspection;
 using Kaushal_Darpan.Models.PlacementSelectedStudentMaster;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
@@ -591,6 +592,78 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 return result;
             });
+        }
+
+
+        [HttpPost("GetCommitteeDDL")]
+        public async Task<ApiResult<DataTable>> GetCommitteeDDL([FromBody] THTE_DDL body)
+        {
+            ActionName = "GetCommitteeDDL([FromBody] THTE_DDL body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.TeacherHigherEducationApplicationRepository.GetCommitteeDDL(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpPost("Bter_CommitteeStaffCheckSSOID")]
+        public async Task<ApiResult<DataTable>> Bter_CommitteeStaffCheckSSOID([FromBody] CommitteeStaffSSOIDSearchModel body)
+        {
+            ActionName = "Bter_CommitteeStaffCheckSSOID()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.TeacherHigherEducationApplicationRepository.Bter_CommitteeStaffCheckSSOID(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
     }

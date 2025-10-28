@@ -1,5 +1,6 @@
 ﻿using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.CenterObserver;
+using Kaushal_Darpan.Models.GuestRoomManagementModel;
 using Kaushal_Darpan.Models.ITI_Inspection;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
@@ -36,5 +37,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetCommitteeAllData(CommitteeSearchModel body);
 
         Task<CommitteeDataModel> GetCommitteeById_Team(int ID);
+
+        Task<DataTable> GetCommitteeDDL(THTE_DDL body);
+
+        Task<DataTable> Bter_CommitteeStaffCheckSSOID(CommitteeStaffSSOIDSearchModel body);
     }
 }

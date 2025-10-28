@@ -424,6 +424,7 @@ namespace Kaushal_Darpan.Api.Controllers
             sb.AppendLine("<th>Joining Date</th>");
             sb.AppendLine("<th>Applied Course Name</th>");
             sb.AppendLine("<th>Applied Institute</th>");
+            sb.AppendLine("<th>Committee Name</th>");
             sb.AppendLine("<th>Status Name</th>");
             sb.AppendLine("<th>Remark</th>");
             sb.AppendLine("<th>Created Date</th>");
@@ -452,6 +453,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 string appliedInstitute = SafeHtmlEncode(row, "AppliedInstitute");
                 string statusName = SafeHtmlEncode(row, "StatusName");
                 string remark = SafeHtmlEncode(row, "Remark");
+                string CommitteeName = SafeHtmlEncode(row, "CommitteeName");
 
                 string createdDateStr = "";
                 if (dt.Columns.Contains("CreatedDate") && row["CreatedDate"] != DBNull.Value)
@@ -469,6 +471,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 sb.AppendLine($"<td>{JoiningDate}</td>");
                 sb.AppendLine($"<td>{appliedCourseName}</td>");
                 sb.AppendLine($"<td>{appliedInstitute}</td>");
+                sb.AppendLine($"<td>{CommitteeName}</td>");
                 sb.AppendLine($"<td>{statusName}</td>");
                 sb.AppendLine($"<td>{remark}</td>");
                 sb.AppendLine($"<td>{createdDateStr}</td>");
