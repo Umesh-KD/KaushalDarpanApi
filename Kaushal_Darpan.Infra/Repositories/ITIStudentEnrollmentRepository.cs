@@ -827,6 +827,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserID", model.UserID);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@AcedmicYearID", model.AcedmicYearID);
+                        
+                        
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -929,7 +931,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-      public async Task<bool> SaveUploadTraineeLogs (UploadTrainee_LogsModel request)
+      public async Task<bool> SaveUploadTraineeLogs(UploadTrainee_LogsModel request)
         {
             _actionName = "SaveUploadTraineeLogs (UploadTrainee_LogsModel request)";
             return await Task.Run(async () =>
@@ -942,7 +944,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_StudData_CorrectionMaster";
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@RequestID", request.RequestID);
-                        command.Parameters.AddWithValue("@LogID", request.LogID);
                         command.Parameters.AddWithValue("@Response", request.Response);
                         command.Parameters.AddWithValue("@LogID", request.log_id);
                         command.Parameters.AddWithValue("@action", "_SaveUploadTraineeLogs");
