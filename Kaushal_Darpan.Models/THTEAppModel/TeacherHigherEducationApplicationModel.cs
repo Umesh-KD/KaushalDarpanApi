@@ -67,6 +67,7 @@ namespace Kaushal_Darpan.Models.Test
     public class UpdateApplicationStatusDataModel_Committee
     {
         public int? status { get; set; }
+        public int? CommitteeID { get; set; }
         public string? Remark { get; set; }
         public int? RoleID { get; set; }
         public int? ModifyBy { get; set; }
@@ -183,5 +184,13 @@ namespace Kaushal_Darpan.Models.Test
         public int? UserID { get; set; }
         public int? LevelId { get; set; }
         public int? DistrictID { get; set; }
+    }
+
+    public class CommitteeStaffSSOIDSearchModel
+    {
+        public int DepartmentID { get; set; }
+        public string? SSOID { get; set; }
+        public int RoleID { get; set; }
+        public int InstituteID { get; set; }
     }
 }
