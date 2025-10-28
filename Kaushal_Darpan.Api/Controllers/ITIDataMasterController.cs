@@ -269,7 +269,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
                         else
                         {
-                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                            //result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                            result.ErrorMessage = "Email or MobileNo. alredy exists";
                         }
                     }
                 }
