@@ -317,7 +317,55 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<int> SaveBudgetUtilization_Admin(CollegeBudgetAllotedModel request)
+        {
+            _actionName = "SaveBudgetUtilization_Admin(CollegeBudgetAllotedModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
 
+
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_ITI_BGT_CollegeBudgetAlloted";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request.CollegeBudgetUtilizationModel));
+                        command.Parameters.AddWithValue("@DistributedID", request.DistributedID);
+                        command.Parameters.AddWithValue("@ActionType", request.ActionType);
+                        command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
+                        command.Parameters.AddWithValue("@FinYearID", request.FinYearID);
+                        command.Parameters.AddWithValue("@DistributedType", request.DistributedType);
+                        command.Parameters.AddWithValue("@DistributedAmount", request.DistributedAmount);
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+                        command.Parameters.AddWithValue("@Remarks", request.Remarks);
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+
+                    return result;
+
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
     }
 }

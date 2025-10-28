@@ -212,7 +212,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<List<CommonDDLModel>> GetParliamentMaster()
+        public async Task<List<CommonDDLModel>> GetParliamentMaster(int DistrictID)
         {
             _actionName = "GetParliamentMaster()";
             return await Task.Run(async () =>
@@ -224,6 +224,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_DDL_ParliamentMaster";
+                        command.Parameters.AddWithValue("@DistrictID", DistrictID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

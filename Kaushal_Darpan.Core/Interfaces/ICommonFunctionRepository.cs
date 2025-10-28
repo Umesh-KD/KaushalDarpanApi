@@ -32,7 +32,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<CommonDDLModel>> GetDesignationMaster();
         Task<List<CommonDDLModel>> PWDCategory();
         Task<List<CommonDDLModel>> GetDistrictMaster();
-        Task<List<CommonDDLModel>> GetParliamentMaster();
+        Task<List<CommonDDLModel>> GetParliamentMaster(int DistrictID);
         Task<List<CommonDDLModel>> GetNodalCenter(int InstituteID);
         Task<List<CommonDDLModel>> GetNodalExamCenterDistrict(int District, int EndTermID);
         Task<List<CommonDDLModel>> NodalInstituteList(int InstituteID);
