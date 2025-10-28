@@ -337,63 +337,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
         #endregion
 
-        //[HttpPost("UploadStatusCheckNew")]
-        //public async Task<ApiResult<RootUploadStatusCheckDataModel>> UploadStatusCheckNew([FromBody] NCVTUploadStatusCheckDataModel request)
-        //{
-        //    var result = new ApiResult<RootUploadStatusCheckDataModel>();
-        //    try
-        //    {
-        //        var apidetails = await _unitOfWork.ITIDataMasterRepository.GetNcvt_APIDetails();
-        //        NCVT_APIDetailsModel resultList = CommonFuncationHelper.ConvertDataTable<NCVT_APIDetailsModel>(apidetails);
-        //        if (resultList == null)
-        //        {
-        //            result.State = EnumStatus.Error;
-        //            result.ErrorMessage = "Service details not found.";
-        //            return result;
-        //        }
-        //        var allRecords = new List<ResultModel>();
-        //        if (resultList != null)
-        //        {
-
-        //            var token = await ThirdPartyServiceHelper.GetAccessTokenAsync(resultList);
-        //            if (token != null && token.status == "success" && token.data != null)
-        //            {
-        //                resultList.log_Id = request.Log_id;
-        //                resultList.TokenNo = token.data;
-        //                var respose = await ThirdPartyServiceHelper.CheckUploadStatusNew(resultList);
-        //                result.Data = respose;
-
-        //                var logsModel = await I_ITIStudentEnrollmentRepository.updateOnResponseData(respose);
-
-        //            }
-        //            else
-        //            {
-        //                result.State = EnumStatus.Error;
-        //                result.ErrorMessage = "something went wrong when generate token";
-        //                result.Message = token.message;
-        //            }
-
-        //        }
-        //        result.State = EnumStatus.Success;
-        //        result.Message = "Upload status fetched successfully.";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        await _unitOfWork.DisposeAsync();
-        //        result.State = EnumStatus.Error;
-        //        result.ErrorMessage = ex.Message;
-        //        var nex = new NewException
-        //        {
-        //            PageName = PageName,
-        //            ActionName = ActionName,
-        //            Ex = ex,
-        //        };
-        //        await CreateErrorLog(nex, _unitOfWork);
-        //    }
-        //    return result;
-
-        //}
-
+       
         [HttpPost("UploadStatusCheckNew")]
         public async Task<ApiResult<RootUploadStatusCheckDataModel>> UploadStatusCheckNew([FromBody] List<NCVTUploadStatusCheckDataModel> request)
         {
@@ -403,7 +347,6 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 if (request.Count > 0)
                 {
-                    
                     var apidetails = await _unitOfWork.ITIDataMasterRepository.GetNcvt_APIDetails();
                     NCVT_APIDetailsModel resultList = CommonFuncationHelper.ConvertDataTable<NCVT_APIDetailsModel>(apidetails);
 
@@ -416,8 +359,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     foreach (var items in request)
                     {
-
-                        
                         var token = await ThirdPartyServiceHelper.GetAccessTokenAsync(resultList);
                         if (token == null || token.status != "success" || token.data == null)
                         {
@@ -426,14 +367,10 @@ namespace Kaushal_Darpan.Api.Controllers
                             result.Message = token?.message ?? "No token response.";
                             return result;
                         }
-
-                       
                         resultList.log_Id = items.Log_id;
                         resultList.TokenNo = token.data;
                         var response = await ThirdPartyServiceHelper.CheckUploadStatusNew(resultList);
-
                         result.Data = response;
-
                         
                         var responseDataList = new List<ResponseData>();
                         if (result?.Data?.results != null)
@@ -454,7 +391,6 @@ namespace Kaushal_Darpan.Api.Controllers
                                 });
                             }
                         }
-
                       
                         if (responseDataList.Count > 0)
                         {
@@ -469,8 +405,6 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             result.Message = "No records found in API response.";
                         }
-
-
                         result.State = EnumStatus.Success;
                     }
                 }
@@ -498,80 +432,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
             return result;
         }
-
-
-        [HttpPost("UploadStatusCheck")]
-        public async Task<ApiResult<RootUploadStatusCheckDataModel>> UploadStatusCheck([FromBody] NCVTUploadStatusCheckDataModel request)
-        {
-            TraineeUploadResponse objResponse = new TraineeUploadResponse();
-            ActionName = "public async Task<ApiResult<bool>> UploadStatusCheck([FromBody] NCVTUploadStatusCheckDataModel";
-            return await Task.Run(async () =>
-            {
-                var result = new ApiResult<RootUploadStatusCheckDataModel>();
-                try
-                {
-
-                    var apidetails = await _unitOfWork.ITIDataMasterRepository.GetNcvt_APIDetails();
-
-                    NCVT_APIDetailsModel resultList = CommonFuncationHelper.ConvertDataTable<NCVT_APIDetailsModel>(apidetails);
-                    if (resultList == null)
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = "Service details not found.";
-                        return result;
-                    }
-                    var allRecords = new List<ResultModel>();
-                    if (resultList != null)
-                    {
-
-                        var token = await ThirdPartyServiceHelper.GetAccessTokenAsync(resultList);
-                        if (token != null && token.status == "success" && token.data != null)
-                        {
-                            resultList.log_Id = request.Log_id;
-                            var respose = await ThirdPartyServiceHelper.CheckUploadStatus(resultList);
-                            //log check
-
-                        
-
-                        
-                        }
-                        else
-                        {
-                            result.State = EnumStatus.Error;
-                            result.ErrorMessage = "something went wrong when generate token";
-                            result.Message = token.message;
-                        }
-
-                    }
-                    result.State = EnumStatus.Success;
-                    result.Message = "Upload status fetched successfully.";
-                    result.Data = new RootUploadStatusCheckDataModel
-                    {
-                        
-                        results = allRecords
-                    };
-                }
-                catch (Exception ex)
-                {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                }
-                return result;
-
-            });
-        }
-
-
-
 
 
 
