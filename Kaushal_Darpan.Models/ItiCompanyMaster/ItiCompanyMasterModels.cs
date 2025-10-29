@@ -44,8 +44,25 @@
     public class ItiReportDataModel
     {
         public int Eid { get; set; }
-        public int CollegeID { get; set; }
+        public int AnnoucementType { get; set; }
+        public int DivisionID { get; set; }
+        public int DistrictID { get; set; }
+        public int SubDivisionID { get; set; }
+        public int TehsilID { get; set; }
         public int PanchayatId { get; set; }
+        public int CollegeID { get; set; }
+        public int UrbanRural { get; set; }
+        public int GramPanchayatSamiti { get; set; }
+        public int VillageID { get; set; }
+        public int CityID { get; set; }
+        public int AdministrativeBodyId { get; set; }
+        public int Category { get; set; }
+   
+    
+
+        public string? PrincipleName { get; set; }
+        public string? PrincipleMobile { get; set; }
+        public string? PrincipleEmailID { get; set; }
         public string? CollegeName { get; set; }
         public string? LandTypeID { get; set; }
         public string? Loksabha { get; set; }
@@ -104,11 +121,17 @@
         public string? DomeViewCopy { get; set; }
         public string? ShilanyasPost { get; set; }
         public string? ShilanyasName { get; set; }
+        public string? CompleteDate { get; set; }
+        public string? StartDate { get; set; }
+        public string? Pincode { get; set; }
+        public string? LandAddress { get; set; }
         public int IsNewCollege { get; set; }
         public int ModifyBy { get; set; }
         public int Esttablishment_Year { get; set; }
         public List<FinancialSanctionList>? FinancialSanctionList { get; set; }
         public List<BasicDetailsList>? BasicDetailsList { get; set; }
+        public List<OrderDetailsList>? OrderDetailsList { get; set; }
+        public List<UpdateWorkList>? UpdateWorkList { get; set; }
         public int RoleID { get; set; }
     }
 
@@ -149,5 +172,26 @@
         public string? ContractLoad { get; set; }
     }
 
+    public  class OrderDetailsList
+    {
+        
+        public string? OrderCopy { get; set; }
+        public string? OrderDate { get; set; }
+        public string? OrderNo { get; set; }
+        public int OrderType { get; set; }
+    }
 
+    public class UpdateWorkList
+    {
+        public string? WorkName { get; set; }
+        public string? WorkTradeCopy { get; set; }
+        public string? WorkFSCopy { get; set; }
+        public string? WorkConstructor { get; set; }
+        public string? WorkCopy { get; set; }
+        public string? UpdateWorkStarted { get; set; }
+        public string? UpdateExpectedDate { get; set; }
+        public string? WorkSanctionCopy { get; set; }
+        public string? UpdatePercentWork { get; set; }
+        public string? UpdateRemarks { get; set; }
+    }
 }

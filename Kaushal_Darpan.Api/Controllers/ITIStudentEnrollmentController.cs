@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Kaushal_Darpan.Api.Controllers
@@ -192,6 +193,44 @@ namespace Kaushal_Darpan.Api.Controllers
         //        return result;
         //    });
         //}
+
+        [HttpPost("GetNcvt_APIDetails")]
+        public async Task<ApiResult<List<ITITraineeUploadModel>>> GetNcvt_APIDetails([FromBody] NCVTChunkInfoDataModel model)
+        {
+            ActionName = "GetNcvt_APIDetails()";
+            var result = new ApiResult<List<ITITraineeUploadModel>>();
+            try
+            {
+                result.Data = await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData(model);
+                result.State = EnumStatus.Success;
+                if (result.Data.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
 
         [HttpPost("SaveAdmittedFinalStudentData")]
         public async Task<ApiResult<bool>> SaveAdmittedFinalStudentData([FromBody] List<StudentMarkedModelForJoined> request)
