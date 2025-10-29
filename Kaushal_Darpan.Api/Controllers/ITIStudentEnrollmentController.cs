@@ -856,13 +856,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                                 try
                                 {
-                                    var nex = new NewException
-                                    {
-                                        PageName = Convert.ToString( response),
-                                        ActionName = "Logs",
-
-                                    };
-                                    await CreateErrorLog(nex, _unitOfWork);
+                                    
                                 }
                                 catch (Exception ex)
                                 {
