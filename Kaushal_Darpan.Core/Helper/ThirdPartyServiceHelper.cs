@@ -447,7 +447,8 @@ namespace Kaushal_Darpan.Core.Helper
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[GetAccessTokenAsync] Error: {ex.Message}");
+                CommonFuncationHelper.WriteTextLog($"[GetAccessTokenAsync] Error: {ex.Message}");
+
                 return null;
             }
         }
@@ -486,7 +487,7 @@ namespace Kaushal_Darpan.Core.Helper
                 catch (Exception ex)
                 {
 
-                    Console.WriteLine($"[UploadTraineeData] Error: {ex.Message}");
+                    CommonFuncationHelper.WriteTextLog($"[UploadTraineeData] Error: {ex.Message}");
 
                     apiresult.State = EnumStatus.Error;
                     apiresult.Message = "Error";
@@ -536,7 +537,7 @@ namespace Kaushal_Darpan.Core.Helper
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[CheckUploadStatus] Error: {ex.Message}");
+                CommonFuncationHelper.WriteTextLog($"[CheckUploadStatus] Error: {ex.Message}");
 
                 return null;
             }
@@ -574,7 +575,7 @@ namespace Kaushal_Darpan.Core.Helper
                     }
                     var jsonObject = JObject.Parse(responseString);
                     var dataJson = jsonObject["Data"]?.ToString();
-
+                   
                     if (!string.IsNullOrEmpty(dataJson))
                     {
                         var result = JsonConvert.DeserializeObject<RootUploadStatusCheckDataModel>(dataJson);
@@ -587,7 +588,7 @@ namespace Kaushal_Darpan.Core.Helper
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[CheckUploadStatusNew] Error: {ex.Message}");
+                CommonFuncationHelper.WriteTextLog($"[CheckUploadStatusNew] Error: {ex.Message}");
                 return null;
             }
         }

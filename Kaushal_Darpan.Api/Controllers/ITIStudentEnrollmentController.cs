@@ -887,7 +887,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             //get token 
                             var token = await ThirdPartyServiceHelper.GetAccessTokenAsync(resultList);
 
-                            Console.WriteLine($"[tokendATA] token: {token}");
+                            CommonFuncationHelper.WriteTextLog($"[tokendATA] token: {token}");
                             if (token != null && token.status =="success" && token.data != null)
                             {
                                 var dataresult = await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData(record);
@@ -895,7 +895,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                 //get data from database 
                                 var response = await ThirdPartyServiceHelper.UploadTraineeData(dataresult, "", token.data, resultList?.DataPushApiUrl);
 
-                                Console.WriteLine($"[responseaPI] Error: {response}");
+                                CommonFuncationHelper.WriteTextLog($"[responseaPI] Error: {response}");
                                 try
                                 {
                                     
