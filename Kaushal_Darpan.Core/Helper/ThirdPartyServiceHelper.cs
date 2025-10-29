@@ -537,7 +537,7 @@ namespace Kaushal_Darpan.Core.Helper
             {
                 //var url = "https://iti-api.skillindiadigital.gov.in/v1/state/api-upload-status";
                 var url = model.DataUpdloadcheckApiUrl;
-
+                var session = model.Session;
                 var requestBody = new
                 {
                     log_id = model.log_Id,   
@@ -551,7 +551,7 @@ namespace Kaushal_Darpan.Core.Helper
                 {
                     httpClient.DefaultRequestHeaders.Authorization =
                         new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", model.TokenNo);
-                    //httpClient.DefaultRequestHeaders.Add("X-ADMISSION-SESSION", "2025");
+                    httpClient.DefaultRequestHeaders.Add("X-ADMISSION-SESSION", session);
 
                     var response = await httpClient.PostAsync(url, content);
                     var responseString = await response.Content.ReadAsStringAsync();
