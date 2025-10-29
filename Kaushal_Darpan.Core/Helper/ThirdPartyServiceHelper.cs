@@ -447,6 +447,7 @@ namespace Kaushal_Darpan.Core.Helper
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"[GetAccessTokenAsync] Error: {ex.Message}");
                 return null;
             }
         }
@@ -484,6 +485,8 @@ namespace Kaushal_Darpan.Core.Helper
                 }
                 catch (Exception ex)
                 {
+
+                    Console.WriteLine($"[UploadTraineeData] Error: {ex.Message}");
 
                     apiresult.State = EnumStatus.Error;
                     apiresult.Message = "Error";
@@ -533,6 +536,8 @@ namespace Kaushal_Darpan.Core.Helper
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"[CheckUploadStatus] Error: {ex.Message}");
+
                 return null;
             }
         }
