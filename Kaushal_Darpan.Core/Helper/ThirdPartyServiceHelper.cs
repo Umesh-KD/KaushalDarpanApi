@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Asn1.Cmp;
 using Org.BouncyCastle.Asn1.Crmf;
 using Org.BouncyCastle.Asn1.Ocsp;
-using RestSharp;
+
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
