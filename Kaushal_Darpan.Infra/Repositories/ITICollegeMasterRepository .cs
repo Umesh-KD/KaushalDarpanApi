@@ -509,7 +509,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteSubDivisionID", request.InstituteSubDivisionID);
                         command.Parameters.AddWithValue("@PropDistrictID", request.PropDistrictID);
                         command.Parameters.AddWithValue("@PropTehsilID", request.PropTehsilID);
-                        command.Parameters.AddWithValue("@PropUrbanRural", request.PropUrbanRural);
+                        command.Parameters.AddWithValue("@Prop  ", request.PropUrbanRural);
                         command.Parameters.AddWithValue("@AdministrativeBodyId", request.AdministrativeBodyId);
                             command.Parameters.AddWithValue("@VillageID", request.VillageID);
                                 command.Parameters.AddWithValue("@GramPanchayatSamiti", request.GramPanchayatSamiti);
@@ -626,6 +626,25 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
 
                         command.Parameters.AddWithValue("@ID", request.Eid);
+                        command.Parameters.AddWithValue("@AnnoucementType", request.AnnoucementType);
+                        command.Parameters.AddWithValue("@DivisionID", request.DivisionID);
+                        command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+                        command.Parameters.AddWithValue("@SubDivisionID", request.SubDivisionID);
+                        command.Parameters.AddWithValue("@TehsilID", request.TehsilID);
+                        command.Parameters.AddWithValue("@UrbanRural", request.UrbanRural);
+                        command.Parameters.AddWithValue("@GramPanchayatSamiti", request.GramPanchayatSamiti);
+                        command.Parameters.AddWithValue("@VillageID", request.VillageID);
+                        command.Parameters.AddWithValue("@CityID", request.CityID);
+                        command.Parameters.AddWithValue("@AdministrativeBodyId", request.AdministrativeBodyId);
+                        command.Parameters.AddWithValue("@PrincipleName", request.PrincipleName);
+                        command.Parameters.AddWithValue("@PrincipleMobile", request.PrincipleMobile);
+                        command.Parameters.AddWithValue("@PrincipleEmailID", request.PrincipleEmailID);
+                        command.Parameters.AddWithValue("@Category", request.Category);
+                        command.Parameters.AddWithValue("@LandAddress", request.LandAddress);
+                        command.Parameters.AddWithValue("@Pincode", request.Pincode);
+                        command.Parameters.AddWithValue("@StartDate", request.StartDate);
+                        command.Parameters.AddWithValue("@CompleteDate", request.CompleteDate);
+                    
                         command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
                         command.Parameters.AddWithValue("@CollegeName", request.CollegeName);
                         command.Parameters.AddWithValue("@Loksabha", request.Loksabha);
@@ -690,6 +709,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", request.RoleID);
                         command.Parameters.AddWithValue("@rowjson", JsonConvert.SerializeObject(request.FinancialSanctionList));
                         command.Parameters.AddWithValue("@rowjson2", JsonConvert.SerializeObject(request.BasicDetailsList));
+                        command.Parameters.AddWithValue("@rowjson3", JsonConvert.SerializeObject(request.OrderDetailsList));
+                        command.Parameters.AddWithValue("@rowjsonWork", JsonConvert.SerializeObject(request.UpdateWorkList));
                         command.Parameters.AddWithValue("@IsNewCollege", request.IsNewCollege);
                         command.Parameters.AddWithValue("@LandTypeID", request.LandTypeID);
                         command.Parameters.AddWithValue("@PanchayatId", request.PanchayatId);
@@ -745,23 +766,40 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             data = CommonFuncationHelper.ConvertDataTable<ItiReportDataModel>(dataSet.Tables[0]);
 
-                           
+
                         }
+
+
+                        //if (dataSet.Tables[1].Rows.Count > 0)
+                        //{
+                        //    data.FinancialSanctionList = CommonFuncationHelper.ConvertDataTable<List<FinancialSanctionList>>(dataSet.Tables[1]);
+
+
+                        //}
+
+                        //if (dataSet.Tables[2].Rows.Count > 0)
+                        //{
+                        //    data.BasicDetailsList = CommonFuncationHelper.ConvertDataTable<List<BasicDetailsList>>(dataSet.Tables[2]);
+
+
+                        //}
+
 
 
                         if (dataSet.Tables[1].Rows.Count > 0)
                         {
-                            data.FinancialSanctionList = CommonFuncationHelper.ConvertDataTable<List<FinancialSanctionList>>(dataSet.Tables[1]);
+                            data.OrderDetailsList = CommonFuncationHelper.ConvertDataTable<List<OrderDetailsList>>(dataSet.Tables[1]);
 
 
                         }
 
                         if (dataSet.Tables[2].Rows.Count > 0)
                         {
-                            data.BasicDetailsList = CommonFuncationHelper.ConvertDataTable<List<BasicDetailsList>>(dataSet.Tables[2]);
+                            data.UpdateWorkList = CommonFuncationHelper.ConvertDataTable<List<UpdateWorkList>>(dataSet.Tables[2]);
 
 
                         }
+
 
                     }
                     return data;
