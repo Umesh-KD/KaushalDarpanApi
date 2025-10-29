@@ -247,31 +247,6 @@
                       <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
-                  <TextRun>
-                    <Value xml:space="preserve">
-</Value>
-                    <Style />
-                  </TextRun>
-                  <TextRun>
-                    <Value xml:space="preserve"> </Value>
-                    <Style>
-                      <FontStyle>Normal</FontStyle>
-                      <FontSize>12pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                      <Color>#000000</Color>
-                    </Style>
-                  </TextRun>
-                  <TextRun>
-                    <Value>=First(Fields!CourseType.Value, "StudentEnrolledmentForm")</Value>
-                    <Style>
-                      <FontStyle>Normal</FontStyle>
-                      <FontSize>12pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                      <Color>#000000</Color>
-                    </Style>
-                  </TextRun>
                 </TextRuns>
                 <Style>
                   <TextAlign>Center</TextAlign>
@@ -280,30 +255,16 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>    Session </Value>
+                    <Label>hEADING</Label>
+                    <Value>=First(Fields!CourseType.Value, "StudentEnrolledmentForm")</Value>
                     <Style>
-                      <FontStyle>Normal</FontStyle>
-                      <FontSize>12pt</FontSize>
+                      <FontSize>14pt</FontSize>
                       <FontWeight>Bold</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                      <Color>#000000</Color>
-                    </Style>
-                  </TextRun>
-                  <TextRun>
-                    <Value xml:space="preserve"> </Value>
-                    <Style>
-                      <FontStyle>Normal</FontStyle>
-                      <FontFamily>Times New Roman</FontFamily>
-                      <FontSize>12pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                      <Color>#000000</Color>
                     </Style>
                   </TextRun>
                 </TextRuns>
-                <ListLevel>5</ListLevel>
                 <Style>
-                  <TextAlign>Left</TextAlign>
+                  <TextAlign>Center</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
@@ -497,7 +458,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>All Above Information Filled By Student Are Checked With Original Documents Are Found Are Correct.</Value>
+                    <Value>All the above information filled by the student has been checked with the original documents and found to be correct.</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontWeight>Normal</FontWeight>
@@ -515,7 +476,7 @@
             <Top>24.48395cm</Top>
             <Left>0.25789cm</Left>
             <Height>1.14653cm</Height>
-            <Width>17.12263cm</Width>
+            <Width>18.38001cm</Width>
             <ZIndex>5</ZIndex>
             <Style>
               <Border>
@@ -2452,9 +2413,8 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Application No. :</Value>
+                    <Value>Application No. </Value>
                     <Style>
-                      <FontSize>8pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
@@ -2503,18 +2463,20 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
+                    <Value xml:space="preserve"> </Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
                     <Value>=First(Fields!ApplicationNo.Value, "StudentEnrolledmentForm")</Value>
-                    <Style>
-                      <FontSize>8pt</FontSize>
-                    </Style>
+                    <Style />
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox53</rd:DefaultName>
-            <Top>2.51264cm</Top>
-            <Left>10.58537cm</Left>
+            <Top>2.51265cm</Top>
+            <Left>10.77848cm</Left>
             <Height>0.49416cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>60</ZIndex>
@@ -2556,39 +2518,6 @@
               </Border>
             </Style>
           </Line>
-          <Textbox Name="Textbox54">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=First(Fields!SessionName.Value, "StudentEnrolledmentForm")</Value>
-                    <Style>
-                      <FontSize>12pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox53</rd:DefaultName>
-            <Top>1.98798cm</Top>
-            <Left>9.90634cm</Left>
-            <Height>0.65291cm</Height>
-            <Width>2.5cm</Width>
-            <ZIndex>63</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
           <Tablix Name="Tablix1">
             <TablixBody>
               <TablixColumns>
@@ -2602,16 +2531,16 @@
                   <Width>1.95309cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.9732cm</Width>
+                  <Width>2.18811cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.83039cm</Width>
+                  <Width>2.2716cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.11633cm</Width>
+                  <Width>3.96999cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.48571cm</Width>
+                  <Width>3.99044cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -2831,7 +2760,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Authorized Signature</Value>
+                                  <Value>Authorized Signatory</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -3114,8 +3043,8 @@
             <Top>21.42278cm</Top>
             <Left>0.25789cm</Left>
             <Height>1.94084cm</Height>
-            <Width>18.46651cm</Width>
-            <ZIndex>64</ZIndex>
+            <Width>18.48102cm</Width>
+            <ZIndex>63</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
