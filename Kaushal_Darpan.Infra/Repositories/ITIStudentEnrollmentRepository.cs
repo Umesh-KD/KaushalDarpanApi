@@ -779,6 +779,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@MaxAID", model.MaxAID);
                         command.Parameters.AddWithValue("@MinAID", model.MinAID);
+                        command.Parameters.AddWithValue("@AIDS", model.AIDS);
                         command.Parameters.AddWithValue("@Log_id", model.Log_id);
 
                         command.Parameters.Add("@Retval", SqlDbType.Int);// out

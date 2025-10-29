@@ -822,18 +822,6 @@ namespace Kaushal_Darpan.Api.Controllers
         //        return result;
         //    });
         //}
-
-
-
-
-
-
-
-
-
-
-
-
         #endregion
 
 
@@ -866,7 +854,32 @@ namespace Kaushal_Darpan.Api.Controllers
                                 //get data from database 
                                 var response = await ThirdPartyServiceHelper.UploadTraineeData(dataresult, "", token.data, resultList?.DataPushApiUrl);
 
-                               
+                                try
+                                {
+                                    var nex = new NewException
+                                    {
+                                        PageName = Convert.ToString( response),
+                                        ActionName = "Logs",
+
+                                    };
+                                    await CreateErrorLog(nex, _unitOfWork);
+                                }
+                                catch (Exception ex)
+                                {
+                                    var nex = new NewException
+                                    {
+                                        PageName = PageName,
+                                        ActionName = "Response",
+                                        Ex = ex,
+                                    };
+                                    await CreateErrorLog(nex, _unitOfWork);
+
+                                }
+
+                                
+                              
+
+
                                 if (response.State == EnumStatus.Success)
                                 {
                                     var apirespose = JsonConvert.DeserializeObject<RootDataModel>(response.Data);
@@ -886,7 +899,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                             var nex = new NewException
                                             {
                                                 PageName = PageName,
-                                                ActionName = ActionName,
+                                                ActionName = "Logs",
                                                 Ex = ex,
                                             };
                                             await CreateErrorLog(nex, _unitOfWork);
@@ -906,7 +919,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                             var nex = new NewException
                                             {
                                                 PageName = PageName,
-                                                ActionName = ActionName,
+                                                ActionName = "updateLogIdOnData",
                                                 Ex = ex,
                                             };
                                             await CreateErrorLog(nex, _unitOfWork);
