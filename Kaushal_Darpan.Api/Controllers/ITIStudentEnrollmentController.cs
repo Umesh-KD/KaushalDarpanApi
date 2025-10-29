@@ -861,18 +861,6 @@ namespace Kaushal_Darpan.Api.Controllers
         //        return result;
         //    });
         //}
-
-
-
-
-
-
-
-
-
-
-
-
         #endregion
 
 
@@ -882,7 +870,7 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<RootDataModel>> UploadTraineeData([FromBody] List<NCVTChunkInfoDataModel> request)
         {
             TraineeUploadResponse objResponse = new TraineeUploadResponse();
-            ActionName = "public async Task<ApiResult<bool>> UploadTraineeData([FromBody] List<StudentMarkedModelForJoined> request)\r\n([FromBody] List<StudentMarkedModelForJoined> request)";
+            ActionName = "public async Task<ApiResult<bool>> UploadTraineeData([FromBody] List<NCVTChunkInfoDataModel> request)\r\n([FromBody] List<StudentMarkedModelForJoined> request)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<RootDataModel>();
@@ -905,14 +893,37 @@ namespace Kaushal_Darpan.Api.Controllers
                                 //get data from database 
                                 var response = await ThirdPartyServiceHelper.UploadTraineeData(dataresult, "", token.data, resultList?.DataPushApiUrl);
 
-                               
+                                try
+                                {
+                                    var nex = new NewException
+                                    {
+                                        PageName = Convert.ToString( response),
+                                        ActionName = "Logs",
+
+                                    };
+                                    await CreateErrorLog(nex, _unitOfWork);
+                                }
+                                catch (Exception ex)
+                                {
+                                    var nex = new NewException
+                                    {
+                                        PageName = PageName,
+                                        ActionName = "Response",
+                                        Ex = ex,
+                                    };
+                                    await CreateErrorLog(nex, _unitOfWork);
+
+                                }
+
+                                
+                              
+
+
                                 if (response.State == EnumStatus.Success)
                                 {
                                     var apirespose = JsonConvert.DeserializeObject<RootDataModel>(response.Data);
                                     if (apirespose.log_id != null)
                                     {
-
-
                                         #region "LOGS"
                                         try
                                         {
@@ -924,7 +935,13 @@ namespace Kaushal_Darpan.Api.Controllers
                                         }
                                         catch (Exception ex)
                                         {
-
+                                            var nex = new NewException
+                                            {
+                                                PageName = PageName,
+                                                ActionName = "Logs",
+                                                Ex = ex,
+                                            };
+                                            await CreateErrorLog(nex, _unitOfWork);
                                         }
                                         #endregion
                                         result.Data = apirespose;
@@ -938,6 +955,14 @@ namespace Kaushal_Darpan.Api.Controllers
                                         }
                                         catch (Exception ex)
                                         {
+                                            var nex = new NewException
+                                            {
+                                                PageName = PageName,
+                                                ActionName = "updateLogIdOnData",
+                                                Ex = ex,
+                                            };
+                                            await CreateErrorLog(nex, _unitOfWork);
+
                                         }
                                         //  if (isSave > 0)
                                         //  {

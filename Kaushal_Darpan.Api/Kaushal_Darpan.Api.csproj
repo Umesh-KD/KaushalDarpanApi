@@ -49,18 +49,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Report\DataSource\KD_DBScript.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>KD_DBScript.xsd</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Report\DataSource\KD_DBScript.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>KD_DBScript.Designer.cs</LastGenOutput>
-    </None>
     <None Update="wkhtmltox\libwkhtmltox.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -74,8 +62,29 @@
 </ItemGroup>
   
   <ItemGroup>
+    <Compile Remove="Report\DataSource\KD_DBScript - Copy.cs" />
+    <Compile Remove="Report\DataSource\KD_DBScript - Copy.Designer.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Remove="Report\DataSource\KD_DBScript - Copy.xsc" />
+    <None Remove="Report\DataSource\KD_DBScript - Copy.xss" />
+    <None Remove="Report\DataSource\KD_DBScript.xsd" />
     <None Remove="Report\Files\ITI\CounsellingAllotmentOrder.rdlc" />
     <None Remove="Report\ITI\CounsellingAllotmentOrder.html" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Update="Report\DataSource\KD_DBScript.Designer.cs">
+      <SubType>Code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>KD_DBScript.xsd</DependentUpon>
+    </Content>
+    <Content Update="Report\DataSource\KD_DBScript.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>KD_DBScript.Designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
 
 </Project>

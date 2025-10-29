@@ -18,6 +18,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         //Task<DataTable> GetCenterSuperitendentReportData(ITICollegeStudentMarksheetSearchModel model);
 
-        Task<DataTable> GetBGTHeadmasterData();
+        Task<DataTable> GetBGTHeadmasterData(ITI_BGT_HeadMasterSearchModel model);
+        Task<int> DeleteBudgetHeadById(int HeadId, int UserID);
     }
 }

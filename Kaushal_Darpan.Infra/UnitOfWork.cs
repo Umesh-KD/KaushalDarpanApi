@@ -1176,6 +1176,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return _iEquipmentsMasterRepository ??= new EquipmentsMasterRepository(_dbContext);
             }
         }
+        
 
         private I_ItemsMasterRepository _iItemsMasterRepository;
         public I_ItemsMasterRepository i_ItemsMasterRepository
@@ -1406,7 +1407,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return _iDTEEquipmentsMasterRepository ??= new DTEEquipmentsMasterRepository(_dbContext);
             }
         }
-
+        private IDTELaboratoryMasterRepository _iDTELaboratoryMasterRepository;
+        public IDTELaboratoryMasterRepository iDTELaboratoryMasterRepository
+        {
+            get
+            {
+                return _iDTELaboratoryMasterRepository ??= new DTELaboratoryMasterRepository(_dbContext);
+            }
+        }
         private IDTEIssuedItemsRepository _iDTEIssuedItemsRepository;
         public IDTEIssuedItemsRepository iDTEIssuedItemsRepository
         {

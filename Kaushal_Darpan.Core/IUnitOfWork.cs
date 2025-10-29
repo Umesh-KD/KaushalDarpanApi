@@ -183,7 +183,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         IDTETradeEquipmentsMappingRepository iDTETradeEquipmentsMappingRepository { get; }
         IDTEItemUnitMasterRepository iDTEItemUnitMasterRepository { get; }
         IDTEInventoryDashboardRepository iDTEInventoryDashboardRepository { get; }
-
+        IDTELaboratoryMasterRepository iDTELaboratoryMasterRepository { get; }
 
         ICollegeAdmissionSeatAllotmentRepository CollegeAdmissionSeatAllotmentRepository { get; }
         IIndustryInstitutePartnershipMasterRepository iIndustryInstitutePartnershipRepository { get; }

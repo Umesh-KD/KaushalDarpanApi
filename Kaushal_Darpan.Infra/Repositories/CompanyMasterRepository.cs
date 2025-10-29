@@ -400,9 +400,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetEligiblePlacementStudentMaster";
-                        //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
-                        
-                        
+
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         if (body.Name != null)
                         {
