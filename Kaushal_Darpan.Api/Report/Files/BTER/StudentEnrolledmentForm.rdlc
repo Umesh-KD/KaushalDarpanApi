@@ -241,7 +241,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>BOARD OF TECHNICAL EDUCATION, RAJASTHAN</Value>
+                    <Value>BOARD OF TECHNICAL EDUCATION RAJASTHAN, JODHPUR</Value>
                     <Style>
                       <FontSize>14pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -324,7 +324,7 @@
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value>I will abide by the rules and regulations prescribed by the BTER Jodhpur. I have not taken Admission in any other institute/ College. I will not appear in any examination conducted by any of the Board/University during the period of  Diploma Program. If any such Information is found to be incorrect, my enrolment with the board may be cancelled.</Value>
+                    <Value>I will abide by the rules and regulations prescribed by the BTER Jodhpur. I have not taken Admission in any other institute/ College. I will not appear in any examination conducted by any of the Board/University during the period of  Diploma Program. If any such Information is found to be incorrect, my enrollment with the board may be cancelled.</Value>
                     <Style>
                       <TextDecoration>None</TextDecoration>
                       <Color>#000000</Color>
@@ -390,7 +390,7 @@
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>18.64051cm</Top>
             <Left>0.25789cm</Left>
-            <Height>2.42669cm</Height>
+            <Height>2.2531cm</Height>
             <Width>18.65647cm</Width>
             <ZIndex>2</ZIndex>
             <Style>
@@ -424,8 +424,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>23.70756cm</Top>
-            <Left>14.32581cm</Left>
+            <Top>23.46944cm</Top>
+            <Left>14.22585cm</Left>
             <Height>0.6cm</Height>
             <Width>4.31209cm</Width>
             <ZIndex>3</ZIndex>
@@ -458,7 +458,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>All the above information filled by the student has been checked with the original documents and found to be correct.</Value>
+                    <Value>All the above informations filled by the student has been checked with the original documents and found correct.</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontWeight>Normal</FontWeight>
@@ -473,9 +473,9 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>24.48395cm</Top>
-            <Left>0.25789cm</Left>
-            <Height>1.14653cm</Height>
+            <Top>24.5545cm</Top>
+            <Left>0.22791cm</Left>
+            <Height>0.85549cm</Height>
             <Width>18.38001cm</Width>
             <ZIndex>5</ZIndex>
             <Style>
@@ -509,8 +509,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>26.1256cm</Top>
-            <Left>12.67981cm</Left>
+            <Top>26.46956cm</Top>
+            <Left>12.55861cm</Left>
             <Height>0.6cm</Height>
             <Width>5.97933cm</Width>
             <ZIndex>6</ZIndex>
@@ -545,8 +545,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>26.1256cm</Top>
-            <Left>0.25789cm</Left>
+            <Top>26.46956cm</Top>
+            <Left>0.28787cm</Left>
             <Height>0.6cm</Height>
             <Width>5.60922cm</Width>
             <ZIndex>7</ZIndex>
@@ -656,7 +656,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Stream Subject</Value>
+                                  <Value>Stream /Subject</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -958,8 +958,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>23.70756cm</Top>
-            <Left>0.25789cm</Left>
+            <Top>23.46944cm</Top>
+            <Left>0.22791cm</Left>
             <Height>0.6cm</Height>
             <Width>4.59883cm</Width>
             <ZIndex>9</ZIndex>
@@ -997,7 +997,7 @@
             <Top>3.25374cm</Top>
             <Left>4.71049cm</Left>
             <Height>0.6cm</Height>
-            <Width>9.0487cm</Width>
+            <Width>8.56799cm</Width>
             <ZIndex>10</ZIndex>
             <Style>
               <Border>
@@ -2041,7 +2041,7 @@
             <Top>11.74165cm</Top>
             <Left>4.71049cm</Left>
             <Height>0.6cm</Height>
-            <Width>9.0487cm</Width>
+            <Width>8.56799cm</Width>
             <ZIndex>41</ZIndex>
             <Style>
               <Border>
@@ -2194,9 +2194,9 @@
             </Style>
           </Line>
           <Line Name="Line4">
-            <Top>15.20778cm</Top>
+            <Top>16.05967cm</Top>
             <Left>18.70893cm</Left>
-            <Height>-11.31645cm</Height>
+            <Height>-12.16316cm</Height>
             <Width>0cm</Width>
             <ZIndex>47</ZIndex>
             <Style>
@@ -2206,9 +2206,9 @@
             </Style>
           </Line>
           <Line Name="Line5">
-            <Top>15.21388cm</Top>
-            <Left>14.34128cm</Left>
-            <Height>-11.34085cm</Height>
+            <Top>16.07332cm</Top>
+            <Left>13.79447cm</Left>
+            <Height>-12.20639cm</Height>
             <Width>0cm</Width>
             <ZIndex>48</ZIndex>
             <Style>
@@ -2219,9 +2219,9 @@
           </Line>
           <Line Name="Line47">
             <Top>3.85374cm</Top>
-            <Left>14.34128cm</Left>
+            <Left>13.79447cm</Left>
             <Height>0cm</Height>
-            <Width>4.36765cm</Width>
+            <Width>4.91446cm</Width>
             <ZIndex>49</ZIndex>
             <Style>
               <Border>
@@ -2231,9 +2231,9 @@
           </Line>
           <Line Name="Line49">
             <Top>5.67462cm</Top>
-            <Left>14.34128cm</Left>
+            <Left>13.79447cm</Left>
             <Height>0cm</Height>
-            <Width>4.38312cm</Width>
+            <Width>4.92993cm</Width>
             <ZIndex>50</ZIndex>
             <Style>
               <Border>
@@ -2242,10 +2242,10 @@
             </Style>
           </Line>
           <Line Name="Line50">
-            <Top>8.51258cm</Top>
-            <Left>14.32581cm</Left>
+            <Top>9.56576cm</Top>
+            <Left>13.82445cm</Left>
             <Height>0cm</Height>
-            <Width>4.38312cm</Width>
+            <Width>4.91446cm</Width>
             <ZIndex>51</ZIndex>
             <Style>
               <Border>
@@ -2254,10 +2254,10 @@
             </Style>
           </Line>
           <Line Name="Line51">
-            <Top>10.44439cm</Top>
-            <Left>14.34128cm</Left>
+            <Top>11.07109cm</Top>
+            <Left>13.779cm</Left>
             <Height>0cm</Height>
-            <Width>4.38312cm</Width>
+            <Width>4.92993cm</Width>
             <ZIndex>52</ZIndex>
             <Style>
               <Border>
@@ -2283,9 +2283,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>4.00067cm</Top>
-            <Left>14.41183cm</Left>
+            <Left>13.97086cm</Left>
             <Height>0.6cm</Height>
-            <Width>3.82235cm</Width>
+            <Width>4.42743cm</Width>
             <ZIndex>53</ZIndex>
             <Style>
               <Border>
@@ -2315,10 +2315,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>11.39212cm</Top>
-            <Left>14.61063cm</Left>
+            <Top>12.68858cm</Top>
+            <Left>14.22585cm</Left>
             <Height>0.6494cm</Height>
-            <Width>3.82235cm</Width>
+            <Width>4.10717cm</Width>
             <ZIndex>54</ZIndex>
             <Style>
               <Border>
@@ -2363,7 +2363,7 @@
             </Style>
           </Textbox>
           <Line Name="Line52">
-            <Top>24.30756cm</Top>
+            <Top>24.06944cm</Top>
             <Left>1.48427cm</Left>
             <Height>0cm</Height>
             <Width>3.08571cm</Width>
@@ -2392,9 +2392,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox64</rd:DefaultName>
             <Top>4.77706cm</Top>
-            <Left>14.61063cm</Left>
+            <Left>13.97086cm</Left>
             <Height>0.63528cm</Height>
-            <Width>3.78766cm</Width>
+            <Width>4.42743cm</Width>
             <ZIndex>57</ZIndex>
             <Style>
               <Border>
@@ -2446,9 +2446,9 @@
             <MIMEType>image/png</MIMEType>
             <Sizing>Fit</Sizing>
             <Top>5.7593cm</Top>
-            <Left>14.61063cm</Left>
-            <Height>2.42115cm</Height>
-            <Width>3.72239cm</Width>
+            <Left>13.97086cm</Left>
+            <Height>3.63007cm</Height>
+            <Width>4.36216cm</Width>
             <ZIndex>59</ZIndex>
             <Style>
               <Border>
@@ -2495,10 +2495,10 @@
             <Value>=First(Fields!StudentSignb.Value, "StudentEnrolledmentForm")</Value>
             <MIMEType>image/png</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>8.58628cm</Top>
-            <Left>15.57083cm</Left>
+            <Top>9.74215cm</Top>
+            <Left>14.22585cm</Left>
             <Height>1.15255cm</Height>
-            <Width>2.36848cm</Width>
+            <Width>3.6135cm</Width>
             <ZIndex>61</ZIndex>
             <Style>
               <Border>
@@ -2507,10 +2507,10 @@
             </Style>
           </Image>
           <Line Name="Line6">
-            <Top>15.21037cm</Top>
-            <Left>14.34128cm</Left>
+            <Top>15.67662cm</Top>
+            <Left>13.79447cm</Left>
             <Height>0cm</Height>
-            <Width>4.36765cm</Width>
+            <Width>4.91446cm</Width>
             <ZIndex>62</ZIndex>
             <Style>
               <Border>
@@ -3040,8 +3040,8 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>StudentEnrollmentFeeDetails</DataSetName>
-            <Top>21.42278cm</Top>
-            <Left>0.25789cm</Left>
+            <Top>20.89361cm</Top>
+            <Left>0.27081cm</Left>
             <Height>1.94084cm</Height>
             <Width>18.48102cm</Width>
             <ZIndex>63</ZIndex>
@@ -3052,7 +3052,7 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>10.63648in</Height>
+        <Height>10.75106in</Height>
         <Style>
           <Border>
             <Style>Solid</Style>

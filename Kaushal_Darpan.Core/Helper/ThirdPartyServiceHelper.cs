@@ -442,6 +442,9 @@ namespace Kaushal_Darpan.Core.Helper
                     };
                     var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(responseString);
 
+                    CommonFuncationHelper.WriteTextLog($"[GetAccessTokenAsync] Error: {tokenResponse}");
+
+
                     return tokenResponse;
                 }
             }
