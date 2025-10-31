@@ -24,6 +24,7 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public string? IPAddress { get; set; }
         public int UnitNo { get; set; }
         public int ShiftID { get; set; }
+        public int SeatIntakeId { get; set; }
         public int AllotmentId { get; set; }
         public int TradeId { get; set ; }
         public int CollegeId { get; set ; }
