@@ -92,6 +92,7 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
         public int ModifyBy { get; set; }
         public int? RoleID { get; set; }
         public int? DistrictID { get; set; }
+        public int? UserID { get; set; }
 
      
     }

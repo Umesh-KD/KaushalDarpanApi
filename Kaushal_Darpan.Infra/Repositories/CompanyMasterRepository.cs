@@ -411,6 +411,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         command.Parameters.AddWithValue("@AcademicYearID", body.AcademicYearID);
+                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
 
                         command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
                         command.Parameters.AddWithValue("@PageSize", body.PageSize);
