@@ -81,7 +81,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Set the stored procedure name and type
 
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITIGenerateEnrollmentNumber";
+                        command.CommandText = "USP_ITIGenerateEnrollmentNumberNew";
 
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@action", "_SaveEnrolledData");
