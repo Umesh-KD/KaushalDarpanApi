@@ -323,7 +323,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStaff_InstituteAcRoster(StaffMasterDDLDataModel body);
         Task<DataTable> GetHostelStatusDDL();
         Task<DataTable> THTE_StatusDDL(THTE_DropdownDataModel model);
-
+        Task<DataTable> DivisionData_ByDistrict(int DistrictID);
 
         Task<List<CommonDDLModel>> DDL_ITI_GovtEMDDLOfficeVacancy(int DepartmentID, int LevelID);
 
