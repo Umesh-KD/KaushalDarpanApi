@@ -414,6 +414,8 @@ namespace Kaushal_Darpan.Core.Helper
         {
             try
             {
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 var url = model.TokenApiURL;
                 // Prepare request body
                 var requestBody = new
@@ -440,17 +442,23 @@ namespace Kaushal_Darpan.Core.Helper
                     };
                     var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(responseString);
 
+                    CommonFuncationHelper.WriteTextLog($"[GetAccessTokenAsync] Error: {tokenResponse}");
+
+
                     return tokenResponse;
                 }
             }
             catch (Exception ex)
             {
+                CommonFuncationHelper.WriteTextLog($"[GetAccessTokenAsync] Error: {ex.Message}");
+
                 return null;
             }
         }
         public static async Task<ApiResult<string>> UploadTraineeData(List<ITITraineeUploadModel> data, string sessionId = "", string accessToken = "", string ApiURl = "")
         {
-
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             var apiresult = new ApiResult<string>();
             //  string apiUrl = "http://164.100.68.244:8082/MIS/api/traineeupload/UploadTrainees";
             string apiUrl = ApiURl;
@@ -482,6 +490,8 @@ namespace Kaushal_Darpan.Core.Helper
                 catch (Exception ex)
                 {
 
+                    CommonFuncationHelper.WriteTextLog($"[UploadTraineeData] Error: {ex.Message}");
+
                     apiresult.State = EnumStatus.Error;
                     apiresult.Message = "Error";
                     apiresult.Data = ex.ToString();
@@ -496,6 +506,8 @@ namespace Kaushal_Darpan.Core.Helper
         {
             try
             {
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12; ;
                 //var url = model.TokenApiURL;
                 var url = "https://iti-api.skillindiadigital.gov.in/v1/state/api-upload-status";
                 var requestBody = new
@@ -528,6 +540,8 @@ namespace Kaushal_Darpan.Core.Helper
             }
             catch (Exception ex)
             {
+                CommonFuncationHelper.WriteTextLog($"[CheckUploadStatus] Error: {ex.Message}");
+
                 return null;
             }
         }
@@ -535,6 +549,8 @@ namespace Kaushal_Darpan.Core.Helper
         {
             try
             {
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 //var url = "https://iti-api.skillindiadigital.gov.in/v1/state/api-upload-status";
                 var url = model.DataUpdloadcheckApiUrl;
                 var session = model.Session;
@@ -562,7 +578,7 @@ namespace Kaushal_Darpan.Core.Helper
                     }
                     var jsonObject = JObject.Parse(responseString);
                     var dataJson = jsonObject["Data"]?.ToString();
-
+                   
                     if (!string.IsNullOrEmpty(dataJson))
                     {
                         var result = JsonConvert.DeserializeObject<RootUploadStatusCheckDataModel>(dataJson);
@@ -575,7 +591,7 @@ namespace Kaushal_Darpan.Core.Helper
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[CheckUploadStatusNew] Error: {ex.Message}");
+                CommonFuncationHelper.WriteTextLog($"[CheckUploadStatusNew] Error: {ex.Message}");
                 return null;
             }
         }
