@@ -287,7 +287,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@FatherGuardianName", request.CandidateFatherName);
                         command.Parameters.AddWithValue("@MotherName", request.CandidateMotherName);
                         command.Parameters.AddWithValue("@MobileNumber", request.MobileNo);
-
+                        command.Parameters.AddWithValue("@DateOfBirth", request.DateOfBirth);
                         command.Parameters.AddWithValue("@EmailID", request.Email);
 
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
