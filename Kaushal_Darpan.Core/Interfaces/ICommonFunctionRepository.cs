@@ -327,5 +327,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<List<CommonDDLModel>> DDL_ITI_GovtEMDDLOfficeVacancy(int DepartmentID, int LevelID);
 
+        Task<List<CommonDDLModel>> GetDesignationDepartmentIDWise(int DepartmentID);
+
     }
 }

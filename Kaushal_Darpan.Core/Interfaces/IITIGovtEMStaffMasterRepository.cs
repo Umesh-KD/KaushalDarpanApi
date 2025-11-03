@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.CampusPostMaster;
+﻿using Kaushal_Darpan.Models.BTER_EstablishManagement;
+using Kaushal_Darpan.Models.CampusPostMaster;
 using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.RoleMaster;
 using Kaushal_Darpan.Models.StaffMaster;
@@ -110,5 +111,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
 
         Task<int> OfficeVacancyActiveDeActive(ITIOfficeVacancyModel model);
+
+        Task<int> ITI_EM_PostWithVacancyApproveStaffProfile(ITI_EM_ApproveStaffDataModel request);
     }
 }
