@@ -2,6 +2,8 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CompanyMaster;
+using Kaushal_Darpan.Models.HrMaster;
+using Newtonsoft.Json;
 using System.Data;
 
 namespace Kaushal_Darpan.Infra.Repositories
@@ -91,15 +93,22 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
 
-                        command.Parameters.AddWithValue("@HRName", request.HRName);
-                        command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
-                        command.Parameters.AddWithValue("@EmailId", request.EmailId);
+                        //command.Parameters.AddWithValue("@HRName", request.HRName);
+                        //command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
+                        //command.Parameters.AddWithValue("@EmailId", request.EmailId);
+
+                        command.Parameters.AddWithValue("@HrList", JsonConvert.SerializeObject(request.ListCompanyHRDetails));
 
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
                         result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
                     }
                     if (result > 0)
                         return true;
@@ -158,47 +167,84 @@ namespace Kaushal_Darpan.Infra.Repositories
         //}
 
 
-        public async Task<CompanyMasterResponsiveModel> GetById(int PK_ID)
+        //public async Task<CompanyMasterResponsiveModel> GetById(int PK_ID)
+        //{
+        //    _actionName = "GetById(int PK_ID)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            DataTable dataTable = new DataTable();
+
+        //            using (var command = await _dbContext.CreateCommandAsync())
+        //            {
+                  
+        //                command.CommandType = CommandType.StoredProcedure;
+        //                command.CommandText = "USP_CompanyUpdateAction";
+        //                command.Parameters.AddWithValue("@PK_ID", PK_ID);
+        //                command.Parameters.AddWithValue("@Action", "_GetDataById");
+        //                _sqlQuery =command.GetSqlExecutableQuery();
+        //                dataTable=await command.FillAsync_DataTable();
+
+        //            }
+
+        //            var data = new CompanyMasterResponsiveModel();
+        //            if (dataTable != null && dataTable.Rows.Count > 0)
+        //            {
+        //                data = CommonFuncationHelper.ConvertDataTable<CompanyMasterResponsiveModel>(dataTable);
+        //            }
+
+        //            return data;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            var errorDesc = new ErrorDescription
+        //            {
+        //                Message = ex.Message,
+        //                PageName = _pageName,
+        //                ActionName = _actionName,
+        //                SqlExecutableQuery = _sqlQuery
+        //            };
+        //            var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+        //            throw new Exception(errordetails, ex);
+        //        }
+        //    });
+        //}
+
+        public async Task<CompanyMasterModels> GetByID(CompanyMasterSearchModel request)
         {
             _actionName = "GetById(int PK_ID)";
             return await Task.Run(async () =>
             {
                 try
                 {
-                    DataTable dataTable = new DataTable();
-
+                    //DataTable dataTable = new DataTable();
+                    DataSet ds = new DataSet();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                    //    command.CommandText = @"
-                    //SELECT pcm.*, hr.Name As HRName, hr.EmailId,hr.MobileNo
-                    //FROM M_PlacementCompanyMaster pcm
-                    //LEFT JOIN M_HRManagerMaster hr ON pcm.ID = hr.PlacementCompanyID
-                    //WHERE pcm.ID = @PK_ID";
-
-                    //    // Parameterize the query
-                    //    var parameter = command.CreateParameter();
-                    //    parameter.ParameterName = "@PK_ID";
-                    //    parameter.Value = PK_ID;
-                    //    command.Parameters.Add(parameter);
-
-                    //    _sqlQuery = command.GetSqlExecutableQuery();
-                    //    dataTable = await command.FillAsync_DataTable();
-
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_CompanyUpdateAction";
-                        command.Parameters.AddWithValue("@PK_ID", PK_ID);
                         command.Parameters.AddWithValue("@Action", "_GetDataById");
-                        _sqlQuery =command.GetSqlExecutableQuery();
-                        dataTable=await command.FillAsync_DataTable();
 
+                        command.Parameters.AddWithValue("@PK_ID", request.ID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
                     }
-
-                    var data = new CompanyMasterResponsiveModel();
-                    if (dataTable != null && dataTable.Rows.Count > 0)
+                    var data = new CompanyMasterModels();
+                    if (ds != null)
                     {
-                        data = CommonFuncationHelper.ConvertDataTable<CompanyMasterResponsiveModel>(dataTable);
-                    }
+                        if (ds.Tables.Count > 0)
+                        {
+                            data = CommonFuncationHelper.ConvertDataTable<CompanyMasterModels>(ds.Tables[0]);
+                            if (ds.Tables[1].Rows.Count > 0)
+                            {
+                                data.ListCompanyHRDetails = CommonFuncationHelper.ConvertDataTable<List<HRMaster>>(ds.Tables[1]);
+                            }
+                        }
 
+                    }
+                 
                     return data;
                 }
                 catch (Exception ex)
@@ -215,7 +261,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-
 
         public async Task<bool> DeleteDataByID(CompanyMasterModels request)
         {
@@ -400,9 +445,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetEligiblePlacementStudentMaster";
-                        //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
-                        
-                        
+
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         if (body.Name != null)
                         {
@@ -413,6 +456,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         command.Parameters.AddWithValue("@AcademicYearID", body.AcademicYearID);
+                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
 
                         command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
                         command.Parameters.AddWithValue("@PageSize", body.PageSize);

@@ -728,8 +728,8 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpGet("SemesterMaster/{ShowAllSemester}/{EndTermID}/{IsWithNotYearly}/{IsPromote}/{IsForEx}/{IsWithNot6thSem}")]
-        public async Task<ApiResult<DataTable>> SemesterMaster(int ShowAllSemester, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0, int IsWithNot6thSem = 0)
+        [HttpGet("SemesterMaster/{ShowAllSemester}/{EndTermID}/{IsWithNotYearly}/{IsPromote}/{IsForEx}/{IsWithNot6thSem}/{EngNonEng}")]
+        public async Task<ApiResult<DataTable>> SemesterMaster(int ShowAllSemester, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0, int IsWithNot6thSem = 0, int EngNonEng = 0)
         {
             return await Task.Run(async () =>
             {
@@ -742,7 +742,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         IsWithNotYearly: IsWithNotYearly,
                         IsPromote: IsPromote,
                         IsForEx: IsForEx,
-                        IsWithNot6thSem: IsWithNot6thSem
+                        IsWithNot6thSem: IsWithNot6thSem,
+                        EngNonEng: EngNonEng
                         );
                     if (data.Rows.Count > 0)
                     {
@@ -8935,6 +8936,41 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpGet("DivisionData_ByDistrict/{DistrictID}")]
+        public async Task<ApiResult<DataTable>> DivisionData_ByDistrict(int DistrictID)
+        {
+            ActionName = "DivisionData_ByDistrict(int DistrictID)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.DivisionData_ByDistrict(DistrictID));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
         [HttpGet("GetDesignationDepartmentIDWise/{DepartmentID}")]
         public async Task<ApiResult<List<CommonDDLModel>>> GetDesignationDepartmentIDWise(int DepartmentID)
         {
@@ -8965,7 +9001,6 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-
     }
 }
 

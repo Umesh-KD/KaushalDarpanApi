@@ -7,6 +7,8 @@
         public int ModifyBy { get; set; }
         public int RoleID { get; set; }
         public int DepartmentID { get; set; }
+
+        public int? ID {get;set;}
     }
 
     public class EligibleStudentListMasterSearchModel
@@ -18,6 +20,8 @@
         public int DepartmentID { get; set; }
         public int InstituteID { get; set; }
         public int? AcademicYearID { get; set; }
+
+        public int? StreamID { get; set; }
 
         public int? PageNumber { get; set; }
         public int? PageSize { get; set; }

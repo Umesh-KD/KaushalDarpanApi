@@ -1,4 +1,6 @@
-﻿namespace Kaushal_Darpan.Models.CompanyMaster
+﻿using Kaushal_Darpan.Models.HrMaster;
+
+namespace Kaushal_Darpan.Models.CompanyMaster
 {
     public class CompanyMasterModels
     {
@@ -18,9 +20,11 @@
 
         public int ModifyBy { get; set; }
         public string? IPAddress { get; set; }
-        public string? MobileNo { get; set; }
-        public string? EmailId { get; set; }
-        public string? HRName { get; set; }
+
+        public List<HRMaster> ListCompanyHRDetails { get; set; }
+        //public string? MobileNo { get; set; }
+        //public string? EmailId { get; set; }
+        //public string? HRName { get; set; }
 
     }
 
@@ -34,6 +38,8 @@
         public int RoleID { get; set; }
         public string Action { get; set; }
         public string? ActionRemarks { get; set; }
+
+        
     }
         
 }

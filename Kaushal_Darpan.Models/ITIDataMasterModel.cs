@@ -82,7 +82,6 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
         public string? SortOrder { get; set; }
         public string? SortColumn { get; set; }
 
-
         public int? Gender { get; set; }
         public string? CandidateFatherName { get; set; }
         public string? CandidateMotherName { get; set; }
@@ -92,8 +91,10 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
         public int ModifyBy { get; set; }
         public int? RoleID { get; set; }
         public int? DistrictID { get; set; }
+        public int? UserID { get; set; }
+        public string? DateOfBirth{ get;set;}
 
-     
+
     }
 
     public class NCVT_APIDetailsModel

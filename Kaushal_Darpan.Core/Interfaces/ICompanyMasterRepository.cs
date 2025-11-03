@@ -7,7 +7,9 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetAllData(CompanyMasterSearchModel filterModel);
 
-        Task<CompanyMasterResponsiveModel> GetById(int ID);
+        //Task<CompanyMasterResponsiveModel> GetById(int ID);
+
+        Task<CompanyMasterModels> GetByID(CompanyMasterSearchModel req);
         Task<bool> SaveData(CompanyMasterModels productDetails);
         Task<bool> Save_CompanyValidation_NodalAction(CompanyMaster_Action model);
         Task<bool> DeleteDataByID(CompanyMasterModels productDetails);

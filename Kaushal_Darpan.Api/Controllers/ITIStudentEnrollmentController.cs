@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Kaushal_Darpan.Api.Controllers
@@ -192,6 +193,44 @@ namespace Kaushal_Darpan.Api.Controllers
         //        return result;
         //    });
         //}
+
+        [HttpPost("GetNcvt_APIDetails")]
+        public async Task<ApiResult<List<ITITraineeUploadModel>>> GetNcvt_APIDetails([FromBody] NCVTChunkInfoDataModel model)
+        {
+            ActionName = "GetNcvt_APIDetails()";
+            var result = new ApiResult<List<ITITraineeUploadModel>>();
+            try
+            {
+                result.Data = await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData(model);
+                result.State = EnumStatus.Success;
+                if (result.Data.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
 
         [HttpPost("SaveAdmittedFinalStudentData")]
         public async Task<ApiResult<bool>> SaveAdmittedFinalStudentData([FromBody] List<StudentMarkedModelForJoined> request)
@@ -822,18 +861,6 @@ namespace Kaushal_Darpan.Api.Controllers
         //        return result;
         //    });
         //}
-
-
-
-
-
-
-
-
-
-
-
-
         #endregion
 
 
@@ -859,6 +886,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             //get token 
                             var token = await ThirdPartyServiceHelper.GetAccessTokenAsync(resultList);
+
+                            CommonFuncationHelper.WriteTextLog($"[tokendATA] token: {token}");
                             if (token != null && token.status =="success" && token.data != null)
                             {
                                 var dataresult = await _unitOfWork.ITIStudentEnrollmentRepository.GetNCVTStudentData(record);
@@ -866,7 +895,27 @@ namespace Kaushal_Darpan.Api.Controllers
                                 //get data from database 
                                 var response = await ThirdPartyServiceHelper.UploadTraineeData(dataresult, "", token.data, resultList?.DataPushApiUrl);
 
-                               
+                                CommonFuncationHelper.WriteTextLog($"[responseaPI] Error: {response}");
+                                try
+                                {
+                                    
+                                }
+                                catch (Exception ex)
+                                {
+                                    var nex = new NewException
+                                    {
+                                        PageName = PageName,
+                                        ActionName = "Response",
+                                        Ex = ex,
+                                    };
+                                    await CreateErrorLog(nex, _unitOfWork);
+
+                                }
+
+                                
+                              
+
+
                                 if (response.State == EnumStatus.Success)
                                 {
                                     var apirespose = JsonConvert.DeserializeObject<RootDataModel>(response.Data);
@@ -886,7 +935,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                             var nex = new NewException
                                             {
                                                 PageName = PageName,
-                                                ActionName = ActionName,
+                                                ActionName = "Logs",
                                                 Ex = ex,
                                             };
                                             await CreateErrorLog(nex, _unitOfWork);
@@ -906,7 +955,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                             var nex = new NewException
                                             {
                                                 PageName = PageName,
-                                                ActionName = ActionName,
+                                                ActionName = "updateLogIdOnData",
                                                 Ex = ex,
                                             };
                                             await CreateErrorLog(nex, _unitOfWork);
