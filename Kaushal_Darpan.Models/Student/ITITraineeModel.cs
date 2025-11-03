@@ -127,9 +127,6 @@ public class TokenResponse
         public string? SessionID { get; set; }
         public string? Log_id { get; set; }
 
-
-  
-
     }
 
     public class UploadTrainee_LogsModel
@@ -138,9 +135,6 @@ public class TokenResponse
         public string RequestID { get; set; }
         public string Response { get; set; }
         public string? log_id { get; set; }
-
-
-        
     }
 
 

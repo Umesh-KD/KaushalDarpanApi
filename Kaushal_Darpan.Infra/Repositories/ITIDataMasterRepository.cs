@@ -197,6 +197,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
                         command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
                         command.Parameters.AddWithValue("@action", body.action);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -286,7 +287,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@FatherGuardianName", request.CandidateFatherName);
                         command.Parameters.AddWithValue("@MotherName", request.CandidateMotherName);
                         command.Parameters.AddWithValue("@MobileNumber", request.MobileNo);
-
+                        command.Parameters.AddWithValue("@DateOfBirth", request.DateOfBirth);
                         command.Parameters.AddWithValue("@EmailID", request.Email);
 
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
