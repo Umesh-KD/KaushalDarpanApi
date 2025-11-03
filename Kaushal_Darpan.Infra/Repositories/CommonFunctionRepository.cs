@@ -776,7 +776,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<DataTable> SemesterMaster(int ShowAllSemester = 0, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0, int IsWithNot6thSem = 0)
+        public async Task<DataTable> SemesterMaster(int ShowAllSemester = 0, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0, int IsWithNot6thSem = 0, int EngNonEng = 0)
         {
             _actionName = "SemesterMaster()";
             return await Task.Run(async () =>
@@ -795,6 +795,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsPromote", IsPromote);
                         command.Parameters.AddWithValue("@IsForEx", IsForEx);
                         command.Parameters.AddWithValue("@IsWithNot6thSem", IsWithNot6thSem);
+                        command.Parameters.AddWithValue("@EngNonEng", EngNonEng);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

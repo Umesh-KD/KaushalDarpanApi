@@ -728,8 +728,8 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpGet("SemesterMaster/{ShowAllSemester}/{EndTermID}/{IsWithNotYearly}/{IsPromote}/{IsForEx}/{IsWithNot6thSem}")]
-        public async Task<ApiResult<DataTable>> SemesterMaster(int ShowAllSemester, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0, int IsWithNot6thSem = 0)
+        [HttpGet("SemesterMaster/{ShowAllSemester}/{EndTermID}/{IsWithNotYearly}/{IsPromote}/{IsForEx}/{IsWithNot6thSem}/{EngNonEng}")]
+        public async Task<ApiResult<DataTable>> SemesterMaster(int ShowAllSemester, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0, int IsWithNot6thSem = 0, int EngNonEng = 0)
         {
             return await Task.Run(async () =>
             {
@@ -742,7 +742,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         IsWithNotYearly: IsWithNotYearly,
                         IsPromote: IsPromote,
                         IsForEx: IsForEx,
-                        IsWithNot6thSem: IsWithNot6thSem
+                        IsWithNot6thSem: IsWithNot6thSem,
+                        EngNonEng: EngNonEng
                         );
                     if (data.Rows.Count > 0)
                     {
