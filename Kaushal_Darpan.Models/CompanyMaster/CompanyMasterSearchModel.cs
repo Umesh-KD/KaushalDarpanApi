@@ -7,6 +7,8 @@
         public int ModifyBy { get; set; }
         public int RoleID { get; set; }
         public int DepartmentID { get; set; }
+
+        public int? ID {get;set;}
     }
 
     public class EligibleStudentListMasterSearchModel
