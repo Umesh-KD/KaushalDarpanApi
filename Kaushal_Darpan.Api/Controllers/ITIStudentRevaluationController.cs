@@ -450,7 +450,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         }).ToList();
 
                         int totalrows = SelectedData.Count;
-                        int chunksize = model.ChunkSize.Value;
+                        int chunksize = model.ChunkSize.HasValue ? model.ChunkSize.Value : 100;
                         int processed = 0;
                         while (processed < totalrows)
                         {
@@ -505,7 +505,7 @@ namespace Kaushal_Darpan.Api.Controllers
         #region dynamic update data through Excel
 
         [HttpPost("DynamicUpdateExcelData"), DisableRequestSizeLimit]
-        public async Task<ApiResult<bool>> DynamicUpdateExcelData([FromForm] UploadFileModel model)
+        public async Task<ApiResult<bool>> DynamicUpdateExcelData([FromForm] UploadFileModel model , string action)
         {
             ActionName = "DynamicUpdateExcelData([FromForm] UploadFileModel model)";
             var result = new ApiResult<bool>();
@@ -563,12 +563,12 @@ namespace Kaushal_Darpan.Api.Controllers
                        
 
                         int totalrows = dynamicDataList.Count;
-                        int chunksize = model.ChunkSize.Value;
+                        int chunksize =model.ChunkSize.HasValue ? model.ChunkSize.Value : 100;
                         int processed = 0;
                         while (processed < totalrows)
                         {
                             var chunk = dynamicDataList.Skip(processed).Take(chunksize).ToList();
-                            result.Data = await _unitOfWork.ITIStudentRevaluationRepository.DynamicUpdateExcelData(chunk);
+                            result.Data = await _unitOfWork.ITIStudentRevaluationRepository.DynamicUpdateExcelData(chunk, action);
                             await _unitOfWork.SaveChangesAsync();
                             if (result.Data)
                             {
