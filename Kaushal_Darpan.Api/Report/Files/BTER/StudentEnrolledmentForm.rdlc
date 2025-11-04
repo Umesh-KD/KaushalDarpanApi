@@ -241,7 +241,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>BOARD OF TECHNICAL EDUCATION RAJASTHAN, JODHPUR</Value>
+                    <Value>Board of Technical Education Rajasthan, Jodhpur</Value>
                     <Style>
                       <FontSize>14pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -2438,7 +2438,7 @@
             <Top>5.33595cm</Top>
             <Left>13.12855cm</Left>
             <Height>3.38481cm</Height>
-            <Width>2.58945cm</Width>
+            <Width>2.45716cm</Width>
             <ZIndex>59</ZIndex>
             <Style>
               <Border>
@@ -3046,9 +3046,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox50</rd:DefaultName>
             <Top>5.40651cm</Top>
-            <Left>15.89439cm</Left>
+            <Left>15.7621cm</Left>
             <Height>3.31425cm</Height>
-            <Width>2.43863cm</Width>
+            <Width>2.57092cm</Width>
             <ZIndex>64</ZIndex>
             <Style>
               <Border>
