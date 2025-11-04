@@ -454,7 +454,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         while (processed < totalrows)
                         {
                             var chunk = SelectedData.Skip(processed).Take(chunksize).ToList();
-                            result.Data = await _unitOfWork.ITIStudentRevaluationRepository.ImportExcelFile(SelectedData);
+                            result.Data = await _unitOfWork.ITIStudentRevaluationRepository.ImportExcelFile(chunk);
                             await _unitOfWork.SaveChangesAsync();
                             if (result.Data)
                             {
