@@ -12,6 +12,8 @@ using Kaushal_Darpan.Models.TheoryMarks;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Kaushal_Darpan.Models.ItiCompanyMaster;
+using ExcelDataReader;
+using Kaushal_Darpan.Models.CounsellingImportCandidateListModel;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -393,6 +395,93 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        #endregion
+
+        #region
+
+        [HttpPost("UpdateEnrollResponseBulkExcel"), DisableRequestSizeLimit]
+        public async Task<ApiResult<bool>> ImportExcelFile([FromForm] UploadFileModel model)
+        {
+            ActionName = "ImportExcelFile([FromForm] UploadFileModel model)";
+            var result = new ApiResult<bool>();
+
+            try
+            {
+                //  Validate file presence
+                if (model.file == null || model.file.Length == 0)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_INVALID_REQUEST;
+                    return result;
+                }
+
+                //  Read the Excel file
+                using (var stream = model.file.OpenReadStream())
+                {
+                    // Prepare StringWriter for logging or debugging purposes (Optional)
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    StringWriter swSQL = new StringWriter(sb);
+
+                    // Register CodePagesEncodingProvider for reading older Excel formats
+                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                    // Read Excel file into DataSet
+                    using (var reader = ExcelReaderFactory.CreateReader(stream))
+                    {
+                        var ds = reader.AsDataSet(new ExcelDataSetConfiguration()
+                        {
+                            ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                            {
+                                UseHeaderRow = true // Treat first row as headers
+                            }
+                        });
+
+                        // Get the first sheet as DataTable
+                        DataTable dt = ds.Tables[0];
+
+                        //  Convert DataTable to your specific model list
+                        var dataTime = CommonFuncationHelper.ConvertExcelData<List<UpdateEnrollResponseBulkExcelModel>>(dt);
+                        
+                        var SelectedData = dt.AsEnumerable().Select(row => new UpdateEnrollResponseBulkExcelModel
+                        {
+                            StateRegNumber = row["State Reg Number"]?.ToString()
+                        }).ToList();
+                        result.Data = await _unitOfWork.ITIStudentRevaluationRepository.ImportExcelFile(SelectedData);
+
+                        await _unitOfWork.SaveChangesAsync();
+                        if (result.Data)
+                        {
+                            result.State = EnumStatus.Success;
+                            result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.State = EnumStatus.Error;
+                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        }
+
+                  
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+
 
         #endregion
     }

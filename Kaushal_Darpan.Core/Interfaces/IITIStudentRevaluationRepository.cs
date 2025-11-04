@@ -1,4 +1,5 @@
 ﻿using Kaushal_Darpan.Core.Helper;
+using Kaushal_Darpan.Models.CounsellingImportCandidateListModel;
 using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.Examiners;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
@@ -24,6 +25,10 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAllRevalRequestDetails(ITIRevalRequestStudentDetailsModel filtermodel);
 
         Task<bool> UploadDocument(ITIRevalRequestStudentDetailsModel body);
+
+
+        //Update EnrollResponse in BulkExcel
+        Task<bool> ImportExcelFile(List<UpdateEnrollResponseBulkExcelModel> model);
 
     }
 }

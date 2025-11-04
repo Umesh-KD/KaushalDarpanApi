@@ -728,8 +728,8 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpGet("SemesterMaster/{ShowAllSemester}/{EndTermID}/{IsWithNotYearly}/{IsPromote}/{IsForEx}/{IsWithNot6thSem}")]
-        public async Task<ApiResult<DataTable>> SemesterMaster(int ShowAllSemester, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0, int IsWithNot6thSem = 0)
+        [HttpGet("SemesterMaster/{ShowAllSemester}/{EndTermID}/{IsWithNotYearly}/{IsPromote}/{IsForEx}/{IsWithNot6thSem}/{EngNonEng}")]
+        public async Task<ApiResult<DataTable>> SemesterMaster(int ShowAllSemester, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0, int IsWithNot6thSem = 0, int EngNonEng = 0)
         {
             return await Task.Run(async () =>
             {
@@ -742,7 +742,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         IsWithNotYearly: IsWithNotYearly,
                         IsPromote: IsPromote,
                         IsForEx: IsForEx,
-                        IsWithNot6thSem: IsWithNot6thSem
+                        IsWithNot6thSem: IsWithNot6thSem,
+                        EngNonEng: EngNonEng
                         );
                     if (data.Rows.Count > 0)
                     {
@@ -8968,6 +8969,37 @@ namespace Kaushal_Darpan.Api.Controllers
                 await CreateErrorLog(nex, _unitOfWork);
             }
             return result;
+        }
+
+        [HttpGet("GetDesignationDepartmentIDWise/{DepartmentID}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> GetDesignationDepartmentIDWise(int DepartmentID)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<CommonDDLModel>>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.GetDesignationDepartmentIDWise(DepartmentID);
+                    if (data.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
         }
     }
 }

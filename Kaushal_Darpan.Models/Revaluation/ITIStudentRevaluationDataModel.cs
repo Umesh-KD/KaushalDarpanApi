@@ -1,4 +1,7 @@
-﻿namespace Kaushal_Darpan.Models.RevaluationDataModel
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Kaushal_Darpan.Models.RevaluationDataModel
 {
     
     public class ITIStudentRevaluationDataModel
@@ -43,6 +46,15 @@
 
         public string Remarks { get; set; }
 
+    }
+
+
+    //model to update enroll response in bulk 
+    public class UpdateEnrollResponseBulkExcelModel
+    {
+        //[Column("State Reg Number")]
+        [DisplayName("State Reg Number")]
+        public string? StateRegNumber { get; set; }
     }
 
 }
