@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -356,6 +357,65 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_SaveEnrollresponse_BulkExcel";
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int); // out
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output; // out
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Retval"].Value); // out
+
+                        //_sqlQuery = command.GetSqlExecutableQuery();
+                        //dataTable = await command.FillAsync_DataTable();
+
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                    //var data = new List<UpdateEnrollResponseBulkExcelModel>();
+                    //if (dataTable != null)
+                    //{
+                    //    data = CommonFuncationHelper.ConvertDataTable<List<UpdateEnrollResponseBulkExcelModel>>(dataTable);
+                    //}
+                    //return data;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        #endregion
+
+        #region update excel data dynamically
+
+        public async Task<bool> DynamicUpdateExcelData(List<Dictionary<string,object>> model)
+        {
+            _actionName = "ImportExcelFile(TimeTableModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    //DataTable dataTable = new DataTable();
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Update_BulkExcel_Data";
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
                         command.Parameters.Add("@Retval", SqlDbType.Int); // out

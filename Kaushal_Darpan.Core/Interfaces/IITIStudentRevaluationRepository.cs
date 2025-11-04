@@ -8,6 +8,7 @@ using Kaushal_Darpan.Models.RevaluationDataModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,10 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         //Update EnrollResponse in BulkExcel
         Task<bool> ImportExcelFile(List<UpdateEnrollResponseBulkExcelModel> model);
+
+        //dynamic Update data through BulkExcel
+        Task<bool> DynamicUpdateExcelData(List<Dictionary<string,object>> model);
+
 
     }
 }
