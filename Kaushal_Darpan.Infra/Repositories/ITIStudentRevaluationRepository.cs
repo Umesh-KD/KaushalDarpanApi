@@ -415,7 +415,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_Update_BulkExcel_Data";
+                        command.CommandText = "USP_Excel_operation";
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
                         command.Parameters.Add("@Retval", SqlDbType.Int); // out
