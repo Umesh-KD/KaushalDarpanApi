@@ -39,5 +39,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> IsRequestApprenticeship(PostIsRequestCenterObserver model);
         //Task<int> IsRequestHistoryCenterObserver(PostIsRequestCenterObserver model);
         Task<int> ApproveRequest(int DeployedID);
+        Task<DataTable> GetITI_InstituteList_Apprenticeship(InstituteSearchModel_Appr body);
+        Task<int> SaveCollegeApprovedContract_Appr(List<CollegeApprovedContractDataModel> request);
     }
 }
