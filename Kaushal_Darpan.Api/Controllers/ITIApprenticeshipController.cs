@@ -1280,7 +1280,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetITI_InstituteList_Apprenticeship")]
         public async Task<ApiResult<DataTable>> GetITI_InstituteList_Apprenticeship([FromBody] InstituteSearchModel_Appr body)
         {
-            ActionName = "GetAllData()";
+            ActionName = "GetITI_InstituteList_Apprenticeship([FromBody] InstituteSearchModel_Appr body)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -1315,7 +1315,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("SaveCollegeApprovedContract_Appr")]
         public async Task<ApiResult<bool>> SaveCollegeApprovedContract_Appr([FromBody] List<CollegeApprovedContractDataModel> request)
         {
-            ActionName = "SaveApprenticeshipDeploymentData([FromBody] List<ApprenticeshipDeploymentDataModel> request)";
+            ActionName = "SaveCollegeApprovedContract_Appr([FromBody] List<CollegeApprovedContractDataModel> request)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<bool>();
@@ -1326,9 +1326,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     if (isSave == -2)
                     {
-                        result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_NO_DATA_SAVE;
+                        result.State = EnumStatus.Warning;
+                        result.Message = "Please Fill Previous Month's Details";
                     }
                     else if (isSave > 0)
                     {
@@ -1359,6 +1358,41 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 return result;
             });
+        }
+
+        [HttpPost("GetCollegeApprovedContract_Appr")]
+        public async Task<ApiResult<DataTable>> GetCollegeApprovedContract_Appr([FromBody] CollegeApprovedContractSearchModel body)
+        {
+            ActionName = "GetCollegeApprovedContract_Appr([FromBody] CollegeApprovedContractSearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITI_ApprenticeshipRepository.GetCollegeApprovedContract_Appr(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
     }
 }
