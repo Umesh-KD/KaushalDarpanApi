@@ -70,4 +70,18 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
     }
 
 
+    public class SanctionOrderMasterModel
+    {
+        public int SanctionID   { get; set; }
+
+        public string? Name { get; set; }
+
+       
+        public int DepartmentID { get; set; }
+        public int CreatedBy { get; set; }
+        public int ModifyBy { get; set; }
+        public bool ActiveStatus { get; set; }
+        public bool DeleteStatus { get; set; }
+    }
+
 }
