@@ -41,5 +41,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> ApproveRequest(int DeployedID);
         Task<DataTable> GetITI_InstituteList_Apprenticeship(InstituteSearchModel_Appr body);
         Task<int> SaveCollegeApprovedContract_Appr(List<CollegeApprovedContractDataModel> request);
+        Task<DataTable> GetCollegeApprovedContract_Appr(CollegeApprovedContractSearchModel body);
     }
 }

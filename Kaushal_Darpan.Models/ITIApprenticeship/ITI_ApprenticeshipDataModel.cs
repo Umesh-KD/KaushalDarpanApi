@@ -200,4 +200,14 @@ namespace Kaushal_Darpan.Models.ITI_Apprenticeship
         public int? AcademicYearID { get; set; }
     }
 
+    public class CollegeApprovedContractSearchModel : RequestBaseModel
+    {
+        public int? InstituteID { get; set; }
+        public int? MonthID { get; set; }
+        public int? ZoneID { get; set; }
+        public int? DistrictID { get; set; }
+        public int? No_Of_Contract { get; set; }
+        public int? AcademicYearID { get; set; }
+    }
+
 }
