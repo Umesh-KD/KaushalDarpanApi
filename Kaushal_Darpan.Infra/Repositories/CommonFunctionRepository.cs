@@ -776,7 +776,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<DataTable> SemesterMaster(int ShowAllSemester = 0, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0, int IsWithNot6thSem = 0)
+        public async Task<DataTable> SemesterMaster(int ShowAllSemester = 0, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0, int IsWithNot6thSem = 0, int EngNonEng = 0)
         {
             _actionName = "SemesterMaster()";
             return await Task.Run(async () =>
@@ -795,6 +795,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsPromote", IsPromote);
                         command.Parameters.AddWithValue("@IsForEx", IsForEx);
                         command.Parameters.AddWithValue("@IsWithNot6thSem", IsWithNot6thSem);
+                        command.Parameters.AddWithValue("@EngNonEng", EngNonEng);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -10038,6 +10039,46 @@ namespace Kaushal_Darpan.Infra.Repositories
                         dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<List<CommonDDLModel>> GetDesignationDepartmentIDWise(int DepartmentID)
+        {
+            _actionName = "GetDesignationDepartmentIDWise()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetDesignationDepartmentIDWise";
+                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    //class
+                    List<CommonDDLModel> dataModels = new List<CommonDDLModel>();
+                    if (dataTable != null)
+                    {
+                        dataModels = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    }
+                    return dataModels;
                 }
                 catch (Exception ex)
                 {

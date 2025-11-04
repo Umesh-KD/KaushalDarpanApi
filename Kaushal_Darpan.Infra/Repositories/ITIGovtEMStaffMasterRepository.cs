@@ -1,6 +1,7 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.BTERIMCAllocationModel;
 using Kaushal_Darpan.Models.CampusPostMaster;
 using Kaushal_Darpan.Models.DispatchMaster;
@@ -2871,10 +2872,170 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        public async Task<int> ITI_EM_PostWithVacancyApproveStaffProfile(ITI_EM_ApproveStaffDataModel request)
+        {
+            _actionName = "ITI_EM_PostWithVacancyApproveStaffProfile(ITI_EM_ApproveStaffDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandText = "USP_ITI_EM_CompleteAndApproveStaffProfile";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // INT / BIT parameters (defaulted to 0)
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID ?? 0);
+                        command.Parameters.AddWithValue("@BranchID", request.BranchID ?? 0);
+                        command.Parameters.AddWithValue("@SanctionedPosts", request.SanctionedPosts ?? 0);
+                        command.Parameters.AddWithValue("@IsWorking", request.IsWorking ?? false);
+                        command.Parameters.AddWithValue("@IsExtraWorking", request.IsExtraWorking ?? false);
+                        command.Parameters.AddWithValue("@IsVacant", request.IsVacant ?? false);
+                        command.Parameters.AddWithValue("@OccupiedVacant", request.OccupiedVacant ?? 0);
+                        command.Parameters.AddWithValue("@DesignationID", request.DesignationID ?? 0);
+                        command.Parameters.AddWithValue("@Gender", request.Gender ?? 0);
+                        command.Parameters.AddWithValue("@Experience", request.Experience ?? 0);
+                        command.Parameters.AddWithValue("@IsEmpWorkingOnPost", request.IsEmpWorkingOnPost ?? false);
+                        command.Parameters.AddWithValue("@IsEmpWorkingOnDeputationFromOther", request.IsEmpWorkingOnDeputationFromOther ?? false);
+                        command.Parameters.AddWithValue("@EmpInstituteID", request.EmpInstituteID ?? 0);
+                        command.Parameters.AddWithValue("@EmpBranchID", request.EmpBranchID ?? 0);
+                        command.Parameters.AddWithValue("@IsEmpWorkingOnDeputationToOther", request.IsEmpWorkingOnDeputationToOther ?? false);
+                        command.Parameters.AddWithValue("@EmpDeputatedInstituteID", request.EmpDeputatedInstituteID ?? 0);
+                        command.Parameters.AddWithValue("@IsSalaryDrawnFromSamePost", request.IsSalaryDrawnFromSamePost ?? false);
+                        command.Parameters.AddWithValue("@SalaryDrawnPostID", request.SalaryDrawnPostID ?? 0);
+                        command.Parameters.AddWithValue("@IsSalaryDrawnFromOtherInstitute", request.IsSalaryDrawnFromOtherInstitute ?? false);
+                        command.Parameters.AddWithValue("@SalaryDrawnInstituteID", request.SalaryDrawnInstituteID ?? 0);
+                        command.Parameters.AddWithValue("@AnyCourtCasePending", request.AnyCourtCasePending ?? false);
+                        command.Parameters.AddWithValue("@AnyDisciplinaryActionPending", request.AnyDisciplinaryActionPending ?? false);
+                        command.Parameters.AddWithValue("@ExtraOrdinaryLeave", request.ExtraOrdinaryLeave ?? false);
+                        command.Parameters.AddWithValue("@HigherEduPermission", request.HigherEduPermission ?? false);
+                        command.Parameters.AddWithValue("@StaffID", request.StaffID ?? 0);
+                        command.Parameters.AddWithValue("@UserID", request.UserID ?? 0);
+                        command.Parameters.AddWithValue("@StaffUserID", request.StaffUserID ?? 0);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy ?? 0);
+                        command.Parameters.AddWithValue("@WorkOfficeID", request.WorkOfficeID ?? 0);
+                        command.Parameters.AddWithValue("@StatusIDs", request.StatusIDs ?? 0);
+
+                        // STRING / NVARCHAR parameters (defaulted to empty string)
+                        command.Parameters.AddWithValue("@SSOID", request.SSOID ?? "");
+                        command.Parameters.AddWithValue("@Name", request.Name ?? "");
+                        command.Parameters.AddWithValue("@MobileNumber", request.MobileNumber ?? "");
+                        command.Parameters.AddWithValue("@EmployeeID", request.EmployeeID ?? "");
+                        command.Parameters.AddWithValue("@DateOfBirth", request.DateOfBirth ?? "");
+                        command.Parameters.AddWithValue("@DateOfRetirement", request.DateOfRetirement ?? "");
+                        command.Parameters.AddWithValue("@SelectionCategory", request.SelectionCategory ?? "");
+                        command.Parameters.AddWithValue("@HigherEduInstitute", request.HigherEduInstitute ?? "");
+                        command.Parameters.AddWithValue("@Remark", request.Remark ?? "");
+
+                        // Output parameter
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
 
 
+        //public async Task<int> ITI_EM_PostWithVacancyApproveStaffProfile(ITI_EM_ApproveStaffDataModel request)
+        //{
+        //    _actionName = "ITI_EM_PostWithVacancyApproveStaffProfile(BTER_EM_ApproveStaffDataModel request)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            int result = 0;
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
+        //            {
+        //                // Set the stored procedure name and type
+        //                command.CommandText = "USP_ITI_EM_CompleteAndApproveStaffProfile";
+        //                command.CommandType = CommandType.StoredProcedure;
+        //                // Add parameters with default values or leave them as-is
+        //                command.Parameters.AddWithValue("@WorkOfficeID", request.WorkOfficeID ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@IsExtraWorking", request.IsExtraWorking ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@IsEmpWorkingOnPost", request.IsEmpWorkingOnPost ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@IsEmpWorkingOnDeputationFromOther", request.IsEmpWorkingOnDeputationFromOther ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@EmpInstituteID", request.EmpInstituteID ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@IsEmpWorkingOnDeputationToOther", request.IsEmpWorkingOnDeputationToOther ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@EmpDeputatedInstituteID", request.EmpDeputatedInstituteID ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@IsSalaryDrawnFromSamePost", request.IsSalaryDrawnFromSamePost ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@SalaryDrawnPostID", request.SalaryDrawnPostID ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@IsSalaryDrawnFromOtherInstitute", request.IsSalaryDrawnFromOtherInstitute ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@SalaryDrawnInstituteID", request.SalaryDrawnInstituteID ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@DateOfRetirement", request.DateOfRetirement ?? "");
+        //                command.Parameters.AddWithValue("@AnyCourtCasePending", request.AnyCourtCasePending ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@AnyDisciplinaryActionPending", request.AnyDisciplinaryActionPending ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@StatusIDs", request.StatusIDs ?? (object)DBNull.Value);
+        //                //only testing --- 
+        //                command.Parameters.AddWithValue("@UserID", request.UserID ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@SSOID", request.SSOID ?? "");
+        //                command.Parameters.AddWithValue("@DesignationID", request.DesignationID ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@DateOfBirth", request.DateOfBirth ?? "");
+        //                command.Parameters.AddWithValue("@Gender", request.Gender ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@MobileNumber", request.MobileNumber ?? "");
+        //                command.Parameters.AddWithValue("@InstituteID", request.InstituteID ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@BranchID", request.BranchID ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@SanctionedPosts", request.SanctionedPosts ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@IsWorking", request.IsWorking ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@IsVacant", request.IsVacant ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@OccupiedVacant", request.OccupiedVacant ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@Name", request.Name ?? "");
+        //                command.Parameters.AddWithValue("@EmployeeID", request.EmployeeID ?? "");
+        //                command.Parameters.AddWithValue("@EmpBranchID", request.EmpBranchID ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@ExtraOrdinaryLeave", request.ExtraOrdinaryLeave ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@SelectionCategory", request.SelectionCategory ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@HigherEduPermission", request.HigherEduPermission ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@Experience", request.Experience ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@HigherEduInstitute", request.HigherEduInstitute ?? "");
+        //                command.Parameters.AddWithValue("@Remark", request.Remark ?? "");
+        //                command.Parameters.AddWithValue("@StaffID", request.StaffID ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@StaffUserID", request.StaffUserID ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy ?? (object)DBNull.Value);
+        //                command.Parameters.Add("@Return", SqlDbType.Int);// out
+        //                command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+        //                _sqlQuery = command.GetSqlExecutableQuery();
+        //                // Execute the command
+        //                result = await command.ExecuteNonQueryAsync();
+        //                result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
 
+        //            }
+        //            return result;
+
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            var errorDesc = new ErrorDescription
+        //            {
+        //                Message = ex.Message,
+        //                PageName = _pageName,
+        //                ActionName = _actionName,
+        //                SqlExecutableQuery = _sqlQuery
+        //            };
+        //            var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+        //            throw new Exception(errordetails, ex);
+        //        }
+        //    });
+        //}
     }
 
 

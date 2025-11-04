@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.BTERIMCAllocationModel;
 using Kaushal_Darpan.Models.CampusPostMaster;
 using Kaushal_Darpan.Models.CollegeMaster;
@@ -3272,6 +3273,70 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // Log the error
                 await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
+
+        [HttpPost("ITI_EM_PostWithVacancyApproveStaffProfile")]
+        public async Task<ApiResult<int>> ITI_EM_PostWithVacancyApproveStaffProfile([FromBody] ITI_EM_ApproveStaffDataModel body)
+        {
+
+            ActionName = "ITI_EM_PostWithVacancyApproveStaffProfile([FromBody] ITI_EM_ApproveStaffDataModel body)";
+            var result = new ApiResult<int>();
+            try
+            {
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITI_EM_PostWithVacancyApproveStaffProfile(body);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    if (result.Data == 1)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else if (result.Data == 3)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "This office has already reached its post limit.";
+                    }
+                    else
+                    {
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                }
+                else if (result.Data == -2)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (body.UserID == 0)
+                    {
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
                 var nex = new NewException
                 {
                     PageName = PageName,

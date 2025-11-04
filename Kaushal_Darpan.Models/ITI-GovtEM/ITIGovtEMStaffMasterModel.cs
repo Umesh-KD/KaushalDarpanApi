@@ -762,4 +762,56 @@
         public string IPAddress { get; set; }
         public int PostedSeat { get; set; }
     }
+
+
+    public class ITI_EM_ApproveStaffDataModel : RequestBaseModel
+    {
+        public int? InstituteID { get; set; }
+        public int? BranchID { get; set; }
+        public int? SanctionedPosts { get; set; } // dropdown
+        public bool? IsWorking { get; set; } // radio button
+        public bool? IsExtraWorking { get; set; }
+        public bool? IsVacant { get; set; }
+        public int? OccupiedVacant { get; set; }
+        public string? SSOID { get; set; } // textbox
+        public string? Name { get; set; }
+        public int? DesignationID { get; set; }
+
+        public int? Gender { get; set; }
+        public string? MobileNumber { get; set; }
+        public string? EmployeeID { get; set; }
+        public string? DateOfBirth { get; set; }
+        public int? Experience { get; set; }
+
+        public bool? IsEmpWorkingOnPost { get; set; }
+
+        public bool? IsEmpWorkingOnDeputationFromOther { get; set; }
+        public int? EmpInstituteID { get; set; }
+
+        public int? EmpBranchID { get; set; }
+
+        public bool? IsEmpWorkingOnDeputationToOther { get; set; }
+        public int? EmpDeputatedInstituteID { get; set; }
+
+        public bool? IsSalaryDrawnFromSamePost { get; set; }
+        public int? SalaryDrawnPostID { get; set; }
+        public bool? IsSalaryDrawnFromOtherInstitute { get; set; }
+        public int? SalaryDrawnInstituteID { get; set; }
+        public string? DateOfRetirement { get; set; }
+        public bool? AnyCourtCasePending { get; set; }
+        public bool? AnyDisciplinaryActionPending { get; set; }
+        public bool? ExtraOrdinaryLeave { get; set; }
+        public string? SelectionCategory { get; set; }
+
+        public bool? HigherEduPermission { get; set; }
+        public string? HigherEduInstitute { get; set; }
+        public string? Remark { get; set; }
+
+        public int? StaffID { get; set; }
+        public int? UserID { get; set; }
+        public int? StaffUserID { get; set; }
+        public int? WorkOfficeID { get; set; }
+        public int? ModifyBy { get; set; }
+        public int? StatusIDs { get; set; }
+    }
 }
