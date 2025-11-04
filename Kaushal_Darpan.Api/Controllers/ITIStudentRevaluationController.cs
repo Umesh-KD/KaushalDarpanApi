@@ -449,7 +449,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         }).ToList();
 
                         int totalrows = SelectedData.Count;
-                        int chunksize = 100;// model.ChunkSize.Value;
+                        int chunksize = model.ChunkSize.Value;
                         int processed = 0;
                         while (processed < totalrows)
                         {
