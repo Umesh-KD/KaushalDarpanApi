@@ -415,7 +415,9 @@ namespace Kaushal_Darpan.Core.Helper
             try
             {
                 ServicePointManager.Expect100Continue = true;
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+               ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
+
+
                 var url = model.TokenApiURL;
                 // Prepare request body
                 var requestBody = new
@@ -458,7 +460,8 @@ namespace Kaushal_Darpan.Core.Helper
         public static async Task<ApiResult<string>> UploadTraineeData(List<ITITraineeUploadModel> data, string sessionId = "", string accessToken = "", string ApiURl = "")
         {
             ServicePointManager.Expect100Continue = true;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
+
             var apiresult = new ApiResult<string>();
             //  string apiUrl = "http://164.100.68.244:8082/MIS/api/traineeupload/UploadTrainees";
             string apiUrl = ApiURl;
@@ -507,7 +510,7 @@ namespace Kaushal_Darpan.Core.Helper
             try
             {
                 ServicePointManager.Expect100Continue = true;
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12; ;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
                 //var url = model.TokenApiURL;
                 var url = "https://iti-api.skillindiadigital.gov.in/v1/state/api-upload-status";
                 var requestBody = new
@@ -550,7 +553,7 @@ namespace Kaushal_Darpan.Core.Helper
             try
             {
                 ServicePointManager.Expect100Continue = true;
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
                 //var url = "https://iti-api.skillindiadigital.gov.in/v1/state/api-upload-status";
                 var url = model.DataUpdloadcheckApiUrl;
                 var session = model.Session;
@@ -578,7 +581,8 @@ namespace Kaushal_Darpan.Core.Helper
                     }
                     var jsonObject = JObject.Parse(responseString);
                     var dataJson = jsonObject["Data"]?.ToString();
-                   
+
+                    CommonFuncationHelper.WriteTextLog($"[CheckUploadStatusNew] Error: {response}");
                     if (!string.IsNullOrEmpty(dataJson))
                     {
                         var result = JsonConvert.DeserializeObject<RootUploadStatusCheckDataModel>(dataJson);

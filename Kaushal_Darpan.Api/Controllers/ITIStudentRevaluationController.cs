@@ -405,7 +405,7 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             ActionName = "ImportExcelFile([FromForm] UploadFileModel model)";
             var result = new ApiResult<bool>();
-
+          
             try
             {
                 //  Validate file presence
@@ -447,9 +447,25 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             StateRegNumber = row["State Reg Number"]?.ToString()
                         }).ToList();
-                        result.Data = await _unitOfWork.ITIStudentRevaluationRepository.ImportExcelFile(SelectedData);
 
-                        await _unitOfWork.SaveChangesAsync();
+                        int totalrows = SelectedData.Count;
+                        int chunksize = model.ChunkSize.Value;
+                        int processed = 0;
+                        while (processed < totalrows)
+                        {
+                            var chunk = SelectedData.Skip(processed).Take(chunksize).ToList();
+                            result.Data = await _unitOfWork.ITIStudentRevaluationRepository.ImportExcelFile(chunk);
+                            await _unitOfWork.SaveChangesAsync();
+                            if (result.Data)
+                            {
+                                processed += chunk.Count;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        
                         if (result.Data)
                         {
                             result.State = EnumStatus.Success;
