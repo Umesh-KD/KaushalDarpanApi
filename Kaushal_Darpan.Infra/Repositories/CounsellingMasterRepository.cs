@@ -511,5 +511,171 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<int> SaveExcelData_CounsellingVacant(List<ImportCounsellingVacancyDataModel> request)
+        {
+            _actionName = "SaveExcelData_CounsellingVacant(List<ImportCounsellingVacancyDataModel> request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int retval = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandText = "USP_Counselling_ImportVacanciesData_IU";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Action", "SaveData");
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        await command.ExecuteNonQueryAsync();
+                        retval = (command.Parameters["@Retval"].Value == DBNull.Value) ? 0 : Convert.ToInt32(command.Parameters["@Retval"].Value);
+
+                    }
+                    return retval;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetCounsellingVacancyData(CounsellingVacancySearchModel body)
+        {
+            _actionName = "GetCounsellingVacancyData(CounsellingVacancySearchModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_GetVacancyData";
+                        command.Parameters.AddWithValue("@Action", "GetAllData");
+                        command.Parameters.AddWithValue("@TradeID", body.TradeID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> EditVacancyData_Counselling(EditVacancyDataModel request)
+        {
+            _actionName = "EditVacancyData_Counselling(EditVacancyDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int retval = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandText = "USP_Counselling_ImportVacanciesData_IU";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Action", "EditData");
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        command.Parameters.AddWithValue("@TradeID", request.TradeID);
+                        command.Parameters.AddWithValue("@Designation", request.Designation);
+                        command.Parameters.AddWithValue("@VacantSeats", request.VacantSeats);
+                        command.Parameters.AddWithValue("@TradeInstituteID", request.TradeInstituteID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        await command.ExecuteNonQueryAsync();
+                        retval = (command.Parameters["@Retval"].Value == DBNull.Value) ? 0 : Convert.ToInt32(command.Parameters["@Retval"].Value);
+
+                    }
+                    return retval;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<EditVacancyDataModel> GetVacancyDetailsById_Counselling(int TradeInstituteID)
+        {
+            _actionName = "GetVacancyDetailsById_Counselling(int TradeInstituteID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_GetVacancyData";
+                        command.Parameters.AddWithValue("@Action", "getById");
+                        command.Parameters.AddWithValue("@TradeInstituteID", TradeInstituteID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    var data = new EditVacancyDataModel();
+                    if (dataTable != null)
+                    {
+                        data = CommonFuncationHelper.ConvertDataTable<EditVacancyDataModel>(dataTable);
+                    }
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
