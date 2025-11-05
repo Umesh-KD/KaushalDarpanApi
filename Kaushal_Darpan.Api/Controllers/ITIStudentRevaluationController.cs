@@ -14,6 +14,7 @@ using System.Data;
 using Kaushal_Darpan.Models.ItiCompanyMaster;
 using ExcelDataReader;
 using Kaushal_Darpan.Models.CounsellingImportCandidateListModel;
+using System.Dynamic;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -449,7 +450,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         }).ToList();
 
                         int totalrows = SelectedData.Count;
-                        int chunksize = model.ChunkSize.Value;
+                        int chunksize = model.ChunkSize.HasValue ? model.ChunkSize.Value : 100;
                         int processed = 0;
                         while (processed < totalrows)
                         {
@@ -478,6 +479,110 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
 
                   
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+
+
+        #endregion
+
+        #region dynamic update data through Excel
+
+        [HttpPost("DynamicUpdateExcelData"), DisableRequestSizeLimit]
+        public async Task<ApiResult<bool>> DynamicUpdateExcelData([FromForm] UploadFileModel model , string action)
+        {
+            ActionName = "DynamicUpdateExcelData([FromForm] UploadFileModel model)";
+            var result = new ApiResult<bool>();
+
+            try
+            {
+                //  Validate file presence
+                if (model.file == null || model.file.Length == 0)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_INVALID_REQUEST;
+                    return result;
+                }
+
+                //  Read the Excel file
+                using (var stream = model.file.OpenReadStream())
+                {
+                    // Prepare StringWriter for logging or debugging purposes (Optional)
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    StringWriter swSQL = new StringWriter(sb);
+
+                    // Register CodePagesEncodingProvider for reading older Excel formats
+                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                    // Read Excel file into DataSet
+                    using (var reader = ExcelReaderFactory.CreateReader(stream))
+                    {
+                        var ds = reader.AsDataSet(new ExcelDataSetConfiguration()
+                        {
+                            ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                            {
+                                UseHeaderRow = true // Treat first row as headers
+                            }
+                        });
+
+                        
+                        DataTable dt = ds.Tables[0];
+
+                        
+                        var columnNames = dt.Columns.Cast<DataColumn>()
+                                            .Select(c => c.ColumnName)
+                                            .ToList();
+                      
+                        var dynamicDataList = dt.AsEnumerable().Select(row =>
+                        {
+                            var newRow = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+                            foreach (var colName in columnNames)
+                            {
+                               
+                                newRow[colName] = row[colName] == DBNull.Value ? null : row[colName];
+                            }
+                            return newRow;
+                        }).ToList();
+
+                       
+
+                        int totalrows = dynamicDataList.Count;
+                        int chunksize =model.ChunkSize.HasValue ? model.ChunkSize.Value : 100;
+                        int processed = 0;
+                        while (processed < totalrows)
+                        {
+                            var chunk = dynamicDataList.Skip(processed).Take(chunksize).ToList();
+                            result.Data = await _unitOfWork.ITIStudentRevaluationRepository.DynamicUpdateExcelData(chunk, action);
+                            await _unitOfWork.SaveChangesAsync();
+                            if (result.Data)
+                            {
+                                processed += chunk.Count;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                        result.State = result.Data ? EnumStatus.Success : EnumStatus.Error;
+                        result.Message = result.Data ? Constants.MSG_UPDATE_SUCCESS : Constants.MSG_UPDATE_ERROR;
+
                     }
                 }
             }

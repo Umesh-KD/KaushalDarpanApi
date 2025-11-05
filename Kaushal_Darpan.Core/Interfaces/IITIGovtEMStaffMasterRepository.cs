@@ -113,5 +113,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> OfficeVacancyActiveDeActive(ITIOfficeVacancyModel model);
 
         Task<int> ITI_EM_PostWithVacancyApproveStaffProfile(ITI_EM_ApproveStaffDataModel request);
+        Task<DataTable> GetStaffWorkRegular_ArrangementReort(BTER_EM_GetStaffListDataModel body);
     }
 }
