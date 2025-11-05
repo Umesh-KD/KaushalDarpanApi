@@ -14,5 +14,16 @@
         public int? CandidateID { get; set; }
         //public string IPAddress { get; set; }
     }
-        
+
+    public class ImportCounsellingVacancyDataModel
+    {
+        public string? TradeCode { get; set; }
+        public string? Designation { get; set; }
+        public string? InstituteCode { get; set; }
+        public string? VacantSeats { get; set; }
+        public string? InstituteName { get; set; }
+        public string? TradeName { get; set; }
+    }
+
+
 }

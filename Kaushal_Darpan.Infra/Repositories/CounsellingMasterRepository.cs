@@ -4,6 +4,7 @@ using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CollegeWiseScholarship;
+using Kaushal_Darpan.Models.CounsellingImportCandidateListModel;
 using Kaushal_Darpan.Models.CounsellingMaster;
 using Kaushal_Darpan.Models.Report;
 using Kaushal_Darpan.Models.Student;
@@ -421,6 +422,80 @@ namespace Kaushal_Darpan.Infra.Repositories
                         return true;
                     else
                         return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetSampleExcelFile_CounsellingVacant()
+        {
+            _actionName = "GetSampleExcelFile_CounsellingVacant()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_ImportVacanciesData";
+                        command.Parameters.AddWithValue("@Action", "GetExcelFormat");
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<List<ImportCounsellingVacancyDataModel>> ImportExcelFile_CounsellingVacant(List<ImportCounsellingVacancyDataModel> model)
+        {
+            _actionName = "ImportExcelFile_CounsellingVacant(List<ImportCounsellingVacancyDataModel> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_ImportVacanciesData";
+                        command.Parameters.AddWithValue("@Action", "PrepareExceldata");
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    var data = new List<ImportCounsellingVacancyDataModel>();
+                    if (dataTable != null)
+                    {
+                        data = CommonFuncationHelper.ConvertDataTable<List<ImportCounsellingVacancyDataModel>>(dataTable);
+                    }
+                    return data;
                 }
                 catch (Exception ex)
                 {
