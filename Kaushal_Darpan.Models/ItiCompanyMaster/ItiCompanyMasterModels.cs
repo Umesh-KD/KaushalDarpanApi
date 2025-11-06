@@ -174,6 +174,8 @@
 
     public  class OrderDetailsList
     {
+        public int? SanctionID { get; set; } = 0;
+        public int? ModifyBy { get; set; } = 0;
         
         public string? OrderCopy { get; set; }
         public string? OrderDate { get; set; }

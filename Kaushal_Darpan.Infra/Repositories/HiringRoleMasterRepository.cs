@@ -8,6 +8,7 @@ using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
+using Kaushal_Darpan.Models.ItiCompanyMaster;
 using Kaushal_Darpan.Models.RoleMaster;
 
 //namespace Kaushal_Darpan.Infra.Repositories
@@ -264,6 +265,50 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        public async Task<bool> SaveSanctionOrder(OrderDetailsList request)
+        {
+            return await Task.Run(async () =>
+            {
+                _actionName = "SaveDataSanction(SanctionOrderMasterModel request)";
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_SanctionOrderList";
+                        command.Parameters.AddWithValue("@SanctionID", request.SanctionID);
+               
+
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@OrderCopy", request.OrderCopy);
+                        command.Parameters.AddWithValue("@OrderDate", request.OrderDate);
+                        command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
+                        command.Parameters.AddWithValue("@OrderType", request.OrderType);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@action", "SaveDataOrder");
+                        _sqlQuery = command.GetSqlExecutableQuery();// sql query
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
         public async Task<bool> UpdateData(HiringRoleMasterModel request)
         {
@@ -341,6 +386,43 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<bool> DeleteSanctionOrder(HiringRoleMasterModel request)
+        {
+
+            int result = 0;
+            _actionName = "DeleteSanctionOrder(HiringRoleMasterModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        _sqlQuery = $" update OrderDetailsList set ActiveStatus=0,ModifyBy='{request.ModifyBy} '," +
+                        $"ModifyDate=GETDATE()'Where ID={request.ID}";
+                        command.CommandText = _sqlQuery;
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
         public async Task<bool> DeleteDataBySanctionID(HiringRoleMasterModel request)
         {
 
@@ -374,6 +456,121 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+        public async Task<DataTable> GetsanctionOrder(OrderDetailsList body)
+        {
+            _actionName = "GetAllData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_SanctionOrderList";
+                        command.Parameters.AddWithValue("@OrderType", body.OrderType);
+                        command.Parameters.AddWithValue("@OrderNo", body.OrderNo);
+                        command.Parameters.AddWithValue("@action", "GetAllData");
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        public async Task<DataTable> GetsanctionOrderNotAssign(OrderDetailsList body)
+        {
+            _actionName = "GetAllData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_SanctionOrderList";
+                         command.Parameters.AddWithValue("@OrderType", body.OrderType);
+                        command.Parameters.AddWithValue("@OrderNo", body.OrderNo);
+                        command.Parameters.AddWithValue("@action", "GetNotAssign");
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+
+        public async Task<OrderDetailsList> GetByIDSanctionOrder(int PK_ID)
+        {
+            _actionName = "GetByIDSanction(int PK_ID)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_SanctionOrderList";
+                        command.Parameters.AddWithValue("@action", "GetByID");
+                        command.Parameters.AddWithValue("@SanctionID",PK_ID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    var data = new OrderDetailsList();
+                    if (dataTable != null)
+                    {
+                        if (dataTable.Rows.Count > 0)
+                        {
+                            data = CommonFuncationHelper.ConvertDataTable<OrderDetailsList>(dataTable);
+                        }
+                    }
+                    return data;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
     }
