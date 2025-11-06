@@ -1,5 +1,6 @@
 ﻿using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.CollegeWiseScholarship;
+using Kaushal_Darpan.Models.CounsellingImportCandidateListModel;
 using Kaushal_Darpan.Models.CounsellingMaster;
 using System;
 using System.Collections.Generic;
@@ -21,5 +22,11 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> SaveFinalInstituteAllotment_Counselling(EditInstituteDataModel_Counselling model);
         Task<DataSet> GenerateAllotmentOrder_Counselling(List<EditInstituteDataModel_Counselling> model);
         Task<bool> UpdateAllotmentOrder_Counselling(List<EditInstituteDataModel_Counselling> model);
+        Task<DataTable> GetSampleExcelFile_CounsellingVacant();
+        Task<List<ImportCounsellingVacancyDataModel>> ImportExcelFile_CounsellingVacant(List<ImportCounsellingVacancyDataModel> model);
+        Task<int> SaveExcelData_CounsellingVacant(List<ImportCounsellingVacancyDataModel> request);
+        Task<DataTable> GetCounsellingVacancyData(CounsellingVacancySearchModel body);
+        Task<int> EditVacancyData_Counselling(EditVacancyDataModel request);
+        Task<EditVacancyDataModel> GetVacancyDetailsById_Counselling(int TradeInstituteID);
     }
 }

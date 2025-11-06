@@ -188,6 +188,7 @@ namespace Kaushal_Darpan.Models.ITI_Apprenticeship
         public int? DistrictID { get; set; }
         public int? MonthID { get; set; }
         public int? AcademicYearID { get; set; }
+        public string? action { get; set; }
     }
 
     public class CollegeApprovedContractDataModel: RequestBaseModel 

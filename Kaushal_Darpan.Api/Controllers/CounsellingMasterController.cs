@@ -1,12 +1,14 @@
 ﻿using AspNetCore.Reporting;
 using AutoMapper;
 using DocumentFormat.OpenXml.EMMA;
+using ExcelDataReader;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CollegeWiseScholarship;
+using Kaushal_Darpan.Models.CounsellingImportCandidateListModel;
 using Kaushal_Darpan.Models.CounsellingMaster;
 using Kaushal_Darpan.Models.ITIMaster;
 using Kaushal_Darpan.Models.Student;
@@ -581,6 +583,287 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
                 }
 
+                return result;
+            });
+        }
+
+        [HttpGet("GetSampleExcelFile_CounsellingVacant")]
+        public async Task<ApiResult<DataTable>> GetSampleExcelFile_CounsellingVacant()
+        {
+            ActionName = "GetSampleExcelFile_CounsellingVacant()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.CounsellingMasterRepository.GetSampleExcelFile_CounsellingVacant());
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("ImportExcelFile_CounsellingVacant"), DisableRequestSizeLimit]
+        public async Task<ApiResult<List<ImportCounsellingVacancyDataModel>>> ImportExcelFile_CounsellingVacant([FromForm] UploadFileModel model)
+        {
+            ActionName = "ImportExcelFile_CounsellingVacant([FromForm] UploadFileModel model)";
+            var result = new ApiResult<List<ImportCounsellingVacancyDataModel>>();
+
+            try
+            {
+                //  Validate file presence
+                if (model.file == null || model.file.Length == 0)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_INVALID_REQUEST;
+                    return result;
+                }
+
+                //  Read the Excel file
+                using (var stream = model.file.OpenReadStream())
+                {
+                    // Prepare StringWriter for logging or debugging purposes (Optional)
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    StringWriter swSQL = new StringWriter(sb);
+
+                    // Register CodePagesEncodingProvider for reading older Excel formats
+                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                    // Read Excel file into DataSet
+                    using (var reader = ExcelReaderFactory.CreateReader(stream))
+                    {
+                        var ds = reader.AsDataSet(new ExcelDataSetConfiguration()
+                        {
+                            ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                            {
+                                UseHeaderRow = true // Treat first row as headers
+                            }
+                        });
+
+                        // Get the first sheet as DataTable
+                        DataTable dt = ds.Tables[0];
+
+                        //  Convert DataTable to your specific model list
+                        var dataTime = CommonFuncationHelper.ConvertExcelData<List<ImportCounsellingVacancyDataModel>>(dt);
+                        var data = await _unitOfWork.CounsellingMasterRepository.ImportExcelFile_CounsellingVacant(dataTime);
+
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+
+        [HttpPost("SaveExcelData_CounsellingVacant")]
+        public async Task<ApiResult<bool>> SaveExcelData_CounsellingVacant([FromBody] List<ImportCounsellingVacancyDataModel> request)
+        {
+            ActionName = "SaveExcelData_CounsellingVacant([FromBody] List<ImportCounsellingVacancyDataModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    var isSave = await _unitOfWork.CounsellingMasterRepository.SaveExcelData_CounsellingVacant(request);
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                    if (isSave == -1)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Error;
+                        result.Message = Constants.MSG_ADD_ERROR;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetCounsellingVacancyData")]
+        public async Task<ApiResult<DataTable>> GetCounsellingVacancyData([FromBody] CounsellingVacancySearchModel body)
+        {
+            ActionName = "GetCounsellingVacancyData([FromBody] CounsellingVacancySearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.CounsellingMasterRepository.GetCounsellingVacancyData(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("EditVacancyData_Counselling")]
+        public async Task<ApiResult<bool>> EditVacancyData_Counselling([FromBody] EditVacancyDataModel request)
+        {
+            ActionName = "EditVacancyData_Counselling([FromBody] EditVacancyDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    var isSave = await _unitOfWork.CounsellingMasterRepository.EditVacancyData_Counselling(request);
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                    if (isSave == -1)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Error;
+                        result.Message = Constants.MSG_ADD_ERROR;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpGet("GetVacancyDetailsById_Counselling/{TradeInstituteID}")]
+        public async Task<ApiResult<EditVacancyDataModel>> GetVacancyDetailsById_Counselling(int TradeInstituteID)
+        {
+            ActionName = " EditVacancyData_Counselling(int TradeInstituteID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<EditVacancyDataModel>();
+                try
+                {
+                    var data = await _unitOfWork.CounsellingMasterRepository.GetVacancyDetailsById_Counselling(TradeInstituteID);
+                    if (data != null)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
                 return result;
             });
         }
