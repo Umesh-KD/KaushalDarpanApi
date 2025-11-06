@@ -6,6 +6,8 @@ using Kaushal_Darpan.Models.RoleMaster;
 using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
+using Kaushal_Darpan.Models.ItiCompanyMaster;
+using Kaushal_Darpan.Models.ScholarshipMaster;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -287,6 +289,60 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("SaveSanctionOrder")]
+        public async Task<ApiResult<bool>> SaveSanctionOrder([FromBody] OrderDetailsList request)
+        {
+            ActionName = "SaveDataSanction([FromBody] SanctionOrderMasterModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+
+                    result.Data = await _unitOfWork.HiringRoleMasterRepository.SaveSanctionOrder(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (request.SanctionID == 0)
+                            result.Message = "Saved successfully .!";
+                        else
+                            result.Message = "Updated successfully .!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (request.SanctionID  == 0)
+                            result.ErrorMessage = "There was an error adding data.!";
+                        else
+                            result.ErrorMessage = "There was an error updating data.!";
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
 
         /*put is used to full update the existing record*/
         [HttpPut("UpdateData")]
@@ -382,7 +438,7 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpDelete("DeleteDataBySanctionID/{PK_ID}/{ModifyBy}")]
+        [HttpPost("DeleteDataBySanctionID/{PK_ID}/{ModifyBy}")]
         public async Task<ApiResult<bool>> DeleteDataBySanctionID(int PK_ID, int ModifyBy)
         {
             ActionName = "DeleteDataByID(int PK_ID, int ModifyBy)";
@@ -396,7 +452,163 @@ namespace Kaushal_Darpan.Api.Controllers
                         ID = PK_ID,
                         ModifyBy = ModifyBy,
                     };
-                    result.Data = await _unitOfWork.HiringRoleMasterRepository.DeleteDataByID(DeleteData_Request);
+                    result.Data = await _unitOfWork.HiringRoleMasterRepository. DeleteDataBySanctionID(DeleteData_Request);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Deleted successfully .!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "There was an error deleting data.!";
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetsanctionOrder")]
+        public async Task<ApiResult<DataTable>> GetsanctionOrder([FromBody] OrderDetailsList model)
+        {
+            ActionName = "GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.HiringRoleMasterRepository.GetsanctionOrder(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpPost("GetsanctionOrderNotAssign")]
+        public async Task<ApiResult<DataTable>> GetsanctionOrderNotAssign([FromBody] OrderDetailsList model)
+        {
+            ActionName = "GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.HiringRoleMasterRepository.GetsanctionOrderNotAssign(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+        [HttpGet("GetByIDSanctionOrder/{PK_ID}")]
+        public async Task<ApiResult<OrderDetailsList>> GetByIDSanctionOrder(int PK_ID)
+        {
+
+            ActionName = " GetByID(int PK_ID)";
+            var result = new ApiResult<OrderDetailsList>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.HiringRoleMasterRepository.GetByIDSanctionOrder(PK_ID));
+                result.State = EnumStatus.Success;
+                if (result.Data == null)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+        [HttpPost("DeleteSanctionOrder/{PK_ID}/{ModifyBy}")]
+        public async Task<ApiResult<bool>> DeleteSanctionOrder(int PK_ID, int ModifyBy)
+        {
+            ActionName = "DeleteDataByID(int PK_ID, int ModifyBy)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    var DeleteData_Request = new HiringRoleMasterModel
+                    {
+                        ID = PK_ID,
+                        ModifyBy = ModifyBy,
+                    };
+                    result.Data = await _unitOfWork.HiringRoleMasterRepository.DeleteSanctionOrder(DeleteData_Request);
                     await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data)
