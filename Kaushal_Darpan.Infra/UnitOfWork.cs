@@ -2172,7 +2172,14 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-
+        private I_ITIBudgetCreateRepository _ITIBudgetCreateRepository;
+        public I_ITIBudgetCreateRepository ITIBudgetCreateRepository
+        {
+            get
+            {
+                return _ITIBudgetCreateRepository ??= new ITIBudgetCreateRepository(_dbContext);
+            }
+        }
 
         #endregion
     }

@@ -292,5 +292,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         ICounsellingImportCandidateListRepository CounsellingImportCandidateListRepository { get; }
 
         IITIStudentRevaluationRepository ITIStudentRevaluationRepository { get; }
+        I_ITIBudgetCreateRepository ITIBudgetCreateRepository { get; }
     }
 }
