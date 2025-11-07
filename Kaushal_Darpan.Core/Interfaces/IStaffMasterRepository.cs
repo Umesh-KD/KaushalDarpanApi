@@ -44,6 +44,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveRosterDisplayMultiple(List<SaveRosterDisplayMultipleModel> body);
         Task<int> DeleteRosterDisplay(SaveRosterDisplayMultipleModel body);
         Task<DataTable> GetAssignedTeacherForSubject_BySecctionID(GetAssignedTeacherForSubjectDataModel body);
+        Task<DataTable> GetAssignedTeacherForSubject(GetAssignedTeacherForSubjectDataModel body);
 
         Task<DataTable> GetBranchSectionAcRosterData(GetDDlSectionDataModel body);
     }
