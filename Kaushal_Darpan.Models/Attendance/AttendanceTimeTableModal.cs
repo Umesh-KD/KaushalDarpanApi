@@ -49,6 +49,8 @@ namespace Kaushal_Darpan.Models.Attendance
 
         // Change from a single Attendances object to a list
         public List<Attendances> Attendance { get; set; }
+
+        public int StaffID { get; set; }
     }
 
     public class Attendances
@@ -100,6 +102,7 @@ namespace Kaushal_Darpan.Models.Attendance
 
         public int? CurrentMonth { get; set; }
         public int? CurrentYear { get; set; }
+        public int? InstituteID { get; set; }
     }
 
 }

@@ -859,6 +859,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
                     command.Parameters.AddWithValue("@CreatedDate", body.CreatedDate ?? DateTime.Now);
                     command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
                     command.Parameters.AddWithValue("@rowjson", JsonConvert.SerializeObject(body.Section));
 
                     command.Parameters.Add("@Return", SqlDbType.Int);
