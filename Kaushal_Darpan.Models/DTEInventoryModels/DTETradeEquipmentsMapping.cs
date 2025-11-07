@@ -85,6 +85,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int TradeIdTypeId { get; set; }
         public int Status { get; set; }
         public int InstituteID { get; set; }
+        public string? IndentDocument { get; set; }
+        public string? Remarks { get; set; }
     }
     public class DTESearchTradeEquipmentsMapping
     {
