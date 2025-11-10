@@ -13,5 +13,6 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetAllData(BudgetHeadSearchFilter body);
         Task<DataTable> GetITIBudgetDropdown(ITIBudgetDropdownDataModel model);
+        Task<int> SaveDataBudgetCreate_Admin(ITIBudgetCreateDataModel request);
     }
 }

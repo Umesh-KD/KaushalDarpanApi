@@ -259,6 +259,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_BGT_AddEditCollegeBudgetUtilizations_Get";
                         command.Parameters.AddWithValue("@DistributedID", model.DistributedID);
                         command.Parameters.AddWithValue("@ActionName", model.ActionName);
+                        command.Parameters.AddWithValue("@BudgetTypeID", model.BudgetTypeID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -341,6 +342,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DistributedAmount", request.DistributedAmount);
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@Remarks", request.Remarks);
+                        command.Parameters.AddWithValue("@BodgetTypeID", request.BodgetTypeID);
+                        command.Parameters.AddWithValue("@BodgetType_Cumulative_HeadWise", request.BodgetType_Cumulative_HeadWise);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -367,5 +370,40 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetBudget_HeadWise(BudgetHeadSearchFilter model)
+        {
+            _actionName = "GetAllData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "ITI_BGT_GetHeadWiseBudget_Admin";
+                        command.Parameters.AddWithValue("@ActionName", model.ActionName);
+                        command.Parameters.AddWithValue("@BudgetTypeID", model.BudgetTypeID);
+                        command.Parameters.AddWithValue("@AcademicYearID", model.AcademicYearID);
+                        command.Parameters.AddWithValue("@InstituteId", model.InstituteId);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
