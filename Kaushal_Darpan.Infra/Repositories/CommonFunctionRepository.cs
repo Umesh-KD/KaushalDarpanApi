@@ -10094,6 +10094,51 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<int> Dummy_SaveAndMoveNewAdmittedEngStudentImages(string json)
+        {
+            _actionName = "Dummy_SaveAndMoveNewAdmittedEngStudentImages(string json)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_Dummy_SaveAndMoveNewAdmittedEngStudentImages";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@rowJson", json);
+
+                        //out
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int);
+                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        //out
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
 

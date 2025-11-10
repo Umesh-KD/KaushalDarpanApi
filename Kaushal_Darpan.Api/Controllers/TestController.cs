@@ -684,6 +684,141 @@ namespace Kaushal_Darpan.Api.Controllers
             }
         }
 
+        // move new eng. student file into new file structure
+        [HttpPost("Dummy_SaveAndMoveNewAdmittedEngStudentImages")]
+        public async Task<string> Dummy_SaveAndMoveNewAdmittedEngStudentImages()
+        {
+            try
+            {
+                // move files and save data of new eng admission
+                //--------paths--------
+                //old (source):
+                //All = \StaticFiles\old-bter-student-images\SemEng_NewAddmission\direct\
+
+                //new (destination):\year\coursetype\applicationid\filename
+                //All = \StaticFiles\Students\BTER\2025\1\20\filename
+
+
+                //log
+                CommonFuncationHelper.WriteTextLog("Dummy_SaveAndMoveStudentImages start:");
+
+                //data
+                var action = "_Dummy_getNewAdmittedEngStudentImages";
+                var ds = await _unitOfWork.CommonFunctionRepository.Dummy_GetTestUspDataByAction(action);
+                DataTable dataTable = ds.Tables[0];
+                //log
+                CommonFuncationHelper.WriteTextLog($"Dummy_GetTestUspDataByAction getdata count = {dataTable.Rows.Count}");
+
+                //source path
+                string sourceRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, "old-bter-student-images", "SemEng_NewAddmission");
+                string destinationRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsFolder, Constants.DepartmentBterFolder);
+
+                if (!Directory.Exists(sourceRootPath))
+                {
+                    return "sourceRootPath Directory does not exist!";
+                }
+                if (!Directory.Exists(destinationRootPath))
+                {
+                    Directory.CreateDirectory(destinationRootPath);
+                }
+
+                // Create DataTable for storing new id
+                DataTable dt = new DataTable();
+                dt.Columns.Add("ApplicationID", typeof(int));
+
+                //loop files each student
+                //log
+                CommonFuncationHelper.WriteTextLog("table loop start:");
+                CommonFuncationHelper.WriteTextLog("all file copy start:");
+                int i = 0;
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    ++i;
+
+                    //make source full path of each students
+                    var sourceFolderPathEach = System.IO.Path.Combine(sourceRootPath, row["FolderType"].ToString(), row["filename"].ToString());
+
+                    //log
+                    CommonFuncationHelper.WriteTextLog($"source folder ({sourceFolderPathEach}) loop count = {i}");
+
+                    //check path
+                    if (!System.IO.File.Exists(sourceFolderPathEach))
+                    {
+                        //log
+                        CommonFuncationHelper.WriteTextLog($"source file not found = {sourceFolderPathEach}");
+                        continue;
+                    }
+
+                    //make destination path of each students with new id                    
+                    var destinationFolderPathEach = System.IO.Path.Combine(destinationRootPath, row["FolderYear"].ToString(), row["CourseType"].ToString(), row["ApplicationID"].ToString());
+
+                    //destination path
+                    if (!Directory.Exists(destinationFolderPathEach))
+                    {
+                        Directory.CreateDirectory(destinationFolderPathEach);
+                    }
+
+                    // make destination full path 
+                    var destinationFullPathEach = System.IO.Path.Combine(destinationFolderPathEach, row["filename"].ToString());
+
+
+                    //----- copy file in new folder structure -----
+                    // copy the file
+                    // Open the source file with shared read access
+                    using (var sourceStream = new FileStream(sourceFolderPathEach, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite))
+                    using (var destinationStream = new FileStream(destinationFullPathEach, System.IO.FileMode.Create, System.IO.FileAccess.Write))
+                    {
+                        await sourceStream.CopyToAsync(destinationStream);// copy
+                    }
+
+                    // add in new table for document table save
+                    DataRow dr = dt.NewRow();
+                    dr["ApplicationID"] = row["ApplicationID"].ToString();
+
+                    //add in table
+                    dt.Rows.Add(dr);
+
+                }
+
+                //log
+                CommonFuncationHelper.WriteTextLog("all file copy end:");
+                CommonFuncationHelper.WriteTextLog("table loop end:");
+
+                //check need to insert
+                if (dt.Rows.Count > 0)
+                {
+                    //log
+                    CommonFuncationHelper.WriteTextLog("DB Insert start:");
+
+                    //convert in json
+                    string json = JsonConvert.SerializeObject(dt);
+
+                    //log
+                    CommonFuncationHelper.WriteTextLog($"DB Insert Start with json : {json}");
+
+                    //db
+                    var r = await _unitOfWork.CommonFunctionRepository.Dummy_SaveAndMoveNewAdmittedEngStudentImages(json);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    //log
+                    CommonFuncationHelper.WriteTextLog("DB Insert end:");
+
+                    return "Success";
+                }
+                else
+                {
+                    return "not data to insert";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //log
+                CommonFuncationHelper.WriteTextLog($"Error: {ex.Message}");
+                return $"Error: {ex.Message}";
+            }
+        }
+
     }
     public class Test
     {
