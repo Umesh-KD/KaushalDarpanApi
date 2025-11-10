@@ -501,124 +501,35 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
 
                         var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-
                         string guid = Guid.NewGuid().ToString().ToUpper();
                         var fileName = $"CounsellingAllotmentOrder_{guid}.pdf";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITI_CounsellingAllotmentOrder.rdlc";
 
-                        StringBuilder sb = new StringBuilder();
-
-                        // start
-                        sb.AppendLine("<!DOCTYPE html>");
-                        sb.AppendLine("<html lang=\"en\">");
-                        sb.AppendLine("<head>");
-                        sb.AppendLine("    <meta charset=\"UTF-8\">");
-                        sb.AppendLine("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-                        sb.AppendLine("    <title>Tabulation Register</title>");
-                        sb.AppendLine("</head>");
-                        sb.AppendLine("<body>");
-                        sb.AppendLine("    <div style=\"width: 98%; margin: auto;\">");
-
-                        // get consolidate summary
-                        //get html
-                        var _sb1 = _printHtmlFile.CounsellingAllotmentOrder_GetHtml(data?.Tables[0]);
-                        sb.AppendJoin("</br>", _sb1);
-
-                        // end
-                        sb.AppendLine("    </div>");
-                        sb.AppendLine("</body>");
-                        sb.AppendLine("</html>");
-
-                        var doc = new HtmlToPdfDocument()
+                        body.ForEach(x =>
                         {
-                            GlobalSettings = {
-                                PaperSize = PaperKind.A3,
-                                Orientation = Orientation.Landscape
-                            },
-                            Objects = {
-                                new ObjectSettings()
-                                {
-                                    HtmlContent = sb.ToString(),
-                                    WebSettings = { DefaultEncoding = "utf-8" }
-                                }
-                            }
-                        };                        
+                            x.AllotmentOrderPath = filepath;
+                            x.AllotmentOrder = fileName;
+                        });
 
-                        byte[] pdfBytes = _converter.Convert(doc);
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
 
-                        if (System.IO.File.Exists(filepath))
+                        localReport.AddDataSource("ITI_CounsellingAllotmentOrderTable", data.Tables[0]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
                         {
-                            System.IO.File.Delete(filepath);
+                            Directory.CreateDirectory(folderPath);
                         }
-                        if (Utility.PDFWorks.GeneratePDF(_sb1, filepath, ""))
-                        {
-                            byte[] fileBytes = System.IO.File.ReadAllBytes(filepath);
-                            string file_Name = filepath.Split('/')[filepath.Split('/').Length - 1];
-                            File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, file_Name);
-                        }
-                        else
-                        {
-                            //return null;
-                        }
+
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        //end report
 
                         result.Data = fileName;
                         result.State = EnumStatus.Success;
-                        result.Message = "Success";
-
-                        //result.Data = Convert.ToBase64String(pdfBytes);
-                        //result.State = EnumStatus.Success;
-                        //result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-
-
-                        //var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-
-                        //string guid = Guid.NewGuid().ToString().ToUpper();
-                        //var fileName = $"CounsellingAllotmentOrder_{guid}.pdf";
-                        //string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-
-                        ////provider                      
-                        //System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        //data.Tables[0].TableName = "AllottedCandidateList";
-
-                        //string devFontSize = "15px";
-                        //System.Text.StringBuilder sb = new System.Text.StringBuilder();
-
-                        //string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderITI}/CounsellingAllotmentOrder.html";
-
-                        //string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
-
-                        //System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
-
-                        //html = Utility.PDFWorks.ReplaceCustomTag(html);
-
-                        //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
-
-
-                        //if (System.IO.File.Exists(filepath))
-                        //{
-                        //    System.IO.File.Delete(filepath);
-                        //}
-                        //if (Utility.PDFWorks.GeneratePDF(sb1, filepath, ""))
-                        //{
-                        //    //byte[] fileBytes = System.IO.File.ReadAllBytes(filepath);
-                        //    //string file_Name = filepath.Split('/')[filepath.Split('/').Length - 1];
-                        //    //return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, file_Name);
-                        //}
-                        //else
-                        //{
-                        //    //return null;
-                        //}
-
-
-                        //////check file exists
-                        ////if (!System.IO.Directory.Exists(folderPath))
-                        ////{
-                        ////    Directory.CreateDirectory(folderPath);
-                        ////}
-
-                        //result.Data = fileName;
-                        //result.State = EnumStatus.Success;
-                        //result.Message = "Success";
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
 
                         if (result.State == EnumStatus.Success)
                         {
