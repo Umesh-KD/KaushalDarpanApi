@@ -452,6 +452,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         int totalrows = SelectedData.Count;
                         int chunksize = model.ChunkSize.HasValue ? model.ChunkSize.Value : 100;
                         int processed = 0;
+                        bool allChunksSucceeded = true;
                         while (processed < totalrows)
                         {
                             var chunk = SelectedData.Skip(processed).Take(chunksize).ToList();
@@ -463,11 +464,11 @@ namespace Kaushal_Darpan.Api.Controllers
                             }
                             else
                             {
+                                allChunksSucceeded = false;
                                 break;
                             }
                         }
-                        
-                        if (result.Data)
+                        if (allChunksSucceeded)
                         {
                             result.State = EnumStatus.Success;
                             result.Message = Constants.MSG_UPDATE_SUCCESS;
@@ -475,7 +476,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         else
                         {
                             result.State = EnumStatus.Error;
-                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                            result.Message = Constants.MSG_UPDATE_ERROR;
+
                         }
 
                   
@@ -546,7 +548,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         
                         var columnNames = dt.Columns.Cast<DataColumn>()
-                                            .Select(c => c.ColumnName)
+                                            .Select(c => c.ColumnName.Trim())
                                             .ToList();
                       
                         var dynamicDataList = dt.AsEnumerable().Select(row =>
@@ -565,6 +567,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         int totalrows = dynamicDataList.Count;
                         int chunksize =model.ChunkSize.HasValue ? model.ChunkSize.Value : 100;
                         int processed = 0;
+                        bool allChunksSucceeded = true;
                         while (processed < totalrows)
                         {
                             var chunk = dynamicDataList.Skip(processed).Take(chunksize).ToList();
@@ -576,12 +579,23 @@ namespace Kaushal_Darpan.Api.Controllers
                             }
                             else
                             {
+                                allChunksSucceeded = false;
                                 break;
                             }
                         }
 
-                        result.State = result.Data ? EnumStatus.Success : EnumStatus.Error;
-                        result.Message = result.Data ? Constants.MSG_UPDATE_SUCCESS : Constants.MSG_UPDATE_ERROR;
+                        if (allChunksSucceeded)
+                        {
+                            result.State = EnumStatus.Success;
+                            result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.State = EnumStatus.Error;
+                            result.Message = Constants.MSG_UPDATE_ERROR;
+
+                        }
+
 
                     }
                 }

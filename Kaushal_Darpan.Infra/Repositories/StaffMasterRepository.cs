@@ -859,6 +859,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
                     command.Parameters.AddWithValue("@CreatedDate", body.CreatedDate ?? DateTime.Now);
                     command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
                     command.Parameters.AddWithValue("@rowjson", JsonConvert.SerializeObject(body.Section));
 
                     command.Parameters.Add("@Return", SqlDbType.Int);
@@ -1265,6 +1266,48 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_BTER_GetAssignedBranchSection_ByID";
+
+                        // Required for all actions
+                        //command.Parameters.AddWithValue("@ActionType", "BranchNameHide");
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@SectionID", body.SectionID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> GetAssignedTeacherForSubject(GetAssignedTeacherForSubjectDataModel body)
+        {
+            _actionName = "GetAssignedTeacherForSubject(SearchBranchDataModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    //using (var command = _dbContext.CreateCommand())
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BTER_GetAssignedBranchSection";
 
                         // Required for all actions
                         //command.Parameters.AddWithValue("@ActionType", "BranchNameHide");

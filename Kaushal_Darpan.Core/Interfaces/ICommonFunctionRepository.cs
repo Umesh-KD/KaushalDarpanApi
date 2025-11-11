@@ -329,5 +329,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<List<CommonDDLModel>> GetDesignationDepartmentIDWise(int DepartmentID);
 
+        Task<int> Dummy_SaveAndMoveNewAdmittedEngStudentImages(string json);
+
     }
 }

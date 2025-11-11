@@ -1,8 +1,12 @@
 ﻿using AspNetCore.Reporting;
 using AutoMapper;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using DocumentFormat.OpenXml.EMMA;
 using ExcelDataReader;
+using iTextSharp.tool.xml.html;
 using Kaushal_Darpan.Api.Code.Attribute;
+using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ApplicationData;
@@ -13,8 +17,10 @@ using Kaushal_Darpan.Models.CounsellingMaster;
 using Kaushal_Darpan.Models.ITIMaster;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentApplyForHostel;
+using Kaushal_Darpan.Models.TheoryMarks;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.Text;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -29,11 +35,15 @@ namespace Kaushal_Darpan.Api.Controllers
 
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IConverter _converter;
+        private readonly IPrintHtmlFile _printHtmlFile;
 
-        public CounsellingMasterController(IMapper mapper, IUnitOfWork unitOfWork)
+        public CounsellingMasterController(IMapper mapper, IUnitOfWork unitOfWork, IConverter converter, IPrintHtmlFile printHtmlFile)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _converter = converter;
+            _printHtmlFile = printHtmlFile;
         }
 
         [HttpPost("SavePersonalData")]
@@ -489,61 +499,43 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     if (data?.Tables?.Count == 1)
                     {
-                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
 
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
                         string guid = Guid.NewGuid().ToString().ToUpper();
                         var fileName = $"CounsellingAllotmentOrder_{guid}.pdf";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITI_CounsellingAllotmentOrder.rdlc";
 
-                        //provider                      
+                        body.ForEach(x =>
+                        {
+                            x.AllotmentOrderPath = filepath;
+                            x.AllotmentOrder = fileName;
+                        });
+
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        data.Tables[0].TableName = "AllottedCandidateList";
+                        LocalReport localReport = new LocalReport(rdlcpath);
 
-                        string devFontSize = "15px";
-                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                        localReport.AddDataSource("ITI_CounsellingAllotmentOrderTable", data.Tables[0]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
 
-                        string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderITI}/CounsellingAllotmentOrder.html";
-
-                        string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
-
-                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
-
-                        html = Utility.PDFWorks.ReplaceCustomTag(html);
-
-                        sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
-
-
-                        if (System.IO.File.Exists(filepath))
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
                         {
-                            System.IO.File.Delete(filepath);
-                        }
-                        if (Utility.PDFWorks.GeneratePDF(sb1, filepath, ""))
-                        {
-                            //byte[] fileBytes = System.IO.File.ReadAllBytes(filepath);
-                            //string file_Name = filepath.Split('/')[filepath.Split('/').Length - 1];
-                            //return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, file_Name);
-                        }
-                        else
-                        {
-                            //return null;
+                            Directory.CreateDirectory(folderPath);
                         }
 
-
-                        ////check file exists
-                        //if (!System.IO.Directory.Exists(folderPath))
-                        //{
-                        //    Directory.CreateDirectory(folderPath);
-                        //}
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        //end report
 
                         result.Data = fileName;
                         result.State = EnumStatus.Success;
-                        result.Message = "Success";
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
 
                         if (result.State == EnumStatus.Success)
                         {
                             foreach (var item in body)
                             {
-                                item.AllotmentOrder = fileName;
+                                item.AllotmentOrder = result.Data;
                             }
                             var updateData = new ApiResult<bool>();
 
@@ -586,6 +578,93 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        ////tabluation umesh
+        //[HttpPost("TabulationDataReport")]
+        //public async Task<ApiResult<string>> TabulationDataReport([FromBody] TabluationDataModel body)
+        //{
+        //    ActionName = "TabulationDataReport([FromBody] TabluationDataModel body)";
+        //    var result = new ApiResult<string>();
+        //    try
+        //    {
+        //        // get all streams
+        //        var streams_data = await _unitOfWork.ReportRepository.GetStreamResultRptTabulation(body);
+
+        //        if (streams_data?.Rows?.Count == 0)
+        //        {
+        //            result.State = EnumStatus.Warning;
+        //            result.Message = Constants.MSG_DATA_NOT_FOUND;
+        //            return result;
+        //        }
+
+        //        StringBuilder sb = new StringBuilder();
+
+        //        // start
+        //        sb.AppendLine("<!DOCTYPE html>");
+        //        sb.AppendLine("<html lang=\"en\">");
+        //        sb.AppendLine("<head>");
+        //        sb.AppendLine("    <meta charset=\"UTF-8\">");
+        //        sb.AppendLine("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+        //        sb.AppendLine("    <title>Tabulation Register</title>");
+        //        sb.AppendLine("</head>");
+        //        sb.AppendLine("<body>");
+        //        sb.AppendLine("    <div style=\"width: 98%; margin: auto;\">");
+
+                
+        //        // get consolidate summary
+        //        var consolidate_data = await _unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body);
+        //        if (consolidate_data?.Rows.Count > 0)
+        //        {
+        //            //get html
+        //            var _sb1 = _printHtmlFile.GetHtmlOfConsolidateForTabulation(consolidate_data);
+        //            sb.AppendJoin("</br>", _sb1);
+        //        }
+
+        //        // end
+        //        sb.AppendLine("    </div>");
+        //        sb.AppendLine("</body>");
+        //        sb.AppendLine("</html>");
+
+        //        var doc = new HtmlToPdfDocument()
+        //        {
+        //            GlobalSettings = {
+        //                PaperSize = PaperKind.A3,
+        //                Orientation = Orientation.Landscape
+        //            },
+        //            Objects = {
+        //                new ObjectSettings()
+        //                {
+        //                    HtmlContent = sb.ToString(),
+        //                    WebSettings = { DefaultEncoding = "utf-8" }
+        //                }
+        //            }
+        //        };
+
+        //        byte[] pdfBytes = _converter.Convert(doc);
+
+        //        result.Data = Convert.ToBase64String(pdfBytes);
+        //        result.State = EnumStatus.Success;
+        //        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+        //        //return File(pdfBytes, "application/pdf", "tabulationresult.pdf");
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        await _unitOfWork.DisposeAsync();
+        //        result.State = EnumStatus.Error;
+        //        result.Message = Constants.MSG_ERROR_OCCURRED;
+        //        result.ErrorMessage = ex.Message;
+        //        // write error log
+        //        var nex = new NewException
+        //        {
+        //            PageName = PageName,
+        //            ActionName = ActionName,
+        //            Ex = ex,
+        //        };
+        //        await CreateErrorLog(nex, _unitOfWork);
+        //        //return StatusCode(500, ex.Message);
+        //    }
+        //    return result;
+        //}
 
         [HttpGet("GetSampleExcelFile_CounsellingVacant")]
         public async Task<ApiResult<DataTable>> GetSampleExcelFile_CounsellingVacant()
