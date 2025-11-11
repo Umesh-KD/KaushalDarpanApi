@@ -21,7 +21,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> Save_CollegeBudgetRequest(BudgetRequestModel request);
         Task<DataTable> GetBudgetRequestData(BudgetHeadSearchFilter model);
         Task<int> SaveBudgetUtilization_Admin(CollegeBudgetAllotedModel request);
-
+        Task<DataTable> GetBudget_HeadWise(BudgetHeadSearchFilter model);
 
 
 

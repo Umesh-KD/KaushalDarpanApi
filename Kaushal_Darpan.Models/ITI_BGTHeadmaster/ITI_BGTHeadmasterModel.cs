@@ -21,6 +21,8 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? CreatedBy { get; set; }
         public int ModifyBy { get; set; }
         public string? IPAddress { get; set; }
+        public bool? IsUnitWise { get; set; }
+        public string? UnitName { get; set; }
     }
 
 

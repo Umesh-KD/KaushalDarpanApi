@@ -554,10 +554,32 @@ namespace Kaushal_Darpan.Api.Controllers
                         var dynamicDataList = dt.AsEnumerable().Select(row =>
                         {
                             var newRow = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+                            //foreach (var colName in columnNames)
+                            //{
+
+                            //    newRow[colName] = row[colName] == DBNull.Value ? null : row[colName];
+                            //}
+
                             foreach (var colName in columnNames)
                             {
-                               
-                                newRow[colName] = row[colName] == DBNull.Value ? null : row[colName];
+                                var cellValue = row[colName];
+
+                                if (cellValue == DBNull.Value)
+                                {
+                                    newRow[colName] = null;
+                                }
+                                else if (cellValue is double d)
+                                {
+                                    // If it’s actually an integer (like 1.0 → 1)
+                                    if (d % 1 == 0)
+                                        newRow[colName] = Convert.ToInt64(d); // or int if range safe
+                                    else
+                                        newRow[colName] = d; // keep decimal values like 10.5
+                                }
+                                else
+                                {
+                                    newRow[colName] = cellValue;
+                                }
                             }
                             return newRow;
                         }).ToList();

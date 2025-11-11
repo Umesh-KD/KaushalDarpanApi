@@ -95,5 +95,48 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        [HttpPost("SaveDataBudgetCreate_Admin")]
+        public async Task<ApiResult<int>> SaveDataBudgetCreate_Admin([FromBody] ITIBudgetCreateDataModel request)
+        {
+            ActionName = "SaveDataBudgetCreate_Admin([FromBody] ITIBudgetCreateDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+
+                    result.Data = await _unitOfWork.ITIBudgetCreateRepository.SaveDataBudgetCreate_Admin(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }

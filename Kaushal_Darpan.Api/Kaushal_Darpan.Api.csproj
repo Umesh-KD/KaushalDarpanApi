@@ -70,8 +70,18 @@
     <None Remove="Report\DataSource\KD_DBScript - Copy.xsc" />
     <None Remove="Report\DataSource\KD_DBScript - Copy.xss" />
     <None Remove="Report\DataSource\KD_DBScript.xsd" />
+    <None Remove="Report\Files\BTER\ITI_CounsellingAllotmentOrder.rdlc" />
     <None Remove="Report\Files\ITI\CounsellingAllotmentOrder.rdlc" />
+    <None Remove="Report\Files\ITI\ITI_CounsellingAllotmentOrder.rdlc" />
     <None Remove="Report\ITI\CounsellingAllotmentOrder.html" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Report\DataSource\KD_DBScript.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>KD_DBScript.xsd</DependentUpon>
+    </Compile>
   </ItemGroup>
   
   <ItemGroup>

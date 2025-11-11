@@ -44,14 +44,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_SAVE_SUCCESS;
-                        //if (request.UserID == 0)
-                        //{
-                        //    result.Message = Constants.MSG_SAVE_SUCCESS;
-                        //}
-                        //else
-                        //{
-                        //    result.Message = Constants.MSG_UPDATE_SUCCESS;
-                        //}
 
                     }
                     else if (result.Data == -2)
@@ -63,14 +55,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         result.State = EnumStatus.Error;
                         result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                        //if (request.UserID == 0)
-                        //{
-                        //    result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                        //}
-                        //else
-                        //{
-                        //    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
-                        //}
                     }
                 }
                 catch (Exception ex)

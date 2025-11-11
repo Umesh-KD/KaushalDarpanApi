@@ -17,8 +17,9 @@ namespace Kaushal_Darpan.Models.ITIBUDGET
         public int? RequestID { get; set; }
         public int? CreatedBy { get; set; }
         public int? StatusId { get; set; }
-        public int DistributedType { get; set; }
-
-
+        public int? DistributedType { get; set; }
+        public int? BudgetTypeID { get; set; }
+        public int? AcademicYearID { get; set; }
+        public int? InstituteId { get; set; }
     }
 }

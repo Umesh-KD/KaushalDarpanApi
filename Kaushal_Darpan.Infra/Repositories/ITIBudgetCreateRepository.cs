@@ -3,6 +3,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ITI_BGTHeadmaster;
 using Kaushal_Darpan.Models.ITIBUDGET;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -91,6 +92,60 @@ namespace Kaushal_Darpan.Infra.Repositories
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                 throw new Exception(errordetails, ex);
             }
+        }
+
+        public async Task<int> SaveDataBudgetCreate_Admin(ITIBudgetCreateDataModel request)
+        {
+            _actionName = "SaveDataBudgetCreate_Admin(ITIBudgetCreateDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+
+
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BGT_BudgetCreate_IU";
+                        command.Parameters.AddWithValue("@ActionName", "SaveData");
+
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request.BudgetHeadList));                        
+                        command.Parameters.AddWithValue("@BudgetTypeID", request.BudgetTypeID);
+                        command.Parameters.AddWithValue("@BudgetTypeName", request.BudgetTypeName);
+                        command.Parameters.AddWithValue("@AcademicYearID", request.AcademicYearID);
+                        command.Parameters.AddWithValue("@BudgetForID", request.BudgetForID);
+                        command.Parameters.AddWithValue("@BudgetType_Cumulative_HeadWise", request.BudgetType_Cumulative_HeadWise);
+                        command.Parameters.AddWithValue("@CumulativeAmount", request.CumulativeAmount);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@TotalAmount", request.TotalAmount);
+                        command.Parameters.AddWithValue("@DistributedType", request.DistributedType);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+
+                    return result;
+
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
         }
     }
 }
