@@ -105,4 +105,50 @@ namespace Kaushal_Darpan.Models.Attendance
         public int? InstituteID { get; set; }
     }
 
+    public class AttendanceTimeTableTLCModal
+    {
+        public int EndTermID { get; set; }
+        public int FinancialYearID { get; set; }
+        public int CourseTypeID { get; set; }
+        public int StreamID { get; set; }
+        public int SectionID { get; set; }
+        public int DepartmentID { get; set; }
+        public int SubjectID { get; set; }
+        public int InstituteID { get; set; }
+        public int SemesterID { get; set; }
+        public int UnitID { get; set; }
+        public int ShiftID { get; set; }
+        public string SSOID { get; set; }
+        public int StaffID { get; set; }
+        public int TimeDDLID { get; set; }
+        public int RoleID { get; set; }
+        public DateTime? AttendanceStartDate { get; set; }
+        public DateTime? AttendanceEndDate { get; set; }
+        public string EnrollmentNo { get; set; }
+        public int StudentId { get; set; }
+
+        public string ActionName { get; set; }
+    }
+
+    public class PostAttendanceTimeTableTLCModal
+    {
+        public int EndTermID { get; set; }
+        public int FinancialYearID { get; set; }
+        public string? EnrollmentNo { get; set; }
+        public int CourseTypeID { get; set; }
+        public int StreamID { get; set; }
+        public int DepartmentID { get; set; }
+        public int SectionID { get; set; }
+        public int InstituteID { get; set; }
+        public int SubjectID { get; set; }
+        public string? SubjectName { get; set; }
+        public int SemesterID { get; set; }
+        public string? StudentName { get; set; }
+        public int AssignTeacherForSubjectID { get; set; }
+
+        // Change from a single Attendances object to a list
+        public List<Attendances> Attendance { get; set; }
+
+        public int StaffID { get; set; }
+    }
 }
