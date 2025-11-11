@@ -1316,6 +1316,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TradeIdTypeId", request.TradeIdTypeId);
                         command.Parameters.AddWithValue("@CompanyName", request.CompanyName);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@MappingId", request.MappingId);
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
@@ -1635,7 +1636,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
                         command.Parameters.AddWithValue("@TradeIdTypeId", request.TradeIdTypeId);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
-
+                        command.Parameters.AddWithValue("@IndentDocument", request.IndentDocument);
+                        command.Parameters.AddWithValue("@Remarks", request.Remarks);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
