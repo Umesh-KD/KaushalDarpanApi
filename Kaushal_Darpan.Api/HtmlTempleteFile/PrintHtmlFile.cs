@@ -321,5 +321,48 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             }
         }
         #endregion
+
+        #region Counselling Allotment Order
+        public StringBuilder CounsellingAllotmentOrder_GetHtml(DataTable consolidate_dt)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("</br>");
+                sb.AppendLine("</br>");
+
+                // table -3
+                sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;\">");
+
+                //column
+                // Main Header Row
+                sb.AppendLine("            <tr>");
+                foreach (DataColumn dc in consolidate_dt.Columns)
+                {
+                    sb.AppendLine($"                <th style=\"text-align:left;\">{dc.ColumnName}</th>");
+                }
+                sb.AppendLine("            </tr>");
+
+                //row
+                //column data
+                foreach (DataRow dr in consolidate_dt.Rows)
+                {
+                    sb.AppendLine($"            <tr>");
+                    foreach (DataColumn dc in consolidate_dt.Columns)
+                    {
+                        sb.AppendLine($"                <td>{dr[dc.ColumnName]}</td>");
+                    }
+                    sb.AppendLine("            </tr>");
+                }
+                sb.AppendLine("        </table>");
+
+                return sb;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        #endregion
     }
 }
