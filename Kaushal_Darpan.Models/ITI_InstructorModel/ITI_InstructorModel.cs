@@ -110,6 +110,8 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public decimal? Education_Percentage { get; set; } 
 
         public string? EducationDocument { get; set; }
+        public string? MarksType { get; set; }
+        public string? MarkTypeName { get; set; }
 
         public int? CreatedBy { get; set; }
         public int? DepartmentID { get; set; }
