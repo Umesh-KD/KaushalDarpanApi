@@ -1150,7 +1150,7 @@
               <Line Name="Line17">
                 <Top>1.30324cm</Top>
                 <Left>0.17638cm</Left>
-                <Height>9.13396cm</Height>
+                <Height>8.81646cm</Height>
                 <Width>0cm</Width>
                 <ZIndex>7</ZIndex>
                 <Style>
@@ -1208,7 +1208,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value> Photo Affixed  By Student1</Value>
+                        <Value> Photo Affixed  By Student</Value>
                         <Style>
                           <FontStyle>Normal</FontStyle>
                           <FontFamily>Times New Roman</FontFamily>
@@ -1300,8 +1300,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>11.3805cm</Top>
-            <Left>0.27022cm</Left>
+            <Top>12.13944cm</Top>
+            <Left>0.28787cm</Left>
             <Height>0.62107cm</Height>
             <Width>11.3859cm</Width>
             <ZIndex>29</ZIndex>
@@ -2522,10 +2522,10 @@
             </Style>
           </Textbox>
           <Line Name="Line3">
-            <Top>17.8266cm</Top>
-            <Left>0.50897cm</Left>
+            <Top>17.79132cm</Top>
+            <Left>0.27022cm</Left>
             <Height>0cm</Height>
-            <Width>18.98105cm</Width>
+            <Width>15.14459cm</Width>
             <ZIndex>57</ZIndex>
             <Style>
               <Border>

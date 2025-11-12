@@ -745,6 +745,7 @@
         public int ID { get; set; }
         public int OfficeID { get; set; }
         public int InstituteID { get; set; }
+        public int PlanningID { get; set; } = 0;
         public int DesignationID { get; set; }
         public int TotalSeatID { get; set; }
         public int RemainingSeatID { get; set; }

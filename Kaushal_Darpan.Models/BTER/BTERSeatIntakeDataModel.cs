@@ -31,6 +31,7 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
         public string? OrderDate { get; set; }
 
         public int AcademicYearID { get; set; }
+        public int PlanningID { get; set; }
 
         public bool ActiveStatus { get; set; }
         public bool DeleteStatus { get; set; }
@@ -73,6 +74,7 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
     public class SanctionOrderMasterModel
     {
         public int SanctionID   { get; set; }
+        public int ParentID { get; set; }
 
         public string? Name { get; set; }
 
