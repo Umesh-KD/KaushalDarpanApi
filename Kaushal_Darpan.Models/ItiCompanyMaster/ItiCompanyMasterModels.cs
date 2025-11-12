@@ -125,6 +125,14 @@
         public string? StartDate { get; set; }
         public string? Pincode { get; set; }
         public string? LandAddress { get; set; }
+        public string? ItiCode { get; set; }
+        public string? MISCode { get; set; }
+        public string? KhasraKhataNo { get; set; }
+        public string? Ward { get; set; }
+        public string? NodalPostAddresss { get; set; }
+        public string? NodalItiCode { get; set; }
+        public string? NodalIti { get; set; }
+        public string? LeaseOrderCopy { get; set; }
         public int IsNewCollege { get; set; }
         public int ModifyBy { get; set; }
         public int Esttablishment_Year { get; set; }
@@ -133,6 +141,7 @@
         public List<OrderDetailsList>? OrderDetailsList { get; set; }
         public List<UpdateWorkList>? UpdateWorkList { get; set; }
         public int RoleID { get; set; }
+
     }
 
 
@@ -175,6 +184,7 @@
     public  class OrderDetailsList
     {
         public int? SanctionID { get; set; } = 0;
+        public int? ParentID { get; set; } = 0;
         public int? ModifyBy { get; set; } = 0;
         
         public string? OrderCopy { get; set; }

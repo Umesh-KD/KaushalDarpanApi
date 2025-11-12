@@ -61,6 +61,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
                         command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
                         command.Parameters.AddWithValue("@OrderDate", request.OrderDate);
+                        command.Parameters.AddWithValue("@PlanningID", request.PlanningID);
                 
 
 
@@ -147,6 +148,61 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<List<BTERSeatIntakeDataModel>> GetAllDataPlanning(BTERSeatIntakeSearchModel request)
+        {
+            _actionName = "GetAllData(SeatIntakeSearchModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_GetSeatIntakeData";
+                        command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+                        command.Parameters.AddWithValue("@CollegeTypeID", request.CollegeTypeID);
+                        command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
+                        command.Parameters.AddWithValue("@InstituteCategoryID", request.InstituteCategoryID);
+                        command.Parameters.AddWithValue("@TradeID", request.TradeID);
+                        command.Parameters.AddWithValue("@TradeSchemeID", request.TradeSchemeID);
+                        command.Parameters.AddWithValue("@AcademicYearID", request.AcademicYearID);
+                        command.Parameters.AddWithValue("@RemarkID", request.RemarkID);
+                        command.Parameters.AddWithValue("@Shift", request.Shift);
+                        command.Parameters.AddWithValue("@UnitNo", request.UnitNo);
+                        command.Parameters.AddWithValue("@SanctionedID", request.SanctionedID);
+                        command.Parameters.AddWithValue("@StatusID", request.StatusID);
+                        command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
+                        command.Parameters.AddWithValue("@TradeCode", request.TradeCode);
+                        command.Parameters.AddWithValue("@action", "_getAllPlanning");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    var data = new List<BTERSeatIntakeDataModel>();
+                    if (dataTable != null)
+                    {
+                        data = CommonFuncationHelper.ConvertDataTable<List<BTERSeatIntakeDataModel>>(dataTable);
+                    }
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
 
         public async Task<DataTable> GetActiveSeatIntake(BTERSeatIntakeSearchModel request)
         {

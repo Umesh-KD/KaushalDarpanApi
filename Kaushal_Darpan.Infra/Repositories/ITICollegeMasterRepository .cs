@@ -714,6 +714,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsNewCollege", request.IsNewCollege);
                         command.Parameters.AddWithValue("@LandTypeID", request.LandTypeID);
                         command.Parameters.AddWithValue("@PanchayatId", request.PanchayatId);
+                        command.Parameters.AddWithValue("@MISCode", request.MISCode);
+                        command.Parameters.AddWithValue("@ItiCode", request.ItiCode);
+                        command.Parameters.AddWithValue("@Ward  ", request.Ward);
+                        command.Parameters.AddWithValue("@KhasraKhataNo", request.KhasraKhataNo);
+                        command.Parameters.AddWithValue("@NodalIti", request.NodalIti);
+                        command.Parameters.AddWithValue("@NodalItiCode", request.NodalItiCode);
+                        command.Parameters.AddWithValue("@NodalPostAddresss", request.NodalPostAddresss);
+                        command.Parameters.AddWithValue("@LeaseOrderCopy", request.LeaseOrderCopy);
 
                         // Output parameter
                         var returnParam = new SqlParameter("@Return", SqlDbType.Int) { Direction = ParameterDirection.Output };
