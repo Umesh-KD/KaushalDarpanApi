@@ -1523,7 +1523,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -2412,8 +2411,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>21.52601cm</Top>
-            <Left>4.69593cm</Left>
+            <Top>21.49426cm</Top>
+            <Left>4.72239cm</Left>
             <Height>0.6cm</Height>
             <Width>3.65046cm</Width>
             <ZIndex>52</ZIndex>
