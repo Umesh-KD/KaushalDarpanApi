@@ -1023,7 +1023,7 @@
                 <Value>=First(Fields!StudentSign.Value, "StudentExaminationForm")</Value>
                 <MIMEType>image/png</MIMEType>
                 <Sizing>Fit</Sizing>
-                <Top>5.14352cm</Top>
+                <Top>5.11099cm</Top>
                 <Left>0.40668cm</Left>
                 <Height>0.58903cm</Height>
                 <Width>3.82058cm</Width>
@@ -1249,6 +1249,22 @@
                   </Border>
                 </Style>
               </Line>
+              <Image Name="stuimg">
+                <Source>Database</Source>
+                <Value>=First(Fields!StudentImg.Value, "StudentExaminationForm")</Value>
+                <MIMEType>image/png</MIMEType>
+                <Sizing>Fit</Sizing>
+                <Top>2.1438cm</Top>
+                <Left>0.35277cm</Left>
+                <Height>2.72025cm</Height>
+                <Width>3.82058cm</Width>
+                <ZIndex>12</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                </Style>
+              </Image>
             </ReportItems>
             <KeepTogether>true</KeepTogether>
             <Top>3.01131cm</Top>
