@@ -3079,6 +3079,51 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        }
         //    });
         //}
+
+    
+        public async Task<DataTable> OfficeVacancyListPlanning(ITIOfficeVacancyModel model)
+        {
+            _actionName = "OfficeVacancyModelList(OfficeVacancyModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+                        command.CommandText = "USP_ITI_OfficeVacancyList";
+                            command.Parameters.AddWithValue("@Action", "ViewPlanning");
+                        command.Parameters.AddWithValue("@ID", model.ID);
+                        command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
     }
 
 
