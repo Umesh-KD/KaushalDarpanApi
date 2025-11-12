@@ -43,68 +43,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Action", "SaveData");
                         command.Parameters.AddWithValue("@HeadId", request.HeadId);
                         command.Parameters.AddWithValue("@HeadName", request.HeadName);
+                        command.Parameters.AddWithValue("@IsUnitWise", request.IsUnitWise);
+                        command.Parameters.AddWithValue("@UnitName", request.UnitName);
                         command.Parameters.AddWithValue("@HeadCode", request.HeadCode);
                         command.Parameters.AddWithValue("@HeadDescription", request.HeadDescription);
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@IPAddress", request.IPAddress);
-                        //command.Parameters.AddWithValue("@ID", request.id);
-                        //command.Parameters.AddWithValue("@Uid", request.Uid);
-                        //command.Parameters.AddWithValue("@Name", request.Name);
-                        //command.Parameters.AddWithValue("@FatherOrHusbandName", request.FatherOrHusbandName);
-                        //command.Parameters.AddWithValue("@MotherName", request.MotherName);
-                        //command.Parameters.AddWithValue("@Dob", request.Dob);
-                        //command.Parameters.AddWithValue("@Gender", request.Gender);
-                        //command.Parameters.AddWithValue("@MaritalStatus", request.MaritalStatus);
-                        //command.Parameters.AddWithValue("@Category", request.Category);
-                        //command.Parameters.AddWithValue("@Mobile", request.Mobile);
-                        //command.Parameters.AddWithValue("@Email", request.Email);
-
-                        //command.Parameters.AddWithValue("@PlotHouseBuildingNo", request.PlotHouseBuildingNo);
-                        //command.Parameters.AddWithValue("@StreetRoadLane", request.StreetRoadLane);
-                        //command.Parameters.AddWithValue("@AreaLocalitySector", request.AreaLocalitySector);
-                        //command.Parameters.AddWithValue("@LandMark", request.LandMark);
-                        //command.Parameters.AddWithValue("@ddlState", request.DdlState);
-                        //command.Parameters.AddWithValue("@ddlDistrict", request.DdlDistrict);
-                        //command.Parameters.AddWithValue("@PropTehsilID", request.PropTehsilID);
-                        //command.Parameters.AddWithValue("@City", request.City);
-                        //command.Parameters.AddWithValue("@pincode", request.Pincode);
-
-                        //command.Parameters.AddWithValue("@Correspondence_PlotHouseBuildingNo", request.Correspondence_PlotHouseBuildingNo);
-                        //command.Parameters.AddWithValue("@Correspondence_StreetRoadLane", request.Correspondence_StreetRoadLane);
-                        //command.Parameters.AddWithValue("@Correspondence_AreaLocalitySector", request.Correspondence_AreaLocalitySector);
-                        //command.Parameters.AddWithValue("@Correspondence_LandMark", request.Correspondence_LandMark);
-                        //command.Parameters.AddWithValue("@Correspondence_ddlState", request.Correspondence_ddlState);
-                        //command.Parameters.AddWithValue("@Correspondence_ddlDistrict", request.Correspondence_ddlDistrict);
-                        //command.Parameters.AddWithValue("@Correspondence_PropTehsilID", request.Correspondence_PropTehsilID);
-                        //command.Parameters.AddWithValue("@Correspondence_City", request.Correspondence_City);
-                        //command.Parameters.AddWithValue("@Correspondence_pincode", request.Correspondence_Pincode);
-
-                        //command.Parameters.AddWithValue("@Education_Exam", request.Education_Exam);
-                        //command.Parameters.AddWithValue("@Education_Board", request.Education_Board);
-                        //command.Parameters.AddWithValue("@Education_Year", request.Education_Year);
-                        //command.Parameters.AddWithValue("@Education_Subjects", request.Education_Subjects);
-                        //command.Parameters.AddWithValue("@Education_Percentage", request.Education_Percentage);
-
-                        //command.Parameters.AddWithValue("@Tech_Exam", request.Tech_Exam);
-                        //command.Parameters.AddWithValue("@Tech_Board", request.Tech_Board);
-                        //command.Parameters.AddWithValue("@Tech_Subjects", request.Tech_Subjects);
-                        //command.Parameters.AddWithValue("@Tech_Year", request.Tech_Year);
-                        //command.Parameters.AddWithValue("@Tech_Percentage", request.Tech_Percentage);
-
-                        //command.Parameters.AddWithValue("@Pan_No", request.Pan_No);
-                        //command.Parameters.AddWithValue("@Employee_Type", request.Employee_Type);
-                        //command.Parameters.AddWithValue("@Employer_Name", request.Employer_Name);
-                        //command.Parameters.AddWithValue("@Employer_Address", request.Employer_Address);
-                        //command.Parameters.AddWithValue("@Tan_No", request.Tan_No);
-                        //command.Parameters.AddWithValue("@Employment_From", request.Employment_From);
-                        //command.Parameters.AddWithValue("@Employment_To", request.Employment_To);
-                        //command.Parameters.AddWithValue("@Basic_Pay", request.Basic_Pay);
-
-                        //command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
-                        //command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
-
-                        //command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
-
+                        
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
                     }

@@ -56,7 +56,15 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetRosterDisplay_PDFTimeTableDownload(RosterDisplayTimeTableDataModel model);
 
 
+        Task<DataTable> GetReAssignTeacher(ReAssignTeacherDataModel model);
 
+        Task<int> ReAssignTeacherForSaveLC(ReAssignTeacherSaveModel model);
+
+        Task<DataTable> GetStudentAttendanceTLC(AttendanceTimeTableTLCModal model);
+
+        Task<int> SaveStudentAttendanceTLC(List<PostAttendanceTimeTableTLCModal> model);
+
+        Task<DataTable> GetReAttendanceTimeTable(AttendanceTimeTableModal model);
 
     }
 }

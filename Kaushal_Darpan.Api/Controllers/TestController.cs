@@ -736,48 +736,55 @@ namespace Kaushal_Darpan.Api.Controllers
                     ++i;
 
                     //make source full path of each students
-                    var sourceFolderPathEach = System.IO.Path.Combine(sourceRootPath, row["FolderType"].ToString(), row["filename"].ToString());
+                    var sourceFolderPathEach = System.IO.Path.Combine(sourceRootPath, row["FolderType"].ToString(), row["ApplicationId_Old"].ToString(), row["filename"].ToString());
+                    try
+                    {
 
-                    //log
-                    CommonFuncationHelper.WriteTextLog($"source folder ({sourceFolderPathEach}) loop count = {i}");
+                        //log
+                        CommonFuncationHelper.WriteTextLog($"source folder ({sourceFolderPathEach}) loop count = {i}");
 
-                    //check path
-                    if (!System.IO.File.Exists(sourceFolderPathEach))
+                        //check path
+                        if (!System.IO.File.Exists(sourceFolderPathEach))
+                        {
+                            //log
+                            CommonFuncationHelper.WriteTextLog($"source file not found = {sourceFolderPathEach}");
+                            continue;
+                        }
+
+                        //make destination path of each students with new id                    
+                        var destinationFolderPathEach = System.IO.Path.Combine(destinationRootPath, row["FolderYear"].ToString(), row["CourseType"].ToString(), row["ApplicationID"].ToString());
+
+                        //destination path
+                        if (!Directory.Exists(destinationFolderPathEach))
+                        {
+                            Directory.CreateDirectory(destinationFolderPathEach);
+                        }
+
+                        // make destination full path 
+                        var destinationFullPathEach = System.IO.Path.Combine(destinationFolderPathEach, row["filename"].ToString());
+
+
+                        //----- copy file in new folder structure -----
+                        // copy the file
+                        // Open the source file with shared read access
+                        using (var sourceStream = new FileStream(sourceFolderPathEach, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite))
+                        using (var destinationStream = new FileStream(destinationFullPathEach, System.IO.FileMode.Create, System.IO.FileAccess.Write))
+                        {
+                            await sourceStream.CopyToAsync(destinationStream);// copy
+                        }
+
+                        // add in new table for document table save
+                        DataRow dr = dt.NewRow();
+                        dr["ApplicationID"] = row["ApplicationID"].ToString();
+
+                        //add in table
+                        dt.Rows.Add(dr);
+                    }
+                    catch (Exception ex)
                     {
                         //log
-                        CommonFuncationHelper.WriteTextLog($"source file not found = {sourceFolderPathEach}");
-                        continue;
+                        CommonFuncationHelper.WriteTextLog($"Failed to copy file: {sourceFolderPathEach}. Error: {ex.Message}");
                     }
-
-                    //make destination path of each students with new id                    
-                    var destinationFolderPathEach = System.IO.Path.Combine(destinationRootPath, row["FolderYear"].ToString(), row["CourseType"].ToString(), row["ApplicationID"].ToString());
-
-                    //destination path
-                    if (!Directory.Exists(destinationFolderPathEach))
-                    {
-                        Directory.CreateDirectory(destinationFolderPathEach);
-                    }
-
-                    // make destination full path 
-                    var destinationFullPathEach = System.IO.Path.Combine(destinationFolderPathEach, row["filename"].ToString());
-
-
-                    //----- copy file in new folder structure -----
-                    // copy the file
-                    // Open the source file with shared read access
-                    using (var sourceStream = new FileStream(sourceFolderPathEach, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite))
-                    using (var destinationStream = new FileStream(destinationFullPathEach, System.IO.FileMode.Create, System.IO.FileAccess.Write))
-                    {
-                        await sourceStream.CopyToAsync(destinationStream);// copy
-                    }
-
-                    // add in new table for document table save
-                    DataRow dr = dt.NewRow();
-                    dr["ApplicationID"] = row["ApplicationID"].ToString();
-
-                    //add in table
-                    dt.Rows.Add(dr);
-
                 }
 
                 //log
@@ -803,11 +810,13 @@ namespace Kaushal_Darpan.Api.Controllers
                     //log
                     CommonFuncationHelper.WriteTextLog("DB Insert end:");
 
+                    CommonFuncationHelper.WriteTextLog("Success:");
                     return "Success";
                 }
                 else
                 {
-                    return "not data to insert";
+                    CommonFuncationHelper.WriteTextLog("no data to insert:");
+                    return "no data to insert";
                 }
 
             }
