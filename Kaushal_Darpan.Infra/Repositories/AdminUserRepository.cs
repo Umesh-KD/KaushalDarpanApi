@@ -263,9 +263,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
-                        _sqlQuery = $" update M_UserMaster set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}' Where UserID={request.UserID}" +
-                        $" update M_UserAdditionMaster set ActiveStatus=0,DeleteStatus=1,ModifiedBy='{request.ModifyBy} ',ModifiedDate=GETDATE(),IPAddress='{_IPAddress}' Where UserID={request.UserID} " +
-                        $" update M_SSOProfile set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}' Where ProfileID={request.ProfileID} ";
+
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_UserMasterDeleteById";
+                        command.Parameters.AddWithValue("@UserAdditionID", request.UserAdditionID);
+
+                        //_sqlQuery = $" update M_UserMaster set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}' Where UserID={request.UserID}" +
+                        //$" update M_UserAdditionMaster set ActiveStatus=0,DeleteStatus=1,ModifiedBy='{request.ModifyBy} ',ModifiedDate=GETDATE(),IPAddress='{_IPAddress}' Where UserID={request.UserID} " +
+                        //$" update M_SSOProfile set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}' Where ProfileID={request.ProfileID} ";
                         command.CommandText = _sqlQuery;
                         result = await command.ExecuteNonQueryAsync();
                     }
