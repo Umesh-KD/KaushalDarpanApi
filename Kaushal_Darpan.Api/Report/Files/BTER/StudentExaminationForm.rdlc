@@ -1023,7 +1023,7 @@
                 <Value>=First(Fields!StudentSign.Value, "StudentExaminationForm")</Value>
                 <MIMEType>image/png</MIMEType>
                 <Sizing>Fit</Sizing>
-                <Top>5.14352cm</Top>
+                <Top>5.11099cm</Top>
                 <Left>0.40668cm</Left>
                 <Height>0.58903cm</Height>
                 <Width>3.82058cm</Width>
@@ -1102,7 +1102,7 @@
               <Line Name="Line12">
                 <Top>1.16213cm</Top>
                 <Left>4.40972cm</Left>
-                <Height>9.27507cm</Height>
+                <Height>8.95757cm</Height>
                 <Width>0cm</Width>
                 <ZIndex>3</ZIndex>
                 <Style>
@@ -1239,7 +1239,7 @@
               </Textbox>
               <Line Name="Line19">
                 <Top>10.1197cm</Top>
-                <Left>0.1423cm</Left>
+                <Left>0.1277cm</Left>
                 <Height>0cm</Height>
                 <Width>4.28202cm</Width>
                 <ZIndex>11</ZIndex>
@@ -1249,12 +1249,58 @@
                   </Border>
                 </Style>
               </Line>
+              <Image Name="stuimg">
+                <Source>Database</Source>
+                <Value>=First(Fields!StudentImg.Value, "StudentExaminationForm")</Value>
+                <MIMEType>image/png</MIMEType>
+                <Sizing>Fit</Sizing>
+                <Top>2.1438cm</Top>
+                <Left>0.35277cm</Left>
+                <Height>2.72025cm</Height>
+                <Width>3.82058cm</Width>
+                <ZIndex>12</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                </Style>
+              </Image>
+              <Textbox Name="Textbox56">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>=First(Fields!ABCID.Value, "StudentExaminationForm")</Value>
+                        <Style />
+                      </TextRun>
+                    </TextRuns>
+                    <Style />
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>Textbox2</rd:DefaultName>
+                <Top>0.3175cm</Top>
+                <Left>0.17638cm</Left>
+                <Height>0.53622cm</Height>
+                <Width>4.22529cm</Width>
+                <ZIndex>13</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>Solid</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
             </ReportItems>
             <KeepTogether>true</KeepTogether>
             <Top>3.01131cm</Top>
             <Left>14.65962cm</Left>
             <Height>10.4372cm</Height>
-            <Width>4.67303cm</Width>
+            <Width>4.81118cm</Width>
             <ZIndex>28</ZIndex>
             <Style>
               <Border>
@@ -1883,7 +1929,7 @@
           <Line Name="Line7">
             <Top>21.04365cm</Top>
             <Left>9.12006cm</Left>
-            <Height>5.34337cm</Height>
+            <Height>5.66087cm</Height>
             <Width>0cm</Width>
             <ZIndex>37</ZIndex>
             <Style>
@@ -2365,8 +2411,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>21.52601cm</Top>
-            <Left>4.69593cm</Left>
+            <Top>21.49426cm</Top>
+            <Left>4.72239cm</Left>
             <Height>0.6cm</Height>
             <Width>3.65046cm</Width>
             <ZIndex>52</ZIndex>
@@ -2491,42 +2537,12 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Textbox Name="Textbox56">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=First(Fields!ABCID.Value, "StudentExaminationForm")</Value>
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>3.38737cm</Top>
-            <Left>14.84405cm</Left>
-            <Height>0.53622cm</Height>
-            <Width>4.22529cm</Width>
-            <ZIndex>56</ZIndex>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
           <Line Name="Line3">
             <Top>17.79132cm</Top>
             <Left>0.27022cm</Left>
             <Height>0cm</Height>
             <Width>15.14459cm</Width>
-            <ZIndex>57</ZIndex>
+            <ZIndex>56</ZIndex>
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -2534,7 +2550,7 @@
             </Style>
           </Line>
         </ReportItems>
-        <Height>10.38859in</Height>
+        <Height>10.51359in</Height>
         <Style>
           <Border>
             <Style>Solid</Style>
