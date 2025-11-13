@@ -202,7 +202,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         result = await command.ExecuteNonQueryAsync();
                     }
                     if (result > 0)
-                        return true;
+                        return true;    
                     else
                         return false;
                 }

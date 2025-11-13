@@ -722,6 +722,19 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@NodalItiCode", request.NodalItiCode);
                         command.Parameters.AddWithValue("@NodalPostAddresss", request.NodalPostAddresss);
                         command.Parameters.AddWithValue("@LeaseOrderCopy", request.LeaseOrderCopy);
+                        command.Parameters.AddWithValue("@NodalOrderDate", request.NodalOrderDate);
+                        command.Parameters.AddWithValue("@NodalOrderNo", request.NodalOrderNo);
+                        command.Parameters.AddWithValue("@Ownership", request.Ownership);
+                        command.Parameters.AddWithValue("@PlotHouseBuildingNo", request.PlotHouseBuildingNo);
+                        command.Parameters.AddWithValue("@LandMark", request.LandMark);
+                        command.Parameters.AddWithValue("@AreaLocalitySector", request.AreaLocalitySector);
+                        command.Parameters.AddWithValue("@StreetRoadLane", request.StreetRoadLane);
+                        command.Parameters.AddWithValue("@DISCOM", request.DISCOM);
+                        command.Parameters.AddWithValue("@SanctionLoad", request.SanctionLoad);
+                        command.Parameters.AddWithValue("@ConnectionType", request.ConnectionType);
+                        command.Parameters.AddWithValue("@ConsumerName", request.ConsumerName);
+                        command.Parameters.AddWithValue("@ContractDemand", request.ContractDemand);
+                        command.Parameters.AddWithValue("@SubDivOffice", request.SubDivOffice);
 
                         // Output parameter
                         var returnParam = new SqlParameter("@Return", SqlDbType.Int) { Direction = ParameterDirection.Output };
