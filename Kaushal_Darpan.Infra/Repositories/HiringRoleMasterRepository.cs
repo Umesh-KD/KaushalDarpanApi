@@ -202,7 +202,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         result = await command.ExecuteNonQueryAsync();
                     }
                     if (result > 0)
-                        return true;
+                        return true;    
                     else
                         return false;
                 }
@@ -239,6 +239,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Name", request.Name);
                         command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@ParentID", request.ParentID);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.AddWithValue("@action", "SaveData");
                         _sqlQuery = command.GetSqlExecutableQuery();// sql query
@@ -278,6 +279,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_SanctionOrderList";
                         command.Parameters.AddWithValue("@SanctionID", request.SanctionID);
+                        command.Parameters.AddWithValue("@ParentID", request.ParentID);
                
 
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);

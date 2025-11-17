@@ -331,5 +331,10 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<int> Dummy_SaveAndMoveNewAdmittedEngStudentImages(string json);
 
+        Task<DataTable> GetDDLCounselling_Qualification();
+
+        Task<DataTable> DDL_AllCasteCategoryA();
+        Task<DataTable> DDL_Counselling_Trade(int designationId);
+
     }
 }

@@ -9033,6 +9033,156 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [HttpGet("GetBterPostMaster")]
+        public async Task<ApiResult<List<CommonDDLModel>>> GetBterPostMaster()
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<CommonDDLModel>>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.GetDesignationAndPostMaster();
+                    if (data.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+        [HttpGet("GetDDLCounselling_Qualification")]
+        public async Task<ApiResult<DataTable>> GetDDLCounselling_Qualification()
+        {
+            ActionName = "GetDDLCounselling_Qualification()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetDDLCounselling_Qualification());
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+        [HttpGet("DDL_AllCasteCategoryA")]
+        public async Task<ApiResult<DataTable>> DDL_AllCasteCategoryA()
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.DDL_AllCasteCategoryA();
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+       
+
+        [HttpGet("DDL_CounsellingTradelist/{designationId}")]
+        public async Task<ApiResult<DataTable>> DDL_Counselling_Trade(int designationId)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.DDL_Counselling_Trade(designationId);
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kaushal_Darpan.Models.Attendance;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,8 +22,8 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public int InstituteID { get; set; }
         public int StateID { get; set; }
         public int DistrictID { get; set; }
-        public string SSOID { get; set; } = string.Empty;
-        public string Action { get; set; } = string.Empty;
+        public string SSOID { get; set; }
+        public string Action { get; set; }
         public int DepartmentID { get; set; }
         public int StaffLevelID { get; set; }
         public int Status { get; set; }
@@ -256,6 +257,54 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public int InstituteId { get; set; }
 
         public DateTime? CreatedDate { get; set; }
+    }
+
+
+    public class ReAssignTeacherDataModel
+    {
+        public string? Action { get; set; }
+        public int DepartmentID { get; set; }
+        public int EndTermID { get; set; }
+        public int Eng_NonEng { get; set; }
+        public int StreamID { get; set; }
+        public List<Section>? Section { get; set; }
+        public bool ActiveStatus { get; set; }
+        public bool DeleteStatus { get; set; }
+        public int CreatedBy { get; set; }
+        public int ModifyBy { get; set; }
+        public int SemesterID { get; set; }
+        public int InstituteId { get; set; }
+        public int StaffID { get; set; }
+        public string SSOID { get; set; }
+        public string CreatedDate { get; set; }
+        public string From_Date { get; set; }
+        public string To_Date { get; set; }
+    }
+
+
+    public class ReAssignTeacherSaveModel
+    {
+        public string? Action { get; set; } = string.Empty;
+        public int? DepartmentID { get; set; } = 0;
+        public int? EndTermID { get; set; } = 0;
+        public int? Eng_NonEng { get; set; } = 0;
+        public int? StreamID { get; set; } = 0;
+        public bool? ActiveStatus { get; set; } = false;
+        public bool? DeleteStatus { get; set; } = false;
+        public int? CreatedBy { get; set; } = 0;
+        public int? ModifyBy { get; set; } = 0;
+        public int? SemesterID { get; set; } = 0;
+     
+        public int? StaffID { get; set; } = 0;
+        public string? SSOID { get; set; } = string.Empty;
+        public string? CreatedDate { get; set; } = string.Empty;
+        public string? From_Date { get; set; } = string.Empty;
+        public string? To_Date { get; set; } = string.Empty;
+        public int? AssignTeacherForSubjectID { get; set; } = 0;
+        public int? rdID { get; set; } = 0;
+        public int? ID { get; set; } = 0;
+        public int? InstituteID { get; set; } = 0;
+        public string? SSOIDBY { get; set; } = string.Empty;
     }
 
 }

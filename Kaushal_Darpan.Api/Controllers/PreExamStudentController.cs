@@ -1481,6 +1481,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     worksheet.Cell(row, col++).Value = "Roll No.";
                     worksheet.Cell(row, col++).Value = "Mobile";
                     worksheet.Cell(row, col++).Value = "Date of Birth";
+                    worksheet.Cell(row, col++).Value = "ABCID";
 
                     // Set header row height and style
                     worksheet.Row(row).Height = 40;
@@ -1546,6 +1547,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         worksheet.Cell(row, col++).Value = dt.Rows[i]["RollNo"]?.ToString();
                         worksheet.Cell(row, col++).Value = dt.Rows[i]["MobileNo"]?.ToString();
                         worksheet.Cell(row, col++).Value = dt.Rows[i]["Dis_DOB"]?.ToString();
+                        worksheet.Cell(row, col++).Value = dt.Rows[i]["ABCID"]?.ToString();
                     }
                     // Apply borders to all cells in the used range
                     worksheet.Cells().Style.Border.TopBorder = XLBorderStyleValues.Thin;
@@ -1622,6 +1624,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     worksheet.Cell(row, col++).Value = "Roll No.";
                     worksheet.Cell(row, col++).Value = "Mobile";
                     worksheet.Cell(row, col++).Value = "Date of Birth";
+                    worksheet.Cell(row, col++).Value = "ABCID";
 
                     // Set header row height and style
                     worksheet.Row(row).Height = 40;
@@ -1687,6 +1690,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         worksheet.Cell(row, col++).Value = dt.Rows[i]["RollNo"]?.ToString();
                         worksheet.Cell(row, col++).Value = dt.Rows[i]["MobileNo"]?.ToString();
                         worksheet.Cell(row, col++).Value = dt.Rows[i]["Dis_DOB"]?.ToString();
+                        worksheet.Cell(row, col++).Value = dt.Rows[i]["ABCID"]?.ToString();
                     }
                     // Apply borders to all cells in the used range
                     worksheet.Cells().Style.Border.TopBorder = XLBorderStyleValues.Thin;

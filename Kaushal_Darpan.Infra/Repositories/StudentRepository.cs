@@ -1359,6 +1359,230 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> GetReAssignTeacher(ReAssignTeacherDataModel body)
+        {
+            _actionName = "USP_ReAssignTeacherList()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ReAssignTeacherList";
+                        command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                        command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                        command.Parameters.AddWithValue("@From_Date", body.From_Date);
+                        command.Parameters.AddWithValue("@To_Date", body.To_Date);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteId);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> ReAssignTeacherForSaveLC(ReAssignTeacherSaveModel model)
+        {
+            _actionName = "AddStudentAttendance()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_ReAssignTeacherLC_Save";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                        command.Parameters.AddWithValue("@SSOIDBY", model.SSOIDBY);
+                        command.Parameters.AddWithValue("@StaffID", model.StaffID);
+                        command.Parameters.AddWithValue("@From_Date", model.From_Date);
+                        command.Parameters.AddWithValue("@To_Date", model.To_Date);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@AssignTeacherForSubjectID", model.AssignTeacherForSubjectID);
+                        command.Parameters.AddWithValue("@rdID", model.rdID);
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errorDetails, ex);
+                }
+            });
+
+        }
+
+        public async Task<DataTable> GetStudentAttendanceTLC(AttendanceTimeTableTLCModal model)
+        {
+            _actionName = "ReAssignTeacherForSaveLC()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BTER_Get_StudentAttandanceTLC";
+
+                        // Add parameters to the stored procedure from the model
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@SectionID", model.SectionID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@ShiftNo", model.ShiftID);
+                        command.Parameters.AddWithValue("@UnitNo", model.UnitID);
+                        command.Parameters.AddWithValue("@StaffID", model.StaffID);
+                        command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);
+                        command.Parameters.AddWithValue("@AttendanceStartDate", model.AttendanceStartDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
+                        command.Parameters.AddWithValue("@AttendanceEndDate", model.AttendanceEndDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> SaveStudentAttendanceTLC(List<PostAttendanceTimeTableTLCModal> model)
+        {
+            _actionName = "SaveStudentAttendanceTLC()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_Save_StudentAttandanceTLC";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                        // Add the return parameter
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errorDetails, ex);
+                }
+            });
+
+        }
+
+        public async Task<DataTable> GetReAttendanceTimeTable(AttendanceTimeTableModal model)
+        {
+            _actionName = "GetDataStudentBySSOId()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BTER_ReAssignTeacherForSubject";
+
+                        // Add parameters to the stored procedure from the model
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
 

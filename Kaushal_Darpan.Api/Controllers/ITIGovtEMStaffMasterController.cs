@@ -3052,6 +3052,50 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+
+        [HttpPost("OfficeVacancyListPlanning")]
+        public async Task<ApiResult<DataTable>> OfficeVacancyListPlanning(ITIOfficeVacancyModel model)
+        {
+            ActionName = "OfficeVacancyList(OfficeVacancyModel model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.OfficeVacancyListPlanning(model);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+
         [HttpPost("DeleteOfficeVacancy")]
         public async Task<ApiResult<int>> DeleteOfficeVacancy([FromBody] ITIOfficeVacancyModel body)
         {

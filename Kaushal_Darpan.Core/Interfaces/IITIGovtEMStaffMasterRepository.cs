@@ -103,6 +103,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         //Post OfficeVacancy
         Task<int> Save_M_OfficeVacancy_IU(List<ITIOfficeVacancyModel> model);
         Task<DataTable> OfficeVacancyList(ITIOfficeVacancyModel model);
+        Task<DataTable> OfficeVacancyListPlanning(ITIOfficeVacancyModel model);
         Task<int> DeleteOfficeVacancy(ITIOfficeVacancyModel body);
 
         Task<int> UpdateOfficeVacancy(ITIOfficeVacancyModel model);

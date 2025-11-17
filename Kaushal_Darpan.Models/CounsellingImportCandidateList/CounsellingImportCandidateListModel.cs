@@ -13,6 +13,18 @@
         public int? ModifyBy { get; set; }
         public int? CandidateID { get; set; }
         //public string IPAddress { get; set; }
+
+        public string? SelectedTrade { get; set; }
+        public string? Qualification { get; set; }
+        public string? Gender { get; set; }
+        public string? Roll_No { get; set; }
+        public string? App_No { get; set; }
+        public string? Aadhar_Number { get; set; }
+        public string? DOB { get; set; }
+        public string? Candidate_Cat { get; set; }
+        public string? Selected_cat { get; set; }
+        public int? IsTSP { get; set; } 
+        public string? MeritNo { get; set; }
     }
 
     public class ImportCounsellingVacancyDataModel

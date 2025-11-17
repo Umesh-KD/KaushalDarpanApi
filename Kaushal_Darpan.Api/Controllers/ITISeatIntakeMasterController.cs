@@ -131,6 +131,49 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+        [HttpPost("GetAllDataPlanning")]
+        public async Task<ApiResult<List<BTERSeatIntakeDataModel>>> GetAllDataPlanning(BTERSeatIntakeSearchModel request)
+        {
+            ActionName = "GetAllData(SeatIntakeSearchModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<BTERSeatIntakeDataModel>>();
+                try
+                {
+                    var data = await _unitOfWork.ITISeatIntakeMasterRepository.GetAllDataPlanning(request);
+                    if (data != null)
+                    {
+                        var mappedData = _mapper.Map<List<BTERSeatIntakeDataModel>>(data);
+                        result.Data = mappedData;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
         [HttpGet("GetByID/{id}")]
         public async Task<ApiResult<BTERSeatIntakeDataModel>> GetByID(int id)
         {

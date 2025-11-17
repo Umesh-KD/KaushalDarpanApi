@@ -125,7 +125,22 @@
         public string? StartDate { get; set; }
         public string? Pincode { get; set; }
         public string? LandAddress { get; set; }
+        public string? ItiCode { get; set; }
+        public string? MISCode { get; set; }
+        public string? KhasraKhataNo { get; set; }
+        public string? Ward { get; set; }
+        public string? NodalPostAddresss { get; set; }
+        public string? NodalItiCode { get; set; }
+        public string? NodalIti { get; set; }
+        public string? LeaseOrderCopy { get; set; }
+        public string? NodalOrderNo { get; set; }
+        public string? NodalOrderDate { get; set; }
+        public string? StreetRoadLane { get; set; }
+        public string? AreaLocalitySector { get; set; }
+        public string? LandMark { get; set; }
+        public string? PlotHouseBuildingNo { get; set; }
         public int IsNewCollege { get; set; }
+        public int Ownership { get; set; }
         public int ModifyBy { get; set; }
         public int Esttablishment_Year { get; set; }
         public List<FinancialSanctionList>? FinancialSanctionList { get; set; }
@@ -133,6 +148,13 @@
         public List<OrderDetailsList>? OrderDetailsList { get; set; }
         public List<UpdateWorkList>? UpdateWorkList { get; set; }
         public int RoleID { get; set; }
+        public int DISCOM { get; set; }
+        public int ConnectionType { get; set; }
+        public string? ConsumerName { get; set; }
+        public string? SanctionLoad { get; set; }
+        public string? ContractDemand { get; set; }
+        public string? SubDivOffice { get; set; }
+
     }
 
 
@@ -175,6 +197,7 @@
     public  class OrderDetailsList
     {
         public int? SanctionID { get; set; } = 0;
+        public int? ParentID { get; set; } = 0;
         public int? ModifyBy { get; set; } = 0;
         
         public string? OrderCopy { get; set; }

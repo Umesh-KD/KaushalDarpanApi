@@ -21,7 +21,7 @@ namespace Kaushal_Darpan.Models.StudentMaster
         public int InstituteID { get; set; }
         public int status { get; set; }
         public int StreamID { get; set; }
-        public Int64 ABCID { get; set; }
+        public string? ABCID { get; set; }
         public int InstituteStreamID { get; set; }
         public string StudentName { get; set; }
         public string StudentNameHindi { get; set; }

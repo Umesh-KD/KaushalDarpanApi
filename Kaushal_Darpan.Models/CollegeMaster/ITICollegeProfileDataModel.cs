@@ -59,6 +59,8 @@ namespace Kaushal_Darpan.Models.CollegeMaster
         public int PanchayatsamityId { get; set; }
         public int GrampanchayatId { get; set; }
         public string UpdatedBy { get; set; }
+        public string? Code { get; set; }
+        public string? DgetCode { get; set; }
 
     }
 }
