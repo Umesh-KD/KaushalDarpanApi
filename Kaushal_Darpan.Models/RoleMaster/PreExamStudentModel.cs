@@ -29,6 +29,7 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public string? AdmittStatus { get; set; }
         public int? PromoteStatus { get; set; }
         public int? StudentExamTypeID { get; set; }
+        public string? AbcId { get; set; }
     }
 
     public class PreExam_UpdateEnrollmentNoModel :RequestBaseModel
