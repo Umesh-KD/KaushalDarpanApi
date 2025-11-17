@@ -68,14 +68,14 @@ namespace Kaushal_Darpan.Api.Controllers
         //}
 
 
-        [HttpGet("GetAllData/{CompanyID}/{CollegeID}/{Status}/{DepartmentID}")]
-        public async Task<ApiResult<DataTable>> GetAllData(int CompanyID, int CollegeID, string Status, int DepartmentID)
+        [HttpGet("GetAllData/{CompanyID}/{CollegeID}/{Status}/{DepartmentID}/{Role}/{Flag?}")]
+        public async Task<ApiResult<DataTable>> GetAllData(int CompanyID, int CollegeID, string Status, int DepartmentID, int Role,string Flag="")
         {
             ActionName = "CampusValidationList(int CollegeID,string Status)";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.i_ItiCampusPostMasterRepository.GetAllData(CompanyID, CollegeID, Status, DepartmentID));
+                result.Data = await Task.Run(() => _unitOfWork.i_ItiCampusPostMasterRepository.GetAllData(CompanyID, CollegeID, Status, DepartmentID, Role,Flag));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {

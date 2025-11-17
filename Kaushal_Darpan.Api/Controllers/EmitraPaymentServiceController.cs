@@ -2323,27 +2323,30 @@ namespace Kaushal_Darpan.Api.Controllers
                         objEmitra.TransactionApplicationID = string.Join(',', Model.TransactionApplicationIDs);
                     }
                 }
+
+                //
+                PGRequestModel data = new PGRequestModel();
+                data.MERCHANTCODE = EmitraServiceDetail.MERCHANTCODE;
+                Random rnd = new Random();
+                data.PRN = "KD" + rnd.Next(100000, 999999) + rnd.Next(100000, 999999);
+                data.REQTIMESTAMP = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                data.AMOUNT = Convert.ToString(objEmitra.Amount);
+
+                if (Model.FeeFor == "EnrollmentFee")
+                {
+                    data.ExamFeeAmount = Convert.ToString(Model.Amount);
+                    data.EnrollFeeAmount = Convert.ToString(Model.EnrollFeeAmount);
+                    decimal totalAmount = (decimal)(Model.Amount) + (decimal)(Model.EnrollFeeAmount ?? 0);
+
+                    data.AMOUNT = totalAmount.ToString();
+                }
+
+                //
                 var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransation(objEmitra);
                 await _unitOfWork.SaveChangesAsync();
 
                 if (result.TransactionId > 0)
                 {
-                    PGRequestModel data = new PGRequestModel();
-                    data.MERCHANTCODE = EmitraServiceDetail.MERCHANTCODE;
-                    Random rnd = new Random();
-                    data.PRN = "KD" + rnd.Next(100000, 999999) + rnd.Next(100000, 999999);
-                    data.REQTIMESTAMP = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                    data.AMOUNT = Convert.ToString(objEmitra.Amount);
-
-                    if (Model.FeeFor == "EnrollmentFee")
-                    {
-                        data.ExamFeeAmount = Convert.ToString(Model.Amount);
-                        data.EnrollFeeAmount = Convert.ToString(Model.EnrollFeeAmount);
-                        decimal totalAmount = (decimal)(Model.Amount) + (decimal)(Model.EnrollFeeAmount ?? 0);
-
-                        data.AMOUNT = totalAmount.ToString();
-                    }
-
                     data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", data.AMOUNT.ToString());
                     data.CHECKSUM = CommonFuncationHelper.CreateMD5(data.PRN + "|" + data.AMOUNT.ToString() + "|" + EmitraServiceDetail.CHECKSUMKEY);
 
@@ -2565,25 +2568,29 @@ namespace Kaushal_Darpan.Api.Controllers
                         objEmitra.TransactionApplicationID = string.Join(',', Model.TransactionApplicationIDs);
                     }
                 }
+
+                //
+                PGRequestModel data = new PGRequestModel();
+                data.MERCHANTCODE = EmitraServiceDetail.MERCHANTCODE;
+
+                if (Model.FeeFor == "EnrollmentFee")
+                {
+                    data.ExamFeeAmount = Convert.ToString(Model.Amount);
+                    data.EnrollFeeAmount = (Model.EnrollFeeAmount ?? 0).ToString();
+
+                    objEmitra.Amount = Model.Amount + Model.EnrollFeeAmount ?? 0;
+                }
+                else
+                {
+                    data.ExamFeeAmount = Convert.ToString(Model.Amount);
+                }
+
                 var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransation(objEmitra);
                 // CreateEmitraApplicationTransation = old
                 await _unitOfWork.SaveChangesAsync();
 
                 if (result.TransactionId > 0)
                 {
-                    PGRequestModel data = new PGRequestModel();
-                    data.MERCHANTCODE = EmitraServiceDetail.MERCHANTCODE;
-
-                    if (Model.FeeFor == "EnrollmentFee")
-                    {
-                        data.ExamFeeAmount = Convert.ToString(Model.Amount);
-                        data.EnrollFeeAmount = (Model.EnrollFeeAmount ?? 0).ToString();
-                    }
-                    else
-                    {
-                        data.ExamFeeAmount = Convert.ToString(Model.Amount);
-                    }
-
                     data.PRN = prnNo;
                     data.REQUESTID = Convert.ToString(result.TransactionId);
                     data.REQTIMESTAMP = DateTime.Now.ToString("yyyyMMddHHmmssfff");
@@ -2598,7 +2605,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     data.CONSUMERKEY = prnNo;
                     data.CONSUMERNAME = Model.UserName;
 
-                    data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("{fee}", Model.Amount.ToString())
+                    data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("{fee}", data.AMOUNT.ToString())
                         .Replace("{form_commission}", Convert.ToString(Model.FormCommision));
 
                     data.SERVICEID = EmitraServiceDetail.SERVICEID;
@@ -2648,7 +2655,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             objEmitra.StatusMsg = Convert.ToString(resp.MSG);
                             objEmitra.ReceiptNo = Convert.ToString(resp.RECEIPTNO);
 
-                                                        
+
                             var UpdateStatus = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransation(objEmitra);
                             // CreateEmitraApplicationTransation = old
                             await _unitOfWork.SaveChangesAsync();
