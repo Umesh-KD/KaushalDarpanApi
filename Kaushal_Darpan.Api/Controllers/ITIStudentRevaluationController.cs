@@ -545,8 +545,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         
                         DataTable dt = ds.Tables[0];
-
-                        
                         var columnNames = dt.Columns.Cast<DataColumn>()
                                             .Select(c => c.ColumnName.Trim())
                                             .ToList();
