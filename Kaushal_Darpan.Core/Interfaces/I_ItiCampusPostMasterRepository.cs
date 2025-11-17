@@ -13,7 +13,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface I_ItiCampusPostMasterRepository
     {
         //Task<DataTable> GetAllData(string SSOID, int DepartmentID);
-        Task<DataTable> GetAllData(int CompanyID, int CollegeID, string Status, int DepartmentID);
+        Task<DataTable> GetAllData(int CompanyID, int CollegeID, string Status, int DepartmentID, int Role,string Flag="");
         Task<ItiCampusPostMasterModel> GetById(int PK_ID);
         Task<List<ItiCampusPostMasterModel>> GetNameWiseData(int ID, int DepartmentID);
         Task<bool> SaveData(ItiCampusPostMasterModel productDetails);

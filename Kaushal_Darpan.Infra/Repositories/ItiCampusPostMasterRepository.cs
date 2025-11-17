@@ -55,7 +55,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //    }
         //}
 
-        public async Task<DataTable> GetAllData(int CompanyID, int CollegeID, string Status, int DepartmentID)
+        public async Task<DataTable> GetAllData(int CompanyID, int CollegeID, string Status, int DepartmentID, int Role,string Flag="")
         {
             _actionName = "CampusValidationList(int CollegeID, string Status)";
             try
@@ -71,6 +71,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CollegeID", CollegeID);
                         command.Parameters.AddWithValue("@Status", Status);
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@Flag", Flag);
+                        command.Parameters.AddWithValue("@RoleID", Role);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
