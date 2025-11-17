@@ -82,6 +82,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsYearly", model.IsYearly);
                         command.Parameters.AddWithValue("@PromoteStatus", model.PromoteStatus);
                         command.Parameters.AddWithValue("@StudentExamTypeID", model.StudentExamTypeID);
+                        command.Parameters.AddWithValue("@AbcId", model.AbcId);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
