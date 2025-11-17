@@ -385,6 +385,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@TradeId", model.TradeID);
                     command.Parameters.AddWithValue("@Action", model.Action);
                     command.Parameters.AddWithValue("@CandidateID", model.CandidateID);
+                    command.Parameters.AddWithValue("@Designation", model.Designation);
+                    command.Parameters.AddWithValue("@IsTSP", model.IsTSP);
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();
                 }
