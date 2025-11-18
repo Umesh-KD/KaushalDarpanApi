@@ -116,6 +116,7 @@ namespace Kaushal_Darpan.Models.StudentMaster
         public int ModifyBy { get; set; }
         public DateTime? ModifyDate { get; set; }
         public string? IPAddress { get; set; }
+        public bool? IsNew { get; set; }
     }
 
 
