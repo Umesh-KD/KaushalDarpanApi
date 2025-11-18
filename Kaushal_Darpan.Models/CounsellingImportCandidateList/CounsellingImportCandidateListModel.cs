@@ -23,7 +23,7 @@
         public string? DOB { get; set; }
         public string? Candidate_Cat { get; set; }
         public string? Selected_cat { get; set; }
-        public int? IsTSP { get; set; } 
+        public string? IsTSP { get; set; } 
         public string? MeritNo { get; set; }
     }
 
