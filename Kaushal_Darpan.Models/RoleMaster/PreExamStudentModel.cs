@@ -45,6 +45,7 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public string? Action { get; set; }
         public int StudentExamID { get; set; }
         public bool IsUpdate { get; set; }
+        public int SemesterID { get; set; }
     }
 
     public class Student_DataModel
