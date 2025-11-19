@@ -37,5 +37,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetEnrolledStudent_ReturnbyRegistrar(EnrolledPromotedStudentModel model);
         Task<int> SaveEnrolledStudentVerify_ReturnbyExamIncharge(List<EnrolledPromotedStudentSaveModel> model);
         Task<DataTable> GetEnrolledStudent_ReturnbyExamIncharge(EnrolledPromotedStudentModel model);
+        Task<DataTable> GetPreExamStudentReport(PreExamStudentModel model);
     }
 }

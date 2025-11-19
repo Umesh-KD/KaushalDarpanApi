@@ -103,6 +103,47 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+        public async Task<DataTable> GetPreExamStudentReport(PreExamStudentModel model)
+        {
+            _actionName = "GetPreExamStudent()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_PreExamStudentReport";
+                        
+                        command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                        command.Parameters.AddWithValue("@Name", model.Name);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@BranchID", model.BranchID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@IsYearly", model.IsYearly);
+                        command.Parameters.AddWithValue("@Year_SemID", model.Year_SemID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
 
         public async Task<DataTable> GetEnrollmentCancelStudent(PreExamStudentModel model)
         {
