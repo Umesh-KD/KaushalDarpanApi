@@ -24,6 +24,8 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public bool? IsUnitWise { get; set; }
         public string? UnitName { get; set; }
         public int? FinYearID { get; set; }
+        public int? BudgetTypeID { get; set; }
+        public int? BudgetForID { get; set; }
     }
 
 
@@ -35,6 +37,8 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public int? InstituteID { get; set; }
         public int? RoleID { get; set; }
         public int? FinYearID { get; set; }
+        public int? BudgetTypeID { get; set; }
+        public int? BudgetForID { get; set; }
     }
 }
 

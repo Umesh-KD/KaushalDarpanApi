@@ -286,6 +286,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@IPAddress", request.IPAddress);
                         command.Parameters.AddWithValue("@FinYearID", request.FinYearID);
+                        command.Parameters.AddWithValue("@BudgetTypeID", request.BudgetTypeID);
+                        command.Parameters.AddWithValue("@BudgetForID", request.BudgetForID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();

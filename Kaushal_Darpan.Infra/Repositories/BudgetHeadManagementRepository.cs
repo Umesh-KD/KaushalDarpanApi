@@ -82,6 +82,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CollegeID", model.CollegeID);
                         command.Parameters.AddWithValue("@DistributedType", model.DistributedType);
                         command.Parameters.AddWithValue("@FinYearID", model.FinYearID);
+                        command.Parameters.AddWithValue("@BudgetTypeID", model.BudgetTypeID);
+                        command.Parameters.AddWithValue("@BudgetForID", model.BudgetForID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -346,6 +348,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@Remarks", request.Remarks);
                         command.Parameters.AddWithValue("@BodgetTypeID", request.BodgetTypeID);
+                        command.Parameters.AddWithValue("@BudgetForID", request.BudgetForID);
+                        command.Parameters.AddWithValue("@DivisionID", request.DivisionID);
                         command.Parameters.AddWithValue("@BodgetType_Cumulative_HeadWise", request.BodgetType_Cumulative_HeadWise);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -389,6 +393,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BudgetTypeID", model.BudgetTypeID);
                         command.Parameters.AddWithValue("@AcademicYearID", model.FinYearID);
                         command.Parameters.AddWithValue("@InstituteId", model.InstituteId);
+                        command.Parameters.AddWithValue("@DivisionID", model.DivisionID);
+                        command.Parameters.AddWithValue("@BudgetForID", model.BudgetForID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
