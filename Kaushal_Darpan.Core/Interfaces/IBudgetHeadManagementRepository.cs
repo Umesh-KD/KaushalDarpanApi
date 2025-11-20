@@ -16,7 +16,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAllBudgetManagementData(BudgetHeadSearchFilter body);
         Task<int> Save_CollegeBudgetAlloted(CollegeBudgetAllotedModel body);
         //budget utilization
-        Task<int> Save_CollegeBudgetUtilizations(List<CollegeBudgetUtilizationModel> request);
+        Task<int> Save_CollegeBudgetUtilizations(List<CollegeBudgetUCDataModel> request);
         Task<DataTable> GetUtilizationsData(BudgetHeadSearchFilter model);
         Task<int> Save_CollegeBudgetRequest(BudgetRequestModel request);
         Task<DataTable> GetBudgetRequestData(BudgetHeadSearchFilter model);

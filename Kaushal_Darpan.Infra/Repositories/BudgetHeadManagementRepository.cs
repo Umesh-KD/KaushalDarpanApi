@@ -81,6 +81,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "Usp_ITI_BGT_BudgetManagementList";
                         command.Parameters.AddWithValue("@CollegeID", model.CollegeID);
                         command.Parameters.AddWithValue("@DistributedType", model.DistributedType);
+                        command.Parameters.AddWithValue("@FinYearID", model.FinYearID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -202,7 +203,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         
 
-        public async Task<int> Save_CollegeBudgetUtilizations(List<CollegeBudgetUtilizationModel> request)
+        public async Task<int> Save_CollegeBudgetUtilizations(List<CollegeBudgetUCDataModel> request)
         {
             _actionName = "Save_CollegeBudgetAlloted(CollegeBudgetAllotedModel request)";
             return await Task.Run(async () =>
@@ -261,6 +262,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DistributedID", model.DistributedID);
                         command.Parameters.AddWithValue("@ActionName", model.ActionName);
                         command.Parameters.AddWithValue("@BudgetTypeID", model.BudgetTypeID);
+                        command.Parameters.AddWithValue("@FinYearID", model.FinYearID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -385,7 +387,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "ITI_BGT_GetHeadWiseBudget_Admin";
                         command.Parameters.AddWithValue("@ActionName", model.ActionName);
                         command.Parameters.AddWithValue("@BudgetTypeID", model.BudgetTypeID);
-                        command.Parameters.AddWithValue("@AcademicYearID", model.AcademicYearID);
+                        command.Parameters.AddWithValue("@AcademicYearID", model.FinYearID);
                         command.Parameters.AddWithValue("@InstituteId", model.InstituteId);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();

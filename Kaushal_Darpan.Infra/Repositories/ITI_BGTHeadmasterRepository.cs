@@ -264,6 +264,163 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<int> SaveUCHeadData_ITI_BGT(ITI_BGT_HeadMasterDataModel request)
+        {
+            _actionName = "SaveUCHeadData_ITI_BGT(ITI_BGT_HeadMasterDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_BGT_UC_HeadMaster";
+                        command.Parameters.AddWithValue("@Action", "SaveData");
+                        command.Parameters.AddWithValue("@HeadId", request.HeadId);
+                        command.Parameters.AddWithValue("@HeadName", request.HeadName);
+                        command.Parameters.AddWithValue("@HeadCode", request.HeadCode);
+                        command.Parameters.AddWithValue("@HeadDescription", request.HeadDescription);
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+                        command.Parameters.AddWithValue("@IPAddress", request.IPAddress);
+                        command.Parameters.AddWithValue("@FinYearID", request.FinYearID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetUCHeadData_ITI_BGT(ITI_BGT_HeadMasterSearchModel model)
+        {
+            _actionName = "GetUCHeadData_ITI_BGT(ITI_InstructorDataSearchModel model )";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_BGT_UC_HeadMaster";
+                        command.Parameters.AddWithValue("@Action", "GetData");
+                        command.Parameters.AddWithValue("@HeadName", model.Name);
+                        command.Parameters.AddWithValue("@FinYearID", model.FinYearID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetUCHeadDataById_ITI_BGT(int id)
+        {
+            _actionName = "GetUCHeadDataById_ITI_BGT(int id)";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_BGT_UC_HeadMaster";
+                        command.Parameters.AddWithValue("@Action", "GetById");
+                        command.Parameters.AddWithValue("@HeadId", id);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> DeleteUCHeadById_ITI_BGT(int HeadId, int UserID)
+        {
+            _actionName = " DeleteUCHeadById_ITI_BGT(int HeadId, int UserID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_BGT_UC_HeadMaster";
+                        command.Parameters.AddWithValue("@Action", "deleteById");
+                        command.Parameters.AddWithValue("@HeadId", HeadId);
+                        command.Parameters.AddWithValue("@CreatedBy", UserID);
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 
 
