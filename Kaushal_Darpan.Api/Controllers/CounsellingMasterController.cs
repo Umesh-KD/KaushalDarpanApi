@@ -364,7 +364,46 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+        [HttpPost("GetAllottedCandidateList_CounsellingReport")]
+        public async Task<ApiResult<DataTable>> GetAllottedCandidateList_CounsellingReport([FromBody] CounsellingAllottedListSearchModel body)
 
+        {
+            ActionName = "GetAllottedCandidateList_CounsellingReport([FromBody] CounsellingAllottedListSearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.CounsellingMasterRepository.GetAllottedCandidateList_CounsellingReport(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
         [HttpPost("SaveFinalInstituteAllotment_Counselling")]
         public async Task<ApiResult<bool>> SaveFinalInstituteAllotment_Counselling(EditInstituteDataModel_Counselling model)
         {
