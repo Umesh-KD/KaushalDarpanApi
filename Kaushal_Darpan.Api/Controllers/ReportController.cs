@@ -983,8 +983,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         #region Student Fee Receipt
-        [HttpGet("GetStudentFeeReceipt/{EnrollmentNo}")]
-        public async Task<ApiResult<string>> GetStudentFeeReceipt(string EnrollmentNo)
+        [HttpGet("GetStudentFeeReceipt/{EnrollmentNo}/{StudentExamID}")]
+        public async Task<ApiResult<string>> GetStudentFeeReceipt(string EnrollmentNo, int StudentExamID)
         {
             ActionName = "GetStudentFeeReceipt(string EnrollmentNo)";
             return await Task.Run(async () =>
@@ -992,7 +992,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<string>();
                 try
                 {
-                    var data = await _unitOfWork.ReportRepository.GetStudentFeeReceipt(EnrollmentNo);
+                    var data = await _unitOfWork.ReportRepository.GetStudentFeeReceipt(EnrollmentNo, StudentExamID);
                     if (data != null)
                     {
                         var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
