@@ -250,6 +250,159 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("SaveUCHeadData_ITI_BGT")]
+        public async Task<ApiResult<int>> SaveUCHeadData_ITI_BGT([FromBody] ITI_BGT_HeadMasterDataModel request)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.ITI_BGTHeadmasterRepository.SaveUCHeadData_ITI_BGT(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetUCHeadData_ITI_BGT")]
+        public async Task<ApiResult<DataTable>> GetUCHeadData_ITI_BGT([FromBody] ITI_BGT_HeadMasterSearchModel model)
+        {
+            ActionName = "GetUCHeadData_ITI_BGT([FromBody] ITI_InstructorDataSearchModel request)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITI_BGTHeadmasterRepository.GetUCHeadData_ITI_BGT(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpGet("GetUCHeadDataById_ITI_BGT/{id}")]
+        public async Task<ApiResult<DataTable>> GetUCHeadDataById_ITI_BGT(int id)
+        {
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                var data = await _unitOfWork.ITI_BGTHeadmasterRepository.GetUCHeadDataById_ITI_BGT(id);
+                if (data != null && data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    result.Data = data;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        [HttpDelete("DeleteUCHeadById_ITI_BGT/{HeadId}/{UserID}")]
+        public async Task<ApiResult<int>> DeleteUCHeadById_ITI_BGT(int HeadId, int UserID)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.ITI_BGTHeadmasterRepository.DeleteUCHeadById_ITI_BGT(HeadId, UserID);
+
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 
 

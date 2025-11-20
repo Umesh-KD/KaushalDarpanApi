@@ -142,9 +142,9 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
         [HttpPost("Save_CollegeBudgetUtilizations")]
-        public async Task<ApiResult<int>> Save_CollegeBudgetUtilizations(List<CollegeBudgetUtilizationModel> request)
+        public async Task<ApiResult<int>> Save_CollegeBudgetUtilizations(List<CollegeBudgetUCDataModel> request)
         {
-            ActionName = "Save_CollegeBudgetUtilizations([FromBody] CollegeBudgetAllotedModel request)";
+            ActionName = "Save_CollegeBudgetUtilizations([FromBody] CollegeBudgetUCDataModel request)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<int>();

@@ -23,6 +23,7 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? IPAddress { get; set; }
         public bool? IsUnitWise { get; set; }
         public string? UnitName { get; set; }
+        public int? FinYearID { get; set; }
     }
 
 
@@ -33,6 +34,7 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public int? DepartmentID { get; set; }
         public int? InstituteID { get; set; }
         public int? RoleID { get; set; }
+        public int? FinYearID { get; set; }
     }
 }
 
