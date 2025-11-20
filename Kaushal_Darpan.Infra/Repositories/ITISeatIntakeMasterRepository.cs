@@ -41,6 +41,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ITI_SeatIntake_IU";
+                        //command.CommandText = "USP_ITI_SeatIntakeSP";
+
                         command.CommandType = CommandType.StoredProcedure;
 
                         command.Parameters.AddWithValue("@SeatIntakeID", request.SeatIntakeID);
@@ -62,7 +64,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
                         command.Parameters.AddWithValue("@OrderDate", request.OrderDate);
                         command.Parameters.AddWithValue("@PlanningID", request.PlanningID);
-                
+
+                        command.Parameters.AddWithValue("@AdminSanctionedID", request.AdminSanctionedID);
+                        command.Parameters.AddWithValue("@FinancialSanctionID", request.FinancialSanctionID);
+
 
 
                         // Add IP Address parameter
@@ -814,5 +819,48 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        #region orderlist
+
+        public async Task<DataTable> GetOrderDetailsList()
+        {
+            _actionName = " GetOrderDetailsList()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        //command.CommandTimeout = 999999999;
+                        command.CommandText = "USP_IntakePlanning";
+                        command.Parameters.AddWithValue("@action", "GetOrderList");
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        #endregion
+
+
     }
 }

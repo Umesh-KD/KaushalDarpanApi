@@ -41,6 +41,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         
         Task<SanctionOrderModel> GetSanctionOrderByID(int id);
 
+        Task<DataTable> GetOrderDetailsList();
 
     }
 }
