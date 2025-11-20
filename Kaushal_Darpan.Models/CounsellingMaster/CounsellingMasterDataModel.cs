@@ -54,6 +54,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? ApplicationNo { get; set; }
         public string? CandidateName { get; set; }
         public string? MobileNo { get; set; }
+        public int? InstituteID { get; set; }
     }
 
     public class EditInstituteDataModel_Counselling

@@ -319,7 +319,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        public async Task<DataTable> GetAllottedCandidateList_CounsellingReport(CounsellingAllottedListSearchModel body)
+        {
+            _actionName = "GetAllottedCandidateList_Counselling(CounsellingAllottedListSearchModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_GetAllottedCandidateReport";
+                        command.Parameters.AddWithValue("@action", body.action);
 
+                        command.Parameters.AddWithValue("@TradeID", body.TradeID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
         public async Task<bool> SaveFinalInstituteAllotment_Counselling(EditInstituteDataModel_Counselling model)
         {
             _actionName = "SaveFinalInstituteAllotment_Counselling(EditInstituteDataModel_Counselling model)";

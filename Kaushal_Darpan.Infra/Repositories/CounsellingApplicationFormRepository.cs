@@ -703,6 +703,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                                 }
                                 catch { }
                             }
+                            if (dataSet.Tables.Count > 3 && dataSet.Tables[4].Rows.Count > 0)
+                            {
+                                try
+                                {
+                                    data.InstituteDetailList = CommonFuncationHelper.ConvertDataTable<List<InstituteListDataModel_Coun>>(dataSet.Tables[4]);
+                                }
+                                catch { }
+                            }
                         }
                     }
                     return data;
