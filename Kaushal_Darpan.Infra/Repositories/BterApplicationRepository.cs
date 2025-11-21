@@ -1252,7 +1252,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
         #region  student update qualification
-
+        
         public async Task<bool> UpdateStudentQualificationDetails(UpdateQulaificationDetailsModel request)
         {
             _actionName = "UpdateStudentQualificationDetails(UpdateQulaificationDetailsModel request)";
@@ -1269,6 +1269,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@StudentID", request.StudentID);
+                        //command.Parameters.AddWithValue("@OtherDoc", request.OtherDoc);
                         command.Parameters.AddWithValue("@QualificationList", JsonConvert.SerializeObject(request.QualificationList));
 
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);

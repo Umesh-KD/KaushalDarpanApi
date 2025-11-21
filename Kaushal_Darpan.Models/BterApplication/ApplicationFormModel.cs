@@ -77,6 +77,8 @@ namespace Kaushal_Darpan.Models.ApplicationData
         public int? BranchID { get; set; }
         public List<Lateralsubject>? SubjectID {  get; set; }
 
+        public string? OtherDoc { get; set; }
+
     }
 
 
