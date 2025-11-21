@@ -384,9 +384,9 @@ namespace Kaushal_Darpan.Infra.Repositories
         #endregion
 
         #region Student Fee Receipt
-        public async Task<DataSet> GetStudentFeeReceipt(string EnrollmentNo)
+        public async Task<DataSet> GetStudentFeeReceipt(string EnrollmentNo, int StudentExamID)
         {
-            _actionName = "GetStudentFeeReceipt(string EnrollmentNo)";
+            _actionName = "GetStudentFeeReceipt(string EnrollmentNo, int StudentExamID)";
             return await Task.Run(async () =>
             {
                 try
@@ -399,6 +399,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@action", "_getStudentEnrolledFee");
                         command.Parameters.AddWithValue("@EnrollmentNo", EnrollmentNo);
                         command.Parameters.AddWithValue("@TransactionId", EnrollmentNo);
+                        command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }

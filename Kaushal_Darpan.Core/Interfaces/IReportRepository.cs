@@ -41,7 +41,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetStudentMarksheet(MarksheetDownloadSearchModel model);
         Task<DataSet> GetStudentHostelallotment(MarksheetDownloadSearchModel model);
         Task<DataSet> GetStudentEnrolledForm(ReportBaseModel model);
-        Task<DataSet> GetStudentFeeReceipt(string EnrollmentNo);
+        Task<DataSet> GetStudentFeeReceipt(string EnrollmentNo, int StudentExamID);
         Task<DataSet> GetStudentApplicationFeeReceipt(string EnrollmentNo);
 
         Task<DataSet> GetStudentAllotmentFeeReceipt(string EnrollmentNo);
