@@ -305,4 +305,20 @@ namespace Kaushal_Darpan.Models.ApplicationData
         public int ApplicationId { set; get; }
     }
 
+
+
+
+    #region student qualification update
+
+
+    public class UpdateQulaificationDetailsModel
+    {
+        public int StudentID {  get; set; }
+        public List<LateralEntryQualificationModel>? QualificationList { get; set; }
+    }
+
+
+
+    #endregion
+
 }

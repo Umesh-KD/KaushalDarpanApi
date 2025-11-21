@@ -1,5 +1,6 @@
 ﻿using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.ApplicationMessageModel;
+using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.DateConfiguration;
 using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.ITIApplication;
@@ -43,6 +44,14 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetDetailsbyApplicationNo(List<ApplicationDetails> ApplicationDetails);
         Task<bool> DirectAdmissionPaymentUpdate(DirectAdmissionUpdatePayment model);
         Task<bool> JailAdmissionFinalSubmit(DirectAdmissionUpdatePayment model);
+
+
+
+        #region student update qualification
+
+        Task<bool> UpdateStudentQualificationDetails(UpdateQulaificationDetailsModel model);
+
+        #endregion
 
     }
 }
