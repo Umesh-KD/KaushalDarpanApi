@@ -238,7 +238,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetPromotedStudentDataITI";
                         //parameter
-                        if (model.PromoteStatusID == (int)PromoteStatus.Ex)
+                        if (model.PromoteStatusID == 2)
                         {
                             command.Parameters.AddWithValue("@action", "_getExStudentSemesterData");
                         }

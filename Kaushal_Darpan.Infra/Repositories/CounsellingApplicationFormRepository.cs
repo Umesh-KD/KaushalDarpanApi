@@ -385,6 +385,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@TradeId", model.TradeID);
                     command.Parameters.AddWithValue("@Action", model.Action);
                     command.Parameters.AddWithValue("@CandidateID", model.CandidateID);
+                    command.Parameters.AddWithValue("@Designation", model.Designation);
+                    command.Parameters.AddWithValue("@IsTSP", model.IsTSP);
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();
                 }
@@ -698,6 +700,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                                 try
                                 {
                                     data.DocumentDetailList = CommonFuncationHelper.ConvertDataTable<List<Counselling_DocumentDetailsModel>>(dataSet.Tables[3]);
+                                }
+                                catch { }
+                            }
+                            if (dataSet.Tables.Count > 3 && dataSet.Tables[4].Rows.Count > 0)
+                            {
+                                try
+                                {
+                                    data.InstituteDetailList = CommonFuncationHelper.ConvertDataTable<List<InstituteListDataModel_Coun>>(dataSet.Tables[4]);
                                 }
                                 catch { }
                             }

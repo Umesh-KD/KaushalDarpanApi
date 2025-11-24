@@ -2353,8 +2353,10 @@ namespace Kaushal_Darpan.Api.Controllers
                     decimal totalAmount = (decimal)(Model.Amount) + (decimal)(Model.EnrollFeeAmount ?? 0);
 
                     data.AMOUNT = totalAmount.ToString();
+
                 }
 
+                objEmitra.Amount = Convert.ToDecimal(data?.AMOUNT);
                 //
                 var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransation(objEmitra);
                 await _unitOfWork.SaveChangesAsync();
@@ -2560,7 +2562,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 objEmitra.key = "_InsertDetails";
                 objEmitra.ApplicationIdEnc = Model.ApplicationIdEnc;
                 //objEmitra.Amount = Model.Amount;
-                objEmitra.Amount = Model.Amount + Model.FormCommision;
+                objEmitra.Amount = Model.Amount; //+ Model.FormCommision;
                 objEmitra.EnrollFeeAmount = (Model.EnrollFeeAmount ?? 0);
                 objEmitra.StudentID = Model.StudentID;
                 objEmitra.SemesterID = Model.SemesterID;

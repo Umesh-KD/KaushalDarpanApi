@@ -77,6 +77,8 @@ namespace Kaushal_Darpan.Models.ApplicationData
         public int? BranchID { get; set; }
         public List<Lateralsubject>? SubjectID {  get; set; }
 
+        public string? OtherDoc { get; set; }
+
     }
 
 
@@ -304,5 +306,21 @@ namespace Kaushal_Darpan.Models.ApplicationData
     {
         public int ApplicationId { set; get; }
     }
+
+
+
+
+    #region student qualification update
+
+
+    public class UpdateQulaificationDetailsModel
+    {
+        public int StudentID {  get; set; }
+        public List<LateralEntryQualificationModel>? QualificationList { get; set; }
+    }
+
+
+
+    #endregion
 
 }

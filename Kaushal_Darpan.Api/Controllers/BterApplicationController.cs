@@ -4,6 +4,7 @@ using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.AppointExaminer;
+using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.DateConfiguration;
 using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.GenerateEnroll;
@@ -1124,6 +1125,66 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+
+
+
+        #region Student Update qualificartion
+
+
+        [HttpPost("UpdateStudentQualificationDetails")]
+        public async Task<ApiResult<bool>> UpdateStudentQualificationDetails([FromBody] UpdateQulaificationDetailsModel request)
+        {
+            ActionName = " UpdateStudentQualificationDetails([FromBody] UpdateQulaificationDetailsModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+
+                    result.Data = await _unitOfWork.BterApplicationRepository.UpdateStudentQualificationDetails(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;                      
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
+        #endregion
 
     }
 

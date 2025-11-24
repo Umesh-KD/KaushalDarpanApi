@@ -6,6 +6,7 @@ using Kaushal_Darpan.Infra.Repositories;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.ApplicationMessageModel;
 using Kaushal_Darpan.Models.AppointExaminer;
+using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.DateConfiguration;
 using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.ITIApplication;
@@ -1248,6 +1249,62 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+        #region  student update qualification
+        
+        public async Task<bool> UpdateStudentQualificationDetails(UpdateQulaificationDetailsModel request)
+        {
+            _actionName = "UpdateStudentQualificationDetails(UpdateQulaificationDetailsModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_AdditionalQualification_IU";
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@StudentID", request.StudentID);
+                        //command.Parameters.AddWithValue("@OtherDoc", request.OtherDoc);
+                        command.Parameters.AddWithValue("@QualificationList", JsonConvert.SerializeObject(request.QualificationList));
+
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        #endregion
 
     }
 }

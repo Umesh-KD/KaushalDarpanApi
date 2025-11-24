@@ -25,6 +25,8 @@ namespace Kaushal_Darpan.Models.ITIBUDGET
         public string? Remarks { get; set; }
         public List<CollegeBudgetUtilizationModel>? CollegeBudgetUtilizationModel { get; set; }
         public int? BodgetTypeID { get; set; }
+        public int? BudgetForID { get; set; }
+        public int? DivisionID { get; set; }
         public int? BodgetType_Cumulative_HeadWise { get; set; }
     }
 }

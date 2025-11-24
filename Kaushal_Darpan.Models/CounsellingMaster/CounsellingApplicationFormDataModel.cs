@@ -127,6 +127,8 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public int? TradeID { get; set; }
         public int? InstituteID { get; set; }
         public int? CandidateID { get; set; }
+        public string? Designation { get; set; }
+        public int? IsTSP { get; set; }
     }
 
     public class Counselling_DocumentDataModel
@@ -198,6 +200,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? CategoryB { get; set; }
         public string? GenderName { get; set; }
         public string? SelectionCategory { get; set; }
+        public List<InstituteListDataModel_Coun>? InstituteDetailList { get; set; }
     }
 
     public class OptionviewData_Counselling

@@ -67,6 +67,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+        
 
         [RoleActionFilter(EnumRole.DTE_Eng, EnumRole.DTE_NonEng, EnumRole.ITCell_Eng, EnumRole.ITCell_NonEng)]
         [HttpPost("GetStudentAdmitted")]
@@ -825,6 +826,41 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.StudentEnrollmentRepository.GetAnnextureListPreExamStudent(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("GetPreExamStudentReport")]
+        public async Task<ApiResult<DataTable>> GetPreExamStudentReport(PreExamStudentModel model)
+        {
+            ActionName = "GetPreExamStudent()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.StudentEnrollmentRepository.GetPreExamStudentReport(model);
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
