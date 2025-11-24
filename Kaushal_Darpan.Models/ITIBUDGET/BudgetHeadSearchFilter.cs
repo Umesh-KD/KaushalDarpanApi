@@ -24,5 +24,6 @@ namespace Kaushal_Darpan.Models.ITIBUDGET
         public int? InstituteId { get; set; }
         public int? DivisionID { get; set; }
         public int? RoleID { get; set; }
+        public int? Status { get; set; }
     }
 }
