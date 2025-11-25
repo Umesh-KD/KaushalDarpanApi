@@ -365,6 +365,8 @@ namespace Kaushal_Darpan.Core.Helper
         {
             try
             {
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
                 //LogErrorToLogFile error = new LogErrorToLogFile();
 
                 //error.LogEmitra("Kiosk Verify " + data, "TestApp1");

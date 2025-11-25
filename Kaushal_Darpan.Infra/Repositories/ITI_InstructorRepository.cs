@@ -232,6 +232,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EducationJson", (object?)eduJson ?? DBNull.Value);
                         command.Parameters.AddWithValue("@TechJson", (object?)techJson ?? DBNull.Value);
                         command.Parameters.AddWithValue("@EmploymentJson", (object?)empJson ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@AadharDocument",request.AadharDocument);
+                        command.Parameters.AddWithValue("@PermanentDocument", request.PermanentDocument);
+                        
 
                         //_sqlQuery = command.GetSqlExecutableQuery();
                         //result = await command.ExecuteNonQueryAsync();
