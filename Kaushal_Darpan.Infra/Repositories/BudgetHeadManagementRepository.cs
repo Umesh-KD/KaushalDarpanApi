@@ -47,6 +47,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@FinYearID", model.FinYearID);
                         command.Parameters.AddWithValue("@CollegeID", model.CollegeID);
                         command.Parameters.AddWithValue("@ActionType", model.ActionName);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@DivisionID", model.DivisionID);
+                        command.Parameters.AddWithValue("@Status", model.Status);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -177,6 +180,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RequestFileName", request.RequestFileName);
                         command.Parameters.AddWithValue("@CreatedBy", request.UserID);
                         command.Parameters.AddWithValue("@Remarks", request.Remarks);
+                        command.Parameters.AddWithValue("@DivisionID", request.DivisionID);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@BudgetForID", request.BudgetForID);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -265,6 +271,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ActionName", model.ActionName);
                         command.Parameters.AddWithValue("@BudgetTypeID", model.BudgetTypeID);
                         command.Parameters.AddWithValue("@FinYearID", model.FinYearID);
+                        command.Parameters.AddWithValue("@BudgetForID", model.BudgetForID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -303,6 +310,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CollegeID", model.CollegeID);
                         command.Parameters.AddWithValue("@FinYearID", model.FinYearID);
                         command.Parameters.AddWithValue("@Status", model.StatusId);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@DivisionID", model.DivisionID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -347,7 +356,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DistributedAmount", request.DistributedAmount);
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@Remarks", request.Remarks);
-                        command.Parameters.AddWithValue("@BodgetTypeID", request.BodgetTypeID);
+                        command.Parameters.AddWithValue("@BudgetTypeID", request.BodgetTypeID);
                         command.Parameters.AddWithValue("@BudgetForID", request.BudgetForID);
                         command.Parameters.AddWithValue("@DivisionID", request.DivisionID);
                         command.Parameters.AddWithValue("@BodgetType_Cumulative_HeadWise", request.BodgetType_Cumulative_HeadWise);
@@ -413,6 +422,86 @@ namespace Kaushal_Darpan.Infra.Repositories
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                 throw new Exception(errordetails, ex);
             }
+        }
+
+        public async Task<int> Approve_CollegeBudgetAllot(List<CollegeBudgetAllotApproveDataModel> request)
+        {
+            _actionName = "Approve_CollegeBudgetAllot(List<CollegeBudgetAllotApproveDataModel> request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+
+
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_ITI_BGT_CollegeBudgetAllot_Approve";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+
+                    return result;
+
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> UnlockUtilization_ITI_BGT(UnlockUtilizationDataModel model)
+        {
+            _actionName = " DeleteBudgetHeadById(int id)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_BGT_UnlockUtilization";
+                        command.Parameters.AddWithValue("@DistributedID", model.DistributedID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
         }
     }
 }

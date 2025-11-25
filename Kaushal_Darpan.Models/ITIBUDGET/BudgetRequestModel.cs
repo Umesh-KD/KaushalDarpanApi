@@ -26,6 +26,9 @@ namespace Kaushal_Darpan.Models.ITIBUDGET
         public int Eng_NonEng { get; set; }
         public string? Action { get; set; }
         public int StatusId { get; set; }
+        public int? DivisionID { get; set; }
+        public int? RoleID { get; set; }
+        public int? BudgetForID { get; set; }
 
     }
 }

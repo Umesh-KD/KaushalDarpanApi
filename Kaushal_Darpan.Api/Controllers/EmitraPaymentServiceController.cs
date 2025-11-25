@@ -69,7 +69,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
                 objEmitra.key = "_InsertDetails";
                 objEmitra.ApplicationIdEnc = Model.ApplicationIdEnc;
-                objEmitra.Amount = Model.Amount;
+                objEmitra.Amount = Model.Amount + Model.FormCommision;
                 objEmitra.StudentID = Model.StudentID;
                 objEmitra.SemesterID = Model.SemesterID;
                 objEmitra.ExamStudentStatus = Model.ExamStudentStatus;
@@ -96,7 +96,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     data.PRN = "KD" + rnd.Next(100000, 999999) + rnd.Next(100000, 999999);
 
                     data.REQTIMESTAMP = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                    data.AMOUNT = Convert.ToString(Model.Amount);
+                    data.AMOUNT = Convert.ToString(objEmitra.Amount);
                     data.SUCCESSURL = EmitraServiceDetail.REDIRECTURL + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(result.TransactionId)) + "&ApplicationIdEnc=" + CommonFuncationHelper.EmitraEncrypt(Model.ApplicationIdEnc) + "&SERVICEID=" + Model.ServiceID.ToString() + "&IsFailed=" + CommonFuncationHelper.EmitraEncrypt("NO") + "&UniqueServiceID=" + Model.ID.ToString();
                     data.FAILUREURL = EmitraServiceDetail.REDIRECTURL + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(result.TransactionId)) + "&ApplicationIdEnc=" + CommonFuncationHelper.EmitraEncrypt(Model.ApplicationIdEnc) + "&SERVICEID=" + Model.ServiceID.ToString() + "&IsFailed=" + CommonFuncationHelper.EmitraEncrypt("YES") + "&UniqueServiceID=" + Model.ID.ToString();
                     data.USERNAME = Model.UserName;
@@ -104,7 +104,14 @@ namespace Kaushal_Darpan.Api.Controllers
                     data.COMMTYPE = EmitraServiceDetail.COMMTYPE;
                     data.OFFICECODE = EmitraServiceDetail.OFFICECODE;
 
-                    data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
+                   // data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
+                    data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("{exam_fee}", Model.Amount.ToString())
+                        .Replace("{exam_commission}", Convert.ToString(Model.FormCommision));
+
+
+
+
+
 
                     data.SERVICEID = EmitraServiceDetail.SERVICEID;
                     data.UDF1 = Convert.ToString(Model.ExamStudentStatus);
@@ -221,7 +228,14 @@ namespace Kaushal_Darpan.Api.Controllers
                     data.SUBSERVICEID = "";
                     data.CONSUMERKEY = prnNo;
                     data.CONSUMERNAME = Model.UserName;
-                    data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
+
+
+                   // data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
+
+                    data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("{exam_fee}", Model.Amount.ToString())
+                  .Replace("{exam_commission}", Convert.ToString(Model.FormCommision));
+
+
                     //data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("{H1}", Model.Amount.ToString()).Replace("{H2}", Model.ProcessingFee.ToString());
 
                     //data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("{application_fee}", Model.Amount.ToString())

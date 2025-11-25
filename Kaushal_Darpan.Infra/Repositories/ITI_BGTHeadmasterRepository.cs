@@ -48,7 +48,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@HeadCode", request.HeadCode);
                         command.Parameters.AddWithValue("@HeadDescription", request.HeadDescription);
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
-                        command.Parameters.AddWithValue("@IPAddress", request.IPAddress);
+                        command.Parameters.AddWithValue("@UnitValue", request.UnitValue);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();

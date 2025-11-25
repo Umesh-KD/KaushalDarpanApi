@@ -26,6 +26,7 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public int? FinYearID { get; set; }
         public int? BudgetTypeID { get; set; }
         public int? BudgetForID { get; set; }
+        public int? UnitValue { get; set; }
     }
 
 
