@@ -1081,6 +1081,10 @@ namespace Kaushal_Darpan.Api.Controllers
                 EmitraDecriptStringResponse response = await emitraencsev.EmitraDecriptStringAsync(EmitraServiceDetail.EncryptionKey, data);
                 var EmitraResponseData = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(response.Body.EmitraDecriptStringResult);
 
+
+
+
+
                 if (EmitraResponseData != null)
                 {
                     EmitraResponseData.ApplicationIdEnc = CommonFuncationHelper.EmitraDecrypt(ApplicationIdEnc);
@@ -1328,6 +1332,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient emitraencsev = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient(endpointConfiguration, EmitraServiceDetail.WebServiceURL);
                 EmitraDecriptStringResponse response = await emitraencsev.EmitraDecriptStringAsync(EmitraServiceDetail.EncryptionKey, data);
                 var EmitraResponseData = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(response.Body.EmitraDecriptStringResult);
+
 
                 if (EmitraResponseData != null)
                 {
