@@ -49,6 +49,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ActionType", model.ActionName);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@DivisionID", model.DivisionID);
+                        command.Parameters.AddWithValue("@Status", model.Status);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -181,6 +182,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Remarks", request.Remarks);
                         command.Parameters.AddWithValue("@DivisionID", request.DivisionID);
                         command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@BudgetForID", request.BudgetForID);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -449,6 +451,43 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     return result;
 
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> UnlockUtilization_ITI_BGT(UnlockUtilizationDataModel model)
+        {
+            _actionName = " DeleteBudgetHeadById(int id)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_BGT_UnlockUtilization";
+                        command.Parameters.AddWithValue("@DistributedID", model.DistributedID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    return result;
                 }
                 catch (Exception ex)
                 {

@@ -183,8 +183,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@CandidateID", request.CandidateID);
-                        command.Parameters.AddWithValue("@SSOID", request.SSOID);
-
+                        command.Parameters.AddWithValue("@SSOID", request.SSOID); 
                         command.Parameters.AddWithValue("@IsPH_ByAdmin", request.IsPH_ByAdmin);
                         command.Parameters.AddWithValue("@IsExServicemen_ByAdmin", request.IsExServicemen_ByAdmin);
                         command.Parameters.AddWithValue("@IsSportsPerson_ByAdmin", request.IsSportsPerson_ByAdmin);

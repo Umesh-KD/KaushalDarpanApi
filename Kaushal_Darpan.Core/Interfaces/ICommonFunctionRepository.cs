@@ -194,6 +194,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<CommonDDLModel>> GetITISubjectCodeDDl(CommonDDLSubjectCodeMasterModel request);
         Task<DataTable> StreamDDLInstituteIdWise(StreamDDL_InstituteWiseModel request);
         Task<DataTable> QualificationDDL(QualificationDDLDataModel request);
+        Task<DataTable> QualificationDetailsDDL(QualificationDDLDataModel request);
         Task<DataTable> GetDateSetting(DateSettingConfigModel request);
         Task<List<CommonDDLModel>> GetReletionDDL(string type);
         Task<List<CommonDDLModel>> GetRoomTypeDDL(string type);

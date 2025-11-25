@@ -276,6 +276,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StudentID", request.StudentID);
                         command.Parameters.AddWithValue("@SSOID", request.SsoID);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@MobileNumber", request.MobileNumber);
                         command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
                         command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
                         _sqlQuery = command.GetSqlExecutableQuery();// sql query
