@@ -1027,14 +1027,14 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
 
-        #region "ITI Student Payment Response "
-
+        #region "ITI Student Payment Response"
         [HttpPost("ITIStudentPaymentResponse")] //IActionResult
         public async Task<IActionResult> ITIStudentPaymentResponse(string UniquerequestId = "", string ApplicationIdEnc = "", string ServiceID = "", string IsFailed = "", string UniqueServiceID = "")
         {
             var RetrunUrL = "";
             try
             {
+                
                 UniquerequestId = UniquerequestId.Replace(' ', '+');
                 UniquerequestId = UniquerequestId.Replace(' ', '+');
                 UniquerequestId = UniquerequestId.Replace(' ', '+');
@@ -1051,20 +1051,27 @@ namespace Kaushal_Darpan.Api.Controllers
                 ServiceID = ServiceID.Replace(' ', '+');
                 ServiceID = ServiceID.Replace(' ', '+');
 
-
                 UniqueServiceID = UniqueServiceID.Replace(' ', '+');
                 UniqueServiceID = UniqueServiceID.Replace(' ', '+');
                 UniqueServiceID = UniqueServiceID.Replace(' ', '+');
-
-
 
 
                 EmitraRequestDetailsModel Model = new EmitraRequestDetailsModel();
                 Model.ServiceID = ServiceID;
                 Model.ID = string.IsNullOrEmpty(UniqueServiceID) == true ? 0 : Convert.ToInt32(UniqueServiceID);
                 var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(Model);
-
-                var data = Convert.ToString(Request.Form["encData"]);
+                 var data = Convert.ToString(Request.Form["ENCDATA"]);
+                try
+                {
+                    CommonFuncationHelper.WriteTextLog($"EmitraRequestDetailsModel Request.Form[ServiceID] Error: {ServiceID}");
+                    CommonFuncationHelper.WriteTextLog($"EmitraRequestDetailsModel UniqueServiceID: {Model.ID}");
+                    CommonFuncationHelper.WriteTextLog($"EmitraRequestDetailsModel Request.Form[ENCDATA] Error: {Convert.ToString(Request.Form["ENCDATA"])}");
+                    CommonFuncationHelper.WriteTextLog($"EmitraRequestDetailsModel Request.Form[encData] Error: {Convert.ToString(Request.Form["encData"])}");
+                }
+                catch (Exception ex)
+                { 
+                }
+                //var data = "B5mOqrNT0FYvodl+urD7dVmQgnwiLFLf3r+zkFqy6WQD6ym41FN5dflIaIeWWyqgUAQWyJM1MLGZE48pNc2zJf3W7UL+9wn/WjyJPv5/2L1ARSpknG1Vxx6gkxrV5iNPkBREwC6EVvnIiyxqLZHSyAHeXqWxZZ0WeyG9Z2XAOeOReoMbTjsUqub/N8f8bCGXwxjENCvJNpDDLBQI7J/hqMMK/h/TjkG5EQ+16Si6mo7c8dyjwobiT8jwbGYSqokxLglFZIjkpbGfMFAVT4yh9dv0O8lCUNFaYjjyO4ZRpi28Wdm96B2M+1BbK0X/buK6HUn4XutWGh/SP1BZSFSqvMLkiddRdqAi19aP6wZ51xQBGZM0K5VQLM66ufeRVIpOTNZg6s6hfBk6s5ZtGsIXXsSMNoLuceQ99D5GLBjD8iHXHQC5p0gi1C7IbCKhMU47WqUNBlTtzJZ4NFKCy2YyL4jjSHsqtTXVlcObSB3nKwyuqubpTpLuOWHM0Z+ateFNvRMe6Y1ehp1VXlpZR0iPoR7qio82GDnGXbAa2lX5a4i7H41hHDyLap1YD75nk4DKNfKAbb79fe7JCLgMo5eV7wSTmLmkFMYwAsZr/pJgCWfUkcZCbO90DVNyya/RJrC8xCV6a+y//FkJVp85RqKBBg4bJ5CKe8ALBVbv2FNy0F16hz4usnL11R1wf8Nn9s9WvmZINxExodN/3A/Ht0dVqhULQCymMI5cCrrNdnpr3hP1JkSXABGNRgn5w6+HvtJGlqJS0uu8K8gHxYEoCNH7uBaLg02skxU3Tce4vYTkT+Q1tyDi2cLFzckCTt5y2qkm2zoKaiz0MEI9FaLDiLsVMQW0r9qMf33aD07jUgUQ8czplRIs193SX+vFfJnE6oUAghGHwqkJUe0GsTN6HT6vpKn+UHmkvsabmDy4GTJ99Gd3vy4Hy1jlbzdsCQcPUE8j43iR+GQTvQnbdSTZh5apw8BjO2m85C7FNuDlnrku2uhAzHedCnzfvYm99QAxcMO8yATspTv90mqSlcqfCstq+QwixNaBKV7Lm60EBht9sVBPcGnrnmklVj+XQT5Gd/+5+IJURl4vZyTUt94eLVnmY+ENSrWwa66sS/iyfbszmqjnBGDkgOzG9x5rT5dH3sDeCF8N8P+nUzER/NOcS7JdocgV7on8OhYVr0oLkfDJayiVamAKc1SpJv5JSl+b6gBUdxiyKZ4bxktzFABYbx+DYzSaQapM73A8rfaIPsjMw3GjFcCRUPrQknIHktpWXO69da4n7XtTK8CVsIjQv1081m707Wii2gBLa64d6s81XpIIw1fbAWc+i7+DNzWY38KEYN3GQnY0qQfsDEViykmVhgtV5F06S9QT/+md6ANbYDSfWSNywyQc+ExuPYH6HNAA";
 
                 var vIsFailed = CommonFuncationHelper.EmitraDecrypt(IsFailed);
 
