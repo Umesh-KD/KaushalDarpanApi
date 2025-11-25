@@ -89,6 +89,10 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? Aadhar { get; set; }
         public string? JanAadhar { get; set; }
         public string? TehsilName { get; set; }
+        public string? AadharDocument { get; set; }
+        public string? panDocument { get; set; }
+        public string? PermanentDocument { get; set; }
+        
 
         public List<ITI_Instructor_EduDetails>? EducationalQualifications { get; set; }
         public List<ITI_Instructor_TechDetails>? TechnicalQualifications { get; set; }
@@ -108,9 +112,10 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? Education_Year { get; set; }
         public string? Education_Subjects { get; set; }
         public decimal? Education_Percentage { get; set; } 
+        public decimal? Education_CGPA { get; set; } 
 
         public string? EducationDocument { get; set; }
-        public string? MarksType { get; set; }
+        public string? MarksTypeID { get; set; }
         public string? MarkTypeName { get; set; }
 
         public int? CreatedBy { get; set; }
@@ -138,6 +143,12 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public decimal? Basic_Pay { get; set; }   
 
         public string? EmploymentDocument { get; set; }
+        public string? panDocument { get; set; }
+        public string? EmployeeCode { get; set; }
+        public string? BasicSalaryDocument { get; set; }
+        public int? PostHeld { get; set; }
+
+
         public string? CreatedBy { get; set; }
 
         public int? DepartmentID { get; set; }
@@ -160,10 +171,20 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? Tech_Year { get; set; }
         public decimal? Tech_Percentage { get; set; }   
         public string? TechDocument { get; set; }
+        public string? CITSCertifiedDocument { get; set; }
         public int? CreatedBy { get; set; }
         public int? DepartmentID { get; set; }
         public DateTime? RTS { get; set; }
         public int? InstituteID { get; set; }
+
+        public int? StreamID { get; set; }
+        public int? QualificationID { get; set; }
+        public string? QualificationLevel { get; set; }
+        public string? Tech_MarksTypeID { get; set; }
+        public int? Tech_CGPA { get; set; }
+
+
+
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
     }
