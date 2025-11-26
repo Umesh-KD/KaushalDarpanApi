@@ -28,6 +28,7 @@ namespace Kaushal_Darpan.Models.ITINCVT
         public string CollegeCode { get; set; }
         public int TradeId { get; set; }
         public string TradeCode { get; set; }
+        public string PaymentSuccess { get; set; }
 
     }
 

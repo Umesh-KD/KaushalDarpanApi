@@ -136,6 +136,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CollegeCode", body.CollegeCode);
                         command.Parameters.AddWithValue("@TradeId", body.TradeId);
                         command.Parameters.AddWithValue("@TradeCode", body.TradeCode);
+                        command.Parameters.AddWithValue("@PaymentSuccess", body.PaymentSuccess);
 
 
                         command.Parameters.AddWithValue("@Action", body.Action);
