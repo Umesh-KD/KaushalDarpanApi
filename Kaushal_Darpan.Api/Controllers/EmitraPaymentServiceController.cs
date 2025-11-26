@@ -1059,22 +1059,8 @@ namespace Kaushal_Darpan.Api.Controllers
                 Model.ID = string.IsNullOrEmpty(UniqueServiceID) == true ? 0 : Convert.ToInt32(UniqueServiceID);
                 var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(Model);
                 var data = Convert.ToString(Request.Form["encData"]);
-              //var data = "B5mOqrNT0FYvodl+urD7dVmQgnwiLFLf3r+zkFqy6WQxhwn9/pKKfj7O4GpelTvaqvPdBoBzJ+Yr0c8A3h+lutdRMHwzyXwMkRukirPjtUh9hrV4X4lx5smdGZ/8P9sTEDZ4tO9z8R2y0lkh0X4Gz4wf0S+aONGNMV7fXKin12eB0omLJrIp6eh39YqdYCP3e7krDnh8WGEHqdMxBNhQuX20H2Y0FILox20qOv+CgfYTZ74pNgVWbcuZ6BfYoTXwHGapONncU96VmTj7YVFHC+o2MQdXQP/Qgj5fAM4GTa0Pq0vaHoKY1m+6tBbFtns7qrEOFqa+oQv9zKpWeopUXen8sHqFgkhLQGpBiEx9wLvENIV1xGCbA9RP/SYt80L9bG97Rzzdc9KUBqS+UV8bmZPkwdf6yrLuQ6/imHJ6rnyASeIixNsbbYFSR6NNOxsa0nHkqPVR1hyd0jsqut/PVGJ2UlDbFIVXcdzRLPKhSwKQI7uJT72p0qF9+6tlcgr4w5LkrgTxTBh3eaXp6iXD4xKhSijI7ePofTYwZRg7Z3PVEv685R/kMV3lHhVIH72x5cY/FoxHTdSORTUhpL5QysW8OAWQjcl15UyHM57+Fjp0SfUSPXhPpJZCW26Q0johEK0yi/uiURA3JlIYUCthzeeABBu6k7y+0P3t1Cn6DYQ9vBcl+2OUCG5u21GOOh/89szfvBaxSa9oUvRNP+iA8ru8k6iU1iN+25Myck9pJQGO2EKJLosTloz30m97TUzyjOqDGYpNXqW31fJ2DMPtvaPrUf1ZO19/X8pQjMA2OYAfAW5WJe0J2LELh+6E7PRhd5F8St6kt8AMVmaSJMW2NNRdGG42xmNlhm2rAIlx5Z2jgh8QqxA96IB7vkBFLDph++aM4EfuFtdiApVfb9r8ktWiVrzRiBSzHvF82enKVx1PqjYuSCNVI37wXgCktbDO6EsSin4lIttLwbT+tlDVcr07LqM0qDUeuUuAd0rro10uyR7hFyxMX3/GWs19y8x0vinS4+kIWOKyOMGRlGUVnzqCPWw6EOPCSXN45biqWbM997Df3NhAkefTd5oler72eihFO7mUQq4vWm4sQo5cvpVi4m1R+DIvzKNS08p6QcU8qjXZXn8OLeMio7Q1AW7hbGQjsvF7itz0z1umNgMwT3LsCq2jD6eHUUpOp/pB8uhSXZpDdlEXdomiHnY6ZBWHwmz6gCFukRJSsYeFw5w8eC5l9cpf4mcyKR0B6Z1L+OJkuInieUVG3O94waWqT4b4+tJzkwPtrXhkg+R1gX8KJj7+pKDWvd2YNkPEEaF1D3WEblxSdyuvrdxOllyNfHMTUeNAJUITyTgWQkprrunER/aXP4dF+1qc5tmtOtfuHjPci/7C00LSMutHKJ44PgfmTx60PCKFckw=";
-
-                try
-                {
-                    CommonFuncationHelper.WriteTextLog($"EmitraRequestDetailsModel Request.Form[ServiceID] Error: {ServiceID}");
-                    CommonFuncationHelper.WriteTextLog($"EmitraRequestDetailsModel UniqueServiceID: {Model.ID}");
-                    CommonFuncationHelper.WriteTextLog($"EmitraRequestDetailsModel Request.Form[ENCDATA] Error: {Convert.ToString(Request.Form["ENCDATA"])}");
-                    CommonFuncationHelper.WriteTextLog($"EmitraRequestDetailsModel Request.Form[encData] Error: {Convert.ToString(Request.Form["encData"])}");
-                }
-                catch (Exception ex)
-                { 
-                }
-                //var data = "B5mOqrNT0FYvodl+urD7dVmQgnwiLFLf3r+zkFqy6WQD6ym41FN5dflIaIeWWyqgUAQWyJM1MLGZE48pNc2zJf3W7UL+9wn/WjyJPv5/2L1ARSpknG1Vxx6gkxrV5iNPkBREwC6EVvnIiyxqLZHSyAHeXqWxZZ0WeyG9Z2XAOeOReoMbTjsUqub/N8f8bCGXwxjENCvJNpDDLBQI7J/hqMMK/h/TjkG5EQ+16Si6mo7c8dyjwobiT8jwbGYSqokxLglFZIjkpbGfMFAVT4yh9dv0O8lCUNFaYjjyO4ZRpi28Wdm96B2M+1BbK0X/buK6HUn4XutWGh/SP1BZSFSqvMLkiddRdqAi19aP6wZ51xQBGZM0K5VQLM66ufeRVIpOTNZg6s6hfBk6s5ZtGsIXXsSMNoLuceQ99D5GLBjD8iHXHQC5p0gi1C7IbCKhMU47WqUNBlTtzJZ4NFKCy2YyL4jjSHsqtTXVlcObSB3nKwyuqubpTpLuOWHM0Z+ateFNvRMe6Y1ehp1VXlpZR0iPoR7qio82GDnGXbAa2lX5a4i7H41hHDyLap1YD75nk4DKNfKAbb79fe7JCLgMo5eV7wSTmLmkFMYwAsZr/pJgCWfUkcZCbO90DVNyya/RJrC8xCV6a+y//FkJVp85RqKBBg4bJ5CKe8ALBVbv2FNy0F16hz4usnL11R1wf8Nn9s9WvmZINxExodN/3A/Ht0dVqhULQCymMI5cCrrNdnpr3hP1JkSXABGNRgn5w6+HvtJGlqJS0uu8K8gHxYEoCNH7uBaLg02skxU3Tce4vYTkT+Q1tyDi2cLFzckCTt5y2qkm2zoKaiz0MEI9FaLDiLsVMQW0r9qMf33aD07jUgUQ8czplRIs193SX+vFfJnE6oUAghGHwqkJUe0GsTN6HT6vpKn+UHmkvsabmDy4GTJ99Gd3vy4Hy1jlbzdsCQcPUE8j43iR+GQTvQnbdSTZh5apw8BjO2m85C7FNuDlnrku2uhAzHedCnzfvYm99QAxcMO8yATspTv90mqSlcqfCstq+QwixNaBKV7Lm60EBht9sVBPcGnrnmklVj+XQT5Gd/+5+IJURl4vZyTUt94eLVnmY+ENSrWwa66sS/iyfbszmqjnBGDkgOzG9x5rT5dH3sDeCF8N8P+nUzER/NOcS7JdocgV7on8OhYVr0oLkfDJayiVamAKc1SpJv5JSl+b6gBUdxiyKZ4bxktzFABYbx+DYzSaQapM73A8rfaIPsjMw3GjFcCRUPrQknIHktpWXO69da4n7XtTK8CVsIjQv1081m707Wii2gBLa64d6s81XpIIw1fbAWc+i7+DNzWY38KEYN3GQnY0qQfsDEViykmVhgtV5F06S9QT/+md6ANbYDSfWSNywyQc+ExuPYH6HNAA";
 
                 var vIsFailed = CommonFuncationHelper.EmitraDecrypt(IsFailed);
-
                 EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration endpointConfiguration = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration();
 
                 EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient emitraencsev = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient(endpointConfiguration, EmitraServiceDetail.WebServiceURL);
