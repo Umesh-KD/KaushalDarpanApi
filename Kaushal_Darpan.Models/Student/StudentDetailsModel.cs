@@ -156,6 +156,7 @@ namespace Kaushal_Darpan.Models.Student
         public int InstituteID { get; set; }
         public int StreamID { get; set; }
         public int SemesterID { get; set; }
+        public int? status { get; set; }
         public bool Selected { get; set; }
 
     }
