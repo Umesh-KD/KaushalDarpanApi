@@ -27,6 +27,7 @@ namespace Kaushal_Darpan.Models.ITI_BGTHeadmaster
         public bool? IsUnitWise { get; set; }
         public string? UnitName { get; set; }
         public decimal? Amount { get; set; }
+        public int? UnitValue { get; set; }
     }
     public class ITIBudgetDropdownDataModel
     {
