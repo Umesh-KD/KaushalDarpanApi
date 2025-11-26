@@ -1026,7 +1026,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         #region "ITI Student Payment Response"
-        [HttpGet("ITIStudentPaymentResponse")] //IActionResult
+        [HttpPost("ITIStudentPaymentResponse")] //IActionResult
         public async Task<IActionResult> ITIStudentPaymentResponse(string UniquerequestId = "", string ApplicationIdEnc = "", string ServiceID = "", string IsFailed = "", string UniqueServiceID = "")
         {
             var RetrunUrL = "";
@@ -1058,10 +1058,8 @@ namespace Kaushal_Darpan.Api.Controllers
                 Model.ServiceID = ServiceID;
                 Model.ID = string.IsNullOrEmpty(UniqueServiceID) == true ? 0 : Convert.ToInt32(UniqueServiceID);
                 var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(Model);
-                 //var data = Convert.ToString(Request.Form["encData"]);
-              var data = "B5mOqrNT0FYvodl+urD7dVmQgnwiLFLf3r+zkFqy6WQxhwn9/pKKfj7O4GpelTvaqvPdBoBzJ+Yr0c8A3h+lutdRMHwzyXwMkRukirPjtUh9hrV4X4lx5smdGZ/8P9sTEDZ4tO9z8R2y0lkh0X4Gz4wf0S+aONGNMV7fXKin12eB0omLJrIp6eh39YqdYCP3e7krDnh8WGEHqdMxBNhQuX20H2Y0FILox20qOv+CgfYTZ74pNgVWbcuZ6BfYoTXwHGapONncU96VmTj7YVFHC+o2MQdXQP/Qgj5fAM4GTa0Pq0vaHoKY1m+6tBbFtns7qrEOFqa+oQv9zKpWeopUXen8sHqFgkhLQGpBiEx9wLvENIV1xGCbA9RP/SYt80L9bG97Rzzdc9KUBqS+UV8bmZPkwdf6yrLuQ6/imHJ6rnyASeIixNsbbYFSR6NNOxsa0nHkqPVR1hyd0jsqut/PVGJ2UlDbFIVXcdzRLPKhSwKQI7uJT72p0qF9+6tlcgr4w5LkrgTxTBh3eaXp6iXD4xKhSijI7ePofTYwZRg7Z3PVEv685R/kMV3lHhVIH72x5cY/FoxHTdSORTUhpL5QysW8OAWQjcl15UyHM57+Fjp0SfUSPXhPpJZCW26Q0johEK0yi/uiURA3JlIYUCthzeeABBu6k7y+0P3t1Cn6DYQ9vBcl+2OUCG5u21GOOh/89szfvBaxSa9oUvRNP+iA8ru8k6iU1iN+25Myck9pJQGO2EKJLosTloz30m97TUzyjOqDGYpNXqW31fJ2DMPtvaPrUf1ZO19/X8pQjMA2OYAfAW5WJe0J2LELh+6E7PRhd5F8St6kt8AMVmaSJMW2NNRdGG42xmNlhm2rAIlx5Z2jgh8QqxA96IB7vkBFLDph++aM4EfuFtdiApVfb9r8ktWiVrzRiBSzHvF82enKVx1PqjYuSCNVI37wXgCktbDO6EsSin4lIttLwbT+tlDVcr07LqM0qDUeuUuAd0rro10uyR7hFyxMX3/GWs19y8x0vinS4+kIWOKyOMGRlGUVnzqCPWw6EOPCSXN45biqWbM997Df3NhAkefTd5oler72eihFO7mUQq4vWm4sQo5cvpVi4m1R+DIvzKNS08p6QcU8qjXZXn8OLeMio7Q1AW7hbGQjsvF7itz0z1umNgMwT3LsCq2jD6eHUUpOp/pB8uhSXZpDdlEXdomiHnY6ZBWHwmz6gCFukRJSsYeFw5w8eC5l9cpf4mcyKR0B6Z1L+OJkuInieUVG3O94waWqT4b4+tJzkwPtrXhkg+R1gX8KJj7+pKDWvd2YNkPEEaF1D3WEblxSdyuvrdxOllyNfHMTUeNAJUITyTgWQkprrunER/aXP4dF+1qc5tmtOtfuHjPci/7C00LSMutHKJ44PgfmTx60PCKFckw=";
-
-
+                var data = Convert.ToString(Request.Form["encData"]);
+              //var data = "B5mOqrNT0FYvodl+urD7dVmQgnwiLFLf3r+zkFqy6WQxhwn9/pKKfj7O4GpelTvaqvPdBoBzJ+Yr0c8A3h+lutdRMHwzyXwMkRukirPjtUh9hrV4X4lx5smdGZ/8P9sTEDZ4tO9z8R2y0lkh0X4Gz4wf0S+aONGNMV7fXKin12eB0omLJrIp6eh39YqdYCP3e7krDnh8WGEHqdMxBNhQuX20H2Y0FILox20qOv+CgfYTZ74pNgVWbcuZ6BfYoTXwHGapONncU96VmTj7YVFHC+o2MQdXQP/Qgj5fAM4GTa0Pq0vaHoKY1m+6tBbFtns7qrEOFqa+oQv9zKpWeopUXen8sHqFgkhLQGpBiEx9wLvENIV1xGCbA9RP/SYt80L9bG97Rzzdc9KUBqS+UV8bmZPkwdf6yrLuQ6/imHJ6rnyASeIixNsbbYFSR6NNOxsa0nHkqPVR1hyd0jsqut/PVGJ2UlDbFIVXcdzRLPKhSwKQI7uJT72p0qF9+6tlcgr4w5LkrgTxTBh3eaXp6iXD4xKhSijI7ePofTYwZRg7Z3PVEv685R/kMV3lHhVIH72x5cY/FoxHTdSORTUhpL5QysW8OAWQjcl15UyHM57+Fjp0SfUSPXhPpJZCW26Q0johEK0yi/uiURA3JlIYUCthzeeABBu6k7y+0P3t1Cn6DYQ9vBcl+2OUCG5u21GOOh/89szfvBaxSa9oUvRNP+iA8ru8k6iU1iN+25Myck9pJQGO2EKJLosTloz30m97TUzyjOqDGYpNXqW31fJ2DMPtvaPrUf1ZO19/X8pQjMA2OYAfAW5WJe0J2LELh+6E7PRhd5F8St6kt8AMVmaSJMW2NNRdGG42xmNlhm2rAIlx5Z2jgh8QqxA96IB7vkBFLDph++aM4EfuFtdiApVfb9r8ktWiVrzRiBSzHvF82enKVx1PqjYuSCNVI37wXgCktbDO6EsSin4lIttLwbT+tlDVcr07LqM0qDUeuUuAd0rro10uyR7hFyxMX3/GWs19y8x0vinS4+kIWOKyOMGRlGUVnzqCPWw6EOPCSXN45biqWbM997Df3NhAkefTd5oler72eihFO7mUQq4vWm4sQo5cvpVi4m1R+DIvzKNS08p6QcU8qjXZXn8OLeMio7Q1AW7hbGQjsvF7itz0z1umNgMwT3LsCq2jD6eHUUpOp/pB8uhSXZpDdlEXdomiHnY6ZBWHwmz6gCFukRJSsYeFw5w8eC5l9cpf4mcyKR0B6Z1L+OJkuInieUVG3O94waWqT4b4+tJzkwPtrXhkg+R1gX8KJj7+pKDWvd2YNkPEEaF1D3WEblxSdyuvrdxOllyNfHMTUeNAJUITyTgWQkprrunER/aXP4dF+1qc5tmtOtfuHjPci/7C00LSMutHKJ44PgfmTx60PCKFckw=";
 
                 try
                 {
