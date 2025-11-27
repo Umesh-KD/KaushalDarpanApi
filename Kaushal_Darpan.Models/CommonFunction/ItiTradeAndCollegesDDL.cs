@@ -29,7 +29,7 @@ namespace Kaushal_Darpan.Models.CommonFunction
             public int DistrictID { get; set; }
             public string? action {  set; get; }
             public string? ManagementType {  set; get; }
-            public int ManagementTypeID { set; get; }
+            public int? ManagementTypeID { set; get; }
         }
     }
 }

@@ -133,18 +133,18 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("GetAllDataPlanning")]
-        public async Task<ApiResult<List<BTERSeatIntakeDataModel>>> GetAllDataPlanning(BTERSeatIntakeSearchModel request)
+        public async Task<ApiResult<DataTable>> GetAllDataPlanning(BTERSeatIntakeSearchModel request)
         {
             ActionName = "GetAllData(SeatIntakeSearchModel request)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<List<BTERSeatIntakeDataModel>>();
+                var result = new ApiResult<DataTable>();
                 try
                 {
                     var data = await _unitOfWork.ITISeatIntakeMasterRepository.GetAllDataPlanning(request);
                     if (data != null)
                     {
-                        var mappedData = _mapper.Map<List<BTERSeatIntakeDataModel>>(data);
+                        var mappedData = _mapper.Map<DataTable>(data);
                         result.Data = mappedData;
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
@@ -1144,6 +1144,105 @@ namespace Kaushal_Darpan.Api.Controllers
 
         //#endregion
 
+
+        [HttpPost("CollegeTradeMasterData")]
+        public async Task<ApiResult<int>> CollegeTradeMasterData([FromBody] BTERSeatIntakeDataModel request)
+        {
+            ActionName = "SaveSeatIntakeData([FromBody] SeatIntakeDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.ITISeatIntakeMasterRepository.CollegeTradeMasterData(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (request.SeatIntakeID == 0)
+                        {
+                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (request.SeatIntakeID == 0)
+                        {
+                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        }
+                        else
+                        {
+                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpGet("GetByIdPlanning/{id}")]
+        public async Task<ApiResult<BTERSeatIntakeDataModel>> GetByIdPlanning(int id)
+        {
+            ActionName = "GetByID(int id)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<BTERSeatIntakeDataModel>();
+                try
+                {
+                    var data = await _unitOfWork.ITISeatIntakeMasterRepository.GetByIdPlanning(id);
+                    result.Data = data;
+                    if (data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
 
     }
 }

@@ -197,6 +197,7 @@
     public  class OrderDetailsList
     {
         public int? SanctionID { get; set; } = 0;
+        public int? InstituteID { get; set; } = 0;
         public int? ParentID { get; set; } = 0;
         public int? ModifyBy { get; set; } = 0;
         

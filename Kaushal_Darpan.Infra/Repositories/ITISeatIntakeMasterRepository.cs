@@ -155,7 +155,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<List<BTERSeatIntakeDataModel>> GetAllDataPlanning(BTERSeatIntakeSearchModel request)
+        public async Task<DataTable> GetAllDataPlanning(BTERSeatIntakeSearchModel request)
         {
             _actionName = "GetAllData(SeatIntakeSearchModel request)";
             return await Task.Run(async () =>
@@ -186,12 +186,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
-                    var data = new List<BTERSeatIntakeDataModel>();
-                    if (dataTable != null)
-                    {
-                        data = CommonFuncationHelper.ConvertDataTable<List<BTERSeatIntakeDataModel>>(dataTable);
-                    }
-                    return data;
+                   
+                   
+                    return dataTable;
                 }
                 catch (Exception ex)
                 {
@@ -862,5 +859,122 @@ namespace Kaushal_Darpan.Infra.Repositories
         #endregion
 
 
+
+
+        public async Task<int> CollegeTradeMasterData(BTERSeatIntakeDataModel request)
+        {
+            _actionName = "SaveSeatIntakeData(SeatIntakeDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_ITI_collegetrademaster_IU";
+                        //command.CommandText = "USP_ITI_SeatIntakeSP";
+
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@SeatIntakeID", request.SeatIntakeID);
+                        command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
+                        command.Parameters.AddWithValue("@TradeID", request.TradeID);
+                        command.Parameters.AddWithValue("@Shift", request.Shift);
+                        command.Parameters.AddWithValue("@LastSession", request.LastSession);
+                        command.Parameters.AddWithValue("@RemarkID", request.RemarkID);
+                        command.Parameters.AddWithValue("@TradeSchemeID", request.TradeSchemeID);
+                        command.Parameters.AddWithValue("@UnitNo", request.UnitNo);
+                        command.Parameters.AddWithValue("@SanctionedID", request.SanctionedID);
+
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@AcademicYearID", request.AcademicYearID);
+                        command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
+                        command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
+                        command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
+                        command.Parameters.AddWithValue("@OrderDate", request.OrderDate);
+                        command.Parameters.AddWithValue("@PlanningID", request.PlanningID);
+
+                        command.Parameters.AddWithValue("@AdminSanctionedID", request.AdminSanctionedID);
+                        command.Parameters.AddWithValue("@FinancialSanctionID", request.FinancialSanctionID);
+                        command.Parameters.AddWithValue("@AdmSanctionDate", request.AdminOrderDate);
+                        command.Parameters.AddWithValue("@FinancialOrderDate", request.FinancialOrderDate);
+
+
+
+                        // Add IP Address parameter
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        // Add the return parameter
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errorDetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<BTERSeatIntakeDataModel> GetByIdPlanning(int id)
+        {
+            _actionName = "GetById(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        //command.CommandText = " select * from M_PlacementCompanyMaster Where ID='" + id + "' ";
+                        command.CommandText = "USP_ITI_GetSeatIntakeData";
+                        command.Parameters.AddWithValue("@SeatIntakeID", id);
+                        command.Parameters.AddWithValue("@action", "_getDataByIdplanning");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    var data = new BTERSeatIntakeDataModel();
+                    if (dataTable != null)
+                    {
+                        data = CommonFuncationHelper.ConvertDataTable<BTERSeatIntakeDataModel>(dataTable);
+                    }
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
