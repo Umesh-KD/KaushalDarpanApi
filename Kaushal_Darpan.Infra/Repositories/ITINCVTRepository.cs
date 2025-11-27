@@ -136,6 +136,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CollegeCode", body.CollegeCode);
                         command.Parameters.AddWithValue("@TradeId", body.TradeId);
                         command.Parameters.AddWithValue("@TradeCode", body.TradeCode);
+                        command.Parameters.AddWithValue("@PaymentSuccess", body.PaymentSuccess);
 
 
                         command.Parameters.AddWithValue("@Action", body.Action);
@@ -270,6 +271,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
+                        command.CommandTimeout=0;
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ITI_NCVT_IMPORT_EXAM_DATA";
                         command.CommandType = CommandType.StoredProcedure;

@@ -105,12 +105,10 @@ namespace Kaushal_Darpan.Api.Controllers
                     data.OFFICECODE = EmitraServiceDetail.OFFICECODE;
 
                    // data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
-                    data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("{exam_fee}", Model.Amount.ToString())
+                    data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("{exam_fee}", data.AMOUNT.ToString())
                         .Replace("{exam_commission}", Convert.ToString(Model.FormCommision));
 
-
-
-
+                 
 
 
                     data.SERVICEID = EmitraServiceDetail.SERVICEID;
@@ -1027,14 +1025,14 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
 
-        #region "ITI Student Payment Response "
-
+        #region "ITI Student Payment Response"
         [HttpPost("ITIStudentPaymentResponse")] //IActionResult
         public async Task<IActionResult> ITIStudentPaymentResponse(string UniquerequestId = "", string ApplicationIdEnc = "", string ServiceID = "", string IsFailed = "", string UniqueServiceID = "")
         {
             var RetrunUrL = "";
             try
             {
+                
                 UniquerequestId = UniquerequestId.Replace(' ', '+');
                 UniquerequestId = UniquerequestId.Replace(' ', '+');
                 UniquerequestId = UniquerequestId.Replace(' ', '+');
@@ -1051,28 +1049,37 @@ namespace Kaushal_Darpan.Api.Controllers
                 ServiceID = ServiceID.Replace(' ', '+');
                 ServiceID = ServiceID.Replace(' ', '+');
 
-
                 UniqueServiceID = UniqueServiceID.Replace(' ', '+');
                 UniqueServiceID = UniqueServiceID.Replace(' ', '+');
                 UniqueServiceID = UniqueServiceID.Replace(' ', '+');
-
-
 
 
                 EmitraRequestDetailsModel Model = new EmitraRequestDetailsModel();
                 Model.ServiceID = ServiceID;
                 Model.ID = string.IsNullOrEmpty(UniqueServiceID) == true ? 0 : Convert.ToInt32(UniqueServiceID);
                 var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(Model);
-
                 var data = Convert.ToString(Request.Form["encData"]);
 
                 var vIsFailed = CommonFuncationHelper.EmitraDecrypt(IsFailed);
-
                 EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration endpointConfiguration = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration();
 
                 EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient emitraencsev = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient(endpointConfiguration, EmitraServiceDetail.WebServiceURL);
                 EmitraDecriptStringResponse response = await emitraencsev.EmitraDecriptStringAsync(EmitraServiceDetail.EncryptionKey, data);
-                var EmitraResponseData = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(response.Body.EmitraDecriptStringResult);
+               //var EmitraResponseData = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(response.Body.EmitraDecriptStringResult);
+
+              
+
+
+                string raw = response.Body.EmitraDecriptStringResult;
+
+                // Clean invalid characters
+                raw = raw.Replace(@"\{", "{").Replace(@"\}", "}");
+                raw = raw.Replace(@"\\", @"\");
+
+                // Deserialize after cleaning
+                var EmitraResponseData = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(raw);
+
+
 
                 if (EmitraResponseData != null)
                 {
@@ -1321,6 +1328,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient emitraencsev = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient(endpointConfiguration, EmitraServiceDetail.WebServiceURL);
                 EmitraDecriptStringResponse response = await emitraencsev.EmitraDecriptStringAsync(EmitraServiceDetail.EncryptionKey, data);
                 var EmitraResponseData = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(response.Body.EmitraDecriptStringResult);
+
 
                 if (EmitraResponseData != null)
                 {
