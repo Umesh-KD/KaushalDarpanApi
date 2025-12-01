@@ -141,6 +141,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@unitId", request.unitId);
                         command.Parameters.AddWithValue("@abbreviation", request.abbreviation);
                         command.Parameters.AddWithValue("@batchId", request.batchId);
+                        command.Parameters.AddWithValue("@ReceiptBookFolio", request.receiptbookfolio);
+                        command.Parameters.AddWithValue("@IssueDate", request.issuedate);
+                        command.Parameters.AddWithValue("@IndentNo", request.abbreviation);
+                        command.Parameters.AddWithValue("@IssueBookFolioDate", request.issuebookfoliodate);
+                        command.Parameters.AddWithValue("@QuantityIssued", request.QuantityIssued); 
+                        command.Parameters.AddWithValue("@QuantityBalance", request.QuantityBalance);
 
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
@@ -822,6 +828,41 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        public async Task<DataTable> GetAllInventoryIssueReturnItemList(inventoryIssueHistorySearchModel SearchReq)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Bter_GetAllInventoryIssueReturnItemList";
+                        command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        command.Parameters.AddWithValue("@ActionName", SearchReq.actionName);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
