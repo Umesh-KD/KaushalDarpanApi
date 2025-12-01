@@ -914,7 +914,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("AllBranchHOD")]
-        public async Task<ApiResult<DataTable>> SaveBranchHOD([FromBody] BranchHODModel body)
+        public async Task<ApiResult<DataTable>> SaveBranchHOD(BranchHODModel body)
         {
             ActionName = "SaveBranchHOD()";
             var result = new ApiResult<DataTable>();
