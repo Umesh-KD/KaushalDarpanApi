@@ -34,25 +34,27 @@ namespace Kaushal_Darpan.Models.StaffMaster
     public class BranchHODModel
     {
         public string? Action { get; set; }
-        public int ID { get; set; }
-        public int UserID { get; set; }
-        public int RoleID { get; set; }
+        public int? ID { get; set; }
+        public int? UserID { get; set; }
+        public int? RoleID { get; set; }
         public string? SSOID { get; set; }
-        public int StreamID { get; set; }
-        public int CollegeID { get; set; }
-        public int DepartmentID { get; set; }
-        public int EndTermID { get; set; }
+        public int? StreamID { get; set; }
+        public int? CollegeID { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? EndTermID { get; set; }
         public string? DisplayName { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? MailPersonal { get; set; }
         public string? MobileNo { get; set; }
-        public bool ActiveStatus { get; set; }
-        public bool DeleteStatus { get; set; }
-        public int CreatedBy { get; set; }
-        public int ModifyBy { get; set; }
+        public bool? ActiveStatus { get; set; }
+        public bool? DeleteStatus { get; set; }
+        public int? CreatedBy { get; set; }
+        public int? ModifyBy { get; set; }
         public string? StreamIDs { get; set; }
-        public int SemesterID { get; set; }
+        public string? SemesterIDs { get; set; }
+        public int? SemesterID { get; set; }
+        public int? Eng_NonEng { get; set; }
     }
 
     public class Section

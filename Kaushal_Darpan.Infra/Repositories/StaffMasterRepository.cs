@@ -775,6 +775,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
                         command.Parameters.AddWithValue("@StreamIDs", body.StreamIDs);
                         command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@SemesterIDs", body.SemesterIDs);
 
                         _sqlQuery = command.GetSqlExecutableQuery(); // Optional logging
 

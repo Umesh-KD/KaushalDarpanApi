@@ -3691,7 +3691,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-
+            
 
         [HttpPost("DownloadITIStudentRollNumberBulk_CenterWise")]
         public async Task<ApiResult<string>> DownloadITIStudentRollNumberBulk_CenterWise([FromBody] GenerateAdmitCardSearchModel Model)
