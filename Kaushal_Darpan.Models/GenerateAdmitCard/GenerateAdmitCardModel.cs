@@ -39,6 +39,7 @@ namespace Kaushal_Darpan.Models.GenerateAdmitCard
     public class GenerateAdmitCardSearchModel
     {
         public int InstituteID { get; set; }
+        public int CenterID { get; set; }
         public int StreamID { get; set; }
         public int SemesterID { get; set; }
         public int StudentID { get; set; }

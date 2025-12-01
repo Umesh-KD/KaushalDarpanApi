@@ -19,6 +19,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<DownloadDataPagingListModel>> GetGenerateAdmitCardDataBulk_InsituteWise(GenerateAdmitCardSearchModel model);
 
         Task<List<DownloadDataPagingListModel>> GetITIGenerateAdmitCardDataBulk_CollegeWise(GenerateAdmitCardSearchModel model);
+        Task<List<DownloadDataPagingListModel>> GetITIGenerateAdmitCardDataBulk_CenterWise(GenerateAdmitCardSearchModel model);
 
 
     }
