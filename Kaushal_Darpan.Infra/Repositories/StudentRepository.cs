@@ -104,6 +104,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", searchModel.EndTermID);
                         command.Parameters.AddWithValue("@action", searchModel.Action);
                         command.Parameters.AddWithValue("@SsoID", searchModel.SsoID);
+                        command.Parameters.AddWithValue("@ServiceId", searchModel.ServiceID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
