@@ -17,6 +17,7 @@ using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.DTE_Verifier;
+using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
 using Kaushal_Darpan.Models.SSOUserDetails;
 using Kaushal_Darpan.Models.Student;
@@ -3871,7 +3872,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     // save the file on Path
                     //var FileName = $"{System.DateTime.Now.ToString("MMMddyyyyhhmmssffffff")}{Path.GetExtension(OrgfileName)}";
-                    var FileName = $"{model.FileName}{Path.GetExtension(OrgfileName)}";
+                    var FileName = $"{model.FileName}_{System.DateTime.Now:MMMddyyyyhhmmssffffff}{Path.GetExtension(OrgfileName)}";
                     var finalPathSave = Path.Combine(uploadFolder, FileName);
 
                     //model
@@ -9212,6 +9213,41 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 return result;
             });
+        }
+
+        [HttpPost("GetDocumentDetails_RejectAtBter")]
+        public async Task<ApiResult<DataTable>> GetDocumentDetails_RejectAtBter(GetDocumentDetails_RejectAtBter_DataModel model)
+        {
+            ActionName = "GetPreExamStudent()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.CommonFunctionRepository.GetDocumentDetails_RejectAtBter(model);
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
     }
 }

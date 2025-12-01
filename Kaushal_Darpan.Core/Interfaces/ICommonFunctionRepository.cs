@@ -336,6 +336,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> DDL_AllCasteCategoryA();
         Task<DataTable> DDL_Counselling_Trade(int designationId);
-
+        Task<DataTable> GetDocumentDetails_RejectAtBter(GetDocumentDetails_RejectAtBter_DataModel model);
     }
 }

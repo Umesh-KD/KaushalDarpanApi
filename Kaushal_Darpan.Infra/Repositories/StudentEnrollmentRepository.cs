@@ -562,6 +562,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@action", "_saveRejectAtBTER");
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
                         command.Parameters.Add("@Retval", SqlDbType.Int);// out
                         command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
