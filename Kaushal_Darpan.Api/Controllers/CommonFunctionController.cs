@@ -3280,6 +3280,43 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+
+        [HttpPost("GetCollegeTradeMaster")]
+        public async Task<ApiResult<DataTable>> GetCollegeTradeMaster(ItiTradeSearchModel request)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.GetCollegeTradeMaster(request);
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+
+
+
         [HttpGet("GetTradeLevelList")]
         public async Task<ApiResult<DataTable>> GetTradeLevelList()
         {

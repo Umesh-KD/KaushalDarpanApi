@@ -155,6 +155,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetTradeTypesList();
         Task<DataTable> GetTradeLevelList();
         Task<DataTable> TradeListGetAllData(ItiTradeSearchModel request);
+        Task<DataTable> GetCollegeTradeMaster(ItiTradeSearchModel request);
         Task<DataTable> ItiCollegesGetAllData(ItiCollegesSearchModel request);
         Task<DataTable> BterCollegesGetAllData(BterCollegesSearchModel request);
 
