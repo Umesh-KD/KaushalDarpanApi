@@ -6,5 +6,11 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IPlacementReportRepository
     {
         Task<DataTable> GetAllData(PlacementReportSearch filterModel);
+
+        #region
+
+        Task<DataTable> GetITIAllData(ITIPlacementReportSearch filterModel);
+
+        #endregion
     }
 }
