@@ -50,6 +50,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public DateTime? issuebookfoliodate { get; set; }
         public int QuantityIssued { get; set; }
         public int QuantityBalance { get; set; }
+        public string? BillFileName { get; set; }
+        public string? BillFilePath { get; set; }
     }
 
     public class DTEItemsSearchModel
