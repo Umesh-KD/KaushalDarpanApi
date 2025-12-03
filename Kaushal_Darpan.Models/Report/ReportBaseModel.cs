@@ -29,6 +29,12 @@
         public string? ExamDate { get; set; }
     }
 
-
+    public class CollegesWiseExaminationRptSearchModel
+    {
+        public int? DepartmentID { get; set; }
+        public int? EndTermID { get; set; }
+        public int? AcademicYearID { get; set; }
+        public int? CourseTypeID { get; set; }
+    }
 
 }
