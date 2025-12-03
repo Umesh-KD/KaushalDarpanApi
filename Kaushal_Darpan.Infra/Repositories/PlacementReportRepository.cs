@@ -62,6 +62,55 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+
+        #region ITI placement
+
+        public async Task<DataTable> GetITIAllData(ITIPlacementReportSearch filterModel)
+        {
+            _actionName = "GetITIAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetPlacementDashReport";
+                        command.Parameters.AddWithValue("@Id", filterModel.Id);
+                        command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                        command.Parameters.AddWithValue("@CollegeID", filterModel.CollegeID);
+                        command.Parameters.AddWithValue("@StudentName", filterModel.StudentName ?? string.Empty);
+                        command.Parameters.AddWithValue("@Gender", filterModel.Gender ?? string.Empty);
+                        command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        #endregion
+
     }
 }
 

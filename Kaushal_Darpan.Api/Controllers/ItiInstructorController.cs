@@ -324,6 +324,46 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("GetAllTechCITSDetails")]
+        public async Task<ApiResult<DataSet>> GetAllTechCITSDetails(ITI_Instructor_TechCITSDetailsSearchModel model)
+        {
+            ActionName = "GetAllDataPhoneVerify()";
+            var result = new ApiResult<DataSet>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITI_InstructorRepository.GetAllTechCITSDetails(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Tables.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                else
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
 
         [HttpPost("UpdateInstructorData")]
         public async Task<ApiResult<int>> UpdateInstructorData([FromBody] ITI_InstructorModel request)

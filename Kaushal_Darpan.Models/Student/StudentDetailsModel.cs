@@ -46,6 +46,7 @@ namespace Kaushal_Darpan.Models.Student
         public string[] strSelectedIds { get; set; }
         public int DepartmentID { get; set; }
         public string? DepartmentName { get; set; }
+        public string? TransctionStatus { get; set; }
 
         public int EndTermID { get; set; }
         public int FinancialYearID { get; set; }
