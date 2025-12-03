@@ -47,6 +47,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Eng_NonEng", SearchReq.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", SearchReq.EndTermID);
                         command.Parameters.AddWithValue("@StatusID", SearchReq.StatusID);
+                        command.Parameters.AddWithValue("@IsConsumable", SearchReq.ItemType);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -147,7 +148,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IssueBookFolioDate", request.issuebookfoliodate);
                         command.Parameters.AddWithValue("@QuantityIssued", request.QuantityIssued); 
                         command.Parameters.AddWithValue("@QuantityBalance", request.QuantityBalance);
-
+                        command.Parameters.AddWithValue("@BillFileName", request.BillFileName);
+                        command.Parameters.AddWithValue("@BillFilePath", request.BillFilePath);
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
 
