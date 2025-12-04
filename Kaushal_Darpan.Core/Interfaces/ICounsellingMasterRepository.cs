@@ -16,6 +16,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveData(ApplicationDataModel productDetails);
         Task<DataTable> MapCandidateSSO(CounsellingApplicationSearchModel filterModel);
         Task<DataTable> GetCounsellingAllotmentList(CounsellingAllotmentListModel filterModel);
+        Task<DataTable> GetCounsellingAllotmentListExcel(CounsellingAllotmentListModel filterModel);
         Task<DataTable> GetCandidateList(CounsellingAllotmentListModel filterModel);
         Task<int> SaveCandidateAllotment_Counselling(int TradeID, List<Counselling_AllotmentDataModel> model);
         Task<DataTable> GetAllottedCandidateList_Counselling(CounsellingAllottedListSearchModel body);
