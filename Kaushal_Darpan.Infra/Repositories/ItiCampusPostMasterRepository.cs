@@ -350,9 +350,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
-                        _sqlQuery = $" update M_ITICampusPostMaster set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'                         Where PostID={request.PostID}";
-                        _sqlQuery += $" update M_ITICampusPostMaster_EligibilityCriteria set ActiveStatus=0,DeleteStatus=1 Where PostID={request.PostID}";
-                        command.CommandText = _sqlQuery;
+                        //_sqlQuery = $" update M_ITICampusPostMaster set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'                         Where PostID={request.PostID}";
+                        //_sqlQuery += $" update M_ITICampusPostMaster_EligibilityCriteria set ActiveStatus=0,DeleteStatus=1 Where PostID={request.PostID}";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITICampusValidation_NodalAction";
+                        command.Parameters.AddWithValue("@IPAddress",_IPAddress);
+                        command.Parameters.AddWithValue("@PostID", request.PostID);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@Action","deleteDataByID");
                         result = await command.ExecuteNonQueryAsync();
                     }
                     if (result > 0)

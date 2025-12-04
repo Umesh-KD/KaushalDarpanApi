@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.PreExamStudent;
+﻿using Kaushal_Darpan.Models.CompanyMaster;
+using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.StudentDetailUpdate;
 using Kaushal_Darpan.Models.StudentMaster;
@@ -16,5 +17,13 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStudentDetailUpdate(StudentDetailUpdateModel model);
         Task<StudentDetailUpdateModel> GetById(int PK_ID, int DepartmentID, int Eng_NonEng);
         Task<bool> UpdateStudentData(StudentDetailUpdateModel productDetails);
+
+
+        Task<DataTable> GetAllData(StudentDetailUpdateModel model);
+
+        Task<DataTable> GetStudentEmployementData(StudentEmploymentDetailsModel model);
+        Task<bool> SaveEmployementData(StudentEmploymentDetailsModel productDetails);
+
+        Task<bool> Delete_StudEmployementByID(StudentEmploymentDetailsModel productDetails);
     }
 }
