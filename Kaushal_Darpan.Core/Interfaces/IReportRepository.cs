@@ -76,8 +76,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetCollegeNodalReportsData(DTEApplicationDashboardModel filterModel);
         Task<DataTable> GetItiStudentEnrollmentReports(DTEApplicationDashboardModel filterModel);
         Task<DataTable> GetIitStudentExamReports(DTEApplicationDashboardModel filterModel);
-        Task<DataTable> GetCollegesWiseReports();
-        Task<DataTable> GetCollegesWiseExaminationReports();
+        Task<DataTable> GetCollegesWiseReports(CollegesWiseExaminationRptSearchModel model);
+        Task<DataTable> GetCollegesWiseExaminationReports(CollegesWiseExaminationRptSearchModel model);
         Task<DataSet> GetExaminationForm(ReportBaseModel model);
         Task<DataSet> GetITIExaminationForm(ReportBaseModel model);
         Task<DataSet> GetFlyingSquadDutyOrder(GetFlyingSquadDutyOrder model);

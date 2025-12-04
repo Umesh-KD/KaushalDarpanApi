@@ -40,6 +40,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Name", body.Name);
                         command.Parameters.AddWithValue("@MobileNo", body.MobileNo);
                         command.Parameters.AddWithValue("@Email", body.Email);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -124,6 +125,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Email", request.Email);
                         command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                   
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out

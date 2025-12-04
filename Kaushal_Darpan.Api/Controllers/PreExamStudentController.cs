@@ -1516,6 +1516,9 @@ namespace Kaushal_Darpan.Api.Controllers
                     worksheet.Cell(row, col++).Value = "Mobile";
                     worksheet.Cell(row, col++).Value = "Date of Birth";
                     worksheet.Cell(row, col++).Value = "ABCID";
+                    worksheet.Cell(row, col++).Value = "UO Note Number";
+                    worksheet.Cell(row, col++).Value = "UO Note Date";
+                    worksheet.Cell(row, col++).Value = "Reject Remark";
 
                     // Set header row height and style
                     worksheet.Row(row).Height = 40;
@@ -1582,6 +1585,9 @@ namespace Kaushal_Darpan.Api.Controllers
                         worksheet.Cell(row, col++).Value = dt.Rows[i]["MobileNo"]?.ToString();
                         worksheet.Cell(row, col++).Value = dt.Rows[i]["Dis_DOB"]?.ToString();
                         worksheet.Cell(row, col++).Value = dt.Rows[i]["ABCID"]?.ToString();
+                        worksheet.Cell(row, col++).Value = dt.Rows[i]["UONoteNumber"]?.ToString();
+                        worksheet.Cell(row, col++).Value = dt.Rows[i]["UONoteDate"]?.ToString();
+                        worksheet.Cell(row, col++).Value = dt.Rows[i]["RejectRemark"]?.ToString();
                     }
                     // Apply borders to all cells in the used range
                     worksheet.Cells().Style.Border.TopBorder = XLBorderStyleValues.Thin;
@@ -1659,6 +1665,9 @@ namespace Kaushal_Darpan.Api.Controllers
                     worksheet.Cell(row, col++).Value = "Mobile";
                     worksheet.Cell(row, col++).Value = "Date of Birth";
                     worksheet.Cell(row, col++).Value = "ABCID";
+                    worksheet.Cell(row, col++).Value = "UO Note Number";
+                    worksheet.Cell(row, col++).Value = "UO Note Date";
+                    worksheet.Cell(row, col++).Value = "Reject Remark";
 
                     // Set header row height and style
                     worksheet.Row(row).Height = 40;
@@ -1725,6 +1734,9 @@ namespace Kaushal_Darpan.Api.Controllers
                         worksheet.Cell(row, col++).Value = dt.Rows[i]["MobileNo"]?.ToString();
                         worksheet.Cell(row, col++).Value = dt.Rows[i]["Dis_DOB"]?.ToString();
                         worksheet.Cell(row, col++).Value = dt.Rows[i]["ABCID"]?.ToString();
+                        worksheet.Cell(row, col++).Value = dt.Rows[i]["UONoteNumber"]?.ToString();
+                        worksheet.Cell(row, col++).Value = dt.Rows[i]["UONoteDate"]?.ToString();
+                        worksheet.Cell(row, col++).Value = dt.Rows[i]["RejectRemark"]?.ToString();
                     }
                     // Apply borders to all cells in the used range
                     worksheet.Cells().Style.Border.TopBorder = XLBorderStyleValues.Thin;
@@ -2101,6 +2113,41 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 return result;
             });
+        }
+
+        [HttpPost("GetRejectAtBter_StudentDetails")]
+        public async Task<ApiResult<DataTable>> GetRejectAtBter_StudentDetails(RejectAtBterStudentDataModel model)
+        {
+            ActionName = "GetPreExamStudent()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.PreExamStudentRepository.GetRejectAtBter_StudentDetails(model);
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
     }
 }

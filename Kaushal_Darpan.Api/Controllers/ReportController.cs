@@ -941,15 +941,15 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
         #region Colleges Wise Reports
-        [HttpGet("GetCollegesWiseReports")]
-        public async Task<ApiResult<DataTable>> GetCollegesWiseReports()
+        [HttpPost("GetCollegesWiseReports")]
+        public async Task<ApiResult<DataTable>> GetCollegesWiseReports(CollegesWiseExaminationRptSearchModel model)
         {
             ActionName = "GetCollegesWiseReports()";
             var result = new ApiResult<DataTable>();
             try
             {
                 // Pass the entire model to the repository
-                result.Data = await _unitOfWork.ReportRepository.GetCollegesWiseReports();
+                result.Data = await _unitOfWork.ReportRepository.GetCollegesWiseReports(model);
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -2479,15 +2479,15 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
         #region Colleges Wise Examination Reports
-        [HttpGet("GetCollegesWiseExaminationReports")]
-        public async Task<ApiResult<DataTable>> GetCollegesWiseExaminationReports()
+        [HttpPost("GetCollegesWiseExaminationReports")]
+        public async Task<ApiResult<DataTable>> GetCollegesWiseExaminationReports(CollegesWiseExaminationRptSearchModel model)
         {
             ActionName = "GetCollegesWiseExaminationReports()";
             var result = new ApiResult<DataTable>();
             try
             {
                 // Pass the entire model to the repository
-                result.Data = await _unitOfWork.ReportRepository.GetCollegesWiseExaminationReports();
+                result.Data = await _unitOfWork.ReportRepository.GetCollegesWiseExaminationReports(model);
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
