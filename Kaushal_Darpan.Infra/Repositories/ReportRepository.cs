@@ -3077,16 +3077,17 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         if (model.Type >= 7)
                         {
-                            command.CommandText = "USP_Get_SemesterSubjectWiseStudentCount ";
+                            command.CommandText = "USP_Get_SemesterSubjectWiseStudentCount";
                             //command.Parameters.AddWithValue("@Action", GetAction);
                             command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                             command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                             command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                             command.Parameters.AddWithValue("@Type", model.Type);
+                            command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
                         }
                         else
                         {
-                            command.CommandText = "USP_ReportsBuilder ";
+                            command.CommandText = "USP_ReportsBuilder";
                             //command.Parameters.AddWithValue("@Action", GetAction);
                             command.Parameters.AddWithValue("@StreamID", model.StreamID);
                             command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
