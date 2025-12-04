@@ -53,5 +53,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> VerifyStudent_Registrar(List<StudentMarkedModel> model);
         Task<bool> HaveOptionalSubject(int StudentExamID);
         Task<DataTable> GetPreExamStudentReport(PreExamStudentModel model);
+        Task<DataTable> GetRejectAtBter_StudentDetails(RejectAtBterStudentDataModel model);
     }
 }
