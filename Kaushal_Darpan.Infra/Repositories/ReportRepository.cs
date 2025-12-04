@@ -1458,7 +1458,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         #region Colleges Wise Reports       
 
-        public async Task<DataTable> GetCollegesWiseReports()
+        public async Task<DataTable> GetCollegesWiseReports(CollegesWiseExaminationRptSearchModel model)
         {
             _actionName = "GetCollegesWiseReports()";
             return await Task.Run(async () =>
@@ -1471,6 +1471,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetCollegesWiseReports ";
                         command.Parameters.AddWithValue("@action", "_getCollegesWiseReports");
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1854,7 +1857,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         #region Colleges Wise Reports       
 
-        public async Task<DataTable> GetCollegesWiseExaminationReports()
+        public async Task<DataTable> GetCollegesWiseExaminationReports(CollegesWiseExaminationRptSearchModel model)
         {
             _actionName = "GetCollegesWiseExaminationReports()";
             return await Task.Run(async () =>
@@ -1867,6 +1870,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetCollegesWiseReports ";
                         command.Parameters.AddWithValue("@action", "_getCollegesWiseExaminationReports");
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -3071,16 +3077,17 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         if (model.Type >= 7)
                         {
-                            command.CommandText = "USP_Get_SemesterSubjectWiseStudentCount ";
+                            command.CommandText = "USP_Get_SemesterSubjectWiseStudentCount";
                             //command.Parameters.AddWithValue("@Action", GetAction);
                             command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                             command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                             command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                             command.Parameters.AddWithValue("@Type", model.Type);
+                            command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
                         }
                         else
                         {
-                            command.CommandText = "USP_ReportsBuilder ";
+                            command.CommandText = "USP_ReportsBuilder";
                             //command.Parameters.AddWithValue("@Action", GetAction);
                             command.Parameters.AddWithValue("@StreamID", model.StreamID);
                             command.Parameters.AddWithValue("@SemesterID", model.SemesterID);

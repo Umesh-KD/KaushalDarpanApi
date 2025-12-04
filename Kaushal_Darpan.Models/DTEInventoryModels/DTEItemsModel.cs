@@ -42,6 +42,16 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public string? Remark { get; set; }
         public string? abbreviation { get; set; }
         public string? batchId { get; set; }
+
+        public string? receiptbookfolio { get; set; }
+
+        public DateTime? issuedate { get; set; }
+        public string? IndentNo { get; set; }
+        public DateTime? issuebookfoliodate { get; set; }
+        public int QuantityIssued { get; set; }
+        public int QuantityBalance { get; set; }
+        public string? BillFileName { get; set; }
+        public string? BillFilePath { get; set; }
     }
 
     public class DTEItemsSearchModel
@@ -126,6 +136,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int UserID { get; set; }
         public int ItemID { get; set; }
         public int ItemType { get; set; }
+        public string? actionName { get; set; }
 
     }
     public class itemReturnModel
