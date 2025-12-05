@@ -179,6 +179,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ApplicationNo", model.ApplicationNo);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@action", "_getAllData");
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -233,12 +234,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         //result = Convert.ToInt32(command.Parameters["@Return"].Value);
                         // Read the output value
                         if (returnParam.Value != DBNull.Value)
-                            result = Convert.ToInt32(returnParam.Value);
-                    
-                    
-                    
-                    
-                    
+                            result = Convert.ToInt32(returnParam.Value);                                                    
                     
                     }
                     return dataTable;
