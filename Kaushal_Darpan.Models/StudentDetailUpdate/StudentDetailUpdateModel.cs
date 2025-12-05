@@ -26,6 +26,7 @@ namespace Kaushal_Darpan.Models.StudentDetailUpdate
         public int AID { get; set; }
         public int StudentID { get; set; }
         public int InstituteID { get; set; }
+        public string? EnrollmentNo { get; set; }
 
         public string CompanyType { get; set; }           // Self / Firm
         public string CompanyName { get; set; }
