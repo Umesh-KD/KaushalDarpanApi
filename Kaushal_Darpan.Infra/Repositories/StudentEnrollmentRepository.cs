@@ -1446,6 +1446,42 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
         #endregion
+
+        public async Task<DataTable> GetRejectAtBter_StudentDetails_Enrollment(RejectAtBterStudentDataModel model)
+        {
+            _actionName = "GetRejectAtBter_StudentDetails(RejectAtBterStudentDataModel model)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_SaveRejectAtBTEREnrollment";
+
+                        command.Parameters.AddWithValue("@action", "GetRejectAtBter");
+                        command.Parameters.AddWithValue("@StudentID", model.StudentID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
 
