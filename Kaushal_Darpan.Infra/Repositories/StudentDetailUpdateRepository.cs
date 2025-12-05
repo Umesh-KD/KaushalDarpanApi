@@ -215,6 +215,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_StudentProfile_Employement";
                         command.Parameters.AddWithValue("@AID", model.AID);
                         command.Parameters.AddWithValue("@CompanyName", model.CompanyName);
+                        command.Parameters.AddWithValue("@StudentID", model.StudentID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@Action","GetAllData");
                         //command.Parameters.Add("@Return", SqlDbType.Int); // out
                         //command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
@@ -230,6 +232,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Read the output value
                         if (returnParam.Value != DBNull.Value)
                             result = Convert.ToInt32(returnParam.Value);
+                    
+                    
+                    
+                    
+                    
                     }
                     return dataTable;
                 });
