@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CollegeMaster;
+using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.SSOUserDetails;
 using Kaushal_Darpan.Models.StaffMaster;
@@ -70,6 +71,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+       
         public async Task<StudentDetailUpdateModel> GetById(int PK_ID, int DepartmentID, int Eng_NonEng)
         {
             _actionName = "GetById(int PK_ID)";
@@ -157,6 +159,204 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        #region
+
+        public async Task<DataTable> GetAllData(StudentDetailUpdateModel model)
+        {
+            _actionName = "GetAllData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_StudentDetailOperation";
+                        command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                        command.Parameters.AddWithValue("@ApplicationNo", model.ApplicationNo);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetStudentEmployementData(StudentEmploymentDetailsModel model)
+        {
+            _actionName = "GetAllData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    int result = 0;
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_StudentProfile_Employement";
+                        command.Parameters.AddWithValue("@AID", model.AID);
+                        command.Parameters.AddWithValue("@CompanyName", model.CompanyName);
+                        command.Parameters.AddWithValue("@StudentID", model.StudentID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                        command.Parameters.AddWithValue("@Action","GetAllData");
+                        //command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        //command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+                        // Output parameter
+                        var returnParam = command.Parameters.Add("@Return", SqlDbType.Int);
+                        returnParam.Direction = ParameterDirection.Output;
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+
+
+                        //result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                        // Read the output value
+                        if (returnParam.Value != DBNull.Value)
+                            result = Convert.ToInt32(returnParam.Value);
+                    
+                    
+                    
+                    
+                    
+                    
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        public async Task<bool> SaveEmployementData(StudentEmploymentDetailsModel request)
+        {
+            _actionName = "SaveEmployementData(CompanyMasterModels request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_StudentProfile_Employement";
+
+                        command.Parameters.AddWithValue("@ListEmployementDetails", JsonConvert.SerializeObject(request.ListEmployementDetails));
+
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<bool> Delete_StudEmployementByID(StudentEmploymentDetailsModel request)
+        {
+            _actionName = "Delete_StudEmployementByID(StudentEmploymentDetailsModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                       
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_StudentProfile_Employement";
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@AID", request.AID);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@Action", "Delete_StudEmpDataByID");
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// sql query
+                                                                    // Read the output value
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        #endregion
+
+
+
     }
 
 }

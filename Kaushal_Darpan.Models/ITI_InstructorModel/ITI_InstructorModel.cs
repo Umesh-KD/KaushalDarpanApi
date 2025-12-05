@@ -137,19 +137,15 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? Employer_Address { get; set; }
         public string? Tan_No { get; set; }
         public string? Employer_Registration { get; set; }
-
         public DateTime? Employment_From { get; set; }
         public DateTime? Employment_To { get; set; }
-
-        public decimal? Basic_Pay { get; set; }   
-
+        public decimal? Basic_Pay { get; set; }  
         public string? EmploymentDocument { get; set; }
         public string? panDocument { get; set; }
         public string? EmployeeCode { get; set; }
         public string? BasicSalaryDocument { get; set; }
         public int? PostHeld { get; set; }
-
-
+        public bool? Employer_presentlyWorking { get; set; }
         public string? CreatedBy { get; set; }
 
         public int? DepartmentID { get; set; }
