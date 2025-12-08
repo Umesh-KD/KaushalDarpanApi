@@ -79,6 +79,16 @@ namespace Kaushal_Darpan.Models.ApplicationData
 
         public string? OtherDoc { get; set; }
 
+        public string? EnrollmentNo { get; set; }
+
+        public int? InstituteID { get; set; }
+
+        public int? StudentID { get; set; }
+
+        public int? DepartmentID { get; set; }
+
+        public int? ModifyBy { get; set; }
+
     }
 
 

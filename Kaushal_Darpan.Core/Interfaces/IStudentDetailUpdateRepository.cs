@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.CompanyMaster;
+﻿using Kaushal_Darpan.Models.ApplicationData;
+using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.StudentDetailUpdate;
@@ -25,5 +26,10 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> SaveEmployementData(StudentEmploymentDetailsModel productDetails);
 
         Task<bool> Delete_StudEmployementByID(StudentEmploymentDetailsModel productDetails);
+
+        Task<DataTable> GetStudentAdditionalQualiData(LateralEntryQualificationModel model);
+
+        Task<bool> Delete_StudentAdditionalQualiData(LateralEntryQualificationModel productDetails);
+
     }
 }
