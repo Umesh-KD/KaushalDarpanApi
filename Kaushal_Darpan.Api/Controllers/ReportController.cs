@@ -941,15 +941,15 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
         #region Colleges Wise Reports
-        [HttpGet("GetCollegesWiseReports")]
-        public async Task<ApiResult<DataTable>> GetCollegesWiseReports()
+        [HttpPost("GetCollegesWiseReports")]
+        public async Task<ApiResult<DataTable>> GetCollegesWiseReports(CollegesWiseExaminationRptSearchModel model)
         {
             ActionName = "GetCollegesWiseReports()";
             var result = new ApiResult<DataTable>();
             try
             {
                 // Pass the entire model to the repository
-                result.Data = await _unitOfWork.ReportRepository.GetCollegesWiseReports();
+                result.Data = await _unitOfWork.ReportRepository.GetCollegesWiseReports(model);
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -2479,15 +2479,15 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
         #region Colleges Wise Examination Reports
-        [HttpGet("GetCollegesWiseExaminationReports")]
-        public async Task<ApiResult<DataTable>> GetCollegesWiseExaminationReports()
+        [HttpPost("GetCollegesWiseExaminationReports")]
+        public async Task<ApiResult<DataTable>> GetCollegesWiseExaminationReports(CollegesWiseExaminationRptSearchModel model)
         {
             ActionName = "GetCollegesWiseExaminationReports()";
             var result = new ApiResult<DataTable>();
             try
             {
                 // Pass the entire model to the repository
-                result.Data = await _unitOfWork.ReportRepository.GetCollegesWiseExaminationReports();
+                result.Data = await _unitOfWork.ReportRepository.GetCollegesWiseExaminationReports(model);
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -3689,6 +3689,181 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+            
+
+        [HttpPost("DownloadITIStudentRollNumberBulk_CenterWise")]
+        public async Task<ApiResult<string>> DownloadITIStudentRollNumberBulk_CenterWise([FromBody] GenerateAdmitCardSearchModel Model)
+        {
+            ActionName = "GetITIStudentAdmitCardBulk_CollegeWise(GenerateAdmitCardSearchModel Model)";
+            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder_ITI}{Constants.AdmitCardFolder_ITI}";
+            string ipaddress = CommonFuncationHelper.GetIpAddress();
+            string iStudentExamID = "";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    //List<GenerateAdmitCardModel> ListData = new List<GenerateAdmitCardModel>();
+                    var ListInsituteData = await _unitOfWork.GenerateAdmitCardRepository.GetITIGenerateAdmitCardDataBulk_CenterWise(Model);
+                    if (ListInsituteData.Count > 0)
+                    {
+                        foreach (var childdata in ListInsituteData)
+                        {
+                            List<GenerateAdmitCardModel> ListData = new List<GenerateAdmitCardModel>();
+                            //set data
+                            Model.SemesterID = childdata.SemesterID;
+                            Model.InstituteID = childdata.InstituteID;
+                            Model.DepartmentID = 2;
+                            Model.EndTermID = childdata.EndTermID;
+                            Model.Eng_NonEng = childdata.Eng_NonEng;
+                            Model.TotalRecord = childdata.TotalRecord;
+                            //semester wise Data
+                            foreach (var StudentExamID in childdata.StudentExamIDs.Split(','))
+                            {
+                                if (!string.IsNullOrEmpty(StudentExamID))
+                                {
+
+                                    GenerateAdmitCardModel objStudent = new GenerateAdmitCardModel();
+                                    var data = await _unitOfWork.ReportRepository.GetITIStudentAdmitCardBulk(Convert.ToInt32(StudentExamID),
+                                        Model.DepartmentID, Model.EndTermID);
+                                    if (data?.Tables?.Count == 2)
+                                    {
+                                        if (data.Tables[0].Rows.Count > 0)
+                                        {
+
+
+                                            int studentID = Convert.ToInt32(data.Tables[0].Rows[0]["StudentID"]);
+                                            //report
+                                            var fileName = $"ITIAdmitCard_{studentID}_{StudentExamID}_{data.Tables[0].Rows[0]["RollNo"]}.pdf";
+                                            string filepath = $"{folderPath}/{fileName}";
+                                            string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIAdmitCard.rdlc";
+
+
+                                            #region "Add Object"
+                                            objStudent.StudentID = studentID;
+                                            objStudent.AdmitCardPath = filepath;
+                                            objStudent.AdmitCard = fileName;
+                                            objStudent.StudentExamID = Convert.ToInt32(StudentExamID);
+                                            objStudent.IPAddress = ipaddress;
+                                            objStudent.DepartmentID = Model.DepartmentID;
+                                            ListData.Add(objStudent);
+                                            #endregion
+
+
+
+                                            //provider                      
+                                            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                                            //images
+
+                                            string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentPhoto"]}";
+                                            data.Tables[0].Rows[0]["StudentImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
+
+                                            string stuimgFilepath1 = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[0].Rows[0]["Registrar_Signature"]}";
+                                            data.Tables[0].Rows[0]["NodalSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath1));
+
+                                            LocalReport localReport = new LocalReport(rdlcpath);
+                                            localReport.AddDataSource("ITIStudentAdmitCard", data.Tables[0]);
+                                            localReport.AddDataSource("ITIStudentAdmitCard_Subject", data.Tables[1]);
+                                            var reportResult = localReport.Execute(RenderType.Pdf);
+
+                                            //check file exists
+                                            if (!System.IO.Directory.Exists(folderPath))
+                                            {
+                                                Directory.CreateDirectory(folderPath);
+                                            }
+                                            //save
+                                            //save
+                                            System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                                            //end report
+                                        }
+                                        else
+                                        {
+                                            result.State = EnumStatus.Warning;
+                                            result.Message = Constants.MSG_DATA_NOT_FOUND;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    result.State = EnumStatus.Warning;
+                                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                                    //result.ErrorMessage = Convert.ToString(Model.StudentExamIDs);
+                                }
+                            }
+                            var Issuccess = await _unitOfWork.GenerateAdmitCardRepository.UpdateAdmitCard(ListData);
+                            if (Issuccess > 0)
+                            {
+
+                                #region "Save Multiple PDF PAGES"
+                                string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                                string guid = Guid.NewGuid().ToString().ToUpper();
+                                string outputFile = $"MergePDF_{Model.InstituteID}_{Model.SemesterID}_{Model.EndTermID}.pdf";
+                                string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                                List<string?> strSoureFiles = ListData.Select(s => s.AdmitCardPath).ToList();
+                                if (await MergePdfFilesAsync(strSoureFiles, outputPath))
+                                {
+                                    DownloadnRollNoModel ModInsert = new DownloadnRollNoModel();
+                                    ModInsert.FileName = outputFile;
+                                    ModInsert.PDFType = (int)EnumPdfType.AdmitCard;
+                                    ModInsert.Status = 11;
+                                    ModInsert.SemesterID = Model.SemesterID;
+                                    ModInsert.InstituteID = Model.InstituteID;
+                                    ModInsert.DepartmentID = Model.DepartmentID;
+                                    ModInsert.EndTermID = Model.EndTermID;
+                                    ModInsert.Eng_NonEng = Model.Eng_NonEng;
+                                    ModInsert.CreatedBy = Model.UserID;
+                                    ModInsert.TotalStudent = Model.TotalRecord;
+
+                                    var isSave = await _unitOfWork.ReportRepository.ITISaveRollNumbePDFData(ModInsert);
+                                    await _unitOfWork.SaveChangesAsync();
+
+                                    result.Data = outputFile;
+                                    result.State = EnumStatus.Success;
+                                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                                }
+                                else
+                                {
+                                    result.State = EnumStatus.Error;
+                                    result.ErrorMessage = "Something went wrong";
+                                }
+                                #endregion
+                            }
+                            else
+                            {
+                                result.State = EnumStatus.Warning;
+                                result.Message = Constants.MSG_DATA_NOT_FOUND;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
 
 
 

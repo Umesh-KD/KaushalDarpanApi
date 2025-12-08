@@ -295,6 +295,57 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+        public async Task<List<DownloadDataPagingListModel>> GetITIGenerateAdmitCardDataBulk_CenterWise(GenerateAdmitCardSearchModel model)
+        {
+            _actionName = "GetITIGenerateAdmitCardDataBulk_CenterWise()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetITIGenerateAdmitCardDataBulk_CenterWise";
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@IsYearly", model.IsYearly);
+                        command.Parameters.AddWithValue("@InsituteIds", model.InsituteIds);
+                        command.Parameters.AddWithValue("@CenterID", model.CenterID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    var data = new List<DownloadDataPagingListModel>();
+                    if (dataTable != null)
+                    {
+                        data = CommonFuncationHelper.ConvertDataTable<List<DownloadDataPagingListModel>>(dataTable);
+                    }
+                    return data;
+
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+
+            });
+        }
+
+
+
     }
 }
 

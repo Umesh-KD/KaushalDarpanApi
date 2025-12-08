@@ -1311,6 +1311,40 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+        [HttpPost("GetITI_InstituteList_ApprenticeshipRPT")]
+        public async Task<ApiResult<DataTable>> GetITI_InstituteList_ApprenticeshipRPT([FromBody] InstituteSearchModel_Appr body)
+        {
+            ActionName = "GetITI_InstituteList_ApprenticeshipRPT([FromBody] InstituteSearchModel_Appr body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITI_ApprenticeshipRepository.GetITI_InstituteList_ApprenticeshipRPT(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
 
         [HttpPost("SaveCollegeApprovedContract_Appr")]
         public async Task<ApiResult<bool>> SaveCollegeApprovedContract_Appr([FromBody] List<CollegeApprovedContractDataModel> request)

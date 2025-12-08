@@ -29,6 +29,8 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
         public string? InActiveOrderDate { get; set; }
 
         public string? OrderDate { get; set; }
+        public string? FinancialOrderDate { get; set; }
+        public string? AdminOrderDate { get; set; }
 
         public int AcademicYearID { get; set; }
         public int PlanningID { get; set; }

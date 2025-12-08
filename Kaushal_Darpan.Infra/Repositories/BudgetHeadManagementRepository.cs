@@ -543,5 +543,77 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+        public async Task<DataTable> GetAllotedReportData(BudgetHeadSearchFilter model)
+        {
+            _actionName = "GetAllotedReportData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "Usp_ITI_BGT_GetAllotedReportData";
+                        command.Parameters.AddWithValue("@CollegeID", model.CollegeID);
+                        command.Parameters.AddWithValue("@DistributedType", model.DistributedType);
+                        command.Parameters.AddWithValue("@FinYearID", model.FinYearID);
+                        command.Parameters.AddWithValue("@BudgetTypeID", model.BudgetTypeID);
+                        command.Parameters.AddWithValue("@BudgetForID", model.BudgetForID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        public async Task<DataTable> GetAllUCUtilizationReportData(BudgetHeadSearchFilter model)
+        {
+            _actionName = "GetAllUCUtilizationReportData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "Usp_ITI_BGT_GetUCUtilizationReportData";
+                        command.Parameters.AddWithValue("@CollegeID", model.CollegeID);
+                        command.Parameters.AddWithValue("@DistributedType", model.DistributedType);
+                        command.Parameters.AddWithValue("@FinYearID", model.FinYearID);
+                        command.Parameters.AddWithValue("@BudgetTypeID", model.BudgetTypeID);
+                        command.Parameters.AddWithValue("@BudgetForID", model.BudgetForID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }

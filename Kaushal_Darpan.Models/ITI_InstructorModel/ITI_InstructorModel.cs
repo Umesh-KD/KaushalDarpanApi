@@ -76,6 +76,7 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? Employer_Name { get; set; }
         public string? Employer_Address { get; set; }
         public string? Tan_No { get; set; }
+        public string? Employer_Registration { get; set; }
         public string? Employment_From { get; set; }
         public string? Employment_To { get; set; }
         public double? Basic_Pay { get; set; }
@@ -97,10 +98,8 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public List<ITI_Instructor_EduDetails>? EducationalQualifications { get; set; }
         public List<ITI_Instructor_TechDetails>? TechnicalQualifications { get; set; }
         public List<ITI_Instructor_EmpDetails>? EmploymentDetails { get; set; }
+        
     }
-
-
-
 
     public class ITI_Instructor_EduDetails
     {
@@ -113,7 +112,8 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? Education_Subjects { get; set; }
         public decimal? Education_Percentage { get; set; } 
         public decimal? Education_CGPA { get; set; } 
-
+        public string? EduOtherExaminationPassed { get; set; }
+        public string? EduQualificationName { get; set; }
         public string? EducationDocument { get; set; }
         public string? MarksTypeID { get; set; }
         public string? MarkTypeName { get; set; }
@@ -136,19 +136,16 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? Employer_Name { get; set; }
         public string? Employer_Address { get; set; }
         public string? Tan_No { get; set; }
-
+        public string? Employer_Registration { get; set; }
         public DateTime? Employment_From { get; set; }
         public DateTime? Employment_To { get; set; }
-
-        public decimal? Basic_Pay { get; set; }   
-
+        public decimal? Basic_Pay { get; set; }  
         public string? EmploymentDocument { get; set; }
         public string? panDocument { get; set; }
         public string? EmployeeCode { get; set; }
         public string? BasicSalaryDocument { get; set; }
         public int? PostHeld { get; set; }
-
-
+        public bool? Employer_presentlyWorking { get; set; }
         public string? CreatedBy { get; set; }
 
         public int? DepartmentID { get; set; }
@@ -159,7 +156,6 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public DateTime? ModifiedDate { get; set; }
 
     }
-
 
     public class ITI_Instructor_TechDetails
     {
@@ -187,6 +183,17 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
 
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
+        public List<ITI_Instructor_TechCITSDetails>? OtherCITSQualification { get; set; }
+    }
+
+    public class ITI_Instructor_TechCITSDetails
+    {
+        public int? Tech_CITSId { get; set; }
+        public int? InstructorID { get; set; }
+        public int? tech_TechDetailsID { get; set; }
+        public int? Tech_CITSYear { get; set; }
+        public string? Tech_CITSTrade { get; set; }
+        public string? Tech_CITSCertifiedDocument { get; set; }
     }
 
 
@@ -203,6 +210,13 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public int? RoleID { get; set; }
 
         public string? ApplicationNo { get; set; }
+    }
+
+    public class ITI_Instructor_TechCITSDetailsSearchModel
+    {
+        
+        public int? TechCITSId { get; set; }
+
     }
 
 

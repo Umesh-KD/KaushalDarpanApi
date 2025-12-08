@@ -220,7 +220,15 @@ namespace Kaushal_Darpan.Models.PreExamStudent
 
         }
 
-    
+    public class GetDocumentDetails_RejectAtBter_DataModel
+    {
+        public int? DepartmentID { get; set; }
+        public int? FileNameWithDynamicPath { get; set; }
+    }
 
-
+    public class RejectAtBterStudentDataModel: RequestBaseModel
+    {
+        public int? StudentExamID { get; set; }
+        public int? StudentID { get; set; }
+    }
 }

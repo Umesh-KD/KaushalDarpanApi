@@ -24,6 +24,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetGridBindInstructorData(ITI_InstructorBindDataSearchModel model);
         Task<DataSet> GetInstructorDataBySsoid(string SSOID);
+        Task<DataSet> GetAllTechCITSDetails(ITI_Instructor_TechCITSDetailsSearchModel model);
 
         Task<int> UpdateInstructorDataAsync(ITI_InstructorModel request);
         Task<DataTable> GetInstructorListIsAssign(ITI_InstructorDataAssign model);

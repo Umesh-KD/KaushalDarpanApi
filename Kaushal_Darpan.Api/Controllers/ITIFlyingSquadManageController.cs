@@ -546,7 +546,9 @@ namespace Kaushal_Darpan.Api.Controllers
                     var data = await _unitOfWork.ITIFlyingSquadManageRepository.GenerateFlyingSquadDutyOrder(model);
                     if (data != null)
                     {
-                        var fileName = $"ITIFlyingSquadDutyOrder_{Convert.ToDateTime(data.Tables[0].Rows[0]["DeploymentDate"]).ToString("dd/MM/yyyy")}.pdf";
+                        //var fileName = $"ITIFlyingSquadDutyOrder_{Convert.ToDateTime(data.Tables[0].Rows[0]["DeploymentDate"]).ToString("dd/MM/yyyy")}.pdf";
+                        var fileName = $"ITIFlyingSquadDutyOrder_{Convert.ToDateTime(data.Tables[0].Rows[0]["DeploymentDate"]).ToString("ddMMyyyy")}_{Guid.NewGuid()}.pdf";
+
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
                         string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIFlyingSquadDutyOrderReport.rdlc";
 

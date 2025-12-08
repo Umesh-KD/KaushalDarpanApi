@@ -155,6 +155,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetTradeTypesList();
         Task<DataTable> GetTradeLevelList();
         Task<DataTable> TradeListGetAllData(ItiTradeSearchModel request);
+        Task<DataTable> GetCollegeTradeMaster(ItiTradeSearchModel request);
         Task<DataTable> ItiCollegesGetAllData(ItiCollegesSearchModel request);
         Task<DataTable> BterCollegesGetAllData(BterCollegesSearchModel request);
 
@@ -336,6 +337,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> DDL_AllCasteCategoryA();
         Task<DataTable> DDL_Counselling_Trade(int designationId);
-
+        Task<DataTable> GetDocumentDetails_RejectAtBter(GetDocumentDetails_RejectAtBter_DataModel model);
     }
 }

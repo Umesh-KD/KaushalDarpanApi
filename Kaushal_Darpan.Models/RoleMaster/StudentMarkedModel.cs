@@ -12,6 +12,11 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public string? IPAddress { get; set; }
         public int? StudentExamID { get; set; }
         public int? ParamTab { get; set; }
+        public string? RejectDocName { get; set; }
+        public string? Dis_RejectDocName { get; set; }
+        public string? Remark { get; set; }
+        public string? OrderDate { get; set; }
+        public string? OrderNo { get; set; }
     }
     public class StudentMarkedModelForJoined
     {

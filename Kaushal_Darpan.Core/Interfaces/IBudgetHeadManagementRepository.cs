@@ -25,6 +25,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> Approve_CollegeBudgetAllot(List<CollegeBudgetAllotApproveDataModel> request);
         Task<int> UnlockUtilization_ITI_BGT(UnlockUtilizationDataModel model);
         Task<DataTable> GetAllBudgetReportData(BudgetHeadSearchFilter body);
+        Task<DataTable> GetAllotedReportData(BudgetHeadSearchFilter body);
+        Task<DataTable> GetAllUCUtilizationReportData(BudgetHeadSearchFilter body);
 
     }
 

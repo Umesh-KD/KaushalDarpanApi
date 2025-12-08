@@ -191,6 +191,51 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        public async Task<DataTable> GetEquipmentByItemType(CommonSearchModal modal)
+        {
+            _actionName = "GetEquipmentByItemType()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@DepartmentID", modal.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", modal.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", modal.EndTermID);
+                        command.Parameters.AddWithValue("@InstituteID", modal.InstituteID);
+                        command.Parameters.AddWithValue("@ItemType", modal.ItemType);
+                        if (modal.RoleID == 2)
+                        {
+                            command.Parameters.AddWithValue("@RoleID", 0);
+                        }
+                        else
+                        {
+                            command.Parameters.AddWithValue("@RoleID", modal.RoleID);
+                        }
+
+                        command.CommandText = "USP_GetAllDTEEquipmentsByItemType";
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
 

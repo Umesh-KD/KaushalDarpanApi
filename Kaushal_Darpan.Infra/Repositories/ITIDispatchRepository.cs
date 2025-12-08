@@ -1890,6 +1890,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SemesterID", SearchReq.SemesterID);
                         command.Parameters.AddWithValue("@StreamId", SearchReq.StreamId);
                         command.Parameters.AddWithValue("@SubjectId", SearchReq.SubjectId);
+                        command.Parameters.AddWithValue("@EndTermID", SearchReq.EndTermID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

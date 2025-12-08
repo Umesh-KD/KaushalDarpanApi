@@ -106,6 +106,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int RoleID { get; set; }
         public int InstituteID { get; set; }
         public int OfficeID { get; set; }
+        public int ItemType { get; set; }
     }
 
 }

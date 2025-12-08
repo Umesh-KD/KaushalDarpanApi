@@ -3,7 +3,9 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ITI_InstructorModel;
 using Kaushal_Darpan.Models.ITIAllotment;
+using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -218,23 +220,73 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EmploymentDocument", string.IsNullOrEmpty(request.EmploymentDocument) ? (object)DBNull.Value : request.EmploymentDocument);
                         command.Parameters.AddWithValue("@TehsilName", string.IsNullOrEmpty(request.TehsilName) ? (object)DBNull.Value : request.TehsilName);
 
-                        // JSON Serialization
+                        // Serialize main collections first
                         string eduJson = request.EducationalQualifications?.Any() == true
                             ? JsonConvert.SerializeObject(request.EducationalQualifications)
                             : null;
+
                         string techJson = request.TechnicalQualifications?.Any() == true
                             ? JsonConvert.SerializeObject(request.TechnicalQualifications)
                             : null;
+
                         string empJson = request.EmploymentDetails?.Any() == true
                             ? JsonConvert.SerializeObject(request.EmploymentDetails)
                             : null;
 
-                        command.Parameters.AddWithValue("@EducationJson", (object?)eduJson ?? DBNull.Value);
-                        command.Parameters.AddWithValue("@TechJson", (object?)techJson ?? DBNull.Value);
-                        command.Parameters.AddWithValue("@EmploymentJson", (object?)empJson ?? DBNull.Value);
-                        command.Parameters.AddWithValue("@AadharDocument",request.AadharDocument);
-                        command.Parameters.AddWithValue("@PermanentDocument", request.PermanentDocument);
-                        
+                        // 1) Try to flatten from model objects (preferred)
+                        List<ITI_Instructor_TechCITSDetails> allCITS = new List<ITI_Instructor_TechCITSDetails>();
+                        if (request.TechnicalQualifications != null && request.TechnicalQualifications.Any())
+                        {
+                            allCITS = request.TechnicalQualifications
+                                .Where(t => t != null && t.OtherCITSQualification != null && t.OtherCITSQualification.Any())
+                                .SelectMany(t => t.OtherCITSQualification!)
+                                .Where(c => c != null)
+                                .ToList();
+                        }
+
+                        if (!allCITS.Any() && !string.IsNullOrWhiteSpace(techJson))
+                        {
+                            try
+                            {
+                                var jarr = JArray.Parse(techJson);
+                                foreach (var jTech in jarr)
+                                {
+                                    var jCITS = jTech["OtherCITSQualification"] ?? jTech["OtherCITSQualification"] ?? jTech["Tech_CITSDetails"] ?? jTech["tech_cits_details"];
+                                    if (jCITS != null && jCITS.Type == JTokenType.Array)
+                                    {
+                                        var list = jCITS.ToObject<List<ITI_Instructor_TechCITSDetails>>();
+                                        if (list != null && list.Any())
+                                            allCITS.AddRange(list);
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Diagnostics.Debug.WriteLine("Fallback parse error techJson -> CITS: " + ex.Message);
+                            }
+                        }
+
+                        if (allCITS.Any() && request.id.HasValue && request.id.Value > 0)
+                        {
+                            allCITS.ForEach(c => { if (!c.InstructorID.HasValue) c.InstructorID = request.id; });
+                        }
+
+                        string TechCITSJson = allCITS.Any() ? JsonConvert.SerializeObject(allCITS) : null;
+
+                        System.Diagnostics.Debug.WriteLine("TechCITSJson => " + (TechCITSJson ?? "<NULL>"));
+                        System.Diagnostics.Debug.WriteLine("TechJson => " + (techJson ?? "<NULL>"));
+
+                        command.Parameters.Add(new SqlParameter("@EducationJson", SqlDbType.NVarChar, -1) { Value = (object?)eduJson ?? DBNull.Value });
+                        command.Parameters.Add(new SqlParameter("@TechJson", SqlDbType.NVarChar, -1) { Value = (object?)techJson ?? DBNull.Value });
+                        command.Parameters.Add(new SqlParameter("@EmploymentJson", SqlDbType.NVarChar, -1) { Value = (object?)empJson ?? DBNull.Value });
+                        command.Parameters.Add(new SqlParameter("@CITSJson", SqlDbType.NVarChar, -1) { Value = (object?)TechCITSJson ?? DBNull.Value });
+
+
+                        command.Parameters.AddWithValue("@AadharDocument", string.IsNullOrEmpty(request.AadharDocument) ? (object)DBNull.Value : request.AadharDocument);
+                        command.Parameters.AddWithValue("@PermanentDocument", string.IsNullOrEmpty(request.PermanentDocument) ? (object)DBNull.Value : request.PermanentDocument);
+
+
+
 
                         //_sqlQuery = command.GetSqlExecutableQuery();
                         //result = await command.ExecuteNonQueryAsync();
@@ -516,6 +568,43 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_Instructorgetbyssoid";
 
                         command.Parameters.AddWithValue("@SSOID", SSOID);
+
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataSet> GetAllTechCITSDetails(ITI_Instructor_TechCITSDetailsSearchModel model)
+        {
+            _actionName = "GetAllTechCITSDetails()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataSet dataTable = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_Instructor_GetAllTechCITSDetails";
+
+                        command.Parameters.AddWithValue("@TechCITSId", model.TechCITSId);
 
 
 

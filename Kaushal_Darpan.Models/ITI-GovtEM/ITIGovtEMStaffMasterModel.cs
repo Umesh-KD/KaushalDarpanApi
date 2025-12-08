@@ -762,6 +762,7 @@
         public string ModifyDate { get; set; }
         public string IPAddress { get; set; }
         public int PostedSeat { get; set; }
+        public int TradeID { get; set; }
     }
 
 
