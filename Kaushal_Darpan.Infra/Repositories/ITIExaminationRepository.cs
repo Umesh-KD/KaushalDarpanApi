@@ -791,6 +791,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@FAMarks", model.FaMark);
                         command.Parameters.AddWithValue("@Remarks", model.Remarks);
                         command.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
+                        command.Parameters.AddWithValue("@ChallanDate", model.ChallanDate);
+                        command.Parameters.AddWithValue("@ChallanNo", model.ChallanNo);
                         command.Parameters.Add("@Retval", SqlDbType.Int);// out
                         command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
                         _sqlQuery = command.GetSqlExecutableQuery();

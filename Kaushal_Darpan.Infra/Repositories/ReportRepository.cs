@@ -8497,7 +8497,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetReportedStudentReport";
                         command.Parameters.AddWithValue("@AcademicYearID", model.AcademicYearID);
-
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
@@ -8518,7 +8517,6 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
         #endregion
-
         public async Task<DataSet> GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model)
         {
             _actionName = "GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model)";

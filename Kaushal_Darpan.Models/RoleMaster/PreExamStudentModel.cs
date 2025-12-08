@@ -151,6 +151,8 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public string? Remarks { get; set; }
         public int CreatedBy { get; set; }
         public string ReceiptNo { get; set; } = string.Empty;
+        public string ChallanDate { get; set; } = string.Empty;
+        public string ChallanNo { get; set; } = string.Empty;
         public string DepositDate { get; set; } = string.Empty;
         public string EligibilityStatus { get; set; } = string.Empty;
     }
