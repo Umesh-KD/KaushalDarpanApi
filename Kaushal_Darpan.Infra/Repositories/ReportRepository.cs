@@ -1474,6 +1474,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                        command.Parameters.AddWithValue("@BranchID", model.BranchID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1873,6 +1876,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                        command.Parameters.AddWithValue("@BranchID", model.BranchID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -3079,6 +3085,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.CommandText = "USP_Get_SemesterSubjectWiseStudentCount";
                             //command.Parameters.AddWithValue("@Action", GetAction);
+                            command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                            command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                            command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                            command.Parameters.AddWithValue("@Type", model.Type);
+                            command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
+                        }
+                        else if(model.Type == 2)
+                        {
+                            command.CommandText = "USP_GetStudentSubjectData";
+                            command.Parameters.AddWithValue("@action", "_getStudentSubjectData");
                             command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                             command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                             command.Parameters.AddWithValue("@EndTermID", model.EndTermID);

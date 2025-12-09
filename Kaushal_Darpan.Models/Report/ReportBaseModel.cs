@@ -35,6 +35,9 @@
         public int? EndTermID { get; set; }
         public int? AcademicYearID { get; set; }
         public int? CourseTypeID { get; set; }
+        public int? InstituteID { get; set; }
+        public int? SemesterID { get; set; }
+        public int? BranchID { get; set; }
     }
 
 }
