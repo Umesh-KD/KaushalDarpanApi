@@ -879,7 +879,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> GetPlanningList(int CollegeID,int Status)
+        public async Task<DataTable> GetPlanningList(int CollegeID,int ITItypeID,int Status)
         {
             _actionName = "GetPlanningList()";
             return await Task.Run(async () =>
@@ -893,6 +893,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITiPlanningList";
 
                         command.Parameters.AddWithValue("@CollegeID", CollegeID);
+                        command.Parameters.AddWithValue("@ManagementTypeId", ITItypeID);
                         command.Parameters.AddWithValue("@Status", Status);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
