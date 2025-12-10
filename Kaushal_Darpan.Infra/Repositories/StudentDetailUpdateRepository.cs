@@ -368,12 +368,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
 
                         command.CommandType = CommandType.StoredProcedure;
+                        
                         command.CommandText = "USP_AdditionalQualification";
                         //command.Parameters.AddWithValue("@AID", model.AID);
                         //command.Parameters.AddWithValue("@CompanyName", model.CompanyName);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                        command.Parameters.AddWithValue("@StudentQualificationID", model.StudentQualificationID);
                         command.Parameters.AddWithValue("@Action", "GetAllData");
                         //command.Parameters.Add("@Return", SqlDbType.Int); // out
                         //command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
