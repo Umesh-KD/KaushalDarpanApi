@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.StaffMaster;
@@ -143,7 +144,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        #region
+        #region student employement details
 
         [HttpPost("GetAllData")]
         public async Task<ApiResult<DataTable>> GetAllData(StudentDetailUpdateModel model)
@@ -335,6 +336,101 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         #endregion
+
+
+        #region student additional qualification
+
+        [HttpPost("GetStudentAdditionalQualiData")]
+        public async Task<ApiResult<DataTable>> GetStudentAdditionalQualiData(LateralEntryQualificationModel model)
+        {
+            ActionName = "GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.StudentDetailUpdateRepository.GetStudentAdditionalQualiData(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        #endregion
+
+
+        #region additional qualification start
+
+        [HttpPost("Delete_StudentAdditionalQualiData/{ID:int}/{ModifyBy:int}")]
+        public async Task<ApiResult<bool>> Delete_StudentAdditionalQualiData(int ID, int ModifyBy)
+        {
+            ActionName = "Delete_StudentAdditionalQualiData(int ID, int ModifyBy)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    var mappedData = new LateralEntryQualificationModel
+                    {
+                        ModifyBy = ModifyBy,
+                        StudentID=ID
+                    };
+                    result.Data = await _unitOfWork.StudentDetailUpdateRepository.Delete_StudentAdditionalQualiData(mappedData);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DELETE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_DELETE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+
+
+        #endregion additional qualification end
 
 
     }

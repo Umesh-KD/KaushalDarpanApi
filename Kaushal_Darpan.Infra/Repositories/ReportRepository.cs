@@ -1474,6 +1474,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                        command.Parameters.AddWithValue("@BranchID", model.BranchID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1873,6 +1876,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                        command.Parameters.AddWithValue("@BranchID", model.BranchID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -2319,6 +2325,46 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<DataTable> GetITIStudentRollNoList_centerwise(DownloadnRollNoModel model)
+        {
+            _actionName = "GetITIStudentRollNoList(DownloadnRollNoModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var dt = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Rpt_GetITIStudentRollList_CenterWise";
+                        command.Parameters.AddWithValue("@action", "_getStudentRollList");
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@StudentTypeID", model.StudentTypeID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dt = await command.FillAsync_DataTable();
+                    }
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
 
         #endregion
 
@@ -3079,6 +3125,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.CommandText = "USP_Get_SemesterSubjectWiseStudentCount";
                             //command.Parameters.AddWithValue("@Action", GetAction);
+                            command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                            command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                            command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                            command.Parameters.AddWithValue("@Type", model.Type);
+                            command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
+                        }
+                        else if(model.Type == 2)
+                        {
+                            command.CommandText = "USP_GetStudentSubjectData";
+                            command.Parameters.AddWithValue("@action", "_getStudentSubjectData");
                             command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                             command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                             command.Parameters.AddWithValue("@EndTermID", model.EndTermID);

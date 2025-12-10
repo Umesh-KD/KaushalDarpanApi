@@ -1053,6 +1053,51 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
+        public async Task<List<DownloadnRollNoModel>> GetGenerateRollData_Centerwise(DownloadnRollNoModel model)
+        {
+            _actionName = "GetGenerateRollDataForPrint()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_GetGenerateRollNoBulkData_AllCenterWise";
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    var data = new List<DownloadnRollNoModel>();
+                    if (dataTable != null)
+                    {
+                        data = CommonFuncationHelper.ConvertDataTable<List<DownloadnRollNoModel>>(dataTable);
+                    }
+
+                    return data;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
 
     }
 }
