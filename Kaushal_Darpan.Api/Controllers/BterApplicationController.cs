@@ -1142,12 +1142,12 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
 
-                    if (!ModelState.IsValid)
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = "Validation failed!";
-                        return result;
-                    }
+                    //if (!ModelState.IsValid)
+                    //{
+                    //    result.State = EnumStatus.Error;
+                    //    result.ErrorMessage = "Validation failed!";
+                    //    return result;
+                    //}
 
 
                     result.Data = await _unitOfWork.BterApplicationRepository.UpdateStudentQualificationDetails(request);
