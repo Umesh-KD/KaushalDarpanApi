@@ -127,6 +127,7 @@ namespace Kaushal_Darpan.Models.ApplicationData
         public int? ModifyBy { get; set; }
 
         public int? StudentQualificationID { get; set; }
+        public int OtherQualification { get; set; }
 
     }
 
