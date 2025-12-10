@@ -410,6 +410,62 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataTable> GetStudentAdditionalQualiDataByID(StudentAdditionalQualificationDataModel model)
+        {
+            _actionName = "GetStudentAdditionalQualiData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    int result = 0;
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.CommandText = "USP_AdditionalQualification";
+                        //command.Parameters.AddWithValue("@AID", model.AID);
+                        //command.Parameters.AddWithValue("@CompanyName", model.CompanyName);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                        command.Parameters.AddWithValue("@StudentQualificationID", model.StudentQualificationID);
+                        command.Parameters.AddWithValue("@Action", "GetDataByID");
+                        //command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        //command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+                        // Output parameter
+                        var returnParam = command.Parameters.Add("@Return", SqlDbType.Int);
+                        returnParam.Direction = ParameterDirection.Output;
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+
+
+                        //result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                        // Read the output value
+                        if (returnParam.Value != DBNull.Value)
+                            result = Convert.ToInt32(returnParam.Value);
+
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
         public async Task<bool> Delete_StudentAdditionalQualiData(LateralEntryQualificationModel request)
         {
             _actionName = "Delete_StudentAdditionalQualiData(LateralEntryQualificationModel request)";
