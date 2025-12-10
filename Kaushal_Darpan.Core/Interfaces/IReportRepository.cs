@@ -102,6 +102,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> DownloadInstituteBranchWiseStatisticsReport(DownloadAppearedPassed model);
         Task<DataTable> GetITIStudentRollNoList(DownloadnRollNoModel model);
         Task<DataTable> GetITIStudentRollNoList_collegewise(DownloadnRollNoModel model);
+        Task<DataTable> GetITIStudentRollNoList_centerwise(DownloadnRollNoModel model);
         Task<DataSet> DownloadTimeTable(ReportBaseModel model);
         Task<DataSet> ItiDownloadTimeTable(ReportBaseModel model);
         Task<DataTable> DownloadTimeTable_Header(ReportBaseModel model);

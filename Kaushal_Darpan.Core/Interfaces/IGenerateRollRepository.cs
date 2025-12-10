@@ -31,6 +31,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<DownloadnRollNoModel>> GetGenerateRollDataForPrint_Insitute(DownloadnRollNoModel model);
 
         Task<List<DownloadnRollNoModel>> GetGenerateRollData_Collegewise(DownloadnRollNoModel model);
+        Task<List<DownloadnRollNoModel>> GetGenerateRollData_Centerwise(DownloadnRollNoModel model);
         Task<DataTable> ViewGenerateRollData(GenerateRollSearchModel model);
         Task<DataTable> GetRevalRollNoData_Verify(GenerateRollSearchModel model);
         Task<int> ChangeRevalRollNoStatus(GenerateRollSearchModel model);
