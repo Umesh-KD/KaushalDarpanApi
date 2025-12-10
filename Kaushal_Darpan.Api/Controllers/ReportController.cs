@@ -3565,8 +3565,6 @@ namespace Kaushal_Darpan.Api.Controllers
                                             var fileName = $"ITIAdmitCard_{studentID}_{StudentExamID}_{data.Tables[0].Rows[0]["RollNo"]}.pdf";
                                             string filepath = $"{folderPath}/{fileName}";
                                             string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIAdmitCard.rdlc";
-
-
                                             #region "Add Object"
                                             objStudent.StudentID = studentID;
                                             objStudent.AdmitCardPath = filepath;
@@ -3576,9 +3574,6 @@ namespace Kaushal_Darpan.Api.Controllers
                                             objStudent.DepartmentID = Model.DepartmentID;
                                             ListData.Add(objStudent);
                                             #endregion
-
-
-
                                             //provider                      
                                             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                                             //images
