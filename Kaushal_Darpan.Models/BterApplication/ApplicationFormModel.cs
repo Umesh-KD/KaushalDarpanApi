@@ -65,7 +65,7 @@ namespace Kaushal_Darpan.Models.ApplicationData
         public int BoardID { get; set; }
         public string? BoardName { get; set; }
         public string PassingID { get; set; }
-        public string RollNumber { get; set; }
+        public string? RollNumber { get; set; }
         public int MarkType { get; set; }
         public string? ClassSubject { get; set; }
         public decimal AggMaxMark { get; set; }
@@ -89,8 +89,79 @@ namespace Kaushal_Darpan.Models.ApplicationData
 
         public int? ModifyBy { get; set; }
 
+        public int? StudentQualificationID { get; set; }
+
     }
 
+
+    public class StudentAdditionalQualificationDataModel
+    {
+        public int CourseID { get; set; }
+        public int ApplicationQualificationId { get; set; }
+        public string? Qualification { get; set; }
+        public int StateID { get; set; }
+        public int BoardID { get; set; }
+        public string? BoardName { get; set; }
+        public string PassingID { get; set; }
+        public int MarkType { get; set; }
+        public string? ClassSubject { get; set; }
+        public decimal AggMaxMark { get; set; }
+        public decimal Percentage { get; set; }
+        public decimal AggObtMark { get; set; }
+        public int BoardStateID { get; set; }
+        public int BoardExamID { get; set; }
+        public int? CoreBranchID { get; set; }
+        public int? BranchID { get; set; }
+        //public List<Lateralsubject>? SubjectID { get; set; }
+
+        public string? OtherDoc { get; set; }
+
+        public string? EnrollmentNo { get; set; }
+
+        public int? InstituteID { get; set; }
+
+        public int? StudentID { get; set; }
+
+        public int? DepartmentID { get; set; }
+
+        public int? ModifyBy { get; set; }
+
+        public int? StudentQualificationID { get; set; }
+        public int OtherQualification { get; set; }
+
+    }
+
+    public class BTERStudentProfileUpdateModel
+    {
+        public int StudentID { get; set; }
+        public int EngNonEng { get; set; }
+
+        // Basic Details
+        public string? NameEn { get; set; }
+        public string? NameHi { get; set; }
+
+        public string? FatherNameEn { get; set; }
+        public string? FatherNameHi { get; set; }
+
+        public string? MotherNameEn { get; set; }
+        public string? MotherNameHi { get; set; }
+
+        public string? EnrollmentNo { get; set; }
+        public string? DOB { get; set; }
+        public string? MobileNo { get; set; }
+
+        // Supporting Information
+        public string? SupportingDocument { get; set; }
+        public string? SupportingRemark { get; set; }
+
+        // Common fields
+        public int? ModifyBy { get; set; }
+        public int? InstituteID { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? RoleID { get; set; }
+
+        public string? Action { get; set; }
+    }
 
     public class HighestQualificationModel
     {
@@ -325,8 +396,9 @@ namespace Kaushal_Darpan.Models.ApplicationData
 
     public class UpdateQulaificationDetailsModel
     {
-        public int StudentID {  get; set; }
-        public List<LateralEntryQualificationModel>? QualificationList { get; set; }
+        public int? StudentID {  get; set; }
+        public int Modifyby { get; set; }
+        public List<StudentAdditionalQualificationDataModel>? QualificationList { get; set; }
     }
 
 

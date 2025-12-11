@@ -368,12 +368,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
 
                         command.CommandType = CommandType.StoredProcedure;
+                        
+                        
                         command.CommandText = "USP_AdditionalQualification";
                         //command.Parameters.AddWithValue("@AID", model.AID);
                         //command.Parameters.AddWithValue("@CompanyName", model.CompanyName);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                        command.Parameters.AddWithValue("@StudentQualificationID", model.StudentQualificationID);
                         command.Parameters.AddWithValue("@Action", "GetAllData");
                         //command.Parameters.Add("@Return", SqlDbType.Int); // out
                         //command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
@@ -407,6 +410,62 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<DataTable> GetStudentAdditionalQualiDataByID(StudentAdditionalQualificationDataModel model)
+        {
+            _actionName = "GetStudentAdditionalQualiData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    int result = 0;
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.CommandText = "USP_AdditionalQualification";
+                        //command.Parameters.AddWithValue("@AID", model.AID);
+                        //command.Parameters.AddWithValue("@CompanyName", model.CompanyName);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                        command.Parameters.AddWithValue("@StudentQualificationID", model.StudentQualificationID);
+                        command.Parameters.AddWithValue("@Action", "GetDataByID");
+                        //command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        //command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+                        // Output parameter
+                        var returnParam = command.Parameters.Add("@Return", SqlDbType.Int);
+                        returnParam.Direction = ParameterDirection.Output;
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+
+
+                        //result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                        // Read the output value
+                        if (returnParam.Value != DBNull.Value)
+                            result = Convert.ToInt32(returnParam.Value);
+
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
 
         public async Task<bool> Delete_StudentAdditionalQualiData(LateralEntryQualificationModel request)
         {
@@ -458,6 +517,76 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
+
+        #region  update-studentdetails
+
+        public async Task<bool> SaveStudentProfileData(BTERStudentProfileUpdateModel request)
+        {
+            _actionName = "SaveStudentProfileData(UpdateQulaificationDetailsModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_StudentDetails";
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@StudentID", request.StudentID);
+                        command.Parameters.AddWithValue("@Name", request.NameEn);
+                        command.Parameters.AddWithValue("@StudentNameHi", request.NameHi);
+                        command.Parameters.AddWithValue("@FatherNameEn", request.FatherNameEn);
+                        command.Parameters.AddWithValue("@FatherNameHi", request.FatherNameHi);
+                        command.Parameters.AddWithValue("@MotherNameEn", request.MotherNameEn);
+                        command.Parameters.AddWithValue("@MotherNameHi", request.MotherNameHi);
+                        command.Parameters.AddWithValue("@MobileNumber", request.MobileNo);
+
+                        command.Parameters.AddWithValue("@DateOfBirth", request.DOB);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        //command.Parameters.AddWithValue("@InstituteID", request.StudentID);
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@SupportingDocument", request.SupportingDocument);
+                        command.Parameters.AddWithValue("@SupportingRemark", request.SupportingRemark);
+                        command.Parameters.AddWithValue("@action", request.Action);
+                        //command.Parameters.AddWithValue("@OtherDoc", request.OtherDoc);
+                        //command.Parameters.AddWithValue("@QualificationList", JsonConvert.SerializeObject(request.QualificationList));
+
+                        //command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        //command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        //command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        //result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        #endregion
     }
 
 }

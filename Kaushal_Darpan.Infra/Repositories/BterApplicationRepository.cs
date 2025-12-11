@@ -1269,6 +1269,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@StudentID", request.StudentID);
+                        command.Parameters.AddWithValue("@ModifyBy", request.Modifyby);
                         //command.Parameters.AddWithValue("@OtherDoc", request.OtherDoc);
                         command.Parameters.AddWithValue("@QualificationList", JsonConvert.SerializeObject(request.QualificationList));
 

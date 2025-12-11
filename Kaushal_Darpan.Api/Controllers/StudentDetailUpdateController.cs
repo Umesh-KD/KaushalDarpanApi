@@ -376,6 +376,47 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("GetStudentAdditionalQualiDataByID/{ID:int}/{userId:int}/{DepartmentID:int}/{key:int}")]
+        public async Task<ApiResult<DataTable>> GetStudentAdditionalQualiDataByID( int ID,int userId , int DepartmentID,int key)
+        {
+            ActionName = "GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                var mappedData = new StudentAdditionalQualificationDataModel
+                {
+                    StudentQualificationID = ID,
+                    ModifyBy = userId,
+                };
+                result.Data = await Task.Run(() => _unitOfWork.StudentDetailUpdateRepository.GetStudentAdditionalQualiDataByID(mappedData));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
         #endregion
 
 
@@ -432,6 +473,64 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #endregion additional qualification end
 
+
+
+        #region update-studentdetails
+
+
+        [HttpPost("SaveStudentProfileData")]
+        public async Task<ApiResult<bool>> SaveStudentProfileData([FromBody] BTERStudentProfileUpdateModel request)
+        {
+            ActionName = " SaveStudentProfileData([FromBody] UpdateQulaificationDetailsModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+
+                    result.Data = await _unitOfWork.StudentDetailUpdateRepository.SaveStudentProfileData(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
+        #endregion
 
     }
 }
