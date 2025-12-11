@@ -131,6 +131,37 @@ namespace Kaushal_Darpan.Models.ApplicationData
 
     }
 
+    public class BTERStudentProfileUpdateModel
+    {
+        public int StudentID { get; set; }
+        public int EngNonEng { get; set; }
+
+        // Basic Details
+        public string? NameEn { get; set; }
+        public string? NameHi { get; set; }
+
+        public string? FatherNameEn { get; set; }
+        public string? FatherNameHi { get; set; }
+
+        public string? MotherNameEn { get; set; }
+        public string? MotherNameHi { get; set; }
+
+        public string? EnrollmentNo { get; set; }
+        public string? DOB { get; set; }
+        public string? MobileNo { get; set; }
+
+        // Supporting Information
+        public string? SupportingDocument { get; set; }
+        public string? SupportingRemark { get; set; }
+
+        // Common fields
+        public int? ModifyBy { get; set; }
+        public int? InstituteID { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? RoleID { get; set; }
+
+        public string? Action { get; set; }
+    }
 
     public class HighestQualificationModel
     {
