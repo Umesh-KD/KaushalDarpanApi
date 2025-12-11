@@ -2345,6 +2345,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StudentTypeID", model.StudentTypeID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@CenterID", model.CenterID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dt = await command.FillAsync_DataTable();
                     }
