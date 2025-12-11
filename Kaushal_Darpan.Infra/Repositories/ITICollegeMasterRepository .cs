@@ -1217,6 +1217,55 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> PlanningBankGuarantee(ITIPlanningBankGuaranteeModel model)
+        {
+            _actionName = "PlanningBankGuarantee()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIPlanningBankGuarantee";
+
+                        // Add parameters to the command
+                        command.Parameters.AddWithValue("@PlanningId", model.PlanningId);
+                        command.Parameters.AddWithValue("@BankGuaranteeNumber", model.BankGuaranteeNumber);
+                        command.Parameters.AddWithValue("@IssueBank", model.IssueBank );
+                        command.Parameters.AddWithValue("@DateOfIssue", model.DateOfIssue);
+                        command.Parameters.AddWithValue("@DateOfExpiry", model.DateOfExpiry);
+                        command.Parameters.AddWithValue("@Duration", model.Duration);
+                        command.Parameters.AddWithValue("@Amount", model.Amount);
+                        command.Parameters.AddWithValue("@BankAgreement", model.BankAgreement);
+
+                        // Log the query for debugging purposes
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        Console.WriteLine($"Executing SQL: {_sqlQuery}");
+
+                        // Execute the command and get the data
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
     }
 }
 

@@ -87,8 +87,22 @@ public class ItiCollegeModel
 
 public class ItiEstablishmentSearchModel
 {
-    
     public int InstituteID { get; set; } 
     public int IsNewCollege { get; set; }
     public string? CollegeName { get; set; }
+}
+
+
+public class ITIPlanningBankGuaranteeModel
+{
+    public int BankGuaranteeID { get; set; }
+    public int PlanningId { get; set; }
+    public string? BankGuaranteeNumber { get; set; }
+    public string? IssueBank { get; set; } 
+    public DateTime DateOfIssue { get; set; }
+    public DateTime DateOfExpiry { get; set; }
+    public string? Duration { get; set; } 
+    public decimal Amount { get; set; }
+    public string? BankAgreement { get; set; } 
+    
 }
