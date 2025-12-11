@@ -3121,41 +3121,40 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
+
                         if (model.Type >= 7)
                         {
                             command.CommandText = "USP_Get_SemesterSubjectWiseStudentCount";
                             //command.Parameters.AddWithValue("@Action", GetAction);
-                            command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                            command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                            command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                            command.Parameters.AddWithValue("@Type", model.Type);
-                            command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
+                        }
+                        else if (model.Type == 0 || model.Type == 1 || model.Type == 5 || model.Type == 6)
+                        {
+                            command.CommandText = "USP_Rpt_InstituteSubjectWiseStudentData";
+                            command.Parameters.AddWithValue("@action", "InstituteSubjectWiseStudentData");
                         }
                         else if(model.Type == 2)
                         {
                             command.CommandText = "USP_GetStudentSubjectData";
                             command.Parameters.AddWithValue("@action", "_getStudentSubjectData");
-                            command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                            command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                            command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                            command.Parameters.AddWithValue("@Type", model.Type);
-                            command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
-                        }
+                            
+                        }                        
                         else
                         {
                             command.CommandText = "USP_ReportsBuilder";
                             //command.Parameters.AddWithValue("@Action", GetAction);
                             command.Parameters.AddWithValue("@StreamID", model.StreamID);
-                            command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                            command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
-                            command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                            command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                             command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                             command.Parameters.AddWithValue("@AcademicYearID", model.AcademicYearID);
                             command.Parameters.AddWithValue("@CasteCategoryID", model.CasteCategoryID);
-                            command.Parameters.AddWithValue("@Type", model.Type);
                             command.Parameters.AddWithValue("@Action", model.action);
                         }
+
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@Type", model.Type);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
