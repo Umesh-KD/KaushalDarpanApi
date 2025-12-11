@@ -49,6 +49,7 @@ namespace Kaushal_Darpan.Models.GenerateEnroll
     public class DownloadnRollNoModel : RequestBaseModel
     {
         public int InstituteID { get; set; }
+        public int CenterID { get; set; }
         public int StreamID { get; set; }
         public int SemesterID { get; set; }
         public string? CenterName { get; set; }
