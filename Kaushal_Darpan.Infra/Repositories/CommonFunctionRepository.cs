@@ -10371,7 +10371,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetAllOptionalSubjectsDDL";
+                        command.Parameters.AddWithValue("@Action", "OptionalSubject");
                         command.Parameters.AddWithValue("@CourseType", model.CourseType);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@SemesterId", model.SemesterId);
                         command.Parameters.AddWithValue("@StreamId", model.StreamId);
 
