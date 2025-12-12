@@ -87,6 +87,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         IGenerateRollRepository GenerateRollRepository { get; }
         IITIGenerateRollRepository ITIGenerateRollRepository { get; }
         IStudentDetailUpdateRepository StudentDetailUpdateRepository { get; }
+
+        INewJanAadharDetailRepository NewJanAadharDetailRepository { get; }
         IDateConfigurationRepository DateConfigurationRepository { get; }
         IGenerateAdmitCardRepository GenerateAdmitCardRepository { get; }
         IBterApplicationRepository BterApplicationRepository { get; }
