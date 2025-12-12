@@ -81,13 +81,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_RVL_PaymentRevaluationDetails";
-
                         command.Parameters.AddWithValue("@StudentID", body.StudentID);
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@StudentExamID", body.StudentExamID);
                         command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
                         command.Parameters.AddWithValue("@CourseType", body.CourseTypeID);
-
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
