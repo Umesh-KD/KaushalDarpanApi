@@ -97,6 +97,42 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
 
     }
 
+    //-----------------------route : update-studentdetails----------------------------
+    public class BTERStudentDetailsMasterSearchModel
+    {
+        public int StudentID { get; set; }
+        public string Name { get; set; }
+        public string? UIDNumber { get; set; }
+
+        public int? CandidateID { get; set; }
+        // public string Status { get; set; }
+
+        //public int RoleID { get; set; }
+        public int DepartmentID { get; set; }
+        public int InstituteID { get; set; }
+
+        // public int? AcademicYearID { get; set; }
+        public string action { get; set; }
+        public int? PageNumber { get; set; }
+        public int? PageSize { get; set; }
+        public string? SortOrder { get; set; }
+        public string? SortColumn { get; set; }
+
+        public int? Gender { get; set; }
+        public string? CandidateFatherName { get; set; }
+        public string? CandidateMotherName { get; set; }
+        public string? MobileNo { get; set; }
+        public string? Email { get; set; }
+
+        public int ModifyBy { get; set; }
+        public int? RoleID { get; set; }
+        public int? DistrictID { get; set; }
+        public int? UserID { get; set; }
+        public string? DateOfBirth { get; set; }
+
+        public int EngNonEng { get; set; }
+    }
+
     public class NCVT_APIDetailsModel
     {
         public string? TokenApiURL { get; set; }

@@ -25,6 +25,11 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetStudentCorrectionListData(StudentCorrectionMasterSearchModel filterModel);
 
+        Task<DataTable> GetBTERStudentDetailsList(BTERStudentDetailsMasterSearchModel filterModel);
+
+        Task<DataTable> GetStudentDetailsBYID(BTERStudentDetailsMasterSearchModel filterModel);
+
+
         Task<DataTable> GetStudentCorrectionDataByID(StudentCorrectionMasterSearchModel filterModel);
 
         Task<bool> SaveStudentCorrectionData(StudentCorrectionMasterSearchModel productDetails);

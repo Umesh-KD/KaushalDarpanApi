@@ -29,7 +29,13 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetStudentAdditionalQualiData(LateralEntryQualificationModel model);
 
+        Task<DataTable> GetStudentAdditionalQualiDataByID(StudentAdditionalQualificationDataModel model);
+
+
         Task<bool> Delete_StudentAdditionalQualiData(LateralEntryQualificationModel productDetails);
+
+        Task<bool> SaveStudentProfileData(BTERStudentProfileUpdateModel model);
+
 
     }
 }

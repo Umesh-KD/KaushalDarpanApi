@@ -2009,7 +2009,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     using (Document document = new Document())
                     using (PdfCopy pdfCopy = new PdfCopy(document, stream))
                     {
-                        document.Open();
+                        document.Open();    
 
                         foreach (var file in sourceFiles)
                         {

@@ -337,6 +337,7 @@
               <SortExpressions>
                 <SortExpression>
                   <Value>=Fields!StartTime.Value</Value>
+                  <Direction>Descending</Direction>
                 </SortExpression>
               </SortExpressions>
               <TablixHeader>
@@ -398,6 +399,7 @@
                       <PaddingBottom>2pt</PaddingBottom>
                     </Style>
                   </Textbox>
+                  <rd:Selected>true</rd:Selected>
                 </CellContents>
               </TablixHeader>
               <TablixMembers>
@@ -524,23 +526,9 @@
                       </TablixHeader>
                       <TablixMembers>
                         <TablixMember>
-                          <Group Name="Code">
-                            <GroupExpressions>
-                              <GroupExpression>=Fields!PaperCode.Value</GroupExpression>
-                            </GroupExpressions>
-                          </Group>
-                          <SortExpressions>
-                            <SortExpression>
-                              <Value>=Fields!ExamDate.Value</Value>
-                            </SortExpression>
-                          </SortExpressions>
+                          <Group Name="Details" />
                           <TablixMembers>
-                            <TablixMember>
-                              <Group Name="Details" />
-                              <TablixMembers>
-                                <TablixMember />
-                              </TablixMembers>
-                            </TablixMember>
+                            <TablixMember />
                           </TablixMembers>
                         </TablixMember>
                       </TablixMembers>
