@@ -86,10 +86,8 @@ namespace Kaushal_Darpan.Core.Helper
         #region "Jana Settings"
         public static readonly string PrivateCertPassword = "EEMS@123";
         public static readonly string ClientId = "254eced2ee1bfc019d3a09dc4ef8e8ac";
-
         public static string PrivateCertPath => Path.Combine(StaticFileRootPath, "Keys", "Publickey", "server.pfx");
         public static string PublicCertPath =>Path.Combine(StaticFileRootPath, "Keys", "Publickey", "RJAAPublicKey.cer");
-
         public static string BaseUrl
         {
             get
