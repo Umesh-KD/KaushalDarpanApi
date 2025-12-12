@@ -717,6 +717,15 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        private INewJanAadharDetailRepository _newJanAadharDetailRepository;
+        public INewJanAadharDetailRepository NewJanAadharDetailRepository
+        {
+            get
+            {
+                return _newJanAadharDetailRepository ??= new NewJanAadharDetailRepository(_dbContext);
+            }
+        }
+
         private IDateConfigurationRepository _dateConfigurationRepository;
         public IDateConfigurationRepository DateConfigurationRepository
         {

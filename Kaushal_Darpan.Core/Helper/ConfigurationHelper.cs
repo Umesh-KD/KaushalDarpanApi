@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace Kaushal_Darpan.Core.Helper
 {
@@ -10,7 +11,20 @@ namespace Kaushal_Darpan.Core.Helper
         {
             _configuration = configuration;
             _rootPath = rootPath;
+
+
         }
+
+        //private static IWebHostEnvironment _env;
+        private static IHttpContextAccessor _httpContextAccessor;
+
+        public static void Initialize( IHttpContextAccessor httpContextAccessor)
+        {
+            //_env = env;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+
 
         public static string ConnectionString => _configuration.GetConnectionString("DbConnection");
         public static string JwtIssuer => _configuration["Jwt:Issuer"];
@@ -66,6 +80,29 @@ namespace Kaushal_Darpan.Core.Helper
         public static readonly string JanAadharAuthClientId = "f6de7747-60d3-4cf0-a0ae-71488abd6e95";
         public static readonly string JanAadhaarMemberPhotoURL = "f6de7747-60d3-4cf0-a0ae-71488abd6e95";
         #endregion                                                                                                             //public static readonly string AadharAuthLicenseKey = "MJSazxO49Eh5vQ2BlcbUG--uNQ4tCpqKPF-OoFa0BZo0CE4CDBBtXVA";//"MKmyGwbThaYG35Ahinwx35nLtBYXrNMP4ejWD7A9-x6InP7y4xLROXU";
+
+
+
+        #region "Jana Settings"
+        public static readonly string PrivateCertPassword = "EEMS@123";
+        public static readonly string ClientId = "254eced2ee1bfc019d3a09dc4ef8e8ac";
+        public static string PrivateCertPath => Path.Combine(StaticFileRootPath, "Keys", "Publickey", "server.pfx");
+        public static string PublicCertPath =>Path.Combine(StaticFileRootPath, "Keys", "Publickey", "RJAAPublicKey.cer");
+        public static string BaseUrl
+        {
+            get
+            {
+                var host = _httpContextAccessor?.HttpContext?.Request?.Host.Host ?? "";
+                bool isLocal = host.ToLower().Contains("localhost") || host.StartsWith("10.") || host.StartsWith("192.");
+                return isLocal
+                    ? "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/"
+                    : "https://api.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/";
+            }
+        }
+
+
+        #endregion
+
 
         public static string FontPath_Noto_Sans_Devanagari => System.IO.Path.Combine(
                  ConfigurationHelper.RootPath,
