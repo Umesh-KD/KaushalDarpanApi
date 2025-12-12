@@ -33,7 +33,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         {
             _actionName = "GetPreExamStudent()";
             try
-                        {
+            {
                 return await Task.Run(async () =>
                 {
                     DataTable dataTable = new DataTable();
@@ -41,7 +41,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_PreExamStudentData";
-
                         if (model.StudentFilterStatusId == (int)EnumExamStudentStatus.Addimited || model.StudentFilterStatusId == (int)EnumExamStudentStatus.New_Addimited)
                         {
                             command.Parameters.AddWithValue("@action", "getStudentApplicationData");
@@ -54,7 +53,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.Parameters.AddWithValue("@action", "getStudentExamData");
                         }
-
                         command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
                         command.Parameters.AddWithValue("@Name", model.Name);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
@@ -74,7 +72,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@EligibilityStatus", model.EligibilityStatus);
-
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -885,7 +882,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         if (dataSet.Tables.Count > 0)
                         {
                             data = CommonFuncationHelper.ConvertDataTable<ITIExamination_UpdateEnrollmentNoModel>(dataSet.Tables[0]);
-                            
+
                         }
                     }
                     return data;
@@ -966,7 +963,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_ReturnToAdmitted";
                         command.CommandType = CommandType.StoredProcedure;
                         // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@StudentID",StudentID);
+                        command.Parameters.AddWithValue("@StudentID", StudentID);
 
                         command.Parameters.Add("@Retval", SqlDbType.Int);// out
                         command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
