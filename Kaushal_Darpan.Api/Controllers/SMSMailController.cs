@@ -487,14 +487,14 @@ namespace Kaushal_Darpan.Api.Controllers
                                 MessageBody = Convert.ToString(dataTable.Rows[0]["MessageBody"]);
                                 TempletID = Convert.ToString(dataTable.Rows[0]["TemplateID"]);
                             }
-                            if (item.MessageType == EnumMessageType.Bter_NotifyCandidateDeficiency.GetDescription())
+                            if (item.MessageType == EnumMessageType.Exam_Fee_Reminder.GetDescription())
                             {
                                 
 
-                                MessageBody = MessageBody.Replace("{#ApplicationNo#}", Convert.ToString(item.StudentName))
-                                   .Replace("{#Scheme#}", Convert.ToString(item.StudentName))
-                                   .Replace("{#DepartmentName#}", Convert.ToString(item.StudentName))
-                                   .Replace("{#var#}", Convert.ToString(item.StudentName));
+                                //MessageBody = MessageBody.Replace("{#ApplicationNo#}", Convert.ToString(item.StudentName))
+                                //   .Replace("{#Scheme#}", Convert.ToString(item.StudentName))
+                                //   .Replace("{#DepartmentName#}", Convert.ToString(item.StudentName))
+                                //   .Replace("{#var#}", Convert.ToString(item.StudentName));
                                 try
                                 {
                                     var mobile = Convert.ToString(item.MobileNo);
