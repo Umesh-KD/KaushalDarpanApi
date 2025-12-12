@@ -16,7 +16,7 @@ namespace Kaushal_Darpan.Models.RevaluationDataModel
     {
 
         public string DOB {  get; set; }
-        public int? RollNo { get; set; }
+        public Int64? RollNo { get; set; }
         public int StudentID { get; set; }
         public int SubjectID { get; set; }
         public int ServiceID { get; set; }
