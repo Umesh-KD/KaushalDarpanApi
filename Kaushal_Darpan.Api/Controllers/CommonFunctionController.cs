@@ -9286,6 +9286,28 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
+        [HttpPost("GetALLOptionalSubjects")]
+        public async Task<ApiResult<DataTable>> GetALLOptionalSubjects(DDL_OptionalSubjectModel model)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.GetALLOptionalSubjects(model);
+                    result.State = EnumStatus.Success;
+                    result.Data = data;
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
     }
 }
 

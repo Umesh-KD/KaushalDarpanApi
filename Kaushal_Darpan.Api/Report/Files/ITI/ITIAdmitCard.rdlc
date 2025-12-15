@@ -594,7 +594,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox39</rd:DefaultName>
                 <Height>0.6cm</Height>
-                <Width>4.8779cm</Width>
+                <Width>3.74338cm</Width>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -1622,6 +1622,7 @@
                       <TextRun>
                         <Value>Exam Center -</Value>
                         <Style>
+                          <FontSize>9pt</FontSize>
                           <FontWeight>Bold</FontWeight>
                         </Style>
                       </TextRun>
@@ -1631,7 +1632,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox39</rd:DefaultName>
                 <Height>0.6cm</Height>
-                <Width>4.8779cm</Width>
+                <Width>3.74338cm</Width>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -1651,6 +1652,7 @@
                       <TextRun>
                         <Value>=First(Fields!ExamCenter.Value, "ITIStudentAdmitCard")</Value>
                         <Style>
+                          <FontSize>8pt</FontSize>
                           <FontWeight>Normal</FontWeight>
                         </Style>
                       </TextRun>
@@ -2172,7 +2174,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Invigilator Sign.</Value>
+                                  <Value>Student Sign</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -2206,7 +2208,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Student Sign</Value>
+                                  <Value>Invigilator Sign</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>

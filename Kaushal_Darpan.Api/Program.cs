@@ -1,5 +1,6 @@
 ﻿using DinkToPdf;
 using DinkToPdf.Contracts;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Hangfire;
@@ -56,6 +57,7 @@ ConfigurationHelper.Configure(builder.Configuration, RootPath);
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<DBContext>();
+builder.Services.AddScoped<JanAadhaarGenericService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 //builder.Services.AddTransient<RestrictUrlFactory>();// middleware
@@ -327,9 +329,11 @@ app.UseStaticFiles();
 app.UseAuthentication();
 
 app.UseAuthorization();
-
 app.MapControllers();
 
 
 app.Run();
+
+
+
 

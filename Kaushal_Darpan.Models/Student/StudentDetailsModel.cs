@@ -179,4 +179,12 @@ namespace Kaushal_Darpan.Models.Student
 
         //public int? EndTermID { get; set; }
     }
+
+    public class ForSMSNotifyStudentModel
+    {
+        public int? StudentId { get; set; }
+        public string? MobileNo { get; set; }
+        public string? MessageType { get; set; }
+        public string? StudentName { get; set; }
+    }
 }

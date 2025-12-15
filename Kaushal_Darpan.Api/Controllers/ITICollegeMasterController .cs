@@ -1,3 +1,4 @@
+using AspNetCore.Reporting;
 using AutoMapper;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
@@ -8,8 +9,8 @@ using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.ItiCompanyMaster;
 using Kaushal_Darpan.Models.ITIPlanning;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Data;
-using AspNetCore.Reporting;
 namespace Kaushal_Darpan.Api.Controllers
 {
     [ApiController]
@@ -1099,6 +1100,57 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
+        [HttpPost("PlanningBankGuarantee")]
+        public async Task<ApiResult<DataTable>> PlanningBankGuarantee([FromBody] ITIPlanningBankGuaranteeModel model)
+        {
+            ActionName = "PlanningBankGuarantee()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                if (model == null)
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = "Model cannot be null";
+                    return result;
+                }
+
+                Console.WriteLine($"Received Model: {JsonConvert.SerializeObject(model)}");
+
+                result.Data = await _unitOfWork.ITICollegeMasterRepository.PlanningBankGuarantee(model);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
+
+
 
     }
 }

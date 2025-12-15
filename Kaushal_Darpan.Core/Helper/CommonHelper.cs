@@ -495,6 +495,9 @@ namespace Kaushal_Darpan.Core.Helper
 
         [Description("Bter_EnrollmentForStudent")]
         Bter_EnrollmentForStudent,
+
+        [Description("Exam_Fee_Reminder")]
+        Exam_Fee_Reminder,
     }
 
     public enum EnumStudentType

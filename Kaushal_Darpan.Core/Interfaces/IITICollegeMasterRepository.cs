@@ -22,14 +22,13 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> UpdateActiveStatusByID(ITICollegeMasterModel productDetails);
         Task<bool> ResetSSOID(int id, int ModifyBy,string remarks,string ssoid);
         Task<bool> unlockfee(int id, int ModifyBy,string remarks);
-      
         Task<bool> DeleteDataById(int id, int ModifyBy,string remark);
         Task<DataTable> GetItiTradeData_ByID(int Id);
         Task<DataSet> Get_ITIsPlanningDataByID(int Id);
         Task<DataTable> ItiSearchCollege(ItiSearchCollegeModel model);
         Task<DataTable> PolotechnicSearchCollege(PolotectnicSearchCollegeModel model);
         Task<DataTable> AllNCVTInstituteList(ITIsSearchModel model);
-
         Task<DataTable> ItiVacantSeatForDirectAdmission(ItiCollegeModel model);
+        Task<DataTable> PlanningBankGuarantee(ITIPlanningBankGuaranteeModel model);
     }
 }
