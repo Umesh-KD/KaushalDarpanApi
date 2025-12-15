@@ -159,6 +159,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_RVL_InsertStudentRevalRequest";
+                        command.Parameters.AddWithValue("@RevalRequestID", body.RevalRequestID);
+                        command.Parameters.AddWithValue("@PaymentStatus", body.PaymentStatus);
+                        command.Parameters.AddWithValue("@RevalStatus", body.RevalStatus);
 
                         command.Parameters.AddWithValue("@StudentID", body.StudentID);
                         command.Parameters.AddWithValue("@RollNo", body.RollNo);

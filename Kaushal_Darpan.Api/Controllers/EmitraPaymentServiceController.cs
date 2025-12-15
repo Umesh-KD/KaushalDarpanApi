@@ -79,6 +79,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 objEmitra.DepartmentID = Model.DepartmentID;
                 objEmitra.UniqueServiceID = Model.ID;
                 objEmitra.FeeFor = Model.FeeFor;
+                objEmitra.RevalRequestID = Model.RevalRequestID;
                 if (Model.TransactionApplicationIDs != null)
                 {
                     if (Model.TransactionApplicationIDs.Length > 0)
@@ -106,7 +107,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                    // data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
                     data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("{exam_fee}", data.AMOUNT.ToString())
-                        .Replace("{exam_commission}", Convert.ToString(Model.FormCommision));
+                        .Replace("{exam_commission}", Convert.ToString(Model.FormCommision)).Replace("##", Model.Amount.ToString());;
 
                  
 

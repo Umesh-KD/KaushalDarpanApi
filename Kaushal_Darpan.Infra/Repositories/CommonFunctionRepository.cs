@@ -3549,6 +3549,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UniqueServiceID", Model.UniqueServiceID);
                         command.Parameters.AddWithValue("@FeeFor", Model.FeeFor);
                         command.Parameters.AddWithValue("@PaidAmount", Model.PaidAmount);
+
+                        command.Parameters.AddWithValue("@RevalRequestID", Model.RevalRequestID);
+
                         command.Parameters.Add("@retval_TransactionId", SqlDbType.Int);// out
                         command.Parameters["@retval_TransactionId"].Direction = ParameterDirection.Output;// out
 
