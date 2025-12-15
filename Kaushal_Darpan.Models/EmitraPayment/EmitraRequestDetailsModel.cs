@@ -48,6 +48,8 @@
         public string? InstituteIDEnc { get; set; } = string.Empty;
         public int DirectAdmission { get; set; }
 
+        public int RevalRequestID { get; set; }
+
     }
 
     public class EmitraVerifyRequest

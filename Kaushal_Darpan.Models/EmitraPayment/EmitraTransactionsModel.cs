@@ -45,6 +45,9 @@
         public string TransactionNo { get; set; } = string.Empty;
         public decimal PaidAmount { get; set; }
         public List<StudentFeesTransactionItems> StudentFeesTransactionItems { get; set; }
+
+
+        public int? RevalRequestID { get; set; }
     }
 
     public class EmitraCollegeTransactionsModel : RequestBaseModel

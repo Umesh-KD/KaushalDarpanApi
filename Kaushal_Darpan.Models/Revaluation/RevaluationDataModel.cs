@@ -47,6 +47,10 @@ namespace Kaushal_Darpan.Models.RevaluationDataModel
         public int StudentExamID { get; set; }
 
         public List<ItemList> ItemList { get; set; } = new List<ItemList>();
+
+        public int? RevalRequestID { get; set; }
+        public bool? PaymentStatus { get; set; }
+        public int? RevalStatus { get; set; }
     }
 
         
