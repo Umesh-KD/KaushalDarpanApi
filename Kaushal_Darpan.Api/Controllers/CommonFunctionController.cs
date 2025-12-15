@@ -19,6 +19,7 @@ using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.DTE_Verifier;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
+using Kaushal_Darpan.Models.RPPPayment;
 using Kaushal_Darpan.Models.SSOUserDetails;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
@@ -9307,6 +9308,41 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 return result;
             });
+        }
+
+        [HttpPost("EmitraFeePaymentList_GetData")]
+        public async Task<ApiResult<DataTable>> EmitraFeePaymentList_GetData([FromBody] EmitraFeePaymentListSearchModel body)
+        {
+            ActionName = "EmitraFeePaymentList_GetData([FromBody] EmitraFeePaymentListSearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.EmitraFeePaymentList_GetData(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
     }
 }
