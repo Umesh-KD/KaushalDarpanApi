@@ -2098,6 +2098,44 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
+        #region Student Reveal Fee Receipt
+        public async Task<DataSet> GetITIStudentRevealFeeReceipt(string EnrollmentNo)
+        {
+            _actionName = "GetITIStudentRevealFeeReceipt(string EnrollmentNo)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Rpt_GetITIFeeReceipt";
+                        command.Parameters.AddWithValue("@action", "_getStudentRevalFee");
+                        command.Parameters.AddWithValue("@EnrollmentNo", EnrollmentNo);
+                        command.Parameters.AddWithValue("@TransactionId", EnrollmentNo);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
+
+
         #region ITI Application Form 
         public async Task<DataSet> GetITIApplicationForm(ItiApplicationSearchModel model)
         {
