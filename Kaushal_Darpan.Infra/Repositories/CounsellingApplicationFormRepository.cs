@@ -136,6 +136,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsAnyIncurableDiseases", request.IsAnyIncurableDiseases);
                         command.Parameters.AddWithValue("@CategoryB_ID", request.CategoryB_ID);
                         command.Parameters.AddWithValue("@AcademicYearID", request.AcademicYearID);
+                        command.Parameters.AddWithValue("@SpouseDistrictID", request.SpouseDistrictID);
 
                         // Add IP Address parameter
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
@@ -195,6 +196,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@MaritialID_ByAdmin", request.MaritialID_ByAdmin);
                         command.Parameters.AddWithValue("@SelectionCategoryID_ByAdmin", request.SelectionCategoryID_ByAdmin);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@SpouseDistrictID_ByAdmin", request.SpouseDistrictIDByAdmin);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
                         // Add the return parameter
