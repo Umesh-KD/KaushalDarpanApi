@@ -197,6 +197,7 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public bool? IsSpouseInSameService { get; set; }
         public bool? IsShahidDependent { get; set; }
         public bool? IsAnyIncurableDiseases { get; set; }
+        public bool? IsPhysicalHandicapped { get; set; }
         public string? CategoryB { get; set; }
         public string? GenderName { get; set; }
         public string? SelectionCategory { get; set; }

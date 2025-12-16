@@ -846,15 +846,6 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<int>();
                 try
                 {
-
-                    //if (!ModelState.IsValid)
-                    //{
-                    //    result.State = EnumStatus.Error;
-                    //    result.ErrorMessage = "Validation failed!";
-                    //    return result;
-                    //}
-
-
                     result.Data = await _unitOfWork.i_ITIInventoryRepository.SaveItemsMaster(request);
                     await _unitOfWork.SaveChangesAsync();
                     if (result.Data > 0)

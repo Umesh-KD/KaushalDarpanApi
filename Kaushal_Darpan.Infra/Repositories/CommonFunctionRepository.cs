@@ -3549,6 +3549,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UniqueServiceID", Model.UniqueServiceID);
                         command.Parameters.AddWithValue("@FeeFor", Model.FeeFor);
                         command.Parameters.AddWithValue("@PaidAmount", Model.PaidAmount);
+
+                        command.Parameters.AddWithValue("@RevalRequestID", Model.RevalRequestID);
+
                         command.Parameters.Add("@retval_TransactionId", SqlDbType.Int);// out
                         command.Parameters["@retval_TransactionId"].Direction = ParameterDirection.Output;// out
 
@@ -10399,7 +10402,48 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> EmitraFeePaymentList_GetData(EmitraFeePaymentListSearchModel model)
+        {
+            _actionName = "EmitraFeePaymentList_GetData(EmitraFeePaymentListSearchModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_EmitraFeePaymentList_GetData";
+                        command.Parameters.AddWithValue("@Action", "GetAllData");
+                        command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                        command.Parameters.AddWithValue("@TransctionStatus", model.TransctionStatus);
+                        command.Parameters.AddWithValue("@StudentName", model.StudentName);
+                        command.Parameters.AddWithValue("@TransctionDate", model.TransctionDate);
+                        command.Parameters.AddWithValue("@PRN", model.PRN);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
 
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    // class
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
     }
 }
