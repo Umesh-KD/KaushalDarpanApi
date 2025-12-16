@@ -3208,7 +3208,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<string>();
                 try
                 {
-                    var data = await _unitOfWork.ReportRepository.GetITIStudentFeeReceipt(EnrollmentNo);
+                    var data = await _unitOfWork.ReportRepository.GetITIStudentRevealFeeReceipt(EnrollmentNo);
                     if (data != null)
                     {
                         var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
