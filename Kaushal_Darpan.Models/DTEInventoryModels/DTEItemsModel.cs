@@ -8,37 +8,37 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
 {
     public class DTEItemsModel
     {
-        public int ItemId { get; set; }
-        public int TradeId { get; set; }
-        public int OfficeID { get; set; }
-        public int RoleID { get; set; }
-        public int ItemCategoryId { get; set; }
-        public int EquipmentsId { get; set; }
+        public int? ItemId { get; set; }
+        public int? TradeId { get; set; }
+        public int? OfficeID { get; set; }
+        public int? RoleID { get; set; }
+        public int? ItemCategoryId { get; set; }
+        public int? EquipmentsId { get; set; }
         public string? IdentificationMark { get; set; }
         public string? CampanyName { get; set; }
 
-        public int VoucherNumber { get; set; }
-        public int Quantity { get; set; }
+        public int? VoucherNumber { get; set; }
+        public int? Quantity { get; set; }
 
-        public int PricePerUnit { get; set; }
-        public int TotalPrice { get; set; }
-        public bool ActiveStatus { get; set; }
-        public bool DeleteStatus { get; set; }
+        public int? PricePerUnit { get; set; }
+        public int? TotalPrice { get; set; }
+        public bool? ActiveStatus { get; set; }
+        public bool? DeleteStatus { get; set; }
         public DateTime? RTS { get; set; }
-        public int CreatedBy { get; set; }
-        public int ModifyBy { get; set; }
+        public int? CreatedBy { get; set; }
+        public int? ModifyBy { get; set; }
         public DateTime? ModifyDate { get; set; }
         public string? IPAddress { get; set; }
-        public int DepartmentID { get; set; }
-        public int InstituteID { get; set; }
-        public bool isOption { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? InstituteID { get; set; }
+        public bool? isOption { get; set; }
         public int? ItemDetailsId { get; set; }
-        public int Status { get; set; }
+        public int? Status { get; set; }
 
-        public bool IsConsume { get; set; }
-        public int ItemType { get; set; }
-        public DateTime? voucherdate { get; set; }
-        public int unitId { get; set; }
+        public bool? IsConsume { get; set; }
+        public int? ItemType { get; set; }
+        public string? voucherdate { get; set; }
+        public int? unitId { get; set; }
         public string? Remark { get; set; }
         public string? abbreviation { get; set; }
         public string? batchId { get; set; }
@@ -48,8 +48,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public DateTime? issuedate { get; set; }
         public string? IndentNo { get; set; }
         public DateTime? issuebookfoliodate { get; set; }
-        public int QuantityIssued { get; set; }
-        public int QuantityBalance { get; set; }
+        public int? QuantityIssued { get; set; }
+        public int? QuantityBalance { get; set; }
         public string? BillFileName { get; set; }
         public string? BillFilePath { get; set; }
     }

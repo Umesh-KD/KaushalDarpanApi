@@ -4,7 +4,7 @@
 
     public class ITIAdminUserDetailModel
     {
-        public int AID { get; set; }
+ 
         public int UserID { get; set; }
         public int UserAdditionID { get; set; }
         public int ProfileID { get; set; }
@@ -16,7 +16,7 @@
         public int StateID { get; set; }
         public int DistrictID { get; set; }
         public string? AadhaarID { get; set; }
-        public string SSOID { get; set; }
+        public string? SSOID { get; set; }
         public string ?Email { get; set; }
         public string? EmailOfficial { get; set; }
         public string? State { get; set; }
