@@ -3223,8 +3223,6 @@ namespace Kaushal_Darpan.Api.Controllers
                         LocalReport localReport = new LocalReport(rdlcpath);
                         localReport.AddDataSource("StudentFeeReceipt", data.Tables[0]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
-
-
                         //check file exists
                         if (!System.IO.Directory.Exists(folderPath))
                         {
