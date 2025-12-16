@@ -227,7 +227,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Goverment Of Rajasthan</Value>
+                    <Value>Government Of Rajasthan</Value>
                     <Style>
                       <FontSize>14pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -1378,7 +1378,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Father' Name Hindi:</Value>
+                    <Value>Father's Name Hindi:</Value>
                     <Style>
                       <FontWeight>Bold</FontWeight>
                     </Style>
