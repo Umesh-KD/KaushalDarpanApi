@@ -193,4 +193,18 @@ namespace Kaushal_Darpan.Models.CommonFunction
        
     }
 
+
+    public class DDL_OptionalSubjectModel
+    {
+
+        public int DepartmentID { get; set; }
+        public int CourseType { get; set; }
+        public int SemesterId { get; set; }
+        public int StreamId { get; set; }
+
+    }
+
+
+
+
 }

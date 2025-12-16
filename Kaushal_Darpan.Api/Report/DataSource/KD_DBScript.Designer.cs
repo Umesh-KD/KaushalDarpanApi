@@ -5357,6 +5357,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnExamFeeAmount;
             
+            private global::System.Data.DataColumn columnRevalRequestNo;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public StudentFeeReceiptDataTable() {
@@ -5688,6 +5690,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RevalRequestNoColumn {
+                get {
+                    return this.columnRevalRequestNo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -5760,7 +5770,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         string ReportingStatus, 
                         string Convener, 
                         string EnrollFeeAmount, 
-                        string ExamFeeAmount) {
+                        string ExamFeeAmount, 
+                        string RevalRequestNo) {
                 StudentFeeReceiptRow rowStudentFeeReceiptRow = ((StudentFeeReceiptRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         StudentName,
@@ -5799,7 +5810,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         ReportingStatus,
                         Convener,
                         EnrollFeeAmount,
-                        ExamFeeAmount};
+                        ExamFeeAmount,
+                        RevalRequestNo};
                 rowStudentFeeReceiptRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStudentFeeReceiptRow);
                 return rowStudentFeeReceiptRow;
@@ -5859,6 +5871,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnConvener = base.Columns["Convener"];
                 this.columnEnrollFeeAmount = base.Columns["EnrollFeeAmount"];
                 this.columnExamFeeAmount = base.Columns["ExamFeeAmount"];
+                this.columnRevalRequestNo = base.Columns["RevalRequestNo"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5938,6 +5951,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnEnrollFeeAmount);
                 this.columnExamFeeAmount = new global::System.Data.DataColumn("ExamFeeAmount", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnExamFeeAmount);
+                this.columnRevalRequestNo = new global::System.Data.DataColumn("RevalRequestNo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRevalRequestNo);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -50631,6 +50646,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RevalRequestNo {
+                get {
+                    try {
+                        return ((string)(this[this.tableStudentFeeReceipt.RevalRequestNoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RevalRequestNo\' in table \'StudentFeeReceipt\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStudentFeeReceipt.RevalRequestNoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsStudentNameNull() {
                 return this.IsNull(this.tableStudentFeeReceipt.StudentNameColumn);
             }
@@ -51071,6 +51102,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetExamFeeAmountNull() {
                 this[this.tableStudentFeeReceipt.ExamFeeAmountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRevalRequestNoNull() {
+                return this.IsNull(this.tableStudentFeeReceipt.RevalRequestNoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRevalRequestNoNull() {
+                this[this.tableStudentFeeReceipt.RevalRequestNoColumn] = global::System.Convert.DBNull;
             }
         }
         

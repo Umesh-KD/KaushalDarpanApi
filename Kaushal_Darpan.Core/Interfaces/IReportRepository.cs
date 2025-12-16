@@ -108,6 +108,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> DownloadTimeTable_Header(ReportBaseModel model);
         Task<DataTable> DownloadStudentProfileDetails(ReportBaseModel model);
         Task<DataSet> GetITIStudentFeeReceipt(string EnrollmentNo);
+        Task<DataSet> GetITIStudentRevealFeeReceipt(string EnrollmentNo);
         Task<DataSet> GetITIStudentApplicationFeeReceipt(string EnrollmentNo);
         Task<DataSet> GetITICollegeProfile(int CollegeId);
         Task<DataSet> GetITIApplicationForm(ItiApplicationSearchModel model);

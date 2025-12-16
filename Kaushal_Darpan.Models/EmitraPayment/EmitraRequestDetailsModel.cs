@@ -48,6 +48,8 @@
         public string? InstituteIDEnc { get; set; } = string.Empty;
         public int DirectAdmission { get; set; }
 
+        public int RevalRequestID { get; set; }
+
     }
 
     public class EmitraVerifyRequest
@@ -96,6 +98,19 @@
     {
         public int TypeID { get; set; }
         public string FeeFor { get; set; }
+    }
+
+    public class EmitraFeePaymentListSearchModel
+    {
+        public int? TypeID { get; set; }
+        public int? UserID { get; set; }
+        public int? RoleID { get; set; }
+        public string? FeeFor { get; set; }
+        public string? SSOID { get; set; }
+        public string? PRN { get; set; }
+        public string? TransctionDate { get; set; }
+        public string? StudentName { get; set; }
+        public string? TransctionStatus { get; set; }
     }
 
 }
