@@ -46,6 +46,8 @@ namespace Kaushal_Darpan.Models.RevaluationDataModel
 
         public string Remarks { get; set; }
 
+        //public int? RevalRequestID { get; set; }
+
     }
 
 
