@@ -359,6 +359,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserID", request.UserID);
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@Eng_NonEng", request.Eng_NonEng);
+                        command.Parameters.AddWithValue("@SSOID", request.SSOID);
+                        command.Parameters.AddWithValue("@MobileNumber", request.MobileNumber);
+                        command.Parameters.AddWithValue("@Email", request.Email);
+                        command.Parameters.AddWithValue("@Name", request.Name);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
                         command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
