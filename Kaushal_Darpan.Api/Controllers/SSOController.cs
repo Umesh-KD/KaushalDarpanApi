@@ -1102,6 +1102,38 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+        [HttpPost("SSOLogout_New/{tokenDetail}")]
+        public async void SSOLogout_New(string tokenDetail)
+        {
+            ActionName = "SSOLogout_New()";
+            try
+            {
+                Response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate";
+                Response.Headers["Pragma"] = "no-cache";
+                Response.Headers["Expires"] = "0";
+                // user=token
+                //var tokenDetail = Request.Form["UserDetails"];
+                CommonFuncationHelper.WriteTextLog($"get the tokenDetail : {tokenDetail}");
 
+                //api sso logout
+                ThirdPartyServiceHelper.LogoutSSO(tokenDetail);
+                CommonFuncationHelper.WriteTextLog("comes the LogoutSSO");
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // file
+                CommonFuncationHelper.WriteTextLog($"error : {ex.Message}");
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+        }
     }
+
 }
