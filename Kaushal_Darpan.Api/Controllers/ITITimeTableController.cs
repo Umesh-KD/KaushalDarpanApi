@@ -172,7 +172,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpDelete("DeleteDataByID/{PK_ID}/{ModifyBy}/{DepartmentID}")]
+        [HttpPost ("DeleteDataByID/{PK_ID}/{ModifyBy}/{DepartmentID}")]
         public async Task<ApiResult<bool>> DeleteDataByID(int PK_ID, int ModifyBy, int DepartmentID)
         {
             ActionName = "DeleteDataByID(int PK_ID, int ModifyBy)";

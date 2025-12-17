@@ -619,14 +619,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="InsituteCode">
+                    <Textbox Name="CenterCode1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!InsituteCode.Value</Value>
+                              <Value>=Fields!CenterCode.Value</Value>
                               <Style>
                                 <FontFamily>times New Roman</FontFamily>
                               </Style>
@@ -637,7 +637,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>InsituteCode</rd:DefaultName>
+                      <rd:DefaultName>CenterCode1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
