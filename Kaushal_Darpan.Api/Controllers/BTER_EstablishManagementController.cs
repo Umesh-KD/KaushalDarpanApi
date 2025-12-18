@@ -1565,6 +1565,11 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_SAVE_SUCCESS;
                     }
+                    else if (result.Data == 2)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
                     else
                     {
                         result.State = EnumStatus.Warning;
