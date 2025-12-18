@@ -647,6 +647,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ItiCollegeWiseTrade";
+                        if(InstituteID != 0)
+                        {
+                            command.Parameters.AddWithValue("@Action", "collegeWiseTrade");
+                        }
+                        else
+                        {
+                            command.Parameters.AddWithValue("@Action", "getAllTrade");
+                        }
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
                         command.Parameters.AddWithValue("@EndTermId", EndTermId);
                         command.Parameters.AddWithValue("@StreamType", StreamType);
