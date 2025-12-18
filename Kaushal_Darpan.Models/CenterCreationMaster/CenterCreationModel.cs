@@ -13,7 +13,7 @@
         public string Institutename { get; set; }
         public string? Address { get; set; }
         public string? PinCode { get; set; }
-        public string SSOID { get; set; }
+        public string? SSOID { get; set; }
         public int ModifyBy { get; set; }
         public string? IPAddress { get; set; }
         public int? CCCode { get; set; }

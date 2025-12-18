@@ -26,24 +26,44 @@ namespace Kaushal_Darpan.Models.EmitraPayment
         public string REQUESTID { get; set; }
         public string REQTIMESTAMP { get; set; }
         public string SSOTOKEN { get; set; }
-        
+
     }
 
-    public class DRequest
+    public class VerifyCheckSumEmitra
     {
         public string MERCHANTCODE { get; set; }
         public string REQUESTID { get; set; }
-        public string REQTIMESTAMP { get; set; }
-        public string SERVICEID { get; set; }
-        public string SUBSERVICEID { get; set; }
-        public string REVENUEHEAD { get; set; }
-        public string CONSUMERKEY { get; set; }
-        public string CONSUMERNAME { get; set; }
-        public string COMMTYPE { get; set; }
-        public string SSOID { get; set; }
-        public string OFFICECODE { get; set; }
         public string SSOTOKEN { get; set; }
-        public string CHECKSUM { get; set; }
 
     }
+
+
+    public class EmitraVerifyModel
+    {
+        public string MERCHANTCODE { get; set; }
+        public string SERVICEID { get; set; }
+        public string REQUESTID { get; set; }
+        public string SSOTOKEN { get; set; }
+        public string CHECKSUM { get; set; }
+    }
+
+
+
+public class DRequest
+{
+    public string MERCHANTCODE { get; set; }
+    public string REQUESTID { get; set; }
+    public string REQTIMESTAMP { get; set; }
+    public string SERVICEID { get; set; }
+    public string SUBSERVICEID { get; set; }
+    public string REVENUEHEAD { get; set; }
+    public string CONSUMERKEY { get; set; }
+    public string CONSUMERNAME { get; set; }
+    public string COMMTYPE { get; set; }
+    public string SSOID { get; set; }
+    public string OFFICECODE { get; set; }
+    public string SSOTOKEN { get; set; }
+    public string CHECKSUM { get; set; }
+
+}
 }

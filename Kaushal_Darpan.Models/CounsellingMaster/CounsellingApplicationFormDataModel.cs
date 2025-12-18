@@ -77,6 +77,8 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public int? MaritialID_ByAdmin { get; set; } = 0;
         public int? CategoryA_ID_ByAdmin { get; set; } = 0;
         public int? SelectionCategoryID_ByAdmin { get; set; } = 0;
+        public int? SpouseDistrictID { get; set; } = 0;
+        public int? SpouseDistrictIDByAdmin { get; set; } = 0;
     }
 
     public class CounsellingApplicationSearchModel

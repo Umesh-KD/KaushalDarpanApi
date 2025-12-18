@@ -18,6 +18,12 @@
         public int UserID { get; set; }
         public string? IPAddress { get; set; } = string.Empty;
         public int? CreatedBy { get; set; }
+
+        public string?SSOID { get; set; }
+        public string? MobileNumber { get; set; }
+        public string? Email { get; set; }
+        public string? Name { get; set; }
+
     }
 
     public class ITIAssignPracticaLExaminer : RequestBaseModel

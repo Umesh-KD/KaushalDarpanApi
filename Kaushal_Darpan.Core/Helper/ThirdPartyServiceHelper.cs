@@ -372,6 +372,9 @@ namespace Kaushal_Darpan.Core.Helper
                 //error.LogEmitra("Kiosk Verify " + data, "TestApp1");
 
                 string encData = EmitraHelper.Encrypt(data, encryptionKey);
+                string dncData = EmitraHelper.Decrypt(encData, encryptionKey);
+
+
                 //error.LogEmitra("Encrypted Request Data: Encrypt Data: " + encData, "TestApp2");
                 //Base String
                 string baseAddress = URL;

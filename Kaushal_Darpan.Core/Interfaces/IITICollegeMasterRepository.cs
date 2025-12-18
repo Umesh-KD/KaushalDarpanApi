@@ -1,5 +1,6 @@
 ﻿
 using Kaushal_Darpan.Models.ItiCompanyMaster;
+using Kaushal_Darpan.Models.ITIMaster;
 using Kaushal_Darpan.Models.ITIPlanning;
 using System.Data;
 
@@ -9,7 +10,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetAllData(ITIsSearchModel model);
         Task<DataTable> GetAllEstablishmentIti(ItiEstablishmentSearchModel model);
-        Task<DataTable> GetPlanningList(int CollegeID , int ITItypeID, int Status);
+        Task<DataTable> GetPlanningList(int CollegeID , int? ITItypeID, int Status);
         Task<DataTable> ViewWorkflow(int CollegeID);
         Task<ITICollegeMasterModel> Get_ITIsData_ByID(int Id);
         Task<ITI_PlanningColleges> Get_ITIsPlanningData_ByID(int Id);
@@ -29,6 +30,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> PolotechnicSearchCollege(PolotectnicSearchCollegeModel model);
         Task<DataTable> AllNCVTInstituteList(ITIsSearchModel model);
         Task<DataTable> ItiVacantSeatForDirectAdmission(ItiCollegeModel model);
-        Task<DataTable> PlanningBankGuarantee(ITIPlanningBankGuaranteeModel model);
+        Task<DataTable> SaveBankGuaranteeData(ITIPlanningBankGuaranteeModel model);
+        Task<DataTable> ITIPlanningBankGuaranteeList(ITIPlanningBankGuaranteeSearch filterModel);
+        Task<DataTable> ITIPlanningBankGuaranteeReport(ITIPlanningBankGuaranteeSearch filterModel);
+        Task<DataTable> ITIPlanningBankGuaranteeGetByID(int BankGuaranteeID);
     }
 }
