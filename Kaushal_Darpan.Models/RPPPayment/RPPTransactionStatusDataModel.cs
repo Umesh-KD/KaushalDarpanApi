@@ -18,6 +18,8 @@ namespace Kaushal_Darpan.Api.Models
         public string ServiceID { get; set; }= string.Empty;
         public int ID { get; set; }
         public int ExamStudentStatus { get; set; }
+        public string REQUESTID { get; set; } = string.Empty;
+        public bool IsEmitra { get; set; } = false;
 
 
 

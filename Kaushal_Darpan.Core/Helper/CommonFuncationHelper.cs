@@ -136,6 +136,9 @@ namespace Kaushal_Darpan.Core.Helper
                 return sb.ToString();
             }
         }
+
+    
+
         public static string EmitraEncrypt(string Text)
         {
             string Key = "681D392DB4FD7B8C6562712DFEEF1";

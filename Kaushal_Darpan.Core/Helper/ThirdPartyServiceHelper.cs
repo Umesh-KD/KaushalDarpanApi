@@ -411,6 +411,58 @@ namespace Kaushal_Darpan.Core.Helper
 
             }
         }
+
+
+        public static async Task<string> EmitraBackToBackVerifyData(string URL, string data, string encryptionKey)
+        {
+            try
+            {
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
+                //LogErrorToLogFile error = new LogErrorToLogFile();
+
+                //error.LogEmitra("Kiosk Verify " + data, "TestApp1");
+
+                string encData = await ThirdPartyServiceHelper.GetEncryptedStringAsync(data);
+
+                //error.LogEmitra("Encrypted Request Data: Encrypt Data: " + encData, "TestApp2");
+                //Base String
+                string baseAddress = URL;
+                //Post Parameters
+                StringBuilder postData = new StringBuilder();
+                postData.Append("encData=" + HttpUtility.UrlEncode(encData));
+
+                //Create Web Request
+                var http = (HttpWebRequest)WebRequest.Create(new Uri(baseAddress));
+                http.Method = "POST";
+                http.Accept = "application/json";
+                http.ContentType = "application/x-www-form-urlencoded";
+
+                //Start Writing Post parameters to request object
+                string parsedContent = postData.ToString();
+                ASCIIEncoding encoding = new ASCIIEncoding();
+                Byte[] bytes = encoding.GetBytes(parsedContent);
+                Stream newStream = http.GetRequestStream();
+                newStream.Write(bytes, 0, bytes.Length);
+                newStream.Close();
+
+                //Read Response for posting done
+                var response = http.GetResponse();
+                var stream = response.GetResponseStream();
+                var sr = new StreamReader(stream);
+                var content = sr.ReadToEnd();
+                //return contents
+                return content;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+
+            }
+        }
+
+
         #endregion
 
         #region "Api for Data"
@@ -604,6 +656,68 @@ namespace Kaushal_Darpan.Core.Helper
                 return null;
             }
         }
+        #endregion
+
+
+        #region "Get Emitra Encript Decript"
+        private static readonly string EncryptionUrl ="https://emitraapp.rajasthan.gov.in/webServicesRepository/emitraAESEncryption";
+
+        public static async Task<string> GetEncryptedStringAsync(string plainJson)
+        {
+            using (var client = new HttpClient())
+            using (var request = new HttpRequestMessage(HttpMethod.Post, EncryptionUrl))
+            {
+                // Form URL encoded body
+                var formData = new Dictionary<string, string>
+            {
+                { "toBeEncrypt", plainJson }
+            };
+
+                request.Content = new FormUrlEncodedContent(formData);
+
+                // Send request
+                var response = await client.SendAsync(request);
+
+                // If API returns non-200, throw readable error
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Encryption API failed: {error}");
+                }
+
+                // Return encrypted string
+                return await response.Content.ReadAsStringAsync();
+            }
+        }
+
+
+        private static readonly string DecryptionUrl =
+        "https://emitraapp.rajasthan.gov.in/webServicesRepository/emitraAESDecryption";
+
+        public static async Task<string> GetDecryptedStringAsync(string encryptedValue)
+        {
+            if (string.IsNullOrWhiteSpace(encryptedValue))
+                throw new ArgumentException("Encrypted value cannot be null or empty");
+
+            // URL encode because value contains + / =
+            string url =
+                $"{DecryptionUrl}?toBeDecrypt={Uri.EscapeDataString(encryptedValue)}";
+
+            using (var client = new HttpClient())
+            {
+                var response = await client.PostAsync(url, null);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Decryption API failed: {error}");
+                }
+
+                return await response.Content.ReadAsStringAsync();
+            }
+        }
+
+
         #endregion
     }
 

@@ -30,7 +30,17 @@ namespace Kaushal_Darpan.Models.RPPPayment
         public string ExamStudentStatus { get; set; }
         public string TransactionNo { get; set; } = string.Empty;
 
+
+
+        public string MSG { get; set; } = string.Empty;
+        public string TRANSACTIONSTATUS { get; set; } = string.Empty;
+        public string CONSUMERKEY { get; set; } = string.Empty;
+        public string VERIFYSTATUSCODE { get; set; } = string.Empty;
+        public string REQUESTID { get; set; } = string.Empty;
+        public string AMT { get; set; } = string.Empty;
+    
     }
+
 
     public class MobilaAppCancelMerchanttokenResponse
     {
