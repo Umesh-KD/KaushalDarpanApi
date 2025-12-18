@@ -2256,7 +2256,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_INV_ConsumeItemListNew";
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.CollegeId);
-                        command.Parameters.AddWithValue("@ItemID", SearchReq.EquipmentsId);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.ItemId); 
+                        command.Parameters.AddWithValue("@ItemType", SearchReq.ItemType);
                         command.Parameters.AddWithValue("@ActionType", "GetConsumeItemListNew");
 
                         _sqlQuery = command.GetSqlExecutableQuery();

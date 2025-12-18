@@ -118,4 +118,28 @@ namespace Kaushal_Darpan.Models.ITIMaster
         public int CenterID { get; set; }
 
     }
+
+
+    public class ITIPlanningBankGuarantee
+    {
+        public int BankGuaranteeID { get; set; }
+        public int CollageId { get; set; }
+        public string? BankGuaranteeNumber { get; set; }
+        public string? BankName { get; set; }
+        public DateTime DateOfIssue { get; set; }
+        public DateTime Maturitydate { get; set; }
+        public string? Duration { get; set; }
+        public decimal Amount { get; set; }
+        public string? BankAgreementDocument { get; set; }
+        public int Status { get; set; }
+        public string? Remarks { get; set; }
+
+    }
+    public class ITIPlanningBankGuaranteeSearch
+    {
+        public string? BankGuaranteeNumber { get; set; }
+        public string? BankName { get; set; }
+        
+
+    }
 }
