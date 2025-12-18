@@ -1,12 +1,13 @@
-﻿using Org.BouncyCastle.Crypto.Digests;
+﻿using Microsoft.VisualBasic;
 using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Digests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net;
 
 namespace Kaushal_Darpan.Core.Helper
 {
@@ -156,6 +157,10 @@ namespace Kaushal_Darpan.Core.Helper
             byte[] plainText = Encoding.UTF8.GetBytes(textToEncrypt);
             return Convert.ToBase64String(transform.TransformFinalBlock(plainText, 0, plainText.Length));
         }
+
+
+      
+
 
         public static string SSOAuthentication(string SSOToken)
         {

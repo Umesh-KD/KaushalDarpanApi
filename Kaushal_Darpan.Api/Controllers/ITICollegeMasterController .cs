@@ -7,6 +7,7 @@ using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.AppointExaminer;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.ItiCompanyMaster;
+using Kaushal_Darpan.Models.ITIMaster;
 using Kaushal_Darpan.Models.ITIPlanning;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -627,14 +628,14 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("GetPlanningList/{CollegeID}/{ITItypeID}/{Status}")]
-        public async Task<ApiResult<DataTable>> GetPlanningList(int CollegeID,int ITItypeID, int Status)
+        [HttpGet("GetPlanningList/{CollegeID}/{Status}/{ITItypeID?}")]
+        public async Task<ApiResult<DataTable>> GetPlanningList(int CollegeID, int Status, int? ITItypeID = null)
         {
             ActionName = "GetExamStudentData()";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.ITICollegeMasterRepository.GetPlanningList(CollegeID, ITItypeID, Status));
+                result.Data = await Task.Run(() => _unitOfWork.ITICollegeMasterRepository.GetPlanningList(CollegeID,  Status,  ITItypeID ?? 0));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
@@ -1102,8 +1103,8 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpPost("PlanningBankGuarantee")]
-        public async Task<ApiResult<DataTable>> PlanningBankGuarantee([FromBody] ITIPlanningBankGuaranteeModel model)
+        [HttpPost("SaveBankGuaranteeData")]
+        public async Task<ApiResult<DataTable>> SaveBankGuaranteeData([FromBody] ITIPlanningBankGuaranteeModel model)
         {
             ActionName = "PlanningBankGuarantee()";
             var result = new ApiResult<DataTable>();
@@ -1118,7 +1119,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 Console.WriteLine($"Received Model: {JsonConvert.SerializeObject(model)}");
 
-                result.Data = await _unitOfWork.ITICollegeMasterRepository.PlanningBankGuarantee(model);
+                result.Data = await _unitOfWork.ITICollegeMasterRepository.SaveBankGuaranteeData(model);
 
                 if (result.Data.Rows.Count > 0)
                 {
@@ -1126,7 +1127,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                 }
                 else
-                {
+                 {
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
@@ -1147,6 +1148,112 @@ namespace Kaushal_Darpan.Api.Controllers
                 await CreateErrorLog(nex, _unitOfWork);
             }
 
+            return result;
+        }
+
+
+        [HttpPost("ITIPlanningBankGuaranteeList")]
+        public async Task<ApiResult<DataTable>> ITIPlanningBankGuaranteeList([FromBody] ITIPlanningBankGuaranteeSearch body)
+        {
+            ActionName = "GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITICollegeMasterRepository.ITIPlanningBankGuaranteeList(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("ITIPlanningBankGuaranteeReport")]
+        public async Task<ApiResult<DataTable>> ITIPlanningBankGuaranteeReport([FromBody] ITIPlanningBankGuaranteeSearch body)
+        {
+            ActionName = "ITIPlanningBankGuaranteeReport()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITICollegeMasterRepository.ITIPlanningBankGuaranteeReport(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpGet("ITIPlanningBankGuaranteeGetByID/{BankGuaranteeID}")]
+        public async Task<ApiResult<DataTable>> ITIPlanningBankGuaranteeGetByID(int BankGuaranteeID)
+        {
+            ActionName = "GetExamStudentData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITICollegeMasterRepository.ITIPlanningBankGuaranteeGetByID(BankGuaranteeID));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
             return result;
         }
 

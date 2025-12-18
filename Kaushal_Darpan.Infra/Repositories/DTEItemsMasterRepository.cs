@@ -77,7 +77,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                        command.CommandText = "select * from M_DteItemsMaster Where ItemId ='" + PK_ID + "' ";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_INV_GetStockItemById";
+
+                        command.Parameters.AddWithValue("@ItemId", PK_ID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

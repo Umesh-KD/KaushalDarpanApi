@@ -3,6 +3,7 @@ using Azure;
 using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.EMMA;
 using EmitraEmitraEncrytDecryptClient;
+using iTextSharp.text.pdf.spatial;
 using Kaushal_Darpan.Api.Models;
 using Kaushal_Darpan.Core.Entities;
 using Kaushal_Darpan.Core.Helper;
@@ -46,6 +47,26 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+        }
+
+        [HttpPost("EncriptEmitraData")]
+        public async Task<ApiResult<string>> EncriptEmitraData(EmitraVerifyModel data)
+        {
+            var requestDetailsModel = new ApiResult<string>();
+
+            var dRequestChecksum = new VerifyCheckSumEmitra
+            {
+                MERCHANTCODE = data.MERCHANTCODE,
+                REQUESTID =  data.REQUESTID,
+                SSOTOKEN = "0"
+            };
+            data.CHECKSUM = CommonFuncationHelper.CreateMD5(JsonConvert.SerializeObject(dRequestChecksum));
+
+
+            string retVal = ThirdPartyServiceHelper.MakeEmitraTransactionsEncrypted("https://emitraapp.rajasthan.gov.in/webServicesRepository/getTokenVerifyNewProcessByRequestIdWithEncryption", JsonConvert.SerializeObject(data), "E-m!@2016");
+            string decVal = EmitraHelper.Decrypt(retVal, "E-m!tr@2016");
+
+            return requestDetailsModel;
         }
 
 

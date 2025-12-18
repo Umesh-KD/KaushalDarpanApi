@@ -8,42 +8,36 @@ namespace Kaushal_Darpan.Infra.Helper
     {
         public static async Task<DataSet> FillAsync(this SqlCommand sqlCommand)
         {
-            return await Task.Run(() =>
+            try
             {
-                try
+                DataSet ds = new DataSet();
+                using (SqlDataAdapter da = new SqlDataAdapter(sqlCommand))
                 {
-                    DataSet ds = new DataSet();
-                    using (SqlDataAdapter da = new SqlDataAdapter(sqlCommand))
-                    {
-                            da.Fill(ds);
-                    }
-                    return ds;
+                    da.Fill(ds);
                 }
-                catch (Exception ex)
-                {
-                    throw;
-                }
-            });
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
-            
+
         public static async Task<DataTable> FillAsync_DataTable(this SqlCommand sqlCommand)
         {
-            return await Task.Run(() =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (SqlDataAdapter da = new SqlDataAdapter(sqlCommand))
                 {
-                    DataTable dataTable = new DataTable();
-                    using (SqlDataAdapter da = new SqlDataAdapter(sqlCommand))
-                    {
-                        da.Fill(dataTable);
-                    }
-                    return dataTable;
+                    da.Fill(dataTable);
                 }
-                catch (Exception ex)
-                {
-                    throw;
-                }
-            });
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
 
