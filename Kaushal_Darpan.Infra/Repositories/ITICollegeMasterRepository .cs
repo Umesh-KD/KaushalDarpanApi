@@ -1311,7 +1311,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetITIPlanningBankGuarantee";
+                        command.CommandText = "USP_GetITIPlanningBankGuarantee_report";
                         command.Parameters.AddWithValue("@BankName", body.BankName);
                         command.Parameters.AddWithValue("@BankGuaranteeNumber", body.BankGuaranteeNumber);
                         _sqlQuery = command.GetSqlExecutableQuery();
