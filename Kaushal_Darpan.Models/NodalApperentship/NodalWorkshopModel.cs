@@ -58,6 +58,10 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public string? BeforeDate { get; set; }
         public string? AfterDate { get; set; }
         public int FinancialYearID { get; set; }
+        public string? provisionLetterDocument { get; set; }
+        public string? PNMMelaDocument { get; set; }
+        public int MonthID { get; set; }
+        public int BeforeMonth { get; set; }
 
     }
 
@@ -93,6 +97,11 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int Createdby { get; set; }
         public int IsActive { get; set; }
         public int InstituteID { get; set; }
+        public string? PNMMelaDocumentreport { get; set; }
+        public string? provisionLetterDocumentreport { get; set; }
+        public DateTime PmnamMelaDate { get; set; }
+        public int FinancialYearID { get; set; }
+        public string? BeforeMonth { get; set; }
 
 
     }
@@ -127,6 +136,7 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public string _ParticipatedDistrictListname { get; set; } = "";
         public string _representativeNameAddressMobileno { get; set; } = "";
         public string _ORG_districtName { get; set; } = "";
+        public string _workProgressDocument { get; set; } = "";
 
 
     }
@@ -166,6 +176,8 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int Createdby { get; set; }
         public int PKID { get; set; }
         public int SearchDistrictID { get; set; }
+        public int BeforeMonth { get; set; }
+        public int FinancialYearID { get; set; }
     }
 
     public class ApprenticeshipRegistrationSearchModal

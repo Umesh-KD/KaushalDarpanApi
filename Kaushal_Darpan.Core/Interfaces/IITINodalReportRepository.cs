@@ -22,7 +22,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetQuaterReportById(int PKID );
         Task<DataTable> GetAAADetailsById(int PKID);
         Task<DataTable> SaveDataMelaReportCount(ITIPMNAMAppApprenticeshipReportEntity body);
-        Task<DataTable> GetAllData(int UserID,int DistrictID);
+        //Task<DataTable> GetAllData(int UserID,int DistrictID);
+        Task<DataTable> GetAllData(int UserID, int DistrictID, int FinancialYearID, int BeforeMonth);
         Task<DataTable> DeleteData_Pmnam_mela_Report(ITIPMNAMAppApprenticeshipReportEntity body);
         Task<int> Save_QuaterReport(ITIApprenticeshipWorkshop body);
         Task<int> SavePassoutReport(ITIApprenticeshipRegPassOutModel body);

@@ -237,16 +237,16 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
-
-        [HttpGet("GetAllData/{UserID}/{DistrictID}")]
-        public async Task<ApiResult<DataTable>> GetAllData(int UserID, int DistrictID)
+        //    int UserID,int DistrictID , int FinancialYearID, int BeforeMonth
+        [HttpGet("GetAllData/{UserID}/{DistrictID}/{FinancialYearID}/{BeforeMonth}")]
+        public async Task<ApiResult<DataTable>> GetAllData(int UserID, int DistrictID, int FinancialYearID, int BeforeMonth)
         {
 
             ActionName = "GetAllData()";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await _unitOfWork.ITINodalReportRepository.GetAllData(UserID, DistrictID);
+                result.Data = await _unitOfWork.ITINodalReportRepository.GetAllData(UserID, DistrictID , FinancialYearID,  BeforeMonth);
                 await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {

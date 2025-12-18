@@ -4,6 +4,7 @@ using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.ItiCompanyMaster;
+using Kaushal_Darpan.Models.ITIMaster;
 using Kaushal_Darpan.Models.ITIPlanning;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
@@ -879,7 +880,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> GetPlanningList(int CollegeID,int ITItypeID,int Status)
+        public async Task<DataTable> GetPlanningList(int CollegeID,int? ITItypeID,int Status)
         {
             _actionName = "GetPlanningList()";
             return await Task.Run(async () =>
@@ -1218,7 +1219,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> PlanningBankGuarantee(ITIPlanningBankGuaranteeModel model)
+        public async Task<DataTable> SaveBankGuaranteeData(ITIPlanningBankGuaranteeModel model)
         {
             _actionName = "PlanningBankGuarantee()";
             return await Task.Run(async () =>
@@ -1231,21 +1232,20 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITIPlanningBankGuarantee";
 
-                        // Add parameters to the command
-                        command.Parameters.AddWithValue("@PlanningId", model.PlanningId);
+                        command.Parameters.AddWithValue("@CollageId", model.CollageId);
                         command.Parameters.AddWithValue("@BankGuaranteeNumber", model.BankGuaranteeNumber);
-                        command.Parameters.AddWithValue("@IssueBank", model.IssueBank );
+                        command.Parameters.AddWithValue("@BankGuaranteeID", model.BankGuaranteeID);
+                        command.Parameters.AddWithValue("@BankName", model.BankName);
                         command.Parameters.AddWithValue("@DateOfIssue", model.DateOfIssue);
-                        command.Parameters.AddWithValue("@DateOfExpiry", model.DateOfExpiry);
+                        command.Parameters.AddWithValue("@Maturitydate", model.Maturitydate);
                         command.Parameters.AddWithValue("@Duration", model.Duration);
                         command.Parameters.AddWithValue("@Amount", model.Amount);
-                        command.Parameters.AddWithValue("@BankAgreement", model.BankAgreement);
+                        command.Parameters.AddWithValue("@BankAgreementDocument", model.BankAgreementDocument);
+                        command.Parameters.AddWithValue("@Status", model.Status);
+                        command.Parameters.AddWithValue("@Remarks", model.Remarks);
+                        command.Parameters.AddWithValue("@FinYearId", model.FinYearId);
 
-                        // Log the query for debugging purposes
                         _sqlQuery = command.GetSqlExecutableQuery();
-                        Console.WriteLine($"Executing SQL: {_sqlQuery}");
-
-                        // Execute the command and get the data
                         dataTable = await command.FillAsync_DataTable();
                     }
 
@@ -1265,6 +1265,116 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> ITIPlanningBankGuaranteeList(ITIPlanningBankGuaranteeSearch body)
+        {
+            _actionName = "ITIPlanningBankGuaranteeList()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetITIPlanningBankGuarantee";
+                        command.Parameters.AddWithValue("@BankName", body.BankName);
+                        command.Parameters.AddWithValue("@BankGuaranteeNumber", body.BankGuaranteeNumber);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> ITIPlanningBankGuaranteeReport(ITIPlanningBankGuaranteeSearch body)
+        {
+            _actionName = "ITIPlanningBankGuaranteeReport()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetITIPlanningBankGuarantee";
+                        command.Parameters.AddWithValue("@BankName", body.BankName);
+                        command.Parameters.AddWithValue("@BankGuaranteeNumber", body.BankGuaranteeNumber);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        public async Task<DataTable> ITIPlanningBankGuaranteeGetByID(int BankGuaranteeID)
+        {
+            _actionName = "GetPlanningList()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetITIPlanningBankGuaranteeGetById";
+
+                        command.Parameters.AddWithValue("@BankGuaranteeID", BankGuaranteeID);
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
+
 
     }
 }
