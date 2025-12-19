@@ -429,8 +429,8 @@ namespace Kaushal_Darpan.Api.Controllers
                 Response.Cookies.Append(ConfigurationHelper.AppName, ssoSearchId, cookieOptions);
 
                 // success url
-                //string appUrl = $"{ConfigurationHelper.ApplicationURL}/ssologin?id1={ssoSearchId}";// no need, pick from cookie
-                string appUrl = $"{ConfigurationHelper.ApplicationURL}/ssologin";
+                string appUrl = $"{ConfigurationHelper.ApplicationURL}/ssologin?id1={ssoSearchId}";// no need, pick from cookie
+                //string appUrl = $"{ConfigurationHelper.ApplicationURL}/ssologin";
 
                 return Redirect(appUrl);
             }

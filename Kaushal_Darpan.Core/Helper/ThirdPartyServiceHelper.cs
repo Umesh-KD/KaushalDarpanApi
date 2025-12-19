@@ -372,8 +372,6 @@ namespace Kaushal_Darpan.Core.Helper
                 //error.LogEmitra("Kiosk Verify " + data, "TestApp1");
 
                 string encData = EmitraHelper.Encrypt(data, encryptionKey);
-                string dncData = EmitraHelper.Decrypt(encData, encryptionKey);
-
 
                 //error.LogEmitra("Encrypted Request Data: Encrypt Data: " + encData, "TestApp2");
                 //Base String
@@ -420,11 +418,8 @@ namespace Kaushal_Darpan.Core.Helper
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
                 //LogErrorToLogFile error = new LogErrorToLogFile();
-
                 //error.LogEmitra("Kiosk Verify " + data, "TestApp1");
-
                 string encData = await ThirdPartyServiceHelper.GetEncryptedStringAsync(data);
-
                 //error.LogEmitra("Encrypted Request Data: Encrypt Data: " + encData, "TestApp2");
                 //Base String
                 string baseAddress = URL;
@@ -661,7 +656,6 @@ namespace Kaushal_Darpan.Core.Helper
 
         #region "Get Emitra Encript Decript"
         private static readonly string EncryptionUrl ="https://emitraapp.rajasthan.gov.in/webServicesRepository/emitraAESEncryption";
-
         public static async Task<string> GetEncryptedStringAsync(string plainJson)
         {
             using (var client = new HttpClient())
