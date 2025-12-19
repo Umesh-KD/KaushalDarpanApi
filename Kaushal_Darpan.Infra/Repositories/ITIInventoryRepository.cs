@@ -1961,7 +1961,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandType = CommandType.StoredProcedure; 
                         command.CommandText = "USP_ITI_INV_GetCommonIssueDDL";
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@TypeName", SearchReq.TypeName);
@@ -2401,6 +2401,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        command.Parameters.AddWithValue("@ReturnStatus", SearchReq.ReturnStatus);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         
                         dataTable = await command.FillAsync_DataTable();
