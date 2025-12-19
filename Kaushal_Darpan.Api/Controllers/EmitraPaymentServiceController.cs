@@ -49,27 +49,24 @@ namespace Kaushal_Darpan.Api.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpPost("EncriptEmitraData")]
-        public async Task<ApiResult<string>> EncriptEmitraData(EmitraVerifyModel data)
+        [HttpPost("VerificationTransactionBackToBack")]
+        public async Task<ApiResult<string>> VerificationTransactionBackToBack(EmitraVerifyModel data)
         {
             var requestDetailsModel = new ApiResult<string>();
+
 
             var dRequestChecksum = new VerifyCheckSumEmitra
             {
                 MERCHANTCODE = data.MERCHANTCODE,
                 REQUESTID =  data.REQUESTID,
-                SSOTOKEN = "0"
+                SSOTOKEN = "0",
             };
-            data.CHECKSUM = CommonFuncationHelper.CreateMD5(JsonConvert.SerializeObject(dRequestChecksum));
-
-
-            string retVal = ThirdPartyServiceHelper.MakeEmitraTransactionsEncrypted("https://emitraapp.rajasthan.gov.in/webServicesRepository/getTokenVerifyNewProcessByRequestIdWithEncryption", JsonConvert.SerializeObject(data), "E-m!@2016");
+             data.CHECKSUM = CommonFuncationHelper.CreateMD5(JsonConvert.SerializeObject(dRequestChecksum));
+            string retVal = await ThirdPartyServiceHelper.EmitraBackToBackVerifyData("https://emitraapp.rajasthan.gov.in/webServicesRepository/getTokenVerifyNewProcessByRequestIdWithEncryption", JsonConvert.SerializeObject(data), "E-m!@2016");
             string decVal = EmitraHelper.Decrypt(retVal, "E-m!tr@2016");
-
             return requestDetailsModel;
+
         }
-
-
         [HttpPost("EmitraPaymentITI")]
         public async Task<ApiResult<EmitraRequestDetailsModel>> EmitraPaymentITI(EmitraRequestDetailsModel Model)
         {
@@ -1635,6 +1632,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("EmitraApplicationVerifyPaymentStatus")]
         public async Task<ApiResult<EmitraResponseParametersModel>> EmitraApplicationVerifyPaymentStatus(RPPTransactionStatusDataModel Model)
         {
+            string RESPONSEJSON;
             ActionName = "GetTransactionStatus(RPPTransactionStatusDataModel Model)";
             var result = new ApiResult<EmitraResponseParametersModel>();
             try
@@ -1645,6 +1643,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 dataModel.ServiceID = Model.ServiceID;
                 dataModel.DepartmentID = Model.DepartmentID;
                 dataModel.ID = Model.ID;
+                dataModel.IsKiosk = Model.IsEmitra;
                 var data = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(dataModel);
                 if (data == null)
                 {
@@ -1654,59 +1653,113 @@ namespace Kaushal_Darpan.Api.Controllers
                     return result;
                 }
 
+                if (dataModel.IsKiosk)
+                {
+                     data.EncryptionKey = "E-m!@2016";
+                     EmitraVerifyModel VerifyModel = new EmitraVerifyModel();
+                    VerifyModel.MERCHANTCODE = data.MERCHANTCODE;
+                    VerifyModel.SERVICEID = Model.ServiceID;
+                    VerifyModel.REQUESTID = Model.TransactionID;
+                    VerifyModel.SSOTOKEN = "0";
+                    var dRequestChecksum = new VerifyCheckSumEmitra
+                    {
+                        MERCHANTCODE = data.MERCHANTCODE,
+                        REQUESTID = Model.TransactionID,
+                        SSOTOKEN = "0",
+                    };
+                    VerifyModel.CHECKSUM = CommonFuncationHelper.CreateMD5(JsonConvert.SerializeObject(dRequestChecksum));
+                    string retVal = await ThirdPartyServiceHelper.EmitraBackToBackVerifyData("https://emitraapp.rajasthan.gov.in/webServicesRepository/getTokenVerifyNewProcessByRequestIdWithEncryption", JsonConvert.SerializeObject(VerifyModel), "E-m!@2016");
+                     //RESPONSEJSON = EmitraHelper.Decrypt(retVal, data.EncryptionKey);
+
+                    RESPONSEJSON= await ThirdPartyServiceHelper.GetDecryptedStringAsync(retVal);
+
+                    EmitraResponseParametersModel RESPONSEPARAMS = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(RESPONSEJSON);
+                    dynamic stuff = JsonConvert.DeserializeObject(RESPONSEJSON);
+                    string STATUS = stuff.STATUS;
+                    string RESPONSECODE = stuff.RESPONSECODE;
+                    if (RESPONSEPARAMS.TRANSACTIONSTATUS == "SUCCESS")
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Data = RESPONSEPARAMS;
+                        result.Message = RESPONSEPARAMS.MSG;
+                        //Update Database
+                        RESPONSEPARAMS.TransactionNo = RESPONSEPARAMS.TRANSACTIONID;
+                        RESPONSEPARAMS.ApplicationIdEnc = "0";
+                        RESPONSEPARAMS.TRANSACTIONID = Model.TransactionID;
+                        RESPONSEPARAMS.PRN = RESPONSEPARAMS.CONSUMERKEY;
+                        RESPONSEPARAMS.PAIDAMOUNT = RESPONSEPARAMS.AMT;
+                        RESPONSEPARAMS.RESPONSEMESSAGE = RESPONSEPARAMS.MSG;
+                        RESPONSEPARAMS.STATUS = RESPONSEPARAMS.TRANSACTIONSTATUS;
+                
+
+
+                        RESPONSEPARAMS.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
+                        await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(RESPONSEPARAMS);
+                        await _unitOfWork.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.Data = RESPONSEPARAMS;
+                        result.ErrorMessage = RESPONSEPARAMS.MSG;
+                        //Update Database
+                        RESPONSEPARAMS.TransactionNo = RESPONSEPARAMS.TRANSACTIONID;
+                        RESPONSEPARAMS.ApplicationIdEnc = "0";
+                        RESPONSEPARAMS.TRANSACTIONID = Model.TransactionID;
+                        RESPONSEPARAMS.PRN = RESPONSEPARAMS.CONSUMERKEY;
+                        RESPONSEPARAMS.PAIDAMOUNT = RESPONSEPARAMS.AMT;
+                        RESPONSEPARAMS.RESPONSEMESSAGE = RESPONSEPARAMS.MSG;
+                        RESPONSEPARAMS.STATUS = RESPONSEPARAMS.TRANSACTIONSTATUS;
+                        await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(RESPONSEPARAMS);
+                        await _unitOfWork.SaveChangesAsync();
+                    }
+                }
+                else 
+                { 
                 var d = data.VerifyURL + "?MERCHANTCODE=" + data.MERCHANTCODE + "&SERVICEID=" + data.SERVICEID + "&PRN=" + Model.PRN + "";
-
-
-
-                //                "MERCHANTCODE": "<mCode>",
-                //"SERVICEID": "<srvId>",
-                //"REQUESTID": "<requestId>",
-                //"SSOTOKEN ": "<sso_Token>",
-                //"CHECKSUM": "<checksum>"
-
-
-
                 HttpWebRequest webrequest = (HttpWebRequest)WebRequest.Create(d);
                 webrequest.Method = "POST";
                 webrequest.ContentType = "application/x-www-form-urlencoded";
                 webrequest.ContentLength = 0;
                 Stream stream = webrequest.GetRequestStream();
                 stream.Close();
-                string RESPONSEJSON;
+             
                 using (WebResponse response = webrequest.GetResponse())
                 {
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-                        RESPONSEJSON = reader.ReadToEnd();
-                        EmitraResponseParametersModel RESPONSEPARAMS = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(RESPONSEJSON);
-                        dynamic stuff = JsonConvert.DeserializeObject(RESPONSEJSON);
-                        string STATUS = stuff.STATUS;
-                        string RESPONSECODE = stuff.RESPONSECODE;
-                        if (STATUS == "SUCCESS")
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                         {
-                            result.State = EnumStatus.Success;
-                            result.Data = RESPONSEPARAMS;
-                            result.Message = RESPONSEPARAMS.RESPONSEMESSAGE;
-                            //Update Database
-                            RESPONSEPARAMS.TransactionNo = RESPONSEPARAMS.TRANSACTIONID;
-                            RESPONSEPARAMS.ApplicationIdEnc = Model.ApplicationID;
-                            RESPONSEPARAMS.TRANSACTIONID = Model.TransactionID;
-                            RESPONSEPARAMS.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
-                            await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(RESPONSEPARAMS);
-                            await _unitOfWork.SaveChangesAsync();
-                        }
-                        else
-                        {
-                            result.State = EnumStatus.Error;
-                            result.Data = RESPONSEPARAMS;
-                            result.ErrorMessage = RESPONSEPARAMS.RESPONSEMESSAGE;
-                            //Update Database
-                            RESPONSEPARAMS.TransactionNo = RESPONSEPARAMS.TRANSACTIONID;
-                            RESPONSEPARAMS.ApplicationIdEnc = Model.ApplicationID;
-                            RESPONSEPARAMS.TRANSACTIONID = Model.TransactionID;
-                            RESPONSEPARAMS.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
-                            await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(RESPONSEPARAMS);
-                            await _unitOfWork.SaveChangesAsync();
+
+                            RESPONSEJSON = reader.ReadToEnd();
+                            EmitraResponseParametersModel RESPONSEPARAMS = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(RESPONSEJSON);
+                            dynamic stuff = JsonConvert.DeserializeObject(RESPONSEJSON);
+                            string STATUS = stuff.STATUS;
+                            string RESPONSECODE = stuff.RESPONSECODE;
+                            if (STATUS == "SUCCESS")
+                            {
+                                result.State = EnumStatus.Success;
+                                result.Data = RESPONSEPARAMS;
+                                result.Message = RESPONSEPARAMS.RESPONSEMESSAGE;
+                                //Update Database
+                                RESPONSEPARAMS.TransactionNo = RESPONSEPARAMS.TRANSACTIONID;
+                                RESPONSEPARAMS.ApplicationIdEnc = Model.ApplicationID;
+                                RESPONSEPARAMS.TRANSACTIONID = Model.TransactionID;
+                                RESPONSEPARAMS.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
+                                await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(RESPONSEPARAMS);
+                                await _unitOfWork.SaveChangesAsync();
+                            }
+                            else
+                            {
+                                result.State = EnumStatus.Error;
+                                result.Data = RESPONSEPARAMS;
+                                result.ErrorMessage = RESPONSEPARAMS.RESPONSEMESSAGE;
+                                //Update Database
+                                RESPONSEPARAMS.TransactionNo = RESPONSEPARAMS.TRANSACTIONID;
+                                RESPONSEPARAMS.ApplicationIdEnc = Model.ApplicationID;
+                                RESPONSEPARAMS.TRANSACTIONID = Model.TransactionID;
+                                RESPONSEPARAMS.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
+                                await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(RESPONSEPARAMS);
+                                await _unitOfWork.SaveChangesAsync();
+                            }
                         }
                     }
                 }
