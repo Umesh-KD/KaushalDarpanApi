@@ -1655,8 +1655,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 if (dataModel.IsKiosk)
                 {
-                    data.EncryptionKey = "E-m!@2016";
-                   EmitraVerifyModel VerifyModel = new EmitraVerifyModel();
+                     data.EncryptionKey = "E-m!@2016";
+                     EmitraVerifyModel VerifyModel = new EmitraVerifyModel();
                     VerifyModel.MERCHANTCODE = data.MERCHANTCODE;
                     VerifyModel.SERVICEID = Model.ServiceID;
                     VerifyModel.REQUESTID = Model.TransactionID;
