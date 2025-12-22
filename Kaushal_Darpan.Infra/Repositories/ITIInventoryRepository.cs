@@ -2366,7 +2366,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_StaffIssueReturnItems";
                         command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(SearchReq.ItemList));
 
-
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
