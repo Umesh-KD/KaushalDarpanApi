@@ -5493,7 +5493,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
-                    if (dataTable.Rows.Count > 1)
+                    if (dataTable.Rows.Count > 0)
                     {
                         subjectMasters = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
                     }
