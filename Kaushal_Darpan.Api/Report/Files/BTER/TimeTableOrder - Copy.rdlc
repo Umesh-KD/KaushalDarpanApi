@@ -591,7 +591,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>BOARD OF TECHNICAL EDUCATION RAJASTHAN, JODHPUR</Value>
+                <Value>BOARD OF TECHNICAL EDUCATION, RAJASTHAN, JODHPUR</Value>
                 <Style>
                   <FontFamily>Times New Roman</FontFamily>
                   <FontSize>12pt</FontSize>
@@ -670,8 +670,31 @@
                   <TextDecoration>Underline</TextDecoration>
                 </Style>
               </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
               <TextRun>
-                <Value xml:space="preserve">
+                <Value>(</Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>Branches:</Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontWeight>Bold</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value> AR, AC, CC, CE, CI, CH, CS, EF, EE, EL, ER, FD, HM, IE, IT, MA, ME, MP, MR, MT, PE, PL, PR, CV, RA, LS, RE)
 </Value>
                 <Style>
                   <FontFamily>Times New Roman</FontFamily>
@@ -680,7 +703,7 @@
                 </Style>
               </TextRun>
               <TextRun>
-                <Value>Practical exam will be conducted from  to    at institute level.</Value>
+                <Value>Practical exam will commence after theory exam (at Institutional level)</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -779,7 +802,7 @@
                 <Style />
               </TextRun>
               <TextRun>
-                <Value>=First(Fields!EndTermName.Value, "TimeTableHeader")</Value>
+                <Value>=First(Fields!YearName.Value, "TimeTableHeader")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -894,22 +917,7 @@
                 </Style>
               </TextRun>
               <TextRun>
-                <Value>) </Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>स्पेशल परीक्षा </Value>
-                <Style>
-                  <FontStyle>Normal</FontStyle>
-                  <FontWeight>Bold</FontWeight>
-                  <TextDecoration>None</TextDecoration>
-                  <Color>#000000</Color>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>का कार्यक्रम भिजवाने बाबत्।</Value>
+                <Value>) वार्षिक पद्धति का परीक्षा कार्यक्रम भिजवाने बाबत्।</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -1006,7 +1014,7 @@
                 </Style>
               </TextRun>
               <TextRun>
-                <Value> सेमेस्टर पद्धति एवं </Value>
+                <Value> सेमेस्टर परीक्षा एवं सत्र </Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
                   <FontWeight>Normal</FontWeight>
@@ -1039,48 +1047,8 @@
                 </Style>
               </TextRun>
               <TextRun>
-                <Value> स्पेशल परीक्षा </Value>
-                <Style>
-                  <FontStyle>Normal</FontStyle>
-                  <FontWeight>Normal</FontWeight>
-                  <TextDecoration>None</TextDecoration>
-                  <Color>#000000</Color>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>का</Value>
-                <Style>
-                  <FontWeight>Normal</FontWeight>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value xml:space="preserve"> </Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>कार्यक्रम आपको प्रेषित किया जा रहा है।
-उक्त परीक्षा कार्यक्रम की संस्था स्तर पर कोई त्रुटि पाई जाये तो अविलम्ब </Value>
-                <Style>
-                  <FontStyle>Normal</FontStyle>
-                  <FontWeight>Normal</FontWeight>
-                  <TextDecoration>None</TextDecoration>
-                  <Color>#000000</Color>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>अधोहस्ताक्षरकर्ता</Value>
-                <Style>
-                  <FontStyle>Normal</FontStyle>
-                  <FontFamily>Times New Roman</FontFamily>
-                  <FontWeight>Normal</FontWeight>
-                  <TextDecoration>None</TextDecoration>
-                  <Color>#000000</Color>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value> को सूचित करें। इसे अति आवश्यक समझें।</Value>
+                <Value> वार्षिक प्रणाली की परीक्षा कार्यक्रम आपको प्रेषित किया जा रहा है।
+उक्त परीक्षा कार्यक्रम की संस्था स्तर पर कोई त्रुटि पाई जाये तो अविलम्ब अनुशासनार्थक को सूचित करें। इसे अंतिम आवश्यक समझें।</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
                   <FontWeight>Normal</FontWeight>
