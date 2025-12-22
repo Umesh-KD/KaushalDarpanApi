@@ -868,6 +868,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
                         command.Parameters.AddWithValue("@ActionName", SearchReq.actionName);
+                        command.Parameters.AddWithValue("@ReturnStatus", SearchReq.ReturnStatus);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -945,7 +946,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ActionType", "GetItemList");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
-                            dataTable = await command.FillAsync_DataTable();
+                        dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
                 }
@@ -1102,7 +1103,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         SqlExecutableQuery = _sqlQuery
                     };
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
+                    throw new Exception(errordetails, ex); 
+
                 }
             });
         }
