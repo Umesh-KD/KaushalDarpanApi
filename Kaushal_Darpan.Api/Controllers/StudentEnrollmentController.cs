@@ -373,7 +373,7 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [RoleActionFilter(EnumRole.Principal, EnumRole.Principal_NonEng)]
+        [RoleActionFilter(EnumRole.Principal, EnumRole.Principal_NonEng, EnumRole.Registrar, EnumRole.Registrar_NonEng)]
         [HttpPost("SaveEligibleForEnrollment")]
         public async Task<ApiResult<int>> SaveEligibleForEnrollment([FromBody] List<StudentMarkedModel> request)
         {
