@@ -14,14 +14,11 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetItiDashApplicationData(ItiAdminDashApplicationSearchModel model);
         Task<DataTable> GetITIPrincipalDashboard(ITIAdminDashboardSearchModel model);
         Task<DataTable> GetProfileData( int InstituteID);
-
         Task<DataTable> GetItiOptionFormData(ItiAdminDashApplicationSearchModel body);
-
         Task<DataTable> GetRegistrarDashData(ITIDashboardSearchModel model);
         Task<DataTable> GetSecretaryJDDashData(ITIDashboardSearchModel model);
-
         Task<DataTable> GetAdminDashNCVTData(ITIAdminDashboardSearchModel model);
-
+        Task<DataTable> GetApprenticeshipDirectorNCVTData(ITIAdminDashboardSearchModel model);
         Task<DataTable> GetItiJailDashApplicationData(ItiAdminDashApplicationSearchModel model);
     }
 }
