@@ -14,5 +14,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DTELaboratoryDataModel> GetById(int PK_ID);
         Task<bool> SaveData(DTELaboratoryDataModel productDetails);
         Task<bool> DeleteDataByID(DTELaboratoryDataModel productDetails);
+        Task<DataTable> GetLabDetailsByUserID(LabDetailsSearchModel model);
     }
 }
