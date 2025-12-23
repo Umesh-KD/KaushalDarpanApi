@@ -363,7 +363,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
+
                         command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_GetAllEquipments";
                         command.Parameters.AddWithValue("@DepartmentID", modal.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", modal.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", modal.EndTermID);
@@ -378,7 +380,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.Parameters.AddWithValue("@RoleID", modal.RoleID);
                         }
 
-                        command.CommandText = "USP_ITI_GetAllEquipments";
+                        
                         _sqlQuery = command.GetSqlExecutableQuery();
                             dataTable = await command.FillAsync_DataTable();
                     }

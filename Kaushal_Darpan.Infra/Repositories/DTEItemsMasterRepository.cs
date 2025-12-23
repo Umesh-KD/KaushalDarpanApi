@@ -833,6 +833,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
+                        command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -868,6 +870,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
                         command.Parameters.AddWithValue("@ActionName", SearchReq.actionName);
+                        command.Parameters.AddWithValue("@ReturnStatus", SearchReq.ReturnStatus);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -945,7 +948,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ActionType", "GetItemList");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
-                            dataTable = await command.FillAsync_DataTable();
+                        dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
                 }
@@ -1051,6 +1054,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_Bter_GetIssueItemList";
                         command.Parameters.AddWithValue("@StaffID", SearchReq.StaffId);
+                        command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
+                        command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1102,7 +1107,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         SqlExecutableQuery = _sqlQuery
                     };
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
+                    throw new Exception(errordetails, ex); 
+
                 }
             });
         }
@@ -1203,6 +1209,41 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Lab_CreatedBy", SearchReq.Lab_CreatedBy);
                         command.Parameters.AddWithValue("@Lab_ModifyBy", SearchReq.Lab_ModifyBy);
                         //command.Parameters.AddWithValue("@Lab_ModifyDate", SearchReq.Lab_ModifyDate ?? (object)DBNull.Value); 
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> DTE_INV_SaveLabItemReturn(ItemsIssueReturnModels SearchReq)
+        {
+            _actionName = "GetAll_INV_returnItem()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DTE_INV_SaveLabItemReturn";
+                        command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(SearchReq.ItemList));
+
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
