@@ -249,6 +249,43 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("GetTradeWisePapers")]
+        public async Task<ApiResult<DataTable>> GetTradeWisePapers([FromBody] ITIPaperUploadSearchModel body)
+        {
+            ActionName = "GetTradeWisePapers()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITIMasterRepository.GetTradeWisePapers(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
         [HttpPost("SavePaperUploadData")]
         public async Task<ApiResult<int>> SavePaperUploadData([FromBody] ITIPaperUploadModel request)
         {
@@ -300,7 +337,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-        
+
         //[HttpPost("GetITIFeesPerYearList")]
         //public async Task<ApiResult<DataTable>> GetITIFeesPerYearList([FromBody] ITIFeesPerYearSearchModel request)
         //{
@@ -460,7 +497,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         data.Tables[0].TableName = "TradeWiseFee";
 
-                        data.Tables[0].Rows[0]["logo_left"]=$"{ConfigurationHelper.StaticFileRootPath}/iti_logo.png";
+                        data.Tables[0].Rows[0]["logo_left"] = $"{ConfigurationHelper.StaticFileRootPath}/iti_logo.png";
                         data.Tables[0].Rows[0]["logo_right"] = $"{ConfigurationHelper.StaticFileRootPath}/dte_logo.png";
 
                         //data.Tables[0].Rows[0]["signlogo"]=$"{ConfigurationHelper.StaticFileRootPath}/iti_signlogo.png";
@@ -681,7 +718,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpGet("GetCenterDetailByPaperUploadID/{PaperUploadID:int}/{Userid:int}/{Roleid:int}")]
-        public async Task<ApiResult<DataTable>> GetCenterDetail(int PaperUploadID , int Userid , int Roleid)
+        public async Task<ApiResult<DataTable>> GetCenterDetail(int PaperUploadID, int Userid, int Roleid)
         {
             ActionName = "GetCenterDetailByPaperUploadID(int PaperUploadID ,int Userid , int Roleid )";
             return await Task.Run(async () =>
@@ -689,8 +726,8 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                      result.Data = await _unitOfWork.ITIMasterRepository.GetCenterDetailByPaperUploadID(PaperUploadID, Userid , Roleid);
-                    
+                    result.Data = await _unitOfWork.ITIMasterRepository.GetCenterDetailByPaperUploadID(PaperUploadID, Userid, Roleid);
+
                     if (result.Data.Rows.Count == 0)
                     {
                         result.State = EnumStatus.Success;
@@ -858,7 +895,47 @@ namespace Kaushal_Darpan.Api.Controllers
         //    return result;
         //}
 
-        
+
+
+        [HttpPost("DeletePaperUpload")]
+        public async Task<ApiResult<bool>> DeletePaperUpload([FromBody] ITIPaperUploadModel request)
+        {
+            ActionName = "DeletePaperUpload([FromBody] ITIPaperUploadModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.ITIMasterRepository.DeletePaperUpload(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Delete Success successfully .!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.Message = "something went wrong!";
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
 
     }
 }
