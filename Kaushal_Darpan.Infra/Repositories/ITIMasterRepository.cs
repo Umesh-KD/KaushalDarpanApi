@@ -729,7 +729,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", request.Roleid);
                         command.Parameters.AddWithValue("@CourseTypeID", request.CourseTypeid);
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
