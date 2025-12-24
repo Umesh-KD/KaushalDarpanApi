@@ -17,7 +17,11 @@ namespace Kaushal_Darpan.Models.ItiInvigilator
         public string? RollNoTo { get; set; }
         public int SemesterID { get; set; }
         public int ShiftID { get; set; }
-        public string SubjectName { get; set; }
+        public string? SubjectName { get; set; }
+        public string? SSOID { get; set; }
+        public string? Name { get; set; }
+        public string? Email { get; set; }
+        public string? MobileNumber { get; set; }
 
     }
 
