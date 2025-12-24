@@ -25,6 +25,7 @@ using System.Net;
 using System.Text;
 using System.Transactions;
 using System.Web;
+using static Hangfire.Storage.JobStorageFeatures;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
@@ -1690,7 +1691,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         RESPONSEPARAMS.PAIDAMOUNT = RESPONSEPARAMS.AMT;
                         RESPONSEPARAMS.RESPONSEMESSAGE = RESPONSEPARAMS.MSG;
                         RESPONSEPARAMS.STATUS = RESPONSEPARAMS.TRANSACTIONSTATUS;
-                
+
 
 
                         RESPONSEPARAMS.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);

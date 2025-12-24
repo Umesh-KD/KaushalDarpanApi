@@ -344,17 +344,6 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>22. </Value>
-                <Style>
-                  <FontStyle>Normal</FontStyle>
-                  <FontFamily>Aptos</FontFamily>
-                  <FontSize>11pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                  <TextDecoration>None</TextDecoration>
-                  <Color>#000000</Color>
-                </Style>
-              </TextRun>
-              <TextRun>
                 <Value>प्रायोगिक परीक्षा के छात्रों का फोटो उपस्थिति पत्रक</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
@@ -1050,7 +1039,7 @@
         <Top>4.03437cm</Top>
         <Left>0.43603cm</Left>
         <Height>1.2cm</Height>
-        <Width>18.13329cm</Width>
+        <Width>18.13332cm</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
