@@ -58,6 +58,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@FileName", request.FileName);
                         command.Parameters.AddWithValue("@Dis_FileName", request.Dis_FileName);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@CreatedByRoleID", request.CreatedByRoleID);
+                        command.Parameters.AddWithValue("@LevelID", request.LevelID);
 
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -254,6 +256,40 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@DynamicUploadTypeID", model.DynamicUploadTypeID);
                         command.Parameters.AddWithValue("@DepartmentSubID", model.DepartmentSubID);
+                        command.Parameters.AddWithValue("@Key", model.Key);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        public async Task<DataTable> GetDynamicUploadContentApprenticeship(DynamicUploadContentListsModal model)
+        {
+            _actionName = "GetDynamicUploadContentApprenticeship()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetDynamicUploadContent_Apprenticeship";
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Key", model.Key);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query

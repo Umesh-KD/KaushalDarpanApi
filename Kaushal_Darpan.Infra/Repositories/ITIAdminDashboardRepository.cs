@@ -558,6 +558,46 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        public async Task<DataTable> GetApprenticeshipDirectorNCVTData(ITIAdminDashboardSearchModel model)
+        {
+            _actionName = "GetApprenticeshipDirectorNCVTData(ITIAdminDashboardSearchModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIApprenticeshipDirectorNCVTData";
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@CourseType", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@action", "DashboardCounts");
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
 
         #region ds ITI Jail Application

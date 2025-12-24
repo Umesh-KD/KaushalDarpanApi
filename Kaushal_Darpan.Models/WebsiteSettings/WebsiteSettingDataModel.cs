@@ -22,5 +22,7 @@ namespace Kaushal_Darpan.Models.WebsiteSettings
         public int? DUTC_ID { get; set; }
         public bool? IsActive { get; set; }
         public string? IPAddress { get; set; }
+        public int? CreatedByRoleID { get; set; }
+        public int? LevelID { get; set; }
     }
 }

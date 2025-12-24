@@ -280,6 +280,46 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+
+
+
+        public async Task<DataTable> GetTradeWisePapers(ITIPaperUploadSearchModel body)
+        {
+            _actionName = "GetAllPaperUploadData()";
+            try
+            {
+               
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetTradeWisePapers";
+                        command.Parameters.AddWithValue("@Action", body.Action);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@TradeID", body.TradeID);
+                        command.Parameters.AddWithValue("@PaperID", body.PaperID);
+                        // command.Parameters.AddWithValue("@Action", "getTradetblListList");
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
         public async Task<int> SavePaperUploadData(ITIPaperUploadModel request)
         {
             return await Task.Run(async () =>
@@ -314,7 +354,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModifyDate", request.ModifyDate?.ToString("yyyy-MM-dd"));  // Handle nullable dates
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value); // Use actual value for IP address
                         command.Parameters.AddWithValue("@CourseType", request.CourseType);
+                        command.Parameters.AddWithValue("@PaperCode", request.PaperCode);
                         // Add the output parameter for return value
+
                         var returnParam = new SqlParameter("@Return", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output
@@ -729,7 +771,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", request.Roleid);
                         command.Parameters.AddWithValue("@CourseTypeID", request.CourseTypeid);
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
@@ -860,7 +902,42 @@ namespace Kaushal_Darpan.Infra.Repositories
         //    });
         //}
 
-       
+
+        public async Task<bool> DeletePaperUpload(ITIPaperUploadModel request)
+        {
+
+            int result = 0;
+            _actionName = "DeletePaperUpload(GroupMaster request)";
+                try
+                {
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetTradeWisePapers";
+                        command.Parameters.AddWithValue("@Action", "_DeleteUploadedPapers");
+                        command.Parameters.AddWithValue("@EndtermID", request.EndTermID);
+                        command.Parameters.AddWithValue("@PaperUploadID", request.PaperUploadID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+        }
 
     }
 }

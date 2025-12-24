@@ -635,7 +635,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> ItiTrade(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int DivisionId = 0)
+        public async Task<DataTable> ItiTrade(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int DivisionId = 0,int SemesterID =0)
         {
             _actionName = "StreamMaster()";
             return await Task.Run(async () =>
@@ -647,7 +647,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ItiCollegeWiseTrade";
-                        if(InstituteID != 0)
+                        if (SemesterID != 0)
+                        {
+                            command.Parameters.AddWithValue("@Action", "getTradeForPaperSetters");
+                        }
+                        else if(InstituteID != 0)
                         {
                             command.Parameters.AddWithValue("@Action", "collegeWiseTrade");
                         }
@@ -660,6 +664,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StreamType", StreamType);
                         command.Parameters.AddWithValue("@InstituteID", InstituteID);
                         command.Parameters.AddWithValue("@DivisionId", DivisionId);
+                        command.Parameters.AddWithValue("@SemesterID", SemesterID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -679,6 +684,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+    
+
 
         public async Task<DataTable> ItiTradecouncelling(string DesignationID)
         {
@@ -3765,6 +3774,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TransactionId", request.TRANSACTIONID);
                         command.Parameters.AddWithValue("@PRN", request.PRN);
                         command.Parameters.AddWithValue("@PaidAmount", request.PAIDAMOUNT);
+                        command.Parameters.AddWithValue("@TransactionNo", request.TransactionNo);
                         command.Parameters.AddWithValue("@TokenNo", request.RECEIPTNO);
                         command.Parameters.AddWithValue("@StatusMsg", request.RESPONSEMESSAGE);
                         command.Parameters.AddWithValue("@ResponseString", JsonConvert.SerializeObject(request));

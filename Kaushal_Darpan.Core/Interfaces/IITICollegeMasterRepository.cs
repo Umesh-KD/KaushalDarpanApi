@@ -31,8 +31,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> AllNCVTInstituteList(ITIsSearchModel model);
         Task<DataTable> ItiVacantSeatForDirectAdmission(ItiCollegeModel model);
         Task<DataTable> SaveBankGuaranteeData(ITIPlanningBankGuaranteeModel model);
-        Task<DataTable> ITIPlanningBankGuaranteeList(ITIPlanningBankGuaranteeSearch filterModel);
+        Task<DataTable> ITIPlanningBankGuaranteeList(ITIPlanningBankGuaranteeSearchList filterModel);
         Task<DataTable> ITIPlanningBankGuaranteeReport(ITIPlanningBankGuaranteeSearch filterModel);
+        Task<DataTable> ITIPlanningBankGuaranteeReturn(ITIPlanningBankGuaranteeReturn filterModel);
         Task<DataTable> ITIPlanningBankGuaranteeGetByID(int BankGuaranteeID);
     }
 }

@@ -22,6 +22,9 @@ namespace Kaushal_Darpan.Models.CommonFunction
             public int? Gender{  get; set; }
             public decimal? SciencePercentage { get; set; }
             public decimal? MathPercentage { get; set; }
+            
+
+
         }
 
         public class ItiCollegesSearchModel
