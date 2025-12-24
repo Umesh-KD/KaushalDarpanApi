@@ -289,6 +289,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> NodalCenterCreate(NodalCenterModel model);
         Task<DataTable> NodalCenterList(NodalCenterModel model);
         Task<DataTable> DC2ndYear_BranchesDDL(int CourseType, int CoreBranch);
+        Task<DataTable> GetZonalID(int UserID, int EndTermID);
 
         Task<DataTable> ITI_SemesterMaster(int parameter1 = 0, string parameter2 = "");
 

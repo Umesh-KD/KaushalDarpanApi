@@ -16,6 +16,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> UpdateSaveData(List<ITITheoryMarksModel> productDetails);
         Task<int> RevertBundle(RevertBundleModel productDetails);
         Task<DataTable> GetTheoryMarksRptData(TheorySearchModel filterModel);
+        Task<DataTable> GetTraineeStudent(TheorySearchModel filterModel);
         Task<DataTable> GetCenterStudents(CenterStudentSearchModel filterModel);
         Task<DataTable> GetNcvtPracticalstudent(CenterStudentSearchModel filterModel);
     }

@@ -363,7 +363,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
+
                         command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_GetAllEquipments";
                         command.Parameters.AddWithValue("@DepartmentID", modal.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", modal.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", modal.EndTermID);
@@ -378,7 +380,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.Parameters.AddWithValue("@RoleID", modal.RoleID);
                         }
 
-                        command.CommandText = "USP_ITI_GetAllEquipments";
+                        
                         _sqlQuery = command.GetSqlExecutableQuery();
                             dataTable = await command.FillAsync_DataTable();
                     }
@@ -1961,7 +1963,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandType = CommandType.StoredProcedure; 
                         command.CommandText = "USP_ITI_INV_GetCommonIssueDDL";
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@TypeName", SearchReq.TypeName);
@@ -2366,7 +2368,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_StaffIssueReturnItems";
                         command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(SearchReq.ItemList));
 
-
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -2401,6 +2402,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        command.Parameters.AddWithValue("@ReturnStatus", SearchReq.ReturnStatus);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         
                         dataTable = await command.FillAsync_DataTable();

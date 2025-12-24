@@ -135,7 +135,9 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int StaffID { get; set; }
         public int UserID { get; set; }
         public int ItemID { get; set; }
+        public int? RoleID { get; set; }
         public int ItemType { get; set; }
+        public int? ReturnStatus { get; set; }
         public string? actionName { get; set; }
 
     }

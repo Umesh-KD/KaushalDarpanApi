@@ -22,4 +22,9 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int RoleID { get; set; } = 0;
         public string ActionName { get; set; } = string.Empty;
     }
+
+    public class LabDetailsSearchModel
+    {
+        public int? UserID { get; set; }
+    }
 }
