@@ -154,6 +154,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? equipmentStatus { get; set; }
         public bool? isOption { get; set; }
         public int? AuctionStatus { get; set; }
+        public int? UsedQuantity { get; set; }
+        public int? IssuedId { get; set; }
 
     }
 
