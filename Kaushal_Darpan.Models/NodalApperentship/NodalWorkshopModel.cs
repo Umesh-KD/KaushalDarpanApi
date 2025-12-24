@@ -37,8 +37,13 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public string? QuaterIncreaseSeat { get; set; }
         public string? QuaterIncreaseStudent { get; set; }
         public string? Remarks { get; set; }
+        public string? AdditionalDocument { get; set; }
+        public string? DisAdditionalDocument { get; set; }
 
         public List<ITIAAA_SSODetailsModel>? ApprenticeshipWorkshopMembersList { get; set; }
+
+        public int ZoneID { get; set; } 
+
     }
 
     public class ITIPMNAM_MelaReportBeforeAfterModal
@@ -77,6 +82,7 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int QuaterID { get; set; }
         public int BeforeMonth { get; set; }
         public int FinancialYearID { get; set; }
+        public int ZoneID { get; set; }
     }
 
     public class ITIPMNAMAppApprenticeshipReportEntity
@@ -102,6 +108,7 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public DateTime PmnamMelaDate { get; set; }
         public int FinancialYearID { get; set; }
         public string? BeforeMonth { get; set; }
+        public int DistrictID { get; set; }
 
 
     }
@@ -154,6 +161,10 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int RoleID { get; set; }
         public int Createdby { get; set; }
         public int PKID { get; set; }
+        public int TypeID { get; set; }
+        public int FinancialYearID { get; set; }
+        public string? TypeName { get; set; }
+        public string? Nameofapprentices { get; set; }
         
         public string? NumberOfRegistrationDoc { get; set; }
     }
@@ -178,6 +189,7 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int SearchDistrictID { get; set; }
         public int BeforeMonth { get; set; }
         public int FinancialYearID { get; set; }
+        public int ZoneID { get; set; }
     }
 
     public class ApprenticeshipRegistrationSearchModal
@@ -189,18 +201,29 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int PKID { get; set; }
         public int InstituteID { get; set; }
         public int UserID { get; set; }
+        public int ZoneID { get; set; }
+        public int DistrictID { get; set; }
+        public int TypeID { get; set; }
+        public int MonthID { get; set; }
     }
 
     public class ITIApprenticeshipRegPassOutModel : RequestBaseModel
     {
         public int ID { get; set; } = 0;
+        public int TradeScheme { get; set; } = 0;
+        public int TradeID { get; set; } = 0;
         public int InstituteID { get; set; } = 0;
+        public int PassIti { get; set; } = 0;
         public int PKID { get; set; } = 0;
         public string RegDate { get; set; } = string.Empty;
+        public string PassYear { get; set; } = string.Empty;
+        public string FatherName { get; set; } = string.Empty;
         public string RegCount { get; set; } = string.Empty;
         public string Remarks { get; set; } = string.Empty;
         public string FileName { get; set; } = string.Empty;
         public string Dis_FilePath { get; set; } = string.Empty;
+        public string StudentName { get; set; } = string.Empty;
+        public string Aadhar { get; set; } = string.Empty;
     }
 
 
