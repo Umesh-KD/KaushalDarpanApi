@@ -160,9 +160,9 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>7.76057cm</Top>
+            <Top>7.47676cm</Top>
             <Left>13.27628cm</Left>
-            <Height>0.92585cm</Height>
+            <Height>1.50162cm</Height>
             <Width>5.99506cm</Width>
             <ToolTip>image/png</ToolTip>
             <Style>
@@ -185,7 +185,7 @@
                     <Value>Name Of Institute     :</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
-                      <FontWeight>Normal</FontWeight>
+                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -196,7 +196,7 @@
             <Top>2.28479cm</Top>
             <Left>0.34568cm</Left>
             <Height>0.6cm</Height>
-            <Width>3.18776cm</Width>
+            <Width>3.74338cm</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -215,10 +215,10 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Trade Name             :</Value>
+                    <Value>Trade Name              :</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
-                      <FontWeight>Normal</FontWeight>
+                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -229,7 +229,7 @@
             <Top>2.88479cm</Top>
             <Left>0.34568cm</Left>
             <Height>0.6cm</Height>
-            <Width>3.18776cm</Width>
+            <Width>3.74338cm</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -251,7 +251,7 @@
                     <Value>Trainee's Name        :</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
-                      <FontWeight>Normal</FontWeight>
+                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -262,7 +262,7 @@
             <Top>3.57475cm</Top>
             <Left>0.34568cm</Left>
             <Height>0.6cm</Height>
-            <Width>3.18776cm</Width>
+            <Width>3.74338cm</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -281,10 +281,10 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Enrollment Number   :</Value>
+                    <Value>Enrollment Number :</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
-                      <FontWeight>Normal</FontWeight>
+                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -295,7 +295,7 @@
             <Top>4.17475cm</Top>
             <Left>0.34568cm</Left>
             <Height>0.6cm</Height>
-            <Width>3.18776cm</Width>
+            <Width>3.74338cm</Width>
             <ZIndex>4</ZIndex>
             <Style>
               <Border>
@@ -326,9 +326,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
             <Top>2.28479cm</Top>
-            <Left>3.53344cm</Left>
+            <Left>4.08906cm</Left>
             <Height>0.6cm</Height>
-            <Width>7.29628cm</Width>
+            <Width>6.74065cm</Width>
             <ZIndex>5</ZIndex>
             <Style>
               <Border>
@@ -359,9 +359,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
             <Top>2.88479cm</Top>
-            <Left>3.53344cm</Left>
+            <Left>4.08906cm</Left>
             <Height>0.6cm</Height>
-            <Width>7.29628cm</Width>
+            <Width>6.74065cm</Width>
             <ZIndex>6</ZIndex>
             <Style>
               <Border>
@@ -392,9 +392,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
             <Top>3.57475cm</Top>
-            <Left>3.53344cm</Left>
+            <Left>4.08906cm</Left>
             <Height>0.6cm</Height>
-            <Width>4.62105cm</Width>
+            <Width>4.06543cm</Width>
             <ZIndex>7</ZIndex>
             <Style>
               <Border>
@@ -425,9 +425,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
             <Top>4.17475cm</Top>
-            <Left>3.56871cm</Left>
+            <Left>4.08906cm</Left>
             <Height>0.6cm</Height>
-            <Width>4.58578cm</Width>
+            <Width>4.06543cm</Width>
             <ZIndex>8</ZIndex>
             <Style>
               <Border>
@@ -449,7 +449,7 @@
                     <Value>Father's Name  :</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
-                      <FontWeight>Normal</FontWeight>
+                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -482,7 +482,7 @@
                     <Value>Roll Number      :</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
-                      <FontWeight>Normal</FontWeight>
+                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -582,10 +582,10 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Exam Center  : </Value>
+                        <Value>Exam Center -</Value>
                         <Style>
                           <FontSize>8pt</FontSize>
-                          <FontWeight>Normal</FontWeight>
+                          <FontWeight>Bold</FontWeight>
                         </Style>
                       </TextRun>
                     </TextRuns>
@@ -615,7 +615,7 @@
                         <Value>=First(Fields!ExamCenter.Value, "ITIStudentAdmitCard")</Value>
                         <Style>
                           <FontSize>8pt</FontSize>
-                          <FontWeight>Bold</FontWeight>
+                          <FontWeight>Normal</FontWeight>
                         </Style>
                       </TextRun>
                     </TextRuns>
@@ -623,7 +623,6 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox39</rd:DefaultName>
-                <Top>0.0635cm</Top>
                 <Left>2.23526cm</Left>
                 <Height>0.61217cm</Height>
                 <Width>13.52986cm</Width>
@@ -640,9 +639,9 @@
               </Textbox>
             </ReportItems>
             <KeepTogether>true</KeepTogether>
-            <Top>5.4856cm</Top>
+            <Top>5.2316cm</Top>
             <Left>0.34568cm</Left>
-            <Height>0.67567cm</Height>
+            <Height>0.61217cm</Height>
             <Width>15.76512cm</Width>
             <ZIndex>13</ZIndex>
             <Style>
@@ -679,7 +678,8 @@
                                 <TextRun>
                                   <Value EvaluationMode="Constant">Sr. No.</Value>
                                   <Style>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -712,7 +712,8 @@
                                 <TextRun>
                                   <Value>Subject </Value>
                                   <Style>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -726,12 +727,6 @@
                             <Border>
                               <Style>Solid</Style>
                             </Border>
-                            <BottomBorder>
-                              <Style>None</Style>
-                            </BottomBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -751,7 +746,8 @@
                                 <TextRun>
                                   <Value>Exam Date / Time</Value>
                                   <Style>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -788,7 +784,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!SNo.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
@@ -819,7 +817,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!SubjectName.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
@@ -892,20 +892,15 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>ITIStudentAdmitCard_Subject</DataSetName>
-            <Top>6.47171cm</Top>
+            <Top>6.24946cm</Top>
             <Left>0.34568cm</Left>
             <Height>1.12147cm</Height>
             <Width>19.46694cm</Width>
             <ZIndex>14</ZIndex>
             <Style>
               <Border>
-                <Color>Gray</Color>
                 <Style>None</Style>
               </Border>
-              <BottomBorder>
-                <Color>Gray</Color>
-              </BottomBorder>
-              <Color>Gray</Color>
             </Style>
           </Tablix>
           <Textbox Name="Textbox47">
@@ -926,7 +921,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>13.7031cm</Top>
+            <Top>14.62385cm</Top>
             <Left>0.07976cm</Left>
             <Height>0.44929cm</Height>
             <Width>19.8737cm</Width>
@@ -951,7 +946,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=First(Fields!GroupCode.Value, "ITIStudentAdmitCard")</Value>
+                    <Value>=First(Fields!SemesterName.Value, "ITIStudentAdmitCard")</Value>
                     <Style>
                       <FontWeight>Bold</FontWeight>
                     </Style>
@@ -964,19 +959,14 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=First(Fields!SemesterName.Value, "ITIStudentAdmitCard")</Value>
-                    <Style>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                  <TextRun>
-                    <Value xml:space="preserve"> </Value>
-                    <Style>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                  <TextRun>
                     <Value>=First(Fields!StudentType.Value, "ITIStudentAdmitCard")</Value>
+                    <Style>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value xml:space="preserve">
+</Value>
                     <Style>
                       <FontWeight>Bold</FontWeight>
                     </Style>
@@ -988,9 +978,9 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>0.30298cm</Top>
+            <Top>0.54111cm</Top>
             <Left>16.35756cm</Left>
-            <Height>1.29674cm</Height>
+            <Height>1.05861cm</Height>
             <Width>3.45506cm</Width>
             <ZIndex>16</ZIndex>
             <Style>
@@ -1017,7 +1007,7 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>1.63147cm</Top>
+            <Top>1.59972cm</Top>
             <Left>16.35756cm</Left>
             <Height>4.47335cm</Height>
             <Width>3.45506cm</Width>
@@ -1122,7 +1112,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>8.93665cm</Top>
+            <Top>9.4129cm</Top>
             <Left>0.34568cm</Left>
             <Height>0.44737cm</Height>
             <Width>5.59797cm</Width>
@@ -1157,7 +1147,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>8.93665cm</Top>
+            <Top>9.4129cm</Top>
             <Left>5.94365cm</Left>
             <Height>0.44737cm</Height>
             <Width>7.06542cm</Width>
@@ -1193,7 +1183,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>8.67852cm</Top>
+            <Top>9.15477cm</Top>
             <Left>13.00907cm</Left>
             <Height>0.99234cm</Height>
             <Width>6.59871cm</Width>
@@ -1218,6 +1208,7 @@
                     <Value>निर्देश :</Value>
                     <Style>
                       <FontFamily>Microsoft Sans Serif</FontFamily>
+                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
@@ -1271,21 +1262,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>4. परीक्षार्थी द्वारा उत्तरपुस्तिका में अपना नाम, पता, फोन / मोबाइल नम्बर अंकित करना या उत्तीर्ण करने हेतु आग्रह करना, उत्तरपुस्तिका में पैसे (नोट) रखना   दण्ड संहिता के अनुसार अनुचित साधनों की श्रेणी में </Value>
-                    <Style>
-                      <FontFamily>Microsoft Sans Serif</FontFamily>
-                      <FontSize>6pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Left</TextAlign>
-                </Style>
-              </Paragraph>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>   आता है िस पर दण्ड स्वरूप परीक्षार्थी की परीक्षा निरस्त की जा सकती है।</Value>
+                    <Value>4. परीक्षार्थी द्वारा उत्तरपुस्तिका में अपना नाम, पता, फोन / मोबाइल नम्बर अंकित करना या उत्तीर्ण करने हेतु आग्रह करना, उत्तरपुस्तिका में पैसे (नोट) रखना   दण्ड संहिता के अनुसार अनुचित साधनों की श्रेणी में आता है जिस पर दण्ड स्वरूप परीक्षार्थी की परीक्षा निरस्त की जा सकती है।</Value>
                     <Style>
                       <FontFamily>Microsoft Sans Serif</FontFamily>
                       <FontSize>6pt</FontSize>
@@ -1340,7 +1317,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox68</rd:DefaultName>
-            <Top>9.67682cm</Top>
+            <Top>10.43882cm</Top>
             <Left>0.34568cm</Left>
             <Height>3.94588cm</Height>
             <Width>19.2621cm</Width>
@@ -1362,14 +1339,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Trainee's Name</Value>
-                    <Style>
-                      <FontSize>8pt</FontSize>
-                      <FontWeight>Normal</FontWeight>
-                    </Style>
-                  </TextRun>
-                  <TextRun>
-                    <Value>        :</Value>
+                    <Value>Trainee's Name        :</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -1380,10 +1350,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>15.93828cm</Top>
+            <Top>17.46228cm</Top>
             <Left>0.34568cm</Left>
             <Height>0.6cm</Height>
-            <Width>3.18776cm</Width>
+            <Width>3.74338cm</Width>
             <ZIndex>24</ZIndex>
             <Style>
               <Border>
@@ -1402,10 +1372,10 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Enrollment Number   :</Value>
+                    <Value>Enrollment Number  :</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
-                      <FontWeight>Normal</FontWeight>
+                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -1413,10 +1383,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>16.53828cm</Top>
+            <Top>18.06228cm</Top>
             <Left>0.34568cm</Left>
             <Height>0.6cm</Height>
-            <Width>3.18776cm</Width>
+            <Width>3.74338cm</Width>
             <ZIndex>25</ZIndex>
             <Style>
               <Border>
@@ -1446,10 +1416,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>15.93828cm</Top>
-            <Left>3.53343cm</Left>
-            <Height>0.56472cm</Height>
-            <Width>4.51978cm</Width>
+            <Top>17.46228cm</Top>
+            <Left>4.26545cm</Left>
+            <Height>0.6cm</Height>
+            <Width>3.88904cm</Width>
             <ZIndex>26</ZIndex>
             <Style>
               <Border>
@@ -1479,10 +1449,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>16.53828cm</Top>
-            <Left>3.53343cm</Left>
+            <Top>18.06228cm</Top>
+            <Left>4.26545cm</Left>
             <Height>0.6cm</Height>
-            <Width>4.51978cm</Width>
+            <Width>3.88904cm</Width>
             <ZIndex>27</ZIndex>
             <Style>
               <Border>
@@ -1504,7 +1474,7 @@
                     <Value>Father's Name :</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
-                      <FontWeight>Normal</FontWeight>
+                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -1512,7 +1482,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>15.93828cm</Top>
+            <Top>17.46228cm</Top>
             <Left>8.05321cm</Left>
             <Height>0.6cm</Height>
             <Width>2.7765cm</Width>
@@ -1537,7 +1507,7 @@
                     <Value>Roll Number    :</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
-                      <FontWeight>Normal</FontWeight>
+                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -1545,7 +1515,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>16.53828cm</Top>
+            <Top>18.06228cm</Top>
             <Left>8.05321cm</Left>
             <Height>0.6cm</Height>
             <Width>2.7765cm</Width>
@@ -1578,7 +1548,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>15.93828cm</Top>
+            <Top>17.46228cm</Top>
             <Left>10.90026cm</Left>
             <Height>0.6cm</Height>
             <Width>5.31619cm</Width>
@@ -1613,7 +1583,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>16.53828cm</Top>
+            <Top>18.06228cm</Top>
             <Left>10.90026cm</Left>
             <Height>0.6cm</Height>
             <Width>5.31619cm</Width>
@@ -1637,10 +1607,10 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Exam Center  : </Value>
+                        <Value>Exam Center -</Value>
                         <Style>
                           <FontSize>9pt</FontSize>
-                          <FontWeight>Normal</FontWeight>
+                          <FontWeight>Bold</FontWeight>
                         </Style>
                       </TextRun>
                     </TextRuns>
@@ -1649,7 +1619,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox39</rd:DefaultName>
                 <Height>0.6cm</Height>
-                <Width>2.3151cm</Width>
+                <Width>3.74338cm</Width>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -1670,7 +1640,7 @@
                         <Value>=First(Fields!ExamCenter.Value, "ITIStudentAdmitCard")</Value>
                         <Style>
                           <FontSize>8pt</FontSize>
-                          <FontWeight>Bold</FontWeight>
+                          <FontWeight>Normal</FontWeight>
                         </Style>
                       </TextRun>
                     </TextRuns>
@@ -1678,9 +1648,9 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox39</rd:DefaultName>
-                <Left>2.3151cm</Left>
+                <Left>3.91977cm</Left>
                 <Height>0.61217cm</Height>
-                <Width>13.52986cm</Width>
+                <Width>12.03084cm</Width>
                 <ZIndex>1</ZIndex>
                 <Style>
                   <Border>
@@ -1694,10 +1664,10 @@
               </Textbox>
             </ReportItems>
             <KeepTogether>true</KeepTogether>
-            <Top>18.48236cm</Top>
+            <Top>19.08561cm</Top>
             <Left>0.26584cm</Left>
-            <Height>0.61217cm</Height>
-            <Width>15.84496cm</Width>
+            <Height>0.7014cm</Height>
+            <Width>15.95061cm</Width>
             <ZIndex>32</ZIndex>
             <Style>
               <Border>
@@ -1724,10 +1694,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>14.09668cm</Top>
-            <Left>16.35756cm</Left>
-            <Height>1.11467cm</Height>
-            <Width>3.42081cm</Width>
+            <Top>15.23968cm</Top>
+            <Left>16.6234cm</Left>
+            <Height>1.69655cm</Height>
+            <Width>3.25022cm</Width>
             <ZIndex>33</ZIndex>
             <Style>
               <Border>
@@ -1753,10 +1723,10 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>15.21135cm</Top>
-            <Left>16.38601cm</Left>
-            <Height>4.79088cm</Height>
-            <Width>3.42081cm</Width>
+            <Top>16.93623cm</Top>
+            <Left>16.6234cm</Left>
+            <Height>3.28472cm</Height>
+            <Width>3.25022cm</Width>
             <ZIndex>34</ZIndex>
             <ToolTip>image/png</ToolTip>
             <Style>
@@ -1788,7 +1758,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>22.44693cm</Top>
+            <Top>22.98668cm</Top>
             <Left>0.61152cm</Left>
             <Height>0.73421cm</Height>
             <Width>5.59797cm</Width>
@@ -1822,7 +1792,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>22.44693cm</Top>
+            <Top>22.98668cm</Top>
             <Left>12.67263cm</Left>
             <Height>0.73421cm</Height>
             <Width>6.59871cm</Width>
@@ -1883,18 +1853,6 @@
                       <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
-                  <TextRun>
-                    <Value xml:space="preserve"> </Value>
-                    <Style>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                  <TextRun>
-                    <Value>=First(Fields!StudentType.Value, "ITIStudentAdmitCard")</Value>
-                    <Style>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
                 </TextRuns>
                 <Style>
                   <TextAlign>Center</TextAlign>
@@ -1902,10 +1860,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>14.66345cm</Top>
-            <Left>16.35756cm</Left>
-            <Height>0.5479cm</Height>
-            <Width>3.42081cm</Width>
+            <Top>15.86437cm</Top>
+            <Left>16.6234cm</Left>
+            <Height>1.19886cm</Height>
+            <Width>3.25022cm</Width>
             <ZIndex>38</ZIndex>
             <Style>
               <Border>
@@ -1923,20 +1881,16 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Textbox Name="Textbox90">
+          <Textbox Name="Textbox72">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>परीक्षा केन्द्र हेतु</Value>
+                    <Value>=First(Fields!StudentType.Value, "ITIStudentAdmitCard")</Value>
                     <Style>
-                      <FontStyle>Normal</FontStyle>
-                      <FontFamily>Times New Roman</FontFamily>
                       <FontWeight>Bold</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                      <Color>#000000</Color>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -1944,11 +1898,37 @@
                   <TextAlign>Center</TextAlign>
                 </Style>
               </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox27</rd:DefaultName>
+            <Top>16.30009cm</Top>
+            <Left>16.6234cm</Left>
+            <Height>0.63614cm</Height>
+            <Width>3.25022cm</Width>
+            <ZIndex>39</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <LeftBorder>
+                <Style>Solid</Style>
+              </LeftBorder>
+              <RightBorder>
+                <Style>Solid</Style>
+              </RightBorder>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox90">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>राजस्थान व्यावसायिक शिक्षा एवं प्रशिक्षण परिषद्, जोधपुर 
-</Value>
+                    <Value>राजस्थान व्यावसायिक शिक्षा एवं प्रशिक्षण परिषद्, जोधपुर </Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Times New Roman</FontFamily>
@@ -1998,11 +1978,45 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox89</rd:DefaultName>
-            <Top>14.13828cm</Top>
+            <Top>15.18603cm</Top>
             <Left>4.40723cm</Left>
-            <Height>1.72239cm</Height>
+            <Height>1.45916cm</Height>
             <Width>10.97275cm</Width>
-            <ZIndex>39</ZIndex>
+            <ZIndex>40</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox44">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!ExamName.Value, "ITIStudentAdmitCard")</Value>
+                    <Style>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox27</rd:DefaultName>
+            <Top>15.80645cm</Top>
+            <Left>5.20488cm</Left>
+            <Height>0.5479cm</Height>
+            <Width>8.98121cm</Width>
+            <ZIndex>41</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2020,16 +2034,16 @@
                   <Width>0.91127cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>6.54598cm</Width>
+                  <Width>5.52085cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.60502cm</Width>
+                  <Width>4.62225cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>4.41228cm</Width>
+                  <Width>4.20061cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>4.07224cm</Width>
+                  <Width>4.3528cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -2047,8 +2061,8 @@
                                 <TextRun>
                                   <Value>S.No</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2081,8 +2095,8 @@
                                 <TextRun>
                                   <Value>Subject</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2115,8 +2129,8 @@
                                 <TextRun>
                                   <Value>Exam Date/Time</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2149,8 +2163,8 @@
                                 <TextRun>
                                   <Value>Student Sign</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2183,8 +2197,8 @@
                                 <TextRun>
                                   <Value>Invigilator Sign</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2222,7 +2236,7 @@
                                 <TextRun>
                                   <Value>=Fields!SNo.Value</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2255,7 +2269,7 @@
                                 <TextRun>
                                   <Value>=Fields!SubjectName.Value</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2288,7 +2302,7 @@
                                 <TextRun>
                                   <Value>=Fields!ExamDate.Value</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2321,7 +2335,7 @@
                                 <TextRun>
                                   <Value />
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2354,7 +2368,7 @@
                                 <TextRun>
                                   <Value />
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2400,11 +2414,11 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>ITIStudentAdmitCard_Subject</DataSetName>
-            <Top>20.17509cm</Top>
+            <Top>20.39734cm</Top>
             <Left>0.26584cm</Left>
             <Height>1.16472cm</Height>
-            <Width>19.54679cm</Width>
-            <ZIndex>40</ZIndex>
+            <Width>19.60778cm</Width>
+            <ZIndex>42</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2416,11 +2430,11 @@
             <Value>=First(Fields!StudentImg.Value, "ITIStudentAdmitCard")</Value>
             <MIMEType>image/png</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>1.88731cm</Top>
+            <Top>1.91906cm</Top>
             <Left>16.5624cm</Left>
             <Height>3.87682cm</Height>
             <Width>3.08066cm</Width>
-            <ZIndex>41</ZIndex>
+            <ZIndex>43</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2432,11 +2446,11 @@
             <Value>=First(Fields!StudentImg.Value, "ITIStudentAdmitCard")</Value>
             <MIMEType>image/png</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>15.72552cm</Top>
-            <Left>16.5624cm</Left>
-            <Height>3.95574cm</Height>
-            <Width>3.15497cm</Width>
-            <ZIndex>42</ZIndex>
+            <Top>17.42728cm</Top>
+            <Left>16.8745cm</Left>
+            <Height>2.54326cm</Height>
+            <Width>2.93812cm</Width>
+            <ZIndex>44</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2464,7 +2478,7 @@
             <Left>5.52238cm</Left>
             <Height>0.43596cm</Height>
             <Width>8.66371cm</Width>
-            <ZIndex>43</ZIndex>
+            <ZIndex>45</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2480,11 +2494,11 @@
             <Value>=First(Fields!NodalSign.Value, "ITIStudentAdmitCard")</Value>
             <MIMEType>image/png</MIMEType>
             <Sizing>Fit</Sizing>
-            <Top>7.76057cm</Top>
+            <Top>7.79232cm</Top>
             <Left>14.12508cm</Left>
             <Height>0.92585cm</Height>
             <Width>4.69249cm</Width>
-            <ZIndex>44</ZIndex>
+            <ZIndex>46</ZIndex>
             <ToolTip>=First(Fields!NodalSign.Value, "ITIStudentAdmitCard")</ToolTip>
             <Style>
               <Border>
@@ -2528,72 +2542,6 @@
             <Left>16.6234cm</Left>
             <Height>0.6cm</Height>
             <Width>2.98438cm</Width>
-            <ZIndex>45</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="Textbox65">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>Name Of Institute     :</Value>
-                    <Style>
-                      <FontSize>8pt</FontSize>
-                      <FontWeight>Normal</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>17.13828cm</Top>
-            <Left>0.34567cm</Left>
-            <Height>0.6cm</Height>
-            <Width>3.18776cm</Width>
-            <ZIndex>46</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="Textbox66">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>Trade Name             :</Value>
-                    <Style>
-                      <FontSize>8pt</FontSize>
-                      <FontWeight>Normal</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>17.73828cm</Top>
-            <Left>0.34567cm</Left>
-            <Height>0.6cm</Height>
-            <Width>3.18776cm</Width>
             <ZIndex>47</ZIndex>
             <Style>
               <Border>
@@ -2605,107 +2553,7 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Textbox Name="Textbox72">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=First(Fields!InstituteName.Value, "ITIStudentAdmitCard")</Value>
-                    <Style>
-                      <FontSize>8pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>17.13828cm</Top>
-            <Left>3.53343cm</Left>
-            <Height>0.6cm</Height>
-            <Width>7.29628cm</Width>
-            <ZIndex>48</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="Textbox73">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=First(Fields!TradeName.Value, "ITIStudentAdmitCard")</Value>
-                    <Style>
-                      <FontSize>8pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>17.73828cm</Top>
-            <Left>3.53343cm</Left>
-            <Height>0.6cm</Height>
-            <Width>7.29628cm</Width>
-            <ZIndex>49</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="Textbox49">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=First(Fields!ExamName.Value, "ITIStudentAdmitCard")</Value>
-                    <Style>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Center</TextAlign>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>15.31277cm</Top>
-            <Left>5.52238cm</Left>
-            <Height>0.5479cm</Height>
-            <Width>8.98121cm</Width>
-            <ZIndex>50</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="Textbox4">
+          <Textbox Name="Textbox3">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -2737,11 +2585,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>17.86528cm</Top>
-            <Left>16.6234cm</Left>
+            <Top>19.08561cm</Top>
+            <Left>16.8745cm</Left>
             <Height>0.6cm</Height>
-            <Width>2.98438cm</Width>
-            <ZIndex>51</ZIndex>
+            <Width>2.73328cm</Width>
+            <ZIndex>48</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2753,18 +2601,16 @@
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>9.12643in</Height>
+        <Height>9.35294in</Height>
         <Style>
           <Border>
-            <Color>Gray</Color>
-            <Style>None</Style>
-            <Width>0.25pt</Width>
+            <Style>Solid</Style>
           </Border>
         </Style>
       </Body>
       <Width>7.85569in</Width>
       <Page>
-        <PageHeight>31cm</PageHeight>
+        <PageHeight>30cm</PageHeight>
         <PageWidth>21cm</PageWidth>
         <LeftMargin>0.5cm</LeftMargin>
         <RightMargin>0.5cm</RightMargin>

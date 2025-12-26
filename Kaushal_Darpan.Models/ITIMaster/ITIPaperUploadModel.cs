@@ -40,6 +40,11 @@ namespace Kaushal_Darpan.Models.ITIMaster
         public string Action{ get; set;} = "";
         public int PaperID { get; set;}
         public int PaperUploadID { get; set; }
+        public string PaperDate { get; set; } = "";
+        public int IsPaperDownload { get; set; } = -1;
+        public int CenterID { get; set; }
+        public string PaperCode { get; set; } = "";
+
     }
 }
 
