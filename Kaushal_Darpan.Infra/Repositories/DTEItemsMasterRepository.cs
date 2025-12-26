@@ -30,7 +30,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetAllData(DTEItemsSearchModel SearchReq)
         {
-            _actionName = "GetAllData()";
+            _actionName = "GetAllData(DTEItemsSearchModel SearchReq)";
             return await Task.Run(async () =>
             {
                 try
@@ -820,7 +820,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetAllinventoryIssueHistory(inventoryIssueHistorySearchModel SearchReq)
         {
-            _actionName = "GetAllData()";
+            _actionName = "GetAllinventoryIssueHistory(inventoryIssueHistorySearchModel SearchReq)";
             return await Task.Run(async () =>
             {
                 try
@@ -856,7 +856,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         public async Task<DataTable> GetAllInventoryIssueReturnItemList(inventoryIssueHistorySearchModel SearchReq)
         {
-            _actionName = "GetAllData()";
+            _actionName = "GetAllInventoryIssueReturnItemList(inventoryIssueHistorySearchModel SearchReq)";
             return await Task.Run(async () =>
             {
                 try
@@ -893,7 +893,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetItemListType(DTEItemsSearchModel SearchReq)
         {
-            _actionName = "GetAllData()";
+            _actionName = "GetItemListType(DTEItemsSearchModel SearchReq)";
             return await Task.Run(async () =>
             {
                 try
@@ -931,7 +931,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetAllItemList(DTEItemsSearchModel SearchReq)
         {
-            _actionName = "GetAllData()";
+            _actionName = "GetAllItemList(DTEItemsSearchModel SearchReq)";
             return await Task.Run(async () =>
             {
                 try
@@ -1010,7 +1010,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetAllinventoryIssueReport(ItemsIssueReturnModels SearchReq)
         {
-            _actionName = "GetAllData()";
+            _actionName = "GetAllinventoryIssueReport(ItemsIssueReturnModels SearchReq)";
             return await Task.Run(async () =>
             {
                 try
@@ -1039,7 +1039,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-
 
         public async Task<DataTable> GetIssueItemList(ItemsIssueReturnModels SearchReq)
         {
@@ -1078,7 +1077,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetInventoryIssueHistoryList(InventoryIssueHistoryListModels SearchReq)
         {
-            _actionName = "GetAllData()";
+            _actionName = "GetInventoryIssueHistoryList(InventoryIssueHistoryListModels SearchReq)";
             return await Task.Run(async () =>
             {
                 try
