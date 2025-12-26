@@ -84,6 +84,25 @@ namespace Kaushal_Darpan.Api.Controllers
                 await unitOfWork.SaveChangesAsync();
             });
         }
+
+
+        protected async Task CreateErrorLogMessage(NewException nex, IUnitOfWork unitOfWork)
+        {
+            await Task.Run(async () =>
+            {
+                var data = new Tbl_Trn_ErrorLog();
+              
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine($"Error = {nex.ErrorText}");
+                    sb.AppendLine($"Page = {nex.PageName}.{nex.ActionName}");
+                    data.ErrorDescription = sb.ToString();
+                    data.CreatedDate = DateTime.Now;
+                
+                await unitOfWork.ErrorLogs.AddErrorLog(data);
+                await unitOfWork.SaveChangesAsync();
+            });
+        }
+
         #endregion
 
         #region Dispose

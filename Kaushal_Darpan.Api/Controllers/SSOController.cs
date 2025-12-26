@@ -26,6 +26,7 @@ using Kaushal_Darpan.Models.RoleMaster;
 using Kaushal_Darpan.Models.MenuMaster;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Kaushal_Darpan.Models;
+using Org.BouncyCastle.Utilities.Encoders;
 
 
 namespace Kaushal_Darpan.Api.Controllers
@@ -987,9 +988,6 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     Model.SSOID = AesEncryptionHelperMobile.DecryptData(Model.SSOID);
                     Model.Password = AesEncryptionHelperMobile.DecryptData(Model.Password);
-
-
-
                     if (Model.Password.ToUpper() == Constants.Login_DefaultPassword) //default password user
                     {
                         isValid = true;
@@ -998,6 +996,20 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         //validate and check 
                         var ssoUserDetailsApi = await ThirdPartyServiceHelper.SSOLoginWithIDPass(Model.SSOID, Model.Password);
+
+
+                        var nex = new NewException
+                        {
+                            PageName = PageName,
+                            ActionName = ActionName,
+                            ErrorText = Convert.ToString(JsonConvert.SerializeObject(ssoUserDetailsApi))
+
+                        };
+                        await CreateErrorLogMessage(nex, _unitOfWork);
+
+
+                        // file
+                        CommonFuncationHelper.WriteTextLog($"ssoUserDetailsApi : {ssoUserDetailsApi} Isvalid:{isValid}");
                         if (ssoUserDetailsApi != null)
                         {
                             var data = ssoUserDetailsApi.FirstOrDefault();
@@ -1020,13 +1032,13 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             Model.Password = Constants.Login_DefaultPassword;// when user authenthicate then
                             isValid = true;
-
                             //isValid = false;
                         }
                     }
                     if (isValid) // when is valid
                     {
                         result.Data = await _unitOfWork.SSORepository.Login(Model.SSOID, Model.Password);
+
                         if (result.Data != null)
                         {
                             MenuByUserAndRoleWiseModel menuModel = new MenuByUserAndRoleWiseModel() { UserID = result.Data.UserID, RoleID = result.Data.RoleID, EndTermID = result.Data.EndTermID, Eng_NonEng = result.Data.Eng_NonEng, DepartmentID = result.Data.DepartmentID, FinancialYearID = result.Data.FinancialYearID };
@@ -1055,7 +1067,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         else
                         {
                             result.State = EnumStatus.Warning;
-                            result.Message = "Invalid SSOID or Password.!";
+                            result.Message = "no sso found in kd!";
                         }
                     }
                     else 
@@ -1068,7 +1080,19 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     result.State = EnumStatus.Warning;
                     result.ErrorMessage = ex.Message;
-                    result.Message = "Invalid SSOID or Password.!"; 
+                    result.Message = "Invalid SSOID or Password.!";
+
+       
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+
+
                 }
                 finally
                 {
