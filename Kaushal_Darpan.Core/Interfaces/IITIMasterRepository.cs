@@ -40,6 +40,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetTradeWisePapers(ITIPaperUploadSearchModel body);
 
         Task<bool> DeletePaperUpload(ITIPaperUploadModel request);
+        Task<DataTable> GetITIPaperUpload_Reports(ITIPaperUploadSearchModel body);
 
 
 

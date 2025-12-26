@@ -299,6 +299,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
                         command.Parameters.AddWithValue("@TradeID", body.TradeID);
                         command.Parameters.AddWithValue("@PaperID", body.PaperID);
+                        command.Parameters.AddWithValue("@PaperUploadID", body.PaperUploadID);
                         // command.Parameters.AddWithValue("@Action", "getTradetblListList");
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -938,6 +939,50 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
         }
+        public async Task<DataTable> GetITIPaperUpload_Reports(ITIPaperUploadSearchModel body)
+        {
+            _actionName = "GetITIPaperUpload_Reports()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIPaperUpload_Reports";
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@PaperDate", body.PaperDate);
+                        command.Parameters.AddWithValue("@CenterID", body.CenterID);
+                        command.Parameters.AddWithValue("@IsPaperDownload", body.IsPaperDownload);
+                        command.Parameters.AddWithValue("@PaperCode", body.PaperCode);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+
+
+
+
+
+
 
     }
 }
