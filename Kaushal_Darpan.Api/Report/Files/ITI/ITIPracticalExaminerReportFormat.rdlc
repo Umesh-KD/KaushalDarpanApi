@@ -344,17 +344,6 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>22. </Value>
-                <Style>
-                  <FontStyle>Normal</FontStyle>
-                  <FontFamily>Aptos</FontFamily>
-                  <FontSize>11pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                  <TextDecoration>None</TextDecoration>
-                  <Color>#000000</Color>
-                </Style>
-              </TextRun>
-              <TextRun>
                 <Value>सैद्धांतिक परीक्षा के छात्रों का उपस्थिति पत्रक</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
@@ -465,7 +454,6 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Left>0cm</Left>
         <Height>3.40523cm</Height>
         <Width>18.92684cm</Width>
         <ZIndex>2</ZIndex>

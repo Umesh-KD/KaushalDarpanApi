@@ -27,13 +27,24 @@ namespace Kaushal_Darpan.Models.ITIMaster
         public DateTime? ModifyDate { get; set; }
         public string? IPAddress { get; set; }
         public int CourseType { get; set; }
+        public string? PaperCode { get; set; }
+
     }
 
     public class ITIPaperUploadSearchModel
     {
         public int EndTermID { get; set; }
-
         public int Eng_NonEng { get; set; }
+        public int SemesterID { get; set; }
+        public int TradeID { get; set; }
+        public string Action{ get; set;} = "";
+        public int PaperID { get; set;}
+        public int PaperUploadID { get; set; }
+        public string PaperDate { get; set; } = "";
+        public int IsPaperDownload { get; set; } = -1;
+        public int CenterID { get; set; }
+        public string PaperCode { get; set; } = "";
+
     }
 }
 

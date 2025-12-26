@@ -1266,7 +1266,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> ITIPlanningBankGuaranteeList(ITIPlanningBankGuaranteeSearch body)
+        public async Task<DataTable> ITIPlanningBankGuaranteeList(ITIPlanningBankGuaranteeSearchList body)
         {
             _actionName = "ITIPlanningBankGuaranteeList()";
             try
@@ -1278,8 +1278,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetITIPlanningBankGuarantee";
-                        command.Parameters.AddWithValue("@BankName", body.BankName);
-                        command.Parameters.AddWithValue("@BankGuaranteeNumber", body.BankGuaranteeNumber);
+                      
+                        command.Parameters.AddWithValue("@status", body.status);
+                        command.Parameters.AddWithValue("@CollageId", body.CollageId);
+                        command.Parameters.AddWithValue("@dayWise", body.dayWise);
+                        
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1312,8 +1315,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetITIPlanningBankGuarantee_report";
-                        command.Parameters.AddWithValue("@BankName", body.BankName);
-                        command.Parameters.AddWithValue("@BankGuaranteeNumber", body.BankGuaranteeNumber);
+                        command.Parameters.AddWithValue("@Status", body.Status);
+                        command.Parameters.AddWithValue("@CollageId", body.CollageId);
+                        
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        public async Task<DataTable> ITIPlanningBankGuaranteeReturn(ITIPlanningBankGuaranteeReturn body)
+        {
+            _actionName = "ITIPlanningBankGuaranteeReport()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetITIPlanningBankGuarantee_Return";
+                        command.Parameters.AddWithValue("@BankGuaranteeID", body.BankGuaranteeID);
+                        command.Parameters.AddWithValue("@Status", body.Status);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

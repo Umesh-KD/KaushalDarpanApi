@@ -7677,15 +7677,16 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpGet("ItiTrade/{DepartmetnID}/{StreamType}/{EndTermId}/{InstituiteID}/{DivisionId}")]
-        public async Task<ApiResult<DataTable>> ItiTrade(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0, int InstituiteID = 0, int DivisionId = 0)
+     
+        [HttpGet("ItiTrade/{DepartmetnID?}/{StreamType?}/{EndTermId?}/{InstituiteID?}/{DivisionId?}/{SemesterID?}")]
+        public async Task<ApiResult<DataTable>> ItiTrade(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0, int InstituiteID = 0, int DivisionId = 0,int SemesterID=0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.ItiTrade(DepartmetnID, StreamType, EndTermId, InstituiteID, DivisionId);
+                    var data = await _unitOfWork.CommonFunctionRepository.ItiTrade(DepartmetnID, StreamType, EndTermId, InstituiteID, DivisionId, SemesterID);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;

@@ -36,6 +36,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int CategoryId { get; set; }
         public int EquipmentId { get; set; }
         public int Quantity { get; set; }
+        public int? ApprovedQuantity { get; set; }
 
         public bool ActiveStatus { get; set; }
         public bool DeleteStatus { get; set; }
@@ -154,6 +155,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? equipmentStatus { get; set; }
         public bool? isOption { get; set; }
         public int? AuctionStatus { get; set; }
+        public int? UsedQuantity { get; set; }
+        public int? IssuedId { get; set; }
 
     }
 

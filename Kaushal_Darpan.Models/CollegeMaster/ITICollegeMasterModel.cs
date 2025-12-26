@@ -130,8 +130,25 @@ public class ITIPlanningBankGuarantee
 }
 public class ITIPlanningBankGuaranteeSearch
 {
+    public int? Status { get; set; }
+    public int CollageId { get; set; }
+}
+
+public class ITIPlanningBankGuaranteeReturn
+{
+    public int? BankGuaranteeID { get; set; }
+    public int? Status { get; set; }
+
+
+}
+
+public class ITIPlanningBankGuaranteeSearchList
+{
     public string? BankGuaranteeNumber { get; set; }
     public string? BankName { get; set; }
+    public int status { get; set; }
+    public int CollageId { get; set; }
+    public int dayWise { get; set; }
 
 
 }

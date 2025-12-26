@@ -27,7 +27,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetCollegeLoginInfoByCode(CollegeLoginInfoSearchModel request);
 
         Task<int> Update_CollegeLoginInfo(CollegeLoginInfoSearchModel request);
-
         Task<DataTable> GetCenterDetailByPaperUploadID(int PaperUploadID , int Userid , int Roleid );
 
         Task<DataTable> GetCenterWisePaperDetail(CenterWisePaperDetailModal request);
@@ -37,6 +36,15 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> UpdatePaperDownloadFalg(UpdateDownloadPaperFalgModal request);
 
         //Task<DataTable> GetCenterIDByLoginUser(CenterWisePaperDetailModal request);
+
+        Task<DataTable> GetTradeWisePapers(ITIPaperUploadSearchModel body);
+
+        Task<bool> DeletePaperUpload(ITIPaperUploadModel request);
+        Task<DataTable> GetITIPaperUpload_Reports(ITIPaperUploadSearchModel body);
+
+
+
+
 
     }
 }
