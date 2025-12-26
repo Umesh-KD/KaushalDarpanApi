@@ -182,6 +182,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CreatedBy", model.createdBy);
                         command.Parameters.AddWithValue("@ModifyBy", model.modifyBy);
                         command.Parameters.AddWithValue("@ConfigurationTypeID", model.ConfigurationTypeID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@RequestEndTerm", model.RequestEndTerm);
+                        command.Parameters.AddWithValue("@FianancialYearID", model.FianancialYearID);
+
                         command.Parameters.AddWithValue("@data", JsonConvert.SerializeObject(model));
 
                         _sqlQuery = command.GetSqlExecutableQuery();// sql query
@@ -206,5 +210,98 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<bool> Save_DuplicateDocumentAction(DuplicateDoc_Action request)
+        {
+            return await Task.Run(async () =>
+            {
+                _actionName = "Save_DuplicateDocumentAction(DuplicateDoc_Action request)";
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Update_DuplicateDocument";
+                        command.Parameters.AddWithValue("@ActionName", "_updateIssuanceAction");
+                        command.Parameters.AddWithValue("@ID", request.ID);
+                        command.Parameters.AddWithValue("@Student_Id", request.StudentID);
+                        command.Parameters.AddWithValue("@Document_ID", request.DocumentID);
+                        command.Parameters.AddWithValue("@NodalAction", request.Action);
+                        command.Parameters.AddWithValue("@ActionRemarks", request.ActionRemarks);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ActionBy);
+                        command.Parameters.AddWithValue("@Department_ID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@Semester_ID", request.SemesterId);
+
+                        command.Parameters.AddWithValue("@CourseTypeID", request.CourseTypeID);
+                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                        command.Parameters.AddWithValue("@FianancialYearID", request.FianancialYearID);
+                        command.Parameters.AddWithValue("@RequestEndTerm", request.RequestEndTerm);
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// sql query
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> GetStudentDMarshkeetSession(int SemesterID = 0, int StudentID = 0, int DepartmentID = 0)
+        {
+            _actionName = "GetStudentDMarshkeetSession(int SemesterID = 0, int StudentID = 0, int DepartmentID = 0)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ApplyDuplicateDocumentDetails";
+                        //command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@ActionName", "_GetSessionData");
+                        command.Parameters.AddWithValue("@Semester_ID", SemesterID);
+                        command.Parameters.AddWithValue("@Student_Id", StudentID);
+                        command.Parameters.AddWithValue("@Department_ID", DepartmentID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
     }
 }
