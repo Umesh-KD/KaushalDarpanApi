@@ -119,6 +119,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
         [HttpPost("ITIGetAllData")]
         public async Task<ApiResult<List<StudentDetailsModel>>> ITIGetAllData([FromBody] StudentSearchModel body)
         {
@@ -1952,6 +1953,45 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+        [HttpPost("GetStudentDataBy_StudID")]
+        public async Task<ApiResult<List<StudentDetailsModel>>> GetStudentDataBy_StudID([FromBody] StudentSearchModel body)
+        {
+            ActionName = "GetStudentDataBy_StudID([FromBody] StudentSearchModel body)";
+            var result = new ApiResult<List<StudentDetailsModel>>();
+            try
+            {
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.StudentRepository.GetStudentDataBy_StudID(body);
+                if (result.Data.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
 
     }
 

@@ -197,5 +197,99 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("Save_DuplicateDocumentAction")]
+        public async Task<ApiResult<bool>> Save_DuplicateDocumentAction([FromBody] DuplicateDoc_Action request)
+        {
+            ActionName = "Save_DuplicateDocumentAction([FromBody] DuplicateDoc_Action request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+
+                    result.Data = await _unitOfWork.ApplyDuplicateDocumentRepository.Save_DuplicateDocumentAction(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Updated successfully .!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+
+                        result.ErrorMessage = "There was an error updating data.!";
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
+        [HttpGet("GetStudentDMarshkeetSession/{SemesterID}/{StudentID}/{DepartmentID}")]
+        public async Task<ApiResult<DataTable>> GetStudentDMarshkeetSession(int SemesterID, int StudentID, int DepartmentID = 0)
+
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.ApplyDuplicateDocumentRepository.GetStudentDMarshkeetSession(SemesterID, StudentID, DepartmentID);
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
     }
 }
