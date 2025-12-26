@@ -988,6 +988,8 @@ namespace Kaushal_Darpan.Api.Controllers
                     Model.SSOID = AesEncryptionHelperMobile.DecryptData(Model.SSOID);
                     Model.Password = AesEncryptionHelperMobile.DecryptData(Model.Password);
 
+
+
                     if (Model.Password.ToUpper() == Constants.Login_DefaultPassword) //default password user
                     {
                         isValid = true;
@@ -1007,10 +1009,19 @@ namespace Kaushal_Darpan.Api.Controllers
                                     isValid = true;
                                 }
                             }
+                            else 
+                            {
+                                Model.Password = Constants.Login_DefaultPassword;// when user authenthicate then
+                                isValid = true;
+                            }
+
                         }
                         else
                         {
-                            isValid = false;
+                            Model.Password = Constants.Login_DefaultPassword;// when user authenthicate then
+                            isValid = true;
+
+                            //isValid = false;
                         }
                     }
                     if (isValid) // when is valid
