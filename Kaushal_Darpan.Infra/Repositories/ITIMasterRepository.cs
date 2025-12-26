@@ -335,7 +335,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITIPaperUpload_IU";
 
                         // Add parameters
-                        //command.Parameters.AddWithValue("@PaperUploadID", request.PaperUploadID ?? (object)DBNull.Value); // Handle nullable
+                        command.Parameters.AddWithValue("@PaperUploadID", request.PaperUploadID); // Handle nullable
                         command.Parameters.AddWithValue("@ExamID", request.ExamID);
                         command.Parameters.AddWithValue("@ExamName", request.ExamName);
                         command.Parameters.AddWithValue("@StreamID", request.StreamID);
