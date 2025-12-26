@@ -110,7 +110,7 @@ namespace Kaushal_Darpan.Models.ItiExaminer
         public int StreamID { get; set; }
         public int SubjectID { get; set; }
         public int CenterID { get; set; }
-        public int RollNo { get; set; }
+        public Int64 RollNo { get; set; }
         public int ExaminerID { get; set; }
         public int AppointExaminerID { get; set; }
         public int StudentExamPaperID { get; set; }
