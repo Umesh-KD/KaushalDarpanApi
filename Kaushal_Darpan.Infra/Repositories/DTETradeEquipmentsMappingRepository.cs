@@ -136,7 +136,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
 
                         //Set the stored procedure name and type
-                        command.CommandText = "USP_DTESaveEquipmentsMappingRequest_IU";
+                        command.CommandText = "USP_INV_ApproveItemRequest";
                         command.CommandType = CommandType.StoredProcedure;
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@TE_MappingId", request.TE_MappingId);
@@ -424,6 +424,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetAllDteRequestMappingEquipments";
+                        command.Parameters.AddWithValue("@action", "GetAllData");
                         command.Parameters.AddWithValue("@EquipmentsId", SearchReq.EquipmentId);
                         command.Parameters.AddWithValue("@CategoryId", SearchReq.CategoryId);
                         command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
