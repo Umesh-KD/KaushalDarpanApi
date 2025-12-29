@@ -21,10 +21,8 @@ namespace Kaushal_Darpan.Api.Controllers
     {
         public override string PageName => "ITIMasterController";
         public override string ActionName { get; set; }
-
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-
         public ITIMasterController(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;

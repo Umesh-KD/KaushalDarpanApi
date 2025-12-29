@@ -86,7 +86,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Set the stored procedure name and type
                         command.CommandText = "USP_ItiSaveInvigilator";
                         command.CommandType = CommandType.StoredProcedure;
-
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@InvigilatorID", request.InvigilatorID);
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
@@ -98,7 +97,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TimeTableID", request.TimeTableID);
                         command.Parameters.AddWithValue("@RollNoTo", request.RollNoTo);
                         command.Parameters.AddWithValue("@RollNoFrom", request.RollNoFrom);
-
                         command.Parameters.AddWithValue("@SSOID", request.SSOID);
                         command.Parameters.AddWithValue("@Name", request.Name);
                         command.Parameters.AddWithValue("@MobileNumber", request.MobileNumber);
@@ -290,6 +288,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserID", model.UserID);
                         command.Parameters.AddWithValue("@SubjectID", 0);
                         command.Parameters.AddWithValue("@SubjectName", model.SubjectName);
+                        command.Parameters.AddWithValue("@InvigilatorID", model.InvigilatorID);
                         command.Parameters.AddWithValue("@RollNumberFrom", model.RollNoFrom ?? string.Empty);
                         command.Parameters.AddWithValue("@RollNumberTo", model.RollNoTo ?? string.Empty);
 

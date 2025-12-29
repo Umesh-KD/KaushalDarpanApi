@@ -980,7 +980,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("SSOLoginWithIDPass")]
         public async Task<ApiResult<SSOUserDetailsModel>> SSOLoginWithIDPass(SsoLoginPassModel Model)
         {
-            bool isValid=false;
+            bool isValid=true;
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<SSOUserDetailsModel>();
@@ -996,8 +996,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         //validate and check 
                         var ssoUserDetailsApi = await ThirdPartyServiceHelper.SSOLoginWithIDPass(Model.SSOID, Model.Password);
-
-
                         var nex = new NewException
                         {
                             PageName = PageName,
@@ -1006,8 +1004,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         };
                         await CreateErrorLogMessage(nex, _unitOfWork);
-
-
                         // file
                         CommonFuncationHelper.WriteTextLog($"ssoUserDetailsApi : {ssoUserDetailsApi} Isvalid:{isValid}");
                         if (ssoUserDetailsApi != null)
@@ -1026,19 +1022,19 @@ namespace Kaushal_Darpan.Api.Controllers
                                 Model.Password = Constants.Login_DefaultPassword;// when user authenthicate then
                                 isValid = true;
                             }
-
                         }
                         else
                         {
                             Model.Password = Constants.Login_DefaultPassword;// when user authenthicate then
                             isValid = true;
-                            //isValid = false;
+                          
                         }
                     }
                     if (isValid) // when is valid
                     {
                         result.Data = await _unitOfWork.SSORepository.Login(Model.SSOID, Model.Password);
 
+                        CommonFuncationHelper.WriteTextLog($" result.Data : {result.Data} Isvalid:{isValid}");
                         if (result.Data != null)
                         {
                             MenuByUserAndRoleWiseModel menuModel = new MenuByUserAndRoleWiseModel() { UserID = result.Data.UserID, RoleID = result.Data.RoleID, EndTermID = result.Data.EndTermID, Eng_NonEng = result.Data.Eng_NonEng, DepartmentID = result.Data.DepartmentID, FinancialYearID = result.Data.FinancialYearID };

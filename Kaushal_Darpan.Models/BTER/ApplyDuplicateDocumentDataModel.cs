@@ -29,6 +29,15 @@ namespace Kaushal_Darpan.Models.BTER
         public bool IsDelete { get; set; } 
 
         public int? ConfigurationTypeID { get; set; }
+
+        public int EndTermID { get; set; }
+
+        public int RequestEndTerm { get; set; }
+
+        public int FianancialYearID { get; set; }
+
+
+
     }
 
 
@@ -67,6 +76,32 @@ namespace Kaushal_Darpan.Models.BTER
         public int Eng_NonEng { get; set; }
     }
 
+
+
+    public class DuplicateDoc_Action
+    {
+        public int ID { get; set; }
+        public int DocumentID { get; set; }
+
+        public int StudentID { get; set; }
+        public string Action { get; set; }
+
+        public int ActionBy { get; set; }
+        public string ActionRemarks { get; set; }
+        public int DepartmentID { get; set; }
+        public int ModifyBy { get; set; }
+        public int RoleID { get; set; }
+
+        public int SemesterId { get; set; }
+
+        public int EndTermID { get; set; }
+        public int RequestEndTerm { get; set; }
+
+        public int FianancialYearID { get; set; }
+        public int CourseTypeID { get; set; }
+
+
+    }
 
 
 
