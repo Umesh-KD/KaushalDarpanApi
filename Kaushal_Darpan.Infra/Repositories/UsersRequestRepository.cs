@@ -373,6 +373,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IPAddress ", _IPAddress);
                         command.Parameters.AddWithValue("@StatusID", request.StatusIDs);
                         command.Parameters.AddWithValue("@RequestRemarks", request.Remark);
+                        command.Parameters.AddWithValue("@ServiceRequestId", request.ServiceRequestId);
 
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
