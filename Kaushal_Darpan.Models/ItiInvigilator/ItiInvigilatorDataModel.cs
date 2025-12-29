@@ -23,6 +23,13 @@ namespace Kaushal_Darpan.Models.ItiInvigilator
         public string? Email { get; set; }
         public string? MobileNumber { get; set; }
 
+        public List<InvigilatorStudentList>? StudentList { get; set; }
+
+
+    }
+    public class InvigilatorStudentList
+    {
+        public int StudentExamPaperMarksID { get; set; }
     }
 
 
@@ -53,6 +60,7 @@ namespace Kaushal_Darpan.Models.ItiInvigilator
         public int InstituteID { get; set; }
         public int? EndtermID { get; set; }
         public int? EngNong { get; set; }
+
     }
 
     public class ITI_InvigilatorPDFViewModal
