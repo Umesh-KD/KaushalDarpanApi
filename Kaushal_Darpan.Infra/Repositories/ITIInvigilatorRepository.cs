@@ -103,6 +103,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Name", request.Name);
                         command.Parameters.AddWithValue("@MobileNumber", request.MobileNumber);
                         command.Parameters.AddWithValue("@Email", request.Email);
+                        command.Parameters.AddWithValue("@json", JsonConvert.SerializeObject(request.StudentList));
 
 
                         command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
