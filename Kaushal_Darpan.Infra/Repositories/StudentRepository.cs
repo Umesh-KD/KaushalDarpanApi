@@ -130,6 +130,59 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<List<StudentDetailsModel>> GetStudentDataBy_StudID(StudentSearchModel searchModel)
+        {
+            _actionName = "GetStudentDataBy_StudID(StudentSearchModel searchModel)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ApplyDuplicateDocumentDetails";
+
+                        // Add parameters to the stored procedure from the model
+                        command.Parameters.AddWithValue("@ActionName", "_GetStudentDataBy_StudID");
+                        command.Parameters.AddWithValue("@Student_Id", searchModel.StudentID);
+                        //command.Parameters.AddWithValue("@SemesterID", searchModel.SemesterID);
+                        //command.Parameters.AddWithValue("@StreamID", searchModel.StreamID);
+                        //command.Parameters.AddWithValue("@ApplicationNo", searchModel.ApplicationNo);
+                        //command.Parameters.AddWithValue("@MobileNumber", searchModel.MobileNumber);
+                        //command.Parameters.AddWithValue("@DOB", searchModel.DOB);
+                        command.Parameters.AddWithValue("@Department_ID", searchModel.DepartmentID);
+                        //command.Parameters.AddWithValue("@Eng_NonEng", searchModel.Eng_NonEng);
+                        //command.Parameters.AddWithValue("@EndTermID", searchModel.EndTermID);
+                        //command.Parameters.AddWithValue("@action", searchModel.Action);
+                        //command.Parameters.AddWithValue("@SsoID", searchModel.SsoID);
+                        //command.Parameters.AddWithValue("@ServiceId", searchModel.ServiceID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    var data = new List<StudentDetailsModel>();
+                    if (dataTable != null)
+                    {
+                        data = CommonFuncationHelper.ConvertDataTable<List<StudentDetailsModel>>(dataTable);
+                    }
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<List<StudentDetailsModel>> ITIGetAllData(StudentSearchModel searchModel)
         {
             _actionName = "USP_ITI_StudentPendingFees(StudentSearchModel searchModel)";
