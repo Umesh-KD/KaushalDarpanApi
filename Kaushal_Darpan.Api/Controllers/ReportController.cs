@@ -4103,8 +4103,6 @@ namespace Kaushal_Darpan.Api.Controllers
                             dtStudentExamDetails.Columns.Add("CenterName");
                             dtStudentExamDetails.Columns.Add("BranchCode");
 
-
-
                             dtStudentExamDetails.Rows.Add(StudentExamID.StudentType, StudentExamID.InstituteNameEnglish, StudentExamID.EndTermName, StudentExamID.FinancialYearName, StudentExamID.CenterName, StudentExamID.BranchCode);
                             GenerateAdmitCardModel objStudent = new GenerateAdmitCardModel();
                             var data = await _unitOfWork.ReportRepository.GetITIStudentRollNoList_collegewise(StudentExamID);
