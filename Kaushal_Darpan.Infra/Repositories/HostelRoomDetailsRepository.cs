@@ -39,7 +39,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int result = 0;
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                        // Set the stored procedure name and type
+                        // Set the stored procedure name and typeGetRoomDDLList
                         command.CommandText = "USP_HostelRoomDetails";
                         command.CommandType = CommandType.StoredProcedure;
                         // Add parameters with appropriate null handling

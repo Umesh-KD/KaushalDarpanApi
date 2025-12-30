@@ -43,5 +43,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> ReGenerateProvisionalMerit_Hostel(int Gender, List<PublishHostelMeritListDataModel> model);
         Task<DataTable> GetRoomPreference(GetMeritDataModel_Hostel SearchReq);
         Task<bool> WithdrawHostelRequest(DeallocateRoomDataModel request);
+        Task<DataTable> HostelStudentMeritListWardenView(SearchStudentApplyForHostel SearchReq);
     }
 }
