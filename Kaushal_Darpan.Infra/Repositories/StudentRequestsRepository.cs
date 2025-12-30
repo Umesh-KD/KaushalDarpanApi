@@ -1402,5 +1402,46 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> HostelStudentMeritListWardenView(SearchStudentApplyForHostel SearchReq)
+        {
+            _actionName = "HostelStudentMeritListWardenView(SearchStudentApplyForHostel SearchReq)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_HostelStudentMeritListWardenView";
+                        command.Parameters.AddWithValue("@Action", SearchReq.Action);
+
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
+                        command.Parameters.AddWithValue("@SemesterId", SearchReq.SemesterId);
+                        command.Parameters.AddWithValue("@HostelID", SearchReq.HostelID);
+                        command.Parameters.AddWithValue("@BrachId", SearchReq.BrachId);
+                        command.Parameters.AddWithValue("@EndTermId", SearchReq.EndTermId);
+                        command.Parameters.AddWithValue("@Gender", SearchReq.Gender);
+                        command.Parameters.AddWithValue("@status", SearchReq.status);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }

@@ -747,5 +747,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        public async Task<DataTable> Counselling_GetCandidateDetailsRPT(CounsellingReportListSearchModel filterModel)
+        {
+            _actionName = "Counselling_GetCandidateDetailsRPT()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_GetCandidateDetailsRPT";
+                        // Add parameters to the stored procedure from the model
+                        command.Parameters.AddWithValue("@Mode", filterModel.Mode); 
+                        command.Parameters.AddWithValue("@TradeID", filterModel.TradeID);
+                        command.Parameters.AddWithValue("@DesignationID", filterModel.DesignationId);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
