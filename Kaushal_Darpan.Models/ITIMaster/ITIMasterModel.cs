@@ -107,6 +107,9 @@ namespace Kaushal_Darpan.Models.ITIMaster
         public int Roleid { get; set; }
         public int PaperUploadID { get; set; }
         public int CenterID { get; set; }
+        public int RequestFor { get; set; }
+
+
 
     }
 
