@@ -24,39 +24,36 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetAllData(DTELaboratoryDataModel modal)
         {
             _actionName = "GetAllData()";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@ActionName", modal.ActionName);
-                        command.Parameters.AddWithValue("@Lab_Id", modal.LabID);
-                        command.Parameters.AddWithValue("@Lab_Name", modal.LabName);
-                        command.Parameters.AddWithValue("@Lab_DepartmentId", modal.DepartmentID);
-                        command.Parameters.AddWithValue("@Lab_CollegeId", modal.InstituteID);
-                        command.Parameters.AddWithValue("@Lab_BranchId", modal.StreamID);
-                        command.CommandText = "USP_DTELabMaster_Operation";
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ActionName", modal.ActionName);
+                    command.Parameters.AddWithValue("@Lab_Id", modal.LabID);
+                    command.Parameters.AddWithValue("@Lab_Name", modal.LabName);
+                    command.Parameters.AddWithValue("@Lab_DepartmentId", modal.DepartmentID);
+                    command.Parameters.AddWithValue("@Lab_CollegeId", modal.InstituteID);
+                    command.Parameters.AddWithValue("@Lab_BranchId", modal.StreamID);
+                    command.CommandText = "USP_DTELabMaster_Operation";
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         public async Task<DTELaboratoryDataModel> GetById(int PK_ID)
         {

@@ -8466,7 +8466,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                         command.Parameters.AddWithValue("@StudentID", model.StudentID);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        //command.Parameters.AddWithValue("@FianancialYearID", model.FianancialYearID);
+                        command.Parameters.AddWithValue("@RequestEndTermID", model.RequestEndTerm);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEngID);
                         command.Parameters.AddWithValue("@IsRevised", model.IsRevised);
                         command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);

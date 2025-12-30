@@ -20,6 +20,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetStudentDashboard(StudentSearchModel request);
         Task<List<StudentDetailsModel>> GetAllData(StudentSearchModel filterModel);
+        Task<List<StudentDetailsModel>> GetStudentDataBy_StudID(StudentSearchModel filterModel);
         Task<List<StudentDetailsModel>> ITIGetAllData(StudentSearchModel filterModel);
         Task<DataTable> GetStudentDeatilsByAction(StudentSearchModel filterModel);
         Task<DataTable> GetITIStudentDeatilsByAction(StudentSearchModel filterModel);

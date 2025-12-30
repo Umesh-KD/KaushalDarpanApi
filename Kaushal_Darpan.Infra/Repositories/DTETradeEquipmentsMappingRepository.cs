@@ -136,7 +136,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
 
                         //Set the stored procedure name and type
-                        command.CommandText = "USP_DTESaveEquipmentsMappingRequest_IU";
+                        command.CommandText = "USP_INV_ApproveItemRequest";
                         command.CommandType = CommandType.StoredProcedure;
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@TE_MappingId", request.TE_MappingId);
@@ -161,6 +161,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CompanyName", request.CompanyName);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@MappingId", request.MappingId);
+                        command.Parameters.AddWithValue("@ApprovedQuantity", request.ApprovedQuantity);
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
@@ -423,6 +424,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetAllDteRequestMappingEquipments";
+                        command.Parameters.AddWithValue("@action", "GetAllData");
                         command.Parameters.AddWithValue("@EquipmentsId", SearchReq.EquipmentId);
                         command.Parameters.AddWithValue("@CategoryId", SearchReq.CategoryId);
                         command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
@@ -483,7 +485,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@IndentDocument", request.IndentDocument);
                         command.Parameters.AddWithValue("@Remarks", request.Remarks);
-
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command

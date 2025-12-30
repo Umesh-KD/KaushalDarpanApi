@@ -670,15 +670,44 @@
                   <TextDecoration>Underline</TextDecoration>
                 </Style>
               </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
               <TextRun>
-                <Value xml:space="preserve">
-</Value>
+                <Value>(</Value>
                 <Style>
                   <FontFamily>Times New Roman</FontFamily>
                   <FontWeight>Normal</FontWeight>
                   <TextDecoration>None</TextDecoration>
                 </Style>
               </TextRun>
+              <TextRun>
+                <Value>Branches:</Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontWeight>Bold</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value> AR, AC, CC, CE, CI, CH, CS, EF, EE, EL, ER, FD, HM, IE, IT, MA, ME, MP, MR, MT, PE, PL, PR, CV, RA, LS, RE)</Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
               <TextRun>
                 <Value>Practical exam will be conducted from  to    at institute level.</Value>
                 <Style>

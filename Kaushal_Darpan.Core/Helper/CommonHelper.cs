@@ -272,7 +272,8 @@ namespace Kaushal_Darpan.Core.Helper
     {
         public string PageName { get; set; }
         public string ActionName { get; set; }
-        public Exception Ex { get; set; }
+        public Exception? Ex { get; set; }
+        public string ErrorText { get; set; } = "";
     }
     public class ErrorDescription
     {

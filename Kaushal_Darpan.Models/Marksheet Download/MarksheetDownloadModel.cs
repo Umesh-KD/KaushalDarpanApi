@@ -25,6 +25,10 @@
         public bool? IsLateral { get; set; }
         public int? ReqId { get; set; }
 
+        public int RequestEndTerm { get; set; }
+
+        public int? FianancialYearID { get; set; }
+
     }
 
     public class BackPaperReportDataModel : RequestBaseModel
