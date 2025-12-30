@@ -56,7 +56,24 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? MobileNo { get; set; }
         public int? InstituteID { get; set; }
     }
-
+    public class CounsellingReportListSearchModel
+    {
+        public int? TradeID { get; set; }
+        public int? CandidateID { get; set; }
+        public int? PageSize { get; set; }
+        public int? PageNumber { get; set; }
+        public string? TradeName { get; set; }
+        public string? SortOrder { get; set; }
+        public string? SortColumn { get; set; }
+        public string? action { get; set; }
+        public string? ApplicationNo { get; set; }
+        public string? CandidateName { get; set; }
+        public string? MobileNo { get; set; }
+        public int? InstituteID { get; set; }
+        public string? FilterType { get; set; }
+        public int? Mode { get; set; }
+        public int? DesignationId { get; set; }
+    }
     public class EditInstituteDataModel_Counselling
     {
         public int? TradeID { get; set; }
