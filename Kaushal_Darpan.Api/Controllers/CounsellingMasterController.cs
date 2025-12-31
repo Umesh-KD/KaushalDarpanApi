@@ -1064,5 +1064,135 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+        [HttpPost("GenerateCounsellingAppointmentOrder")]
+        public async Task<ApiResult<string>> GenerateCounsellingAppointmentOrder([FromBody]  CounsellingAppointmentOrder body)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await Task.Run(() => _unitOfWork.CounsellingMasterRepository.GenerateCounsellingAppointmentOrder(body));
+
+                    if (data?.Tables?.Count >= 1)
+                    {
+
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        string guid = Guid.NewGuid().ToString().ToUpper();
+                        var fileName = $"CounsellingAppointmentOrder_{guid}.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITI_CounsellingAppointmentOrder.rdlc";
+                         
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+
+                        localReport.AddDataSource("ITI_CounsellingAppointmentOrderTable", data.Tables[0]);
+                        localReport.AddDataSource("ITI_CounsellingAppointmentOrderHeaderTable", data.Tables[1]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        //end report
+
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                         
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+
+                return result;
+            });
+        }
+        [HttpPost("GenerateCounsellingAppointmentOrderExcel")]
+        public async Task<ApiResult<string>> GenerateCounsellingAppointmentOrderExcel([FromBody] CounsellingAppointmentOrder body)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await Task.Run(() => _unitOfWork.CounsellingMasterRepository.GenerateCounsellingAppointmentOrder(body));
+
+                    if (data?.Tables?.Count >= 1)
+                    {
+
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        string guid = Guid.NewGuid().ToString().ToUpper();
+                        var fileName = $"CounsellingAppointmentOrder_{guid}.xlsx";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITI_CounsellingAppointmentOrder.rdlc";
+
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+
+                        localReport.AddDataSource("ITI_CounsellingAppointmentOrderTable", data.Tables[0]);
+                        localReport.AddDataSource("ITI_CounsellingAppointmentOrderHeaderTable", data.Tables[1]);
+                        var reportResult = localReport.Execute(RenderType.ExcelOpenXml);
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        //end report
+
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+
+                return result;
+            });
+        }
     }
 }

@@ -369,6 +369,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@action", body.action);
 
                         command.Parameters.AddWithValue("@TradeID", body.TradeID);
+                        command.Parameters.AddWithValue("@IsTSP", body.IsTSP);
+                        command.Parameters.AddWithValue("@DesignationID", body.DesignationID);
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -769,6 +771,41 @@ namespace Kaushal_Darpan.Infra.Repositories
                     }
 
                     return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        public async Task<DataSet> GenerateCounsellingAppointmentOrder(CounsellingAppointmentOrder model)
+        {
+            _actionName = "GenerateCounsellingAppointmentOrder(List<CounsellingAppointmentOrder> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Counselling_GetCandidateAppointmentOrder";
+                        command.Parameters.AddWithValue("@TradeID", model.TradeID);
+                        command.Parameters.AddWithValue("@DesignationId", model.DesignationID);
+                        command.Parameters.AddWithValue("@IsTSP",  model.IsTSP  );
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
                 }
                 catch (Exception ex)
                 {
