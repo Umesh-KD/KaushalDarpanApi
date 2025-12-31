@@ -215,12 +215,6 @@ namespace Utility
                     }
 
 
-
-
-
-
-
-
                     pdfDoc.Close();
                     writer.Close();
 
