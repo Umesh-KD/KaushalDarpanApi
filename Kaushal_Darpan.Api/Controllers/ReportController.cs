@@ -14128,80 +14128,80 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
        
-        [HttpPost("GetTimeTableInWord")]
-        public async Task<ApiResult<string>> GetTimeTableInWord([FromBody] TabluationDataModel body)
-        {
-            ActionName = "GetTimeTableInWord([FromBody] TabluationDataModel body)";
-            var result = new ApiResult<string>();
-            try
-            {
-                // get time table data
-                var data = await _unitOfWork.ReportRepository.GetStreamResultRptTabulation(body);
+        //[HttpPost("GetTimeTableInWord")]
+        //public async Task<ApiResult<string>> GetTimeTableInWord([FromBody] TabluationDataModel body)
+        //{
+        //    ActionName = "GetTimeTableInWord([FromBody] TabluationDataModel body)";
+        //    var result = new ApiResult<string>();
+        //    try
+        //    {
+        //        // get time table data
+        //        var data = await _unitOfWork.ReportRepository.GetStreamResultRptTabulation(body);
 
-                if (data?.Rows?.Count == 0)
-                {
-                    result.State = EnumStatus.Warning;
-                    result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    return result;
-                }
+        //        if (data?.Rows?.Count == 0)
+        //        {
+        //            result.State = EnumStatus.Warning;
+        //            result.Message = Constants.MSG_DATA_NOT_FOUND;
+        //            return result;
+        //        }
 
-                // make html by data
-                string htmlContent = _printHtmlFile.GetHtmlOfTimeTable().ToString();
+        //        // make html by data
+        //        string htmlContent = _printHtmlFile.GetHtmlOfTimeTable().ToString();
 
-                var ms = new MemoryStream();
+        //        var ms = new MemoryStream();
 
-                using (var wordDoc = DocumentFormat.OpenXml.Packaging.WordprocessingDocument.Create(
-                    ms,
-                    DocumentFormat.OpenXml.WordprocessingDocumentType.Document,
-                    true))
-                {
-                    var mainPart = wordDoc.AddMainDocumentPart();
-                    mainPart.Document = new DocumentFormat.OpenXml.Wordprocessing.Document(
-                        new DocumentFormat.OpenXml.Wordprocessing.Body()
-                    );
+        //        using (var wordDoc = DocumentFormat.OpenXml.Packaging.WordprocessingDocument.Create(
+        //            ms,
+        //            DocumentFormat.OpenXml.WordprocessingDocumentType.Document,
+        //            true))
+        //        {
+        //            var mainPart = wordDoc.AddMainDocumentPart();
+        //            mainPart.Document = new DocumentFormat.OpenXml.Wordprocessing.Document(
+        //                new DocumentFormat.OpenXml.Wordprocessing.Body()
+        //            );
 
-                    var converter = new HtmlToOpenXml.HtmlConverter(mainPart);
-
-
-                    // html utf-8
-                    await converter.ParseHtml(htmlContent);
-
-                    // Force Hindi font if needed
-                    wordDoc.ForceHindiFont();
-                }
-
-                ms.Position = 0;
+        //            var converter = new HtmlToOpenXml.HtmlConverter(mainPart);
 
 
-                byte[] pdfBytes = ms.ToArray();
+        //            // html utf-8
+        //            await converter.ParseHtml(htmlContent);
 
-                result.Data = Convert.ToBase64String(pdfBytes);
-                result.State = EnumStatus.Success;
-                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+        //            // Force Hindi font if needed
+        //            wordDoc.ForceHindiFont();
+        //        }
 
-                //return File(
-                //    ms,
-                //    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                //    "HtmlToWord.docx"
-                //);
-            }
-            catch (System.Exception ex)
-            {
-                await _unitOfWork.DisposeAsync();
+        //        ms.Position = 0;
 
-                result.State = EnumStatus.Error;
-                result.Message = Constants.MSG_ERROR_OCCURRED;
-                result.ErrorMessage = ex.Message;
-                // write error log
-                var nex = new NewException
-                {
-                    PageName = PageName,
-                    ActionName = ActionName,
-                    Ex = ex,
-                };
-                await CreateErrorLog(nex, _unitOfWork);
-            }
-            return result;
-        }
+
+        //        byte[] pdfBytes = ms.ToArray();
+
+        //        result.Data = Convert.ToBase64String(pdfBytes);
+        //        result.State = EnumStatus.Success;
+        //        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+        //        //return File(
+        //        //    ms,
+        //        //    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        //        //    "HtmlToWord.docx"
+        //        //);
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        await _unitOfWork.DisposeAsync();
+
+        //        result.State = EnumStatus.Error;
+        //        result.Message = Constants.MSG_ERROR_OCCURRED;
+        //        result.ErrorMessage = ex.Message;
+        //        // write error log
+        //        var nex = new NewException
+        //        {
+        //            PageName = PageName,
+        //            ActionName = ActionName,
+        //            Ex = ex,
+        //        };
+        //        await CreateErrorLog(nex, _unitOfWork);
+        //    }
+        //    return result;
+        //}
     }
 }
