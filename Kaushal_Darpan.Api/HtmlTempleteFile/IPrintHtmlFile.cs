@@ -9,5 +9,6 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         StringBuilder GetHtmlOfHeadingAndTabularForTabulation(DataRow streams_dr, DataTable heading_dt, DataSet tabular_ds);
         StringBuilder GetHtmlOfConsolidateForTabulation(DataTable consolidate_dt);
         StringBuilder CounsellingAllotmentOrder_GetHtml(DataTable consolidate_dt);
+        StringBuilder GetHtmlOfTimeTable();
     }
 }

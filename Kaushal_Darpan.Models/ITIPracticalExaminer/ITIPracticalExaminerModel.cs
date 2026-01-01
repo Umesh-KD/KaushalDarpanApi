@@ -33,6 +33,7 @@ namespace Kaushal_Darpan.Models.ITIPracticalExaminer
         public string? Action { get; set; }
         public string? SSOID { get; set; }
         public int UserID { get; set; }
+        public int StreamID { get; set; }
         public int InstituteID {get; set;}
         public int DistrictID {get; set;}
     }
@@ -53,6 +54,7 @@ namespace Kaushal_Darpan.Models.ITIPracticalExaminer
         public int? CenterID { get; set; }
         public int? InsituteID { get; set; }
         public int UserID { get; set; }
+        public int StreamID { get; set; }
 
         public string? IPAddress { get; set; } = string.Empty;
         public int? CreatedBy { get; set; }
@@ -76,6 +78,7 @@ namespace Kaushal_Darpan.Models.ITIPracticalExaminer
         public int CenterID { get; set; }
         public int EndTermID { get; set; }
         public int Eng_NonEng { get; set; }
+        public int StreamID { get; set; }
         //public string? SubjectCode { get; set; }
     }
 
