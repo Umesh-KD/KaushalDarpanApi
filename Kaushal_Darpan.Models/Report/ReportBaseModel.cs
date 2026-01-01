@@ -25,6 +25,7 @@
         public int ExamCategoryID { get; set; }
         public int InstituteID { get; set; }
         public int CenterID { get; set; }
+        public int StreamID { get; set; }
         public string? SubjectCode { get; set; }
         public string? ExamDate { get; set; }
     }
