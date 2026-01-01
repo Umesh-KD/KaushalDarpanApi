@@ -55,6 +55,8 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? CandidateName { get; set; }
         public string? MobileNo { get; set; }
         public int? InstituteID { get; set; }
+        public int? IsTSP { get; set; }
+        public int? DesignationID { get; set; }
     }
     public class CounsellingReportListSearchModel
     {
@@ -85,5 +87,16 @@ namespace Kaushal_Darpan.Models.CounsellingMaster
         public string? AllotmentOrderPath { get; set; }
         public string? AllotmentOrder { get; set; }
     }
-
+    public class CounsellingAppointmentOrder
+    {
+        public int? TradeID { get; set; }
+        public int? InstituteID { get; set; } 
+        public int? ModifyBy { get; set; }
+        public int? OptionID { get; set; }
+        public int? AllotmentID { get; set; }
+        public string? AllotmentOrderPath { get; set; }
+        public string? AllotmentOrder { get; set; }
+        public int? IsTSP { get; set; }
+        public int? DesignationID { get; set; }
+    }
 }

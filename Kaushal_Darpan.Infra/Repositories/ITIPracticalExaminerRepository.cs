@@ -325,6 +325,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@MobileNumber", request.MobileNumber);
                         command.Parameters.AddWithValue("@Name", request.Name);
                         command.Parameters.AddWithValue("@Eng_NonEng", request.Eng_NonEng);
+                        command.Parameters.AddWithValue("@StreamID", request.StreamID);
 
                         command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
                         command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
@@ -535,6 +536,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterID);
                         command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                        command.Parameters.AddWithValue("@StreamID", filterModel.StreamID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
 
@@ -674,10 +676,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
-
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
-
                         result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
                     }
 

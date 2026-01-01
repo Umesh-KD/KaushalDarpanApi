@@ -115,6 +115,10 @@ namespace Kaushal_Darpan.Models.Student
         public string? FileName { get; set; }
         public string? Longitude { get; set; }
         public string? Latitude { get; set; }
+        public string? JobCardImage { get; set; }
+        public string? JobCardImage1 { get; set; }
+        public int MarkSubmit { get; set; }
+
     }
 
 
