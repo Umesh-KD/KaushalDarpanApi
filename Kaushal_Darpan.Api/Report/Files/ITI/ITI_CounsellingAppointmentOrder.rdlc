@@ -37,6 +37,10 @@
           <DataField>SelectedCategory</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+		  <Field Name="Prioity">
+			  <DataField>Prioity</DataField>
+			  <rd:TypeName>System.String</rd:TypeName>
+		  </Field>
 		<Field Name="RollNumber">
 			  <DataField>RollNumber</DataField>
 			  <rd:TypeName>System.String</rd:TypeName>
@@ -409,6 +413,9 @@
                 <TablixColumn>
                   <Width>1.48066cm</Width>
                 </TablixColumn>
+				  <TablixColumn>
+					  <Width>1.48066cm</Width>
+				  </TablixColumn>
                 <TablixColumn>
                   <Width>1.98066cm</Width>
                 </TablixColumn>
@@ -585,6 +592,39 @@
 									  </Paragraph>
 								  </Paragraphs>
 								  <rd:DefaultName>Textbox10</rd:DefaultName>
+								  <Style>
+									  <Border>
+										  <Style>Solid</Style>
+									  </Border>
+									  <PaddingLeft>2pt</PaddingLeft>
+									  <PaddingRight>2pt</PaddingRight>
+									  <PaddingTop>2pt</PaddingTop>
+									  <PaddingBottom>2pt</PaddingBottom>
+								  </Style>
+							  </Textbox>
+						  </CellContents>
+					  </TablixCell>
+					  <TablixCell>
+						  <CellContents>
+							  <Textbox Name="Textbox19">
+								  <CanGrow>true</CanGrow>
+								  <KeepTogether>true</KeepTogether>
+								  <Paragraphs>
+									  <Paragraph>
+										  <TextRuns>
+											  <TextRun>
+												  <Value>प्राथमिकता</Value>
+												  <Style>
+													  <FontWeight>Bold</FontWeight>
+												  </Style>
+											  </TextRun>
+										  </TextRuns>
+										  <Style>
+											  <TextAlign>Left</TextAlign>
+										  </Style>
+									  </Paragraph>
+								  </Paragraphs>
+								  <rd:DefaultName>Textbox19</rd:DefaultName>
 								  <Style>
 									  <Border>
 										  <Style>Solid</Style>
@@ -922,6 +962,37 @@
 							  </Textbox>
 						  </CellContents>
 					  </TablixCell>
+					  <TablixCell>
+						  <CellContents>
+							  <Textbox Name="Prioity">
+								  <CanGrow>true</CanGrow>
+								  <KeepTogether>true</KeepTogether>
+								  <Paragraphs>
+									  <Paragraph>
+										  <TextRuns>
+											  <TextRun>
+												  <Value>=Fields!Prioity.Value</Value>
+												  <Style />
+											  </TextRun>
+										  </TextRuns>
+										  <Style>
+											  <TextAlign>Left</TextAlign>
+										  </Style>
+									  </Paragraph>
+								  </Paragraphs>
+								  <rd:DefaultName>Prioity</rd:DefaultName>
+								  <Style>
+									  <Border>
+										  <Style>Solid</Style>
+									  </Border>
+									  <PaddingLeft>2pt</PaddingLeft>
+									  <PaddingRight>2pt</PaddingRight>
+									  <PaddingTop>2pt</PaddingTop>
+									  <PaddingBottom>2pt</PaddingBottom>
+								  </Style>
+							  </Textbox>
+						  </CellContents>
+					  </TablixCell>
 					<TablixCell>
 						  <CellContents>
 							  <Textbox Name="RollNumber">
@@ -1093,6 +1164,7 @@
 				  <TablixMember />
 				  <TablixMember />
 				  <TablixMember />
+				  <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -1126,8 +1198,8 @@
       </Body>
       <Width>7.47862in</Width>
       <Page>
-		  <PageHeight>11.69in</PageHeight>
-		  <PageWidth>8.27in</PageWidth>
+		  <PageHeight>8.27in</PageHeight>
+		  <PageWidth>11.69in</PageWidth>
         <LeftMargin>0.5cm</LeftMargin>
         <RightMargin>0.5cm</RightMargin>
         <TopMargin>0.5cm</TopMargin>
