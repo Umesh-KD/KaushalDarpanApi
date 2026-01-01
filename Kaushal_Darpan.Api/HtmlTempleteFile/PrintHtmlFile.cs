@@ -175,6 +175,8 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         }
         #endregion
 
+
+
         #region Result Tabulation
         public StringBuilder GetHtmlOfHeadingAndTabularForTabulation(DataRow streams_dr, DataTable heading_dt, DataSet tabular_ds)
         {
@@ -355,6 +357,209 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     sb.AppendLine("            </tr>");
                 }
                 sb.AppendLine("        </table>");
+
+                return sb;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        #endregion
+
+        #region Time Table
+        public StringBuilder GetHtmlOfTimeTable()
+        {
+            try
+            {
+                var sb = new StringBuilder();
+
+                sb.AppendLine("<!DOCTYPE html>");
+                sb.AppendLine("<html lang=\"hi\">");
+                sb.AppendLine("<head>");
+                sb.AppendLine("    <meta charset=\"UTF-8\" />");
+                sb.AppendLine("    <title>Examination Programme - BTER Jodhpur</title>");
+
+                sb.AppendLine("    <style>");
+                sb.AppendLine("        @font-face {");
+                sb.AppendLine("            font-family: 'Noto Sans Devanagari';");
+                //sb.AppendLine($"            src: url(\"{ConfigurationHelper.FontPath_Noto_Sans_Devanagari}\") format('truetype');");
+                //sb.AppendLine("        }");
+
+                sb.AppendLine("        body {");
+                sb.AppendLine("            font-family: 'Noto Sans Devanagari', 'Times New Roman', serif;");
+                sb.AppendLine("            font-size: 14px;");
+                sb.AppendLine("            line-height: 1.6;");
+                sb.AppendLine("            margin: 20px;");
+                sb.AppendLine("            color: #000;");
+                sb.AppendLine("        }");
+
+                sb.AppendLine("        .page {");
+                sb.AppendLine("            border: 1px solid #000;");
+                sb.AppendLine("            padding: 30px;");
+                sb.AppendLine("            margin-bottom: 40px;");
+                sb.AppendLine("        }");
+
+                sb.AppendLine("        h3 {");
+                sb.AppendLine("            color: #000;");
+                sb.AppendLine("            font-weight: bold;");
+                sb.AppendLine("            text-align: center;");
+                sb.AppendLine("        }");
+
+                sb.AppendLine("        .text-center { text-align: center; }");
+                sb.AppendLine("        .text-right { text-align: right; }");
+                sb.AppendLine("        .bold { font-weight: bold; }");
+                sb.AppendLine("        .underline { text-decoration: underline; }");
+
+                sb.AppendLine("        table {");
+                sb.AppendLine("            width: 100%;");
+                sb.AppendLine("            border-collapse: collapse;");
+                sb.AppendLine("            font-size: 13px;");
+                sb.AppendLine("        }");
+
+                sb.AppendLine("        th, td {");
+                sb.AppendLine("            border: 1px solid #000;");
+                sb.AppendLine("            padding: 6px;");
+                sb.AppendLine("            text-align: center;");
+                sb.AppendLine("        }");
+
+                sb.AppendLine("        .signature {");
+                sb.AppendLine("            margin-top: 40px;");
+                sb.AppendLine("            text-align: right;");
+                sb.AppendLine("            font-weight: bold;");
+                sb.AppendLine("        }");
+
+                sb.AppendLine("    </style>");
+                sb.AppendLine("</head>");
+                sb.AppendLine("<body>");
+
+                // ================= PAGE 1 =================
+                sb.AppendLine("<div class=\"\">");
+
+                sb.AppendLine("<div class=\"text-center\">");
+                sb.AppendLine("<h3 style=\"text-align:center;color:#000;font-weight:bold;font-size:18px;margin:0;\">राजस्थान सरकार</h3>");
+                sb.AppendLine("<h2 style=\"text-align:center;color:#000;font-weight:bold;font-size:16px;\">प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर</h2>");
+                sb.AppendLine("<p style=\"text-align:center;color:#000;font-size:13px;\">डब्ल्यू-6 रेजीडेन्सी रोड जोधपुर<br/>ई-मेल : bter.jodhpur@rajasthan.gov.in</p>");
+                sb.AppendLine("</div>");
+
+                sb.AppendLine("<p class=\"bold\">क्रमांक:- एफ-7 / प्राशिमं / परीक्षा / Nov-2025 /</p>");
+
+                sb.AppendLine("<p>");
+                sb.AppendLine("प्रधानाचार्य,<br/>");
+                sb.AppendLine("समस्त राजकीय एवं निजी पॉलिटेक्निक कॉलेज (इंजी.)");
+                sb.AppendLine("</p>");
+
+                sb.AppendLine("<p class=\"bold underline\">");
+                sb.AppendLine("विषय :- परीक्षा Nov-2025 सत्र 2025-2026 (इंजी.) सेमेस्टर पद्धति एवं स्पेशल परीक्षा कार्यक्रम।");
+                sb.AppendLine("</p>");
+
+                sb.AppendLine("<p>महोदय,</p>");
+
+                sb.AppendLine("<p style=\"text-indent:40px;\">");
+                sb.AppendLine("उपरोक्त विषयानुसार लेख है कि परीक्षा <b>Nov-2025 सत्र 2025-2026 (इंजी.)</b> सेमेस्टर पद्धति एवं ");
+                sb.AppendLine("<b>2025-2026 (इंजी.)</b> स्पेशल परीक्षा का कार्यक्रम आपको प्रेषित किया जा रहा है। ");
+                sb.AppendLine("यदि कोई त्रुटि पाई जाये तो अविलम्ब सूचित करें।");
+                sb.AppendLine("</p>");
+
+                sb.AppendLine("<p>संलग्न :- उपरोक्तानुसार</p>");
+
+                sb.AppendLine("<div style=\"text-align:right;font-weight:bold;\">");
+                sb.AppendLine("भवदीय<br/>");
+                sb.AppendLine("संयुक्त निदेशक एवं रजिस्ट्रार");
+                sb.AppendLine("</div>");
+
+                sb.AppendLine("<p style=\"display:flex; align-items:center; justify-content:space-between;\">");
+                sb.AppendLine("<p style=\"font-size:13px;\">क्रमांक:- एफ-7 / प्राशिमं / परीक्षा / 2025/</p>");
+                sb.AppendLine("<p style=\"text-align:right; font-size:13px;\">Date: 31/12/2025</p> ");
+                sb.AppendLine("</p>");
+
+                sb.AppendLine("<p style=\"text-indent:40px;\">");
+                sb.AppendLine("प्रतिलिपि निम्नलिखित को सूचनार्थ एवं आवश्यक कार्यवाही हेतु प्रेषित है :-<br>");
+                sb.AppendLine("1. निदेशक प्राविधिक शिक्षा निदेशालय जोधपुर।<br>");
+                sb.AppendLine("2. संयुक्त निदेशक एवं सचिव, प्राविधिक शिक्षा मण्डल जोधपुर।<br>");
+                sb.AppendLine("3. संयुक्त सचिव, तकनीकी शिक्षा, शासन सचिवालय, जयपुर।<br>");
+                sb.AppendLine("4. संयुक्त निदेशक (ई-1/ई-2), प्राविधिक शिक्षा निदेशालय, जोधपुर।<br>");
+                sb.AppendLine("5. संयुक्त निदेशक, गोपनीय प्रथम/द्वितीय प्राविधिक शिक्षा मंडल, जोधपुर।<br>");
+                sb.AppendLine("6. एस.ए (संयुक्त निदेशक) प्राविधिक शिक्षा मंडल, जोधपुर को भेजकर लेख है कि परीक्षा कार्यक्रम, रोल लिस्ट एवं प्रवेश कर अपलोड करावें ।<br>");
+                sb.AppendLine("7. कार्यालयाध्यक्ष, प्राविधिक शिक्षा मण्डल जोधपुर ।<br>");
+                sb.AppendLine("8. प्रभारी, कम्प्यूटर / भण्डार / सीडीसी / लेखा शाखा, प्राशिसं, जोधपुर ।<br>");
+                sb.AppendLine("9. नोडल अधिकारी प्राविधिक शिक्षा मण्डल, जोधपुर ।<br>");
+                sb.AppendLine("</p>");
+
+                sb.AppendLine("</div>");
+
+                // ================= PAGE 2 =================
+                sb.AppendLine("<div class=\"\">");
+
+                sb.AppendLine("<div class=\"text-center\">");
+                sb.AppendLine("<h3 style=\"text-align:center;color:#000;font-weight:bold;font-size:16px;margin:0;\">GOVERNMENT OF RAJASTHAN</h3>");
+                sb.AppendLine("<h2 style=\"text-align:center;color:#000;font-weight:bold;font-size:16px;margin:0;\">BOARD OF TECHNICAL EDUCATION RAJASTHAN, JODHPUR</h2>");
+                sb.AppendLine("<h3 style=\"text-align:center;color:#000;font-weight:bold;font-size:16px;margin:0;\">EXAMINATION PROGRAMME OF DIPLOMA IN ENGINEERING</h3>");
+                sb.AppendLine("<h3 style=\"text-align:center;color:#000;font-weight:bold;font-size:16px;margin:0;\">FIRST YEAR FIRST SEMESTER NOV-2025 SESSION 2025-2026</h3>");
+                sb.AppendLine("<h3 style=\"text-align:center;color:#000;font-weight:bold;font-size:11px;margin:0;\">(Common for all Engineering Branches)</h3>");
+                sb.AppendLine("<h4 style=\"text-align:center;color:#000;font-weight:bold;font-size:16px; margin-bottom:10px;\">SEMESTER SCHEME</h4>");
+                sb.AppendLine("<h3 style=\"text-align:center;color:#000;font-weight:bold;font-size:11px;margin:0;\">(Branches: AR, AC, CC, CE, CI, CH, CS, EF, EE, EL, ER, FD, HM, IE, IT, MA, ME, MP, MR, MT, PE, PL, PR, CV, RA, LS, RE)</h3>");
+                sb.AppendLine("<h3 style=\"text-align:center;color:#000;font-weight:bold;font-size:11px;margin-bottom:10px;\">Practical exam will be conducted from ___________ to ___________ at institute level.</h3>");
+                sb.AppendLine("</div>");
+
+                sb.AppendLine("<table style=\"font-size:14px;\">");
+                sb.AppendLine("<thead>");
+                sb.AppendLine("<tr>");
+                sb.AppendLine("<th style=\"font-size:13px; font-weight:bold;padding:5px;text-align:center;\">Time</th>");
+                sb.AppendLine("<th style=\"font-size:13px; font-weight:bold; padding:5px;text-align:center;\">Date</th>");
+                sb.AppendLine("<th style=\"font-size:13px; font-weight:bold; padding:5px;text-align:center;\">Code</th>");
+                sb.AppendLine("<th style=\"font-size:13px; font-weight:bold;padding:5px;text-align:center;\">Subject</th>");
+                sb.AppendLine("</tr>");
+                sb.AppendLine("</thead>");
+
+                sb.AppendLine("<tbody>");
+                sb.AppendLine("<tr>");
+                sb.AppendLine("<td style=\"font-size:13px;padding:5px;text-align:center;\" rowspan=\"4\">02:00 PM - 05:00 PM</td>");
+                sb.AppendLine("<td style=\"font-size:13px;padding:5px;text-align:center;\">22 January 2026</td>");
+                sb.AppendLine("<td style=\"font-size:13px;padding:5px;text-align:center;\">1001</td>");
+                sb.AppendLine("<td style=\"font-size:13px;padding:5px;text-align:center;\">MATHEMATICS-I</td>");
+                sb.AppendLine("</tr>");
+
+                sb.AppendLine("<tr>");
+                sb.AppendLine("<td style=\"font-size:13px;padding:5px;text-align:center;\">24 January 2026</td>");
+                sb.AppendLine("<td style=\"font-size:13px;padding:5px;text-align:center;\">1002</td>");
+                sb.AppendLine("<td style=\"font-size:13px;padding:5px;text-align:center;\">APPLIED PHYSICS-I</td>");
+                sb.AppendLine("</tr>");
+
+                sb.AppendLine("<tr>");
+                sb.AppendLine("<td style=\"font-size:13px;padding:5px;text-align:center;\">27 January 2026</td>");
+                sb.AppendLine("<td style=\"font-size:13px;padding:5px;text-align:center;\">1003</td>");
+                sb.AppendLine("<td style=\"font-size:13px;padding:5px;text-align:center;\">APPLIED CHEMISTRY</td>");
+                sb.AppendLine("</tr>");
+
+                sb.AppendLine("<tr>");
+                sb.AppendLine("<td style=\"font-size:13px;padding:5px;text-align:center;\">29 January 2026</td>");
+                sb.AppendLine("<td style=\"font-size:13px;padding:5px;text-align:center;\">1004</td>");
+                sb.AppendLine("<td style=\"font-size:13px;padding:5px;text-align:center;\">COMMUNICATION SKILL IN ENGLISH</td>");
+                sb.AppendLine("</tr>");
+                sb.AppendLine("</tbody>");
+                sb.AppendLine("</table>");
+
+                sb.AppendLine("<p style=\"font-size:10px;\">");
+                sb.AppendLine("<b>Note:-</b><br>");
+                sb.AppendLine("Institution Level Practical Examination will be arranged by the concerned Principal of the Institution. Send a copy of Practical Examination programme and practical papers to the Board.<br>");
+                sb.AppendLine("</p>");
+
+                sb.AppendLine("<p style=\"font-size:10px;\">");
+                sb.AppendLine("<b>Instructions for students :-</b><br>");
+                sb.AppendLine("1. Candidates must carefully note the date, day and time given in this programme. Ignorance of correct time and date will not serve as an excuse for delay or absence.<br>");
+                sb.AppendLine("2. Candidate should bring their instrument boxes and other materials such as pen, holders, pencils, setsquares, rubber etc. The programmable calculators are not permitted in the examination hall.<br>");
+                sb.AppendLine("3. No borrowings or lending of any materials will be permitted in examination hall.<br>");
+                sb.AppendLine("4. Candidate should not bring with them in the examination hall any unauthorized materials written or printed or scribbled by person or any loose papers or books, otherwise they shall be penalized for using unfair means under rules.<br>");
+                sb.AppendLine("5. No guarantee is given to candidate regarding the order of the question papers.<br>");
+                sb.AppendLine("6. All safety measures as prescribed by the Centrel Govt. & Rajasthan State Govt. in view of COVID-19 pandemic (eg. Thermal Scanning, wearing of mask, social distancing,sanitization etc.) to be strictly adhered by all students and institutions.\r\n<br>");
+                sb.AppendLine("</p>");
+
+                sb.AppendLine("<div style=\"text-align:right; font-weight:bold;margin-top:15px;\">REGISTRAR</div>");
+                sb.AppendLine("</div>");
+
+                sb.AppendLine("</body>");
+                sb.AppendLine("</html>");
 
                 return sb;
             }
