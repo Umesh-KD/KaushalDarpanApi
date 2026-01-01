@@ -43,6 +43,29 @@ namespace Kaushal_Darpan.Api.Code.Helper
             return lst;
         }
 
+        public static void ForceHindiFont(this DocumentFormat.OpenXml.Packaging.WordprocessingDocument wordDoc)
+        {
+            var body = wordDoc.MainDocumentPart.Document.Body;
+
+            foreach (var run in body.Descendants<DocumentFormat.OpenXml.Wordprocessing.Run>())
+            {
+                DocumentFormat.OpenXml.Wordprocessing.RunProperties rPr = run.RunProperties ??= new DocumentFormat.OpenXml.Wordprocessing.RunProperties();
+
+                rPr.RunFonts = new DocumentFormat.OpenXml.Wordprocessing.RunFonts
+                {
+                    Ascii = "Times New Roman",
+                    HighAnsi = "Times New Roman",
+                    EastAsia = "Mangal",
+                    ComplexScript = "Mangal"
+                };
+
+                // Required for Hindi (RTL / Complex Script)
+                rPr.Languages = new DocumentFormat.OpenXml.Wordprocessing.Languages
+                {
+                    Bidi = "hi-IN"
+                };
+            }
+        }
 
     }
 
@@ -238,7 +261,7 @@ namespace Kaushal_Darpan.Api.Code.Helper
                 return memoryStream.ToArray();
             }
         }
+        
     }
-
 
 }

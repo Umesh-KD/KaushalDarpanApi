@@ -2,10 +2,13 @@
 using AutoMapper;
 using DinkToPdf;
 using DinkToPdf.Contracts;
-using DocumentFormat.OpenXml.EMMA;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using HtmlToOpenXml;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Kaushal_Darpan.Api.Code.Attribute;
+using Kaushal_Darpan.Api.Code.Helper;
 using Kaushal_Darpan.Api.Email;
 using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Core.Helper;
@@ -32,7 +35,6 @@ using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.TheoryMarks;
 using Kaushal_Darpan.Models.TimeTable;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Data;
 using System.Net;
 using System.Text;
@@ -2009,7 +2011,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     using (Document document = new Document())
                     using (PdfCopy pdfCopy = new PdfCopy(document, stream))
                     {
-                        document.Open();    
+                        document.Open();
 
                         foreach (var file in sourceFiles)
                         {
@@ -3293,11 +3295,11 @@ namespace Kaushal_Darpan.Api.Controllers
                         int admissionType = data.Tables[0].Rows[0].Field<int?>("DirectAdmissionType") ?? 0;
                         if (admissionType == 1)
                         {
-                             rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationDirectAdmission.rdlc";
+                            rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationDirectAdmission.rdlc";
                         }
                         else
                         {
-                             rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationForm.rdlc";
+                            rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationForm.rdlc";
                         }
                         //provider                      
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -3473,7 +3475,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             GenerateAdmitCardModel objStudent = new GenerateAdmitCardModel();
                             var data = await _unitOfWork.ReportRepository.GetITIStudentAdmitCardBulk(Convert.ToInt32(StudentExamID),
-                                Model.DepartmentID,Model.EndTermID);
+                                Model.DepartmentID, Model.EndTermID);
                             if (data?.Tables?.Count == 2)
                             {
                                 if (data.Tables[0].Rows.Count > 0)
@@ -3620,7 +3622,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                                     GenerateAdmitCardModel objStudent = new GenerateAdmitCardModel();
                                     var data = await _unitOfWork.ReportRepository.GetITIStudentAdmitCardBulk(Convert.ToInt32(StudentExamID),
-                                        Model.DepartmentID,Model.EndTermID);
+                                        Model.DepartmentID, Model.EndTermID);
                                     if (data?.Tables?.Count == 2)
                                     {
                                         if (data.Tables[0].Rows.Count > 0)
@@ -3754,7 +3756,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
- 
+
 
 
 
@@ -14009,7 +14011,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 sb.AppendLine("</head>");
                 sb.AppendLine("<body>");
                 sb.AppendLine("    <div style=\"width: 98%; margin: auto;\">");
-                                
+
                 foreach (DataRow dr in streams_data.Rows)
                 {
                     // get heading
@@ -14027,7 +14029,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
                     // get html
                     var _sb = _printHtmlFile.GetHtmlOfHeadingAndTabularForTabulation(dr, heading_data, tabular_data);
-                    sb.AppendJoin("</br>", _sb);                    
+                    sb.AppendJoin("</br>", _sb);
                 }
 
                 // get consolidate summary
@@ -14125,7 +14127,81 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+       
+        [HttpPost("GetTimeTableInWord")]
+        public async Task<ApiResult<string>> GetTimeTableInWord([FromBody] TabluationDataModel body)
+        {
+            ActionName = "GetTimeTableInWord([FromBody] TabluationDataModel body)";
+            var result = new ApiResult<string>();
+            try
+            {
+                // get time table data
+                var data = await _unitOfWork.ReportRepository.GetStreamResultRptTabulation(body);
+
+                if (data?.Rows?.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+
+                // make html by data
+                string htmlContent = _printHtmlFile.GetHtmlOfTimeTable().ToString();
+
+                var ms = new MemoryStream();
+
+                using (var wordDoc = DocumentFormat.OpenXml.Packaging.WordprocessingDocument.Create(
+                    ms,
+                    DocumentFormat.OpenXml.WordprocessingDocumentType.Document,
+                    true))
+                {
+                    var mainPart = wordDoc.AddMainDocumentPart();
+                    mainPart.Document = new DocumentFormat.OpenXml.Wordprocessing.Document(
+                        new DocumentFormat.OpenXml.Wordprocessing.Body()
+                    );
+
+                    var converter = new HtmlToOpenXml.HtmlConverter(mainPart);
 
 
+                    // html utf-8
+                    await converter.ParseHtml(htmlContent);
+
+                    // Force Hindi font if needed
+                    wordDoc.ForceHindiFont();
+                }
+
+                ms.Position = 0;
+
+
+                byte[] pdfBytes = ms.ToArray();
+
+                result.Data = Convert.ToBase64String(pdfBytes);
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                //return File(
+                //    ms,
+                //    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                //    "HtmlToWord.docx"
+                //);
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }

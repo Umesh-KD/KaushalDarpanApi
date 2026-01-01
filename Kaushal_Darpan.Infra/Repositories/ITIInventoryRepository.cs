@@ -2404,6 +2404,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
                         command.Parameters.AddWithValue("@ReturnStatus", SearchReq.ReturnStatus);
+                        command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
+                        command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
+                        command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         
                         dataTable = await command.FillAsync_DataTable();
