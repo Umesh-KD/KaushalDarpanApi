@@ -31,5 +31,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<EditVacancyDataModel> GetVacancyDetailsById_Counselling(int TradeInstituteID);
         Task<DataTable> GetAllottedCandidateList_CounsellingReport(CounsellingAllottedListSearchModel body);
         Task<DataTable> Counselling_GetCandidateDetailsRPT(CounsellingReportListSearchModel filterModel);
+        Task<DataSet> GenerateCounsellingAppointmentOrder(CounsellingAppointmentOrder model);
     }
 }

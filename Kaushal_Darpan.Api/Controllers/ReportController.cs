@@ -3870,7 +3870,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             ModInsert.PDFType = (int)EnumPdfType.RollList;
                             ModInsert.Status = 11;
                             ModInsert.Eng_NonEng = 2;
-                            var isSave = await _unitOfWork.ReportRepository.ITISaveRollNumbePDFData(ModInsert);
+                            //var isSave = await _unitOfWork.ReportRepository.ITISaveRollNumbePDFData(ModInsert);
                         }
                         else
                         {

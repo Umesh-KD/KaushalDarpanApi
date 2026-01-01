@@ -809,6 +809,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PaperUploadID", request.PaperUploadID);
                         command.Parameters.AddWithValue("@Userid", request.Userid);
                         command.Parameters.AddWithValue("@RoleID", request.Roleid);
+                        command.Parameters.AddWithValue("@RequestFor", request.RequestFor);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
