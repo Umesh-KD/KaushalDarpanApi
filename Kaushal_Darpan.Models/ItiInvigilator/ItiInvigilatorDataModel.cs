@@ -105,4 +105,91 @@ namespace Kaushal_Darpan.Models.ItiInvigilator
     }
 
 
+    public class CenterwisePersentabsentHeardeModel
+    {
+        public string ?CenterName { get; set; }
+        public int CenterID { get; set; }
+        public string ?CenterCode { get; set; }
+        public string ?MobileNo { get; set; }
+
+        public string ?ExamName { get; set; }
+        public int TimeTableID { get; set; }
+
+        public DateTime? Dis_Date { get; set; }          // Dispatch / Display Date
+        public DateTime? ExamDateTime { get; set; }
+
+        public int ShiftID { get; set; }
+        public string ?ExamShift { get; set; }
+        public string ?ExamShiftWithTime { get; set; }
+
+        public string ?SemesterName { get; set; }
+        public string ?FinancialYear { get; set; }
+        public string ?EndTerm { get; set; }
+
+        public DateTime? CreatedDate { get; set; }
+
+        public string ?TradeName { get; set; }
+        public string ?SubjectName { get; set; }
+        public string ?Invigilators { get; set; }
+
+        public int SemesterID { get; set; }
+        public string ?ExaminerName { get; set; }
+
+        public int StudentCount { get; set; }
+        public int PresentStudentCount { get; set; }
+        public int AbsentStudentCount { get; set; }
+    }
+
+    public class CenterwisePersentabsentStudentDataModel 
+    {
+        public int SrNo { get; set; }
+
+        public int CenterID { get; set; }
+        public string? CenterCode { get; set; }
+        public string? CenterName { get; set; }
+
+        public int EndTermID { get; set; }
+
+        public string? CCCode { get; set; }
+        public string? CenterCode1 { get; set; }
+
+        public int InstituteID { get; set; }
+
+        public string? StudentName { get; set; }
+        public string? RollNo { get; set; }
+
+        public string? CourseType { get; set; }
+
+        public int StudentExamID { get; set; }
+        public int SemesterID { get; set; }
+
+        public string? FatherName { get; set; }
+
+        public string? StudentType { get; set; }
+        public int StudentTypeID { get; set; }
+
+        public string? InstituteName { get; set; }
+
+        public DateTime? DOB { get; set; }
+
+        public int SubjectId { get; set; }
+        public string? SubjectCode { get; set; }
+        public string? SubjectName { get; set; }
+
+        public decimal MaxMarks { get; set; }
+        public decimal MinMarks { get; set; }
+        public decimal ObtainedMarks { get; set; }
+
+        public string? PresentStatus { get; set; }
+
+        public string? UserName { get; set; }
+        public DateTime? ActionDate { get; set; }
+
+        public string? SemesterName { get; set; }
+        public string? TradeName { get; set; }
+    }
+
+
+
+
 }
