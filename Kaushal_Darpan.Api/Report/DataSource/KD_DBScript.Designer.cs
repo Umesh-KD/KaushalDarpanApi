@@ -49618,6 +49618,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnAllottedInstituteCode;
             
+            private global::System.Data.DataColumn columnPrioity;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ITI_CounsellingAppointmentOrderTableDataTable() {
@@ -49735,6 +49737,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PrioityColumn {
+                get {
+                    return this.columnPrioity;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -49770,7 +49780,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ITI_CounsellingAppointmentOrderTableRow AddITI_CounsellingAppointmentOrderTableRow(string Sno, string CandidateName, string FatherName, string Category, string SelectedCategory, string RollNumber, string MeritNo, string DOB, string AllottedInstitute, string AllottedInstituteCode) {
+            public ITI_CounsellingAppointmentOrderTableRow AddITI_CounsellingAppointmentOrderTableRow(string Sno, string CandidateName, string FatherName, string Category, string SelectedCategory, string RollNumber, string MeritNo, string DOB, string AllottedInstitute, string AllottedInstituteCode, string Prioity) {
                 ITI_CounsellingAppointmentOrderTableRow rowITI_CounsellingAppointmentOrderTableRow = ((ITI_CounsellingAppointmentOrderTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Sno,
@@ -49782,7 +49792,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         MeritNo,
                         DOB,
                         AllottedInstitute,
-                        AllottedInstituteCode};
+                        AllottedInstituteCode,
+                        Prioity};
                 rowITI_CounsellingAppointmentOrderTableRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowITI_CounsellingAppointmentOrderTableRow);
                 return rowITI_CounsellingAppointmentOrderTableRow;
@@ -49815,6 +49826,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnDOB = base.Columns["DOB"];
                 this.columnAllottedInstitute = base.Columns["AllottedInstitute"];
                 this.columnAllottedInstituteCode = base.Columns["AllottedInstituteCode"];
+                this.columnPrioity = base.Columns["Prioity"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -49840,6 +49852,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnAllottedInstitute);
                 this.columnAllottedInstituteCode = new global::System.Data.DataColumn("AllottedInstituteCode", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAllottedInstituteCode);
+                this.columnPrioity = new global::System.Data.DataColumn("Prioity", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPrioity);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -88306,6 +88320,23 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Prioity {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_CounsellingAppointmentOrderTable.PrioityColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Prioity\' in table \'ITI_CounsellingAppointmentOrderTable\' is" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_CounsellingAppointmentOrderTable.PrioityColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsSnoNull() {
                 return this.IsNull(this.tableITI_CounsellingAppointmentOrderTable.SnoColumn);
             }
@@ -88422,6 +88453,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetAllottedInstituteCodeNull() {
                 this[this.tableITI_CounsellingAppointmentOrderTable.AllottedInstituteCodeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPrioityNull() {
+                return this.IsNull(this.tableITI_CounsellingAppointmentOrderTable.PrioityColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPrioityNull() {
+                this[this.tableITI_CounsellingAppointmentOrderTable.PrioityColumn] = global::System.Convert.DBNull;
             }
         }
         

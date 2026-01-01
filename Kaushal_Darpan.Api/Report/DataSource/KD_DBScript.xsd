@@ -1985,7 +1985,8 @@
               <xs:element name="MeritNo" msprop:Generator_ColumnPropNameInTable="MeritNoColumn" msprop:Generator_ColumnPropNameInRow="MeritNo" msprop:Generator_UserColumnName="MeritNo" msprop:Generator_ColumnVarNameInTable="columnMeritNo" type="xs:string" minOccurs="0" />
               <xs:element name="DOB" msprop:Generator_ColumnPropNameInTable="DOBColumn" msprop:Generator_ColumnPropNameInRow="DOB" msprop:Generator_UserColumnName="DOB" msprop:Generator_ColumnVarNameInTable="columnDOB" type="xs:string" minOccurs="0" />
               <xs:element name="AllottedInstitute" msprop:Generator_ColumnPropNameInTable="AllottedInstituteColumn" msprop:Generator_ColumnPropNameInRow="AllottedInstitute" msprop:Generator_UserColumnName="AllottedInstitute" msprop:Generator_ColumnVarNameInTable="columnAllottedInstitute" type="xs:string" minOccurs="0" />
-              <xs:element name="AllottedInstituteCode" msprop:Generator_ColumnPropNameInRow="AllottedInstituteCode" msprop:Generator_ColumnPropNameInTable="AllottedInstituteCodeColumn" msprop:Generator_ColumnVarNameInTable="columnAllottedInstituteCode" msprop:Generator_UserColumnName="AllottedInstituteCode" type="xs:string" minOccurs="0" />
+              <xs:element name="AllottedInstituteCode" msprop:Generator_UserColumnName="AllottedInstituteCode" msprop:Generator_ColumnPropNameInTable="AllottedInstituteCodeColumn" msprop:Generator_ColumnPropNameInRow="AllottedInstituteCode" msprop:Generator_ColumnVarNameInTable="columnAllottedInstituteCode" type="xs:string" minOccurs="0" />
+              <xs:element name="Prioity" msprop:Generator_ColumnPropNameInRow="Prioity" msprop:Generator_ColumnPropNameInTable="PrioityColumn" msprop:Generator_ColumnVarNameInTable="columnPrioity" msprop:Generator_UserColumnName="Prioity" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

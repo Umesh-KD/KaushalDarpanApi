@@ -828,13 +828,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandType = CommandType.StoredProcedure; 
                         command.CommandText = "USP_Bter_GetAllInventoryIssueHistory";
                         command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
                         command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
                         command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
+                        command.Parameters.AddWithValue("@status", SearchReq.status);
+                        command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1247,6 +1249,46 @@ namespace Kaushal_Darpan.Infra.Repositories
                         dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> MarkForAuctionSR6(List<ItemsIssueReturnModels> request)
+        {
+            _actionName = "SaveIssueItemsList(List<DTEItemsSaveModel> request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_INV_MarkForAuctionSR6";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int);
+                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);
+                    }
+                    return result;
                 }
                 catch (Exception ex)
                 {
