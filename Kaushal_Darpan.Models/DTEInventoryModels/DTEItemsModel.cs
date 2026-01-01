@@ -52,6 +52,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? QuantityBalance { get; set; }
         public string? BillFileName { get; set; }
         public string? BillFilePath { get; set; }
+        public bool? IsRequested { get; set; }
     }
 
     public class DTEItemsSearchModel
@@ -136,7 +137,9 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int UserID { get; set; }
         public int ItemID { get; set; }
         public int? RoleID { get; set; }
+        public int? status { get; set; }
         public int ItemType { get; set; }
+        public bool? IsStaff { get; set; }
         public int? ReturnStatus { get; set; }
         public string? actionName { get; set; }
 
