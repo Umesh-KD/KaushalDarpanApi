@@ -57,6 +57,10 @@
         public int? RoleID { get; set; }
         public bool IsConfirmed { get; set; }
         public string? SubjectType { get; set; }
+        public string? PaperCode { get; set; }
+        public int? CenterCode { get; set; }
+        public int? IsPersentAbsent { get; set; }
+
     }
 
     public class StudentFailTheoryReportModel
