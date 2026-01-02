@@ -47542,6 +47542,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnRemars;
             
+            private global::System.Data.DataColumn columnNodalOfficerName;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public WorkshopReportDataTable() {
@@ -47627,6 +47629,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn NodalOfficerNameColumn {
+                get {
+                    return this.columnNodalOfficerName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -47662,7 +47672,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public WorkshopReportRow AddWorkshopReportRow(string workshopDate, string OrganisedDistrictName, string ParticipatedDistrictNameList, string establishmentNameAddress, string representativeNameDesignationMobile, string Remars) {
+            public WorkshopReportRow AddWorkshopReportRow(string workshopDate, string OrganisedDistrictName, string ParticipatedDistrictNameList, string establishmentNameAddress, string representativeNameDesignationMobile, string Remars, string NodalOfficerName) {
                 WorkshopReportRow rowWorkshopReportRow = ((WorkshopReportRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         workshopDate,
@@ -47670,7 +47680,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         ParticipatedDistrictNameList,
                         establishmentNameAddress,
                         representativeNameDesignationMobile,
-                        Remars};
+                        Remars,
+                        NodalOfficerName};
                 rowWorkshopReportRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowWorkshopReportRow);
                 return rowWorkshopReportRow;
@@ -47699,6 +47710,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnestablishmentNameAddress = base.Columns["establishmentNameAddress"];
                 this.columnrepresentativeNameDesignationMobile = base.Columns["representativeNameDesignationMobile"];
                 this.columnRemars = base.Columns["Remars"];
+                this.columnNodalOfficerName = base.Columns["NodalOfficerName"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -47716,6 +47728,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnrepresentativeNameDesignationMobile);
                 this.columnRemars = new global::System.Data.DataColumn("Remars", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRemars);
+                this.columnNodalOfficerName = new global::System.Data.DataColumn("NodalOfficerName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNodalOfficerName);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -86861,6 +86875,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string NodalOfficerName {
+                get {
+                    try {
+                        return ((string)(this[this.tableWorkshopReport.NodalOfficerNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NodalOfficerName\' in table \'WorkshopReport\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableWorkshopReport.NodalOfficerNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsworkshopDateNull() {
                 return this.IsNull(this.tableWorkshopReport.workshopDateColumn);
             }
@@ -86929,6 +86959,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetRemarsNull() {
                 this[this.tableWorkshopReport.RemarsColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsNodalOfficerNameNull() {
+                return this.IsNull(this.tableWorkshopReport.NodalOfficerNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetNodalOfficerNameNull() {
+                this[this.tableWorkshopReport.NodalOfficerNameColumn] = global::System.Convert.DBNull;
             }
         }
         
