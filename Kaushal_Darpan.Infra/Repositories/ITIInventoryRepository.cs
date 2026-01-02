@@ -2261,6 +2261,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.CollegeId);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.ItemId); 
                         command.Parameters.AddWithValue("@ItemType", SearchReq.ItemType);
+                        command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
                         command.Parameters.AddWithValue("@ActionType", "GetConsumeItemListNew");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
