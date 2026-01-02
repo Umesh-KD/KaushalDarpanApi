@@ -47869,6 +47869,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnDistrict;
             
+            private global::System.Data.DataColumn columnPmnamMelaDate;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public PmnamMelaReportDataTable() {
@@ -47986,6 +47988,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PmnamMelaDateColumn {
+                get {
+                    return this.columnPmnamMelaDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -48021,7 +48031,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public PmnamMelaReportRow AddPmnamMelaReportRow(string Nodal, string PoliticalEstablishmentspartNo, string PrivateEstablishmentspartNo, string PoliticalEstablishmentscontactedNo, string PrivateEstablishmentscontactedNo, string CandidatespresentMaleNo, string CandidatespresentFemaleNo, string CandidatessselectedMaleNo, string CandidatessselectedFemaleNo, string District) {
+            public PmnamMelaReportRow AddPmnamMelaReportRow(string Nodal, string PoliticalEstablishmentspartNo, string PrivateEstablishmentspartNo, string PoliticalEstablishmentscontactedNo, string PrivateEstablishmentscontactedNo, string CandidatespresentMaleNo, string CandidatespresentFemaleNo, string CandidatessselectedMaleNo, string CandidatessselectedFemaleNo, string District, string PmnamMelaDate) {
                 PmnamMelaReportRow rowPmnamMelaReportRow = ((PmnamMelaReportRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Nodal,
@@ -48033,7 +48043,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         CandidatespresentFemaleNo,
                         CandidatessselectedMaleNo,
                         CandidatessselectedFemaleNo,
-                        District};
+                        District,
+                        PmnamMelaDate};
                 rowPmnamMelaReportRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowPmnamMelaReportRow);
                 return rowPmnamMelaReportRow;
@@ -48066,6 +48077,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnCandidatessselectedMaleNo = base.Columns["CandidatessselectedMaleNo"];
                 this.columnCandidatessselectedFemaleNo = base.Columns["CandidatessselectedFemaleNo"];
                 this.columnDistrict = base.Columns["District"];
+                this.columnPmnamMelaDate = base.Columns["PmnamMelaDate"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -48091,6 +48103,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnCandidatessselectedFemaleNo);
                 this.columnDistrict = new global::System.Data.DataColumn("District", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDistrict);
+                this.columnPmnamMelaDate = new global::System.Data.DataColumn("PmnamMelaDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPmnamMelaDate);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -87060,6 +87074,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PmnamMelaDate {
+                get {
+                    try {
+                        return ((string)(this[this.tablePmnamMelaReport.PmnamMelaDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PmnamMelaDate\' in table \'PmnamMelaReport\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePmnamMelaReport.PmnamMelaDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsNodalNull() {
                 return this.IsNull(this.tablePmnamMelaReport.NodalColumn);
             }
@@ -87176,6 +87206,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetDistrictNull() {
                 this[this.tablePmnamMelaReport.DistrictColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPmnamMelaDateNull() {
+                return this.IsNull(this.tablePmnamMelaReport.PmnamMelaDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPmnamMelaDateNull() {
+                this[this.tablePmnamMelaReport.PmnamMelaDateColumn] = global::System.Convert.DBNull;
             }
         }
         
