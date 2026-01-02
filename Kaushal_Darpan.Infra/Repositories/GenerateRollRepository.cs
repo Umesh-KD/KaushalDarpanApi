@@ -113,50 +113,47 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         public async Task<int> SaveRolledData(List<GenerateRollMaster> model)
         {
-            _actionName = "SaveEnrolledData(List<GenerateEnrollMaster> model)";
-            return await Task.Run(async () =>
+            _actionName = "SaveRolledData(List<GenerateRollMaster> model)";
+            try
             {
-                try
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    int retval = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_GenerateRollNumber";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_GenerateRollNumber";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.CommandTimeout = 0;
+                    // Add parameters with appropriate null handling
+                    command.CommandTimeout = 0;
 
-                        command.Parameters.AddWithValue("@action", "_GenerateRollNumbers");
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                    command.Parameters.AddWithValue("@action", "_GenerateRollNumbers");
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
 
-                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
 
-                    }
-                    return retval;
                 }
-                catch (Exception ex)
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         public async Task<int> SaveAllRevelData(List<GenerateRollMaster> model)
         {
@@ -205,47 +202,44 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> OnPublish(List<GenerateRollMaster> model)
         {
             _actionName = "SaveEnrolledData(List<GenerateEnrollMaster> model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    int retval = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
+                    // Set the stored procedure name and type
 
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_PublishRollNumber";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_PublishRollNumber";
 
-                        // Add parameters with appropriate null handling
-                        //command.Parameters.AddWithValue("@action", "_OnPublish");
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    // Add parameters with appropriate null handling
+                    //command.Parameters.AddWithValue("@action", "_OnPublish");
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
-                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
-                    }
-                    return retval;
+                    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
                 }
-                catch (Exception ex)
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<int> OnPublishRevelData(List<GenerateRollMaster> model)
@@ -925,7 +919,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetCollegeList_RollAndAdmitCard ";
-                        
+
 
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
