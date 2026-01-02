@@ -491,6 +491,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterID);
                         command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                        command.Parameters.AddWithValue("@StreamID", filterModel.StreamID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
 

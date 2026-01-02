@@ -33,6 +33,7 @@ namespace Kaushal_Darpan.Models.ITIPracticalExaminer
         public string? Action { get; set; }
         public string? SSOID { get; set; }
         public int UserID { get; set; }
+        public int StreamID { get; set; }
         public int InstituteID {get; set;}
         public int DistrictID {get; set;}
     }
