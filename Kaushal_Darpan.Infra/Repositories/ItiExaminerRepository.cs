@@ -45,6 +45,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SSOID", body.SSOID);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@action", "_GetAllExaminer");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -323,7 +324,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_GetStudentExaminer";
 
                         command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
+                        command.Parameters.AddWithValue("@CenterID", body.CenterID);
+                        command.Parameters.AddWithValue("@SubjectName", body.SubjectName);
                         command.Parameters.AddWithValue("@StreamID", body.StreamID);
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
@@ -331,6 +333,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RollTo    ", body.RollTo);
                         command.Parameters.AddWithValue("@RollFrom", body.RollFrom);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@Status", body.Status);
                         //command.Parameters.AddWithValue("@IsPractical", body.IsPractical);
                         //command.Parameters.AddWithValue("@IsTheory", body.IsTheory);
                         command.Parameters.AddWithValue("@ExaminerID", body.ExaminerID);
@@ -688,9 +691,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RollTo    ", body.RollTo);
                         command.Parameters.AddWithValue("@RollFrom", body.RollFrom);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@ExaminerID", body.ExaminerID);
                         //command.Parameters.AddWithValue("@IsPractical", body.IsPractical);
                         //command.Parameters.AddWithValue("@IsTheory", body.IsTheory);
-                        command.Parameters.AddWithValue("@ExaminerID", body.ExaminerID);
+               
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();

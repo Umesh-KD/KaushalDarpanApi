@@ -51,6 +51,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@GroupCodeID", body.GroupCodeID);
                         command.Parameters.AddWithValue("@AppointExaminerID", body.AppointExaminerID);
+                        command.Parameters.AddWithValue("@CenterID", body.CenterID);
+                        command.Parameters.AddWithValue("@SubjectName", body.SubjectName);
+                        command.Parameters.AddWithValue("@ExaminerID", body.ExaminerID);
                         //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
@@ -133,6 +136,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@AppointExaminerID", entity.AppointExaminerID);
                         command.Parameters.AddWithValue("@Remark", entity.Remark);
+                        command.Parameters.AddWithValue("@FinalSubmit", entity.FinalSubmit);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out

@@ -44,6 +44,7 @@ namespace Kaushal_Darpan.Models.ItiExaminer
     public class ItiExaminerSearchModel
     {
         public int DepartmentID { get; set; }
+        public int EndTermID { get; set; }
         public string? ExaminerCode { get; set; }
         public string? Name { get; set; }
         public string? Email { get; set; }
@@ -60,6 +61,7 @@ namespace Kaushal_Darpan.Models.ItiExaminer
         public int SemesterID { get; set; }
         public int SubjectID { get; set; }
         public int StreamID { get; set; }
+        public int CenterID { get; set; }
         public int UserID { get; set; }
         public int InstituteID { get; set; }
         public int TradeType { get; set; }
@@ -68,9 +70,11 @@ namespace Kaushal_Darpan.Models.ItiExaminer
         public int SubjectType { get; set; }
         public int StudentCount { get; set; }
         public int ExaminerID { get; set; }
+        public int Status { get; set; }
         public bool IsTheory { get; set; }
         public bool IsPractical { get; set; }
         public string? SubjectCode { get; set; }
+        public string? SubjectName { get; set; }
     }
 
 
