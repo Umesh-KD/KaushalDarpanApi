@@ -528,6 +528,77 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+
+        [HttpPost("UpdateStudentExamMarksDataWeb")]
+        public async Task<ApiResult<string>> UpdateStudentExamMarksDataWeb([FromBody] StudentExamMarksUpdateModel modelList)
+        {
+            ActionName = "UpdateStudentExamMarksBulk";
+            var result = new ApiResult<string>();
+            try
+            {
+               
+                int responseCode = await _unitOfWork.ITIPracticalExaminerRepository.UpdateStudentExamMarksDataWeb(modelList);
+                await _unitOfWork.SaveChangesAsync();
+                if (responseCode == 1)
+                {
+                    result.State = EnumStatus.Success;
+                    try
+                    {
+                        if (modelList != null)
+                        {
+                            if (modelList.MarkSubmit == 1)
+                            {
+                                result.Message = "Marks updated successfully.";
+                            }
+                            else
+                            {
+                                result.Message = "Attendance updated successfully.";
+                            }
+                        }
+                        else
+                        {
+                            result.Message = "Marks updated successfully.";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        result.Message = "Marks updated successfully.";
+                        result.ErrorMessage = ex.Message;
+                    }
+
+                }
+                else if (responseCode == 2)
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = "Submit date is over. Please contact the Admin Department.";
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = "Update failed or no records were processed.";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                var log = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+                await CreateErrorLog(log, _unitOfWork);
+            }
+
+            return result;
+        }
+
+
+
+
+
         [HttpPost("NcvtUpdateStudentExamMarksData")]
         public async Task<ApiResult<string>> NcvtUpdateStudentExamMarksBulkData([FromBody] List<StudentExamMarksUpdateModel> modelList)
         {

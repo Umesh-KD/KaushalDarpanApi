@@ -697,6 +697,49 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        public async Task<int> UpdateStudentExamMarksDataWeb(StudentExamMarksUpdateModel entityList)
+        {
+            _actionName = "UpdateStudentExamMarksData(StudentExamMarksUpdateModel entityList)";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Update_StudentExam_Marks_Json_Web";
+                        command.Parameters.AddWithValue("@ObtainedMarks", entityList.ObtainedMarks);
+                        command.Parameters.AddWithValue("@UserID", entityList.UserID);
+                        command.Parameters.AddWithValue("@StudentExamPaperMarksID", entityList.StudentExamPaperMarksID);
+                        command.Parameters.AddWithValue("@IsPresent", entityList.IsPresent);
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<int> NcvtUpdateStudentExamMarksData(List<StudentExamMarksUpdateModel> entityList)
         {
             _actionName = "UpdateStudentExamMarksData(List<StudentExamMarksUpdateModel> entityList)";
