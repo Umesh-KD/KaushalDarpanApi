@@ -2075,54 +2075,54 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // ---------- HTML + CSS ----------
                 sb.Append($@"
-<!DOCTYPE html>
-<html lang='hi'>
-<head>
-<meta charset='UTF-8'>
-<style>
-body {{
-    font-family: 'Arial Unicode MS', Mangal, Arial, sans-serif;
-    font-size: 14px;
-    margin: 0;
-}}
+                    <!DOCTYPE html>
+                    <html lang='hi'>
+                    <head>
+                    <meta charset='UTF-8'>
+                    <style>
+                    body {{
+                        font-family: 'Arial Unicode MS', Mangal, Arial, sans-serif;
+                        font-size: 14px;
+                        margin: 0;
+                    }}
 
-.page {{
-    border: 2px solid #000;
-    padding: 15px;
-    margin: 20px;
-    box-sizing: border-box;
-}}
+                    .page {{
+                        border: 2px solid #000;
+                        padding: 15px;
+                        margin: 20px;
+                        box-sizing: border-box;
+                    }}
 
-.header-row {{
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-}}
+                    .header-row {{
+                        display: flex;
+                        justify-content: space-between;
+                        font-weight: bold;
+                    }}
 
-table {{
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}}
+                    table {{
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-top: 10px;
+                    }}
 
-th, td {{
-    border: 1px solid #000;
-    padding: 6px;
-}}
+                    th, td {{
+                        border: 1px solid #000;
+                        padding: 6px;
+                    }}
 
-tr {{
-    page-break-inside: avoid;
-}}
+                    tr {{
+                        page-break-inside: avoid;
+                    }}
 
-.page-break {{
-    page-break-before: always;
-}}
-th, td{{text - align: left;
-}}
-</style>
-</head>
-<body>
-");
+                    .page-break {{
+                        page-break-before: always;
+                    }}
+                    th, td{{text - align: left;
+                    }}
+                    </style>
+                    </head>
+                    <body>
+                    ");
 
                 // ---------- TRADE-WISE PAGES ----------
                 bool isFirstTrade = true;
@@ -2133,84 +2133,76 @@ th, td{{text - align: left;
                         sb.Append("<div class='page-break'></div>");
 
                     sb.Append($@"
-<div class='page'>
-    <div class='header'>
-        <div class='header-row'>
-            <div>{header.ReportName}</div>
+                        <div class='page'>
+                            <div class='header'>
+                                <div class='header-row'>
+                                    <div>{header.ReportName}</div>
            
-        </div>
+                                </div>
 
-        <div><b>" + header.ExamName + @"</b>
-             <div style='text-align:right;font-weight:bold'>परीक्षा दिनांक : 
-                <b>" + header.ExamDateTime + @"</b>
-            </div>
+                                <div><b>" + header.ExamName + @"</b>
+                                     <div style='text-align:right;font-weight:bold'>परीक्षा दिनांक : 
+                                        <b>" + header.ExamDateTime + @"</b>
+                                    </div>
+                                </div>
+                                <div>
+                                    <b>" + header.subTitleName + @"</b>
+                                    <b>" + header.CenterCode + " - " + header.CenterName + @"</b>
+                                </div>
+                                <div>
+                                    राजकीय / निजी आई.टी.आई. का कोड नं. व नाम (जिसके परीक्षार्थी परीक्षा दे रहे है):
+                                   <b>" + header.CenterName + @"</b>
+                                </div>
+                                    <div>
+                                        <h3>Paper : " + header.SubjectName + "-("+header.SemesterName +")"+@" </h3>
+                                        <h3>Trade : " + tradeGroup.Key + @"</h3>
+                                    </div>
+                                </div>
 
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style=""text-align:left;"">Sr No</th>
 
-        </div>
+                                        <th style=""text-align:left;"">Student Name</th>
+                                        <th style=""text-align:left;"">Trade Name</th>
+                                        <th style=""text-align:left;"">Roll No</th>
+                                        <th style=""text-align:left;"">Institute Name</th>
+                                        <th style=""text-align:left;"">Attendance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                        ");
 
-        <div>
-          
-            <b>" + header.subTitleName + @"</b>
-            <b>" + header.CenterCode + " - " + header.CenterName + @"</b>
-        </div>
-
-        <div>
-            राजकीय / निजी आई.टी.आई. का कोड नं. व नाम (जिसके परीक्षार्थी परीक्षा दे रहे है):
-           <b>" + header.CenterName + @"</b>
-        </div>
-            <div>
-                <h3>Paper : " + header.SubjectName + "-("+header.SemesterName +")"+@" </h3>
-                <h3>Trade : " + tradeGroup.Key + @"</h3>
-            </div>
-        </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th style=""text-align:left;"">Sr No</th>
-
-                <th style=""text-align:left;"">Student Name</th>
-                <th style=""text-align:left;"">Trade Name</th>
-                <th style=""text-align:left;"">Roll No</th>
-                <th style=""text-align:left;"">Institute Name</th>
-                <th style=""text-align:left;"">Attendance</th>
-            </tr>
-        </thead>
-        <tbody>
-");
-
-                    int srNo = 1;
-                    foreach (var s in tradeGroup)
-                    {
+                            int srNo = 1;
+                            foreach (var s in tradeGroup)
+                            {
                         sb.Append($@"
-<tr>
-    <td>{srNo}</td>
-    <td>{s.StudentName}</td>
-    <td>{s.TradeName}</td>
-    <td>{s.RollNo}</td>
-    <td>{s.InstituteName}</td>
-    <td>{(s.PresentStatus)}</td>
-</tr>");
-                        srNo++;
-                    }
+                            <tr>
+                                <td>{srNo}</td>
+                                <td>{s.StudentName}</td>
+                                <td>{s.TradeName}</td>
+                                <td>{s.RollNo}</td>
+                                <td>{s.InstituteName}</td>
+                                <td>{(s.PresentStatus)}</td>
+                            </tr>");
+                             srNo++;
+                        }
 
-                    sb.Append(@"
-        </tbody>
-    </table>
-
-    <br/>
-    <b>कुल पंजीकृत परीक्षार्थी की संख्या : " + tradeGroup.Count() + @"</b><br/>
-    <b>कुल उपस्थित परीक्षार्थी की संख्या  : " + tradeGroup.Count(x => x.PresentStatus == "Present") + @"</b><br/>
-    <b>कुल अनुपस्थित परीक्षार्थी की संख्या: " + tradeGroup.Count(x => x.PresentStatus != "Present") + @"</b>
-
-
-    <br/><br/>
-    <div style='text-align:right;font-weight:bold'>
-        हस्ताक्षर<br/>
-        (सेमांतिक परीक्षक)
-    </div>
-</div>
-");
+                        sb.Append(@"
+                                </tbody>
+                            </table>
+                            <br/>
+                            <b>कुल पंजीकृत परीक्षार्थी की संख्या : " + tradeGroup.Count() + @"</b><br/>
+                            <b>कुल उपस्थित परीक्षार्थी की संख्या  : " + tradeGroup.Count(x => x.PresentStatus == "Present") + @"</b><br/>
+                            <b>कुल अनुपस्थित परीक्षार्थी की संख्या: " + tradeGroup.Count(x => x.PresentStatus != "Present") + @"</b>
+                            <br/><br/>
+                            <div style='text-align:right;font-weight:bold'>
+                                हस्ताक्षर<br/>
+                                (सेमांतिक परीक्षक)
+                            </div>
+                        </div>
+                        ");
 
                     isFirstTrade = false;
                 }
