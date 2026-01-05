@@ -2008,7 +2008,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
  ");
 
-                
+
 
                 sb.Append(@"</tbody></table></body></html>");
 
@@ -2031,7 +2031,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 byte[] pdfBytes = _converter.Convert(doc);
 
-                
+
                 return File(
                     pdfBytes,
                     "application/pdf",
@@ -2050,217 +2050,166 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             try
             {
-                body.SemesterID = 1;
-                body.StreamID = 0;
-                body.SubjectName = "Paper-I";
-                body.InstituteID = 1;
-                body.EndtermID = 37;
-                body.EngNong = 2;
-                //body.InvigilatorID = 0;
-                
-       
-
-                
-
-
-
 
                 var streams_data = await _unitOfWork.ReportRepository.DownloadTheoryStudentITI(body);
 
-                if (streams_data == null || streams_data.Tables.Count == 0)
-                {
+                if (streams_data == null || streams_data.Tables.Count < 2)
                     return BadRequest("No data found");
-                }
 
-                var headerdata = CommonFuncationHelper
-                            .ConvertDataTable<List<CenterwisePersentabsentHeardeModel>>(streams_data.Tables[0]);
+                var headerData = CommonFuncationHelper
+                    .ConvertDataTable<List<CenterwisePersentabsentHeardeModel>>(streams_data.Tables[0]);
 
-                var studentdata = CommonFuncationHelper
-                        .ConvertDataTable<List<CenterwisePersentabsentStudentDataModel>>(streams_data.Tables[1]);
+                var studentData = CommonFuncationHelper
+                    .ConvertDataTable<List<CenterwisePersentabsentStudentDataModel>>(streams_data.Tables[1]);
+
+                if (!studentData.Any())
+                    return BadRequest("No student data found");
+
+                var header = headerData.First();
+
+                int total = studentData.Count;
+                int present = studentData.Count(x => x.PresentStatus == "P");
+                int absent = total - present;
 
                 var sb = new StringBuilder();
 
-                // HTML CONTENT
-                sb.Append(@"<!DOCTYPE html>
-<html lang=""hi"">
-<head>
-<meta charset=""UTF-8"">
-<title>SCVT Attendance Sheet</title>
+                // ---------- HTML + CSS ----------
+                sb.Append($@"
+                    <!DOCTYPE html>
+                    <html lang='hi'>
+                    <head>
+                    <meta charset='UTF-8'>
+                    <style>
+                    body {{
+                        font-family: 'Arial Unicode MS', Mangal, Arial, sans-serif;
+                        font-size: 14px;
+                        margin: 0;
+                    }}
 
-<style>
-    body {
-        font-family: ""Arial Unicode MS"", Mangal, Arial, sans-serif;
-        font-size: 14px;
-        margin: 20px;
-    }
+                    .page {{
+                        border: 2px solid #000;
+                        padding: 15px;
+                        margin: 20px;
+                        box-sizing: border-box;
+                    }}
 
-    .page {
-        border: 1px solid #000;
-        padding: 15px;
-    }
+                    .header-row {{
+                        display: flex;
+                        justify-content: space-between;
+                        font-weight: bold;
+                    }}
 
-    .header {
-        line-height: 1.6;
-    }
+                    table {{
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-top: 10px;
+                    }}
 
-    .header-row {
-        display: flex;
-        justify-content: space-between;
-        font-weight: bold;
-    }
+                    th, td {{
+                        border: 1px solid #000;
+                        padding: 6px;
+                    }}
 
-    .sub-header {
-        margin-top: 5px;
-        font-weight: bold;
-    }
+                    tr {{
+                        page-break-inside: avoid;
+                    }}
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 15px;
-    }
+                    .page-break {{
+                        page-break-before: always;
+                    }}
+                    th, td{{text - align: left;
+                    }}
+                    </style>
+                    </head>
+                    <body>
+                    ");
 
-    table th, table td {
-        border: 1px solid #000;
-        padding: 6px;
-        text-align: left;
-        vertical-align: top;
-    }
+                // ---------- TRADE-WISE PAGES ----------
+                bool isFirstTrade = true;
 
-    table th {
-        font-weight: bold;
-    }
+                foreach (var tradeGroup in studentData.GroupBy(x => x.TradeName))
+                {
+                    if (!isFirstTrade)
+                        sb.Append("<div class='page-break'></div>");
 
-    .footer {
-        margin-top: 30px;
-        display: flex;
-        justify-content: space-between;
-    }
+                    sb.Append($@"
+                        <div class='page'>
+                            <div class='header'>
+                                <div class='header-row'>
+                                    <div>{header.ReportName}</div>
+           
+                                </div>
 
-    .counts p {
-        margin: 6px 0;
-        font-weight: bold;
-    }
+                                <div><b>" + header.ExamName + @"</b>
+                                     <div style='text-align:right;font-weight:bold'>परीक्षा दिनांक : 
+                                        <b>" + header.ExamDateTime + @"</b>
+                                    </div>
+                                </div>
+                                <div>
+                                    <b>" + header.subTitleName + @"</b>
+                                    <b>" + header.CenterCode + " - " + header.CenterName + @"</b>
+                                </div>
+                                <div>
+                                    राजकीय / निजी आई.टी.आई. का कोड नं. व नाम (जिसके परीक्षार्थी परीक्षा दे रहे है):
+                                   <b>" + header.CenterName + @"</b>
+                                </div>
+                                    <div>
+                                        <h3>Paper : " + header.SubjectName + "-("+header.SemesterName +")"+@" </h3>
+                                        <h3>Trade : " + tradeGroup.Key + @"</h3>
+                                    </div>
+                                </div>
 
-    .signature {
-        text-align: center;
-        margin-top: 20px;
-        font-weight: bold;
-    }
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style=""text-align:left;"">Sr No</th>
 
-    .bottom-section {
-        margin-top: 30px;
-        line-height: 1.8;
-        font-weight: bold;
-    }
-.page-break {
-    page-break-before: always;
-}
-</style>
-</head>
+                                        <th style=""text-align:left;"">Student Name</th>
+                                        <th style=""text-align:left;"">Trade Name</th>
+                                        <th style=""text-align:left;"">Roll No</th>
+                                        <th style=""text-align:left;"">Institute Name</th>
+                                        <th style=""text-align:left;"">Attendance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                        ");
 
-<body>
+                            int srNo = 1;
+                            foreach (var s in tradeGroup)
+                            {
+                        sb.Append($@"
+                            <tr>
+                                <td>{srNo}</td>
+                                <td>{s.StudentName}</td>
+                                <td>{s.TradeName}</td>
+                                <td>{s.RollNo}</td>
+                                <td>{s.InstituteName}</td>
+                                <td>{(s.PresentStatus)}</td>
+                            </tr>");
+                             srNo++;
+                        }
 
-<div class=""page"">
+                        sb.Append(@"
+                                </tbody>
+                            </table>
+                            <br/>
+                            <b>कुल पंजीकृत परीक्षार्थी की संख्या : " + tradeGroup.Count() + @"</b><br/>
+                            <b>कुल उपस्थित परीक्षार्थी की संख्या  : " + tradeGroup.Count(x => x.PresentStatus == "Present") + @"</b><br/>
+                            <b>कुल अनुपस्थित परीक्षार्थी की संख्या: " + tradeGroup.Count(x => x.PresentStatus != "Present") + @"</b>
+                            <br/><br/>
+                            <div style='text-align:right;font-weight:bold'>
+                                हस्ताक्षर<br/>
+                                (सेमांतिक परीक्षक)
+                            </div>
+                        </div>
+                        ");
 
-    <!-- HEADER -->
-    <div class=""header"">
-        <div class=""header-row"">
-            <div>सेमांतिक परीक्षा के छात्रों का उपस्थिति पत्रक</div>
-            <div>परीक्षा की दिनांक : <b>01-01-2026</b></div>
-        </div>
+                    isFirstTrade = false;
+                }
 
-        <div class=""sub-header"">
-            SCVT Exam (Supplementary) January 2026
-        </div>
+                sb.Append("</body></html>");
 
-        <div>
-            सेमांतिक परीक्षा केन्द्र का कोड नं. व नाम :
-            <b>G0001-GOVT. ITI, AJMER</b>
-        </div>
-
-        <div>
-            राजकीय / निजी आई.टी.आई. का कोड नं. व नाम
-            (जिसके परीक्षार्थी परीक्षा दे रहे है) :
-            <b>G0001-GOVT. ITI, AJMER</b>
-        </div>
-    </div>
-
-    <!-- TABLE -->
-    <table>
-        <thead>
-            <tr>
-                <th>Sr No</th>
-                <th>Student Name</th>
-                <th>Trade Name</th>
-                <th>Roll No</th>
-                <th>Institute Name</th>
-                <th>Attendance</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>DEVRAJ GURJAR</td>
-                <td>FORGER AND HEAT TREATER</td>
-                <td>2601010002</td>
-                <td>G0001-GOVT. ITI, AJMER</td>
-                <td>Present</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>SHADAB KHAN</td>
-                <td>FORGER AND HEAT TREATER</td>
-                <td>2601010004</td>
-                <td>G0001-GOVT. ITI, AJMER</td>
-                <td>Present</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>LAKHAN LAL MEENA</td>
-                <td>LETTER PRESS MACHINE MINDER</td>
-                <td>2601010006</td>
-                <td>G0001-GOVT. ITI, AJMER</td>
-                <td>Present</td>
-            </tr>
-        </tbody>
-    </table>
-<div class=""page-break""></div>
-
-    <!-- FOOTER -->
-    <div class=""footer"">
-        <div class=""counts"">
-            <p>कुल पंजीकृत परीक्षार्थी की संख्या : <b>3</b></p>
-            <p>कुल अनुपस्थित परीक्षार्थी की संख्या : <b>0</b></p>
-            <p>कुल उपस्थित परीक्षार्थी की संख्या : <b>3</b></p>
-        </div>
-
-        <div class=""signature"">
-            हस्ताक्षर<br>
-            (सेमांतिक परीक्षक)
-        </div>
-    </div>
-
-    <!-- BOTTOM DETAILS -->
-    <div class=""bottom-section"">
-        नाम : ____________<br>
-        पद / योग्यता : ____________<br>
-        व्यवसाय : All<br>
-        मोबाइल नं. व पता : ____________<br>
-        फोटो आई.डी. का नाम व क्रमांक : ____________<br>
-        (संविदा व निजी आई.टी.आई. के अनुदेशकों हेतु)
-    </div>
-
-</div>
-
-</body>
-</html>
-");
-
-                
-
-                sb.Append(@"</tbody></table></body></html>");
-
+                // ---------- HTML → PDF ----------
                 var doc = new HtmlToPdfDocument
                 {
                     GlobalSettings =
@@ -2280,18 +2229,20 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 byte[] pdfBytes = _converter.Convert(doc);
 
-                
                 return File(
                     pdfBytes,
                     "application/pdf",
-                    "Center_Wise_Present_Abset_Report.pdf"
+                    "Center_Wise_Present_Absent_Report.pdf"
                 );
+                
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
+
+
 
 
 

@@ -47223,6 +47223,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnRemarks;
             
+            private global::System.Data.DataColumn columnTypeName;
+            
+            private global::System.Data.DataColumn columnNodalOfficerName;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ApprenticeshipListReportDataTable() {
@@ -47308,6 +47312,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TypeNameColumn {
+                get {
+                    return this.columnTypeName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn NodalOfficerNameColumn {
+                get {
+                    return this.columnNodalOfficerName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -47343,7 +47363,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ApprenticeshipListReportRow AddApprenticeshipListReportRow(string Nameofinstitute, string Dateofregistration, string BusinessName, string NumberofTrainees, string Numberofapprentices, string Remarks) {
+            public ApprenticeshipListReportRow AddApprenticeshipListReportRow(string Nameofinstitute, string Dateofregistration, string BusinessName, string NumberofTrainees, string Numberofapprentices, string Remarks, string TypeName, string NodalOfficerName) {
                 ApprenticeshipListReportRow rowApprenticeshipListReportRow = ((ApprenticeshipListReportRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Nameofinstitute,
@@ -47351,7 +47371,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         BusinessName,
                         NumberofTrainees,
                         Numberofapprentices,
-                        Remarks};
+                        Remarks,
+                        TypeName,
+                        NodalOfficerName};
                 rowApprenticeshipListReportRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowApprenticeshipListReportRow);
                 return rowApprenticeshipListReportRow;
@@ -47380,6 +47402,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnNumberofTrainees = base.Columns["NumberofTrainees"];
                 this.columnNumberofapprentices = base.Columns["Numberofapprentices"];
                 this.columnRemarks = base.Columns["Remarks"];
+                this.columnTypeName = base.Columns["TypeName"];
+                this.columnNodalOfficerName = base.Columns["NodalOfficerName"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -47397,6 +47421,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnNumberofapprentices);
                 this.columnRemarks = new global::System.Data.DataColumn("Remarks", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRemarks);
+                this.columnTypeName = new global::System.Data.DataColumn("TypeName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTypeName);
+                this.columnNodalOfficerName = new global::System.Data.DataColumn("NodalOfficerName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNodalOfficerName);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -86688,6 +86716,39 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string TypeName {
+                get {
+                    try {
+                        return ((string)(this[this.tableApprenticeshipListReport.TypeNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TypeName\' in table \'ApprenticeshipListReport\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableApprenticeshipListReport.TypeNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string NodalOfficerName {
+                get {
+                    try {
+                        return ((string)(this[this.tableApprenticeshipListReport.NodalOfficerNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NodalOfficerName\' in table \'ApprenticeshipListReport\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableApprenticeshipListReport.NodalOfficerNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsNameofinstituteNull() {
                 return this.IsNull(this.tableApprenticeshipListReport.NameofinstituteColumn);
             }
@@ -86756,6 +86817,30 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetRemarksNull() {
                 this[this.tableApprenticeshipListReport.RemarksColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTypeNameNull() {
+                return this.IsNull(this.tableApprenticeshipListReport.TypeNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTypeNameNull() {
+                this[this.tableApprenticeshipListReport.TypeNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsNodalOfficerNameNull() {
+                return this.IsNull(this.tableApprenticeshipListReport.NodalOfficerNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetNodalOfficerNameNull() {
+                this[this.tableApprenticeshipListReport.NodalOfficerNameColumn] = global::System.Convert.DBNull;
             }
         }
         
