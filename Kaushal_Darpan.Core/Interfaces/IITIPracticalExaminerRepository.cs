@@ -45,6 +45,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveDataSubmitAndForwardToAdmin(ITI_AppointExaminerDetailsModel filterModel);
         Task<int> UpdateToApprove(ITI_AppointExaminerDetailsModel filterModel);
 
-        Task<int> UpdateStudentExamMarksDataWeb(StudentExamMarksUpdateModel entityList)
+        Task<int> UpdateStudentExamMarksDataWeb(StudentExamMarksUpdateModel entityList);
     }
 }
