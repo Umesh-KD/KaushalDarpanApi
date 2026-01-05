@@ -44,12 +44,15 @@ namespace Kaushal_Darpan.Models.ITITheoryMarks
         public int StreamID { get; set; }
         public int StudentID { get; set; }
         public int SubjectID { get; set; }
+        public int CenterID { get; set; }
         public int MarkEnter { get; set; }
         public int InternalPracticalID { get; set; }
         public string? RollNo { get; set; }
+        public string? SubjectName { get; set; }
         public int GroupCodeID { get; set; }
         public int SSOID { get; set; }
         public int InstituteID { get; set; }
+        public int ExaminerID { get; set; }
         public int? AppointExaminerID { get; set; }
     }
 
@@ -81,6 +84,7 @@ namespace Kaushal_Darpan.Models.ITITheoryMarks
     public class RevertBundleModel
     {
         public int AppointExaminerID { get; set ; }
+        public int FinalSubmit { get; set ; }
         public string? Remark { get; set ; }
     }
 }
