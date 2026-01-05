@@ -262,39 +262,38 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> ParcticalExaminerDashboard(ITIPracticalExaminerSearchFilter filterModel)
         {
             _actionName = "GetAllData()";
-            return await Task.Run(async () =>
+
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITI_ParcticalExaminerDashboard";
-                        command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
-                        command.Parameters.AddWithValue("@FinancialYearID", filterModel.FinancialYearID);
-                        command.Parameters.AddWithValue("@Action", filterModel.Action);
-                        command.Parameters.AddWithValue("@UserID", filterModel.UserID);
-                        command.Parameters.AddWithValue("@SSOID", filterModel.SSOID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_ParcticalExaminerDashboard";
+                    command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                    command.Parameters.AddWithValue("@FinancialYearID", filterModel.FinancialYearID);
+                    command.Parameters.AddWithValue("@Action", filterModel.Action);
+                    command.Parameters.AddWithValue("@UserID", filterModel.UserID);
+                    command.Parameters.AddWithValue("@SSOID", filterModel.SSOID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+
+            }
         }
 
         public async Task<int> AssignPracticalExaminer(PracticalExaminerDetailsModel request)
@@ -662,9 +661,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> UpdateStudentExamMarksData(List<StudentExamMarksUpdateModel> entityList)
         {
             _actionName = "UpdateStudentExamMarksData(List<StudentExamMarksUpdateModel> entityList)";
-
-            return await Task.Run(async () =>
-            {
+           
                 try
                 {
                     int result = 0;
@@ -697,7 +694,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
         }
 
 
