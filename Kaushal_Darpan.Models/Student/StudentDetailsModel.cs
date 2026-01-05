@@ -108,16 +108,16 @@ namespace Kaushal_Darpan.Models.Student
     {
         public int StudentExamPaperMarksID { get; set; }
         public decimal ObtainedMarks { get; set; }
-        public bool IsPresent { get; set; }
-        public bool IsFinalSubmit { get; set; }
-        public int UserID { get; set; }
+        public bool? IsPresent { get; set; }
+        public bool? IsFinalSubmit { get; set; }
+        public int? UserID { get; set; }
         public string? IPAddress { get; set; }
         public string? FileName { get; set; }
         public string? Longitude { get; set; }
         public string? Latitude { get; set; }
         public string? JobCardImage { get; set; }
         public string? JobCardImage1 { get; set; }
-        public int MarkSubmit { get; set; }
+        public int? MarkSubmit { get; set; }
 
     }
 

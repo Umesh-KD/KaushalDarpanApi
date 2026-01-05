@@ -530,10 +530,10 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("UpdateStudentExamMarksDataWeb")]
-        public async Task<ApiResult<string>> UpdateStudentExamMarksDataWeb([FromBody] StudentExamMarksUpdateModel modelList)
+        public async Task<ApiResult<int>> UpdateStudentExamMarksDataWeb([FromBody] StudentExamMarksUpdateModel modelList)
         {
             ActionName = "UpdateStudentExamMarksBulk";
-            var result = new ApiResult<string>();
+            var result = new ApiResult<int>();
             try
             {
                
