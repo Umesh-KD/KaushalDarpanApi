@@ -1899,6 +1899,7 @@
               <xs:element name="establishmentNameAddress" msprop:Generator_ColumnPropNameInTable="establishmentNameAddressColumn" msprop:Generator_ColumnPropNameInRow="establishmentNameAddress" msprop:Generator_UserColumnName="establishmentNameAddress" msprop:Generator_ColumnVarNameInTable="columnestablishmentNameAddress" type="xs:string" minOccurs="0" />
               <xs:element name="representativeNameDesignationMobile" msprop:Generator_ColumnPropNameInTable="representativeNameDesignationMobileColumn" msprop:Generator_ColumnPropNameInRow="representativeNameDesignationMobile" msprop:Generator_UserColumnName="representativeNameDesignationMobile" msprop:Generator_ColumnVarNameInTable="columnrepresentativeNameDesignationMobile" type="xs:string" minOccurs="0" />
               <xs:element name="Remars" msprop:Generator_ColumnPropNameInTable="RemarsColumn" msprop:Generator_ColumnPropNameInRow="Remars" msprop:Generator_UserColumnName="Remars" msprop:Generator_ColumnVarNameInTable="columnRemars" type="xs:string" minOccurs="0" />
+              <xs:element name="NodalOfficerName" msprop:Generator_ColumnPropNameInRow="NodalOfficerName" msprop:Generator_ColumnPropNameInTable="NodalOfficerNameColumn" msprop:Generator_ColumnVarNameInTable="columnNodalOfficerName" msprop:Generator_UserColumnName="NodalOfficerName" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -1915,7 +1916,7 @@
               <xs:element name="CandidatessselectedMaleNo" msprop:Generator_ColumnPropNameInTable="CandidatessselectedMaleNoColumn" msprop:Generator_ColumnPropNameInRow="CandidatessselectedMaleNo" msprop:Generator_UserColumnName="CandidatessselectedMaleNo" msprop:Generator_ColumnVarNameInTable="columnCandidatessselectedMaleNo" type="xs:string" minOccurs="0" />
               <xs:element name="CandidatessselectedFemaleNo" msprop:Generator_ColumnPropNameInTable="CandidatessselectedFemaleNoColumn" msprop:Generator_ColumnPropNameInRow="CandidatessselectedFemaleNo" msprop:Generator_UserColumnName="CandidatessselectedFemaleNo" msprop:Generator_ColumnVarNameInTable="columnCandidatessselectedFemaleNo" type="xs:string" minOccurs="0" />
               <xs:element name="District" msprop:Generator_ColumnPropNameInTable="DistrictColumn" msprop:Generator_ColumnPropNameInRow="District" msprop:Generator_UserColumnName="District" msprop:Generator_ColumnVarNameInTable="columnDistrict" type="xs:string" minOccurs="0" />
-              <xs:element name="PmnamMelaDate" msprop:Generator_ColumnPropNameInRow="PmnamMelaDate" msprop:Generator_ColumnPropNameInTable="PmnamMelaDateColumn" msprop:Generator_ColumnVarNameInTable="columnPmnamMelaDate" msprop:Generator_UserColumnName="PmnamMelaDate" type="xs:string" minOccurs="0" />
+              <xs:element name="PmnamMelaDate" msprop:Generator_ColumnPropNameInTable="PmnamMelaDateColumn" msprop:Generator_ColumnPropNameInRow="PmnamMelaDate" msprop:Generator_UserColumnName="PmnamMelaDate" msprop:Generator_ColumnVarNameInTable="columnPmnamMelaDate" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -1928,6 +1929,9 @@
               <xs:element name="EstablishmentsRegisterNoAfter" msprop:Generator_ColumnPropNameInTable="EstablishmentsRegisterNoAfterColumn" msprop:Generator_ColumnPropNameInRow="EstablishmentsRegisterNoAfter" msprop:Generator_UserColumnName="EstablishmentsRegisterNoAfter" msprop:Generator_ColumnVarNameInTable="columnEstablishmentsRegisterNoAfter" type="xs:string" minOccurs="0" />
               <xs:element name="NumberofSeatAfter" msprop:Generator_ColumnPropNameInTable="NumberofSeatAfterColumn" msprop:Generator_ColumnPropNameInRow="NumberofSeatAfter" msprop:Generator_UserColumnName="NumberofSeatAfter" msprop:Generator_ColumnVarNameInTable="columnNumberofSeatAfter" type="xs:string" minOccurs="0" />
               <xs:element name="NumberofEmployedStudentAfter" msprop:Generator_ColumnPropNameInTable="NumberofEmployedStudentAfterColumn" msprop:Generator_ColumnPropNameInRow="NumberofEmployedStudentAfter" msprop:Generator_UserColumnName="NumberofEmployedStudentAfter" msprop:Generator_ColumnVarNameInTable="columnNumberofEmployedStudentAfter" type="xs:string" minOccurs="0" />
+              <xs:element name="NodalOfficerName" msprop:Generator_UserColumnName="NodalOfficerName" msprop:Generator_ColumnPropNameInTable="NodalOfficerNameColumn" msprop:Generator_ColumnPropNameInRow="NodalOfficerName" msprop:Generator_ColumnVarNameInTable="columnNodalOfficerName" type="xs:string" minOccurs="0" />
+              <xs:element name="BeforeDate1" msprop:Generator_UserColumnName="BeforeDate1" msprop:Generator_ColumnPropNameInTable="BeforeDate1Column" msprop:Generator_ColumnPropNameInRow="BeforeDate1" msprop:Generator_ColumnVarNameInTable="columnBeforeDate1" type="xs:string" minOccurs="0" />
+              <xs:element name="AfterDate1" msprop:Generator_UserColumnName="AfterDate1" msprop:Generator_ColumnPropNameInTable="AfterDate1Column" msprop:Generator_ColumnPropNameInRow="AfterDate1" msprop:Generator_ColumnVarNameInTable="columnAfterDate1" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -1987,7 +1991,7 @@
               <xs:element name="DOB" msprop:Generator_ColumnPropNameInTable="DOBColumn" msprop:Generator_ColumnPropNameInRow="DOB" msprop:Generator_UserColumnName="DOB" msprop:Generator_ColumnVarNameInTable="columnDOB" type="xs:string" minOccurs="0" />
               <xs:element name="AllottedInstitute" msprop:Generator_ColumnPropNameInTable="AllottedInstituteColumn" msprop:Generator_ColumnPropNameInRow="AllottedInstitute" msprop:Generator_UserColumnName="AllottedInstitute" msprop:Generator_ColumnVarNameInTable="columnAllottedInstitute" type="xs:string" minOccurs="0" />
               <xs:element name="AllottedInstituteCode" msprop:Generator_ColumnPropNameInTable="AllottedInstituteCodeColumn" msprop:Generator_ColumnPropNameInRow="AllottedInstituteCode" msprop:Generator_UserColumnName="AllottedInstituteCode" msprop:Generator_ColumnVarNameInTable="columnAllottedInstituteCode" type="xs:string" minOccurs="0" />
-              <xs:element name="Prioity" msprop:Generator_UserColumnName="Prioity" msprop:Generator_ColumnPropNameInTable="PrioityColumn" msprop:Generator_ColumnPropNameInRow="Prioity" msprop:Generator_ColumnVarNameInTable="columnPrioity" type="xs:string" minOccurs="0" />
+              <xs:element name="Prioity" msprop:Generator_ColumnPropNameInTable="PrioityColumn" msprop:Generator_ColumnPropNameInRow="Prioity" msprop:Generator_UserColumnName="Prioity" msprop:Generator_ColumnVarNameInTable="columnPrioity" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

@@ -60,6 +60,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.AddWithValue("@CreatedByRoleID", request.CreatedByRoleID);
                         command.Parameters.AddWithValue("@LevelID", request.LevelID);
+                        command.Parameters.AddWithValue("@IsPrivate", request.IsPrivate);
 
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
