@@ -24,7 +24,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public DTEItemsMasterRepository(DBContext dbContext)
         {
             _dbContext = dbContext;
-            _pageName = "DTEItemsMasterRepository";
+            _pageName = "DTEItemsMasterRepository"; 
             _IPAddress = CommonFuncationHelper.GetIpAddress();
         }
 
