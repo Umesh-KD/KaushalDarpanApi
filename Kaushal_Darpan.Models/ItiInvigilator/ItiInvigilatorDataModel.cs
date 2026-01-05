@@ -115,8 +115,8 @@ namespace Kaushal_Darpan.Models.ItiInvigilator
         public string ?ExamName { get; set; }
         public int TimeTableID { get; set; }
 
-        public DateTime? Dis_Date { get; set; }          // Dispatch / Display Date
-        public DateTime? ExamDateTime { get; set; }
+        public string? Dis_Date { get; set; }          // Dispatch / Display Date
+        public string? ExamDateTime { get; set; }
 
         public int ShiftID { get; set; }
         public string ?ExamShift { get; set; }
@@ -138,6 +138,9 @@ namespace Kaushal_Darpan.Models.ItiInvigilator
         public int StudentCount { get; set; }
         public int PresentStudentCount { get; set; }
         public int AbsentStudentCount { get; set; }
+        public string? ReportName { get; set; }
+        public string? subTitleName { get; set; }
+
     }
 
     public class CenterwisePersentabsentStudentDataModel 
@@ -170,7 +173,7 @@ namespace Kaushal_Darpan.Models.ItiInvigilator
 
         public string? InstituteName { get; set; }
 
-        public DateTime? DOB { get; set; }
+        public string DOB { get; set; }
 
         public int SubjectId { get; set; }
         public string? SubjectCode { get; set; }
@@ -183,7 +186,7 @@ namespace Kaushal_Darpan.Models.ItiInvigilator
         public string? PresentStatus { get; set; }
 
         public string? UserName { get; set; }
-        public DateTime? ActionDate { get; set; }
+        public string ActionDate { get; set; }
 
         public string? SemesterName { get; set; }
         public string? TradeName { get; set; }
