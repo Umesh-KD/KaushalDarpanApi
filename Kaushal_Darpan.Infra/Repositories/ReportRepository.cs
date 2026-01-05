@@ -3161,7 +3161,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
 
-                        if (model.Type >= 7)
+                        if (model.Type == 7)
                         {
                             command.CommandText = "USP_Get_SemesterSubjectWiseStudentCount";
                             //command.Parameters.AddWithValue("@Action", GetAction);
@@ -3176,7 +3176,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.CommandText = "USP_GetStudentSubjectData";
                             command.Parameters.AddWithValue("@action", "_getStudentSubjectData");
                             
-                        }                        
+                        }
+
+                        else if (model.Type == 8)
+                        {
+                            command.CommandText = "USP_Get_center_subject_papercount";
+                            command.Parameters.AddWithValue("@action", "_get_center_subject_papercount_enrollment");
+
+                        }
                         else
                         {
                             command.CommandText = "USP_ReportsBuilder";
