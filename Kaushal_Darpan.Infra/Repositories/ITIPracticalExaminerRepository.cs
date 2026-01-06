@@ -529,7 +529,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "usp_Get_StudentExam_Report_With_Examiner_Timetable";
-
                         // Add required parameters
                         command.Parameters.AddWithValue("@CenterID", filterModel.CenterID);
                         command.Parameters.AddWithValue("@SubjectCode", "");
@@ -537,9 +536,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
                         command.Parameters.AddWithValue("@StreamID", filterModel.StreamID);
-
+                        command.Parameters.AddWithValue("@UserID", filterModel.UserID);
                         _sqlQuery = command.GetSqlExecutableQuery();
-
                         dataTable = await command.FillAsync_DataTable();
                     }
 
@@ -714,6 +712,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ObtainedMarks", entityList.ObtainedMarks);
                         command.Parameters.AddWithValue("@UserID", entityList.UserID);
                         command.Parameters.AddWithValue("@StudentExamPaperMarksID", entityList.StudentExamPaperMarksID);
+
                         //command.Parameters.AddWithValue("@IsPresent", entityList.IsPresent);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out

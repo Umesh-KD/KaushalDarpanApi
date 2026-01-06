@@ -79,6 +79,9 @@ namespace Kaushal_Darpan.Models.ITIPracticalExaminer
         public int EndTermID { get; set; }
         public int Eng_NonEng { get; set; }
         public int StreamID { get; set; }
+        public int UserID { get; set; }
+
+
         //public string? SubjectCode { get; set; }
     }
 

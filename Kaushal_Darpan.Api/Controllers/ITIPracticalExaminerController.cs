@@ -1,5 +1,6 @@
 ﻿using AspNetCore.Reporting;
 using AutoMapper;
+using DocumentFormat.OpenXml.Bibliography;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.CenterCreationMaster;
@@ -570,7 +571,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 else if (responseCode == 2)
                 {
                     result.State = EnumStatus.Error;
-                    result.Message = "Submit date is over. Please contact the Admin Department.";
+                    result.Message = "The submission deadline has passed. Please contact the Admin Department for further assistance.;";
                 }
                 else
                 {
