@@ -714,7 +714,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ObtainedMarks", entityList.ObtainedMarks);
                         command.Parameters.AddWithValue("@UserID", entityList.UserID);
                         command.Parameters.AddWithValue("@StudentExamPaperMarksID", entityList.StudentExamPaperMarksID);
-                        command.Parameters.AddWithValue("@IsPresent", entityList.IsPresent);
+                        //command.Parameters.AddWithValue("@IsPresent", entityList.IsPresent);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
                         _sqlQuery = command.GetSqlExecutableQuery();

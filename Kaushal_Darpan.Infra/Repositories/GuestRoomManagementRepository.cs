@@ -701,6 +701,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", request.RoleID);
                         command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
                         command.Parameters.AddWithValue("@Purpose", request.Purpose);
+                        command.Parameters.AddWithValue("@PurposeDocPhoto", request.PurposeDocPhoto);
+                        command.Parameters.AddWithValue("@Dis_PurposeDocPhoto", request.Dis_PurposeDocPhoto);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
