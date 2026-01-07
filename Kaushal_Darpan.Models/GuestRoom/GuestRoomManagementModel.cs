@@ -173,6 +173,8 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public int EndTermID { get; set; }
         public int? Purpose { get; set; }
         public string? Purpose_str { get; set; }
+        public string? Dis_PurposeDocPhoto { get; set; }
+        public string? PurposeDocPhoto { get; set; }
     }
 
 

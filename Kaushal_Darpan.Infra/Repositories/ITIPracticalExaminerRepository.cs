@@ -529,7 +529,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "usp_Get_StudentExam_Report_With_Examiner_Timetable";
-
                         // Add required parameters
                         command.Parameters.AddWithValue("@CenterID", filterModel.CenterID);
                         command.Parameters.AddWithValue("@SubjectCode", "");
@@ -537,9 +536,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
                         command.Parameters.AddWithValue("@StreamID", filterModel.StreamID);
-
+                        command.Parameters.AddWithValue("@UserID", filterModel.UserID);
                         _sqlQuery = command.GetSqlExecutableQuery();
-
                         dataTable = await command.FillAsync_DataTable();
                     }
 
@@ -696,6 +694,50 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
         }
 
+
+        public async Task<int> UpdateStudentExamMarksDataWeb(StudentExamMarksUpdateModel entityList)
+        {
+            _actionName = "UpdateStudentExamMarksData(StudentExamMarksUpdateModel entityList)";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Update_StudentExam_Marks_Json_Web";
+                        command.Parameters.AddWithValue("@ObtainedMarks", entityList.ObtainedMarks);
+                        command.Parameters.AddWithValue("@UserID", entityList.UserID);
+                        command.Parameters.AddWithValue("@StudentExamPaperMarksID", entityList.StudentExamPaperMarksID);
+
+                        //command.Parameters.AddWithValue("@IsPresent", entityList.IsPresent);
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
         public async Task<int> NcvtUpdateStudentExamMarksData(List<StudentExamMarksUpdateModel> entityList)
         {
