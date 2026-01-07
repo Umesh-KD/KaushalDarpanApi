@@ -22,5 +22,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetCenterStudents(CenterStudentSearchModel filterModel);
         Task<DataTable> GetNcvtPracticalstudent(CenterStudentSearchModel filterModel);
         Task<DataTable> GetInviglatorAttandanceRptData(ITIPaperUploadSearchModel filterModel);
+        Task<DataTable> GetTheoryMarksRptHistory(int StudentExamPaperMarksID);
     }
 }
