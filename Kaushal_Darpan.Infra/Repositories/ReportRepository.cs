@@ -7737,6 +7737,50 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
+
+
+        #region Quarterly  Progress Report
+        public async Task<DataSet> QuarterlyProgressReport(ITIApprenticeshipWorkshop model)
+        {
+            _actionName = "QuarterlyProgressReport()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIApprenticeshipWorkshop_Get";
+
+                        command.Parameters.AddWithValue("@EndTermId", model.EndTermID);
+                        command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
+                        command.Parameters.AddWithValue("@QuaterID", model.QuaterID);
+                        command.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
+                        command.Parameters.AddWithValue("@ZoneID", model.ZoneID);
+                        command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
+
         #region Apprenticeship  registratuion List Report
         public async Task<DataSet> ApprenticeshipReport(ApprenticeshipRegistrationSearchModal model)
         {
