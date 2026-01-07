@@ -189,6 +189,7 @@ namespace Kaushal_Darpan.Infra.Repositories
          
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         command.Parameters.AddWithValue("@SubjectType", body.SubjectType);
+                        command.Parameters.AddWithValue("@SubjectName", body.SubjectName);
                         //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
