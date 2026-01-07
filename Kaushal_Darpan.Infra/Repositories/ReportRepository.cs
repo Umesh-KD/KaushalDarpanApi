@@ -3181,7 +3181,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         else if (model.Type == 8)
                         {
                             command.CommandText = "USP_Get_center_subject_papercount";
-                            command.Parameters.AddWithValue("@action", "_get_center_subject_papercount_enrollment");
+                            command.Parameters.AddWithValue("@action", "_get_center_subject_papercount_examination");
 
                         }
                         else
