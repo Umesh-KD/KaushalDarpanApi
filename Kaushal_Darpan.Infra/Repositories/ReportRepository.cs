@@ -3169,12 +3169,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                         else if (model.Type == 0 || model.Type == 1 || model.Type == 5 || model.Type == 6)
                         {
                             command.CommandText = "USP_Rpt_InstituteSubjectWiseStudentData";
-                            command.Parameters.AddWithValue("@action", "InstituteSubjectWiseStudentData");
+                            command.Parameters.AddWithValue("@Action", "InstituteSubjectWiseStudentData");
                         }
                         else if(model.Type == 2)
                         {
                             command.CommandText = "USP_GetStudentSubjectData";
-                            command.Parameters.AddWithValue("@action", "_getStudentSubjectData");
+                            command.Parameters.AddWithValue("@Action", "_getStudentSubjectData");
                             
                         }
 
@@ -3182,6 +3182,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.CommandText = "USP_Get_center_subject_papercount";
                             command.Parameters.AddWithValue("@action", "_get_center_subject_papercount_examination");
+
+                        }
+                        else if (model.Type == 9)
+                        {
+                            command.CommandText = "USP_Get_center_subject_papercount_datewise";
+                            command.Parameters.AddWithValue("@action", "_get_center_subject_papercount_examination_datewise");
 
                         }
                         else
