@@ -181,7 +181,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     else if (result.Data == -2)
                     {
                         result.State = EnumStatus.Warning;
-                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                        result.ErrorMessage = "Examiner Already Exist with this SSOID";
                     }
 
                   

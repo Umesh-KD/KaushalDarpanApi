@@ -38,6 +38,8 @@ namespace Kaushal_Darpan.Models.ItiExaminer
 
         public int DepartmentID { get; set; }
         public int EndTermID { get; set; }
+
+       
     }
 
 
