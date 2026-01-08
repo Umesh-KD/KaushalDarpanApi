@@ -1,9 +1,12 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models.BTER;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.GuestRoomManagementModel;
 using Kaushal_Darpan.Models.HostelManagementModel;
+using Newtonsoft.Json;
+
 
 //using Kaushal_Darpan.Models.StudentApplyForHostel;
 using System.Data;
@@ -1263,6 +1266,51 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+        public async Task<bool> SaveGuestRoomPayment(GuestHousePaymentDataModel model)
+        {
+            return await Task.Run(async () =>
+            {
+                _actionName = "SaveGuestRoomPayment(GuestHousePaymentDataModel request)";
+                try
+                {
+
+
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GuestRoomPayment";
+                        command.Parameters.AddWithValue("@ActionName", "_InsertDetail");
+                        command.Parameters.AddWithValue("@IsPayment", model.IsPayment);
+                        command.Parameters.AddWithValue("@RoomFee", model.RoomFee);
+                        command.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// sql query
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
     }
 }
 

@@ -2085,12 +2085,14 @@ namespace Kaushal_Darpan.Api.Controllers
                         margin: 0;
                     }}
 
-                    .page {{
-                        border: 2px solid #000;
-                        padding: 15px;
-                        margin: 20px;
-                        box-sizing: border-box;
-                    }}
+                   
+.page {{border: 2px solid #000;
+    padding: 15px;
+    box-sizing: border-box;
+    margin: 10mm;
+    height: calc(100% - 20mm);
+}}
+
 
                     .header-row {{
                         display: flex;
@@ -2138,7 +2140,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                 </div>
                                 <div style=""display:flex; font-weight:bold;"">
                                     <span>" + header.ExamName + @"</span>
-                                    <span style=""margin-left:auto;"">परीक्षा दिनांक : " + header.ExamDateTime + @"</span>
+                                    <span style=""margin-left:auto;display:block;float:right "">परीक्षा दिनांक : " + header.ExamDateTime + @"</span>
                                 </div>
                                 <div>
                                     <b>" + header.subTitleName + @"</b>
@@ -2148,9 +2150,10 @@ namespace Kaushal_Darpan.Api.Controllers
                                     राजकीय / निजी आई.टी.आई. का कोड नं. व नाम (जिसके परीक्षार्थी परीक्षा दे रहे है):
                                    <b>" + header.CenterName + @"</b>
                                 </div>
-                                    <div>
-                                        <h3>Paper : " + header.SubjectName + "-("+header.SemesterName +")"+@" </h3>
-                                        <h3>Trade : " + tradeGroup.Key + @"</h3>
+                                                                        
+                                    <div style=""display:flex; font-weight:bold;"">
+                                        <span>Paper : " + header.SubjectName + "-(" + header.SemesterName + ")" + @"</span></br>
+                                        <span>Trade : " + tradeGroup.Key + @"</span>
                                     </div>
                                 </div>
                             <table>
@@ -2213,7 +2216,16 @@ namespace Kaushal_Darpan.Api.Controllers
                 new ObjectSettings
                 {
                     HtmlContent = sb.ToString(),
-                    WebSettings = { DefaultEncoding = "utf-8" }
+                    WebSettings = { DefaultEncoding = "utf-8" },
+                     FooterSettings = new FooterSettings
+                    {
+                        FontName = "Arial",
+                        FontSize = 9,
+                        Right = "Page [page] of [toPage]",
+                        Left = "Printed on: [date]",
+                        Line = true // Adds a line above footer
+                    }
+
                 }
             }
                 };
