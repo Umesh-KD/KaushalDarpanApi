@@ -371,6 +371,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RollFrom", body.RollFrom);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@Status", body.Status);
+                        command.Parameters.AddWithValue("@selectedCenters", body.selectedCenters);
+                        command.Parameters.AddWithValue("@selectedInstitute", body.selectedInstitute);
+                        command.Parameters.AddWithValue("@selectedTrade", body.selectedTrade);
                         //command.Parameters.AddWithValue("@IsPractical", body.IsPractical);
                         //command.Parameters.AddWithValue("@IsTheory", body.IsTheory);
                         command.Parameters.AddWithValue("@ExaminerID", body.ExaminerID);
