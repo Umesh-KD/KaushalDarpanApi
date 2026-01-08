@@ -8349,6 +8349,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnSemesterName;
             
+            private global::System.Data.DataColumn columnInstituteNameEnglish;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public StudentRollNumberListDataTable() {
@@ -8538,6 +8540,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn InstituteNameEnglishColumn {
+                get {
+                    return this.columnInstituteNameEnglish;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -8592,7 +8602,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         string ExamCenter, 
                         string CourseType, 
                         string Year, 
-                        string SemesterName) {
+                        string SemesterName, 
+                        string InstituteNameEnglish) {
                 StudentRollNumberListRow rowStudentRollNumberListRow = ((StudentRollNumberListRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         EnrollmentNo,
@@ -8613,7 +8624,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         ExamCenter,
                         CourseType,
                         Year,
-                        SemesterName};
+                        SemesterName,
+                        InstituteNameEnglish};
                 rowStudentRollNumberListRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStudentRollNumberListRow);
                 return rowStudentRollNumberListRow;
@@ -8655,6 +8667,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnCourseType = base.Columns["CourseType"];
                 this.columnYear = base.Columns["Year"];
                 this.columnSemesterName = base.Columns["SemesterName"];
+                this.columnInstituteNameEnglish = base.Columns["InstituteNameEnglish"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8698,6 +8711,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnYear);
                 this.columnSemesterName = new global::System.Data.DataColumn("SemesterName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSemesterName);
+                this.columnInstituteNameEnglish = new global::System.Data.DataColumn("InstituteNameEnglish", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnInstituteNameEnglish);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -54812,6 +54827,23 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string InstituteNameEnglish {
+                get {
+                    try {
+                        return ((string)(this[this.tableStudentRollNumberList.InstituteNameEnglishColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'InstituteNameEnglish\' in table \'StudentRollNumberList\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStudentRollNumberList.InstituteNameEnglishColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsEnrollmentNoNull() {
                 return this.IsNull(this.tableStudentRollNumberList.EnrollmentNoColumn);
             }
@@ -55036,6 +55068,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetSemesterNameNull() {
                 this[this.tableStudentRollNumberList.SemesterNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsInstituteNameEnglishNull() {
+                return this.IsNull(this.tableStudentRollNumberList.InstituteNameEnglishColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetInstituteNameEnglishNull() {
+                this[this.tableStudentRollNumberList.InstituteNameEnglishColumn] = global::System.Convert.DBNull;
             }
         }
         

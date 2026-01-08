@@ -93,10 +93,14 @@
           <DataField>SemesterName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="InstituteNameEnglish">
+          <DataField>InstituteNameEnglish</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Project\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Kaushal_Darpan\API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
         <rd:TableName>StudentRollNumberList</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -173,7 +177,7 @@
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>1.87271cm</Height>
+                  <Height>1.07896cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -390,7 +394,7 @@
             <DataSetName>StudentRollNumberList</DataSetName>
             <Top>2.8374cm</Top>
             <Left>0.46625cm</Left>
-            <Height>1.87271cm</Height>
+            <Height>1.07896cm</Height>
             <Width>19.46965cm</Width>
             <Style>
               <Border>
@@ -506,7 +510,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=First(Fields!InstituteName.Value, "StudentExamDetails")</Value>
+                    <Value>=First(Fields!InstituteNameEnglish.Value, "StudentRollNumberList")</Value>
                     <Style>
                       <FontFamily>Times New Roman</FontFamily>
                       <FontWeight>Bold</FontWeight>
@@ -823,7 +827,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>BOARD OF TECHNICAL EDUCATION. RAJASTHAN, JODHPUR</Value>
+                      <Value>BOARD OF TECHNICAL EDUCATION RAJASTHAN, JODHPUR</Value>
                       <Style>
                         <FontFamily>Times New Roman</FontFamily>
                         <FontSize>17pt</FontSize>
@@ -838,7 +842,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>ROLL  LIST </Value>
+                      <Value>ROLL  LIST FOR </Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Times New Roman</FontFamily>
@@ -862,7 +866,7 @@
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> FOR  </Value>
+                      <Value xml:space="preserve">   </Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Times New Roman</FontFamily>
@@ -910,7 +914,7 @@
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>  COURSE  EXAMINATION FORM </Value>
+                      <Value>   EXAMINATION </Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Times New Roman</FontFamily>
