@@ -998,7 +998,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-
         [HttpPost("CheckExaminerProfileCompleted")]
         public async Task<ApiResult<DataTable>> CheckExaminerProfileCompleted([FromBody] ItiExaminerSearchModel body)
         {
