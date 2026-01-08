@@ -256,6 +256,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         private ITI_CounsellingAppointmentOrderHeaderTableDataTable tableITI_CounsellingAppointmentOrderHeaderTable;
         
+        private QuarterlyProgressReportDataTable tableQuarterlyProgressReport;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -633,6 +635,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 }
                 if ((ds.Tables["ITI_CounsellingAppointmentOrderHeaderTable"] != null)) {
                     base.Tables.Add(new ITI_CounsellingAppointmentOrderHeaderTableDataTable(ds.Tables["ITI_CounsellingAppointmentOrderHeaderTable"]));
+                }
+                if ((ds.Tables["QuarterlyProgressReport"] != null)) {
+                    base.Tables.Add(new QuarterlyProgressReportDataTable(ds.Tables["QuarterlyProgressReport"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -1814,6 +1819,16 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public QuarterlyProgressReportDataTable QuarterlyProgressReport {
+            get {
+                return this.tableQuarterlyProgressReport;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -2226,6 +2241,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 }
                 if ((ds.Tables["ITI_CounsellingAppointmentOrderHeaderTable"] != null)) {
                     base.Tables.Add(new ITI_CounsellingAppointmentOrderHeaderTableDataTable(ds.Tables["ITI_CounsellingAppointmentOrderHeaderTable"]));
+                }
+                if ((ds.Tables["QuarterlyProgressReport"] != null)) {
+                    base.Tables.Add(new QuarterlyProgressReportDataTable(ds.Tables["QuarterlyProgressReport"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -2956,6 +2974,12 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                     this.tableITI_CounsellingAppointmentOrderHeaderTable.InitVars();
                 }
             }
+            this.tableQuarterlyProgressReport = ((QuarterlyProgressReportDataTable)(base.Tables["QuarterlyProgressReport"]));
+            if ((initTable == true)) {
+                if ((this.tableQuarterlyProgressReport != null)) {
+                    this.tableQuarterlyProgressReport.InitVars();
+                }
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3198,6 +3222,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             base.Tables.Add(this.tableITI_CounsellingAppointmentOrderTable);
             this.tableITI_CounsellingAppointmentOrderHeaderTable = new ITI_CounsellingAppointmentOrderHeaderTableDataTable();
             base.Tables.Add(this.tableITI_CounsellingAppointmentOrderHeaderTable);
+            this.tableQuarterlyProgressReport = new QuarterlyProgressReportDataTable();
+            base.Tables.Add(this.tableQuarterlyProgressReport);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3898,6 +3924,12 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeQuarterlyProgressReport() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e) {
             if ((e.Action == global::System.ComponentModel.CollectionChangeAction.Remove)) {
                 this.InitVars();
@@ -4298,6 +4330,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public delegate void ITI_CounsellingAppointmentOrderHeaderTableRowChangeEventHandler(object sender, ITI_CounsellingAppointmentOrderHeaderTableRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void QuarterlyProgressReportRowChangeEventHandler(object sender, QuarterlyProgressReportRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -50356,6 +50391,423 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         }
         
         /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class QuarterlyProgressReportDataTable : global::System.Data.TypedTableBase<QuarterlyProgressReportRow> {
+            
+            private global::System.Data.DataColumn columnDistrictName;
+            
+            private global::System.Data.DataColumn columnAAAMemberNames;
+            
+            private global::System.Data.DataColumn columnWorkshopDateFormatted;
+            
+            private global::System.Data.DataColumn columnworkshopdetail;
+            
+            private global::System.Data.DataColumn columnBeforeEstablishmentNo;
+            
+            private global::System.Data.DataColumn columnBeforeEstablishmentSeat;
+            
+            private global::System.Data.DataColumn columnBeforeStudentCount;
+            
+            private global::System.Data.DataColumn columnAfterEstablishmentNo;
+            
+            private global::System.Data.DataColumn columnAfterEstablishmentSeat;
+            
+            private global::System.Data.DataColumn columnAfterStudentCount;
+            
+            private global::System.Data.DataColumn columnQuaterIncreaseEstablishment;
+            
+            private global::System.Data.DataColumn columnQuaterIncreaseSeat;
+            
+            private global::System.Data.DataColumn columnQuaterIncreaseStudent;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public QuarterlyProgressReportDataTable() {
+                this.TableName = "QuarterlyProgressReport";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal QuarterlyProgressReportDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
+            protected QuarterlyProgressReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DistrictNameColumn {
+                get {
+                    return this.columnDistrictName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AAAMemberNamesColumn {
+                get {
+                    return this.columnAAAMemberNames;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn WorkshopDateFormattedColumn {
+                get {
+                    return this.columnWorkshopDateFormatted;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn workshopdetailColumn {
+                get {
+                    return this.columnworkshopdetail;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn BeforeEstablishmentNoColumn {
+                get {
+                    return this.columnBeforeEstablishmentNo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn BeforeEstablishmentSeatColumn {
+                get {
+                    return this.columnBeforeEstablishmentSeat;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn BeforeStudentCountColumn {
+                get {
+                    return this.columnBeforeStudentCount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AfterEstablishmentNoColumn {
+                get {
+                    return this.columnAfterEstablishmentNo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AfterEstablishmentSeatColumn {
+                get {
+                    return this.columnAfterEstablishmentSeat;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AfterStudentCountColumn {
+                get {
+                    return this.columnAfterStudentCount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn QuaterIncreaseEstablishmentColumn {
+                get {
+                    return this.columnQuaterIncreaseEstablishment;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn QuaterIncreaseSeatColumn {
+                get {
+                    return this.columnQuaterIncreaseSeat;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn QuaterIncreaseStudentColumn {
+                get {
+                    return this.columnQuaterIncreaseStudent;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public QuarterlyProgressReportRow this[int index] {
+                get {
+                    return ((QuarterlyProgressReportRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event QuarterlyProgressReportRowChangeEventHandler QuarterlyProgressReportRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event QuarterlyProgressReportRowChangeEventHandler QuarterlyProgressReportRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event QuarterlyProgressReportRowChangeEventHandler QuarterlyProgressReportRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event QuarterlyProgressReportRowChangeEventHandler QuarterlyProgressReportRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddQuarterlyProgressReportRow(QuarterlyProgressReportRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public QuarterlyProgressReportRow AddQuarterlyProgressReportRow(string DistrictName, string AAAMemberNames, string WorkshopDateFormatted, string workshopdetail, string BeforeEstablishmentNo, string BeforeEstablishmentSeat, string BeforeStudentCount, string AfterEstablishmentNo, string AfterEstablishmentSeat, string AfterStudentCount, string QuaterIncreaseEstablishment, string QuaterIncreaseSeat, string QuaterIncreaseStudent) {
+                QuarterlyProgressReportRow rowQuarterlyProgressReportRow = ((QuarterlyProgressReportRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        DistrictName,
+                        AAAMemberNames,
+                        WorkshopDateFormatted,
+                        workshopdetail,
+                        BeforeEstablishmentNo,
+                        BeforeEstablishmentSeat,
+                        BeforeStudentCount,
+                        AfterEstablishmentNo,
+                        AfterEstablishmentSeat,
+                        AfterStudentCount,
+                        QuaterIncreaseEstablishment,
+                        QuaterIncreaseSeat,
+                        QuaterIncreaseStudent};
+                rowQuarterlyProgressReportRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowQuarterlyProgressReportRow);
+                return rowQuarterlyProgressReportRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                QuarterlyProgressReportDataTable cln = ((QuarterlyProgressReportDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new QuarterlyProgressReportDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnDistrictName = base.Columns["DistrictName"];
+                this.columnAAAMemberNames = base.Columns["AAAMemberNames"];
+                this.columnWorkshopDateFormatted = base.Columns["WorkshopDateFormatted"];
+                this.columnworkshopdetail = base.Columns["workshopdetail"];
+                this.columnBeforeEstablishmentNo = base.Columns["BeforeEstablishmentNo"];
+                this.columnBeforeEstablishmentSeat = base.Columns["BeforeEstablishmentSeat"];
+                this.columnBeforeStudentCount = base.Columns["BeforeStudentCount"];
+                this.columnAfterEstablishmentNo = base.Columns["AfterEstablishmentNo"];
+                this.columnAfterEstablishmentSeat = base.Columns["AfterEstablishmentSeat"];
+                this.columnAfterStudentCount = base.Columns["AfterStudentCount"];
+                this.columnQuaterIncreaseEstablishment = base.Columns["QuaterIncreaseEstablishment"];
+                this.columnQuaterIncreaseSeat = base.Columns["QuaterIncreaseSeat"];
+                this.columnQuaterIncreaseStudent = base.Columns["QuaterIncreaseStudent"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnDistrictName = new global::System.Data.DataColumn("DistrictName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDistrictName);
+                this.columnAAAMemberNames = new global::System.Data.DataColumn("AAAMemberNames", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAAAMemberNames);
+                this.columnWorkshopDateFormatted = new global::System.Data.DataColumn("WorkshopDateFormatted", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnWorkshopDateFormatted);
+                this.columnworkshopdetail = new global::System.Data.DataColumn("workshopdetail", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnworkshopdetail);
+                this.columnBeforeEstablishmentNo = new global::System.Data.DataColumn("BeforeEstablishmentNo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBeforeEstablishmentNo);
+                this.columnBeforeEstablishmentSeat = new global::System.Data.DataColumn("BeforeEstablishmentSeat", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBeforeEstablishmentSeat);
+                this.columnBeforeStudentCount = new global::System.Data.DataColumn("BeforeStudentCount", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBeforeStudentCount);
+                this.columnAfterEstablishmentNo = new global::System.Data.DataColumn("AfterEstablishmentNo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAfterEstablishmentNo);
+                this.columnAfterEstablishmentSeat = new global::System.Data.DataColumn("AfterEstablishmentSeat", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAfterEstablishmentSeat);
+                this.columnAfterStudentCount = new global::System.Data.DataColumn("AfterStudentCount", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAfterStudentCount);
+                this.columnQuaterIncreaseEstablishment = new global::System.Data.DataColumn("QuaterIncreaseEstablishment", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnQuaterIncreaseEstablishment);
+                this.columnQuaterIncreaseSeat = new global::System.Data.DataColumn("QuaterIncreaseSeat", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnQuaterIncreaseSeat);
+                this.columnQuaterIncreaseStudent = new global::System.Data.DataColumn("QuaterIncreaseStudent", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnQuaterIncreaseStudent);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public QuarterlyProgressReportRow NewQuarterlyProgressReportRow() {
+                return ((QuarterlyProgressReportRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new QuarterlyProgressReportRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(QuarterlyProgressReportRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.QuarterlyProgressReportRowChanged != null)) {
+                    this.QuarterlyProgressReportRowChanged(this, new QuarterlyProgressReportRowChangeEvent(((QuarterlyProgressReportRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.QuarterlyProgressReportRowChanging != null)) {
+                    this.QuarterlyProgressReportRowChanging(this, new QuarterlyProgressReportRowChangeEvent(((QuarterlyProgressReportRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.QuarterlyProgressReportRowDeleted != null)) {
+                    this.QuarterlyProgressReportRowDeleted(this, new QuarterlyProgressReportRowChangeEvent(((QuarterlyProgressReportRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.QuarterlyProgressReportRowDeleting != null)) {
+                    this.QuarterlyProgressReportRowDeleting(this, new QuarterlyProgressReportRowChangeEvent(((QuarterlyProgressReportRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveQuarterlyProgressReportRow(QuarterlyProgressReportRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                KD_DBScript ds = new KD_DBScript();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "QuarterlyProgressReportDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
         public partial class ExaminerPresentAndMarksRow : global::System.Data.DataRow {
@@ -88866,6 +89318,398 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         }
         
         /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class QuarterlyProgressReportRow : global::System.Data.DataRow {
+            
+            private QuarterlyProgressReportDataTable tableQuarterlyProgressReport;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal QuarterlyProgressReportRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableQuarterlyProgressReport = ((QuarterlyProgressReportDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string DistrictName {
+                get {
+                    try {
+                        return ((string)(this[this.tableQuarterlyProgressReport.DistrictNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DistrictName\' in table \'QuarterlyProgressReport\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableQuarterlyProgressReport.DistrictNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string AAAMemberNames {
+                get {
+                    try {
+                        return ((string)(this[this.tableQuarterlyProgressReport.AAAMemberNamesColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AAAMemberNames\' in table \'QuarterlyProgressReport\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableQuarterlyProgressReport.AAAMemberNamesColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string WorkshopDateFormatted {
+                get {
+                    try {
+                        return ((string)(this[this.tableQuarterlyProgressReport.WorkshopDateFormattedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'WorkshopDateFormatted\' in table \'QuarterlyProgressReport\' i" +
+                                "s DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableQuarterlyProgressReport.WorkshopDateFormattedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string workshopdetail {
+                get {
+                    try {
+                        return ((string)(this[this.tableQuarterlyProgressReport.workshopdetailColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'workshopdetail\' in table \'QuarterlyProgressReport\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableQuarterlyProgressReport.workshopdetailColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string BeforeEstablishmentNo {
+                get {
+                    try {
+                        return ((string)(this[this.tableQuarterlyProgressReport.BeforeEstablishmentNoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'BeforeEstablishmentNo\' in table \'QuarterlyProgressReport\' i" +
+                                "s DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableQuarterlyProgressReport.BeforeEstablishmentNoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string BeforeEstablishmentSeat {
+                get {
+                    try {
+                        return ((string)(this[this.tableQuarterlyProgressReport.BeforeEstablishmentSeatColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'BeforeEstablishmentSeat\' in table \'QuarterlyProgressReport\'" +
+                                " is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableQuarterlyProgressReport.BeforeEstablishmentSeatColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string BeforeStudentCount {
+                get {
+                    try {
+                        return ((string)(this[this.tableQuarterlyProgressReport.BeforeStudentCountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'BeforeStudentCount\' in table \'QuarterlyProgressReport\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableQuarterlyProgressReport.BeforeStudentCountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string AfterEstablishmentNo {
+                get {
+                    try {
+                        return ((string)(this[this.tableQuarterlyProgressReport.AfterEstablishmentNoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AfterEstablishmentNo\' in table \'QuarterlyProgressReport\' is" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableQuarterlyProgressReport.AfterEstablishmentNoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string AfterEstablishmentSeat {
+                get {
+                    try {
+                        return ((string)(this[this.tableQuarterlyProgressReport.AfterEstablishmentSeatColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AfterEstablishmentSeat\' in table \'QuarterlyProgressReport\' " +
+                                "is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableQuarterlyProgressReport.AfterEstablishmentSeatColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string AfterStudentCount {
+                get {
+                    try {
+                        return ((string)(this[this.tableQuarterlyProgressReport.AfterStudentCountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AfterStudentCount\' in table \'QuarterlyProgressReport\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableQuarterlyProgressReport.AfterStudentCountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string QuaterIncreaseEstablishment {
+                get {
+                    try {
+                        return ((string)(this[this.tableQuarterlyProgressReport.QuaterIncreaseEstablishmentColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'QuaterIncreaseEstablishment\' in table \'QuarterlyProgressRep" +
+                                "ort\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableQuarterlyProgressReport.QuaterIncreaseEstablishmentColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string QuaterIncreaseSeat {
+                get {
+                    try {
+                        return ((string)(this[this.tableQuarterlyProgressReport.QuaterIncreaseSeatColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'QuaterIncreaseSeat\' in table \'QuarterlyProgressReport\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableQuarterlyProgressReport.QuaterIncreaseSeatColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string QuaterIncreaseStudent {
+                get {
+                    try {
+                        return ((string)(this[this.tableQuarterlyProgressReport.QuaterIncreaseStudentColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'QuaterIncreaseStudent\' in table \'QuarterlyProgressReport\' i" +
+                                "s DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableQuarterlyProgressReport.QuaterIncreaseStudentColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDistrictNameNull() {
+                return this.IsNull(this.tableQuarterlyProgressReport.DistrictNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDistrictNameNull() {
+                this[this.tableQuarterlyProgressReport.DistrictNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAAAMemberNamesNull() {
+                return this.IsNull(this.tableQuarterlyProgressReport.AAAMemberNamesColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAAAMemberNamesNull() {
+                this[this.tableQuarterlyProgressReport.AAAMemberNamesColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsWorkshopDateFormattedNull() {
+                return this.IsNull(this.tableQuarterlyProgressReport.WorkshopDateFormattedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetWorkshopDateFormattedNull() {
+                this[this.tableQuarterlyProgressReport.WorkshopDateFormattedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsworkshopdetailNull() {
+                return this.IsNull(this.tableQuarterlyProgressReport.workshopdetailColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetworkshopdetailNull() {
+                this[this.tableQuarterlyProgressReport.workshopdetailColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsBeforeEstablishmentNoNull() {
+                return this.IsNull(this.tableQuarterlyProgressReport.BeforeEstablishmentNoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetBeforeEstablishmentNoNull() {
+                this[this.tableQuarterlyProgressReport.BeforeEstablishmentNoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsBeforeEstablishmentSeatNull() {
+                return this.IsNull(this.tableQuarterlyProgressReport.BeforeEstablishmentSeatColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetBeforeEstablishmentSeatNull() {
+                this[this.tableQuarterlyProgressReport.BeforeEstablishmentSeatColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsBeforeStudentCountNull() {
+                return this.IsNull(this.tableQuarterlyProgressReport.BeforeStudentCountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetBeforeStudentCountNull() {
+                this[this.tableQuarterlyProgressReport.BeforeStudentCountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAfterEstablishmentNoNull() {
+                return this.IsNull(this.tableQuarterlyProgressReport.AfterEstablishmentNoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAfterEstablishmentNoNull() {
+                this[this.tableQuarterlyProgressReport.AfterEstablishmentNoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAfterEstablishmentSeatNull() {
+                return this.IsNull(this.tableQuarterlyProgressReport.AfterEstablishmentSeatColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAfterEstablishmentSeatNull() {
+                this[this.tableQuarterlyProgressReport.AfterEstablishmentSeatColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAfterStudentCountNull() {
+                return this.IsNull(this.tableQuarterlyProgressReport.AfterStudentCountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAfterStudentCountNull() {
+                this[this.tableQuarterlyProgressReport.AfterStudentCountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsQuaterIncreaseEstablishmentNull() {
+                return this.IsNull(this.tableQuarterlyProgressReport.QuaterIncreaseEstablishmentColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetQuaterIncreaseEstablishmentNull() {
+                this[this.tableQuarterlyProgressReport.QuaterIncreaseEstablishmentColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsQuaterIncreaseSeatNull() {
+                return this.IsNull(this.tableQuarterlyProgressReport.QuaterIncreaseSeatColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetQuaterIncreaseSeatNull() {
+                this[this.tableQuarterlyProgressReport.QuaterIncreaseSeatColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsQuaterIncreaseStudentNull() {
+                return this.IsNull(this.tableQuarterlyProgressReport.QuaterIncreaseStudentColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetQuaterIncreaseStudentNull() {
+                this[this.tableQuarterlyProgressReport.QuaterIncreaseStudentColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -92795,6 +93639,40 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ITI_CounsellingAppointmentOrderHeaderTableRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class QuarterlyProgressReportRowChangeEvent : global::System.EventArgs {
+            
+            private QuarterlyProgressReportRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public QuarterlyProgressReportRowChangeEvent(QuarterlyProgressReportRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public QuarterlyProgressReportRow Row {
                 get {
                     return this.eventRow;
                 }

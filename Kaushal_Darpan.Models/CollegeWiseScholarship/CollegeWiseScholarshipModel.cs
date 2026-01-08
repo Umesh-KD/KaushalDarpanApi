@@ -70,5 +70,34 @@
         
     }
 
+    public class ScholarshipRequest
+    {
+        public string RequestType { get; set; }
+        public string CollegeType { get; set; }
+        public string RequestId { get; set; }
+    }
 
+    public class ScholarshipApiResponse
+    {
+        public bool isSuccess { get; set; }
+        public string errorMessage { get; set; }
+        public List<ScholarshipData> data { get; set; }
+    }
+
+    public class ScholarshipData
+    {
+        public string academic_Year { get; set; }
+        public string applicationID { get; set; }
+        public string applicationDate { get; set; }
+        public string applicationStatus { get; set; }
+        public string traineeName { get; set; }
+        public string category { get; set; }
+        public string sanctionedSchemeOrSchemeType { get; set; }
+        public decimal scholarshipAmount { get; set; }
+        public string dateOfDisbursement { get; set; }
+        public string aadhaarOrJanAadhaar { get; set; }
+        public string collegeCode { get; set; }
+        public string collegeName { get; set; }
+        public string collegeType { get; set; }
+    }
 }

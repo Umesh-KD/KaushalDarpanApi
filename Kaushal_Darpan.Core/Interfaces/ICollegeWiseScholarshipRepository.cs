@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.CollegeWiseScholarship;
+﻿using Kaushal_Darpan.Core.Helper;
+using Kaushal_Darpan.Models.CollegeWiseScholarship;
 using Kaushal_Darpan.Models.CompanyMaster;
 using System.Data;
 
@@ -26,6 +27,10 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetDetailList(int id);
 
         //Task<DataTable> GetDataByStudentId(EligibleStudentForPlacement model);
+
+
+        Task<string> GetScholarship1(ScholarshipRequest filterModel);
+
 
     }
 }

@@ -6,6 +6,9 @@ using Kaushal_Darpan.Models.CollegeWiseScholarship;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -686,6 +689,124 @@ namespace Kaushal_Darpan.Api.Controllers
         //        return result;
         //    });
         //}
+
+
+        [HttpPost("GetScholarship")]
+        public async Task<ApiResult<ScholarshipApiResponse>> GetScholarship([FromBody] ScholarshipRequest body)
+        {
+            ActionName = "SaveCollegeWiseScholarshipDetails([FromBody] CompanyMaster_Action request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<ScholarshipApiResponse>();
+                try
+                {
+
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+                    var client = new HttpClient();
+                    //var request = new HttpRequestMessage(HttpMethod.Post, "https://sjmsnew.rajasthan.gov.in/ScholarShipApi/api/Scholarship?RequestId=60787706086");
+                    var request = new HttpRequestMessage(HttpMethod.Post, "https://sjmsnew.rajasthan.gov.in/ScholarShipApi/api/Scholarship?RequestId="+body.RequestId);
+                    var content = new StringContent("{\"RequestType\": \""+body.RequestType+"\",\"CollegeType\": \""+body.CollegeType+"\"}", null, "application/json");
+                    //var content = new StringContent("{\"RequestType\": \"Janaadhaar_Aadhaar\",\"CollegeType\": \"ITI\"}", null, "application/json");
+                    request.Content = content;
+                    var response = await client.SendAsync(request);
+                    response.EnsureSuccessStatusCode();
+                    string responseString = await response.Content.ReadAsStringAsync();
+                    ScholarshipApiResponse deseraliseObj = JsonSerializer.Deserialize<ScholarshipApiResponse>(responseString);
+                    result.Data = deseraliseObj;
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data.isSuccess )
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data fetch successfully";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+
+                        result.ErrorMessage = result.Data.errorMessage;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+        [HttpPost("GetScholarship1")]
+        public async Task<ApiResult<ScholarshipApiResponse>> GetScholarship1([FromBody] ScholarshipRequest body)
+        {
+            ActionName = "SaveCollegeWiseScholarshipDetails([FromBody] CompanyMaster_Action request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<ScholarshipApiResponse>();
+                try
+                {
+
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+
+                    string responseString = await _unitOfWork.CollegeWiseScholarshipRepository.GetScholarship1(body);
+                    ScholarshipApiResponse deseraliseObj = JsonSerializer.Deserialize<ScholarshipApiResponse>(responseString);
+                    result.Data = deseraliseObj;
+
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data.isSuccess)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data fetch successfully";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+
+                        result.ErrorMessage = result.Data.errorMessage;
+                    }
+
+
+                   
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
 
 
     }

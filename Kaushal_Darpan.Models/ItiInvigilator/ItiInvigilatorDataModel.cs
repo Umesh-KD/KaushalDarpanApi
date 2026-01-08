@@ -126,7 +126,7 @@ namespace Kaushal_Darpan.Models.ItiInvigilator
         public string ?FinancialYear { get; set; }
         public string ?EndTerm { get; set; }
 
-        public DateTime? CreatedDate { get; set; }
+        public string? CreatedDate { get; set; }
 
         public string ?TradeName { get; set; }
         public string ?SubjectName { get; set; }
@@ -186,7 +186,7 @@ namespace Kaushal_Darpan.Models.ItiInvigilator
         public string? PresentStatus { get; set; }
 
         public string? UserName { get; set; }
-        public string ActionDate { get; set; }
+        public string? ActionDate { get; set; }
 
         public string? SemesterName { get; set; }
         public string? TradeName { get; set; }

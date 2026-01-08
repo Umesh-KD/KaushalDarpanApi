@@ -2073,7 +2073,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 var sb = new StringBuilder();
 
-                // ---------- HTML + CSS ----------
                 sb.Append($@"
                     <!DOCTYPE html>
                     <html lang='hi'>
@@ -2124,7 +2123,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     <body>
                     ");
 
-                // ---------- TRADE-WISE PAGES ----------
                 bool isFirstTrade = true;
 
                 foreach (var tradeGroup in studentData.GroupBy(x => x.TradeName))
@@ -2137,13 +2135,10 @@ namespace Kaushal_Darpan.Api.Controllers
                             <div class='header'>
                                 <div class='header-row'>
                                     <div>{header.ReportName}</div>
-           
                                 </div>
-
-                                <div><b>" + header.ExamName + @"</b>
-                                     <div style='text-align:right;font-weight:bold'>परीक्षा दिनांक : 
-                                        <b>" + header.ExamDateTime + @"</b>
-                                    </div>
+                                <div style=""display:flex; font-weight:bold;"">
+                                    <span>" + header.ExamName + @"</span>
+                                    <span style=""margin-left:auto;"">परीक्षा दिनांक : " + header.ExamDateTime + @"</span>
                                 </div>
                                 <div>
                                     <b>" + header.subTitleName + @"</b>
@@ -2158,12 +2153,10 @@ namespace Kaushal_Darpan.Api.Controllers
                                         <h3>Trade : " + tradeGroup.Key + @"</h3>
                                     </div>
                                 </div>
-
                             <table>
                                 <thead>
                                     <tr>
                                         <th style=""text-align:left;"">Sr No</th>
-
                                         <th style=""text-align:left;"">Student Name</th>
                                         <th style=""text-align:left;"">Trade Name</th>
                                         <th style=""text-align:left;"">Roll No</th>
@@ -2188,7 +2181,6 @@ namespace Kaushal_Darpan.Api.Controllers
                             </tr>");
                              srNo++;
                         }
-
                         sb.Append(@"
                                 </tbody>
                             </table>
@@ -2209,7 +2201,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 sb.Append("</body></html>");
 
-                // ---------- HTML → PDF ----------
                 var doc = new HtmlToPdfDocument
                 {
                     GlobalSettings =
