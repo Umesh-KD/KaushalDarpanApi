@@ -1033,5 +1033,46 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+        [HttpPost("RemoveStudent")]
+        public async Task<ApiResult<bool>> RemoveStudent(ItiExaminerSearchModel model)
+        {
+            ActionName = "DeleteDataByID(int PK_ID, int ModifyBy)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.ItiExaminerRepository.RemoveStudent(model);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DELETE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_DELETE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
     }
 }
