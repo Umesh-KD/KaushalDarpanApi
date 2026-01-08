@@ -54,6 +54,7 @@ namespace Kaushal_Darpan.Models.ItiExaminer
         public int DistrictID { get; set; }
         public int InstituteID { get; set; }
         public int BundleID { get; set; }
+        public int ExaminerID { get; set; }
 
 
     }
