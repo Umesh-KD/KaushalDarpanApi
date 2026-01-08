@@ -12679,6 +12679,75 @@ namespace Kaushal_Darpan.Api.Controllers
         }
         #endregion
 
+        #region Quarterly Progress Report
+        [HttpPost("QuarterlyProgressReport")]
+        public async Task<ApiResult<string>> QuarterlyProgressReport(ITIApprenticeshipWorkshop model)
+        {
+            ActionName = "QuarterlyProgressReport()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.ReportRepository.QuarterlyProgressReport(model);
+                    if (data != null)
+                    {
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        //report
+                        //var fileName = $"AllotmentFeeReceipt_{EnrollmentNo}.pdf";
+                        var fileName = $"QuarterlyProgressReport.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/QuarterlyProgressReport.rdlc";
+                        //
+                        var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                        //
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+                        localReport.AddDataSource("QuarterlyProgressReport", data.Tables[0]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        //save
+
+
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        //end report
+
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+        #endregion
+
         #region Apprenticeship  registratuion List Report
         [HttpPost("ApprenticeshipReport")]
         public async Task<ApiResult<string>> ApprenticeshipReport(ApprenticeshipRegistrationSearchModal model)
@@ -14127,81 +14196,161 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-       
-        //[HttpPost("GetTimeTableInWord")]
-        //public async Task<ApiResult<string>> GetTimeTableInWord([FromBody] TabluationDataModel body)
-        //{
-        //    ActionName = "GetTimeTableInWord([FromBody] TabluationDataModel body)";
-        //    var result = new ApiResult<string>();
-        //    try
-        //    {
-        //        // get time table data
-        //        var data = await _unitOfWork.ReportRepository.GetStreamResultRptTabulation(body);
 
-        //        if (data?.Rows?.Count == 0)
-        //        {
-        //            result.State = EnumStatus.Warning;
-        //            result.Message = Constants.MSG_DATA_NOT_FOUND;
-        //            return result;
-        //        }
+        [HttpPost("GetTimeTableInWord")]
+        public async Task<ApiResult<string>> GetTimeTableInWord(ReportBaseModel model)
+        {
+            ActionName = "GetTimeTableInWord(ReportBaseModel model)";
+            var result = new ApiResult<string>();
+            try
+            {
+                StringBuilder sb = new StringBuilder();
 
-        //        // make html by data
-        //        string htmlContent = _printHtmlFile.GetHtmlOfTimeTable().ToString();
+                // get time table data
+                List<TimeTableHeaderModel> objList = new List<TimeTableHeaderModel>();
+                model.Action = "_GetTimeTableHeader";
+                var dataList = await _unitOfWork.ReportRepository.DownloadTimeTable(model);
 
-        //        var ms = new MemoryStream();
+                if (dataList != null)
+                {
+                    objList = CommonFuncationHelper.ConvertDataTable<List<TimeTableHeaderModel>>(dataList.Tables[0]);
+                }
 
-        //        using (var wordDoc = DocumentFormat.OpenXml.Packaging.WordprocessingDocument.Create(
-        //            ms,
-        //            DocumentFormat.OpenXml.WordprocessingDocumentType.Document,
-        //            true))
-        //        {
-        //            var mainPart = wordDoc.AddMainDocumentPart();
-        //            mainPart.Document = new DocumentFormat.OpenXml.Wordprocessing.Document(
-        //                new DocumentFormat.OpenXml.Wordprocessing.Body()
-        //            );
+                if (objList?.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
 
-        //            var converter = new HtmlToOpenXml.HtmlConverter(mainPart);
+                // table loop
+                if (objList.Count > 0)
+                {
+                    List<string> Timettable = new List<string>();
+                    int loopIndex = 1;
+                    foreach (var item in objList)
+                    {
+                        ReportBaseModel objTimeTableList = new ReportBaseModel
+                        {
+                            Action = "_TimeTableList",
+                            SemesterID = item.SemesterID,
+                            EndTermID = item.EndTermID,
+                            ExamType = model.ExamType,
+                            Eng_NonEng = model.Eng_NonEng,
+                            CommonSubjectText = item.CommonSubjectText
+                        };
+
+                        // get details
+                        var data = await _unitOfWork.ReportRepository.DownloadTimeTable(objTimeTableList);
 
 
-        //            // html utf-8
-        //            await converter.ParseHtml(htmlContent);
+                        // Prepare header table
+                        DataTable dtTimeTableHeader = new DataTable();
+                        dtTimeTableHeader.Columns.Add("OrderNumber");
+                        dtTimeTableHeader.Columns.Add("EndTermName");
+                        dtTimeTableHeader.Columns.Add("FinancialYearName");
+                        dtTimeTableHeader.Columns.Add("CurrentDate");
+                        dtTimeTableHeader.Columns.Add("CourseTypeName");
+                        dtTimeTableHeader.Columns.Add("YearName");
+                        dtTimeTableHeader.Columns.Add("CourseTypeNameFull");
+                        dtTimeTableHeader.Columns.Add("ExamName");
+                        dtTimeTableHeader.Columns.Add("ExamScheme");
+                        dtTimeTableHeader.Columns.Add("CommonSubjectText");
+                        dtTimeTableHeader.Columns.Add("SignatureFile", typeof(byte[]));
+                        
+                        string stuimgFilepath = $"{ConfigurationHelper.RootPath}StaticFiles/Apr012025060950764086.png";
 
-        //            // Force Hindi font if needed
-        //            wordDoc.ForceHindiFont();
-        //        }
+                        string photoFileName = item.SignatureFile;
+                        string fullPhotoPath = Path.Combine(ConfigurationHelper.RootPath, "StaticFiles", Convert.ToString(item.SignatureFile));
+                        byte[] photo;
 
-        //        ms.Position = 0;
+                        if (System.IO.File.Exists(fullPhotoPath))
+                        {
+                            photo = System.IO.File.ReadAllBytes(fullPhotoPath); // This must be byte[]
+
+                        }
+                        else
+                        {
+                            photo = System.IO.File.ReadAllBytes(Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsFolder, "default.jpg"));
+                        }
+
+                        dtTimeTableHeader.Rows.Add(item.OrderNo, item.EndTermName, item.FinancialYearName, item.CurrentDate,
+                            item.CourseTypeName, item.YearName, item.CourseTypeNameFull, item.ExamName, item.ExamScheme, item.CommonSubjectText, photo);
+
+                        // make html by data and add in sb
+                        var _sb = _printHtmlFile.GetHtmlOfTimeTable(loopIndex, dtTimeTableHeader, data.Tables[0]);
+                        sb.Append(_sb);
+                        loopIndex++;        
+                    }
+                    // add end html
+                    sb.AppendLine("</body>");
+                    sb.AppendLine("</html>");
+
+                    string htmlContent = sb.ToString();
+                    // convert in word
+                    var ms = new MemoryStream();
+
+                    using (var wordDoc = DocumentFormat.OpenXml.Packaging.WordprocessingDocument.Create(
+                        ms,
+                        DocumentFormat.OpenXml.WordprocessingDocumentType.Document,
+                        true))
+                    {
+                        var mainPart = wordDoc.AddMainDocumentPart();
+                        mainPart.Document = new DocumentFormat.OpenXml.Wordprocessing.Document(
+                            new DocumentFormat.OpenXml.Wordprocessing.Body()
+                        );
+
+                        var converter = new HtmlToOpenXml.HtmlConverter(mainPart);
 
 
-        //        byte[] pdfBytes = ms.ToArray();
+                        // html utf-8
+                        await converter.ParseHtml(htmlContent);
 
-        //        result.Data = Convert.ToBase64String(pdfBytes);
-        //        result.State = EnumStatus.Success;
-        //        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                        // Force Hindi font if needed
+                        wordDoc.ForceHindiFont();
+                    }
 
-        //        //return File(
-        //        //    ms,
-        //        //    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        //        //    "HtmlToWord.docx"
-        //        //);
-        //    }
-        //    catch (System.Exception ex)
-        //    {
-        //        await _unitOfWork.DisposeAsync();
+                    ms.Position = 0;
 
-        //        result.State = EnumStatus.Error;
-        //        result.Message = Constants.MSG_ERROR_OCCURRED;
-        //        result.ErrorMessage = ex.Message;
-        //        // write error log
-        //        var nex = new NewException
-        //        {
-        //            PageName = PageName,
-        //            ActionName = ActionName,
-        //            Ex = ex,
-        //        };
-        //        await CreateErrorLog(nex, _unitOfWork);
-        //    }
-        //    return result;
-        //}
+
+                    byte[] pdfBytes = ms.ToArray();
+
+                    result.Data = Convert.ToBase64String(pdfBytes);
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                    //return File(
+                    //    ms,
+                    //    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    //    "timetable.docx"
+                    //);
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+                
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
     }
 }

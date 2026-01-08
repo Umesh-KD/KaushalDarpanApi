@@ -36,9 +36,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
         protected async Task<string> GenrateJwtToken(UserSessionModel model)
         {
-            return await Task.Run(() =>
-            {
-                var authClaim = new List<Claim>
+            var authClaim = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier,model.UserID.ToString()),
                     new Claim(ClaimTypes.Name,model.UserName),
@@ -49,58 +47,51 @@ namespace Kaushal_Darpan.Api.Controllers
                     new Claim(nameof(model.RoleNames),model.RoleNames),
                 };
 
-                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfigurationHelper.JwtSecret));
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfigurationHelper.JwtSecret));
 
-                var token = new JwtSecurityToken(
-                    issuer: ConfigurationHelper.JwtIssuer,
-                    audience: ConfigurationHelper.JwtAudience,
-                    expires: DateTime.Now.AddMinutes(ConfigurationHelper.SessionTime),
-                    claims: authClaim,
-                    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                    );
+            var token = new JwtSecurityToken(
+                issuer: ConfigurationHelper.JwtIssuer,
+                audience: ConfigurationHelper.JwtAudience,
+                expires: DateTime.Now.AddMinutes(ConfigurationHelper.SessionTime),
+                claims: authClaim,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                );
 
-                return new JwtSecurityTokenHandler().WriteToken(token);
-            });
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
         protected async Task CreateErrorLog(NewException nex, IUnitOfWork unitOfWork)
         {
-            await Task.Run(async () =>
+            var data = new Tbl_Trn_ErrorLog();
+            if (nex.Ex.Message.Contains("@SqlExecutableQuery = "))
             {
-                var data = new Tbl_Trn_ErrorLog();
-                if (nex.Ex.Message.Contains("@SqlExecutableQuery = "))
-                {
-                    data.ErrorDescription = nex.Ex.Message;
-                    data.CreatedDate = DateTime.Now;
-                }
-                else
-                {
-                    StringBuilder sb = new StringBuilder();
-                    sb.AppendLine($"Error = {nex.Ex.Message}");
-                    sb.AppendLine($"Page = {nex.PageName}.{nex.ActionName}");
-                    data.ErrorDescription = sb.ToString();
-                    data.CreatedDate = DateTime.Now;
-                }
-                await unitOfWork.ErrorLogs.AddErrorLog(data);
-                await unitOfWork.SaveChangesAsync();
-            });
+                data.ErrorDescription = nex.Ex.Message;
+                data.CreatedDate = DateTime.Now;
+            }
+            else
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine($"Error = {nex.Ex.Message}");
+                sb.AppendLine($"Page = {nex.PageName}.{nex.ActionName}");
+                data.ErrorDescription = sb.ToString();
+                data.CreatedDate = DateTime.Now;
+            }
+            await unitOfWork.ErrorLogs.AddErrorLog(data);
+            await unitOfWork.SaveChangesAsync();
         }
 
 
         protected async Task CreateErrorLogMessage(NewException nex, IUnitOfWork unitOfWork)
         {
-            await Task.Run(async () =>
-            {
-                var data = new Tbl_Trn_ErrorLog();
-              
-                    StringBuilder sb = new StringBuilder();
-                    sb.AppendLine($"Error = {nex.ErrorText}");
-                    sb.AppendLine($"Page = {nex.PageName}.{nex.ActionName}");
-                    data.ErrorDescription = sb.ToString();
-                    data.CreatedDate = DateTime.Now;
-                
-                await unitOfWork.ErrorLogs.AddErrorLog(data);
-                await unitOfWork.SaveChangesAsync();
-            });
+            var data = new Tbl_Trn_ErrorLog();
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"Error = {nex.ErrorText}");
+            sb.AppendLine($"Page = {nex.PageName}.{nex.ActionName}");
+            data.ErrorDescription = sb.ToString();
+            data.CreatedDate = DateTime.Now;
+
+            await unitOfWork.ErrorLogs.AddErrorLog(data);
+            await unitOfWork.SaveChangesAsync();
         }
 
         #endregion
@@ -135,7 +126,7 @@ namespace Kaushal_Darpan.Api.Controllers
             GC.SuppressFinalize(this);
         }
 
-        
+
         #endregion
     }
 }

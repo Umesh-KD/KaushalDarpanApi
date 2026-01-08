@@ -3,6 +3,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.Examiners;
 using Kaushal_Darpan.Models.GroupMaster;
+using Kaushal_Darpan.Models.ITIMaster;
 using Kaushal_Darpan.Models.ITITheoryMarks;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.TheoryMarks;
@@ -50,6 +51,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@GroupCodeID", body.GroupCodeID);
                         command.Parameters.AddWithValue("@AppointExaminerID", body.AppointExaminerID);
+                        command.Parameters.AddWithValue("@CenterID", body.CenterID);
+                        command.Parameters.AddWithValue("@SubjectName", body.SubjectName);
+                        command.Parameters.AddWithValue("@ExaminerID", body.ExaminerID);
                         //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
@@ -132,6 +136,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@AppointExaminerID", entity.AppointExaminerID);
                         command.Parameters.AddWithValue("@Remark", entity.Remark);
+                        command.Parameters.AddWithValue("@FinalSubmit", entity.FinalSubmit);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -184,6 +189,7 @@ namespace Kaushal_Darpan.Infra.Repositories
          
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         command.Parameters.AddWithValue("@SubjectType", body.SubjectType);
+                        command.Parameters.AddWithValue("@SubjectName", body.SubjectName);
                         //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
@@ -206,6 +212,40 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataTable> GetInviglatorAttandanceRptData(ITIPaperUploadSearchModel body)
+        {
+            _actionName = "GetInviglatorAttandanceRptData(TheorySearchModel body)";
+            try
+            { 
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_InvigilatorAttendance_Reports";
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@PaperCode", body.PaperCode);
+                        command.Parameters.AddWithValue("@CenterID", body.CenterID);
+                        command.Parameters.AddWithValue("@IsPersentAbsent", body.IsPresentAbsent);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
         public async Task<DataTable> GetCenterStudents(CenterStudentSearchModel body)
         {
             _actionName = "GetCenterStudents(TheorySearchModel body)";
@@ -350,6 +390,38 @@ namespace Kaushal_Darpan.Infra.Repositories
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                 throw new Exception(errordetails, ex);
             }
+        }
+        public async Task<DataTable> GetTheoryMarksRptHistory(int StudentExamPaperMarksID)
+        {
+            _actionName = "StudentType()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetTheoryMarksRptHistory";
+                        command.Parameters.AddWithValue("@StudentExamPaperMarksID", StudentExamPaperMarksID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
         }
 
     }

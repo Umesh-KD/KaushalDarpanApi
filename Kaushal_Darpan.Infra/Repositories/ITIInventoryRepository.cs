@@ -517,6 +517,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", SearchReq.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", SearchReq.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", SearchReq.EndTermID);
+                        command.Parameters.AddWithValue("@StatusID", SearchReq.StatusID);
+                        command.Parameters.AddWithValue("@ItemType", SearchReq.ItemType);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -2261,6 +2263,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.CollegeId);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.ItemId); 
                         command.Parameters.AddWithValue("@ItemType", SearchReq.ItemType);
+                        command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
                         command.Parameters.AddWithValue("@ActionType", "GetConsumeItemListNew");
 
                         _sqlQuery = command.GetSqlExecutableQuery();

@@ -43,7 +43,10 @@ namespace Kaushal_Darpan.Models.ITIMaster
         public string PaperDate { get; set; } = "";
         public int IsPaperDownload { get; set; } = -1;
         public int CenterID { get; set; }
+        public int StreamID { get; set; }
         public string PaperCode { get; set; } = "";
+        public int IsPresentAbsent { get; set; } = -1;
+
 
     }
 }

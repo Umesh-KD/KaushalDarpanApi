@@ -70,7 +70,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
-        
+
         [HttpPost("GetGenerateRevelData")]
         public async Task<ApiResult<DataTable>> GetGenerateRevelData(GenerateRollSearchModel model)
         {
@@ -105,56 +105,61 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
-        [RoleActionFilter(EnumRole.Admin,EnumRole.Admin_NonEng, EnumRole.ACP, EnumRole.ACP_NonEng)]
+
+        [DisableRequestSizeLimit]
+        [RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng, EnumRole.ACP, EnumRole.ACP_NonEng)]
         [HttpPost("SaveRolledData")]
         public async Task<ApiResult<bool>> SaveRolledData([FromBody] List<GenerateRollMaster> request)
         {
-            ActionName = "SaveEnrolledData([FromBody] List<GenerateEnrollMaster> request)";
-            return await Task.Run(async () =>
+            ActionName = "SaveRolledData([FromBody] List<GenerateRollMaster> request)";
+            var result = new ApiResult<bool>();
+            try
             {
-                var result = new ApiResult<bool>();
-                try
-                {
-                   
-                    // Pass the list to the repository for batch update
-                    var isSave = await _unitOfWork.GenerateRollRepository.SaveRolledData(request);
-                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+                CommonFuncationHelper.WriteTextLog("1. start SaveRolledData :");
 
-                    if (isSave == -1)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_NO_DATA_SAVE;
-                    }
-                    else if (isSave > 0)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_SAVE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                    }
-                }
-                catch (Exception ex)
+                // Pass the list to the repository for batch update
+                var isSave = await _unitOfWork.GenerateRollRepository.SaveRolledData(request);
+                CommonFuncationHelper.WriteTextLog("2. call SaveRolledData :");
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+                CommonFuncationHelper.WriteTextLog("3. save change SaveRolledData :");
+
+                if (isSave == -1)
                 {
-                    await _unitOfWork.DisposeAsync();
+                    result.Data = true;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_NO_DATA_SAVE;
+                }
+                else if (isSave > 0)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else
+                {
                     result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
                 }
-                return result;
-            });
+                CommonFuncationHelper.WriteTextLog("4. end SaveRolledData :");
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+
+                CommonFuncationHelper.WriteTextLog($"5. error SaveRolledData : {ex.Message}");
+            }
+            return result;
         }
 
         [RoleActionFilter(EnumRole.ACP, EnumRole.ACP_NonEng)]
@@ -167,7 +172,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<bool>();
                 try
                 {
-                   
+
                     // Pass the list to the repository for batch update
                     var isSave = await _unitOfWork.GenerateRollRepository.SaveAllRevelData(request);
                     await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
@@ -208,58 +213,57 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [DisableRequestSizeLimit]
         [RoleActionFilter(EnumRole.ACP, EnumRole.ACP_NonEng)]
         [HttpPost("OnPublish")]
         public async Task<ApiResult<bool>> OnPublish([FromBody] List<GenerateRollMaster> request)
         {
             ActionName = "SaveEnrolledData([FromBody] List<GenerateEnrollMaster> request)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<bool>();
+            try
             {
-                var result = new ApiResult<bool>();
-                try
+
+                // Pass the list to the repository for batch update
+                var isSave = await _unitOfWork.GenerateRollRepository.OnPublish(request);
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                if (isSave == -1)
                 {
-
-                    // Pass the list to the repository for batch update
-                    var isSave = await _unitOfWork.GenerateRollRepository.OnPublish(request);
-                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
-
-                    if (isSave == -1)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_NO_DATA_SAVE;
-                    }
-                    else if (isSave > 0)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_SAVE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                    }
+                    result.Data = true;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_NO_DATA_SAVE;
                 }
-                catch (Exception ex)
+                else if (isSave > 0)
                 {
-                    await _unitOfWork.DisposeAsync();
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else
+                {
                     result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
-        
+
         [HttpPost("OnPublishRevelData")]
         public async Task<ApiResult<bool>> OnPublishRevelData([FromBody] List<GenerateRollMaster> request)
         {
@@ -565,9 +569,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [RoleActionFilter(EnumRole.ACP,EnumRole.ACP_NonEng,
-            EnumRole.Registrar,EnumRole.Registrar_NonEng,
-            EnumRole.ExaminationIncharge,EnumRole.ExaminationIncharge_NonEng)]
+        [RoleActionFilter(EnumRole.ACP, EnumRole.ACP_NonEng,
+            EnumRole.Registrar, EnumRole.Registrar_NonEng,
+            EnumRole.ExaminationIncharge, EnumRole.ExaminationIncharge_NonEng)]
         [HttpPost("ChangeRollNoStatus")]
         public async Task<ApiResult<int>> ChangeRollNoStatus([FromBody] GenerateRollSearchModel request)
         {

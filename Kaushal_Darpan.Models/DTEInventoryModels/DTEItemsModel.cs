@@ -69,6 +69,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int ActionType { get; set; }
         public int ItemType { get; set; }
         public int IsConsumable { get; set; }
+        public int? TradeId { get; set; }
     }
     public class DTEItemsDetailsModel
     {

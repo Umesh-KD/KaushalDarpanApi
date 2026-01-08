@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.ITITheoryMarks;
+﻿using Kaushal_Darpan.Models.ITIMaster;
+using Kaushal_Darpan.Models.ITITheoryMarks;
 using Kaushal_Darpan.Models.TheoryMarks;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,11 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> UpdateSaveData(List<ITITheoryMarksModel> productDetails);
         Task<int> RevertBundle(RevertBundleModel productDetails);
         Task<DataTable> GetTheoryMarksRptData(TheorySearchModel filterModel);
+
         Task<DataTable> GetTraineeStudent(TheorySearchModel filterModel);
         Task<DataTable> GetCenterStudents(CenterStudentSearchModel filterModel);
         Task<DataTable> GetNcvtPracticalstudent(CenterStudentSearchModel filterModel);
+        Task<DataTable> GetInviglatorAttandanceRptData(ITIPaperUploadSearchModel filterModel);
+        Task<DataTable> GetTheoryMarksRptHistory(int StudentExamPaperMarksID);
     }
 }

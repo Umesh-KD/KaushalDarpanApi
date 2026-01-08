@@ -23,11 +23,17 @@ using System.Text;
 //using Hangfire.MemoryStorage;
 
 
- var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
+
+// disable iis request size
+builder.Services.Configure<IISServerOptions>(options =>
+{
+    options.MaxRequestBodySize = null; // unlimited
+});
 
 // Add services to the container.
 builder.Services.AddControllers();
-  
+
 
 
 
@@ -189,6 +195,7 @@ builder.Services.AddAuthorization();
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.AddServerHeader = false; // Disable 'Server' header
+    options.Limits.MaxRequestBodySize = null;// 200 * 1024 * 1024; // 200 MB
 });
 
 
