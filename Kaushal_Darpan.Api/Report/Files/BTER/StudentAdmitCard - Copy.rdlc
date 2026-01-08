@@ -338,7 +338,6 @@
                     <Value>=First(Fields!RollNo.Value, "AdmitCard")</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -538,9 +537,7 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=First(Fields!ExamCenter.Value, "AdmitCard")</Value>
-                    <Style>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
+                    <Style />
                   </TextRun>
                 </TextRuns>
                 <Style />
@@ -696,7 +693,6 @@
                                   <Value>=Fields!SubjectCode.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1007,7 +1003,7 @@
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value>यदि कोई परीक्षार्थी परीक्षा प्रारम्भ होने के बाद परीक्षा केन्द्र पर उपस्थित होता है तो उसे किसी भी दशा में बैठने नहीं दिया जाएगा |</Value>
+                    <Value>यदि कोई परीक्षार्थी परीक्षा प्रारम्भ होने के बाद परीक्षा देने उपस्थित होता है तो उसे किसी भी दशा में बैठने नहीं दिया जाएगा |</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontSize>8pt</FontSize>
@@ -1451,7 +1447,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>BOARD OF TECHNICAL EDUCATION RAJASTHAN, JODHPUR</Value>
+                      <Value>BOARD OF TECHNICAL EDUCATION. RAJASTHAN, JODHPUR</Value>
                       <Style>
                         <FontSize>14pt</FontSize>
                         <FontWeight>Bold</FontWeight>
