@@ -376,48 +376,8 @@ namespace Kaushal_Darpan.Api.Controllers
                                 data.Tables[0].Columns.Add("SignatureFile1", typeof(byte[]));
                             }
 
-                            foreach (DataRow row in data.Tables[0].Rows)
-                            {
-                                var SignatureFileName = Convert.ToString(row["SignatureFile"]);
-                                var fullPhotoPath = Path.Combine(ConfigurationHelper.RootPath, "StaticFiles", Convert.ToString(SignatureFileName));
-
-                                //byte[] imageBytes;
-
-                                if (System.IO.File.Exists(fullPhotoPath))
-                                {
-                                    row["SignatureFile1"] = System.IO.File.ReadAllBytes(fullPhotoPath); // This must be byte[]
-                                }
-                                else
-                                {
-                                    var defaultPath = Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsFolder, "default.jpg");
-                                    row["SignatureFile1"] = System.IO.File.Exists(defaultPath) ? System.IO.File.ReadAllBytes(defaultPath) : null;
-                                }
-
-                                if (row["SignatureFile1"] != DBNull.Value && row["SignatureFile1"] is byte[] photoBytes)
-                                {
-                                    // Optional: further verify if it's a valid image format
-                                    using (var ms = new MemoryStream(photoBytes))
-                                    {
-                                        try
-                                        {
-                                            using (var image = System.Drawing.Image.FromStream(ms))
-                                            {
-                                                Console.WriteLine("Valid image: " + image.Width + "x" + image.Height);
-                                                var a = "Valid image: " + image.Width + "x" + image.Height;
-                                            }
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Console.WriteLine("Invalid image bytes: " + ex.Message);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    Console.WriteLine("No image found or invalid byte[] type.");
-                                }
-                            }
-
+                            string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
+                            data.Tables[0].Rows[0]["RegistrarSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(registrar_signFilepath));
 
                             // Generate RDLC PDF
                             var localReport = new LocalReport(rdlcPath);
@@ -521,7 +481,6 @@ namespace Kaushal_Darpan.Api.Controllers
                                     System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                                     //images
 
-                                    var newp = "https://kdhteapi.rajasthan.gov.in/Api/StaticFiles/";
                                     string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
                                     data.Tables[0].Rows[0]["StudentImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
 
@@ -529,7 +488,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                     string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
                                     data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
 
-                                    string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
+                                    string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
                                     data.Tables[0].Rows[0]["RegistrarSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(registrar_signFilepath));
                                     //rdlc
 
@@ -702,7 +661,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                             string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
                                             data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
 
-                                            string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
+                                            string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
                                             data.Tables[0].Rows[0]["RegistrarSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(registrar_signFilepath));
                                             //rdlc
 

@@ -856,12 +856,12 @@
           </Textbox>
           <Image Name="stusign2">
             <Source>Database</Source>
-            <Value>=First(Fields!SignatureFile1.Value, "AdmitCard")</Value>
+            <Value>=First(Fields!RegistrarSign.Value, "AdmitCard")</Value>
             <MIMEType>image/png</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>5.40977cm</Top>
+            <Top>5.56852cm</Top>
             <Left>16.401cm</Left>
-            <Height>1.30611cm</Height>
+            <Height>1.14736cm</Height>
             <Width>3.4525cm</Width>
             <ZIndex>19</ZIndex>
             <ToolTip>=First(Fields!SignatureFile1.Value, "AdmitCard")</ToolTip>
@@ -1444,39 +1444,6 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Image Name="StudentPhoto">
-            <Source>Database</Source>
-            <Value>=First(Fields!StudentImg.Value, "ITIStudentAdmitCard")</Value>
-            <MIMEType>image/png</MIMEType>
-            <Sizing>FitProportional</Sizing>
-            <Top>0.3175cm</Top>
-            <Left>16.28578cm</Left>
-            <Height>2.6438cm</Height>
-            <Width>3.25022cm</Width>
-            <ZIndex>26</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Image>
-          <Image Name="stusign3">
-            <Source>Database</Source>
-            <Value>=First(Fields!SignatureFile1.Value, "AdmitCard")</Value>
-            <MIMEType>image/png</MIMEType>
-            <Sizing>FitProportional</Sizing>
-            <Top>3.13769cm</Top>
-            <Left>16.28578cm</Left>
-            <Height>0.51236cm</Height>
-            <Width>3.25022cm</Width>
-            <ZIndex>27</ZIndex>
-            <ToolTip>=First(Fields!SignatureFile1.Value, "AdmitCard")</ToolTip>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Image>
           <Textbox Name="Textbox24">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
@@ -1496,7 +1463,7 @@
             <Left>16.49625cm</Left>
             <Height>0.6cm</Height>
             <Width>2.68521cm</Width>
-            <ZIndex>28</ZIndex>
+            <ZIndex>26</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1526,10 +1493,40 @@
             <Left>16.85079cm</Left>
             <Height>0.47708cm</Height>
             <Width>2.33067cm</Width>
-            <ZIndex>29</ZIndex>
+            <ZIndex>27</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="StudentImage2">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value />
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>3.13769cm</Top>
+            <Left>16.28578cm</Left>
+            <Height>0.51236cm</Height>
+            <Width>3.25022cm</Width>
+            <ZIndex>28</ZIndex>
+            <ToolTip>image/png</ToolTip>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
               </Border>
               <PaddingLeft>2pt</PaddingLeft>
               <PaddingRight>2pt</PaddingRight>
