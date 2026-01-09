@@ -858,7 +858,7 @@
             <Source>Database</Source>
             <Value>=First(Fields!RegistrarSign.Value, "AdmitCard")</Value>
             <MIMEType>image/png</MIMEType>
-            <Sizing>FitProportional</Sizing>
+            <Sizing>Fit</Sizing>
             <Top>5.56852cm</Top>
             <Left>16.401cm</Left>
             <Height>1.14736cm</Height>
@@ -1418,7 +1418,7 @@
             <Source>Database</Source>
             <Value>=First(Fields!Studentimg.Value, "AdmitCard")</Value>
             <MIMEType>image/png</MIMEType>
-            <Sizing>FitProportional</Sizing>
+            <Sizing>Fit</Sizing>
             <Top>0.35278cm</Top>
             <Left>16.28578cm</Left>
             <Height>2.74963cm</Height>
@@ -1435,7 +1435,7 @@
             <Source>Database</Source>
             <Value>=First(Fields!StudentSign.Value, "AdmitCard")</Value>
             <MIMEType>image/png</MIMEType>
-            <Sizing>FitProportional</Sizing>
+            <Sizing>Fit</Sizing>
             <Top>3.2788cm</Top>
             <Left>16.28578cm</Left>
             <Height>0.61605cm</Height>

@@ -376,11 +376,11 @@ namespace Kaushal_Darpan.Api.Controllers
                                 data.Tables[0].Columns.Add("SignatureFile1", typeof(byte[]));
                             }
 
-                            string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
+                            string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
                             data.Tables[0].Rows[0]["StudentImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
 
 
-                            string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
+                            string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
                             data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
 
                             string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
@@ -660,11 +660,11 @@ namespace Kaushal_Darpan.Api.Controllers
                                         //provider                      
                                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                                         //images
-                                        string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
+                                        string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
                                         data.Tables[0].Rows[0]["StudentImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
 
 
-                                        string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
+                                        string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
                                         data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
 
                                         string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
