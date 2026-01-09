@@ -1414,126 +1414,40 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Textbox Name="StudentImage">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value />
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <Top>0.3175cm</Top>
+          <Image Name="stusign3">
+            <Source>Database</Source>
+            <Value>=First(Fields!Studentimg.Value, "AdmitCard")</Value>
+            <MIMEType>image/png</MIMEType>
+            <Sizing>FitProportional</Sizing>
+            <Top>0.35278cm</Top>
             <Left>16.28578cm</Left>
-            <Height>2.82019cm</Height>
-            <Width>3.25022cm</Width>
+            <Height>2.74963cm</Height>
+            <Width>3.50422cm</Width>
             <ZIndex>25</ZIndex>
-            <ToolTip>image/png</ToolTip>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="Textbox24">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>PHOTOGRAPH</Value>
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox24</rd:DefaultName>
-            <Top>1.58806cm</Top>
-            <Left>16.49625cm</Left>
-            <Height>0.6cm</Height>
-            <Width>2.68521cm</Width>
-            <ZIndex>26</ZIndex>
+            <ToolTip>=First(Fields!SignatureFile1.Value, "AdmitCard")</ToolTip>
             <Style>
               <Border>
                 <Style>None</Style>
               </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
             </Style>
-          </Textbox>
-          <Textbox Name="Textbox25">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>SIGN</Value>
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox24</rd:DefaultName>
-            <Top>3.17297cm</Top>
-            <Left>16.85079cm</Left>
-            <Height>0.47708cm</Height>
-            <Width>2.33067cm</Width>
-            <ZIndex>27</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="StudentImage2">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value />
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <Top>3.13769cm</Top>
+          </Image>
+          <Image Name="stusign4">
+            <Source>Database</Source>
+            <Value>=First(Fields!StudentSign.Value, "AdmitCard")</Value>
+            <MIMEType>image/png</MIMEType>
+            <Sizing>FitProportional</Sizing>
+            <Top>3.2788cm</Top>
             <Left>16.28578cm</Left>
-            <Height>0.51236cm</Height>
-            <Width>3.25022cm</Width>
-            <ZIndex>28</ZIndex>
-            <ToolTip>image/png</ToolTip>
+            <Height>0.61605cm</Height>
+            <Width>3.47247cm</Width>
+            <ZIndex>26</ZIndex>
+            <ToolTip>=First(Fields!SignatureFile1.Value, "AdmitCard")</ToolTip>
             <Style>
               <Border>
-                <Style>Solid</Style>
+                <Style>None</Style>
               </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
             </Style>
-          </Textbox>
+          </Image>
         </ReportItems>
         <Height>8.38876in</Height>
         <Style>
