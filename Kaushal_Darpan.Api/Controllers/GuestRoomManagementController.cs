@@ -1048,15 +1048,24 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.GuestRoomManagementRepository.GuestStaffProfile(body));
-                result.State = EnumStatus.Success;
+                
                 if (result.Data.Rows.Count == 0)
                 {
-                    result.State = EnumStatus.Success;
-                    result.Message = "No record found.!";
+                    result.State = EnumStatus.Warning;
+                    result.Message = "SSOID not found...!";
                     return result;
+                } 
+                else if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
                 }
-                result.State = EnumStatus.Success;
-                result.Message = "Data load successfully .!";
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Something went wrong";
+                }
+                
             }
             catch (System.Exception ex)
             {
