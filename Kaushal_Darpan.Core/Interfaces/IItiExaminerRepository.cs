@@ -30,5 +30,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> Iti_RemunerationGenerateAndViewPdf(ITI_AppointExaminerDetailsModel filterModel);
         Task<int> SaveDataSubmitAndForwardToAdmin(ITI_AppointExaminerDetailsModel filterModel);
         Task<int> UpdateToApprove(ITI_AppointExaminerDetailsModel filterModel);
+        Task<DataTable> CheckExaminerProfileCompleted(ItiExaminerSearchModel body);
+
+        Task<bool> RemoveStudent(ItiExaminerSearchModel model);
     }
 }

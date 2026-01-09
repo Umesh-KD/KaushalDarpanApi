@@ -452,6 +452,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+       
         public async Task<DataSet> GetCollegeWiseScholarshipListReport(CollegeWiseScholarshipSearchModel body)
         {
             _actionName = "_GetCollegeWiseScholarshipListRpt(CollegeWiseScholarshipSearchModel body)";
@@ -729,6 +730,40 @@ namespace Kaushal_Darpan.Infra.Repositories
         //        }
         //    });
         //}
+
+        public async Task<string> GetScholarship1(ScholarshipRequest body)
+        {
+            _actionName = "GetCollegeWiseScholarshipList(CollegeWiseScholarshipSearchModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var client = new HttpClient();
+                    //var request = new HttpRequestMessage(HttpMethod.Post, "https://sjmsnew.rajasthan.gov.in/ScholarShipApi/api/Scholarship?RequestId=60787706086");
+                    var request = new HttpRequestMessage(HttpMethod.Post, "https://sjmsnew.rajasthan.gov.in/ScholarShipApi/api/Scholarship?RequestId=" + body.RequestId);
+                    var content = new StringContent("{\"RequestType\": \"" + body.RequestType + "\",\"CollegeType\": \"" + body.CollegeType + "\"}", null, "application/json");
+                    //var content = new StringContent("{\"RequestType\": \"Janaadhaar_Aadhaar\",\"CollegeType\": \"ITI\"}", null, "application/json");
+                    request.Content = content;
+                    var response = await client.SendAsync(request);
+                    response.EnsureSuccessStatusCode();
+                    string responseString = await response.Content.ReadAsStringAsync();
+                    return responseString;
+          
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
     }
 }

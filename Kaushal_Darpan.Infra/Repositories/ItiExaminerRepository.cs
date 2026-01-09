@@ -30,8 +30,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetAllData(ItiExaminerSearchModel body)
         {
             _actionName = "GetAllData()";
-            return await Task.Run(async () =>
-            {
+
                 try
                 {
                     DataTable dataTable = new DataTable();
@@ -66,10 +65,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+           
         }
-
-
         public async Task<DataTable> GetStudentTheory(ITITeacherForExaminerSearchModel body)
         {
             _actionName = "GetAllData()";
@@ -132,8 +129,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITIExaminerList";
-
-
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -153,6 +148,43 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+
+
+        public async Task<DataTable> CheckExaminerProfileCompleted(ItiExaminerSearchModel body)
+        {
+            _actionName = "GetAllData()";
+           
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIExaminer";
+                        command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                        command.Parameters.AddWithValue("@ExaminerID", body.ExaminerID);
+                        command.Parameters.AddWithValue("@action", "_GetProfileStatus");
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+          
         }
 
 
@@ -334,6 +366,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RollFrom", body.RollFrom);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@Status", body.Status);
+                        command.Parameters.AddWithValue("@selectedCenters", body.selectedCenters);
+                        command.Parameters.AddWithValue("@selectedInstitute", body.selectedInstitute);
+                        command.Parameters.AddWithValue("@selectedTrade", body.selectedTrade);
                         //command.Parameters.AddWithValue("@IsPractical", body.IsPractical);
                         //command.Parameters.AddWithValue("@IsTheory", body.IsTheory);
                         command.Parameters.AddWithValue("@ExaminerID", body.ExaminerID);
@@ -995,6 +1030,47 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+
+
+
+
+        public async Task<bool> RemoveStudent(ItiExaminerSearchModel model)
+        {
+            _actionName = "RemoveStudent(ItiExaminerSearchModel model)";
+        
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        //command.CommandText = $"update M_ExaminerMaster  set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'Where ExaminerID={request.ExaminerID}";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIExaminer";
+                        command.Parameters.AddWithValue("@StudentExamPaperMarksID", model.StudentExamPaperMarksID);
+                        command.Parameters.AddWithValue("@ExaminerID", model.ExaminerID);
+                        command.Parameters.AddWithValue("@action", "_RemoveStudent");
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
         }
 
     }

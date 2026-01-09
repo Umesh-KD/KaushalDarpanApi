@@ -146,9 +146,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>0.35278cm</Top>
-            <Left>3.43994cm</Left>
+            <Left>4.41889cm</Left>
             <Height>0.6cm</Height>
-            <Width>4.88358cm</Width>
+            <Width>4.53962cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -182,7 +182,7 @@
             <Top>0.35278cm</Top>
             <Left>0.47308cm</Left>
             <Height>0.6cm</Height>
-            <Width>2.96686cm</Width>
+            <Width>3.52248cm</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -212,9 +212,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>0.95278cm</Top>
-            <Left>3.43994cm</Left>
+            <Left>4.41889cm</Left>
             <Height>0.6cm</Height>
-            <Width>4.88358cm</Width>
+            <Width>4.53962cm</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -249,7 +249,7 @@
             <Top>0.94255cm</Top>
             <Left>0.47308cm</Left>
             <Height>0.6cm</Height>
-            <Width>2.96686cm</Width>
+            <Width>3.52248cm</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -279,9 +279,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>1.54255cm</Top>
-            <Left>3.43994cm</Left>
+            <Left>4.41889cm</Left>
             <Height>0.6cm</Height>
-            <Width>4.88358cm</Width>
+            <Width>4.53962cm</Width>
             <ZIndex>4</ZIndex>
             <Style>
               <Border>
@@ -316,7 +316,7 @@
             <Top>1.54255cm</Top>
             <Left>0.47308cm</Left>
             <Height>0.52944cm</Height>
-            <Width>2.96686cm</Width>
+            <Width>3.52248cm</Width>
             <ZIndex>5</ZIndex>
             <Style>
               <Border>
@@ -338,7 +338,6 @@
                     <Value>=First(Fields!RollNo.Value, "AdmitCard")</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -349,9 +348,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>0.35278cm</Top>
-            <Left>11.02636cm</Left>
+            <Left>12.07763cm</Left>
             <Height>0.6cm</Height>
-            <Width>4.43096cm</Width>
+            <Width>5.07302cm</Width>
             <ZIndex>6</ZIndex>
             <Style>
               <Border>
@@ -382,9 +381,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>0.3175cm</Top>
-            <Left>8.40584cm</Left>
+            <Left>9.1349cm</Left>
             <Height>0.6cm</Height>
-            <Width>2.62052cm</Width>
+            <Width>2.84396cm</Width>
             <ZIndex>7</ZIndex>
             <Style>
               <Border>
@@ -416,9 +415,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>0.98806cm</Top>
-            <Left>11.02636cm</Left>
+            <Left>12.07763cm</Left>
             <Height>0.6cm</Height>
-            <Width>4.43096cm</Width>
+            <Width>5.07302cm</Width>
             <ZIndex>8</ZIndex>
             <Style>
               <Border>
@@ -449,9 +448,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>0.95278cm</Top>
-            <Left>8.40584cm</Left>
+            <Left>9.1349cm</Left>
             <Height>0.6cm</Height>
-            <Width>2.62052cm</Width>
+            <Width>2.84396cm</Width>
             <ZIndex>9</ZIndex>
             <Style>
               <Border>
@@ -483,9 +482,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>1.58806cm</Top>
-            <Left>11.02636cm</Left>
+            <Left>12.07763cm</Left>
             <Height>0.55449cm</Height>
-            <Width>4.43096cm</Width>
+            <Width>5.07302cm</Width>
             <ZIndex>10</ZIndex>
             <Style>
               <Border>
@@ -516,9 +515,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>1.58806cm</Top>
-            <Left>8.40584cm</Left>
+            <Left>9.1349cm</Left>
             <Height>0.55449cm</Height>
-            <Width>2.62052cm</Width>
+            <Width>2.84396cm</Width>
             <ZIndex>11</ZIndex>
             <Style>
               <Border>
@@ -538,9 +537,7 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=First(Fields!ExamCenter.Value, "AdmitCard")</Value>
-                    <Style>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
+                    <Style />
                   </TextRun>
                 </TextRuns>
                 <Style />
@@ -550,7 +547,7 @@
             <Top>2.2131cm</Top>
             <Left>4.41889cm</Left>
             <Height>0.6cm</Height>
-            <Width>11.03843cm</Width>
+            <Width>10.02115cm</Width>
             <ZIndex>12</ZIndex>
             <Style>
               <Border>
@@ -579,8 +576,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>2.24838cm</Top>
-            <Left>0.52952cm</Left>
+            <Top>2.2131cm</Top>
+            <Left>0.43227cm</Left>
             <Height>0.6cm</Height>
             <Width>3.74826cm</Width>
             <ZIndex>13</ZIndex>
@@ -696,7 +693,6 @@
                                   <Value>=Fields!SubjectCode.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -856,12 +852,12 @@
           </Textbox>
           <Image Name="stusign2">
             <Source>Database</Source>
-            <Value>=First(Fields!RegistrarSign.Value, "AdmitCard")</Value>
+            <Value>=First(Fields!SignatureFile1.Value, "AdmitCard")</Value>
             <MIMEType>image/png</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>5.56852cm</Top>
+            <Top>5.40977cm</Top>
             <Left>16.401cm</Left>
-            <Height>1.14736cm</Height>
+            <Height>1.30611cm</Height>
             <Width>3.4525cm</Width>
             <ZIndex>19</ZIndex>
             <ToolTip>=First(Fields!SignatureFile1.Value, "AdmitCard")</ToolTip>
@@ -1007,7 +1003,7 @@
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value>यदि कोई परीक्षार्थी परीक्षा प्रारम्भ होने के बाद परीक्षा केन्द्र पर उपस्थित होता है तो उसे किसी भी दशा में बैठने नहीं दिया जाएगा |</Value>
+                    <Value>यदि कोई परीक्षार्थी परीक्षा प्रारम्भ होने के बाद परीक्षा देने उपस्थित होता है तो उसे किसी भी दशा में बैठने नहीं दिया जाएगा |</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontSize>8pt</FontSize>
@@ -1414,128 +1410,8 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Textbox Name="StudentImage">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value />
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <Top>0.3175cm</Top>
-            <Left>16.28578cm</Left>
-            <Height>2.82019cm</Height>
-            <Width>3.25022cm</Width>
-            <ZIndex>25</ZIndex>
-            <ToolTip>image/png</ToolTip>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="Textbox24">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>PHOTOGRAPH</Value>
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox24</rd:DefaultName>
-            <Top>1.58806cm</Top>
-            <Left>16.49625cm</Left>
-            <Height>0.6cm</Height>
-            <Width>2.68521cm</Width>
-            <ZIndex>26</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="Textbox25">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>SIGN</Value>
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox24</rd:DefaultName>
-            <Top>3.17297cm</Top>
-            <Left>16.85079cm</Left>
-            <Height>0.47708cm</Height>
-            <Width>2.33067cm</Width>
-            <ZIndex>27</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="StudentImage2">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value />
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <Top>3.13769cm</Top>
-            <Left>16.28578cm</Left>
-            <Height>0.51236cm</Height>
-            <Width>3.25022cm</Width>
-            <ZIndex>28</ZIndex>
-            <ToolTip>image/png</ToolTip>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
         </ReportItems>
-        <Height>8.38876in</Height>
+        <Height>8.34709in</Height>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -1571,7 +1447,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>BOARD OF TECHNICAL EDUCATION RAJASTHAN, JODHPUR</Value>
+                      <Value>BOARD OF TECHNICAL EDUCATION. RAJASTHAN, JODHPUR</Value>
                       <Style>
                         <FontSize>14pt</FontSize>
                         <FontWeight>Bold</FontWeight>

@@ -189,6 +189,7 @@ namespace Kaushal_Darpan.Infra.Repositories
          
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         command.Parameters.AddWithValue("@SubjectType", body.SubjectType);
+                        command.Parameters.AddWithValue("@SubjectName", body.SubjectName);
                         //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
@@ -389,6 +390,38 @@ namespace Kaushal_Darpan.Infra.Repositories
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                 throw new Exception(errordetails, ex);
             }
+        }
+        public async Task<DataTable> GetTheoryMarksRptHistory(int StudentExamPaperMarksID)
+        {
+            _actionName = "StudentType()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetTheoryMarksRptHistory";
+                        command.Parameters.AddWithValue("@StudentExamPaperMarksID", StudentExamPaperMarksID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
         }
 
     }

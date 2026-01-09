@@ -258,5 +258,19 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
 
     }
 
+    public class GuestHousePaymentDataModel
+    {
+        public int GuestHouseID { get; set; }
+        public int DepartmentID { get; set; }
+        public int CreatedBy { get; set; }
+        public string? IPAddress { get; set; }
+        public int IsPayment { get; set; }
+        public int RoomQuantity { get; set; }
+        public int RoomFee { get; set; }
+        public int? UserID { get; set; }
+
+
+    }
+
 }
 

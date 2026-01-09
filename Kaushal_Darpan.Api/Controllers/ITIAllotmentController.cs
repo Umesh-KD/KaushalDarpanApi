@@ -2073,7 +2073,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 var sb = new StringBuilder();
 
-                // ---------- HTML + CSS ----------
                 sb.Append($@"
                     <!DOCTYPE html>
                     <html lang='hi'>
@@ -2086,12 +2085,14 @@ namespace Kaushal_Darpan.Api.Controllers
                         margin: 0;
                     }}
 
-                    .page {{
-                        border: 2px solid #000;
-                        padding: 15px;
-                        margin: 20px;
-                        box-sizing: border-box;
-                    }}
+                   
+.page {{border: 2px solid #000;
+    padding: 15px;
+    box-sizing: border-box;
+    margin: 10mm;
+    height: calc(100% - 20mm);
+}}
+
 
                     .header-row {{
                         display: flex;
@@ -2124,7 +2125,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     <body>
                     ");
 
-                // ---------- TRADE-WISE PAGES ----------
                 bool isFirstTrade = true;
 
                 foreach (var tradeGroup in studentData.GroupBy(x => x.TradeName))
@@ -2137,13 +2137,10 @@ namespace Kaushal_Darpan.Api.Controllers
                             <div class='header'>
                                 <div class='header-row'>
                                     <div>{header.ReportName}</div>
-           
                                 </div>
-
-                                <div><b>" + header.ExamName + @"</b>
-                                     <div style='text-align:right;font-weight:bold'>परीक्षा दिनांक : 
-                                        <b>" + header.ExamDateTime + @"</b>
-                                    </div>
+                                <div style=""display:flex; font-weight:bold;"">
+                                    <span>" + header.ExamName + @"</span>
+                                    <span style=""margin-left:auto;display:block;float:right "">परीक्षा दिनांक : " + header.ExamDateTime + @"</span>
                                 </div>
                                 <div>
                                     <b>" + header.subTitleName + @"</b>
@@ -2153,17 +2150,16 @@ namespace Kaushal_Darpan.Api.Controllers
                                     राजकीय / निजी आई.टी.आई. का कोड नं. व नाम (जिसके परीक्षार्थी परीक्षा दे रहे है):
                                    <b>" + header.CenterName + @"</b>
                                 </div>
-                                    <div>
-                                        <h3>Paper : " + header.SubjectName + "-("+header.SemesterName +")"+@" </h3>
-                                        <h3>Trade : " + tradeGroup.Key + @"</h3>
+                                                                        
+                                    <div style=""display:flex; font-weight:bold;"">
+                                        <span>Paper : " + header.SubjectName + "-(" + header.SemesterName + ")" + @"</span></br>
+                                        <span>Trade : " + tradeGroup.Key + @"</span>
                                     </div>
                                 </div>
-
                             <table>
                                 <thead>
                                     <tr>
                                         <th style=""text-align:left;"">Sr No</th>
-
                                         <th style=""text-align:left;"">Student Name</th>
                                         <th style=""text-align:left;"">Trade Name</th>
                                         <th style=""text-align:left;"">Roll No</th>
@@ -2188,7 +2184,6 @@ namespace Kaushal_Darpan.Api.Controllers
                             </tr>");
                              srNo++;
                         }
-
                         sb.Append(@"
                                 </tbody>
                             </table>
@@ -2209,7 +2204,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 sb.Append("</body></html>");
 
-                // ---------- HTML → PDF ----------
                 var doc = new HtmlToPdfDocument
                 {
                     GlobalSettings =
@@ -2222,7 +2216,16 @@ namespace Kaushal_Darpan.Api.Controllers
                 new ObjectSettings
                 {
                     HtmlContent = sb.ToString(),
-                    WebSettings = { DefaultEncoding = "utf-8" }
+                    WebSettings = { DefaultEncoding = "utf-8" },
+                     FooterSettings = new FooterSettings
+                    {
+                        FontName = "Arial",
+                        FontSize = 9,
+                        Right = "Page [page] of [toPage]",
+                        Left = "Printed on: [date]",
+                        Line = true // Adds a line above footer
+                    }
+
                 }
             }
                 };

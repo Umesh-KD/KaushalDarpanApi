@@ -339,5 +339,38 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+
+        [HttpGet("GetTheoryMarksRptHistory/{StudentExamPaperMarksID}")]
+        public async Task<ApiResult<DataTable>> GetTheoryMarksRptHistory(int StudentExamPaperMarksID)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.ItiTheoryMarksRepository.GetTheoryMarksRptHistory(StudentExamPaperMarksID);
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
     }
 }

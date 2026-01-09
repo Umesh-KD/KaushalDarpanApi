@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.CollegeMaster;
+﻿using Kaushal_Darpan.Models.BTER;
+using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.GuestRoomManagementModel;
 using System.Data;
 
@@ -70,5 +71,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<RoomDetailsDataModel> GetByIDGuestRoomDetails(int id);
         Task<bool> DeleteGuestRoomDetails(StatusChangeGuestModel request);
         Task<int> ReqApproveByAdmin(GuestApplyForGuestRoomDataModel request);
+        Task<bool> SaveGuestRoomPayment(GuestHousePaymentDataModel model);
     }
 }

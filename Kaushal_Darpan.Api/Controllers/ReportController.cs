@@ -376,48 +376,8 @@ namespace Kaushal_Darpan.Api.Controllers
                                 data.Tables[0].Columns.Add("SignatureFile1", typeof(byte[]));
                             }
 
-                            foreach (DataRow row in data.Tables[0].Rows)
-                            {
-                                var SignatureFileName = Convert.ToString(row["SignatureFile"]);
-                                var fullPhotoPath = Path.Combine(ConfigurationHelper.RootPath, "StaticFiles", Convert.ToString(SignatureFileName));
-
-                                //byte[] imageBytes;
-
-                                if (System.IO.File.Exists(fullPhotoPath))
-                                {
-                                    row["SignatureFile1"] = System.IO.File.ReadAllBytes(fullPhotoPath); // This must be byte[]
-                                }
-                                else
-                                {
-                                    var defaultPath = Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsFolder, "default.jpg");
-                                    row["SignatureFile1"] = System.IO.File.Exists(defaultPath) ? System.IO.File.ReadAllBytes(defaultPath) : null;
-                                }
-
-                                if (row["SignatureFile1"] != DBNull.Value && row["SignatureFile1"] is byte[] photoBytes)
-                                {
-                                    // Optional: further verify if it's a valid image format
-                                    using (var ms = new MemoryStream(photoBytes))
-                                    {
-                                        try
-                                        {
-                                            using (var image = System.Drawing.Image.FromStream(ms))
-                                            {
-                                                Console.WriteLine("Valid image: " + image.Width + "x" + image.Height);
-                                                var a = "Valid image: " + image.Width + "x" + image.Height;
-                                            }
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Console.WriteLine("Invalid image bytes: " + ex.Message);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    Console.WriteLine("No image found or invalid byte[] type.");
-                                }
-                            }
-
+                            string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
+                            data.Tables[0].Rows[0]["RegistrarSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(registrar_signFilepath));
 
                             // Generate RDLC PDF
                             var localReport = new LocalReport(rdlcPath);
@@ -521,7 +481,6 @@ namespace Kaushal_Darpan.Api.Controllers
                                     System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                                     //images
 
-                                    var newp = "https://kdhteapi.rajasthan.gov.in/Api/StaticFiles/";
                                     string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
                                     data.Tables[0].Rows[0]["StudentImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
 
@@ -529,7 +488,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                     string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
                                     data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
 
-                                    string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
+                                    string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
                                     data.Tables[0].Rows[0]["RegistrarSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(registrar_signFilepath));
                                     //rdlc
 
@@ -702,7 +661,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                             string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
                                             data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
 
-                                            string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
+                                            string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
                                             data.Tables[0].Rows[0]["RegistrarSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(registrar_signFilepath));
                                             //rdlc
 
@@ -12635,6 +12594,75 @@ namespace Kaushal_Darpan.Api.Controllers
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         LocalReport localReport = new LocalReport(rdlcpath);
                         localReport.AddDataSource("ApprenticeshipReport", data.Tables[0]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        //save
+
+
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        //end report
+
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+        #endregion
+
+        #region Quarterly Progress Report
+        [HttpPost("QuarterlyProgressReport")]
+        public async Task<ApiResult<string>> QuarterlyProgressReport(ITIApprenticeshipWorkshop model)
+        {
+            ActionName = "QuarterlyProgressReport()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.ReportRepository.QuarterlyProgressReport(model);
+                    if (data != null)
+                    {
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        //report
+                        //var fileName = $"AllotmentFeeReceipt_{EnrollmentNo}.pdf";
+                        var fileName = $"QuarterlyProgressReport.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/QuarterlyProgressReport.rdlc";
+                        //
+                        var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                        //
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+                        localReport.AddDataSource("QuarterlyProgressReport", data.Tables[0]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
 
 
