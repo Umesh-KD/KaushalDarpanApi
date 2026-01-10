@@ -137,7 +137,7 @@ namespace Kaushal_Darpan.Core.Helper
             }
         }
 
-    
+
 
         public static string EmitraEncrypt(string Text)
         {
@@ -399,11 +399,21 @@ namespace Kaushal_Darpan.Core.Helper
             }
             return r;
         }
-        public static void WriteTextLog(string log)
+        public static void WriteTextLog(string log, string customFileName = "")
         {
-            string fileName = $"{ConfigurationHelper.StaticFileRootPath}Log/log_{DateTime.Now.ToString("yyyyMMdd")}.txt";
+            // handle null
+            if (string.IsNullOrWhiteSpace(customFileName))
+            {
+                customFileName = "";
+            }
+            if (!string.IsNullOrWhiteSpace(customFileName))
+            {
+                customFileName = $"_{customFileName}";
+            }
+            string fileName = $"{ConfigurationHelper.StaticFileRootPath}Log/log_{DateTime.Now.ToString("yyyyMMdd")}{customFileName}.txt";
             System.IO.File.AppendAllTextAsync(fileName, $"{Environment.NewLine}------{DateTime.Now}------ : - {Environment.NewLine}{log}{Environment.NewLine}");
         }
+
         public static void ResizeImage(Stream sourcePath, string targetPath, int width, int height)
         {
             try
