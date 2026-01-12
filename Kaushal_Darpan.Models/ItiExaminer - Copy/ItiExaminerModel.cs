@@ -55,7 +55,7 @@ namespace Kaushal_Darpan.Models.ItiExaminer
         public int InstituteID { get; set; }
         public int BundleID { get; set; }
         public int ExaminerID { get; set; }
-
+        public int StudentExamPaperMarksID { get; set; }
 
     }
 
@@ -78,8 +78,12 @@ namespace Kaushal_Darpan.Models.ItiExaminer
         public bool IsPractical { get; set; }
         public string? SubjectCode { get; set; }
         public string? SubjectName { get; set; }
+        public string? selectedCenters { get; set; }
+        public string? selectedInstitute { get; set; }
+        public string? selectedTrade { get; set; }
     }
 
+  
 
     public class ITIExaminerMaster
     {
