@@ -1,9 +1,12 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models.BTER;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.GuestRoomManagementModel;
 using Kaushal_Darpan.Models.HostelManagementModel;
+using Newtonsoft.Json;
+
 
 //using Kaushal_Darpan.Models.StudentApplyForHostel;
 using System.Data;
@@ -281,8 +284,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                        _sqlQuery = $"select GRSMasterID, GuestHouseID, RoomType, SeatCapacity, RoomQuantity,FeePerBad as RoomFee, RoomStatus  from M_GuestRoomSeatMaster where GRSMasterID='{PK_ID}'";
-                        command.CommandText = _sqlQuery;
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GuestRoomSeatMaster";
+                        command.Parameters.AddWithValue("@Action", "GetById");
+                        command.Parameters.AddWithValue("@GRSMasterID", PK_ID);
+
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -574,6 +580,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GuestRoomSeatMaster";
+                        command.Parameters.AddWithValue("@Action", "SaveRoomSeatMaster");
+
                         command.Parameters.AddWithValue("@GRSMasterID", request.GRSMasterID);
                         command.Parameters.AddWithValue("@GuestHouseID", request.GuestHouseID);
                         command.Parameters.AddWithValue("@RoomType", request.RoomType);
@@ -584,10 +592,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
-                        command.Parameters.AddWithValue("@IPAddress", request.IPAddress);
-                        command.Parameters.AddWithValue("@Action", "SaveRoomSeatMaster");
+                        command.Parameters.AddWithValue("@IPAddress", request.IPAddress);                        
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
                         command.Parameters.AddWithValue("@RoomStatus", request.RoomStatus);
+                        command.Parameters.AddWithValue("@BedFee_Training", request.BedFee_Training);
+                        command.Parameters.AddWithValue("@BedFee_OnDuty", request.BedFee_OnDuty);
+                        command.Parameters.AddWithValue("@BedFee_Private", request.BedFee_Private);
+                        command.Parameters.AddWithValue("@CoolingFacilities", request.CoolingFacilities);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
                         
@@ -631,6 +642,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         command.Parameters.AddWithValue("@UserID", body.UserID);
+                        command.Parameters.AddWithValue("@IsForSelf", body.IsForSelf);
                
                         command.Parameters.AddWithValue("@Action", "_GuestRequestApplyList");
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -703,6 +715,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Purpose", request.Purpose);
                         command.Parameters.AddWithValue("@PurposeDocPhoto", request.PurposeDocPhoto);
                         command.Parameters.AddWithValue("@Dis_PurposeDocPhoto", request.Dis_PurposeDocPhoto);
+                        command.Parameters.AddWithValue("@IsForSelf", request.IsForSelf);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
@@ -971,7 +984,6 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GuestStaffProfile(GuestStaffProfileSearchModel body)
         {
-
             _actionName = "GuestStaffProfile()";
             try
             {
@@ -1263,6 +1275,52 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+        public async Task<bool> SaveGuestRoomPayment(GuestHousePaymentDataModel model)
+        {
+            return await Task.Run(async () =>
+            {
+                _actionName = "SaveGuestRoomPayment(GuestHousePaymentDataModel request)";
+                try
+                {
+
+
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GuestRoomPayment";
+                        command.Parameters.AddWithValue("@ActionName", "_InsertDetail");
+                        command.Parameters.AddWithValue("@IsPayment", model.IsPayment);
+                        command.Parameters.AddWithValue("@RoomFee", model.RoomFee);
+                        command.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
+                        // command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// sql query
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
     }
 }
 

@@ -119,5 +119,77 @@
         
     }
 
+    public class UnlockInternalMarksModel
+    {
+        public int InstituteID { get; set; }
+        public string? InstituteCode { get; set; }
+        public string? InstitutionDGTCode { get; set; }
+        public string? InstituteNameEnglish { get; set; }
+        public string? InstituteNameHindi { get; set; }
+
+        public string? SSOID { get; set; }
+        public string? Email { get; set; }
+        public string? FaxNumber { get; set; }
+        public string? Website { get; set; }
+
+        public string? LandNumber { get; set; }
+        public string? LandlineSTD { get; set; }
+        public string? MobileNumber { get; set; }
+
+        public int DistrictID { get; set; }
+        public int DivisionID { get; set; }
+        public string? Address { get; set; }
+        public string? PinCode { get; set; }
+        public int TehsilID { get; set; }
+
+        public int InstitutionManagementTypeID { get; set; }
+        public int InstitutionCategoryID { get; set; }
+
+        public bool ActiveStatus { get; set; }
+        public bool DeleteStatus { get; set; }
+
+        public string? RTS { get; set; }
+        public int CreatedBy { get; set; }
+        public int? ModifyBy { get; set; }
+        public DateTime? ModifyDate { get; set; }
+        public string? IPAddress { get; set; }
+
+        public int TypeID { get; set; }
+        public int? InstituteID_Old { get; set; }
+        public int DepartmentID { get; set; }
+        public int FinancialYearID { get; set; }
+
+        public bool IsENG { get; set; }
+        public bool IsNonENG { get; set; }
+        public bool IsLateral { get; set; }
+
+        public int? CollegeId_Old { get; set; }
+        public int Capacity { get; set; }
+
+        public bool IsDegreeNonENG { get; set; }
+        public bool IsDegreeLateral { get; set; }
+        public bool IsAdmission { get; set; }
+
+        public string? Password { get; set; }
+        public bool IsPayment { get; set; }
+
+        public int CollegeTypeID { get; set; }
+        public int EndTermID { get; set; }
+        public bool IsProfileComplete { get; set; }
+    }
+    public class updateUnlockInternalMarksModel
+    {
+        public int InstituteID { get; set; }
+        public int TypeID { get; set; }
+        public int ModifyBy { get; set; }
+        public int EndTermID { get; set; }
+
+
+
+   
+    }
+
+
+
 
 }

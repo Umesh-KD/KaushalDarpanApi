@@ -41,7 +41,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 await _unitOfWork.SaveChangesAsync();
                 if (result.Data > 0)
                 {
-                    if (result.Data == 1)
+                    if (result.Data == 1 || result.Data==2)
                     {
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_SAVE_SUCCESS;
@@ -62,6 +62,16 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     result.State = EnumStatus.Warning;
                     result.Message = "SSOID or Added User Already Exists in system";
+                }
+                else if (result.Data == -6)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "USER WITH SAME POST(DESIGNATION) with Same ROLE Already Exists in system";
+                }
+                else if (result.Data == -7)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "USER WITH  ROLE Already Exists in system";
                 }
             }
             catch (Exception ex)

@@ -350,36 +350,33 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataSet> GetStudentAdmitCardBulk(int StudentExamID, int DepartmentID)
         {
             _actionName = "GetStudentAdmitCardBulk(GenerateAdmitCardModel model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var ds = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_Rpt_GetStudentAdmitCardBulk";
-                        command.Parameters.AddWithValue("@action", "_getStudentAdmitCardBulk");
-                        command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
-                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        ds = await command.FillAsync();
-                    }
-                    return ds;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Rpt_GetStudentAdmitCardBulk";
+                    command.Parameters.AddWithValue("@action", "_getStudentAdmitCardBulk");
+                    command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
+                    command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
                 }
-                catch (Exception ex)
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         #endregion
 
@@ -1579,39 +1576,36 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetStudentRollNoList(DownloadnRollNoModel model)
         {
             _actionName = "GetStudentRollNoList(DownloadnRollNoModel model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                var dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var dt = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_Rpt_GetStudentRollList";
-                        command.Parameters.AddWithValue("@action", "_getStudentRollList");
-                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@StudentTypeID", model.StudentTypeID);
-                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dt = await command.FillAsync_DataTable();
-                    }
-                    return dt;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Rpt_GetStudentRollList";
+                    command.Parameters.AddWithValue("@action", "_getStudentRollList");
+                    command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@StudentTypeID", model.StudentTypeID);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dt = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
@@ -1621,48 +1615,45 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> SaveRollNumbePDFData(DownloadnRollNoModel request)
         {
             _actionName = "SaveRollNumbePDFData(DownloadnRollNoModel request)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        command.CommandText = "USP_RollNumberPDFData_IU";
-                        command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_RollNumberPDFData_IU";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        command.Parameters.AddWithValue("@RollListID", request.RollListID);
-                        command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
-                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
-                        command.Parameters.AddWithValue("@FileName", request.FileName);
-                        command.Parameters.AddWithValue("@Eng_NonEng", request.Eng_NonEng);
-                        command.Parameters.AddWithValue("@PDFType", request.PDFType);
-                        command.Parameters.AddWithValue("@Status", request.Status);
-                        command.Parameters.AddWithValue("@TotalStudent", request.TotalStudent);
-                        command.Parameters.Add("@Return", SqlDbType.Int);
-                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
-                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
-                    }
-                    return result;
+                    command.Parameters.AddWithValue("@RollListID", request.RollListID);
+                    command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
+                    command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                    command.Parameters.AddWithValue("@FileName", request.FileName);
+                    command.Parameters.AddWithValue("@Eng_NonEng", request.Eng_NonEng);
+                    command.Parameters.AddWithValue("@PDFType", request.PDFType);
+                    command.Parameters.AddWithValue("@Status", request.Status);
+                    command.Parameters.AddWithValue("@TotalStudent", request.TotalStudent);
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
                 }
-                catch (Exception ex)
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<int> ITISaveRollNumbePDFData(DownloadnRollNoModel request)
@@ -2210,7 +2201,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataSet> GetITIStudentAdmitCardBulk(int StudentExamID, int DepartmentID,int EndTermID)
+        public async Task<DataSet> GetITIStudentAdmitCardBulk(int StudentExamID, int DepartmentID, int EndTermID)
         {
             _actionName = "GetStudentAdmitCardBulk(GenerateAdmitCardModel model)";
             return await Task.Run(async () =>
@@ -3171,11 +3162,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.CommandText = "USP_Rpt_InstituteSubjectWiseStudentData";
                             command.Parameters.AddWithValue("@Action", "InstituteSubjectWiseStudentData");
                         }
-                        else if(model.Type == 2)
+                        else if (model.Type == 2)
                         {
                             command.CommandText = "USP_GetStudentSubjectData";
                             command.Parameters.AddWithValue("@Action", "_getStudentSubjectData");
-                            
+
                         }
 
                         else if (model.Type == 8)

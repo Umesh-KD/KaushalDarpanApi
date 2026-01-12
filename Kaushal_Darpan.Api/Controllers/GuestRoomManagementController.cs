@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Models.BTER;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.GuestRoomManagementModel;
 
@@ -1048,15 +1049,24 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.GuestRoomManagementRepository.GuestStaffProfile(body));
-                result.State = EnumStatus.Success;
+                
                 if (result.Data.Rows.Count == 0)
                 {
-                    result.State = EnumStatus.Success;
-                    result.Message = "No record found.!";
+                    result.State = EnumStatus.Warning;
+                    result.Message = "SSOID not found...!";
                     return result;
+                } 
+                else if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
                 }
-                result.State = EnumStatus.Success;
-                result.Message = "Data load successfully .!";
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Something went wrong";
+                }
+                
             }
             catch (System.Exception ex)
             {
@@ -1355,6 +1365,58 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        // vivek singh 
+        [HttpPost("SaveGuestRoomPayment")]
+        public async Task<ApiResult<bool>> SaveGuestRoomPayment([FromBody] GuestHousePaymentDataModel request)
+        {
+            ActionName = "SaveGuestRoomPayment([FromBody] GuestHousePaymentDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+
+                    result.Data = await _unitOfWork.GuestRoomManagementRepository.SaveGuestRoomPayment(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Updated successfully .!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+
+                        result.ErrorMessage = "There was an error updating data.!";
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
     }
 }
 
