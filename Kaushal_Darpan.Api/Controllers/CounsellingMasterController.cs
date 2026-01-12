@@ -1194,5 +1194,96 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+        [HttpPost("GenerateAllotmentOrder_Counselling")]
+        public async Task<ApiResult<string>> GenerateAllotmentOrder_Counselling([FromBody] List<EditInstituteDataModel_Counselling> body)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await Task.Run(() => _unitOfWork.CounsellingMasterRepository.GenerateAllotmentOrder_Counselling(body));
+
+                    if (data?.Tables?.Count == 1)
+                    {
+
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        string guid = Guid.NewGuid().ToString().ToUpper();
+                        var fileName = $"CounsellingAllotmentOrder_{guid}.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITI_CounsellingAllotmentOrder.rdlc";
+
+                        body.ForEach(x =>
+                        {
+                            x.AllotmentOrderPath = filepath;
+                            x.AllotmentOrder = fileName;
+                        });
+
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+
+                        localReport.AddDataSource("ITI_CounsellingAllotmentOrderTable", data.Tables[0]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        //end report
+
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                        if (result.State == EnumStatus.Success)
+                        {
+                            foreach (var item in body)
+                            {
+                                item.AllotmentOrder = result.Data;
+                            }
+                            var updateData = new ApiResult<bool>();
+
+                            updateData.Data = await _unitOfWork.CounsellingMasterRepository.UpdateAllotmentOrder_Counselling(body);
+                            await _unitOfWork.SaveChangesAsync();
+                            if (updateData.Data)
+                            {
+                                result.State = EnumStatus.Success;
+                                result.Message = Constants.MSG_UPDATE_SUCCESS;
+                            }
+                            else
+                            {
+                                result.State = EnumStatus.Error;
+                                result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+
+                return result;
+            });
+        }
     }
 }
