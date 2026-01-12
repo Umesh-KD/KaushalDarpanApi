@@ -1,6 +1,7 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models.GuestRoomManagementModel;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.TheoryMarks;
 using Newtonsoft.Json;
@@ -10,6 +11,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
@@ -254,7 +256,84 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-       
+
+        public async Task<DataTable> GetAllUnlockInternalMarksList(UnlockInternalMarksModel body)
+        {
+
+            _actionName = "GetAllUnlockInternalMarksList()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "GetInstituteforUnloack";
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+
+        }
+
+        public async Task<int> UnlockInternalMarks(updateUnlockInternalMarksModel body)
+        {
+            _actionName = "UnlockInternalMarks(UnlockInternalMarksModel body)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "usp_UnlockInternalMarks";
+
+                    command.Parameters.AddWithValue("@Type", body.TypeID);
+                    command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+        }
 
 
 

@@ -88,6 +88,18 @@ namespace Kaushal_Darpan.Models.DispatchMaster
         public int GroupCodeID { get; set; }
         public string ExaminerCode { get; set; }
         public int AppointExaminerID { get; set; }
+        public string? SubjectCode { get; set; }
+        public string? ExamDate { get; set; }
+        public string? Remark { get; set; } 
+        public string? DueDate { get; set; }
+        public string? DispatchGroup_Dis_FileName { get; set; }
+        public string? DispatchGroupFileName { get; set; }
+        public int TradeID { get; set; }
+        public int ExaminerID { get; set; } 
+        public int SemesterID { get; set; }
+     
+        public int EndTermID { get; set; }
+        public int TotalStudent { get; set; }
     }
 
 

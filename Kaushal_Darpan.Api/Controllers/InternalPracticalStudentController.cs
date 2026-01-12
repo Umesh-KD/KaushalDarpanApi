@@ -205,5 +205,90 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+
+
+
+        [HttpPost("GetAllUnlockInternalMarksList")]
+        public async Task<ApiResult<DataTable>> GetAllUnlockInternalMarksList([FromBody] UnlockInternalMarksModel body)
+        {
+            ActionName = "GetAllUnlockInternalMarksList()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.InternalPracticalStudentRepository.GetAllUnlockInternalMarksList(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpPost("UnlockInternalMarks")]
+        public async Task<ApiResult<int>> UnlockInternalMarks([FromBody] updateUnlockInternalMarksModel body)
+        {
+            ActionName = "UnlockInternalMarks()";
+            var result = new ApiResult<int>();
+            try
+            {
+                var isSave = await _unitOfWork.InternalPracticalStudentRepository.UnlockInternalMarks(body);
+                await _unitOfWork.SaveChangesAsync();  
+
+                if (isSave == -2)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_NO_DATA_UPDATE;
+                }
+                else if (isSave > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_UPDATE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
     }
 }

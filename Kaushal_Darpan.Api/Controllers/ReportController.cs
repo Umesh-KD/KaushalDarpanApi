@@ -11,6 +11,7 @@ using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Api.Code.Helper;
 using Kaushal_Darpan.Api.Email;
 using Kaushal_Darpan.Api.HtmlTempleteFile;
+using Kaushal_Darpan.Api.Report.ITI;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ApplicationData;
@@ -376,6 +377,13 @@ namespace Kaushal_Darpan.Api.Controllers
                                 data.Tables[0].Columns.Add("SignatureFile1", typeof(byte[]));
                             }
 
+                            string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
+                            data.Tables[0].Rows[0]["StudentImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
+
+
+                            string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
+                            data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
+
                             string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
                             data.Tables[0].Rows[0]["RegistrarSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(registrar_signFilepath));
 
@@ -437,7 +445,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetStudentAdmitCardBulk")]
         public async Task<ApiResult<string>> GetStudentAdmitCardBulk([FromBody] DownloadDataPagingListModel Model)
         {
-            ActionName = "GetStudentAdmitCardBulk(string EnrollmentNo)";
+            ActionName = "GetStudentAdmitCardBulk(DownloadDataPagingListModel Model)";
             var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
             string ipaddress = CommonFuncationHelper.GetIpAddress();
             string iStudentExamID = "567399";
@@ -449,87 +457,83 @@ namespace Kaushal_Darpan.Api.Controllers
                     List<GenerateAdmitCardModel> ListData = new List<GenerateAdmitCardModel>();
                     foreach (var StudentExamID in Model.StudentExamIDs.Split(','))
                     {
-                        if (!string.IsNullOrEmpty(StudentExamID))
+                        if (string.IsNullOrEmpty(StudentExamID))
                         {
-                            iStudentExamID = StudentExamID;
-                            GenerateAdmitCardModel objStudent = new GenerateAdmitCardModel();
-                            var data = await _unitOfWork.ReportRepository.GetStudentAdmitCardBulk(Convert.ToInt32(StudentExamID),
-                                Model.DepartmentID);
-                            if (data?.Tables?.Count >= 2)
-                            {
-                                try
-                                {
-
-                                    int studentID = Convert.ToInt32(data.Tables[0].Rows[0]["StudentID"]);
-                                    //report
-                                    var fileName = $"AdmitCard_{studentID}_{StudentExamID}.pdf";
-                                    string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                                    string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentAdmitCard.rdlc";
-
-                                    #region "Add Object"
-                                    objStudent.StudentID = studentID;
-                                    objStudent.AdmitCardPath = filepath;
-                                    objStudent.AdmitCard = fileName;
-                                    objStudent.StudentExamID = Convert.ToInt32(StudentExamID);
-                                    objStudent.IPAddress = ipaddress;
-                                    ListData.Add(objStudent);
-                                    #endregion
-
-
-
-                                    //provider                      
-                                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                                    //images
-
-                                    string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
-                                    data.Tables[0].Rows[0]["StudentImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
-
-                                    //ConfigurationHelper.StaticFileRootPath
-                                    string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
-                                    data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
-
-                                    string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
-                                    data.Tables[0].Rows[0]["RegistrarSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(registrar_signFilepath));
-                                    //rdlc
-
-                                    LocalReport localReport = new LocalReport(rdlcpath);
-                                    localReport.AddDataSource("AdmitCard", data.Tables[0]);
-                                    localReport.AddDataSource("AdmitCard_Subject", data.Tables[1]);
-
-
-                                    //localReport.AddDataSource("TimeTableDetails", data.Tables[2]);
-                                    var reportResult = localReport.Execute(RenderType.Pdf);
-
-                                    //check file exists
-                                    if (!System.IO.Directory.Exists(folderPath))
-                                    {
-                                        Directory.CreateDirectory(folderPath);
-                                    }
-                                    //save
-                                    //save
-                                    System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                                    //end report
-
-
-                                }
-                                catch (Exception ex)
-                                {
-                                    var nex = new NewException
-                                    {
-                                        PageName = "GetStudentAdmitCardBulk_Debug",
-                                        ActionName = string.Format("StudentExamID={0},", iStudentExamID),
-                                        Ex = ex,
-                                    };
-                                    await CreateErrorLog(nex, _unitOfWork);
-
-                                }
-                            }
-
+                            continue;
                         }
-                        else
+
+                        iStudentExamID = StudentExamID;
+                        GenerateAdmitCardModel objStudent = new GenerateAdmitCardModel();
+                        var data = await _unitOfWork.ReportRepository.GetStudentAdmitCardBulk(Convert.ToInt32(StudentExamID),
+                            Model.DepartmentID);
+                        if (data?.Tables?.Count >= 2)
                         {
-                            result.State = EnumStatus.Warning;
-                            result.Message = Constants.MSG_DATA_NOT_FOUND;
+                            try
+                            {
+
+                                int studentID = Convert.ToInt32(data.Tables[0].Rows[0]["StudentID"]);
+                                //report
+                                var fileName = $"AdmitCard_{studentID}_{StudentExamID}.pdf";
+                                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                                string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentAdmitCard.rdlc";
+
+                                #region "Add Object"
+                                objStudent.StudentID = studentID;
+                                objStudent.AdmitCardPath = filepath;
+                                objStudent.AdmitCard = fileName;
+                                objStudent.StudentExamID = Convert.ToInt32(StudentExamID);
+                                objStudent.IPAddress = ipaddress;
+                                ListData.Add(objStudent);
+                                #endregion
+
+
+
+                                //provider                      
+                                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                                //images
+
+                                string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
+                                data.Tables[0].Rows[0]["StudentImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
+
+                                //ConfigurationHelper.StaticFileRootPath
+                                string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
+                                data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
+
+                                string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
+                                data.Tables[0].Rows[0]["RegistrarSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(registrar_signFilepath));
+                                //rdlc
+
+                                LocalReport localReport = new LocalReport(rdlcpath);
+                                localReport.AddDataSource("AdmitCard", data.Tables[0]);
+                                localReport.AddDataSource("AdmitCard_Subject", data.Tables[1]);
+
+
+                                //localReport.AddDataSource("TimeTableDetails", data.Tables[2]);
+                                var reportResult = localReport.Execute(RenderType.Pdf);
+
+                                //check file exists
+                                if (!System.IO.Directory.Exists(folderPath))
+                                {
+                                    Directory.CreateDirectory(folderPath);
+                                }
+                                //save
+                                //save
+                                System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                                //end report
+
+
+                            }
+                            catch (Exception ex)
+                            {
+                                var nex = new NewException
+                                {
+                                    PageName = "GetStudentAdmitCardBulk_Debug",
+                                    ActionName = string.Format("StudentExamID={0},", iStudentExamID),
+                                    Ex = ex,
+                                };
+                                await CreateErrorLog(nex, _unitOfWork);
+
+                            }
                         }
                     }
 
@@ -599,186 +603,205 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetStudentAdmitCardBulk_InstituteWise")]
         public async Task<ApiResult<string>> GetStudentAdmitCardBulk_InstituteWise([FromBody] GenerateAdmitCardSearchModel Model)
         {
-            ActionName = "GetStudentAdmitCardBulk(string EnrollmentNo)";
+            ActionName = "GetStudentAdmitCardBulk_InstituteWise(GenerateAdmitCardSearchModel Model)";
             var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
             string ipaddress = CommonFuncationHelper.GetIpAddress();
             string iStudentExamID = "";
-            return await Task.Run(async () =>
+            var result = new ApiResult<string>();
+
+            var filename = "GetStudentAdmitCardBulk_InstituteWise";
+            // log
+            CommonFuncationHelper.WriteTextLog("start : GetStudentAdmitCardBulk_InstituteWise", filename);
+            try
             {
-                var result = new ApiResult<string>();
-                try
+
+                var ListInsituteData = await _unitOfWork.GenerateAdmitCardRepository.GetGenerateAdmitCardDataBulk_InsituteWise(Model);
+                // log
+                CommonFuncationHelper.WriteTextLog($"1. GetGenerateAdmitCardDataBulk_InsituteWise (data count {ListInsituteData.Count}) done.", filename);
+                if (ListInsituteData.Count > 0)
                 {
-                    var ListInsituteData = await _unitOfWork.GenerateAdmitCardRepository.GetGenerateAdmitCardDataBulk_InsituteWise(Model);
-                    if (ListInsituteData.Count > 0)
+                    int ListInsituteDataLoopCount = 1;
+                    foreach (var childdata in ListInsituteData)
                     {
-                        foreach (var childdata in ListInsituteData)
+                        // log
+                        CommonFuncationHelper.WriteTextLog($"2. ListInsituteData loop count {ListInsituteDataLoopCount} and total ExamIds {childdata.StudentExamIDs.Split(',').Length}.", filename);
+                        List<GenerateAdmitCardModel> ListData = new List<GenerateAdmitCardModel>();
+                        //set data
+                        Model.SemesterID = childdata.SemesterID;
+                        Model.InstituteID = childdata.InstituteID;
+                        Model.DepartmentID = 1;
+                        Model.EndTermID = childdata.EndTermID;
+                        Model.Eng_NonEng = childdata.Eng_NonEng;
+                        Model.TotalRecord = childdata.TotalRecord;
+
+                        //semester wise Data
+                        int StudentExamIDLoopCount = 1;
+                        foreach (var StudentExamID in childdata.StudentExamIDs.Split(','))
                         {
-                            List<GenerateAdmitCardModel> ListData = new List<GenerateAdmitCardModel>();
-                            //set data
-                            Model.SemesterID = childdata.SemesterID;
-                            Model.InstituteID = childdata.InstituteID;
-                            Model.DepartmentID = 1;
-                            Model.EndTermID = childdata.EndTermID;
-                            Model.Eng_NonEng = childdata.Eng_NonEng;
-                            Model.TotalRecord = childdata.TotalRecord;
-                            //semester wise Data
-                            foreach (var StudentExamID in childdata.StudentExamIDs.Split(','))
+                            if (string.IsNullOrEmpty(StudentExamID))
                             {
-                                if (!string.IsNullOrEmpty(StudentExamID))
-                                {
-                                    iStudentExamID = StudentExamID;
-                                    GenerateAdmitCardModel objStudent = new GenerateAdmitCardModel();
-                                    var data = await _unitOfWork.ReportRepository.GetStudentAdmitCardBulk(Convert.ToInt32(StudentExamID),
-                                    Model.DepartmentID);
-                                    if (data?.Tables?.Count >= 2)
-                                    {
-                                        try
-                                        {
-
-                                            int studentID = Convert.ToInt32(data.Tables[0].Rows[0]["StudentID"]);
-                                            //report
-                                            var fileName = $"AdmitCard_{studentID}_{StudentExamID}.pdf";
-                                            string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                                            string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentAdmitCard.rdlc";
-
-
-                                            #region "Add Object"
-                                            objStudent.StudentID = studentID;
-                                            objStudent.AdmitCardPath = filepath;
-                                            objStudent.AdmitCard = fileName;
-                                            objStudent.StudentExamID = Convert.ToInt32(StudentExamID);
-                                            objStudent.IPAddress = ipaddress;
-                                            ListData.Add(objStudent);
-                                            #endregion
-
-                                            //provider                      
-                                            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                                            //images
-                                            string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
-                                            data.Tables[0].Rows[0]["StudentImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
-
-
-                                            string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
-                                            data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
-
-                                            string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
-                                            data.Tables[0].Rows[0]["RegistrarSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(registrar_signFilepath));
-                                            //rdlc
-
-                                            LocalReport localReport = new LocalReport(rdlcpath);
-                                            localReport.AddDataSource("AdmitCard", data.Tables[0]);
-                                            localReport.AddDataSource("AdmitCard_Subject", data.Tables[1]);
-                                            //localReport.AddDataSource("TimeTableDetails", data.Tables[2]);
-                                            var reportResult = localReport.Execute(RenderType.Pdf);
-
-                                            //check file exists
-                                            if (!System.IO.Directory.Exists(folderPath))
-                                            {
-                                                Directory.CreateDirectory(folderPath);
-                                            }
-                                            //save
-                                            //save
-                                            System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                                            //end report
-
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            var nex = new NewException
-                                            {
-                                                PageName = "GetStudentAdmitCardBulk_Debug",
-                                                ActionName = $"EndTermID{Model.EndTermID}InstituteID={Model.InstituteID}SemesterID=={Model.SemesterID}",
-                                                Ex = ex,
-                                            };
-                                            await CreateErrorLog(nex, _unitOfWork);
-
-                                        }
-                                    }
-
-                                }
-                                else
-                                {
-                                    result.State = EnumStatus.Warning;
-                                    result.Message = Constants.MSG_DATA_NOT_FOUND;
-                                }
+                                // log
+                                CommonFuncationHelper.WriteTextLog($"3. StudentExamIDs (blank) loop count {StudentExamIDLoopCount} for ExamId - {StudentExamID}.", filename);
+                                continue;
                             }
 
-
-                            var Issuccess = await _unitOfWork.GenerateAdmitCardRepository.UpdateAdmitCard(ListData);
-                            if (Issuccess > 0)
+                            iStudentExamID = StudentExamID;
+                            GenerateAdmitCardModel objStudent = new GenerateAdmitCardModel();
+                            var data = await _unitOfWork.ReportRepository.GetStudentAdmitCardBulk(Convert.ToInt32(StudentExamID),
+                            Model.DepartmentID);
+                            // log
+                            CommonFuncationHelper.WriteTextLog($"3. StudentExamIDs (GetStudentAdmitCardBulk : table count {data?.Tables?.Count}) loop count {StudentExamIDLoopCount} for ExamId - {StudentExamID}.", filename);
+                            if (data?.Tables?.Count >= 2)
                             {
-
-                                #region "Save Multiple PDF PAGES"
-                                string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                                string guid = Guid.NewGuid().ToString().ToUpper();
-                                string outputFile = $"AdmitCard_{guid}.pdf";
-                                string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
-                                List<string?> strSoureFiles = ListData.Select(s => s.AdmitCardPath).ToList();
-                                if (await MergePdfFilesAsync(strSoureFiles, outputPath))
+                                try
                                 {
-                                    DownloadnRollNoModel ModInsert = new DownloadnRollNoModel();
-                                    ModInsert.FileName = outputFile;
-                                    ModInsert.PDFType = (int)EnumPdfType.AdmitCard;
-                                    ModInsert.Status = 11;
-                                    ModInsert.SemesterID = Model.SemesterID;
-                                    ModInsert.InstituteID = Model.InstituteID;
-                                    ModInsert.DepartmentID = Model.DepartmentID;
-                                    ModInsert.EndTermID = Model.EndTermID;
-                                    ModInsert.Eng_NonEng = Model.Eng_NonEng;
-                                    ModInsert.CreatedBy = Model.UserID;
-                                    ModInsert.TotalStudent = Model.TotalRecord;
 
-                                    var isSave = await _unitOfWork.ReportRepository.SaveRollNumbePDFData(ModInsert);
-                                    await _unitOfWork.SaveChangesAsync();
+                                    int studentID = Convert.ToInt32(data.Tables[0].Rows[0]["StudentID"]);
+                                    //report
+                                    var fileName = $"AdmitCard_{studentID}_{StudentExamID}.pdf";
+                                    string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                                    string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentAdmitCard.rdlc";
 
-                                    result.Data = outputFile;
-                                    result.State = EnumStatus.Success;
-                                    result.Message = Constants.MSG_SAVE_SUCCESS;
+
+                                    #region "Add Object"
+                                    objStudent.StudentID = studentID;
+                                    objStudent.AdmitCardPath = filepath;
+                                    objStudent.AdmitCard = fileName;
+                                    objStudent.StudentExamID = Convert.ToInt32(StudentExamID);
+                                    objStudent.IPAddress = ipaddress;
+                                    ListData.Add(objStudent);
+                                    #endregion
+
+                                    //provider                      
+                                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                                    //images
+                                    string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
+                                    data.Tables[0].Rows[0]["StudentImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
+
+
+                                    string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
+                                    data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
+
+                                    string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
+                                    data.Tables[0].Rows[0]["RegistrarSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(registrar_signFilepath));
+                                    //rdlc
+
+                                    LocalReport localReport = new LocalReport(rdlcpath);
+                                    localReport.AddDataSource("AdmitCard", data.Tables[0]);
+                                    localReport.AddDataSource("AdmitCard_Subject", data.Tables[1]);
+                                    //localReport.AddDataSource("TimeTableDetails", data.Tables[2]);
+                                    var reportResult = localReport.Execute(RenderType.Pdf);
+
+                                    //check file exists
+                                    if (!System.IO.Directory.Exists(folderPath))
+                                    {
+                                        Directory.CreateDirectory(folderPath);
+                                    }
+                                    //save
+                                    //save
+                                    System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                                    //end report
+
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    result.State = EnumStatus.Error;
-                                    result.ErrorMessage = "Something went wrong";
+                                    var nex = new NewException
+                                    {
+                                        PageName = "GetStudentAdmitCardBulk_Debug",
+                                        ActionName = $"EndTermID{Model.EndTermID}InstituteID={Model.InstituteID}SemesterID=={Model.SemesterID}",
+                                        Ex = ex,
+                                    };
+                                    await CreateErrorLog(nex, _unitOfWork);
+                                    // log
+                                    CommonFuncationHelper.WriteTextLog($"3. StudentExamIDs (error : {ex.Message}) loop count {StudentExamIDLoopCount}  for ExamId - {StudentExamID}.", filename);
+
                                 }
-                                #endregion
+                            }
+                            StudentExamIDLoopCount++;
+                        }
+
+                        // save
+                        var Issuccess = await _unitOfWork.GenerateAdmitCardRepository.UpdateAdmitCard(ListData);
+                        // log
+                        CommonFuncationHelper.WriteTextLog($"4. ListInsituteData (UpdateAdmitCard ({Issuccess}) done.) loop count {ListInsituteDataLoopCount}.", filename);
+                        if (Issuccess > 0)
+                        {
+
+                            #region "Save Multiple PDF PAGES"
+                            string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                            string guid = Guid.NewGuid().ToString().ToUpper();
+                            string outputFile = $"AdmitCard_{guid}.pdf";
+                            string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                            List<string?> strSoureFiles = ListData.Select(s => s.AdmitCardPath).ToList();
+                            if (await MergePdfFilesAsync(strSoureFiles, outputPath))
+                            {
+                                DownloadnRollNoModel ModInsert = new DownloadnRollNoModel();
+                                ModInsert.FileName = outputFile;
+                                ModInsert.PDFType = (int)EnumPdfType.AdmitCard;
+                                ModInsert.Status = 11;
+                                ModInsert.SemesterID = Model.SemesterID;
+                                ModInsert.InstituteID = Model.InstituteID;
+                                ModInsert.DepartmentID = Model.DepartmentID;
+                                ModInsert.EndTermID = Model.EndTermID;
+                                ModInsert.Eng_NonEng = Model.Eng_NonEng;
+                                ModInsert.CreatedBy = Model.UserID;
+                                ModInsert.TotalStudent = Model.TotalRecord;
+
+                                var isSave = await _unitOfWork.ReportRepository.SaveRollNumbePDFData(ModInsert);
+                                await _unitOfWork.SaveChangesAsync();
+                                // log
+                                CommonFuncationHelper.WriteTextLog($"5. ListInsituteData (SaveRollNumbePDFData done.) loop count {ListInsituteDataLoopCount}.", filename);
+
+                                result.Data = outputFile;
+                                result.State = EnumStatus.Success;
+                                result.Message = Constants.MSG_SAVE_SUCCESS;
                             }
                             else
                             {
-                                result.State = EnumStatus.Warning;
-                                result.Message = Constants.MSG_DATA_NOT_FOUND;
+                                result.State = EnumStatus.Error;
+                                result.ErrorMessage = "Something went wrong";
                             }
-
+                            #endregion
                         }
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
+                        else
+                        {
+                            result.State = EnumStatus.Warning;
+                            result.Message = Constants.MSG_DATA_NOT_FOUND;
+                        }
 
+                        ListInsituteDataLoopCount++;
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = iStudentExamID.ToString(),
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = "something went wrong please try again";
-                    result.Message = ex.Message;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+
+                // log
+                CommonFuncationHelper.WriteTextLog("end : GetStudentAdmitCardBulk_InstituteWise", filename);
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = iStudentExamID.ToString(),
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = "something went wrong please try again";
+                result.Message = ex.Message;
+
+                // log
+                CommonFuncationHelper.WriteTextLog($"end error : GetStudentAdmitCardBulk_InstituteWise : {ex.Message}", filename);
+            }
+            return result;
         }
-
-
-
 
 
         #region Colleges Wise Reports
@@ -1760,126 +1783,155 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("DownloadStudentRollNumber_InsituteWise")]
         public async Task<ApiResult<string>> DownloadStudentRollNumber_InsituteWise(DownloadnRollNoModel Request)
         {
-            ActionName = "DownloadStudentRollNumber(string EnrollmentNo)";
+            ActionName = "DownloadStudentRollNumber_InsituteWise(DownloadnRollNoModel Request)";
 
             string ipaddress = CommonFuncationHelper.GetIpAddress();
-            return await Task.Run(async () =>
+            var result = new ApiResult<string>();
+
+            string filename = "DownloadStudentRollNumber_InsituteWise";
+            // log
+            CommonFuncationHelper.WriteTextLog("start : DownloadStudentRollNumber_InsituteWise", filename);
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                var Model = await _unitOfWork.GenerateRollRepository.GetGenerateRollDataForPrint_Insitute(Request);
+                // log
+                CommonFuncationHelper.WriteTextLog($"1. : GetGenerateRollDataForPrint_Insitute (data count {Model.Count}) done.", filename);
+                if (Model.Count > 0)
                 {
-
-                    var Model = await _unitOfWork.GenerateRollRepository.GetGenerateRollDataForPrint_Insitute(Request);
-                    if (Model.Count > 0)
+                    int RollListDetailsLoopCount = 1;
+                    foreach (var RollListDetails in Model.GroupBy(f => new { f.InstituteID, f.SemesterID }))
                     {
-                        foreach (var RollListDetails in Model.GroupBy(f => new { f.InstituteID, f.SemesterID }))
+                        // log
+                        CommonFuncationHelper.WriteTextLog($"2. : RollListDetails loop count {RollListDetailsLoopCount}", filename);
+
+                        DownloadnRollNoModel ModInsert = RollListDetails.FirstOrDefault() ?? new DownloadnRollNoModel();
+                        ModInsert.TotalStudent = RollListDetails.Sum(f => f.Totalstudent);
+
+                        int StudentExamIDLoopCount = 1;
+                        List<string?> ListRoleListPath = new List<string?>();
+                        foreach (var StudentExamID in RollListDetails)
                         {
-                            DownloadnRollNoModel ModInsert = RollListDetails.FirstOrDefault() ?? new DownloadnRollNoModel();
-                            ModInsert.TotalStudent = RollListDetails.Sum(f => f.Totalstudent);
+                            // log
+                            CommonFuncationHelper.WriteTextLog($"3. : StudentExamIDLoopCount loop count {StudentExamIDLoopCount}", filename);
 
-                            List<string?> ListRoleListPath = new List<string?>();
-                            foreach (var StudentExamID in RollListDetails)
+                            DataTable dtStudentExamDetails = new DataTable();
+                            dtStudentExamDetails.Columns.Add("StudentType");
+                            dtStudentExamDetails.Columns.Add("InstituteName");
+                            dtStudentExamDetails.Columns.Add("ProgrammeName");
+                            dtStudentExamDetails.Columns.Add("SessionName");
+                            dtStudentExamDetails.Columns.Add("CenterName");
+                            dtStudentExamDetails.Columns.Add("BranchCode");
+
+                            dtStudentExamDetails.Rows.Add(
+                                StudentExamID.StudentType,
+                                StudentExamID.InstituteNameEnglish,
+                                StudentExamID.EndTermName,
+                                StudentExamID.FinancialYearName,
+                                StudentExamID.CenterName,
+                                StudentExamID.BranchCode);
+                            GenerateAdmitCardModel objStudent = new GenerateAdmitCardModel();
+
+                            var data = await _unitOfWork.ReportRepository.GetStudentRollNoList(StudentExamID);
+                            // log
+                            CommonFuncationHelper.WriteTextLog($"3. : StudentExamIDLoopCount (GetStudentRollNoList done.) loop count {StudentExamIDLoopCount}", filename);
+
+                            if (data != null)
                             {
-
-                                DataTable dtStudentExamDetails = new DataTable();
-                                dtStudentExamDetails.Columns.Add("StudentType");
-                                dtStudentExamDetails.Columns.Add("InstituteName");
-                                dtStudentExamDetails.Columns.Add("ProgrammeName");
-                                dtStudentExamDetails.Columns.Add("SessionName");
-                                dtStudentExamDetails.Columns.Add("CenterName");
-                                dtStudentExamDetails.Columns.Add("BranchCode");
-
-                                dtStudentExamDetails.Rows.Add(
-                                    StudentExamID.StudentType,
-                                    StudentExamID.InstituteNameEnglish,
-                                    StudentExamID.EndTermName,
-                                    StudentExamID.FinancialYearName,
-                                    StudentExamID.CenterName,
-                                    StudentExamID.BranchCode);
-                                GenerateAdmitCardModel objStudent = new GenerateAdmitCardModel();
-                                var data = await _unitOfWork.ReportRepository.GetStudentRollNoList(StudentExamID);
-                                if (data != null)
-                                {
-                                    //report
-                                    var fileName = $"StudentRollList_{Guid.NewGuid()}.pdf";
-                                    string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                                    string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentRollnumberListNew.rdlc";
-                                    //
-                                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                                    LocalReport localReport = new LocalReport(rdlcpath);
-                                    localReport.AddDataSource("StudentExamDetails", dtStudentExamDetails);
-                                    localReport.AddDataSource("StudentRollNumberList", data);
-                                    var reportResult = localReport.Execute(RenderType.Pdf);
-                                    System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                                    //end report
-                                    ListRoleListPath.Add(filepath);
-                                    result.Data = fileName;
-                                    result.State = EnumStatus.Success;
-                                    result.Message = "Success.";
-
-
-                                }
-                                else
-                                {
-                                    result.State = EnumStatus.Warning;
-                                    result.Message = Constants.MSG_DATA_NOT_FOUND;
-                                }
-                            }
-
-                            #region "Save Multiple PDF PAGES"
-                            string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                            string guid = Guid.NewGuid().ToString().ToUpper();
-                            string outputFile = $"{guid}_{timestamp}.pdf";
-                            string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
-                            if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
-                            {
-                                try
-                                {
-                                    //delete files
-                                    await DeleteFiles(ListRoleListPath);
-                                }
-                                catch (Exception exd)
-                                {
-                                }
-                                result.Data = outputFile;
+                                //report
+                                var fileName = $"StudentRollList_{Guid.NewGuid()}.pdf";
+                                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                                string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentRollnumberListNew.rdlc";
+                                //
+                                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                                LocalReport localReport = new LocalReport(rdlcpath);
+                                localReport.AddDataSource("StudentExamDetails", dtStudentExamDetails);
+                                localReport.AddDataSource("StudentRollNumberList", data);
+                                var reportResult = localReport.Execute(RenderType.Pdf);
+                                System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                                //end report
+                                ListRoleListPath.Add(filepath);
+                                result.Data = fileName;
                                 result.State = EnumStatus.Success;
                                 result.Message = "Success.";
-                                ModInsert.FileName = outputFile;
-                                ModInsert.PDFType = (int)EnumPdfType.RollList;
-                                ModInsert.Status = 11;
-                                var isSave = await _unitOfWork.ReportRepository.SaveRollNumbePDFData(ModInsert);
+
+
                             }
                             else
                             {
-                                result.State = EnumStatus.Error;
-                                result.ErrorMessage = "Something went wrong";
+                                result.State = EnumStatus.Warning;
+                                result.Message = Constants.MSG_DATA_NOT_FOUND;
                             }
-                            #endregion
+
+                            StudentExamIDLoopCount++;
                         }
+
+                        #region "Save Multiple PDF PAGES"
+                        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                        string guid = Guid.NewGuid().ToString().ToUpper();
+                        string outputFile = $"{guid}_{timestamp}.pdf";
+                        string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                        if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
+                        {
+                            try
+                            {
+                                //delete files
+                                await DeleteFiles(ListRoleListPath);
+                            }
+                            catch (Exception exd)
+                            {
+                            }
+                            result.Data = outputFile;
+                            result.State = EnumStatus.Success;
+                            result.Message = "Success.";
+                            ModInsert.FileName = outputFile;
+                            ModInsert.PDFType = (int)EnumPdfType.RollList;
+                            ModInsert.Status = 11;
+                            var isSave = await _unitOfWork.ReportRepository.SaveRollNumbePDFData(ModInsert);
+                            await _unitOfWork.SaveChangesAsync();
+                            // log
+                            CommonFuncationHelper.WriteTextLog($"4. : RollListDetails (SaveRollNumbePDFData done) loop count {RollListDetailsLoopCount}", filename);
+
+                        }
+                        else
+                        {
+                            result.State = EnumStatus.Error;
+                            result.ErrorMessage = "Something went wrong";
+                        }
+                        #endregion
+
+                        RollListDetailsLoopCount++;
                     }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
+
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+
+                // log
+                CommonFuncationHelper.WriteTextLog("end : DownloadStudentRollNumber_InsituteWise", filename);
+                CommonFuncationHelper.WriteTextLog("end : DownloadStudentRollNumber_InsituteWise", filename);
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // log
+                CommonFuncationHelper.WriteTextLog($"end error : DownloadStudentRollNumber_InsituteWise ({ex.Message})", filename);
+            }
+            return result;
         }
         #endregion
 
@@ -14216,7 +14268,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         dtTimeTableHeader.Columns.Add("ExamScheme");
                         dtTimeTableHeader.Columns.Add("CommonSubjectText");
                         dtTimeTableHeader.Columns.Add("SignatureFile", typeof(byte[]));
-                        
+
                         string stuimgFilepath = $"{ConfigurationHelper.RootPath}StaticFiles/Apr012025060950764086.png";
 
                         string photoFileName = item.SignatureFile;
@@ -14239,7 +14291,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         // make html by data and add in sb
                         var _sb = _printHtmlFile.GetHtmlOfTimeTable(loopIndex, dtTimeTableHeader, data.Tables[0]);
                         sb.Append(_sb);
-                        loopIndex++;        
+                        loopIndex++;
                     }
                     // add end html
                     sb.AppendLine("</body>");
@@ -14290,7 +14342,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
                     return result;
                 }
-                
+
             }
             catch (System.Exception ex)
             {

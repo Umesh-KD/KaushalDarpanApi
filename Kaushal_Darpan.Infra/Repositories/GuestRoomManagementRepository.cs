@@ -1298,6 +1298,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsPayment", model.IsPayment);
                         command.Parameters.AddWithValue("@RoomFee", model.RoomFee);
                         command.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
+                        // command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// sql query
                         result = await command.ExecuteNonQueryAsync();
