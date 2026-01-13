@@ -46,6 +46,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
                         command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                        command.Parameters.AddWithValue("@schemeId", filterModel.schemeId);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dt = await command.FillAsync_DataTable();

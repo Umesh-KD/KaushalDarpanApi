@@ -5,6 +5,7 @@
         public int SemesterId { get; set; }
         public int PartitionSize { get; set; }
         public int CommonSubjectYesNo { get; set; }
+        public int schemeId { get; set; }
     }
 
 }
