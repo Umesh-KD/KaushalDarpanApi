@@ -922,6 +922,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Status", request.Status);
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@GuestRoomDetailID", request.GuestRoomDetailID);
+                        command.Parameters.AddWithValue("@GuestHouseID", request.GuestHouseID);
+                        command.Parameters.AddWithValue("@GenderId", request.GenderId);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
                         
@@ -1339,6 +1342,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@GuestHouseID", body.GuestHouseID);
                     command.Parameters.AddWithValue("@CoolingFacilities", body.CoolingFacilities);
                     command.Parameters.AddWithValue("@RoomType", body.RoomType);
+                    command.Parameters.AddWithValue("@GenderId", body.GenderId);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();

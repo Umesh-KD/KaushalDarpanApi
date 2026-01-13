@@ -182,6 +182,7 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public bool? IsForSelf { get; set; }
         public int? GenderId { get; set; }
         public int? CoolingFacilities { get; set; }
+        public int? GuestRoomDetailID { get; set; }
     }
 
 
@@ -279,6 +280,7 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public int? CoolingFacilities { get; set; }
         public int? GuestHouseID { get; set; }
         public int? RoomType { get; set; }
+        public int? GenderId { get; set; }
     }
 }
 
