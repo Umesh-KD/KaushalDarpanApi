@@ -340,14 +340,15 @@ namespace Kaushal_Darpan.Api.Controllers
                                 .ThenBy(x => x.CommonSubjectID)
                                 .ToList();
             //set new pagenumber
-            string? currentSubject = null;
+            string currentSubject = "";
             int pageno = 1;
 
             foreach (var item in orderedList)
             {
-                if (item.SubjectCode != currentSubject)
+                var subjectpluscommonsubject = $"{item.SubjectCode}{item.CommonSubjectName}";
+                if (subjectpluscommonsubject != currentSubject)
                 {
-                    currentSubject = item.SubjectCode;
+                    currentSubject = subjectpluscommonsubject;
                     pageno = 1;
                 }
                 // set
@@ -355,7 +356,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 item.PageNumber = pageno++;
 
                 // if any subject group has more then 1 row
-                var subjectGorupCount = orderedList.Count(x => x.SubjectCode == currentSubject);
+                var subjectGorupCount = orderedList.Count(x => ($"{x.SubjectCode}{x.CommonSubjectName}") == currentSubject);
                 if (subjectGorupCount > 1)
                 {
                     item.UpShiftPageNumber = item.PageNumber;
