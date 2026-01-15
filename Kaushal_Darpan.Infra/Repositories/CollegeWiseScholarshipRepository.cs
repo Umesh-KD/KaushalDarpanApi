@@ -3,6 +3,8 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CollegeWiseScholarship;
 using Kaushal_Darpan.Models.CompanyMaster;
+using Kaushal_Darpan.Models.Examiners;
+using Kaushal_Darpan.Models.ITITheoryMarks;
 using Newtonsoft.Json;
 using System.Data;
 using System.Text.Json.Nodes;
@@ -738,7 +740,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             {
                 try
                 {
-                    var client = new HttpClient();
+                        var client = new HttpClient();
                     //var request = new HttpRequestMessage(HttpMethod.Post, "https://sjmsnew.rajasthan.gov.in/ScholarShipApi/api/Scholarship?RequestId=60787706086");
                     var request = new HttpRequestMessage(HttpMethod.Post, "https://sjmsnew.rajasthan.gov.in/ScholarShipApi/api/Scholarship?RequestId=" + body.RequestId);
                     var content = new StringContent("{\"RequestType\": \"" + body.RequestType + "\",\"CollegeType\": \"" + body.CollegeType + "\"}", null, "application/json");
@@ -764,6 +766,102 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        public async Task<int> UpdateSaveData(ScholarshipApiResponse entity)
+        {
+            _actionName = "UpdateSaveData(List<ITITheoryMarksModel> entity)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_InsertOrUpdate_ScholarshipApiData";
+                        
+                        command.CommandType = CommandType.StoredProcedure;
 
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@JsonData", entity.JsonData);
+                        command.Parameters.AddWithValue("@Department", entity.Department);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        public async Task<DataTable> GetAllData(ScholarshipApiSearchDataModel model)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetscholarshipApiData";
+                        //command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        //command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        //command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        //command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+                        //command.Parameters.AddWithValue("@InstituteCode", model.InstituteCode);
+                        //command.Parameters.AddWithValue("@InstituteName", model.InstituteName);
+                        //command.Parameters.AddWithValue("@ManagementType", model.ManagementType);
+                        //command.Parameters.AddWithValue("@DistrictId", model.DistrictId);
+                        //command.Parameters.AddWithValue("@Email", model.Email);
+                        //command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                        //command.Parameters.AddWithValue("@ActiveStatus", model.Status);
+                        //command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        //command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        //command.Parameters.AddWithValue("@StreamTypeID", model.StreamTypeID);
+
+                        //command.Parameters.AddWithValue("@PageNumber", model.PageNumber);
+                        //command.Parameters.AddWithValue("@PageSize", model.PageSize);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@CollegeType", model.CollegeType);
+                        command.Parameters.AddWithValue("@CollegeCode", model.CollegeCode);
+            
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
