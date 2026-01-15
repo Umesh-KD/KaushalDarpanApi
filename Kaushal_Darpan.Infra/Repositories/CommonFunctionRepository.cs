@@ -799,6 +799,43 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> SemesterList(int DepartmentID = 0)
+        {
+            _actionName = "StreamMaster()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDL_SemesterList";
+                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        //command.Parameters.AddWithValue("@EndTermId", EndTermId);
+                        //command.Parameters.AddWithValue("@StreamType", StreamType);
+                        //command.Parameters.AddWithValue("@SemesterID", SemesterID);
+                        //command.Parameters.AddWithValue("@InstituteId", InstituteId);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<DataTable> StreamMasterByCampus(int CampusPostID, int DepartmentID, int EndTermId = 0)
         {
             _actionName = "StreamMaster()";

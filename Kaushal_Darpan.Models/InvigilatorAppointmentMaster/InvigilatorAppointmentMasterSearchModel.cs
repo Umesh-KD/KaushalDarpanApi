@@ -13,6 +13,7 @@ namespace Kaushal_Darpan.Models.InvigilatorAppointmentMaster
         public int ModifyBy { get; set; }
         public string? ExamDate { get; set; }
         public int? ShiftID { get; set; }
+        public int? SemesterID { get; set; }
     }
 
     public class UnlockExamAttendanceDataModel: RequestBaseModel

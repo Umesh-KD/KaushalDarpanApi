@@ -46,6 +46,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", searchRequest.DepartmentID);
                         command.Parameters.AddWithValue("@EndTermID", searchRequest.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", searchRequest.Eng_NonEng);
+                        command.Parameters.AddWithValue("@SemesterID", searchRequest.SemesterID);
+                        command.Parameters.AddWithValue("@ExamDate", searchRequest.ExamDate);
                         //command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         //command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
                         //command.Parameters.AddWithValue("@StateID", body.StateID);
