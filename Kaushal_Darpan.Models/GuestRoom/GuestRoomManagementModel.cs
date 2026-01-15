@@ -180,6 +180,9 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public string? Dis_PurposeDocPhoto { get; set; }
         public string? PurposeDocPhoto { get; set; }
         public bool? IsForSelf { get; set; }
+        public int? GenderId { get; set; }
+        public int? CoolingFacilities { get; set; }
+        public int? GuestRoomDetailID { get; set; }
     }
 
 
@@ -268,9 +271,16 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public int RoomQuantity { get; set; }
         public int RoomFee { get; set; }
         public int? UserID { get; set; }
-
-
     }
 
+    public class GuestHouseDropdownDataModel
+    {
+        public string? action { get; set; }
+        public int? Purpose {  get; set; }
+        public int? CoolingFacilities { get; set; }
+        public int? GuestHouseID { get; set; }
+        public int? RoomType { get; set; }
+        public int? GenderId { get; set; }
+    }
 }
 

@@ -4,6 +4,7 @@ using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.CollegeWiseScholarship;
 using Kaushal_Darpan.Models.CompanyMaster;
+using Kaushal_Darpan.Models.Examiners;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Net.Http;
@@ -778,6 +779,14 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         result.State = EnumStatus.Success;
                         result.Message = "Data fetch successfully";
+                        ScholarshipApiResponse entity = new ScholarshipApiResponse();
+
+                        entity.JsonData= Newtonsoft.Json.JsonConvert.SerializeObject(result.Data.data);
+
+                        entity.Department=body.CollegeType;
+                        
+                        var responseString1 = await _unitOfWork.CollegeWiseScholarshipRepository.UpdateSaveData(entity);
+                        await _unitOfWork.SaveChangesAsync();
                     }
                     else
                     {
@@ -807,6 +816,41 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("GetAllData")]
+        public async Task<ApiResult<DataTable>> GetAllData([FromBody] ScholarshipApiSearchDataModel model)
+        {
+            ActionName = "GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.CollegeWiseScholarshipRepository.GetAllData(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
 
 
     }

@@ -340,7 +340,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                 .ThenBy(x => x.CommonSubjectID)
                                 .ToList();
             //set new pagenumber
-            string? currentSubject = null;
+            string currentSubject = "";
             int pageno = 1;
 
             foreach (var item in orderedList)
@@ -355,7 +355,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 item.PageNumber = pageno++;
 
                 // if any subject group has more then 1 row
-                var subjectGorupCount = orderedList.Count(x => x.SubjectCode == currentSubject);
+                var subjectGorupCount = orderedList.Count(x => item.SubjectCode == currentSubject);
                 if (subjectGorupCount > 1)
                 {
                     item.UpShiftPageNumber = item.PageNumber;

@@ -149,7 +149,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     //    command.Parameters.AddWithValue("@ExamShift", SearchReq.ExamShift);
                     //    command.Parameters.AddWithValue("@TotalPresentStudent", SearchReq.TotalPresentStudent);
                     //    command.Parameters.AddWithValue("@Action", "ViewBundelData");
-                    //    _sqlQuery = command.GetSqlExecutableQuery();
+                    //    _sqlQuery = command.GetSqlExecutableQuery();  
                     //    dataTable = await command.FillAsync_DataTable();
                     //}DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())

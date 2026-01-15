@@ -1,6 +1,8 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Models.CollegeWiseScholarship;
 using Kaushal_Darpan.Models.CompanyMaster;
+using Kaushal_Darpan.Models.Examiners;
+using Kaushal_Darpan.Models.ITITheoryMarks;
 using System.Data;
 
 namespace Kaushal_Darpan.Core.Interfaces
@@ -31,6 +33,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<string> GetScholarship1(ScholarshipRequest filterModel);
 
-
+        Task<int> UpdateSaveData(ScholarshipApiResponse productDetails);
+        Task<DataTable> GetAllData(ScholarshipApiSearchDataModel model);
     }
 }

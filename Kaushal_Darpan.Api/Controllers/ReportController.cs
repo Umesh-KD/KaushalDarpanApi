@@ -9532,6 +9532,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         data.Tables[0].TableName = "GetITIStudent_Marksheet_SingleDetails";
 
                         data.Tables[0].Rows[0]["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
+                        data.Tables[0].Rows[0]["HeadLogo"] = $"{ConfigurationHelper.StaticFileRootPath+"/"+data.Tables[0].Rows[0]["HeadLogo"]}";
+
                         data.Tables[0].Rows[0]["NE100"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
                         data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
                         /*define table name for read and replace column from table*/

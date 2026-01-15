@@ -716,6 +716,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PurposeDocPhoto", request.PurposeDocPhoto);
                         command.Parameters.AddWithValue("@Dis_PurposeDocPhoto", request.Dis_PurposeDocPhoto);
                         command.Parameters.AddWithValue("@IsForSelf", request.IsForSelf);
+                        command.Parameters.AddWithValue("@GenderId", request.GenderId);
+                        command.Parameters.AddWithValue("@CoolingFacilities", request.CoolingFacilities);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
@@ -910,18 +912,22 @@ namespace Kaushal_Darpan.Infra.Repositories
                 _actionName = "updateReqStatusCheckInOut(GuestApplyForGuestRoomDataModel request)";
                 try
                 {
-                    int result = 0;
+                    int result = 0; 
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GuestApplyForGuestRoom";
+                        command.Parameters.AddWithValue("@Action", "_updateReqStatusCheckInOut");
                         command.Parameters.AddWithValue("@GuestReqID", request.GuestReqID);
                         command.Parameters.AddWithValue("@Status", request.Status);
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@GuestRoomDetailID", request.GuestRoomDetailID);
+                        command.Parameters.AddWithValue("@GuestHouseID", request.GuestHouseID);
+                        command.Parameters.AddWithValue("@GenderId", request.GenderId);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
-                        command.Parameters.AddWithValue("@Action", "_updateReqStatusCheckInOut");
+                        
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
                         result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
@@ -1320,7 +1326,42 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GuestHouse_Dropdowns(GuestHouseDropdownDataModel body)
+        {
+            _actionName = "GuestHouse_Dropdowns(GuestHouseDropdownDataModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GuestHouse_Dropdowns";
 
+                    command.Parameters.AddWithValue("@action", body.action);
+                    command.Parameters.AddWithValue("@Purpose", body.Purpose);
+                    command.Parameters.AddWithValue("@GuestHouseID", body.GuestHouseID);
+                    command.Parameters.AddWithValue("@CoolingFacilities", body.CoolingFacilities);
+                    command.Parameters.AddWithValue("@RoomType", body.RoomType);
+                    command.Parameters.AddWithValue("@GenderId", body.GenderId);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
 
