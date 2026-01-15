@@ -3094,6 +3094,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ExamDate", model.ExamDate);
                         command.Parameters.AddWithValue("@ShiftID", model.ShiftID);
                         command.Parameters.AddWithValue("@ExamCategoryID", model.ExamCategoryID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dt = await command.FillAsync_DataTable();
