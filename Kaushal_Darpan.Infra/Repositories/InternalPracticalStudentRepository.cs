@@ -270,6 +270,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "GetInstituteforUnloack";
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -303,7 +304,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "usp_UnlockInternalMarks";
 
-                    command.Parameters.AddWithValue("@TypeID", body.TypeID);
+                    command.Parameters.AddWithValue("@Type", body.TypeID);
                     command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
                     command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                     command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
