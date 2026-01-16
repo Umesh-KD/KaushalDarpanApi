@@ -95,13 +95,13 @@
                   <Width>2.52137in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.77083in</Width>
+                  <Width>0.625in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.35417in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.43522in</Width>
+                  <Width>1.58104in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -216,7 +216,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>RollNo</rd:DefaultName>
@@ -658,7 +660,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>BRANCH, SUBJECT &amp; YEAR :</Value>
+                      <Value>BRANCH, SUBJECT &amp; SEM:</Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -693,7 +695,6 @@
                     <TextRun>
                       <Value>=First(Fields!SteramSemesterName.Value, "Blank_Report")</Value>
                       <Style>
-                        <FontSize>8pt</FontSize>
                         <FontWeight>Normal</FontWeight>
                       </Style>
                     </TextRun>
@@ -759,7 +760,6 @@
                     <TextRun>
                       <Value>=First(Fields!ExamShiftDate.Value, "Blank_Report")</Value>
                       <Style>
-                        <FontSize>8pt</FontSize>
                         <FontWeight>Normal</FontWeight>
                       </Style>
                     </TextRun>
@@ -963,7 +963,7 @@
               <Top>2.04283in</Top>
               <Left>5.0498in</Left>
               <Height>0.38542in</Height>
-              <Width>0.77083in</Width>
+              <Width>0.625in</Width>
               <ZIndex>13</ZIndex>
               <Style>
                 <Border>
@@ -993,9 +993,9 @@
               </Paragraphs>
               <rd:DefaultName>Textbox306</rd:DefaultName>
               <Top>2.04283in</Top>
-              <Left>5.82063in</Left>
+              <Left>5.6748in</Left>
               <Height>0.38542in</Height>
-              <Width>1.35417in</Width>
+              <Width>1.35416in</Width>
               <ZIndex>14</ZIndex>
               <Style>
                 <Border>
@@ -1025,9 +1025,9 @@
               </Paragraphs>
               <rd:DefaultName>Textbox306</rd:DefaultName>
               <Top>2.04283in</Top>
-              <Left>7.17479in</Left>
+              <Left>7.02896in</Left>
               <Height>0.38542in</Height>
-              <Width>1.43522in</Width>
+              <Width>1.58105in</Width>
               <ZIndex>15</ZIndex>
               <Style>
                 <Border>
