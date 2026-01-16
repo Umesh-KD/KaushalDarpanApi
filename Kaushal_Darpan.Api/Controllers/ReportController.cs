@@ -14610,8 +14610,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        private string RenderColumnTable(
-    List<GroupCodeAllocationAddEditModel> list)
+        private string RenderColumnTable(List<GroupCodeAllocationAddEditModel> list)
         {
             var sb = new StringBuilder();
 
@@ -14676,7 +14675,6 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             try
             {
-                /* ================= DEFAULT VALUES ================= */
                 filterModel.SemesterId = 3;
                 filterModel.EndTermID = 14;
                 filterModel.DepartmentID = 1;
@@ -14684,7 +14682,6 @@ namespace Kaushal_Darpan.Api.Controllers
                 filterModel.action = "_getAllData";
                 filterModel.schemeid = 0;
 
-                /* ================= FETCH DATA ================= */
                 var streams_data = await _unitOfWork
                     .ReportRepository
                     .GetGroupCodeMasterReport(filterModel);
@@ -14699,12 +14696,10 @@ namespace Kaushal_Darpan.Api.Controllers
                 int semesterId = dataList.First().SemesterId;
                 string examName = dataList.First().ExamName ??  "";
 
-                /* ================= GROUP BY SUBJECT ================= */
                 var groupedSubjects = dataList
                     .GroupBy(x => new { x.SubjectCode, x.SubjectName })
                     .ToList();
 
-                /* ================= HEADER HTML ================= */
                 string headerHtml = $@"
 <!DOCTYPE html>
 <html>
@@ -14738,7 +14733,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 System.IO.File.WriteAllText(headerFilePath, headerHtml);
 
-                /* ================= BODY HTML ================= */
                 var sb = new StringBuilder();
 
                 sb.Append(@"
@@ -14804,13 +14798,12 @@ namespace Kaushal_Darpan.Api.Controllers
 <body>
 ");
 
-                /* ================= SUBJECT LOOP ================= */
                 foreach (var subject in groupedSubjects)
                 {
                     var subjectData = subject.ToList();
 
                     int totalRows = subjectData.Count;
-                    int rowsPerColumn = (int)Math.Ceiling(totalRows / 3.0);
+                    int rowsPerColumn = (int)Math.Ceiling(totalRows / 2.0);
 
                     var col1 = subjectData.Take(rowsPerColumn).ToList();
                     var col2 = subjectData.Skip(rowsPerColumn).Take(rowsPerColumn).ToList();
@@ -14835,7 +14828,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     sb.Append("</div>");
 
-                    // Page break only if next subject exists
                     sb.Append("<div class='page-break'></div>");
                 }
 
@@ -14844,7 +14836,6 @@ namespace Kaushal_Darpan.Api.Controllers
 </html>
 ");
 
-                /* ================= PDF GENERATION ================= */
                 var doc = new HtmlToPdfDocument
                 {
                     GlobalSettings =
