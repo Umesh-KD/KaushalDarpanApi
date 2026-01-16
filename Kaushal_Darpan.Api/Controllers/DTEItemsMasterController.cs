@@ -1428,6 +1428,76 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [HttpPost("Get_SR5_ReportData")]
+        public async Task<ApiResult<DataTable>> Get_SR5_ReportData([FromBody] inventoryIssueHistorySearchModel body)
+        {
+            ActionName = "Get_SR5_ReportData([FromBody] inventoryIssueHistorySearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.iDTEItemsMasterRepository.Get_SR5_ReportData(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("Get_SR6_ReportData")]
+        public async Task<ApiResult<DataTable>> Get_SR6_ReportData([FromBody] inventoryIssueHistorySearchModel body)
+        {
+            ActionName = "Get_SR6_ReportData([FromBody] inventoryIssueHistorySearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.iDTEItemsMasterRepository.Get_SR6_ReportData(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }
 

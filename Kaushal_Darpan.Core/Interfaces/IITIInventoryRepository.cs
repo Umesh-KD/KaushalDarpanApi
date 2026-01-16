@@ -75,5 +75,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetIssueItemListPermanent(int itemId);
 
         Task<DataTable> GetIssueSubmitPermanent(ItemsIssueReturnModels SearchReq);
+        Task<DataTable> GetSR5ReportData_ITI_INV(inventoryIssueHistorySearchModel SearchReq);
+        Task<DataTable> GetSR6ReportData_ITI_INV(inventoryIssueHistorySearchModel SearchReq);
     }
 }

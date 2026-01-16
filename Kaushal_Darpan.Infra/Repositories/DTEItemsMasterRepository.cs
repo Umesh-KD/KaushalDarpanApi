@@ -1304,6 +1304,84 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> Get_SR5_ReportData(inventoryIssueHistorySearchModel SearchReq)
+        {
+            _actionName = "Get_SR5_ReportData(inventoryIssueHistorySearchModel SearchReq)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Bter_INV_SR5_ReportData";
+                        command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
+                        command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
+                        command.Parameters.AddWithValue("@status", SearchReq.status);
+                        command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> Get_SR6_ReportData(inventoryIssueHistorySearchModel SearchReq)
+        {
+            _actionName = "Get_SR6_ReportData(inventoryIssueHistorySearchModel SearchReq)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Bter_INV_SR6_ReportData";
+                        command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
+                        command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
+                        command.Parameters.AddWithValue("@status", SearchReq.status);
+                        command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
 

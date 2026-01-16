@@ -52,5 +52,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetDTEGetSetLabMaster(DTELabMasterModel SearchReq);
         Task<DataTable> DTE_INV_SaveLabItemReturn(ItemsIssueReturnModels SearchReq);
         Task<int> MarkForAuctionSR6(List<ItemsIssueReturnModels> request);
+        Task<DataTable> Get_SR5_ReportData(inventoryIssueHistorySearchModel SearchReq);
+        Task<DataTable> Get_SR6_ReportData(inventoryIssueHistorySearchModel SearchReq);
     }
 }
