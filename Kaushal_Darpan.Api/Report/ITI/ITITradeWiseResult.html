@@ -13,11 +13,12 @@
             </td>
         </tr>
         <tr>
-            <th style="text-align:left;">Trade </th>
-            <th style="text-align:left;">Pass Student  </th>
-            <th style="text-align:left;">Fail Student  </th>
-            <th style="text-align:left;">Total Registered Student </th>
+            <th style="text-align:left;">Trade Name</th>
+            <th style="text-align:left;">Pass Trainee  </th>
+            <th style="text-align:left;">Fail Trainee  </th>
+            <th style="text-align:left;">Total Trainee </th>
         </tr>
+   
         {#LOOP.TradeWiseResult#}
         <tr>
             <td>{#=TradeWiseResult.TradeName=#}</td>
@@ -26,6 +27,13 @@
             <td>{#=TradeWiseResult.TotalRegisteredStudent=#}</td>
         </tr>
         {#ENDLOOP.TradeWiseResult#}
+        <tr style="font-weight:bold; background:#f2f2f2;">
+            <td align="right">Total</td>
+            <td>{#=TradeWiseResult.GrandPassStudent=#}</td>
+            <td>{#=TradeWiseResult.FailStudent=#}</td>
+            <td>{#=TradeWiseResult.GrandTotalRegistered=#}</td>
+        </tr>
+
 
     </tbody>
 </table>

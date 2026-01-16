@@ -8,6 +8,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ITICollegeMarksheetDownloadmodel;
 using Kaushal_Darpan.Models.ITIResults;
 using Kaushal_Darpan.Models.Report;
+using Kaushal_Darpan.Models.Student;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -225,8 +226,19 @@ namespace Kaushal_Darpan.Api.Controllers
                         sb1.Append("</table>");
 
 
-                        foreach (DataRow row in data.Tables[0].Rows)
+
+                        var list = new List<TradeSubjectModel>();
+                        if (data.Tables[0] != null)
                         {
+                            list = CommonFuncationHelper.ConvertDataTable<List<TradeSubjectModel>>(data.Tables[0]);
+                        }
+
+                        foreach (var item in list.GroupBy(f => f.TradeId))
+                        {
+
+                            //  }
+                            //foreach (DataRow row in data.Tables[0].Rows)
+                            //{
 
                             int TotalTrainee = 0;
                             int PassTrainee = 0;
@@ -238,17 +250,29 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             //@for(trade of TradeList; track trade) {
                             //<!-- ✅ Trade Name -->
-                            int TradeId = Convert.ToInt32(row["TradeId"].ToString());
+                            // int TradeId = Convert.ToInt32(row["TradeId"].ToString());
+                            int TradeId = item.Key;
                             var colspan = data.Tables[1].AsEnumerable()
                                 .Where(row => row.Field<int>("TradeId") == TradeId)
                                 .Select(row => row.Field<int>("SubjectID"))
                                 .Distinct()
                                 .Count() + 9;
+
+
+                            string TradeName = item?.FirstOrDefault()?.TradeName ?? string.Empty;// tradeRow?.Field<string>("TradeName") ?? string.Empty;
+                            string DurationYear = item?.FirstOrDefault()?.DurationYear ?? string.Empty;
+
                             //var colspan = data.Tables[0].AsEnumerable().Where(row => row.Field<string>("QualificationID") == "10").CopyToDataTable();
 
                             sb1.Append("<tr>");
                             sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold;border:1px solid gray; '>");
-                            sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> " + request.SemesterID + " Year (Annual Examination) " + row["DurationYear"] + " Year Trades</b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Dec Date: _______________</b></td></tr></table>");
+                            sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> " + request.SemesterID + " Year (Annual Examination) "
+                                //+ row["DurationYear"] +
+                                + DurationYear +
+
+
+
+                                " Year Trades</b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Dec Date: _______________</b></td></tr></table>");
                             sb1.Append("</th>");
 
                             //sb1.Append("<th style='text-align: right; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 15px;border:1px solid gray; '>");
@@ -258,7 +282,8 @@ namespace Kaushal_Darpan.Api.Controllers
                             sb1.Append("</tr>");
                             sb1.Append("<tr>");
                             sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 13px;border:1px solid gray; '>");
-                            sb1.Append("<b> Trade: " + row["TradeName"] + "</b>");
+                            //sb1.Append("<b> Trade: " + row["TradeName"] + "</b>");
+                            sb1.Append("<b> Trade: " + TradeName + "</b>");
                             sb1.Append("</th>");
                             sb1.Append("</tr>");
 
@@ -333,7 +358,14 @@ namespace Kaushal_Darpan.Api.Controllers
                                     //@for(subj of ReporSubjectNameDataList(trade.TradeId); let idx2 = $index; track subj) {
                                     foreach (DataRow rowSub in subjectData.Rows)
                                     {
-                                        sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>");
+                                        try
+                                        {
+                                            sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>");
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
                                     }
 
                                     //}
@@ -558,7 +590,20 @@ namespace Kaushal_Darpan.Api.Controllers
                                 //@for(subj of ReporSubjectNameDataList(trade.TradeId); let idx2 = $index; track subj) {
                                 foreach (DataRow rowSub in subjectData.Rows)
                                 {
-                                    sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray; '>" + rowSub["SubjectName"] + "</th>");
+                                    try
+                                    {
+                                        sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray; '>" + rowSub["SubjectName"] + "</th>");
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        var nex = new NewException
+                                        {
+                                            PageName = "subjectData.Rows",
+                                            ActionName = ActionName,
+                                            Ex = ex,
+                                        };
+                                        await CreateErrorLog(nex, _unitOfWork);
+                                    }
                                 }
 
 
@@ -600,7 +645,14 @@ namespace Kaushal_Darpan.Api.Controllers
                                     //@for(subj of ReporSubjectNameDataList(trade.TradeId); let idx2 = $index; track subj) {
                                     foreach (DataRow rowSub in subjectData.Rows)
                                     {
-                                        sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>");
+                                        try
+                                        {
+
+                                            sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>");
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                        }
                                     }
 
                                     //}
