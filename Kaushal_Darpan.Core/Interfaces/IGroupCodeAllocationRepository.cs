@@ -9,5 +9,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveData(List<GroupCodeAllocationAddEditModel> request, int StartValue);
         Task<List<GroupCodeAddEditModel>> GetPartitionData(GroupCodeAllocationSearchModel filterModel);
         Task<int> SavePartitionData(List<GroupCodeAddEditModel> request);
+        
     }
 }

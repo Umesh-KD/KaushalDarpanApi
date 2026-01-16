@@ -225,8 +225,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataSet> GetITIConsolidateCertificate(ITICollegeStudentMarksheetSearchModel model)
         {
             _actionName = "GetITICollegeStudent_Marksheet(ITICollegeStudentMarksheetSearchModel model)";
-            return await Task.Run(async () =>
-            {
+          
                 try
                 {
                     var ds = new DataSet();
@@ -259,7 +258,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+           
         }
         #endregion
     }

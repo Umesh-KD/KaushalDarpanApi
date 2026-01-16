@@ -35,4 +35,14 @@ namespace Kaushal_Darpan.Models.ITIResults
         public int TradeId { get; set; }
 
     }
+
+    public class TradeSubjectModel
+    {
+        public int TradeId { get; set; }
+        public string TradeCode { get; set; }
+        public string TradeName { get; set; }
+        public string DurationYear { get; set; }
+        public string AcadSession { get; set; }
+        public int SubjectId { get; set; }
+    }
 }

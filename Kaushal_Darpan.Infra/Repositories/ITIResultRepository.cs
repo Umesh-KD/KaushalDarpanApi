@@ -189,9 +189,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetCurrentStatusOfResult(ITIResultsModel model)";
             try
             {
-                return await Task.Run(async () =>
-                {
-                    DataSet dataTable = new DataSet();
+                DataSet dataTable = new DataSet();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
@@ -207,7 +205,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         dataTable = await command.FillAsync();
                     }
                     return dataTable;
-                });
+             
             }
             catch (Exception ex)
             {

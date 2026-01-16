@@ -9,6 +9,7 @@ using Kaushal_Darpan.Models.DTEApplicationDashboardModel;
 using Kaushal_Darpan.Models.FlyingSquad;
 using Kaushal_Darpan.Models.GenerateAdmitCard;
 using Kaushal_Darpan.Models.GenerateEnroll;
+using Kaushal_Darpan.Models.GroupCodeAllocation;
 using Kaushal_Darpan.Models.ITIApplication;
 using Kaushal_Darpan.Models.ItiInvigilator;
 using Kaushal_Darpan.Models.ITITheoryMarks;
@@ -287,5 +288,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body);
 
         Task<DataSet> GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model);
+        Task<DataSet> GetGroupCodeMasterReport(GroupCodeAllocationAddEditModel filterModel);
     }
 }
