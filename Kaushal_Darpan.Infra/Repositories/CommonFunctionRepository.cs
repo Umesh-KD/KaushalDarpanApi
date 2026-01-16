@@ -7709,6 +7709,42 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        //public async Task<DataTable> BTER_BGT_BudgetType(int DepartmentID, int LevelID)
+        //{
+        //    _actionName = "BTER_BGT_BudgetType()";
+        //    return await Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            DataTable dataTable = new DataTable();
+        //            using (var command = await _dbContext.CreateCommandAsync())
+        //            {
+        //                command.CommandType = CommandType.StoredProcedure;
+        //                command.CommandText = "USP_LateralQualificationBoard";
+        //                //command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+        //                //command.Parameters.AddWithValue("@ExamType", ExamType);
+
+        //                _sqlQuery = command.GetSqlExecutableQuery();
+        //                dataTable = await command.FillAsync_DataTable();
+        //            }
+        //            return dataTable;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            var errorDesc = new ErrorDescription
+        //            {
+        //                Message = ex.Message,
+        //                PageName = _pageName,
+        //                ActionName = _actionName,
+        //                SqlExecutableQuery = _sqlQuery
+        //            };
+        //            var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+        //            throw new Exception(errordetails, ex);
+        //        }
+        //    });
+        //}
+
+
         public async Task<List<CommonDDLModel>> DDL_PostMaster()
         {
             _actionName = "DDL_OfficeMaster()";
