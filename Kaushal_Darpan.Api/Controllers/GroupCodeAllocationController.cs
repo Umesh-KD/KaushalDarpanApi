@@ -345,10 +345,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
             foreach (var item in orderedList)
             {
-                var subjectpluscommonsubject = $"{item.SubjectCode}{item.CommonSubjectName}";
-                if (subjectpluscommonsubject != currentSubject)
+                if (item.SubjectCode != currentSubject)
                 {
-                    currentSubject = subjectpluscommonsubject;
+                    currentSubject = item.SubjectCode;
                     pageno = 1;
                 }
                 // set
@@ -356,7 +355,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 item.PageNumber = pageno++;
 
                 // if any subject group has more then 1 row
-                var subjectGorupCount = orderedList.Count(x => ($"{x.SubjectCode}{x.CommonSubjectName}") == currentSubject);
+                var subjectGorupCount = orderedList.Count(x => item.SubjectCode == currentSubject);
                 if (subjectGorupCount > 1)
                 {
                     item.UpShiftPageNumber = item.PageNumber;

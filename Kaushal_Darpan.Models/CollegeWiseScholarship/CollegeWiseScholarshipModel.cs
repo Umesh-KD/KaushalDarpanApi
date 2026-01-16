@@ -82,6 +82,10 @@
         public bool isSuccess { get; set; }
         public string errorMessage { get; set; }
         public List<ScholarshipData> data { get; set; }
+        public string?  JsonData { get; set; }
+        public string? Department { get; set; }
+
+
     }
 
     public class ScholarshipData
@@ -100,4 +104,17 @@
         public string collegeName { get; set; }
         public string collegeType { get; set; }
     }
+
+    public class ScholarshipApiSearchDataModel
+    {
+        public string? CollegeType { get; set; }
+
+        public string? CollegeCode { get; set; }
+
+        public int? DepartmentID { get; set; }
+
+        public int? AcademicYear { get; set; }
+    }
+
+
 }
