@@ -783,6 +783,53 @@ namespace Kaushal_Darpan.Infra.Repositories
         //    });
 
         //}
+
+        public async Task<int> SavesurveyperformaReport(IDfFundDetailsModel request)
+        {
+            _actionName = "SaveAllData1(AdminUserDetailModel entity)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_IIP_InsertFundWithDeposits";
+                        command.Parameters.AddWithValue("@FundID", request.FundID);
+                        command.Parameters.AddWithValue("@FinYearQuaterID", request.FinYearQuaterID);
+                        command.Parameters.AddWithValue("@FinancialYearId", request.FinancialYearID);
+                        command.Parameters.AddWithValue("@PrincipalName", request.PrincipalName);
+                        command.Parameters.AddWithValue("@OpeningBalance", request.OpeningBalance);
+                        command.Parameters.AddWithValue("@ReceivedAmount", request.ReceivedAmount);
+                        command.Parameters.AddWithValue("@Expense", request.Expense);
+                        command.Parameters.AddWithValue("@ClosingBalance", request.ClosingBalance);
+                        command.Parameters.AddWithValue("@Remark", request.Remark);
+                        command.Parameters.AddWithValue("@InstituteID", request.InsituteID);
+                        command.Parameters.AddWithValue("@OtherDepositList", JsonConvert.SerializeObject(request.OtherDepositList));
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
 

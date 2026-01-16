@@ -1,13 +1,18 @@
 ﻿using AutoMapper;
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using DocumentFormat.OpenXml.Bibliography;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.GroupCodeAllocation;
 
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -22,11 +27,13 @@ namespace Kaushal_Darpan.Api.Controllers
 
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IConverter _converter;
 
-        public GroupCodeAllocationController(IMapper mapper, IUnitOfWork unitOfWork)
+        public GroupCodeAllocationController(IMapper mapper, IUnitOfWork unitOfWork, IConverter converter)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _converter = converter;
         }
 
         [HttpPost("GetAllData")]
@@ -241,6 +248,10 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+
+
 
 
         #region private function if need
