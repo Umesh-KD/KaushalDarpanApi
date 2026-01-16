@@ -140,7 +140,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("StaffDetails")]
         public async Task<ApiResult<bool>> SaveData([FromBody] StaffMasterModel request)
         {
-            ActionName = "SaveData([FromBody] HRMaster request)";
+            ActionName = "SaveData([FromBody] StaffMasterModel request)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<bool>();
