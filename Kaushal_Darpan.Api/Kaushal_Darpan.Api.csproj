@@ -75,6 +75,8 @@
     <None Remove="Report\DataSource\KD_DBScript.xsd" />
     <None Remove="Report\Files\BTER\ITI_CounsellingAllotmentOrder.rdlc" />
     <None Remove="Report\Files\ITI\CounsellingAllotmentOrder.rdlc" />
+    <None Remove="Report\Files\ITI\INV_SR5_Report.rdlc" />
+    <None Remove="Report\Files\ITI\INV_SR6_Report.rdlc" />
     <None Remove="Report\Files\ITI\ITIFeeRevalReceipt.rdlc" />
     <None Remove="Report\Files\ITI\ITI_CounsellingAllotmentOrder.rdlc" />
     <None Remove="Report\ITI\CounsellingAllotmentOrder.html" />
