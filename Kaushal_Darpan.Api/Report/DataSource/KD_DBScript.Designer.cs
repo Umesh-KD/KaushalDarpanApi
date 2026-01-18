@@ -260,6 +260,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         private Report_13_BDataTable tableReport_13_B;
         
+        private ITI_INV_SR6_ReportDataHeaderDataTable tableITI_INV_SR6_ReportDataHeader;
+        
+        private ITI_INV_SR6_ReportDataTableDataTable tableITI_INV_SR6_ReportDataTable;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -641,6 +645,12 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 }
                 if ((ds.Tables["Report_13_B"] != null)) {
                     base.Tables.Add(new Report_13_BDataTable(ds.Tables["Report_13_B"]));
+                }
+                if ((ds.Tables["ITI_INV_SR6_ReportDataHeader"] != null)) {
+                    base.Tables.Add(new ITI_INV_SR6_ReportDataHeaderDataTable(ds.Tables["ITI_INV_SR6_ReportDataHeader"]));
+                }
+                if ((ds.Tables["ITI_INV_SR6_ReportDataTable"] != null)) {
+                    base.Tables.Add(new ITI_INV_SR6_ReportDataTableDataTable(ds.Tables["ITI_INV_SR6_ReportDataTable"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -1842,6 +1852,26 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ITI_INV_SR6_ReportDataHeaderDataTable ITI_INV_SR6_ReportDataHeader {
+            get {
+                return this.tableITI_INV_SR6_ReportDataHeader;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ITI_INV_SR6_ReportDataTableDataTable ITI_INV_SR6_ReportDataTable {
+            get {
+                return this.tableITI_INV_SR6_ReportDataTable;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -2260,6 +2290,12 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 }
                 if ((ds.Tables["Report_13_B"] != null)) {
                     base.Tables.Add(new Report_13_BDataTable(ds.Tables["Report_13_B"]));
+                }
+                if ((ds.Tables["ITI_INV_SR6_ReportDataHeader"] != null)) {
+                    base.Tables.Add(new ITI_INV_SR6_ReportDataHeaderDataTable(ds.Tables["ITI_INV_SR6_ReportDataHeader"]));
+                }
+                if ((ds.Tables["ITI_INV_SR6_ReportDataTable"] != null)) {
+                    base.Tables.Add(new ITI_INV_SR6_ReportDataTableDataTable(ds.Tables["ITI_INV_SR6_ReportDataTable"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -3002,6 +3038,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                     this.tableReport_13_B.InitVars();
                 }
             }
+            this.tableITI_INV_SR6_ReportDataHeader = ((ITI_INV_SR6_ReportDataHeaderDataTable)(base.Tables["ITI_INV_SR6_ReportDataHeader"]));
+            if ((initTable == true)) {
+                if ((this.tableITI_INV_SR6_ReportDataHeader != null)) {
+                    this.tableITI_INV_SR6_ReportDataHeader.InitVars();
+                }
+            }
+            this.tableITI_INV_SR6_ReportDataTable = ((ITI_INV_SR6_ReportDataTableDataTable)(base.Tables["ITI_INV_SR6_ReportDataTable"]));
+            if ((initTable == true)) {
+                if ((this.tableITI_INV_SR6_ReportDataTable != null)) {
+                    this.tableITI_INV_SR6_ReportDataTable.InitVars();
+                }
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3248,6 +3296,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             base.Tables.Add(this.tableQuarterlyProgressReport);
             this.tableReport_13_B = new Report_13_BDataTable();
             base.Tables.Add(this.tableReport_13_B);
+            this.tableITI_INV_SR6_ReportDataHeader = new ITI_INV_SR6_ReportDataHeaderDataTable();
+            base.Tables.Add(this.tableITI_INV_SR6_ReportDataHeader);
+            this.tableITI_INV_SR6_ReportDataTable = new ITI_INV_SR6_ReportDataTableDataTable();
+            base.Tables.Add(this.tableITI_INV_SR6_ReportDataTable);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3960,6 +4012,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeITI_INV_SR6_ReportDataHeader() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeITI_INV_SR6_ReportDataTable() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e) {
             if ((e.Action == global::System.ComponentModel.CollectionChangeAction.Remove)) {
                 this.InitVars();
@@ -4366,6 +4430,12 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public delegate void Report_13_BRowChangeEventHandler(object sender, Report_13_BRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void ITI_INV_SR6_ReportDataHeaderRowChangeEventHandler(object sender, ITI_INV_SR6_ReportDataHeaderRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void ITI_INV_SR6_ReportDataTableRowChangeEventHandler(object sender, ITI_INV_SR6_ReportDataTableRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -51142,6 +51212,682 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         }
         
         /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ITI_INV_SR6_ReportDataHeaderDataTable : global::System.Data.TypedTableBase<ITI_INV_SR6_ReportDataHeaderRow> {
+            
+            private global::System.Data.DataColumn columnGOR;
+            
+            private global::System.Data.DataColumn columnInstituteName;
+            
+            private global::System.Data.DataColumn columnDepartmentName;
+            
+            private global::System.Data.DataColumn columnLabName;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataHeaderDataTable() {
+                this.TableName = "ITI_INV_SR6_ReportDataHeader";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_INV_SR6_ReportDataHeaderDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected ITI_INV_SR6_ReportDataHeaderDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn GORColumn {
+                get {
+                    return this.columnGOR;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn InstituteNameColumn {
+                get {
+                    return this.columnInstituteName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DepartmentNameColumn {
+                get {
+                    return this.columnDepartmentName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn LabNameColumn {
+                get {
+                    return this.columnLabName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataHeaderRow this[int index] {
+                get {
+                    return ((ITI_INV_SR6_ReportDataHeaderRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataHeaderRowChangeEventHandler ITI_INV_SR6_ReportDataHeaderRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataHeaderRowChangeEventHandler ITI_INV_SR6_ReportDataHeaderRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataHeaderRowChangeEventHandler ITI_INV_SR6_ReportDataHeaderRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataHeaderRowChangeEventHandler ITI_INV_SR6_ReportDataHeaderRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddITI_INV_SR6_ReportDataHeaderRow(ITI_INV_SR6_ReportDataHeaderRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataHeaderRow AddITI_INV_SR6_ReportDataHeaderRow(string GOR, string InstituteName, string DepartmentName, string LabName) {
+                ITI_INV_SR6_ReportDataHeaderRow rowITI_INV_SR6_ReportDataHeaderRow = ((ITI_INV_SR6_ReportDataHeaderRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        GOR,
+                        InstituteName,
+                        DepartmentName,
+                        LabName};
+                rowITI_INV_SR6_ReportDataHeaderRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowITI_INV_SR6_ReportDataHeaderRow);
+                return rowITI_INV_SR6_ReportDataHeaderRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                ITI_INV_SR6_ReportDataHeaderDataTable cln = ((ITI_INV_SR6_ReportDataHeaderDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new ITI_INV_SR6_ReportDataHeaderDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnGOR = base.Columns["GOR"];
+                this.columnInstituteName = base.Columns["InstituteName"];
+                this.columnDepartmentName = base.Columns["DepartmentName"];
+                this.columnLabName = base.Columns["LabName"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnGOR = new global::System.Data.DataColumn("GOR", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnGOR);
+                this.columnInstituteName = new global::System.Data.DataColumn("InstituteName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnInstituteName);
+                this.columnDepartmentName = new global::System.Data.DataColumn("DepartmentName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDepartmentName);
+                this.columnLabName = new global::System.Data.DataColumn("LabName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLabName);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataHeaderRow NewITI_INV_SR6_ReportDataHeaderRow() {
+                return ((ITI_INV_SR6_ReportDataHeaderRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new ITI_INV_SR6_ReportDataHeaderRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(ITI_INV_SR6_ReportDataHeaderRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ITI_INV_SR6_ReportDataHeaderRowChanged != null)) {
+                    this.ITI_INV_SR6_ReportDataHeaderRowChanged(this, new ITI_INV_SR6_ReportDataHeaderRowChangeEvent(((ITI_INV_SR6_ReportDataHeaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ITI_INV_SR6_ReportDataHeaderRowChanging != null)) {
+                    this.ITI_INV_SR6_ReportDataHeaderRowChanging(this, new ITI_INV_SR6_ReportDataHeaderRowChangeEvent(((ITI_INV_SR6_ReportDataHeaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ITI_INV_SR6_ReportDataHeaderRowDeleted != null)) {
+                    this.ITI_INV_SR6_ReportDataHeaderRowDeleted(this, new ITI_INV_SR6_ReportDataHeaderRowChangeEvent(((ITI_INV_SR6_ReportDataHeaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ITI_INV_SR6_ReportDataHeaderRowDeleting != null)) {
+                    this.ITI_INV_SR6_ReportDataHeaderRowDeleting(this, new ITI_INV_SR6_ReportDataHeaderRowChangeEvent(((ITI_INV_SR6_ReportDataHeaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveITI_INV_SR6_ReportDataHeaderRow(ITI_INV_SR6_ReportDataHeaderRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                KD_DBScript ds = new KD_DBScript();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ITI_INV_SR6_ReportDataHeaderDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ITI_INV_SR6_ReportDataTableDataTable : global::System.Data.TypedTableBase<ITI_INV_SR6_ReportDataTableRow> {
+            
+            private global::System.Data.DataColumn columnParticulars_of_stores;
+            
+            private global::System.Data.DataColumn columnReference_of_stock_register;
+            
+            private global::System.Data.DataColumn columnQuantity;
+            
+            private global::System.Data.DataColumn columnYear_of_purchase;
+            
+            private global::System.Data.DataColumn columnPurchase_price;
+            
+            private global::System.Data.DataColumn columnunserviceable_obsolete;
+            
+            private global::System.Data.DataColumn columnPresent_condition;
+            
+            private global::System.Data.DataColumn columnApproximate_cost_expected_to_be_realised;
+            
+            private global::System.Data.DataColumn columnAny_suggestion_of_disposal;
+            
+            private global::System.Data.DataColumn columnRemarks;
+            
+            private global::System.Data.DataColumn columnOrders_of_the_authority_for_disposal;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataTableDataTable() {
+                this.TableName = "ITI_INV_SR6_ReportDataTable";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_INV_SR6_ReportDataTableDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected ITI_INV_SR6_ReportDataTableDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Particulars_of_storesColumn {
+                get {
+                    return this.columnParticulars_of_stores;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Reference_of_stock_registerColumn {
+                get {
+                    return this.columnReference_of_stock_register;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn QuantityColumn {
+                get {
+                    return this.columnQuantity;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Year_of_purchaseColumn {
+                get {
+                    return this.columnYear_of_purchase;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Purchase_priceColumn {
+                get {
+                    return this.columnPurchase_price;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn unserviceable_obsoleteColumn {
+                get {
+                    return this.columnunserviceable_obsolete;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Present_conditionColumn {
+                get {
+                    return this.columnPresent_condition;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Approximate_cost_expected_to_be_realisedColumn {
+                get {
+                    return this.columnApproximate_cost_expected_to_be_realised;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Any_suggestion_of_disposalColumn {
+                get {
+                    return this.columnAny_suggestion_of_disposal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RemarksColumn {
+                get {
+                    return this.columnRemarks;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Orders_of_the_authority_for_disposalColumn {
+                get {
+                    return this.columnOrders_of_the_authority_for_disposal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataTableRow this[int index] {
+                get {
+                    return ((ITI_INV_SR6_ReportDataTableRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataTableRowChangeEventHandler ITI_INV_SR6_ReportDataTableRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataTableRowChangeEventHandler ITI_INV_SR6_ReportDataTableRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataTableRowChangeEventHandler ITI_INV_SR6_ReportDataTableRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataTableRowChangeEventHandler ITI_INV_SR6_ReportDataTableRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddITI_INV_SR6_ReportDataTableRow(ITI_INV_SR6_ReportDataTableRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataTableRow AddITI_INV_SR6_ReportDataTableRow(string Particulars_of_stores, string Reference_of_stock_register, string Quantity, string Year_of_purchase, string Purchase_price, string unserviceable_obsolete, string Present_condition, string Approximate_cost_expected_to_be_realised, string Any_suggestion_of_disposal, string Remarks, string Orders_of_the_authority_for_disposal) {
+                ITI_INV_SR6_ReportDataTableRow rowITI_INV_SR6_ReportDataTableRow = ((ITI_INV_SR6_ReportDataTableRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        Particulars_of_stores,
+                        Reference_of_stock_register,
+                        Quantity,
+                        Year_of_purchase,
+                        Purchase_price,
+                        unserviceable_obsolete,
+                        Present_condition,
+                        Approximate_cost_expected_to_be_realised,
+                        Any_suggestion_of_disposal,
+                        Remarks,
+                        Orders_of_the_authority_for_disposal};
+                rowITI_INV_SR6_ReportDataTableRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowITI_INV_SR6_ReportDataTableRow);
+                return rowITI_INV_SR6_ReportDataTableRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                ITI_INV_SR6_ReportDataTableDataTable cln = ((ITI_INV_SR6_ReportDataTableDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new ITI_INV_SR6_ReportDataTableDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnParticulars_of_stores = base.Columns["Particulars_of_stores"];
+                this.columnReference_of_stock_register = base.Columns["Reference_of_stock_register"];
+                this.columnQuantity = base.Columns["Quantity"];
+                this.columnYear_of_purchase = base.Columns["Year_of_purchase"];
+                this.columnPurchase_price = base.Columns["Purchase_price"];
+                this.columnunserviceable_obsolete = base.Columns["unserviceable_obsolete"];
+                this.columnPresent_condition = base.Columns["Present_condition"];
+                this.columnApproximate_cost_expected_to_be_realised = base.Columns["Approximate_cost_expected_to_be_realised"];
+                this.columnAny_suggestion_of_disposal = base.Columns["Any_suggestion_of_disposal"];
+                this.columnRemarks = base.Columns["Remarks"];
+                this.columnOrders_of_the_authority_for_disposal = base.Columns["Orders_of_the_authority_for_disposal"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnParticulars_of_stores = new global::System.Data.DataColumn("Particulars_of_stores", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnParticulars_of_stores);
+                this.columnReference_of_stock_register = new global::System.Data.DataColumn("Reference_of_stock_register", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnReference_of_stock_register);
+                this.columnQuantity = new global::System.Data.DataColumn("Quantity", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnQuantity);
+                this.columnYear_of_purchase = new global::System.Data.DataColumn("Year_of_purchase", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnYear_of_purchase);
+                this.columnPurchase_price = new global::System.Data.DataColumn("Purchase_price", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPurchase_price);
+                this.columnunserviceable_obsolete = new global::System.Data.DataColumn("unserviceable_obsolete", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnunserviceable_obsolete);
+                this.columnPresent_condition = new global::System.Data.DataColumn("Present_condition", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPresent_condition);
+                this.columnApproximate_cost_expected_to_be_realised = new global::System.Data.DataColumn("Approximate_cost_expected_to_be_realised", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnApproximate_cost_expected_to_be_realised);
+                this.columnAny_suggestion_of_disposal = new global::System.Data.DataColumn("Any_suggestion_of_disposal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAny_suggestion_of_disposal);
+                this.columnRemarks = new global::System.Data.DataColumn("Remarks", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRemarks);
+                this.columnOrders_of_the_authority_for_disposal = new global::System.Data.DataColumn("Orders_of_the_authority_for_disposal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnOrders_of_the_authority_for_disposal);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataTableRow NewITI_INV_SR6_ReportDataTableRow() {
+                return ((ITI_INV_SR6_ReportDataTableRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new ITI_INV_SR6_ReportDataTableRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(ITI_INV_SR6_ReportDataTableRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ITI_INV_SR6_ReportDataTableRowChanged != null)) {
+                    this.ITI_INV_SR6_ReportDataTableRowChanged(this, new ITI_INV_SR6_ReportDataTableRowChangeEvent(((ITI_INV_SR6_ReportDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ITI_INV_SR6_ReportDataTableRowChanging != null)) {
+                    this.ITI_INV_SR6_ReportDataTableRowChanging(this, new ITI_INV_SR6_ReportDataTableRowChangeEvent(((ITI_INV_SR6_ReportDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ITI_INV_SR6_ReportDataTableRowDeleted != null)) {
+                    this.ITI_INV_SR6_ReportDataTableRowDeleted(this, new ITI_INV_SR6_ReportDataTableRowChangeEvent(((ITI_INV_SR6_ReportDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ITI_INV_SR6_ReportDataTableRowDeleting != null)) {
+                    this.ITI_INV_SR6_ReportDataTableRowDeleting(this, new ITI_INV_SR6_ReportDataTableRowChangeEvent(((ITI_INV_SR6_ReportDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveITI_INV_SR6_ReportDataTableRow(ITI_INV_SR6_ReportDataTableRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                KD_DBScript ds = new KD_DBScript();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ITI_INV_SR6_ReportDataTableDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
         public partial class ExaminerPresentAndMarksRow : global::System.Data.DataRow {
@@ -90600,6 +91346,469 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         }
         
         /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class ITI_INV_SR6_ReportDataHeaderRow : global::System.Data.DataRow {
+            
+            private ITI_INV_SR6_ReportDataHeaderDataTable tableITI_INV_SR6_ReportDataHeader;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_INV_SR6_ReportDataHeaderRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableITI_INV_SR6_ReportDataHeader = ((ITI_INV_SR6_ReportDataHeaderDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string GOR {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataHeader.GORColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'GOR\' in table \'ITI_INV_SR6_ReportDataHeader\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataHeader.GORColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string InstituteName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataHeader.InstituteNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'InstituteName\' in table \'ITI_INV_SR6_ReportDataHeader\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataHeader.InstituteNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string DepartmentName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataHeader.DepartmentNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DepartmentName\' in table \'ITI_INV_SR6_ReportDataHeader\' is " +
+                                "DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataHeader.DepartmentNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string LabName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataHeader.LabNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'LabName\' in table \'ITI_INV_SR6_ReportDataHeader\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataHeader.LabNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsGORNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataHeader.GORColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetGORNull() {
+                this[this.tableITI_INV_SR6_ReportDataHeader.GORColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsInstituteNameNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataHeader.InstituteNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetInstituteNameNull() {
+                this[this.tableITI_INV_SR6_ReportDataHeader.InstituteNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDepartmentNameNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataHeader.DepartmentNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDepartmentNameNull() {
+                this[this.tableITI_INV_SR6_ReportDataHeader.DepartmentNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsLabNameNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataHeader.LabNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetLabNameNull() {
+                this[this.tableITI_INV_SR6_ReportDataHeader.LabNameColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class ITI_INV_SR6_ReportDataTableRow : global::System.Data.DataRow {
+            
+            private ITI_INV_SR6_ReportDataTableDataTable tableITI_INV_SR6_ReportDataTable;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_INV_SR6_ReportDataTableRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableITI_INV_SR6_ReportDataTable = ((ITI_INV_SR6_ReportDataTableDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Particulars_of_stores {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Particulars_of_storesColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Particulars_of_stores\' in table \'ITI_INV_SR6_ReportDataTabl" +
+                                "e\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Particulars_of_storesColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Reference_of_stock_register {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Reference_of_stock_registerColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Reference_of_stock_register\' in table \'ITI_INV_SR6_ReportDa" +
+                                "taTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Reference_of_stock_registerColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Quantity {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.QuantityColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Quantity\' in table \'ITI_INV_SR6_ReportDataTable\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.QuantityColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Year_of_purchase {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Year_of_purchaseColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Year_of_purchase\' in table \'ITI_INV_SR6_ReportDataTable\' is" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Year_of_purchaseColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Purchase_price {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Purchase_priceColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Purchase_price\' in table \'ITI_INV_SR6_ReportDataTable\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Purchase_priceColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string unserviceable_obsolete {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.unserviceable_obsoleteColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'unserviceable_obsolete\' in table \'ITI_INV_SR6_ReportDataTab" +
+                                "le\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.unserviceable_obsoleteColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Present_condition {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Present_conditionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Present_condition\' in table \'ITI_INV_SR6_ReportDataTable\' i" +
+                                "s DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Present_conditionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Approximate_cost_expected_to_be_realised {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Approximate_cost_expected_to_be_realisedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Approximate_cost_expected_to_be_realised\' in table \'ITI_INV" +
+                                "_SR6_ReportDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Approximate_cost_expected_to_be_realisedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Any_suggestion_of_disposal {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Any_suggestion_of_disposalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Any_suggestion_of_disposal\' in table \'ITI_INV_SR6_ReportDat" +
+                                "aTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Any_suggestion_of_disposalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Remarks {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.RemarksColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Remarks\' in table \'ITI_INV_SR6_ReportDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.RemarksColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Orders_of_the_authority_for_disposal {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Orders_of_the_authority_for_disposalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Orders_of_the_authority_for_disposal\' in table \'ITI_INV_SR6" +
+                                "_ReportDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Orders_of_the_authority_for_disposalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsParticulars_of_storesNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Particulars_of_storesColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetParticulars_of_storesNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Particulars_of_storesColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsReference_of_stock_registerNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Reference_of_stock_registerColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetReference_of_stock_registerNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Reference_of_stock_registerColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsQuantityNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.QuantityColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetQuantityNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.QuantityColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsYear_of_purchaseNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Year_of_purchaseColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetYear_of_purchaseNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Year_of_purchaseColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPurchase_priceNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Purchase_priceColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPurchase_priceNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Purchase_priceColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool Isunserviceable_obsoleteNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.unserviceable_obsoleteColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void Setunserviceable_obsoleteNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.unserviceable_obsoleteColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPresent_conditionNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Present_conditionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPresent_conditionNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Present_conditionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsApproximate_cost_expected_to_be_realisedNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Approximate_cost_expected_to_be_realisedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetApproximate_cost_expected_to_be_realisedNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Approximate_cost_expected_to_be_realisedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAny_suggestion_of_disposalNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Any_suggestion_of_disposalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAny_suggestion_of_disposalNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Any_suggestion_of_disposalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRemarksNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.RemarksColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRemarksNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.RemarksColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsOrders_of_the_authority_for_disposalNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Orders_of_the_authority_for_disposalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetOrders_of_the_authority_for_disposalNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Orders_of_the_authority_for_disposalColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -94597,6 +95806,74 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public Report_13_BRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class ITI_INV_SR6_ReportDataHeaderRowChangeEvent : global::System.EventArgs {
+            
+            private ITI_INV_SR6_ReportDataHeaderRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataHeaderRowChangeEvent(ITI_INV_SR6_ReportDataHeaderRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataHeaderRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class ITI_INV_SR6_ReportDataTableRowChangeEvent : global::System.EventArgs {
+            
+            private ITI_INV_SR6_ReportDataTableRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataTableRowChangeEvent(ITI_INV_SR6_ReportDataTableRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataTableRow Row {
                 get {
                     return this.eventRow;
                 }
