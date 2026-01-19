@@ -1595,7 +1595,21 @@ namespace Kaushal_Darpan.Api.Controllers
             width: 200px;
         }
 
-
+ .footer-table {{
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10px;
+    }}
+    .footer-table td {{
+        border: 1px solid #000;
+        padding: 6px;
+        vertical-align: top;
+    }}
+    .line {{
+        display: inline-block;
+        border-bottom: 1px solid #000;
+        width: 150px;
+    }}
 
 
         .page-break {
@@ -1716,6 +1730,7 @@ namespace Kaushal_Darpan.Api.Controllers
         </tr>
     </table>
 
+
 </div>
 ");
 
@@ -1749,7 +1764,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         Left = "Printed on: [date]",
                         Right = "Page [page] of [toPage]",
                         Line = true
-                    }
+                    },
                 }
             }
                 };
