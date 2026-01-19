@@ -1131,6 +1131,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@sSOID", body.sSOID);
                         command.Parameters.AddWithValue("@StreamID", body.StreamID);
                         command.Parameters.AddWithValue("@ExaminerID", body.ExaminerID);
+                        command.Parameters.AddWithValue("@SubjectCode", body.SubjectCode);
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
