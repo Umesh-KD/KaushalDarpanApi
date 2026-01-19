@@ -1348,7 +1348,7 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             try
             {
-                var streams_data = await _unitOfWork.ItiExaminerRepository.GetTeacherForExaminerReportPDF(body);
+                var streams_data = await _unitOfWork.ItiExaminerRepository.TeacherForExaminerReportDewnloadPdf(body);
                 var dataList = CommonFuncationHelper.ConvertDataTable<List<ITITeacherForExaminerSearchModel>>(streams_data);
                
                 var header = dataList.First();
