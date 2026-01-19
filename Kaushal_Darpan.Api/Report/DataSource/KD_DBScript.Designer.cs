@@ -23106,12 +23106,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnUniqueBundalCode;
             
-            private global::System.Data.DataColumn columnTotal_UFMStudent;
-            
-            private global::System.Data.DataColumn columnUFMStudentRollNo;
-            
-            private global::System.Data.DataColumn columnTotal_PresentStudentAfterUFM;
-            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public Report33DataTable() {
@@ -23285,30 +23279,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn Total_UFMStudentColumn {
-                get {
-                    return this.columnTotal_UFMStudent;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn UFMStudentRollNoColumn {
-                get {
-                    return this.columnUFMStudentRollNo;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn Total_PresentStudentAfterUFMColumn {
-                get {
-                    return this.columnTotal_PresentStudentAfterUFM;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -23361,10 +23331,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         string AbsentStudentRollNoWithCount, 
                         string TotalStudent, 
                         string SemesterName, 
-                        string UniqueBundalCode, 
-                        string Total_UFMStudent, 
-                        string UFMStudentRollNo, 
-                        string Total_PresentStudentAfterUFM) {
+                        string UniqueBundalCode) {
                 Report33Row rowReport33Row = ((Report33Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         PaperCode,
@@ -23383,10 +23350,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         AbsentStudentRollNoWithCount,
                         TotalStudent,
                         SemesterName,
-                        UniqueBundalCode,
-                        Total_UFMStudent,
-                        UFMStudentRollNo,
-                        Total_PresentStudentAfterUFM};
+                        UniqueBundalCode};
                 rowReport33Row.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReport33Row);
                 return rowReport33Row;
@@ -23426,9 +23390,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnTotalStudent = base.Columns["TotalStudent"];
                 this.columnSemesterName = base.Columns["SemesterName"];
                 this.columnUniqueBundalCode = base.Columns["UniqueBundalCode"];
-                this.columnTotal_UFMStudent = base.Columns["Total_UFMStudent"];
-                this.columnUFMStudentRollNo = base.Columns["UFMStudentRollNo"];
-                this.columnTotal_PresentStudentAfterUFM = base.Columns["Total_PresentStudentAfterUFM"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -23468,12 +23429,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnSemesterName);
                 this.columnUniqueBundalCode = new global::System.Data.DataColumn("UniqueBundalCode", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnUniqueBundalCode);
-                this.columnTotal_UFMStudent = new global::System.Data.DataColumn("Total_UFMStudent", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTotal_UFMStudent);
-                this.columnUFMStudentRollNo = new global::System.Data.DataColumn("UFMStudentRollNo", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnUFMStudentRollNo);
-                this.columnTotal_PresentStudentAfterUFM = new global::System.Data.DataColumn("Total_PresentStudentAfterUFM", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTotal_PresentStudentAfterUFM);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -28409,6 +28364,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnSemesterName;
             
+            private global::System.Data.DataColumn columnCenterName;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public Daily_Report_Bhandar_Form1DataTable() {
@@ -28574,6 +28531,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn CenterNameColumn {
+                get {
+                    return this.columnCenterName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -28625,7 +28590,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         string Total_UFMStudent, 
                         string Total_DetainedStudent, 
                         string Total_ValidPresentStudent, 
-                        string SemesterName) {
+                        string SemesterName, 
+                        string CenterName) {
                 Daily_Report_Bhandar_Form1Row rowDaily_Report_Bhandar_Form1Row = ((Daily_Report_Bhandar_Form1Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         PaperCode,
@@ -28643,7 +28609,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         Total_UFMStudent,
                         Total_DetainedStudent,
                         Total_ValidPresentStudent,
-                        SemesterName};
+                        SemesterName,
+                        CenterName};
                 rowDaily_Report_Bhandar_Form1Row.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDaily_Report_Bhandar_Form1Row);
                 return rowDaily_Report_Bhandar_Form1Row;
@@ -28682,6 +28649,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnTotal_DetainedStudent = base.Columns["Total_DetainedStudent"];
                 this.columnTotal_ValidPresentStudent = base.Columns["Total_ValidPresentStudent"];
                 this.columnSemesterName = base.Columns["SemesterName"];
+                this.columnCenterName = base.Columns["CenterName"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -28719,6 +28687,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnTotal_ValidPresentStudent);
                 this.columnSemesterName = new global::System.Data.DataColumn("SemesterName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSemesterName);
+                this.columnCenterName = new global::System.Data.DataColumn("CenterName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCenterName);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -51128,8 +51098,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnUFMStudentRollNo;
             
-            private global::System.Data.DataColumn columnDetainedStudentRollNo;
-            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public Report_13_BDataTable() {
@@ -51295,14 +51263,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn DetainedStudentRollNoColumn {
-                get {
-                    return this.columnDetainedStudentRollNo;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -51354,8 +51314,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         string Total_ValidPresentStudent, 
                         string AbsentStudentRollNoWithCount, 
                         string Total_DetainedStudent, 
-                        string UFMStudentRollNo, 
-                        string DetainedStudentRollNo) {
+                        string UFMStudentRollNo) {
                 Report_13_BRow rowReport_13_BRow = ((Report_13_BRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         PaperCode,
@@ -51373,8 +51332,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         Total_ValidPresentStudent,
                         AbsentStudentRollNoWithCount,
                         Total_DetainedStudent,
-                        UFMStudentRollNo,
-                        DetainedStudentRollNo};
+                        UFMStudentRollNo};
                 rowReport_13_BRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReport_13_BRow);
                 return rowReport_13_BRow;
@@ -51413,7 +51371,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnAbsentStudentRollNoWithCount = base.Columns["AbsentStudentRollNoWithCount"];
                 this.columnTotal_DetainedStudent = base.Columns["Total_DetainedStudent"];
                 this.columnUFMStudentRollNo = base.Columns["UFMStudentRollNo"];
-                this.columnDetainedStudentRollNo = base.Columns["DetainedStudentRollNo"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -51451,8 +51408,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnTotal_DetainedStudent);
                 this.columnUFMStudentRollNo = new global::System.Data.DataColumn("UFMStudentRollNo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnUFMStudentRollNo);
-                this.columnDetainedStudentRollNo = new global::System.Data.DataColumn("DetainedStudentRollNo", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDetainedStudentRollNo);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -51622,6 +51577,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITI_INV_SR6_ReportDataHeaderDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -51927,6 +51884,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITI_INV_SR6_ReportDataTableDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -52312,6 +52271,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITI_INV_SR5_ReportDataHeaderDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -52617,6 +52578,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITI_INV_SR5_ReportDataTableDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -69856,55 +69819,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string Total_UFMStudent {
-                get {
-                    try {
-                        return ((string)(this[this.tableReport33.Total_UFMStudentColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Total_UFMStudent\' in table \'Report33\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReport33.Total_UFMStudentColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string UFMStudentRollNo {
-                get {
-                    try {
-                        return ((string)(this[this.tableReport33.UFMStudentRollNoColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'UFMStudentRollNo\' in table \'Report33\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReport33.UFMStudentRollNoColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string Total_PresentStudentAfterUFM {
-                get {
-                    try {
-                        return ((string)(this[this.tableReport33.Total_PresentStudentAfterUFMColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Total_PresentStudentAfterUFM\' in table \'Report33\' is DBNull" +
-                                ".", e);
-                    }
-                }
-                set {
-                    this[this.tableReport33.Total_PresentStudentAfterUFMColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsPaperCodeNull() {
                 return this.IsNull(this.tableReport33.PaperCodeColumn);
             }
@@ -70105,42 +70019,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetUniqueBundalCodeNull() {
                 this[this.tableReport33.UniqueBundalCodeColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsTotal_UFMStudentNull() {
-                return this.IsNull(this.tableReport33.Total_UFMStudentColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetTotal_UFMStudentNull() {
-                this[this.tableReport33.Total_UFMStudentColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsUFMStudentRollNoNull() {
-                return this.IsNull(this.tableReport33.UFMStudentRollNoColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetUFMStudentRollNoNull() {
-                this[this.tableReport33.UFMStudentRollNoColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsTotal_PresentStudentAfterUFMNull() {
-                return this.IsNull(this.tableReport33.Total_PresentStudentAfterUFMColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetTotal_PresentStudentAfterUFMNull() {
-                this[this.tableReport33.Total_PresentStudentAfterUFMColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -74022,6 +73900,23 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string CenterName {
+                get {
+                    try {
+                        return ((string)(this[this.tableDaily_Report_Bhandar_Form1.CenterNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CenterName\' in table \'Daily_Report_Bhandar_Form1\' is DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableDaily_Report_Bhandar_Form1.CenterNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsPaperCodeNull() {
                 return this.IsNull(this.tableDaily_Report_Bhandar_Form1.PaperCodeColumn);
             }
@@ -74210,6 +74105,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetSemesterNameNull() {
                 this[this.tableDaily_Report_Bhandar_Form1.SemesterNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsCenterNameNull() {
+                return this.IsNull(this.tableDaily_Report_Bhandar_Form1.CenterNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetCenterNameNull() {
+                this[this.tableDaily_Report_Bhandar_Form1.CenterNameColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -92311,22 +92218,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string DetainedStudentRollNo {
-                get {
-                    try {
-                        return ((string)(this[this.tableReport_13_B.DetainedStudentRollNoColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'DetainedStudentRollNo\' in table \'Report_13_B\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReport_13_B.DetainedStudentRollNoColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsPaperCodeNull() {
                 return this.IsNull(this.tableReport_13_B.PaperCodeColumn);
             }
@@ -92515,18 +92406,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetUFMStudentRollNoNull() {
                 this[this.tableReport_13_B.UFMStudentRollNoColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsDetainedStudentRollNoNull() {
-                return this.IsNull(this.tableReport_13_B.DetainedStudentRollNoColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetDetainedStudentRollNoNull() {
-                this[this.tableReport_13_B.DetainedStudentRollNoColumn] = global::System.Convert.DBNull;
             }
         }
         
