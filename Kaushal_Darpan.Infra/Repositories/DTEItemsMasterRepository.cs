@@ -1394,11 +1394,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITI_INV_SR6_ReportData_pdf";
+                        command.CommandText = "USP_Bter_INV_SR6_ReportData_pdf";
                         command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
-                        command.Parameters.AddWithValue("@ReturnStatus", SearchReq.ReturnStatus);
+                        //command.Parameters.AddWithValue("@ReturnStatus", SearchReq.ReturnStatus);
                         command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
                         command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
                         command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
@@ -1434,11 +1434,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITI_INV_SR5_ReportData_pdf";
+                        command.CommandText = "USP_Bter_INV_SR5_ReportData_pdf";
                         command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
-                        command.Parameters.AddWithValue("@ReturnStatus", SearchReq.ReturnStatus);
+                        //command.Parameters.AddWithValue("@ReturnStatus", SearchReq.ReturnStatus);
                         command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
                         command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
                         command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);

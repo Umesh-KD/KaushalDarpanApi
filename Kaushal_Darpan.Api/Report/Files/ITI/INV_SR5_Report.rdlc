@@ -20,7 +20,12 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>OFFICE OF THE PRINCIPLE</Value>
+                <Value>OFFICE OF THE PRINCIPLE </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Label>InstituteName</Label>
+                <Value>=First(Fields!InstituteName.Value, "ITI_INV_SR5_ReportDataHeader")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -30,10 +35,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Top>0.42016cm</Top>
-        <Left>1.84891cm</Left>
+        <Top>0.38488cm</Top>
+        <Left>0.81704cm</Left>
         <Height>1.42021cm</Height>
-        <Width>31.12792cm</Width>
+        <Width>29.39427cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -59,8 +64,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>1.87565cm</Top>
-        <Left>30.76787cm</Left>
+        <Top>1.98148cm</Top>
+        <Left>28.00234cm</Left>
         <Height>0.6cm</Height>
         <Width>2.20896cm</Width>
         <ZIndex>1</ZIndex>
@@ -81,7 +86,12 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>DEPARMENT NAME:</Value>
+                <Value>DEPARMENT NAME: </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Label>Department Name</Label>
+                <Value>=First(Fields!DepartmentName.Value, "ITI_INV_SR5_ReportDataHeader")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -90,7 +100,12 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>LAB/SECTION:</Value>
+                <Value>LAB/SECTION:-  </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Label>Lab Name</Label>
+                <Value>=First(Fields!LabName.Value, "ITI_INV_SR5_ReportDataHeader")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -98,8 +113,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox3</rd:DefaultName>
-        <Top>1.84037cm</Top>
-        <Left>1.84891cm</Left>
+        <Top>1.80509cm</Top>
+        <Left>0.81704cm</Left>
         <Height>1.04979cm</Height>
         <Width>25.01604cm</Width>
         <ZIndex>2</ZIndex>
@@ -117,45 +132,45 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.41521cm</Width>
+              <Width>0.87943cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>4.71271cm</Width>
+              <Width>3.91234cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>1.13015cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>2.41401cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.74354cm</Width>
+              <Width>2.8638cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>2.41401cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>2.41401cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.72937cm</Width>
+              <Width>3.3788cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.21438cm</Width>
+              <Width>2.9961cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.8975cm</Width>
+              <Width>2.81151cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>2.41401cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>2.41401cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>1.81708cm</Height>
+              <Height>2.31979cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -914,9 +929,9 @@
         </TablixRowHierarchy>
         <DataSetName>ITI_INV_SR5_ReportDataTable</DataSetName>
         <Top>3.27766cm</Top>
-        <Left>0.76412cm</Left>
-        <Height>2.41708cm</Height>
-        <Width>34.71271cm</Width>
+        <Left>0.16913cm</Left>
+        <Height>2.91979cm</Height>
+        <Width>30.04218cm</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -932,7 +947,7 @@
       </Border>
     </Style>
   </Body>
-  <Width>14.27467in</Width>
+  <Width>12.02467in</Width>
   <Page>
     <PageHeight>23cm</PageHeight>
     <PageWidth>32cm</PageWidth>
