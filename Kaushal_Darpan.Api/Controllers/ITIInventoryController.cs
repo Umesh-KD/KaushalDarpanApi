@@ -2758,13 +2758,13 @@ namespace Kaushal_Darpan.Api.Controllers
                         string guid = Guid.NewGuid().ToString().ToUpper();
                         var fileName = $"SR5-Report_{guid}.pdf";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/INV_SR6_Report.rdlc";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/INV_SR5_Report.rdlc";
 
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         LocalReport localReport = new LocalReport(rdlcpath);
 
-                        localReport.AddDataSource("ITI_INV_SR6_ReportDataHeader", data.Tables[0]);
-                        localReport.AddDataSource("ITI_INV_SR6_ReportDataTable", data.Tables[1]);
+                        localReport.AddDataSource("ITI_INV_SR5_ReportDataHeader", data.Tables[0]);
+                        localReport.AddDataSource("ITI_INV_SR5_ReportDataTable", data.Tables[1]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
 
                         //check file exists
