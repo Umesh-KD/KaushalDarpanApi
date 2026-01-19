@@ -45,7 +45,6 @@
                             <TextRun>
                               <Value>शाखा विषय कोड </Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -80,7 +79,6 @@
                             <TextRun>
                               <Value>पंजीकृत छात्रों की संख्या </Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -113,9 +111,8 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>रोके गये छात्रों के रोल नंबर (Detained)</Value>
+                              <Value>रोके गये छात्रों के रोल नंबर (Detained) </Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -150,7 +147,6 @@
                             <TextRun>
                               <Value>अनुपस्थित छात्रों के रोल नम्बर एवं संख्या (Absent)</Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -183,9 +179,8 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>अनुचित साधन मामले में पकडे गये छात्रों के रोल नम्बर एवं संख्या (UFM) </Value>
+                              <Value>अनुचित साधन मामले में पकडे गये छात्रों के रोल नम्बर एवं संख्या (UFM)</Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -220,7 +215,6 @@
                             <TextRun>
                               <Value>कोर्ट केस सम्बंधित छात्रों के रोल नम्बर </Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -256,7 +250,6 @@
                               <Value>बण्डल में पैक 
 उत्तरपुस्तिकाओ की संख्या </Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -291,7 +284,6 @@
                             <TextRun>
                               <Value>मण्डल प्रयोग हेतु/जाँच कर्ता के हस्ताक्षर </Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -450,14 +442,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Total_UFMStudent1">
+                    <Textbox Name="UFMStudentRollNo">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Total_UFMStudent.Value</Value>
+                              <Value>=First(Fields!UFMStudentRollNo.Value, "Report_13_B")</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -466,7 +458,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Total_UFMStudent1</rd:DefaultName>
+                      <rd:DefaultName>UFMStudentRollNo</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -478,6 +470,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -757,7 +750,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox24</rd:DefaultName>
-        <Top>4.91892cm</Top>
+        <Top>5.05649cm</Top>
         <Left>7.92649cm</Left>
         <Height>1.32292cm</Height>
         <Width>10.27262cm</Width>
@@ -1003,15 +996,20 @@
                 <TextRun>
                   <Value>परीक्षा केन्द्र संख्या:-</Value>
                   <Style>
-                    <FontSize>8pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
                 </TextRun>
                 <TextRun>
                   <Value xml:space="preserve">  </Value>
-                  <Style>
-                    <FontSize>8pt</FontSize>
-                  </Style>
+                  <Style />
+                </TextRun>
+                <TextRun>
+                  <Value>=First(Fields!CCCode.Value, "Report_13_B")</Value>
+                  <Style />
+                </TextRun>
+                <TextRun>
+                  <Value>-</Value>
+                  <Style />
                 </TextRun>
                 <TextRun>
                   <Value>=First(Fields!InstituteName.Value, "Report_13_B")</Value>
@@ -1037,7 +1035,7 @@
           <Top>3.12648cm</Top>
           <Left>0.42822cm</Left>
           <Height>0.84787cm</Height>
-          <Width>14.20794cm</Width>
+          <Width>9.87759cm</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>
@@ -1058,21 +1056,16 @@
                 <TextRun>
                   <Value>दिनांक-</Value>
                   <Style>
-                    <FontSize>9pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
                 </TextRun>
                 <TextRun>
                   <Value xml:space="preserve"> </Value>
-                  <Style>
-                    <FontSize>9pt</FontSize>
-                  </Style>
+                  <Style />
                 </TextRun>
                 <TextRun>
                   <Value>=First(Fields!ExamDate.Value, "Report_13_B")</Value>
-                  <Style>
-                    <FontSize>9pt</FontSize>
-                  </Style>
+                  <Style />
                 </TextRun>
               </TextRuns>
               <Style>
@@ -1117,7 +1110,11 @@
                   <Style />
                 </TextRun>
                 <TextRun>
-                  <Value xml:space="preserve"> </Value>
+                  <Value>- </Value>
+                  <Style />
+                </TextRun>
+                <TextRun>
+                  <Value>=First(Fields!ExamShiftTime.Value, "Report_13_B")</Value>
                   <Style />
                 </TextRun>
               </TextRuns>
@@ -1234,10 +1231,18 @@
           <DataField>AbsentStudentRollNoWithCount</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Total_DetainedStudent">
+          <DataField>Total_DetainedStudent</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="UFMStudentRollNo">
+          <DataField>UFMStudentRollNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\kaushal-darpan\kaushaldarpan_api\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Kausal_Darpan\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
         <rd:TableName>Report_13_B</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />

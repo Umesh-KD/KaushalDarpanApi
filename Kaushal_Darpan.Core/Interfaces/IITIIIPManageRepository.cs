@@ -36,5 +36,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetIIPQuaterlyFundReport(int id);
 
         Task<DataSet> GetAllIMCFundDataforReport(IIPManageFundSearchModel body);
+        Task<int> SavesurveyperformaReport(IDfFundDetailsModel FundDeatils);
     }
 }

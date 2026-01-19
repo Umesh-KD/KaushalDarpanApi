@@ -2245,12 +2245,6 @@ namespace Kaushal_Darpan.Api.Controllers
             }
         }
 
-
-
-
-
-
-
         //IIPManageReport
 
         [HttpPost("StudentSeatWithdrawRequest")]
@@ -2415,6 +2409,10 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+       
+
 
 
 

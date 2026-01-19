@@ -33,5 +33,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> CheckExaminerProfileCompleted(ItiExaminerSearchModel body);
 
         Task<bool> RemoveStudent(ItiExaminerSearchModel model);
+        Task<DataTable> GetTeacherForExaminerReport(ITITeacherForExaminerSearchModel filterModel);
+        Task<DataTable> TeacherForExaminerReportDewnloadPdf(ITITeacherForExaminerSearchModel filterModel);
     }
 }

@@ -6905,6 +6905,39 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+        [HttpGet("BTER_BGT_BudgetType/{DepartmentID}/{LevelID}")]
+        public async Task<ApiResult<DataTable>> BTER_BGT_BudgetType(int DepartmentID, int LevelID)
+        {
+            ActionName = "BTER_BGT_BudgetType()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.BTER_BGT_BudgetType(DepartmentID, LevelID);
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
         [HttpGet("DDL_PostMaster")]
         public async Task<ApiResult<List<CommonDDLModel>>> DDL_PostMaster()
         {

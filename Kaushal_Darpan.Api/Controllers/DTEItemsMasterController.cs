@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AspNetCore.Reporting;
+using AutoMapper;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
@@ -1424,6 +1425,208 @@ namespace Kaushal_Darpan.Api.Controllers
                         Ex = ex,
                     };
                     await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("Get_SR5_ReportData")]
+        public async Task<ApiResult<DataTable>> Get_SR5_ReportData([FromBody] inventoryIssueHistorySearchModel body)
+        {
+            ActionName = "Get_SR5_ReportData([FromBody] inventoryIssueHistorySearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.iDTEItemsMasterRepository.Get_SR5_ReportData(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("Get_SR6_ReportData")]
+        public async Task<ApiResult<DataTable>> Get_SR6_ReportData([FromBody] inventoryIssueHistorySearchModel body)
+        {
+            ActionName = "Get_SR6_ReportData([FromBody] inventoryIssueHistorySearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.iDTEItemsMasterRepository.Get_SR6_ReportData(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("DownloadSR6ReportData_pdf_BTER")]
+        public async Task<ApiResult<string>> DownloadSR6ReportData_pdf_BTER([FromBody] inventoryIssueHistorySearchModel body)
+        {
+            ActionName = "DownloadSR6ReportData_pdf_BTER([FromBody] inventoryIssueHistorySearchModel body)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.iDTEItemsMasterRepository.DownloadSR6ReportData_pdf_BTER(body);
+
+                    if (data?.Tables?.Count >= 1)
+                    {
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        string guid = Guid.NewGuid().ToString().ToUpper();
+                        var fileName = $"SR5-Report_{guid}.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/INV_SR6_Report.rdlc";
+
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+
+                        localReport.AddDataSource("ITI_INV_SR6_ReportDataHeader", data.Tables[0]);
+                        localReport.AddDataSource("ITI_INV_SR6_ReportDataTable", data.Tables[1]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        //save
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        //end report
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_DATA_NOT_FOUND;
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("Download_SR5ReportData_pdf_BTER")]
+        public async Task<ApiResult<string>> Download_SR5ReportData_pdf_BTER([FromBody] inventoryIssueHistorySearchModel body)
+        {
+            ActionName = "Download_SR5ReportData_pdf_BTER([FromBody] inventoryIssueHistorySearchModel body)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.iDTEItemsMasterRepository.Download_SR5ReportData_pdf_BTER(body);
+
+                    if (data?.Tables?.Count >= 1)
+                    {
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        string guid = Guid.NewGuid().ToString().ToUpper();
+                        var fileName = $"SR5-Report_{guid}.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/INV_SR5_Report.rdlc";
+
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+
+                        localReport.AddDataSource("ITI_INV_SR5_ReportDataHeader", data.Tables[0]);
+                        localReport.AddDataSource("ITI_INV_SR5_ReportDataTable", data.Tables[1]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        //save
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        //end report
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_DATA_NOT_FOUND;
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
                 }
                 return result;
             });

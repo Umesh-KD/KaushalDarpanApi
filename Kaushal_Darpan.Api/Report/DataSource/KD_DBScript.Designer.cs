@@ -114,7 +114,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         private Report33DataTable tableReport33;
         
-        private Report_13_BDataTable tableReport_13_B;
+        private Report_13_B16jan2026DataTable tableReport_13_B16jan2026;
         
         private CenterObserverMemberDataTable tableCenterObserverMember;
         
@@ -258,6 +258,16 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         private QuarterlyProgressReportDataTable tableQuarterlyProgressReport;
         
+        private Report_13_BDataTable tableReport_13_B;
+        
+        private ITI_INV_SR6_ReportDataHeaderDataTable tableITI_INV_SR6_ReportDataHeader;
+        
+        private ITI_INV_SR6_ReportDataTableDataTable tableITI_INV_SR6_ReportDataTable;
+        
+        private ITI_INV_SR5_ReportDataHeaderDataTable tableITI_INV_SR5_ReportDataHeader;
+        
+        private ITI_INV_SR5_ReportDataTableDataTable tableITI_INV_SR5_ReportDataTable;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -273,8 +283,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-            " or extended by application code.", DiagnosticId="SYSLIB0051")]
         protected KD_DBScript(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
@@ -423,8 +431,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 if ((ds.Tables["Report33"] != null)) {
                     base.Tables.Add(new Report33DataTable(ds.Tables["Report33"]));
                 }
-                if ((ds.Tables["Report_13_B"] != null)) {
-                    base.Tables.Add(new Report_13_BDataTable(ds.Tables["Report_13_B"]));
+                if ((ds.Tables["Report_13_B16jan2026"] != null)) {
+                    base.Tables.Add(new Report_13_B16jan2026DataTable(ds.Tables["Report_13_B16jan2026"]));
                 }
                 if ((ds.Tables["CenterObserverMember"] != null)) {
                     base.Tables.Add(new CenterObserverMemberDataTable(ds.Tables["CenterObserverMember"]));
@@ -638,6 +646,21 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 }
                 if ((ds.Tables["QuarterlyProgressReport"] != null)) {
                     base.Tables.Add(new QuarterlyProgressReportDataTable(ds.Tables["QuarterlyProgressReport"]));
+                }
+                if ((ds.Tables["Report_13_B"] != null)) {
+                    base.Tables.Add(new Report_13_BDataTable(ds.Tables["Report_13_B"]));
+                }
+                if ((ds.Tables["ITI_INV_SR6_ReportDataHeader"] != null)) {
+                    base.Tables.Add(new ITI_INV_SR6_ReportDataHeaderDataTable(ds.Tables["ITI_INV_SR6_ReportDataHeader"]));
+                }
+                if ((ds.Tables["ITI_INV_SR6_ReportDataTable"] != null)) {
+                    base.Tables.Add(new ITI_INV_SR6_ReportDataTableDataTable(ds.Tables["ITI_INV_SR6_ReportDataTable"]));
+                }
+                if ((ds.Tables["ITI_INV_SR5_ReportDataHeader"] != null)) {
+                    base.Tables.Add(new ITI_INV_SR5_ReportDataHeaderDataTable(ds.Tables["ITI_INV_SR5_ReportDataHeader"]));
+                }
+                if ((ds.Tables["ITI_INV_SR5_ReportDataTable"] != null)) {
+                    base.Tables.Add(new ITI_INV_SR5_ReportDataTableDataTable(ds.Tables["ITI_INV_SR5_ReportDataTable"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -1111,9 +1134,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public Report_13_BDataTable Report_13_B {
+        public Report_13_B16jan2026DataTable Report_13_B16jan2026 {
             get {
-                return this.tableReport_13_B;
+                return this.tableReport_13_B16jan2026;
             }
         }
         
@@ -1829,6 +1852,56 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public Report_13_BDataTable Report_13_B {
+            get {
+                return this.tableReport_13_B;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ITI_INV_SR6_ReportDataHeaderDataTable ITI_INV_SR6_ReportDataHeader {
+            get {
+                return this.tableITI_INV_SR6_ReportDataHeader;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ITI_INV_SR6_ReportDataTableDataTable ITI_INV_SR6_ReportDataTable {
+            get {
+                return this.tableITI_INV_SR6_ReportDataTable;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ITI_INV_SR5_ReportDataHeaderDataTable ITI_INV_SR5_ReportDataHeader {
+            get {
+                return this.tableITI_INV_SR5_ReportDataHeader;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ITI_INV_SR5_ReportDataTableDataTable ITI_INV_SR5_ReportDataTable {
+            get {
+                return this.tableITI_INV_SR5_ReportDataTable;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -2029,8 +2102,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 if ((ds.Tables["Report33"] != null)) {
                     base.Tables.Add(new Report33DataTable(ds.Tables["Report33"]));
                 }
-                if ((ds.Tables["Report_13_B"] != null)) {
-                    base.Tables.Add(new Report_13_BDataTable(ds.Tables["Report_13_B"]));
+                if ((ds.Tables["Report_13_B16jan2026"] != null)) {
+                    base.Tables.Add(new Report_13_B16jan2026DataTable(ds.Tables["Report_13_B16jan2026"]));
                 }
                 if ((ds.Tables["CenterObserverMember"] != null)) {
                     base.Tables.Add(new CenterObserverMemberDataTable(ds.Tables["CenterObserverMember"]));
@@ -2244,6 +2317,21 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 }
                 if ((ds.Tables["QuarterlyProgressReport"] != null)) {
                     base.Tables.Add(new QuarterlyProgressReportDataTable(ds.Tables["QuarterlyProgressReport"]));
+                }
+                if ((ds.Tables["Report_13_B"] != null)) {
+                    base.Tables.Add(new Report_13_BDataTable(ds.Tables["Report_13_B"]));
+                }
+                if ((ds.Tables["ITI_INV_SR6_ReportDataHeader"] != null)) {
+                    base.Tables.Add(new ITI_INV_SR6_ReportDataHeaderDataTable(ds.Tables["ITI_INV_SR6_ReportDataHeader"]));
+                }
+                if ((ds.Tables["ITI_INV_SR6_ReportDataTable"] != null)) {
+                    base.Tables.Add(new ITI_INV_SR6_ReportDataTableDataTable(ds.Tables["ITI_INV_SR6_ReportDataTable"]));
+                }
+                if ((ds.Tables["ITI_INV_SR5_ReportDataHeader"] != null)) {
+                    base.Tables.Add(new ITI_INV_SR5_ReportDataHeaderDataTable(ds.Tables["ITI_INV_SR5_ReportDataHeader"]));
+                }
+                if ((ds.Tables["ITI_INV_SR5_ReportDataTable"] != null)) {
+                    base.Tables.Add(new ITI_INV_SR5_ReportDataTableDataTable(ds.Tables["ITI_INV_SR5_ReportDataTable"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -2548,10 +2636,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                     this.tableReport33.InitVars();
                 }
             }
-            this.tableReport_13_B = ((Report_13_BDataTable)(base.Tables["Report_13_B"]));
+            this.tableReport_13_B16jan2026 = ((Report_13_B16jan2026DataTable)(base.Tables["Report_13_B16jan2026"]));
             if ((initTable == true)) {
-                if ((this.tableReport_13_B != null)) {
-                    this.tableReport_13_B.InitVars();
+                if ((this.tableReport_13_B16jan2026 != null)) {
+                    this.tableReport_13_B16jan2026.InitVars();
                 }
             }
             this.tableCenterObserverMember = ((CenterObserverMemberDataTable)(base.Tables["CenterObserverMember"]));
@@ -2980,6 +3068,36 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                     this.tableQuarterlyProgressReport.InitVars();
                 }
             }
+            this.tableReport_13_B = ((Report_13_BDataTable)(base.Tables["Report_13_B"]));
+            if ((initTable == true)) {
+                if ((this.tableReport_13_B != null)) {
+                    this.tableReport_13_B.InitVars();
+                }
+            }
+            this.tableITI_INV_SR6_ReportDataHeader = ((ITI_INV_SR6_ReportDataHeaderDataTable)(base.Tables["ITI_INV_SR6_ReportDataHeader"]));
+            if ((initTable == true)) {
+                if ((this.tableITI_INV_SR6_ReportDataHeader != null)) {
+                    this.tableITI_INV_SR6_ReportDataHeader.InitVars();
+                }
+            }
+            this.tableITI_INV_SR6_ReportDataTable = ((ITI_INV_SR6_ReportDataTableDataTable)(base.Tables["ITI_INV_SR6_ReportDataTable"]));
+            if ((initTable == true)) {
+                if ((this.tableITI_INV_SR6_ReportDataTable != null)) {
+                    this.tableITI_INV_SR6_ReportDataTable.InitVars();
+                }
+            }
+            this.tableITI_INV_SR5_ReportDataHeader = ((ITI_INV_SR5_ReportDataHeaderDataTable)(base.Tables["ITI_INV_SR5_ReportDataHeader"]));
+            if ((initTable == true)) {
+                if ((this.tableITI_INV_SR5_ReportDataHeader != null)) {
+                    this.tableITI_INV_SR5_ReportDataHeader.InitVars();
+                }
+            }
+            this.tableITI_INV_SR5_ReportDataTable = ((ITI_INV_SR5_ReportDataTableDataTable)(base.Tables["ITI_INV_SR5_ReportDataTable"]));
+            if ((initTable == true)) {
+                if ((this.tableITI_INV_SR5_ReportDataTable != null)) {
+                    this.tableITI_INV_SR5_ReportDataTable.InitVars();
+                }
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3080,8 +3198,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             base.Tables.Add(this.tableFlyingSquadIncharge);
             this.tableReport33 = new Report33DataTable();
             base.Tables.Add(this.tableReport33);
-            this.tableReport_13_B = new Report_13_BDataTable();
-            base.Tables.Add(this.tableReport_13_B);
+            this.tableReport_13_B16jan2026 = new Report_13_B16jan2026DataTable();
+            base.Tables.Add(this.tableReport_13_B16jan2026);
             this.tableCenterObserverMember = new CenterObserverMemberDataTable();
             base.Tables.Add(this.tableCenterObserverMember);
             this.tableCenterObserverDeploymentDetails = new CenterObserverDeploymentDetailsDataTable();
@@ -3224,6 +3342,16 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             base.Tables.Add(this.tableITI_CounsellingAppointmentOrderHeaderTable);
             this.tableQuarterlyProgressReport = new QuarterlyProgressReportDataTable();
             base.Tables.Add(this.tableQuarterlyProgressReport);
+            this.tableReport_13_B = new Report_13_BDataTable();
+            base.Tables.Add(this.tableReport_13_B);
+            this.tableITI_INV_SR6_ReportDataHeader = new ITI_INV_SR6_ReportDataHeaderDataTable();
+            base.Tables.Add(this.tableITI_INV_SR6_ReportDataHeader);
+            this.tableITI_INV_SR6_ReportDataTable = new ITI_INV_SR6_ReportDataTableDataTable();
+            base.Tables.Add(this.tableITI_INV_SR6_ReportDataTable);
+            this.tableITI_INV_SR5_ReportDataHeader = new ITI_INV_SR5_ReportDataHeaderDataTable();
+            base.Tables.Add(this.tableITI_INV_SR5_ReportDataHeader);
+            this.tableITI_INV_SR5_ReportDataTable = new ITI_INV_SR5_ReportDataTableDataTable();
+            base.Tables.Add(this.tableITI_INV_SR5_ReportDataTable);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3498,7 +3626,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private bool ShouldSerializeReport_13_B() {
+        private bool ShouldSerializeReport_13_B16jan2026() {
             return false;
         }
         
@@ -3930,6 +4058,36 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeReport_13_B() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeITI_INV_SR6_ReportDataHeader() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeITI_INV_SR6_ReportDataTable() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeITI_INV_SR5_ReportDataHeader() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeITI_INV_SR5_ReportDataTable() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e) {
             if ((e.Action == global::System.ComponentModel.CollectionChangeAction.Remove)) {
                 this.InitVars();
@@ -4119,7 +4277,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         public delegate void Report33RowChangeEventHandler(object sender, Report33RowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public delegate void Report_13_BRowChangeEventHandler(object sender, Report_13_BRowChangeEvent e);
+        public delegate void Report_13_B16jan2026RowChangeEventHandler(object sender, Report_13_B16jan2026RowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public delegate void CenterObserverMemberRowChangeEventHandler(object sender, CenterObserverMemberRowChangeEvent e);
@@ -4334,6 +4492,21 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public delegate void QuarterlyProgressReportRowChangeEventHandler(object sender, QuarterlyProgressReportRowChangeEvent e);
         
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void Report_13_BRowChangeEventHandler(object sender, Report_13_BRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void ITI_INV_SR6_ReportDataHeaderRowChangeEventHandler(object sender, ITI_INV_SR6_ReportDataHeaderRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void ITI_INV_SR6_ReportDataTableRowChangeEventHandler(object sender, ITI_INV_SR6_ReportDataTableRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void ITI_INV_SR5_ReportDataHeaderRowChangeEventHandler(object sender, ITI_INV_SR5_ReportDataHeaderRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void ITI_INV_SR5_ReportDataTableRowChangeEventHandler(object sender, ITI_INV_SR5_ReportDataTableRowChangeEvent e);
+        
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
@@ -4381,8 +4554,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ExaminerPresentAndMarksDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -4718,8 +4889,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected AdmitCardDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -5141,8 +5310,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected AdmitCard_SubjectDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -5500,8 +5667,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected StudentFeeReceiptDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -6283,8 +6448,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected StudentExaminationFormDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -6873,8 +7036,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected testDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -7138,8 +7299,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected PrincipalIssueCertificateDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -7461,8 +7620,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected StudentEnrolledmentFormDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -8044,8 +8201,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Student_QualificationDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -8379,8 +8534,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected StudentRollNumberListDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -8888,8 +9041,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected StudentExamDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -9221,8 +9372,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Examiner_Appoint_LetterDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -9556,8 +9705,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Examiner_AnswerBook_ListDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -10047,8 +10194,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Student_Personal_DetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -11354,8 +11499,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Student_Qualification_DetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -11813,8 +11956,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Student_Option_DetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -12164,8 +12305,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Student_Uploaded_DocumentsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -12549,8 +12688,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ExaminersDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -12986,8 +13123,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected TimeTableDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -13365,8 +13500,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected StudentExaminationSubjectDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -13692,8 +13825,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected StudentProfileDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -14085,8 +14216,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITIStudentAdmitCardDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -14577,8 +14706,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITIStudentAdmitCard_SubjectsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -14894,8 +15021,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected EnrollmentListDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -15263,8 +15388,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected EnrollmentListProgramDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -15536,8 +15659,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Admission_E_ReceiptDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -15945,8 +16066,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITIIMCSeatAllotmentRcptDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -16312,8 +16431,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected StudentDetailsForMarksheetDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -16705,8 +16822,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected StudentMarksheetSubjectDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -17084,8 +17199,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ResultDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -17785,8 +17898,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected HostelAllotmentDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -18528,8 +18639,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected AppearedPassedStatisticsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -18899,8 +19008,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected AppearedPassedDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -19494,8 +19601,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Blank_ReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -19863,8 +19968,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected HostelAllotment1DataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -20112,8 +20215,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected HostelAllotment2DataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -20377,8 +20478,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected HostelAllotment3DataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -20730,8 +20829,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected CenterDailyReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -21039,8 +21136,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected FlyingSquadReportsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -21364,8 +21459,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected FlyingSquadCenterDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -21643,8 +21736,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected FlyingSquadQuestionDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -21940,8 +22031,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ChecklistAnswersDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -22279,8 +22368,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected CheckListDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -22642,8 +22729,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected FlyingSquadInchargeDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -22959,8 +23044,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Report33DataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -23385,7 +23468,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class Report_13_BDataTable : global::System.Data.TypedTableBase<Report_13_BRow> {
+        public partial class Report_13_B16jan2026DataTable : global::System.Data.TypedTableBase<Report_13_B16jan2026Row> {
             
             private global::System.Data.DataColumn columnPaperCode;
             
@@ -23417,10 +23500,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnTotal_DetainedStudent;
             
+            private global::System.Data.DataColumn _columnUFMStudentRollNo_;
+            
+            private global::System.Data.DataColumn columnDataColumn1;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Report_13_BDataTable() {
-                this.TableName = "Report_13_B";
+            public Report_13_B16jan2026DataTable() {
+                this.TableName = "Report_13_B16jan2026";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -23428,7 +23515,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            internal Report_13_BDataTable(global::System.Data.DataTable table) {
+            internal Report_13_B16jan2026DataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -23445,9 +23532,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
-            protected Report_13_BDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected Report_13_B16jan2026DataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -23574,6 +23659,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn _UFMStudentRollNo_Column {
+                get {
+                    return this._columnUFMStudentRollNo_;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DataColumn1Column {
+                get {
+                    return this.columnDataColumn1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -23583,34 +23684,51 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Report_13_BRow this[int index] {
+            public Report_13_B16jan2026Row this[int index] {
                 get {
-                    return ((Report_13_BRow)(this.Rows[index]));
+                    return ((Report_13_B16jan2026Row)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event Report_13_BRowChangeEventHandler Report_13_BRowChanging;
+            public event Report_13_B16jan2026RowChangeEventHandler Report_13_B16jan2026RowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event Report_13_BRowChangeEventHandler Report_13_BRowChanged;
+            public event Report_13_B16jan2026RowChangeEventHandler Report_13_B16jan2026RowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event Report_13_BRowChangeEventHandler Report_13_BRowDeleting;
+            public event Report_13_B16jan2026RowChangeEventHandler Report_13_B16jan2026RowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event Report_13_BRowChangeEventHandler Report_13_BRowDeleted;
+            public event Report_13_B16jan2026RowChangeEventHandler Report_13_B16jan2026RowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void AddReport_13_BRow(Report_13_BRow row) {
+            public void AddReport_13_B16jan2026Row(Report_13_B16jan2026Row row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Report_13_BRow AddReport_13_BRow(string PaperCode, string StudentExamTypeName, string EndTermName, string CCCode, string InstituteName, string CenterCode, string ExamDate, string ExamShift, string ExamShiftTime, string Total_PresentStudent, string Total_AbsentStudent, string Total_UFMStudent, string Total_ValidPresentStudent, string AbsentStudentRollNoWithCount, string Total_DetainedStudent) {
-                Report_13_BRow rowReport_13_BRow = ((Report_13_BRow)(this.NewRow()));
+            public Report_13_B16jan2026Row AddReport_13_B16jan2026Row(
+                        string PaperCode, 
+                        string StudentExamTypeName, 
+                        string EndTermName, 
+                        string CCCode, 
+                        string InstituteName, 
+                        string CenterCode, 
+                        string ExamDate, 
+                        string ExamShift, 
+                        string ExamShiftTime, 
+                        string Total_PresentStudent, 
+                        string Total_AbsentStudent, 
+                        string Total_UFMStudent, 
+                        string Total_ValidPresentStudent, 
+                        string AbsentStudentRollNoWithCount, 
+                        string Total_DetainedStudent, 
+                        string _UFMStudentRollNo_, 
+                        string DataColumn1) {
+                Report_13_B16jan2026Row rowReport_13_B16jan2026Row = ((Report_13_B16jan2026Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         PaperCode,
                         StudentExamTypeName,
@@ -23626,16 +23744,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         Total_UFMStudent,
                         Total_ValidPresentStudent,
                         AbsentStudentRollNoWithCount,
-                        Total_DetainedStudent};
-                rowReport_13_BRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowReport_13_BRow);
-                return rowReport_13_BRow;
+                        Total_DetainedStudent,
+                        _UFMStudentRollNo_,
+                        DataColumn1};
+                rowReport_13_B16jan2026Row.ItemArray = columnValuesArray;
+                this.Rows.Add(rowReport_13_B16jan2026Row);
+                return rowReport_13_B16jan2026Row;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                Report_13_BDataTable cln = ((Report_13_BDataTable)(base.Clone()));
+                Report_13_B16jan2026DataTable cln = ((Report_13_B16jan2026DataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -23643,7 +23763,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new Report_13_BDataTable();
+                return new Report_13_B16jan2026DataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -23664,6 +23784,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnTotal_ValidPresentStudent = base.Columns["Total_ValidPresentStudent"];
                 this.columnAbsentStudentRollNoWithCount = base.Columns["AbsentStudentRollNoWithCount"];
                 this.columnTotal_DetainedStudent = base.Columns["Total_DetainedStudent"];
+                this._columnUFMStudentRollNo_ = base.Columns["UFMStudentRollNo\n"];
+                this.columnDataColumn1 = base.Columns["DataColumn1"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -23699,32 +23821,38 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnAbsentStudentRollNoWithCount);
                 this.columnTotal_DetainedStudent = new global::System.Data.DataColumn("Total_DetainedStudent", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTotal_DetainedStudent);
+                this._columnUFMStudentRollNo_ = new global::System.Data.DataColumn("UFMStudentRollNo\n", typeof(string), null, global::System.Data.MappingType.Element);
+                this._columnUFMStudentRollNo_.ExtendedProperties.Add("Generator_ColumnVarNameInTable", "_columnUFMStudentRollNo_");
+                this._columnUFMStudentRollNo_.ExtendedProperties.Add("Generator_UserColumnName", "UFMStudentRollNo\n");
+                base.Columns.Add(this._columnUFMStudentRollNo_);
+                this.columnDataColumn1 = new global::System.Data.DataColumn("DataColumn1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDataColumn1);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Report_13_BRow NewReport_13_BRow() {
-                return ((Report_13_BRow)(this.NewRow()));
+            public Report_13_B16jan2026Row NewReport_13_B16jan2026Row() {
+                return ((Report_13_B16jan2026Row)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new Report_13_BRow(builder);
+                return new Report_13_B16jan2026Row(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(Report_13_BRow);
+                return typeof(Report_13_B16jan2026Row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.Report_13_BRowChanged != null)) {
-                    this.Report_13_BRowChanged(this, new Report_13_BRowChangeEvent(((Report_13_BRow)(e.Row)), e.Action));
+                if ((this.Report_13_B16jan2026RowChanged != null)) {
+                    this.Report_13_B16jan2026RowChanged(this, new Report_13_B16jan2026RowChangeEvent(((Report_13_B16jan2026Row)(e.Row)), e.Action));
                 }
             }
             
@@ -23732,8 +23860,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.Report_13_BRowChanging != null)) {
-                    this.Report_13_BRowChanging(this, new Report_13_BRowChangeEvent(((Report_13_BRow)(e.Row)), e.Action));
+                if ((this.Report_13_B16jan2026RowChanging != null)) {
+                    this.Report_13_B16jan2026RowChanging(this, new Report_13_B16jan2026RowChangeEvent(((Report_13_B16jan2026Row)(e.Row)), e.Action));
                 }
             }
             
@@ -23741,8 +23869,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.Report_13_BRowDeleted != null)) {
-                    this.Report_13_BRowDeleted(this, new Report_13_BRowChangeEvent(((Report_13_BRow)(e.Row)), e.Action));
+                if ((this.Report_13_B16jan2026RowDeleted != null)) {
+                    this.Report_13_B16jan2026RowDeleted(this, new Report_13_B16jan2026RowChangeEvent(((Report_13_B16jan2026Row)(e.Row)), e.Action));
                 }
             }
             
@@ -23750,14 +23878,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.Report_13_BRowDeleting != null)) {
-                    this.Report_13_BRowDeleting(this, new Report_13_BRowChangeEvent(((Report_13_BRow)(e.Row)), e.Action));
+                if ((this.Report_13_B16jan2026RowDeleting != null)) {
+                    this.Report_13_B16jan2026RowDeleting(this, new Report_13_B16jan2026RowChangeEvent(((Report_13_B16jan2026Row)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void RemoveReport_13_BRow(Report_13_BRow row) {
+            public void RemoveReport_13_B16jan2026Row(Report_13_B16jan2026Row row) {
                 this.Rows.Remove(row);
             }
             
@@ -23784,7 +23912,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "Report_13_BDataTable";
+                attribute2.FixedValue = "Report_13_B16jan2026DataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -23872,8 +24000,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected CenterObserverMemberDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -24191,8 +24317,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected CenterObserverDeploymentDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -24512,8 +24636,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Daily_Report_Bhandar_Form1_DetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -24863,8 +24985,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Dispatch_BundleDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -25324,8 +25444,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Dispatch_Bundle_TableDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -25689,8 +25807,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Dispatch_UndertakingDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -26076,8 +26192,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Dispatch_Receive_ReceiptDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -26435,8 +26549,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected TestNiranjanSirDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -26718,8 +26830,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected TimeTableHeaderDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -27105,8 +27215,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected FlyingSquadMembersDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -27400,8 +27508,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Theory_Absent_ReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -27735,8 +27841,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected CenterSuperintendentReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -28170,8 +28274,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Daily_Report_Bhandar_Form1DataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -28625,8 +28727,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected BhandarForm_DataTabl2DataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -28964,8 +29064,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITITradesFeeInformation_DataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -29453,8 +29551,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected RemunerationDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -30007,8 +30103,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITIChallanDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -30418,8 +30512,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITI_College_ProfileDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -31051,8 +31143,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected DispatchAck_DataTableDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -31511,8 +31601,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected DispatchAck_OtherDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -31782,8 +31870,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected InstituteMasterReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -32113,8 +32199,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected SubjectWiseReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -32524,8 +32608,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Statistical_InformationDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -33001,8 +33083,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected TheoryMarksReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -33465,8 +33545,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Daily_Report_Bhandar_Form_UFMDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -33778,8 +33856,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Report23_HeaderDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -34203,8 +34279,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected Report23_DataTableDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -34520,8 +34594,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected InspectionDeployInstituteDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -34895,8 +34967,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected InspectionMembersDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -35190,8 +35260,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected PracticalExamAssignDataDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -35501,8 +35569,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected PracticalAssignHeaderFoterDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -35792,8 +35858,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected UndertakingExaminerDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -36263,8 +36327,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITINodalOfficerExminerReport_ByIDDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -36672,8 +36734,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITINodalOfficerExminerReportTable2DataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -36975,8 +37035,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITI_Dispatch_BundleDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -37436,8 +37494,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITI_Dispatch_Bundle_TableDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -37791,8 +37847,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITIDispatchAdmin_AllExaminer_undratrcking_RptDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -38100,8 +38154,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected GetEndTermName_ITI_DispatchGroupAdmin_RptDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -38359,8 +38411,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITIDispatch_ExaminerUndertakingDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -38678,8 +38728,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITIFlyingSquadDeploymentDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -38997,8 +39045,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITIFlyingSquadMemberDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -39308,8 +39354,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ItinodalcenterListDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -39605,8 +39649,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ExaminerHeaderDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -40117,8 +40159,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ExaminerStudentListDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -40544,8 +40584,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected PaperSetterOrderDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -40869,8 +40907,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected PaperSetterStaffOrderDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -41250,8 +41286,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected MarksheetLetterDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -41744,8 +41778,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected MarksheetLetterTableDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -42071,8 +42103,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected MarksheetLetterAdditionalDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -42452,8 +42482,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ProvisionalCertificateDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -42855,8 +42883,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected CertificateLetterDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -43180,8 +43206,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected DiplomaCertificateDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -43539,8 +43563,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected PassoutReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -43884,8 +43906,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ApprenticeshipBasicDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -44219,8 +44239,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ApprenticeshipAnsMainDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -44573,8 +44591,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ApprenticeshipAnsTradeWiseDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -44920,8 +44936,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ApprenticeshipAnsTrainersDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -45267,8 +45281,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ApprenticeshipAnsFacilityDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -45686,8 +45698,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ResultStatisticsReportsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -46529,8 +46539,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected RelievingReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -47006,8 +47014,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ApprenticeshipReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -47305,8 +47311,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ApprenticeshipListReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -47650,8 +47654,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected WorkshopReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -47991,8 +47993,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected PmnamMelaReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -48376,8 +48376,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected MelaReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -48735,8 +48733,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected StudentEnrollmentFeeDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -49088,8 +49084,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected StudentHostelAllotmentLetterDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -49467,8 +49461,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITI_CounsellingAllotmentOrderTableDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -49796,8 +49788,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITI_CounsellingAppointmentOrderTableDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -50169,8 +50159,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected ITI_CounsellingAppointmentOrderHeaderTableDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -50466,8 +50454,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected QuarterlyProgressReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -50782,6 +50768,1859 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "QuarterlyProgressReportDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class Report_13_BDataTable : global::System.Data.TypedTableBase<Report_13_BRow> {
+            
+            private global::System.Data.DataColumn columnPaperCode;
+            
+            private global::System.Data.DataColumn columnStudentExamTypeName;
+            
+            private global::System.Data.DataColumn columnEndTermName;
+            
+            private global::System.Data.DataColumn columnCCCode;
+            
+            private global::System.Data.DataColumn columnInstituteName;
+            
+            private global::System.Data.DataColumn columnCenterCode;
+            
+            private global::System.Data.DataColumn columnExamDate;
+            
+            private global::System.Data.DataColumn columnExamShift;
+            
+            private global::System.Data.DataColumn columnExamShiftTime;
+            
+            private global::System.Data.DataColumn columnTotal_PresentStudent;
+            
+            private global::System.Data.DataColumn columnTotal_AbsentStudent;
+            
+            private global::System.Data.DataColumn columnTotal_UFMStudent;
+            
+            private global::System.Data.DataColumn columnTotal_ValidPresentStudent;
+            
+            private global::System.Data.DataColumn columnAbsentStudentRollNoWithCount;
+            
+            private global::System.Data.DataColumn columnTotal_DetainedStudent;
+            
+            private global::System.Data.DataColumn columnUFMStudentRollNo;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public Report_13_BDataTable() {
+                this.TableName = "Report_13_B";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal Report_13_BDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected Report_13_BDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PaperCodeColumn {
+                get {
+                    return this.columnPaperCode;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn StudentExamTypeNameColumn {
+                get {
+                    return this.columnStudentExamTypeName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EndTermNameColumn {
+                get {
+                    return this.columnEndTermName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn CCCodeColumn {
+                get {
+                    return this.columnCCCode;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn InstituteNameColumn {
+                get {
+                    return this.columnInstituteName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn CenterCodeColumn {
+                get {
+                    return this.columnCenterCode;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ExamDateColumn {
+                get {
+                    return this.columnExamDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ExamShiftColumn {
+                get {
+                    return this.columnExamShift;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ExamShiftTimeColumn {
+                get {
+                    return this.columnExamShiftTime;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Total_PresentStudentColumn {
+                get {
+                    return this.columnTotal_PresentStudent;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Total_AbsentStudentColumn {
+                get {
+                    return this.columnTotal_AbsentStudent;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Total_UFMStudentColumn {
+                get {
+                    return this.columnTotal_UFMStudent;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Total_ValidPresentStudentColumn {
+                get {
+                    return this.columnTotal_ValidPresentStudent;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AbsentStudentRollNoWithCountColumn {
+                get {
+                    return this.columnAbsentStudentRollNoWithCount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Total_DetainedStudentColumn {
+                get {
+                    return this.columnTotal_DetainedStudent;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn UFMStudentRollNoColumn {
+                get {
+                    return this.columnUFMStudentRollNo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public Report_13_BRow this[int index] {
+                get {
+                    return ((Report_13_BRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event Report_13_BRowChangeEventHandler Report_13_BRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event Report_13_BRowChangeEventHandler Report_13_BRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event Report_13_BRowChangeEventHandler Report_13_BRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event Report_13_BRowChangeEventHandler Report_13_BRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddReport_13_BRow(Report_13_BRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public Report_13_BRow AddReport_13_BRow(
+                        string PaperCode, 
+                        string StudentExamTypeName, 
+                        string EndTermName, 
+                        string CCCode, 
+                        string InstituteName, 
+                        string CenterCode, 
+                        string ExamDate, 
+                        string ExamShift, 
+                        string ExamShiftTime, 
+                        string Total_PresentStudent, 
+                        string Total_AbsentStudent, 
+                        string Total_UFMStudent, 
+                        string Total_ValidPresentStudent, 
+                        string AbsentStudentRollNoWithCount, 
+                        string Total_DetainedStudent, 
+                        string UFMStudentRollNo) {
+                Report_13_BRow rowReport_13_BRow = ((Report_13_BRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        PaperCode,
+                        StudentExamTypeName,
+                        EndTermName,
+                        CCCode,
+                        InstituteName,
+                        CenterCode,
+                        ExamDate,
+                        ExamShift,
+                        ExamShiftTime,
+                        Total_PresentStudent,
+                        Total_AbsentStudent,
+                        Total_UFMStudent,
+                        Total_ValidPresentStudent,
+                        AbsentStudentRollNoWithCount,
+                        Total_DetainedStudent,
+                        UFMStudentRollNo};
+                rowReport_13_BRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowReport_13_BRow);
+                return rowReport_13_BRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                Report_13_BDataTable cln = ((Report_13_BDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new Report_13_BDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnPaperCode = base.Columns["PaperCode"];
+                this.columnStudentExamTypeName = base.Columns["StudentExamTypeName"];
+                this.columnEndTermName = base.Columns["EndTermName"];
+                this.columnCCCode = base.Columns["CCCode"];
+                this.columnInstituteName = base.Columns["InstituteName"];
+                this.columnCenterCode = base.Columns["CenterCode"];
+                this.columnExamDate = base.Columns["ExamDate"];
+                this.columnExamShift = base.Columns["ExamShift"];
+                this.columnExamShiftTime = base.Columns["ExamShiftTime"];
+                this.columnTotal_PresentStudent = base.Columns["Total_PresentStudent"];
+                this.columnTotal_AbsentStudent = base.Columns["Total_AbsentStudent"];
+                this.columnTotal_UFMStudent = base.Columns["Total_UFMStudent"];
+                this.columnTotal_ValidPresentStudent = base.Columns["Total_ValidPresentStudent"];
+                this.columnAbsentStudentRollNoWithCount = base.Columns["AbsentStudentRollNoWithCount"];
+                this.columnTotal_DetainedStudent = base.Columns["Total_DetainedStudent"];
+                this.columnUFMStudentRollNo = base.Columns["UFMStudentRollNo"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnPaperCode = new global::System.Data.DataColumn("PaperCode", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPaperCode);
+                this.columnStudentExamTypeName = new global::System.Data.DataColumn("StudentExamTypeName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnStudentExamTypeName);
+                this.columnEndTermName = new global::System.Data.DataColumn("EndTermName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEndTermName);
+                this.columnCCCode = new global::System.Data.DataColumn("CCCode", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCCCode);
+                this.columnInstituteName = new global::System.Data.DataColumn("InstituteName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnInstituteName);
+                this.columnCenterCode = new global::System.Data.DataColumn("CenterCode", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCenterCode);
+                this.columnExamDate = new global::System.Data.DataColumn("ExamDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnExamDate);
+                this.columnExamShift = new global::System.Data.DataColumn("ExamShift", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnExamShift);
+                this.columnExamShiftTime = new global::System.Data.DataColumn("ExamShiftTime", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnExamShiftTime);
+                this.columnTotal_PresentStudent = new global::System.Data.DataColumn("Total_PresentStudent", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotal_PresentStudent);
+                this.columnTotal_AbsentStudent = new global::System.Data.DataColumn("Total_AbsentStudent", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotal_AbsentStudent);
+                this.columnTotal_UFMStudent = new global::System.Data.DataColumn("Total_UFMStudent", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotal_UFMStudent);
+                this.columnTotal_ValidPresentStudent = new global::System.Data.DataColumn("Total_ValidPresentStudent", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotal_ValidPresentStudent);
+                this.columnAbsentStudentRollNoWithCount = new global::System.Data.DataColumn("AbsentStudentRollNoWithCount", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAbsentStudentRollNoWithCount);
+                this.columnTotal_DetainedStudent = new global::System.Data.DataColumn("Total_DetainedStudent", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotal_DetainedStudent);
+                this.columnUFMStudentRollNo = new global::System.Data.DataColumn("UFMStudentRollNo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUFMStudentRollNo);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public Report_13_BRow NewReport_13_BRow() {
+                return ((Report_13_BRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new Report_13_BRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(Report_13_BRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.Report_13_BRowChanged != null)) {
+                    this.Report_13_BRowChanged(this, new Report_13_BRowChangeEvent(((Report_13_BRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.Report_13_BRowChanging != null)) {
+                    this.Report_13_BRowChanging(this, new Report_13_BRowChangeEvent(((Report_13_BRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.Report_13_BRowDeleted != null)) {
+                    this.Report_13_BRowDeleted(this, new Report_13_BRowChangeEvent(((Report_13_BRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.Report_13_BRowDeleting != null)) {
+                    this.Report_13_BRowDeleting(this, new Report_13_BRowChangeEvent(((Report_13_BRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveReport_13_BRow(Report_13_BRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                KD_DBScript ds = new KD_DBScript();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "Report_13_BDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ITI_INV_SR6_ReportDataHeaderDataTable : global::System.Data.TypedTableBase<ITI_INV_SR6_ReportDataHeaderRow> {
+            
+            private global::System.Data.DataColumn columnGOR;
+            
+            private global::System.Data.DataColumn columnInstituteName;
+            
+            private global::System.Data.DataColumn columnDepartmentName;
+            
+            private global::System.Data.DataColumn columnLabName;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataHeaderDataTable() {
+                this.TableName = "ITI_INV_SR6_ReportDataHeader";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_INV_SR6_ReportDataHeaderDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected ITI_INV_SR6_ReportDataHeaderDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn GORColumn {
+                get {
+                    return this.columnGOR;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn InstituteNameColumn {
+                get {
+                    return this.columnInstituteName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DepartmentNameColumn {
+                get {
+                    return this.columnDepartmentName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn LabNameColumn {
+                get {
+                    return this.columnLabName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataHeaderRow this[int index] {
+                get {
+                    return ((ITI_INV_SR6_ReportDataHeaderRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataHeaderRowChangeEventHandler ITI_INV_SR6_ReportDataHeaderRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataHeaderRowChangeEventHandler ITI_INV_SR6_ReportDataHeaderRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataHeaderRowChangeEventHandler ITI_INV_SR6_ReportDataHeaderRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataHeaderRowChangeEventHandler ITI_INV_SR6_ReportDataHeaderRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddITI_INV_SR6_ReportDataHeaderRow(ITI_INV_SR6_ReportDataHeaderRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataHeaderRow AddITI_INV_SR6_ReportDataHeaderRow(string GOR, string InstituteName, string DepartmentName, string LabName) {
+                ITI_INV_SR6_ReportDataHeaderRow rowITI_INV_SR6_ReportDataHeaderRow = ((ITI_INV_SR6_ReportDataHeaderRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        GOR,
+                        InstituteName,
+                        DepartmentName,
+                        LabName};
+                rowITI_INV_SR6_ReportDataHeaderRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowITI_INV_SR6_ReportDataHeaderRow);
+                return rowITI_INV_SR6_ReportDataHeaderRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                ITI_INV_SR6_ReportDataHeaderDataTable cln = ((ITI_INV_SR6_ReportDataHeaderDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new ITI_INV_SR6_ReportDataHeaderDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnGOR = base.Columns["GOR"];
+                this.columnInstituteName = base.Columns["InstituteName"];
+                this.columnDepartmentName = base.Columns["DepartmentName"];
+                this.columnLabName = base.Columns["LabName"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnGOR = new global::System.Data.DataColumn("GOR", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnGOR);
+                this.columnInstituteName = new global::System.Data.DataColumn("InstituteName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnInstituteName);
+                this.columnDepartmentName = new global::System.Data.DataColumn("DepartmentName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDepartmentName);
+                this.columnLabName = new global::System.Data.DataColumn("LabName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLabName);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataHeaderRow NewITI_INV_SR6_ReportDataHeaderRow() {
+                return ((ITI_INV_SR6_ReportDataHeaderRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new ITI_INV_SR6_ReportDataHeaderRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(ITI_INV_SR6_ReportDataHeaderRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ITI_INV_SR6_ReportDataHeaderRowChanged != null)) {
+                    this.ITI_INV_SR6_ReportDataHeaderRowChanged(this, new ITI_INV_SR6_ReportDataHeaderRowChangeEvent(((ITI_INV_SR6_ReportDataHeaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ITI_INV_SR6_ReportDataHeaderRowChanging != null)) {
+                    this.ITI_INV_SR6_ReportDataHeaderRowChanging(this, new ITI_INV_SR6_ReportDataHeaderRowChangeEvent(((ITI_INV_SR6_ReportDataHeaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ITI_INV_SR6_ReportDataHeaderRowDeleted != null)) {
+                    this.ITI_INV_SR6_ReportDataHeaderRowDeleted(this, new ITI_INV_SR6_ReportDataHeaderRowChangeEvent(((ITI_INV_SR6_ReportDataHeaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ITI_INV_SR6_ReportDataHeaderRowDeleting != null)) {
+                    this.ITI_INV_SR6_ReportDataHeaderRowDeleting(this, new ITI_INV_SR6_ReportDataHeaderRowChangeEvent(((ITI_INV_SR6_ReportDataHeaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveITI_INV_SR6_ReportDataHeaderRow(ITI_INV_SR6_ReportDataHeaderRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                KD_DBScript ds = new KD_DBScript();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ITI_INV_SR6_ReportDataHeaderDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ITI_INV_SR6_ReportDataTableDataTable : global::System.Data.TypedTableBase<ITI_INV_SR6_ReportDataTableRow> {
+            
+            private global::System.Data.DataColumn columnParticulars_of_stores;
+            
+            private global::System.Data.DataColumn columnReference_of_stock_register;
+            
+            private global::System.Data.DataColumn columnQuantity;
+            
+            private global::System.Data.DataColumn columnYear_of_purchase;
+            
+            private global::System.Data.DataColumn columnPurchase_price;
+            
+            private global::System.Data.DataColumn columnunserviceable_obsolete;
+            
+            private global::System.Data.DataColumn columnPresent_condition;
+            
+            private global::System.Data.DataColumn columnApproximate_cost_expected_to_be_realised;
+            
+            private global::System.Data.DataColumn columnAny_suggestion_of_disposal;
+            
+            private global::System.Data.DataColumn columnRemarks;
+            
+            private global::System.Data.DataColumn columnOrders_of_the_authority_for_disposal;
+            
+            private global::System.Data.DataColumn columnItemNo;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataTableDataTable() {
+                this.TableName = "ITI_INV_SR6_ReportDataTable";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_INV_SR6_ReportDataTableDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected ITI_INV_SR6_ReportDataTableDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Particulars_of_storesColumn {
+                get {
+                    return this.columnParticulars_of_stores;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Reference_of_stock_registerColumn {
+                get {
+                    return this.columnReference_of_stock_register;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn QuantityColumn {
+                get {
+                    return this.columnQuantity;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Year_of_purchaseColumn {
+                get {
+                    return this.columnYear_of_purchase;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Purchase_priceColumn {
+                get {
+                    return this.columnPurchase_price;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn unserviceable_obsoleteColumn {
+                get {
+                    return this.columnunserviceable_obsolete;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Present_conditionColumn {
+                get {
+                    return this.columnPresent_condition;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Approximate_cost_expected_to_be_realisedColumn {
+                get {
+                    return this.columnApproximate_cost_expected_to_be_realised;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Any_suggestion_of_disposalColumn {
+                get {
+                    return this.columnAny_suggestion_of_disposal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RemarksColumn {
+                get {
+                    return this.columnRemarks;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Orders_of_the_authority_for_disposalColumn {
+                get {
+                    return this.columnOrders_of_the_authority_for_disposal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ItemNoColumn {
+                get {
+                    return this.columnItemNo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataTableRow this[int index] {
+                get {
+                    return ((ITI_INV_SR6_ReportDataTableRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataTableRowChangeEventHandler ITI_INV_SR6_ReportDataTableRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataTableRowChangeEventHandler ITI_INV_SR6_ReportDataTableRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataTableRowChangeEventHandler ITI_INV_SR6_ReportDataTableRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR6_ReportDataTableRowChangeEventHandler ITI_INV_SR6_ReportDataTableRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddITI_INV_SR6_ReportDataTableRow(ITI_INV_SR6_ReportDataTableRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataTableRow AddITI_INV_SR6_ReportDataTableRow(string Particulars_of_stores, string Reference_of_stock_register, string Quantity, string Year_of_purchase, string Purchase_price, string unserviceable_obsolete, string Present_condition, string Approximate_cost_expected_to_be_realised, string Any_suggestion_of_disposal, string Remarks, string Orders_of_the_authority_for_disposal, string ItemNo) {
+                ITI_INV_SR6_ReportDataTableRow rowITI_INV_SR6_ReportDataTableRow = ((ITI_INV_SR6_ReportDataTableRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        Particulars_of_stores,
+                        Reference_of_stock_register,
+                        Quantity,
+                        Year_of_purchase,
+                        Purchase_price,
+                        unserviceable_obsolete,
+                        Present_condition,
+                        Approximate_cost_expected_to_be_realised,
+                        Any_suggestion_of_disposal,
+                        Remarks,
+                        Orders_of_the_authority_for_disposal,
+                        ItemNo};
+                rowITI_INV_SR6_ReportDataTableRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowITI_INV_SR6_ReportDataTableRow);
+                return rowITI_INV_SR6_ReportDataTableRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                ITI_INV_SR6_ReportDataTableDataTable cln = ((ITI_INV_SR6_ReportDataTableDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new ITI_INV_SR6_ReportDataTableDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnParticulars_of_stores = base.Columns["Particulars_of_stores"];
+                this.columnReference_of_stock_register = base.Columns["Reference_of_stock_register"];
+                this.columnQuantity = base.Columns["Quantity"];
+                this.columnYear_of_purchase = base.Columns["Year_of_purchase"];
+                this.columnPurchase_price = base.Columns["Purchase_price"];
+                this.columnunserviceable_obsolete = base.Columns["unserviceable_obsolete"];
+                this.columnPresent_condition = base.Columns["Present_condition"];
+                this.columnApproximate_cost_expected_to_be_realised = base.Columns["Approximate_cost_expected_to_be_realised"];
+                this.columnAny_suggestion_of_disposal = base.Columns["Any_suggestion_of_disposal"];
+                this.columnRemarks = base.Columns["Remarks"];
+                this.columnOrders_of_the_authority_for_disposal = base.Columns["Orders_of_the_authority_for_disposal"];
+                this.columnItemNo = base.Columns["ItemNo"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnParticulars_of_stores = new global::System.Data.DataColumn("Particulars_of_stores", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnParticulars_of_stores);
+                this.columnReference_of_stock_register = new global::System.Data.DataColumn("Reference_of_stock_register", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnReference_of_stock_register);
+                this.columnQuantity = new global::System.Data.DataColumn("Quantity", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnQuantity);
+                this.columnYear_of_purchase = new global::System.Data.DataColumn("Year_of_purchase", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnYear_of_purchase);
+                this.columnPurchase_price = new global::System.Data.DataColumn("Purchase_price", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPurchase_price);
+                this.columnunserviceable_obsolete = new global::System.Data.DataColumn("unserviceable_obsolete", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnunserviceable_obsolete);
+                this.columnPresent_condition = new global::System.Data.DataColumn("Present_condition", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPresent_condition);
+                this.columnApproximate_cost_expected_to_be_realised = new global::System.Data.DataColumn("Approximate_cost_expected_to_be_realised", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnApproximate_cost_expected_to_be_realised);
+                this.columnAny_suggestion_of_disposal = new global::System.Data.DataColumn("Any_suggestion_of_disposal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAny_suggestion_of_disposal);
+                this.columnRemarks = new global::System.Data.DataColumn("Remarks", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRemarks);
+                this.columnOrders_of_the_authority_for_disposal = new global::System.Data.DataColumn("Orders_of_the_authority_for_disposal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnOrders_of_the_authority_for_disposal);
+                this.columnItemNo = new global::System.Data.DataColumn("ItemNo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnItemNo);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataTableRow NewITI_INV_SR6_ReportDataTableRow() {
+                return ((ITI_INV_SR6_ReportDataTableRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new ITI_INV_SR6_ReportDataTableRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(ITI_INV_SR6_ReportDataTableRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ITI_INV_SR6_ReportDataTableRowChanged != null)) {
+                    this.ITI_INV_SR6_ReportDataTableRowChanged(this, new ITI_INV_SR6_ReportDataTableRowChangeEvent(((ITI_INV_SR6_ReportDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ITI_INV_SR6_ReportDataTableRowChanging != null)) {
+                    this.ITI_INV_SR6_ReportDataTableRowChanging(this, new ITI_INV_SR6_ReportDataTableRowChangeEvent(((ITI_INV_SR6_ReportDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ITI_INV_SR6_ReportDataTableRowDeleted != null)) {
+                    this.ITI_INV_SR6_ReportDataTableRowDeleted(this, new ITI_INV_SR6_ReportDataTableRowChangeEvent(((ITI_INV_SR6_ReportDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ITI_INV_SR6_ReportDataTableRowDeleting != null)) {
+                    this.ITI_INV_SR6_ReportDataTableRowDeleting(this, new ITI_INV_SR6_ReportDataTableRowChangeEvent(((ITI_INV_SR6_ReportDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveITI_INV_SR6_ReportDataTableRow(ITI_INV_SR6_ReportDataTableRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                KD_DBScript ds = new KD_DBScript();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ITI_INV_SR6_ReportDataTableDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ITI_INV_SR5_ReportDataHeaderDataTable : global::System.Data.TypedTableBase<ITI_INV_SR5_ReportDataHeaderRow> {
+            
+            private global::System.Data.DataColumn columnGOR;
+            
+            private global::System.Data.DataColumn columnInstituteName;
+            
+            private global::System.Data.DataColumn columnDepartmentName;
+            
+            private global::System.Data.DataColumn columnLabName;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR5_ReportDataHeaderDataTable() {
+                this.TableName = "ITI_INV_SR5_ReportDataHeader";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_INV_SR5_ReportDataHeaderDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected ITI_INV_SR5_ReportDataHeaderDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn GORColumn {
+                get {
+                    return this.columnGOR;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn InstituteNameColumn {
+                get {
+                    return this.columnInstituteName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DepartmentNameColumn {
+                get {
+                    return this.columnDepartmentName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn LabNameColumn {
+                get {
+                    return this.columnLabName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR5_ReportDataHeaderRow this[int index] {
+                get {
+                    return ((ITI_INV_SR5_ReportDataHeaderRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR5_ReportDataHeaderRowChangeEventHandler ITI_INV_SR5_ReportDataHeaderRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR5_ReportDataHeaderRowChangeEventHandler ITI_INV_SR5_ReportDataHeaderRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR5_ReportDataHeaderRowChangeEventHandler ITI_INV_SR5_ReportDataHeaderRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR5_ReportDataHeaderRowChangeEventHandler ITI_INV_SR5_ReportDataHeaderRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddITI_INV_SR5_ReportDataHeaderRow(ITI_INV_SR5_ReportDataHeaderRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR5_ReportDataHeaderRow AddITI_INV_SR5_ReportDataHeaderRow(string GOR, string InstituteName, string DepartmentName, string LabName) {
+                ITI_INV_SR5_ReportDataHeaderRow rowITI_INV_SR5_ReportDataHeaderRow = ((ITI_INV_SR5_ReportDataHeaderRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        GOR,
+                        InstituteName,
+                        DepartmentName,
+                        LabName};
+                rowITI_INV_SR5_ReportDataHeaderRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowITI_INV_SR5_ReportDataHeaderRow);
+                return rowITI_INV_SR5_ReportDataHeaderRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                ITI_INV_SR5_ReportDataHeaderDataTable cln = ((ITI_INV_SR5_ReportDataHeaderDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new ITI_INV_SR5_ReportDataHeaderDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnGOR = base.Columns["GOR"];
+                this.columnInstituteName = base.Columns["InstituteName"];
+                this.columnDepartmentName = base.Columns["DepartmentName"];
+                this.columnLabName = base.Columns["LabName"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnGOR = new global::System.Data.DataColumn("GOR", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnGOR);
+                this.columnInstituteName = new global::System.Data.DataColumn("InstituteName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnInstituteName);
+                this.columnDepartmentName = new global::System.Data.DataColumn("DepartmentName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDepartmentName);
+                this.columnLabName = new global::System.Data.DataColumn("LabName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLabName);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR5_ReportDataHeaderRow NewITI_INV_SR5_ReportDataHeaderRow() {
+                return ((ITI_INV_SR5_ReportDataHeaderRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new ITI_INV_SR5_ReportDataHeaderRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(ITI_INV_SR5_ReportDataHeaderRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ITI_INV_SR5_ReportDataHeaderRowChanged != null)) {
+                    this.ITI_INV_SR5_ReportDataHeaderRowChanged(this, new ITI_INV_SR5_ReportDataHeaderRowChangeEvent(((ITI_INV_SR5_ReportDataHeaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ITI_INV_SR5_ReportDataHeaderRowChanging != null)) {
+                    this.ITI_INV_SR5_ReportDataHeaderRowChanging(this, new ITI_INV_SR5_ReportDataHeaderRowChangeEvent(((ITI_INV_SR5_ReportDataHeaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ITI_INV_SR5_ReportDataHeaderRowDeleted != null)) {
+                    this.ITI_INV_SR5_ReportDataHeaderRowDeleted(this, new ITI_INV_SR5_ReportDataHeaderRowChangeEvent(((ITI_INV_SR5_ReportDataHeaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ITI_INV_SR5_ReportDataHeaderRowDeleting != null)) {
+                    this.ITI_INV_SR5_ReportDataHeaderRowDeleting(this, new ITI_INV_SR5_ReportDataHeaderRowChangeEvent(((ITI_INV_SR5_ReportDataHeaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveITI_INV_SR5_ReportDataHeaderRow(ITI_INV_SR5_ReportDataHeaderRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                KD_DBScript ds = new KD_DBScript();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ITI_INV_SR5_ReportDataHeaderDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ITI_INV_SR5_ReportDataTableDataTable : global::System.Data.TypedTableBase<ITI_INV_SR5_ReportDataTableRow> {
+            
+            private global::System.Data.DataColumn columnParticulars_of_stores;
+            
+            private global::System.Data.DataColumn columnReference_of_stock_register;
+            
+            private global::System.Data.DataColumn columnQuantity;
+            
+            private global::System.Data.DataColumn columnYear_of_purchase;
+            
+            private global::System.Data.DataColumn columnPurchase_price;
+            
+            private global::System.Data.DataColumn columnunserviceable_obsolete;
+            
+            private global::System.Data.DataColumn columnPresent_condition;
+            
+            private global::System.Data.DataColumn columnApproximate_cost_expected_to_be_realised;
+            
+            private global::System.Data.DataColumn columnAny_suggestion_of_disposal;
+            
+            private global::System.Data.DataColumn columnRemarks;
+            
+            private global::System.Data.DataColumn columnOrders_of_the_authority_for_disposal;
+            
+            private global::System.Data.DataColumn columnItemNo;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR5_ReportDataTableDataTable() {
+                this.TableName = "ITI_INV_SR5_ReportDataTable";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_INV_SR5_ReportDataTableDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected ITI_INV_SR5_ReportDataTableDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Particulars_of_storesColumn {
+                get {
+                    return this.columnParticulars_of_stores;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Reference_of_stock_registerColumn {
+                get {
+                    return this.columnReference_of_stock_register;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn QuantityColumn {
+                get {
+                    return this.columnQuantity;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Year_of_purchaseColumn {
+                get {
+                    return this.columnYear_of_purchase;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Purchase_priceColumn {
+                get {
+                    return this.columnPurchase_price;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn unserviceable_obsoleteColumn {
+                get {
+                    return this.columnunserviceable_obsolete;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Present_conditionColumn {
+                get {
+                    return this.columnPresent_condition;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Approximate_cost_expected_to_be_realisedColumn {
+                get {
+                    return this.columnApproximate_cost_expected_to_be_realised;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Any_suggestion_of_disposalColumn {
+                get {
+                    return this.columnAny_suggestion_of_disposal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RemarksColumn {
+                get {
+                    return this.columnRemarks;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Orders_of_the_authority_for_disposalColumn {
+                get {
+                    return this.columnOrders_of_the_authority_for_disposal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ItemNoColumn {
+                get {
+                    return this.columnItemNo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR5_ReportDataTableRow this[int index] {
+                get {
+                    return ((ITI_INV_SR5_ReportDataTableRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR5_ReportDataTableRowChangeEventHandler ITI_INV_SR5_ReportDataTableRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR5_ReportDataTableRowChangeEventHandler ITI_INV_SR5_ReportDataTableRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR5_ReportDataTableRowChangeEventHandler ITI_INV_SR5_ReportDataTableRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_INV_SR5_ReportDataTableRowChangeEventHandler ITI_INV_SR5_ReportDataTableRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddITI_INV_SR5_ReportDataTableRow(ITI_INV_SR5_ReportDataTableRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR5_ReportDataTableRow AddITI_INV_SR5_ReportDataTableRow(string Particulars_of_stores, string Reference_of_stock_register, string Quantity, string Year_of_purchase, string Purchase_price, string unserviceable_obsolete, string Present_condition, string Approximate_cost_expected_to_be_realised, string Any_suggestion_of_disposal, string Remarks, string Orders_of_the_authority_for_disposal, string ItemNo) {
+                ITI_INV_SR5_ReportDataTableRow rowITI_INV_SR5_ReportDataTableRow = ((ITI_INV_SR5_ReportDataTableRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        Particulars_of_stores,
+                        Reference_of_stock_register,
+                        Quantity,
+                        Year_of_purchase,
+                        Purchase_price,
+                        unserviceable_obsolete,
+                        Present_condition,
+                        Approximate_cost_expected_to_be_realised,
+                        Any_suggestion_of_disposal,
+                        Remarks,
+                        Orders_of_the_authority_for_disposal,
+                        ItemNo};
+                rowITI_INV_SR5_ReportDataTableRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowITI_INV_SR5_ReportDataTableRow);
+                return rowITI_INV_SR5_ReportDataTableRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                ITI_INV_SR5_ReportDataTableDataTable cln = ((ITI_INV_SR5_ReportDataTableDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new ITI_INV_SR5_ReportDataTableDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnParticulars_of_stores = base.Columns["Particulars_of_stores"];
+                this.columnReference_of_stock_register = base.Columns["Reference_of_stock_register"];
+                this.columnQuantity = base.Columns["Quantity"];
+                this.columnYear_of_purchase = base.Columns["Year_of_purchase"];
+                this.columnPurchase_price = base.Columns["Purchase_price"];
+                this.columnunserviceable_obsolete = base.Columns["unserviceable_obsolete"];
+                this.columnPresent_condition = base.Columns["Present_condition"];
+                this.columnApproximate_cost_expected_to_be_realised = base.Columns["Approximate_cost_expected_to_be_realised"];
+                this.columnAny_suggestion_of_disposal = base.Columns["Any_suggestion_of_disposal"];
+                this.columnRemarks = base.Columns["Remarks"];
+                this.columnOrders_of_the_authority_for_disposal = base.Columns["Orders_of_the_authority_for_disposal"];
+                this.columnItemNo = base.Columns["ItemNo"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnParticulars_of_stores = new global::System.Data.DataColumn("Particulars_of_stores", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnParticulars_of_stores);
+                this.columnReference_of_stock_register = new global::System.Data.DataColumn("Reference_of_stock_register", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnReference_of_stock_register);
+                this.columnQuantity = new global::System.Data.DataColumn("Quantity", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnQuantity);
+                this.columnYear_of_purchase = new global::System.Data.DataColumn("Year_of_purchase", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnYear_of_purchase);
+                this.columnPurchase_price = new global::System.Data.DataColumn("Purchase_price", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPurchase_price);
+                this.columnunserviceable_obsolete = new global::System.Data.DataColumn("unserviceable_obsolete", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnunserviceable_obsolete);
+                this.columnPresent_condition = new global::System.Data.DataColumn("Present_condition", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPresent_condition);
+                this.columnApproximate_cost_expected_to_be_realised = new global::System.Data.DataColumn("Approximate_cost_expected_to_be_realised", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnApproximate_cost_expected_to_be_realised);
+                this.columnAny_suggestion_of_disposal = new global::System.Data.DataColumn("Any_suggestion_of_disposal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAny_suggestion_of_disposal);
+                this.columnRemarks = new global::System.Data.DataColumn("Remarks", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRemarks);
+                this.columnOrders_of_the_authority_for_disposal = new global::System.Data.DataColumn("Orders_of_the_authority_for_disposal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnOrders_of_the_authority_for_disposal);
+                this.columnItemNo = new global::System.Data.DataColumn("ItemNo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnItemNo);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR5_ReportDataTableRow NewITI_INV_SR5_ReportDataTableRow() {
+                return ((ITI_INV_SR5_ReportDataTableRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new ITI_INV_SR5_ReportDataTableRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(ITI_INV_SR5_ReportDataTableRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ITI_INV_SR5_ReportDataTableRowChanged != null)) {
+                    this.ITI_INV_SR5_ReportDataTableRowChanged(this, new ITI_INV_SR5_ReportDataTableRowChangeEvent(((ITI_INV_SR5_ReportDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ITI_INV_SR5_ReportDataTableRowChanging != null)) {
+                    this.ITI_INV_SR5_ReportDataTableRowChanging(this, new ITI_INV_SR5_ReportDataTableRowChangeEvent(((ITI_INV_SR5_ReportDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ITI_INV_SR5_ReportDataTableRowDeleted != null)) {
+                    this.ITI_INV_SR5_ReportDataTableRowDeleted(this, new ITI_INV_SR5_ReportDataTableRowChangeEvent(((ITI_INV_SR5_ReportDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ITI_INV_SR5_ReportDataTableRowDeleting != null)) {
+                    this.ITI_INV_SR5_ReportDataTableRowDeleting(this, new ITI_INV_SR5_ReportDataTableRowChangeEvent(((ITI_INV_SR5_ReportDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveITI_INV_SR5_ReportDataTableRow(ITI_INV_SR5_ReportDataTableRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                KD_DBScript ds = new KD_DBScript();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ITI_INV_SR5_ReportDataTableDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -67925,15 +69764,15 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class Report_13_BRow : global::System.Data.DataRow {
+        public partial class Report_13_B16jan2026Row : global::System.Data.DataRow {
             
-            private Report_13_BDataTable tableReport_13_B;
+            private Report_13_B16jan2026DataTable tableReport_13_B16jan2026;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            internal Report_13_BRow(global::System.Data.DataRowBuilder rb) : 
+            internal Report_13_B16jan2026Row(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableReport_13_B = ((Report_13_BDataTable)(this.Table));
+                this.tableReport_13_B16jan2026 = ((Report_13_B16jan2026DataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -67941,14 +69780,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             public string PaperCode {
                 get {
                     try {
-                        return ((string)(this[this.tableReport_13_B.PaperCodeColumn]));
+                        return ((string)(this[this.tableReport_13_B16jan2026.PaperCodeColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PaperCode\' in table \'Report_13_B\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'PaperCode\' in table \'Report_13_B16jan2026\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReport_13_B.PaperCodeColumn] = value;
+                    this[this.tableReport_13_B16jan2026.PaperCodeColumn] = value;
                 }
             }
             
@@ -67957,14 +69796,15 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             public string StudentExamTypeName {
                 get {
                     try {
-                        return ((string)(this[this.tableReport_13_B.StudentExamTypeNameColumn]));
+                        return ((string)(this[this.tableReport_13_B16jan2026.StudentExamTypeNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'StudentExamTypeName\' in table \'Report_13_B\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'StudentExamTypeName\' in table \'Report_13_B16jan2026\' is DBN" +
+                                "ull.", e);
                     }
                 }
                 set {
-                    this[this.tableReport_13_B.StudentExamTypeNameColumn] = value;
+                    this[this.tableReport_13_B16jan2026.StudentExamTypeNameColumn] = value;
                 }
             }
             
@@ -67973,14 +69813,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             public string EndTermName {
                 get {
                     try {
-                        return ((string)(this[this.tableReport_13_B.EndTermNameColumn]));
+                        return ((string)(this[this.tableReport_13_B16jan2026.EndTermNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'EndTermName\' in table \'Report_13_B\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'EndTermName\' in table \'Report_13_B16jan2026\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReport_13_B.EndTermNameColumn] = value;
+                    this[this.tableReport_13_B16jan2026.EndTermNameColumn] = value;
                 }
             }
             
@@ -67989,14 +69829,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             public string CCCode {
                 get {
                     try {
-                        return ((string)(this[this.tableReport_13_B.CCCodeColumn]));
+                        return ((string)(this[this.tableReport_13_B16jan2026.CCCodeColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CCCode\' in table \'Report_13_B\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CCCode\' in table \'Report_13_B16jan2026\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReport_13_B.CCCodeColumn] = value;
+                    this[this.tableReport_13_B16jan2026.CCCodeColumn] = value;
                 }
             }
             
@@ -68005,14 +69845,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             public string InstituteName {
                 get {
                     try {
-                        return ((string)(this[this.tableReport_13_B.InstituteNameColumn]));
+                        return ((string)(this[this.tableReport_13_B16jan2026.InstituteNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'InstituteName\' in table \'Report_13_B\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'InstituteName\' in table \'Report_13_B16jan2026\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReport_13_B.InstituteNameColumn] = value;
+                    this[this.tableReport_13_B16jan2026.InstituteNameColumn] = value;
                 }
             }
             
@@ -68021,14 +69861,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             public string CenterCode {
                 get {
                     try {
-                        return ((string)(this[this.tableReport_13_B.CenterCodeColumn]));
+                        return ((string)(this[this.tableReport_13_B16jan2026.CenterCodeColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CenterCode\' in table \'Report_13_B\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CenterCode\' in table \'Report_13_B16jan2026\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReport_13_B.CenterCodeColumn] = value;
+                    this[this.tableReport_13_B16jan2026.CenterCodeColumn] = value;
                 }
             }
             
@@ -68037,14 +69877,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             public string ExamDate {
                 get {
                     try {
-                        return ((string)(this[this.tableReport_13_B.ExamDateColumn]));
+                        return ((string)(this[this.tableReport_13_B16jan2026.ExamDateColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ExamDate\' in table \'Report_13_B\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'ExamDate\' in table \'Report_13_B16jan2026\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReport_13_B.ExamDateColumn] = value;
+                    this[this.tableReport_13_B16jan2026.ExamDateColumn] = value;
                 }
             }
             
@@ -68053,14 +69893,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             public string ExamShift {
                 get {
                     try {
-                        return ((string)(this[this.tableReport_13_B.ExamShiftColumn]));
+                        return ((string)(this[this.tableReport_13_B16jan2026.ExamShiftColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ExamShift\' in table \'Report_13_B\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'ExamShift\' in table \'Report_13_B16jan2026\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReport_13_B.ExamShiftColumn] = value;
+                    this[this.tableReport_13_B16jan2026.ExamShiftColumn] = value;
                 }
             }
             
@@ -68069,14 +69909,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             public string ExamShiftTime {
                 get {
                     try {
-                        return ((string)(this[this.tableReport_13_B.ExamShiftTimeColumn]));
+                        return ((string)(this[this.tableReport_13_B16jan2026.ExamShiftTimeColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ExamShiftTime\' in table \'Report_13_B\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'ExamShiftTime\' in table \'Report_13_B16jan2026\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReport_13_B.ExamShiftTimeColumn] = value;
+                    this[this.tableReport_13_B16jan2026.ExamShiftTimeColumn] = value;
                 }
             }
             
@@ -68085,14 +69925,15 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             public string Total_PresentStudent {
                 get {
                     try {
-                        return ((string)(this[this.tableReport_13_B.Total_PresentStudentColumn]));
+                        return ((string)(this[this.tableReport_13_B16jan2026.Total_PresentStudentColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Total_PresentStudent\' in table \'Report_13_B\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Total_PresentStudent\' in table \'Report_13_B16jan2026\' is DB" +
+                                "Null.", e);
                     }
                 }
                 set {
-                    this[this.tableReport_13_B.Total_PresentStudentColumn] = value;
+                    this[this.tableReport_13_B16jan2026.Total_PresentStudentColumn] = value;
                 }
             }
             
@@ -68101,14 +69942,15 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             public string Total_AbsentStudent {
                 get {
                     try {
-                        return ((string)(this[this.tableReport_13_B.Total_AbsentStudentColumn]));
+                        return ((string)(this[this.tableReport_13_B16jan2026.Total_AbsentStudentColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Total_AbsentStudent\' in table \'Report_13_B\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Total_AbsentStudent\' in table \'Report_13_B16jan2026\' is DBN" +
+                                "ull.", e);
                     }
                 }
                 set {
-                    this[this.tableReport_13_B.Total_AbsentStudentColumn] = value;
+                    this[this.tableReport_13_B16jan2026.Total_AbsentStudentColumn] = value;
                 }
             }
             
@@ -68117,14 +69959,15 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             public string Total_UFMStudent {
                 get {
                     try {
-                        return ((string)(this[this.tableReport_13_B.Total_UFMStudentColumn]));
+                        return ((string)(this[this.tableReport_13_B16jan2026.Total_UFMStudentColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Total_UFMStudent\' in table \'Report_13_B\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Total_UFMStudent\' in table \'Report_13_B16jan2026\' is DBNull" +
+                                ".", e);
                     }
                 }
                 set {
-                    this[this.tableReport_13_B.Total_UFMStudentColumn] = value;
+                    this[this.tableReport_13_B16jan2026.Total_UFMStudentColumn] = value;
                 }
             }
             
@@ -68133,15 +69976,15 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             public string Total_ValidPresentStudent {
                 get {
                     try {
-                        return ((string)(this[this.tableReport_13_B.Total_ValidPresentStudentColumn]));
+                        return ((string)(this[this.tableReport_13_B16jan2026.Total_ValidPresentStudentColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Total_ValidPresentStudent\' in table \'Report_13_B\' is DBNull" +
-                                ".", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Total_ValidPresentStudent\' in table \'Report_13_B16jan2026\' " +
+                                "is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReport_13_B.Total_ValidPresentStudentColumn] = value;
+                    this[this.tableReport_13_B16jan2026.Total_ValidPresentStudentColumn] = value;
                 }
             }
             
@@ -68150,15 +69993,15 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             public string AbsentStudentRollNoWithCount {
                 get {
                     try {
-                        return ((string)(this[this.tableReport_13_B.AbsentStudentRollNoWithCountColumn]));
+                        return ((string)(this[this.tableReport_13_B16jan2026.AbsentStudentRollNoWithCountColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'AbsentStudentRollNoWithCount\' in table \'Report_13_B\' is DBN" +
-                                "ull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'AbsentStudentRollNoWithCount\' in table \'Report_13_B16jan202" +
+                                "6\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReport_13_B.AbsentStudentRollNoWithCountColumn] = value;
+                    this[this.tableReport_13_B16jan2026.AbsentStudentRollNoWithCountColumn] = value;
                 }
             }
             
@@ -68167,195 +70010,253 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             public string Total_DetainedStudent {
                 get {
                     try {
-                        return ((string)(this[this.tableReport_13_B.Total_DetainedStudentColumn]));
+                        return ((string)(this[this.tableReport_13_B16jan2026.Total_DetainedStudentColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Total_DetainedStudent\' in table \'Report_13_B\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Total_DetainedStudent\' in table \'Report_13_B16jan2026\' is D" +
+                                "BNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReport_13_B.Total_DetainedStudentColumn] = value;
+                    this[this.tableReport_13_B16jan2026.Total_DetainedStudentColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string _UFMStudentRollNo_ {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B16jan2026._UFMStudentRollNo_Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UFMStudentRollNo\n\' in table \'Report_13_B16jan2026\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B16jan2026._UFMStudentRollNo_Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string DataColumn1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B16jan2026.DataColumn1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DataColumn1\' in table \'Report_13_B16jan2026\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B16jan2026.DataColumn1Column] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsPaperCodeNull() {
-                return this.IsNull(this.tableReport_13_B.PaperCodeColumn);
+                return this.IsNull(this.tableReport_13_B16jan2026.PaperCodeColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetPaperCodeNull() {
-                this[this.tableReport_13_B.PaperCodeColumn] = global::System.Convert.DBNull;
+                this[this.tableReport_13_B16jan2026.PaperCodeColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsStudentExamTypeNameNull() {
-                return this.IsNull(this.tableReport_13_B.StudentExamTypeNameColumn);
+                return this.IsNull(this.tableReport_13_B16jan2026.StudentExamTypeNameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetStudentExamTypeNameNull() {
-                this[this.tableReport_13_B.StudentExamTypeNameColumn] = global::System.Convert.DBNull;
+                this[this.tableReport_13_B16jan2026.StudentExamTypeNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsEndTermNameNull() {
-                return this.IsNull(this.tableReport_13_B.EndTermNameColumn);
+                return this.IsNull(this.tableReport_13_B16jan2026.EndTermNameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetEndTermNameNull() {
-                this[this.tableReport_13_B.EndTermNameColumn] = global::System.Convert.DBNull;
+                this[this.tableReport_13_B16jan2026.EndTermNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsCCCodeNull() {
-                return this.IsNull(this.tableReport_13_B.CCCodeColumn);
+                return this.IsNull(this.tableReport_13_B16jan2026.CCCodeColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetCCCodeNull() {
-                this[this.tableReport_13_B.CCCodeColumn] = global::System.Convert.DBNull;
+                this[this.tableReport_13_B16jan2026.CCCodeColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsInstituteNameNull() {
-                return this.IsNull(this.tableReport_13_B.InstituteNameColumn);
+                return this.IsNull(this.tableReport_13_B16jan2026.InstituteNameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetInstituteNameNull() {
-                this[this.tableReport_13_B.InstituteNameColumn] = global::System.Convert.DBNull;
+                this[this.tableReport_13_B16jan2026.InstituteNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsCenterCodeNull() {
-                return this.IsNull(this.tableReport_13_B.CenterCodeColumn);
+                return this.IsNull(this.tableReport_13_B16jan2026.CenterCodeColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetCenterCodeNull() {
-                this[this.tableReport_13_B.CenterCodeColumn] = global::System.Convert.DBNull;
+                this[this.tableReport_13_B16jan2026.CenterCodeColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsExamDateNull() {
-                return this.IsNull(this.tableReport_13_B.ExamDateColumn);
+                return this.IsNull(this.tableReport_13_B16jan2026.ExamDateColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetExamDateNull() {
-                this[this.tableReport_13_B.ExamDateColumn] = global::System.Convert.DBNull;
+                this[this.tableReport_13_B16jan2026.ExamDateColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsExamShiftNull() {
-                return this.IsNull(this.tableReport_13_B.ExamShiftColumn);
+                return this.IsNull(this.tableReport_13_B16jan2026.ExamShiftColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetExamShiftNull() {
-                this[this.tableReport_13_B.ExamShiftColumn] = global::System.Convert.DBNull;
+                this[this.tableReport_13_B16jan2026.ExamShiftColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsExamShiftTimeNull() {
-                return this.IsNull(this.tableReport_13_B.ExamShiftTimeColumn);
+                return this.IsNull(this.tableReport_13_B16jan2026.ExamShiftTimeColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetExamShiftTimeNull() {
-                this[this.tableReport_13_B.ExamShiftTimeColumn] = global::System.Convert.DBNull;
+                this[this.tableReport_13_B16jan2026.ExamShiftTimeColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsTotal_PresentStudentNull() {
-                return this.IsNull(this.tableReport_13_B.Total_PresentStudentColumn);
+                return this.IsNull(this.tableReport_13_B16jan2026.Total_PresentStudentColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetTotal_PresentStudentNull() {
-                this[this.tableReport_13_B.Total_PresentStudentColumn] = global::System.Convert.DBNull;
+                this[this.tableReport_13_B16jan2026.Total_PresentStudentColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsTotal_AbsentStudentNull() {
-                return this.IsNull(this.tableReport_13_B.Total_AbsentStudentColumn);
+                return this.IsNull(this.tableReport_13_B16jan2026.Total_AbsentStudentColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetTotal_AbsentStudentNull() {
-                this[this.tableReport_13_B.Total_AbsentStudentColumn] = global::System.Convert.DBNull;
+                this[this.tableReport_13_B16jan2026.Total_AbsentStudentColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsTotal_UFMStudentNull() {
-                return this.IsNull(this.tableReport_13_B.Total_UFMStudentColumn);
+                return this.IsNull(this.tableReport_13_B16jan2026.Total_UFMStudentColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetTotal_UFMStudentNull() {
-                this[this.tableReport_13_B.Total_UFMStudentColumn] = global::System.Convert.DBNull;
+                this[this.tableReport_13_B16jan2026.Total_UFMStudentColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsTotal_ValidPresentStudentNull() {
-                return this.IsNull(this.tableReport_13_B.Total_ValidPresentStudentColumn);
+                return this.IsNull(this.tableReport_13_B16jan2026.Total_ValidPresentStudentColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetTotal_ValidPresentStudentNull() {
-                this[this.tableReport_13_B.Total_ValidPresentStudentColumn] = global::System.Convert.DBNull;
+                this[this.tableReport_13_B16jan2026.Total_ValidPresentStudentColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsAbsentStudentRollNoWithCountNull() {
-                return this.IsNull(this.tableReport_13_B.AbsentStudentRollNoWithCountColumn);
+                return this.IsNull(this.tableReport_13_B16jan2026.AbsentStudentRollNoWithCountColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetAbsentStudentRollNoWithCountNull() {
-                this[this.tableReport_13_B.AbsentStudentRollNoWithCountColumn] = global::System.Convert.DBNull;
+                this[this.tableReport_13_B16jan2026.AbsentStudentRollNoWithCountColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsTotal_DetainedStudentNull() {
-                return this.IsNull(this.tableReport_13_B.Total_DetainedStudentColumn);
+                return this.IsNull(this.tableReport_13_B16jan2026.Total_DetainedStudentColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetTotal_DetainedStudentNull() {
-                this[this.tableReport_13_B.Total_DetainedStudentColumn] = global::System.Convert.DBNull;
+                this[this.tableReport_13_B16jan2026.Total_DetainedStudentColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool Is_UFMStudentRollNo_Null() {
+                return this.IsNull(this.tableReport_13_B16jan2026._UFMStudentRollNo_Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void Set_UFMStudentRollNo_Null() {
+                this[this.tableReport_13_B16jan2026._UFMStudentRollNo_Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDataColumn1Null() {
+                return this.IsNull(this.tableReport_13_B16jan2026.DataColumn1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDataColumn1Null() {
+                this[this.tableReport_13_B16jan2026.DataColumn1Column] = global::System.Convert.DBNull;
             }
         }
         
@@ -89754,6 +91655,1453 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         }
         
         /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class Report_13_BRow : global::System.Data.DataRow {
+            
+            private Report_13_BDataTable tableReport_13_B;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal Report_13_BRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableReport_13_B = ((Report_13_BDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PaperCode {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.PaperCodeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PaperCode\' in table \'Report_13_B\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.PaperCodeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string StudentExamTypeName {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.StudentExamTypeNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'StudentExamTypeName\' in table \'Report_13_B\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.StudentExamTypeNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string EndTermName {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.EndTermNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EndTermName\' in table \'Report_13_B\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.EndTermNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string CCCode {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.CCCodeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CCCode\' in table \'Report_13_B\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.CCCodeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string InstituteName {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.InstituteNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'InstituteName\' in table \'Report_13_B\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.InstituteNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string CenterCode {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.CenterCodeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CenterCode\' in table \'Report_13_B\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.CenterCodeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ExamDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.ExamDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ExamDate\' in table \'Report_13_B\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.ExamDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ExamShift {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.ExamShiftColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ExamShift\' in table \'Report_13_B\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.ExamShiftColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ExamShiftTime {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.ExamShiftTimeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ExamShiftTime\' in table \'Report_13_B\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.ExamShiftTimeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Total_PresentStudent {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.Total_PresentStudentColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Total_PresentStudent\' in table \'Report_13_B\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.Total_PresentStudentColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Total_AbsentStudent {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.Total_AbsentStudentColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Total_AbsentStudent\' in table \'Report_13_B\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.Total_AbsentStudentColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Total_UFMStudent {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.Total_UFMStudentColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Total_UFMStudent\' in table \'Report_13_B\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.Total_UFMStudentColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Total_ValidPresentStudent {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.Total_ValidPresentStudentColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Total_ValidPresentStudent\' in table \'Report_13_B\' is DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.Total_ValidPresentStudentColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string AbsentStudentRollNoWithCount {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.AbsentStudentRollNoWithCountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AbsentStudentRollNoWithCount\' in table \'Report_13_B\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.AbsentStudentRollNoWithCountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Total_DetainedStudent {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.Total_DetainedStudentColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Total_DetainedStudent\' in table \'Report_13_B\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.Total_DetainedStudentColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string UFMStudentRollNo {
+                get {
+                    try {
+                        return ((string)(this[this.tableReport_13_B.UFMStudentRollNoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UFMStudentRollNo\' in table \'Report_13_B\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReport_13_B.UFMStudentRollNoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPaperCodeNull() {
+                return this.IsNull(this.tableReport_13_B.PaperCodeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPaperCodeNull() {
+                this[this.tableReport_13_B.PaperCodeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsStudentExamTypeNameNull() {
+                return this.IsNull(this.tableReport_13_B.StudentExamTypeNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetStudentExamTypeNameNull() {
+                this[this.tableReport_13_B.StudentExamTypeNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEndTermNameNull() {
+                return this.IsNull(this.tableReport_13_B.EndTermNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEndTermNameNull() {
+                this[this.tableReport_13_B.EndTermNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsCCCodeNull() {
+                return this.IsNull(this.tableReport_13_B.CCCodeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetCCCodeNull() {
+                this[this.tableReport_13_B.CCCodeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsInstituteNameNull() {
+                return this.IsNull(this.tableReport_13_B.InstituteNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetInstituteNameNull() {
+                this[this.tableReport_13_B.InstituteNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsCenterCodeNull() {
+                return this.IsNull(this.tableReport_13_B.CenterCodeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetCenterCodeNull() {
+                this[this.tableReport_13_B.CenterCodeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsExamDateNull() {
+                return this.IsNull(this.tableReport_13_B.ExamDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetExamDateNull() {
+                this[this.tableReport_13_B.ExamDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsExamShiftNull() {
+                return this.IsNull(this.tableReport_13_B.ExamShiftColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetExamShiftNull() {
+                this[this.tableReport_13_B.ExamShiftColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsExamShiftTimeNull() {
+                return this.IsNull(this.tableReport_13_B.ExamShiftTimeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetExamShiftTimeNull() {
+                this[this.tableReport_13_B.ExamShiftTimeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTotal_PresentStudentNull() {
+                return this.IsNull(this.tableReport_13_B.Total_PresentStudentColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTotal_PresentStudentNull() {
+                this[this.tableReport_13_B.Total_PresentStudentColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTotal_AbsentStudentNull() {
+                return this.IsNull(this.tableReport_13_B.Total_AbsentStudentColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTotal_AbsentStudentNull() {
+                this[this.tableReport_13_B.Total_AbsentStudentColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTotal_UFMStudentNull() {
+                return this.IsNull(this.tableReport_13_B.Total_UFMStudentColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTotal_UFMStudentNull() {
+                this[this.tableReport_13_B.Total_UFMStudentColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTotal_ValidPresentStudentNull() {
+                return this.IsNull(this.tableReport_13_B.Total_ValidPresentStudentColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTotal_ValidPresentStudentNull() {
+                this[this.tableReport_13_B.Total_ValidPresentStudentColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAbsentStudentRollNoWithCountNull() {
+                return this.IsNull(this.tableReport_13_B.AbsentStudentRollNoWithCountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAbsentStudentRollNoWithCountNull() {
+                this[this.tableReport_13_B.AbsentStudentRollNoWithCountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTotal_DetainedStudentNull() {
+                return this.IsNull(this.tableReport_13_B.Total_DetainedStudentColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTotal_DetainedStudentNull() {
+                this[this.tableReport_13_B.Total_DetainedStudentColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsUFMStudentRollNoNull() {
+                return this.IsNull(this.tableReport_13_B.UFMStudentRollNoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetUFMStudentRollNoNull() {
+                this[this.tableReport_13_B.UFMStudentRollNoColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class ITI_INV_SR6_ReportDataHeaderRow : global::System.Data.DataRow {
+            
+            private ITI_INV_SR6_ReportDataHeaderDataTable tableITI_INV_SR6_ReportDataHeader;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_INV_SR6_ReportDataHeaderRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableITI_INV_SR6_ReportDataHeader = ((ITI_INV_SR6_ReportDataHeaderDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string GOR {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataHeader.GORColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'GOR\' in table \'ITI_INV_SR6_ReportDataHeader\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataHeader.GORColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string InstituteName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataHeader.InstituteNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'InstituteName\' in table \'ITI_INV_SR6_ReportDataHeader\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataHeader.InstituteNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string DepartmentName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataHeader.DepartmentNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DepartmentName\' in table \'ITI_INV_SR6_ReportDataHeader\' is " +
+                                "DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataHeader.DepartmentNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string LabName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataHeader.LabNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'LabName\' in table \'ITI_INV_SR6_ReportDataHeader\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataHeader.LabNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsGORNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataHeader.GORColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetGORNull() {
+                this[this.tableITI_INV_SR6_ReportDataHeader.GORColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsInstituteNameNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataHeader.InstituteNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetInstituteNameNull() {
+                this[this.tableITI_INV_SR6_ReportDataHeader.InstituteNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDepartmentNameNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataHeader.DepartmentNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDepartmentNameNull() {
+                this[this.tableITI_INV_SR6_ReportDataHeader.DepartmentNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsLabNameNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataHeader.LabNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetLabNameNull() {
+                this[this.tableITI_INV_SR6_ReportDataHeader.LabNameColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class ITI_INV_SR6_ReportDataTableRow : global::System.Data.DataRow {
+            
+            private ITI_INV_SR6_ReportDataTableDataTable tableITI_INV_SR6_ReportDataTable;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_INV_SR6_ReportDataTableRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableITI_INV_SR6_ReportDataTable = ((ITI_INV_SR6_ReportDataTableDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Particulars_of_stores {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Particulars_of_storesColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Particulars_of_stores\' in table \'ITI_INV_SR6_ReportDataTabl" +
+                                "e\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Particulars_of_storesColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Reference_of_stock_register {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Reference_of_stock_registerColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Reference_of_stock_register\' in table \'ITI_INV_SR6_ReportDa" +
+                                "taTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Reference_of_stock_registerColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Quantity {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.QuantityColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Quantity\' in table \'ITI_INV_SR6_ReportDataTable\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.QuantityColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Year_of_purchase {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Year_of_purchaseColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Year_of_purchase\' in table \'ITI_INV_SR6_ReportDataTable\' is" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Year_of_purchaseColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Purchase_price {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Purchase_priceColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Purchase_price\' in table \'ITI_INV_SR6_ReportDataTable\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Purchase_priceColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string unserviceable_obsolete {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.unserviceable_obsoleteColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'unserviceable_obsolete\' in table \'ITI_INV_SR6_ReportDataTab" +
+                                "le\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.unserviceable_obsoleteColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Present_condition {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Present_conditionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Present_condition\' in table \'ITI_INV_SR6_ReportDataTable\' i" +
+                                "s DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Present_conditionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Approximate_cost_expected_to_be_realised {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Approximate_cost_expected_to_be_realisedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Approximate_cost_expected_to_be_realised\' in table \'ITI_INV" +
+                                "_SR6_ReportDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Approximate_cost_expected_to_be_realisedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Any_suggestion_of_disposal {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Any_suggestion_of_disposalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Any_suggestion_of_disposal\' in table \'ITI_INV_SR6_ReportDat" +
+                                "aTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Any_suggestion_of_disposalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Remarks {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.RemarksColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Remarks\' in table \'ITI_INV_SR6_ReportDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.RemarksColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Orders_of_the_authority_for_disposal {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Orders_of_the_authority_for_disposalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Orders_of_the_authority_for_disposal\' in table \'ITI_INV_SR6" +
+                                "_ReportDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Orders_of_the_authority_for_disposalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ItemNo {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.ItemNoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ItemNo\' in table \'ITI_INV_SR6_ReportDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.ItemNoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsParticulars_of_storesNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Particulars_of_storesColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetParticulars_of_storesNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Particulars_of_storesColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsReference_of_stock_registerNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Reference_of_stock_registerColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetReference_of_stock_registerNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Reference_of_stock_registerColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsQuantityNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.QuantityColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetQuantityNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.QuantityColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsYear_of_purchaseNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Year_of_purchaseColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetYear_of_purchaseNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Year_of_purchaseColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPurchase_priceNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Purchase_priceColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPurchase_priceNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Purchase_priceColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool Isunserviceable_obsoleteNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.unserviceable_obsoleteColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void Setunserviceable_obsoleteNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.unserviceable_obsoleteColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPresent_conditionNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Present_conditionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPresent_conditionNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Present_conditionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsApproximate_cost_expected_to_be_realisedNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Approximate_cost_expected_to_be_realisedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetApproximate_cost_expected_to_be_realisedNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Approximate_cost_expected_to_be_realisedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAny_suggestion_of_disposalNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Any_suggestion_of_disposalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAny_suggestion_of_disposalNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Any_suggestion_of_disposalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRemarksNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.RemarksColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRemarksNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.RemarksColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsOrders_of_the_authority_for_disposalNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Orders_of_the_authority_for_disposalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetOrders_of_the_authority_for_disposalNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Orders_of_the_authority_for_disposalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsItemNoNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.ItemNoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetItemNoNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.ItemNoColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class ITI_INV_SR5_ReportDataHeaderRow : global::System.Data.DataRow {
+            
+            private ITI_INV_SR5_ReportDataHeaderDataTable tableITI_INV_SR5_ReportDataHeader;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_INV_SR5_ReportDataHeaderRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableITI_INV_SR5_ReportDataHeader = ((ITI_INV_SR5_ReportDataHeaderDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string GOR {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataHeader.GORColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'GOR\' in table \'ITI_INV_SR5_ReportDataHeader\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataHeader.GORColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string InstituteName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataHeader.InstituteNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'InstituteName\' in table \'ITI_INV_SR5_ReportDataHeader\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataHeader.InstituteNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string DepartmentName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataHeader.DepartmentNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DepartmentName\' in table \'ITI_INV_SR5_ReportDataHeader\' is " +
+                                "DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataHeader.DepartmentNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string LabName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataHeader.LabNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'LabName\' in table \'ITI_INV_SR5_ReportDataHeader\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataHeader.LabNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsGORNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataHeader.GORColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetGORNull() {
+                this[this.tableITI_INV_SR5_ReportDataHeader.GORColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsInstituteNameNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataHeader.InstituteNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetInstituteNameNull() {
+                this[this.tableITI_INV_SR5_ReportDataHeader.InstituteNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDepartmentNameNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataHeader.DepartmentNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDepartmentNameNull() {
+                this[this.tableITI_INV_SR5_ReportDataHeader.DepartmentNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsLabNameNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataHeader.LabNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetLabNameNull() {
+                this[this.tableITI_INV_SR5_ReportDataHeader.LabNameColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class ITI_INV_SR5_ReportDataTableRow : global::System.Data.DataRow {
+            
+            private ITI_INV_SR5_ReportDataTableDataTable tableITI_INV_SR5_ReportDataTable;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_INV_SR5_ReportDataTableRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableITI_INV_SR5_ReportDataTable = ((ITI_INV_SR5_ReportDataTableDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Particulars_of_stores {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataTable.Particulars_of_storesColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Particulars_of_stores\' in table \'ITI_INV_SR5_ReportDataTabl" +
+                                "e\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataTable.Particulars_of_storesColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Reference_of_stock_register {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataTable.Reference_of_stock_registerColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Reference_of_stock_register\' in table \'ITI_INV_SR5_ReportDa" +
+                                "taTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataTable.Reference_of_stock_registerColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Quantity {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataTable.QuantityColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Quantity\' in table \'ITI_INV_SR5_ReportDataTable\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataTable.QuantityColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Year_of_purchase {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataTable.Year_of_purchaseColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Year_of_purchase\' in table \'ITI_INV_SR5_ReportDataTable\' is" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataTable.Year_of_purchaseColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Purchase_price {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataTable.Purchase_priceColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Purchase_price\' in table \'ITI_INV_SR5_ReportDataTable\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataTable.Purchase_priceColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string unserviceable_obsolete {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataTable.unserviceable_obsoleteColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'unserviceable_obsolete\' in table \'ITI_INV_SR5_ReportDataTab" +
+                                "le\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataTable.unserviceable_obsoleteColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Present_condition {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataTable.Present_conditionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Present_condition\' in table \'ITI_INV_SR5_ReportDataTable\' i" +
+                                "s DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataTable.Present_conditionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Approximate_cost_expected_to_be_realised {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataTable.Approximate_cost_expected_to_be_realisedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Approximate_cost_expected_to_be_realised\' in table \'ITI_INV" +
+                                "_SR5_ReportDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataTable.Approximate_cost_expected_to_be_realisedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Any_suggestion_of_disposal {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataTable.Any_suggestion_of_disposalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Any_suggestion_of_disposal\' in table \'ITI_INV_SR5_ReportDat" +
+                                "aTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataTable.Any_suggestion_of_disposalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Remarks {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataTable.RemarksColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Remarks\' in table \'ITI_INV_SR5_ReportDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataTable.RemarksColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Orders_of_the_authority_for_disposal {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataTable.Orders_of_the_authority_for_disposalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Orders_of_the_authority_for_disposal\' in table \'ITI_INV_SR5" +
+                                "_ReportDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataTable.Orders_of_the_authority_for_disposalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ItemNo {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataTable.ItemNoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ItemNo\' in table \'ITI_INV_SR5_ReportDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataTable.ItemNoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsParticulars_of_storesNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataTable.Particulars_of_storesColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetParticulars_of_storesNull() {
+                this[this.tableITI_INV_SR5_ReportDataTable.Particulars_of_storesColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsReference_of_stock_registerNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataTable.Reference_of_stock_registerColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetReference_of_stock_registerNull() {
+                this[this.tableITI_INV_SR5_ReportDataTable.Reference_of_stock_registerColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsQuantityNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataTable.QuantityColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetQuantityNull() {
+                this[this.tableITI_INV_SR5_ReportDataTable.QuantityColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsYear_of_purchaseNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataTable.Year_of_purchaseColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetYear_of_purchaseNull() {
+                this[this.tableITI_INV_SR5_ReportDataTable.Year_of_purchaseColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPurchase_priceNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataTable.Purchase_priceColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPurchase_priceNull() {
+                this[this.tableITI_INV_SR5_ReportDataTable.Purchase_priceColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool Isunserviceable_obsoleteNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataTable.unserviceable_obsoleteColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void Setunserviceable_obsoleteNull() {
+                this[this.tableITI_INV_SR5_ReportDataTable.unserviceable_obsoleteColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPresent_conditionNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataTable.Present_conditionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPresent_conditionNull() {
+                this[this.tableITI_INV_SR5_ReportDataTable.Present_conditionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsApproximate_cost_expected_to_be_realisedNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataTable.Approximate_cost_expected_to_be_realisedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetApproximate_cost_expected_to_be_realisedNull() {
+                this[this.tableITI_INV_SR5_ReportDataTable.Approximate_cost_expected_to_be_realisedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAny_suggestion_of_disposalNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataTable.Any_suggestion_of_disposalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAny_suggestion_of_disposalNull() {
+                this[this.tableITI_INV_SR5_ReportDataTable.Any_suggestion_of_disposalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRemarksNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataTable.RemarksColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRemarksNull() {
+                this[this.tableITI_INV_SR5_ReportDataTable.RemarksColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsOrders_of_the_authority_for_disposalNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataTable.Orders_of_the_authority_for_disposalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetOrders_of_the_authority_for_disposalNull() {
+                this[this.tableITI_INV_SR5_ReportDataTable.Orders_of_the_authority_for_disposalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsItemNoNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataTable.ItemNoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetItemNoNull() {
+                this[this.tableITI_INV_SR5_ReportDataTable.ItemNoColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -91287,22 +94635,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public class Report_13_BRowChangeEvent : global::System.EventArgs {
+        public class Report_13_B16jan2026RowChangeEvent : global::System.EventArgs {
             
-            private Report_13_BRow eventRow;
+            private Report_13_B16jan2026Row eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Report_13_BRowChangeEvent(Report_13_BRow row, global::System.Data.DataRowAction action) {
+            public Report_13_B16jan2026RowChangeEvent(Report_13_B16jan2026Row row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Report_13_BRow Row {
+            public Report_13_B16jan2026Row Row {
                 get {
                     return this.eventRow;
                 }
@@ -93717,6 +97065,176 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public QuarterlyProgressReportRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class Report_13_BRowChangeEvent : global::System.EventArgs {
+            
+            private Report_13_BRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public Report_13_BRowChangeEvent(Report_13_BRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public Report_13_BRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class ITI_INV_SR6_ReportDataHeaderRowChangeEvent : global::System.EventArgs {
+            
+            private ITI_INV_SR6_ReportDataHeaderRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataHeaderRowChangeEvent(ITI_INV_SR6_ReportDataHeaderRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataHeaderRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class ITI_INV_SR6_ReportDataTableRowChangeEvent : global::System.EventArgs {
+            
+            private ITI_INV_SR6_ReportDataTableRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataTableRowChangeEvent(ITI_INV_SR6_ReportDataTableRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR6_ReportDataTableRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class ITI_INV_SR5_ReportDataHeaderRowChangeEvent : global::System.EventArgs {
+            
+            private ITI_INV_SR5_ReportDataHeaderRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR5_ReportDataHeaderRowChangeEvent(ITI_INV_SR5_ReportDataHeaderRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR5_ReportDataHeaderRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class ITI_INV_SR5_ReportDataTableRowChangeEvent : global::System.EventArgs {
+            
+            private ITI_INV_SR5_ReportDataTableRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR5_ReportDataTableRowChangeEvent(ITI_INV_SR5_ReportDataTableRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_INV_SR5_ReportDataTableRow Row {
                 get {
                     return this.eventRow;
                 }

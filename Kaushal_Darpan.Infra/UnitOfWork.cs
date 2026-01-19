@@ -2190,6 +2190,15 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        private IBhandarFormMasterRepository _BhandarFormMasterRepository;
+        public IBhandarFormMasterRepository BhandarFormMasterRepository
+        {
+            get
+            {
+                return _BhandarFormMasterRepository ??= new BhandarFormMasterRepository(_dbContext);
+            }
+        }
+
         #endregion
     }
 }
