@@ -2618,6 +2618,86 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        
+        public async Task<DataSet> DownloadSR6ReportData_pdf(inventoryIssueHistorySearchModel SearchReq)
+        {
+            _actionName = "DownloadSR6ReportData_pdf(inventoryIssueHistorySearchModel SearchReq)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_INV_SR6_ReportData_pdf";
+                        command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        command.Parameters.AddWithValue("@ReturnStatus", SearchReq.ReturnStatus);
+                        command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
+                        command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
+                        command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataSet> Download_SR5ReportData_pdf(inventoryIssueHistorySearchModel SearchReq)
+        {
+            _actionName = "Download_SR5ReportData_pdf(inventoryIssueHistorySearchModel SearchReq)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_INV_SR5_ReportData_pdf";
+                        command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        command.Parameters.AddWithValue("@ReturnStatus", SearchReq.ReturnStatus);
+                        command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
+                        command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
+                        command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
 
