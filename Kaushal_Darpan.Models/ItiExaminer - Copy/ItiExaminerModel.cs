@@ -81,6 +81,7 @@ namespace Kaushal_Darpan.Models.ItiExaminer
         public string? selectedCenters { get; set; }
         public string? selectedInstitute { get; set; }
         public string? selectedTrade { get; set; }
+        public string? sSOID { get; set; }
     }
 
   

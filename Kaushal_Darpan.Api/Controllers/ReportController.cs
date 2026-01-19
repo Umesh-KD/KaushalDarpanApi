@@ -14675,12 +14675,12 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             try
             {
-                filterModel.SemesterId = 3;
-                filterModel.EndTermID = 14;
-                filterModel.DepartmentID = 1;
-                filterModel.Eng_NonEng = 2;
-                filterModel.action = "_getAllData";
-                filterModel.schemeid = 0;
+                //filterModel.SemesterId = 3;
+                //filterModel.EndTermID = 14;
+                //filterModel.DepartmentID = 1;
+                //filterModel.Eng_NonEng = 2;
+                //filterModel.action = "_getAllData";
+                //filterModel.schemeid = 0;
 
                 var streams_data = await _unitOfWork
                     .ReportRepository
@@ -14793,7 +14793,7 @@ namespace Kaushal_Darpan.Api.Controllers
     .page-break {
         page-break-after: always;
     }
-</style>
+</style>.
 </head>
 <body>
 ");
