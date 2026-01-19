@@ -9,11 +9,29 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value />
+                <Value>GOVERNMENT OF RAJASTHAN</Value>
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>OFFICE OF THE PRINCIPLE </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Label>InstituteName</Label>
+                <Value>=First(Fields!InstituteName.Value, "ITI_INV_SR6_ReportDataHeader")</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
@@ -68,7 +86,12 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>DEPARTMENT NAME:</Value>
+                <Value>DEPARTMENT NAME: </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Label>Department Name</Label>
+                <Value>=First(Fields!DepartmentName.Value, "ITI_INV_SR6_ReportDataHeader")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -77,7 +100,12 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>LAB/SECTION</Value>
+                <Value>LAB/SECTION:-  </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Label>Lab Name</Label>
+                <Value>=First(Fields!LabName.Value, "ITI_INV_SR6_ReportDataHeader")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -656,7 +684,7 @@
         <Top>3.27766cm</Top>
         <Left>0.49953cm</Left>
         <Height>3.02562cm</Height>
-        <Width>18.53375cm</Width>
+        <Width>18.53376cm</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>

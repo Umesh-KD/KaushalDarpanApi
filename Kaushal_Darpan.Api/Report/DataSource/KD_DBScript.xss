@@ -125,9 +125,9 @@
     <Shape ID="DesignTable:QuarterlyProgressReport" ZOrder="9" X="-3" Y="2575" Height="257" Width="210" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="44" SplitterPosition="253" />
     <Shape ID="DesignTable:Report_13_B" ZOrder="5" X="435" Y="1272" Height="257" Width="217" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="253" />
     <Shape ID="DesignTable:ITI_INV_SR6_ReportDataHeader" ZOrder="4" X="2118" Y="2346" Height="105" Width="249" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="101" />
-    <Shape ID="DesignTable:ITI_INV_SR6_ReportDataTable" ZOrder="2" X="2119" Y="2464" Height="238" Width="273" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="234" />
+    <Shape ID="DesignTable:ITI_INV_SR6_ReportDataTable" ZOrder="2" X="2119" Y="2464" Height="257" Width="273" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="253" />
     <Shape ID="DesignTable:ITI_INV_SR5_ReportDataHeader" ZOrder="3" X="1864" Y="2312" Height="105" Width="242" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="101" />
-    <Shape ID="DesignTable:ITI_INV_SR5_ReportDataTable" ZOrder="1" X="1835" Y="2437" Height="238" Width="273" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="234" />
+    <Shape ID="DesignTable:ITI_INV_SR5_ReportDataTable" ZOrder="1" X="1835" Y="2437" Height="257" Width="273" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="253" />
   </Shapes>
   <Connectors />
 </DiagramLayout>
