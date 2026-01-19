@@ -1114,13 +1114,12 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> GetTeacherForExaminerReportPDF(ITITeacherForExaminerSearchModel body)
+        public async Task<DataTable> TeacherForExaminerReportDewnloadPdf(ITITeacherForExaminerSearchModel body)
         {
             _actionName = "GetTeacherForExaminer()";
             try
             {
-                return await Task.Run(async () =>
-                {
+               
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
@@ -1136,7 +1135,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
-                });
+         
             }
             catch (Exception ex)
             {
