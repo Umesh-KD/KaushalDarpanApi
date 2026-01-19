@@ -418,21 +418,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox7">
+                    <Textbox Name="Particulars_of_stores">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!Particulars_of_stores.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox7</rd:DefaultName>
+                      <rd:DefaultName>Particulars_of_stores</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -448,21 +448,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox9">
+                    <Textbox Name="Quantity">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!Quantity.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox9</rd:DefaultName>
+                      <rd:DefaultName>Quantity</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -478,21 +478,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox11">
+                    <Textbox Name="Purchase_price">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!Purchase_price.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox11</rd:DefaultName>
+                      <rd:DefaultName>Purchase_price</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -508,21 +508,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox13">
+                    <Textbox Name="Present_condition">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!Present_condition.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox13</rd:DefaultName>
+                      <rd:DefaultName>Present_condition</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -538,21 +538,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox15">
+                    <Textbox Name="Year_of_purchase">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!Year_of_purchase.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox15</rd:DefaultName>
+                      <rd:DefaultName>Year_of_purchase</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -568,21 +568,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox17">
+                    <Textbox Name="Any_suggestion_of_disposal">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!Any_suggestion_of_disposal.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox17</rd:DefaultName>
+                      <rd:DefaultName>Any_suggestion_of_disposal</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -598,21 +598,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox19">
+                    <Textbox Name="Orders_of_the_authority_for_disposal">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!Orders_of_the_authority_for_disposal.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox19</rd:DefaultName>
+                      <rd:DefaultName>Orders_of_the_authority_for_disposal</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -652,6 +652,7 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
+        <DataSetName>ITI_INV_SR6_ReportDataTable</DataSetName>
         <Top>3.27766cm</Top>
         <Left>0.49953cm</Left>
         <Height>3.02562cm</Height>
@@ -693,101 +694,93 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="ITICheckListDetails">
+    <DataSet Name="ITI_INV_SR6_ReportDataHeader">
       <Query>
         <DataSourceName>KD_DBScript</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="CenterCode">
-          <DataField>CenterCode</DataField>
+        <Field Name="GOR">
+          <DataField>GOR</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CenterName">
-          <DataField>CenterName</DataField>
+        <Field Name="InstituteName">
+          <DataField>InstituteName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CreatedDate">
-          <DataField>CreatedDate</DataField>
+        <Field Name="DepartmentName">
+          <DataField>DepartmentName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CurrentDate">
-          <DataField>CurrentDate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Name">
-          <DataField>Name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DistrictName">
-          <DataField>DistrictName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="MobileNo">
-          <DataField>MobileNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DeploymentDate">
-          <DataField>DeploymentDate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ExamShift">
-          <DataField>ExamShift</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DistrictNameEnglish">
-          <DataField>DistrictNameEnglish</DataField>
+        <Field Name="LabName">
+          <DataField>LabName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\2025\KD_web_api\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
-        <rd:TableName>ITICheckListDetails</rd:TableName>
+        <rd:SchemaPath>D:\Kausal_Darpan\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:TableName>ITI_INV_SR6_ReportDataHeader</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
         <rd:TableAdapterName />
       </rd:DataSetInfo>
     </DataSet>
-    <DataSet Name="ITIChecklistAnswers">
+    <DataSet Name="ITI_INV_SR6_ReportDataTable">
       <Query>
         <DataSourceName>KD_DBScript</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="SNo">
-          <DataField>SNo</DataField>
+        <Field Name="Particulars_of_stores">
+          <DataField>Particulars_of_stores</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Question">
-          <DataField>Question</DataField>
+        <Field Name="Reference_of_stock_register">
+          <DataField>Reference_of_stock_register</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Answer">
-          <DataField>Answer</DataField>
+        <Field Name="Quantity">
+          <DataField>Quantity</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="DeploymentDate">
-          <DataField>DeploymentDate</DataField>
+        <Field Name="Year_of_purchase">
+          <DataField>Year_of_purchase</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ExamShift">
-          <DataField>ExamShift</DataField>
+        <Field Name="Purchase_price">
+          <DataField>Purchase_price</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="DistrictNameEnglish">
-          <DataField>DistrictNameEnglish</DataField>
+        <Field Name="unserviceable_obsolete">
+          <DataField>unserviceable_obsolete</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CenterCode">
-          <DataField>CenterCode</DataField>
+        <Field Name="Present_condition">
+          <DataField>Present_condition</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Approximate_cost_expected_to_be_realised">
+          <DataField>Approximate_cost_expected_to_be_realised</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Any_suggestion_of_disposal">
+          <DataField>Any_suggestion_of_disposal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Remarks">
+          <DataField>Remarks</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Orders_of_the_authority_for_disposal">
+          <DataField>Orders_of_the_authority_for_disposal</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\2025\KD_web_api\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
-        <rd:TableName>ITIChecklistAnswers</rd:TableName>
+        <rd:SchemaPath>D:\Kausal_Darpan\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:TableName>ITI_INV_SR6_ReportDataTable</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
         <rd:TableAdapterName />
