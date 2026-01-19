@@ -113,7 +113,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>रोके गये छात्रों के रोल नंबर </Value>
+                              <Value>रोके गये छात्रों के रोल नंबर (Detained)</Value>
                               <Style>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
@@ -148,7 +148,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>अनुपस्थित छात्रों के रोल नम्बर एवं संख्या </Value>
+                              <Value>अनुपस्थित छात्रों के रोल नम्बर एवं संख्या (Absent)</Value>
                               <Style>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
@@ -183,7 +183,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>अनुचित साधन मामले में पकडे गये छात्रों के रोल नम्बर एवं संख्या </Value>
+                              <Value>अनुचित साधन मामले में पकडे गये छात्रों के रोल नम्बर एवं संख्या (UFM) </Value>
                               <Style>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
@@ -610,7 +610,7 @@
         <Top>0.05131cm</Top>
         <Left>0.42822cm</Left>
         <Height>2.89494cm</Height>
-        <Width>27.07491cm</Width>
+        <Width>27.07492cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -757,7 +757,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox24</rd:DefaultName>
-        <Top>5.05649cm</Top>
+        <Top>4.91892cm</Top>
         <Left>7.92649cm</Left>
         <Height>1.32292cm</Height>
         <Width>10.27262cm</Width>
@@ -1037,7 +1037,7 @@
           <Top>3.12648cm</Top>
           <Left>0.42822cm</Left>
           <Height>0.84787cm</Height>
-          <Width>9.87759cm</Width>
+          <Width>14.20794cm</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>

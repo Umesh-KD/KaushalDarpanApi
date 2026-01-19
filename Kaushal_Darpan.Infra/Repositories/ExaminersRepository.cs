@@ -34,8 +34,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetTeacherForExaminer()";
             try
             {
-                return await Task.Run(async () =>
-                {
+               
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
@@ -59,7 +58,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
-                });
+              
             }
             catch (Exception ex)
             {
