@@ -519,6 +519,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", SearchReq.EndTermID);
                         command.Parameters.AddWithValue("@StatusID", SearchReq.StatusID);
                         command.Parameters.AddWithValue("@ItemType", SearchReq.ItemType);
+                        command.Parameters.AddWithValue("@ItemFor", SearchReq.ItemFor);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

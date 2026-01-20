@@ -1080,7 +1080,7 @@
               <xs:element name="Total_DetainedStudent" msprop:Generator_ColumnPropNameInTable="Total_DetainedStudentColumn" msprop:Generator_ColumnPropNameInRow="Total_DetainedStudent" msprop:Generator_UserColumnName="Total_DetainedStudent" msprop:Generator_ColumnVarNameInTable="columnTotal_DetainedStudent" type="xs:string" minOccurs="0" />
               <xs:element name="Total_ValidPresentStudent" msprop:Generator_ColumnPropNameInTable="Total_ValidPresentStudentColumn" msprop:Generator_ColumnPropNameInRow="Total_ValidPresentStudent" msprop:Generator_UserColumnName="Total_ValidPresentStudent" msprop:Generator_ColumnVarNameInTable="columnTotal_ValidPresentStudent" type="xs:string" minOccurs="0" />
               <xs:element name="SemesterName" msprop:Generator_ColumnPropNameInTable="SemesterNameColumn" msprop:Generator_ColumnPropNameInRow="SemesterName" msprop:Generator_UserColumnName="SemesterName" msprop:Generator_ColumnVarNameInTable="columnSemesterName" type="xs:string" minOccurs="0" />
-              <xs:element name="CenterName" msprop:Generator_ColumnPropNameInRow="CenterName" msprop:Generator_ColumnPropNameInTable="CenterNameColumn" msprop:Generator_ColumnVarNameInTable="columnCenterName" msprop:Generator_UserColumnName="CenterName" type="xs:string" minOccurs="0" />
+              <xs:element name="CenterName" msprop:Generator_UserColumnName="CenterName" msprop:Generator_ColumnPropNameInTable="CenterNameColumn" msprop:Generator_ColumnPropNameInRow="CenterName" msprop:Generator_ColumnVarNameInTable="columnCenterName" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -1093,6 +1093,7 @@
               <xs:element name="ExamRoomSize" msprop:Generator_ColumnPropNameInTable="ExamRoomSizeColumn" msprop:Generator_ColumnPropNameInRow="ExamRoomSize" msprop:Generator_UserColumnName="ExamRoomSize" msprop:Generator_ColumnVarNameInTable="columnExamRoomSize" type="xs:string" minOccurs="0" />
               <xs:element name="ExamRoom" msprop:Generator_ColumnPropNameInTable="ExamRoomColumn" msprop:Generator_ColumnPropNameInRow="ExamRoom" msprop:Generator_UserColumnName="ExamRoom" msprop:Generator_ColumnVarNameInTable="columnExamRoom" type="xs:string" minOccurs="0" />
               <xs:element name="CenterSuperidentName" msprop:Generator_ColumnPropNameInTable="CenterSuperidentNameColumn" msprop:Generator_ColumnPropNameInRow="CenterSuperidentName" msprop:Generator_UserColumnName="CenterSuperidentName" msprop:Generator_ColumnVarNameInTable="columnCenterSuperidentName" type="xs:string" minOccurs="0" />
+              <xs:element name="SrNo" msprop:Generator_ColumnPropNameInRow="SrNo" msprop:Generator_ColumnPropNameInTable="SrNoColumn" msprop:Generator_ColumnVarNameInTable="columnSrNo" msprop:Generator_UserColumnName="SrNo" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -2075,7 +2076,7 @@
               <xs:element name="Any_suggestion_of_disposal" msprop:Generator_ColumnPropNameInTable="Any_suggestion_of_disposalColumn" msprop:Generator_ColumnPropNameInRow="Any_suggestion_of_disposal" msprop:Generator_UserColumnName="Any_suggestion_of_disposal" msprop:Generator_ColumnVarNameInTable="columnAny_suggestion_of_disposal" type="xs:string" minOccurs="0" />
               <xs:element name="Remarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_UserColumnName="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" type="xs:string" minOccurs="0" />
               <xs:element name="Orders_of_the_authority_for_disposal" msprop:Generator_ColumnPropNameInTable="Orders_of_the_authority_for_disposalColumn" msprop:Generator_ColumnPropNameInRow="Orders_of_the_authority_for_disposal" msprop:Generator_UserColumnName="Orders_of_the_authority_for_disposal" msprop:Generator_ColumnVarNameInTable="columnOrders_of_the_authority_for_disposal" type="xs:string" minOccurs="0" />
-              <xs:element name="ItemNo" msprop:Generator_UserColumnName="ItemNo" msprop:Generator_ColumnPropNameInTable="ItemNoColumn" msprop:Generator_ColumnPropNameInRow="ItemNo" msprop:Generator_ColumnVarNameInTable="columnItemNo" type="xs:string" minOccurs="0" />
+              <xs:element name="ItemNo" msprop:Generator_ColumnPropNameInTable="ItemNoColumn" msprop:Generator_ColumnPropNameInRow="ItemNo" msprop:Generator_UserColumnName="ItemNo" msprop:Generator_ColumnVarNameInTable="columnItemNo" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -2103,7 +2104,27 @@
               <xs:element name="Any_suggestion_of_disposal" msprop:Generator_ColumnPropNameInTable="Any_suggestion_of_disposalColumn" msprop:Generator_ColumnPropNameInRow="Any_suggestion_of_disposal" msprop:Generator_UserColumnName="Any_suggestion_of_disposal" msprop:Generator_ColumnVarNameInTable="columnAny_suggestion_of_disposal" type="xs:string" minOccurs="0" />
               <xs:element name="Remarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_UserColumnName="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" type="xs:string" minOccurs="0" />
               <xs:element name="Orders_of_the_authority_for_disposal" msprop:Generator_ColumnPropNameInTable="Orders_of_the_authority_for_disposalColumn" msprop:Generator_ColumnPropNameInRow="Orders_of_the_authority_for_disposal" msprop:Generator_UserColumnName="Orders_of_the_authority_for_disposal" msprop:Generator_ColumnVarNameInTable="columnOrders_of_the_authority_for_disposal" type="xs:string" minOccurs="0" />
-              <xs:element name="ItemNo" msprop:Generator_UserColumnName="ItemNo" msprop:Generator_ColumnPropNameInTable="ItemNoColumn" msprop:Generator_ColumnPropNameInRow="ItemNo" msprop:Generator_ColumnVarNameInTable="columnItemNo" type="xs:string" minOccurs="0" />
+              <xs:element name="ItemNo" msprop:Generator_ColumnPropNameInTable="ItemNoColumn" msprop:Generator_ColumnPropNameInRow="ItemNo" msprop:Generator_UserColumnName="ItemNo" msprop:Generator_ColumnVarNameInTable="columnItemNo" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Daily_Report_WithoutAdmitcard" msprop:Generator_RowEvHandlerName="Daily_Report_WithoutAdmitcardRowChangeEventHandler" msprop:Generator_RowDeletedName="Daily_Report_WithoutAdmitcardRowDeleted" msprop:Generator_RowDeletingName="Daily_Report_WithoutAdmitcardRowDeleting" msprop:Generator_RowEvArgName="Daily_Report_WithoutAdmitcardRowChangeEvent" msprop:Generator_TablePropName="Daily_Report_WithoutAdmitcard" msprop:Generator_RowChangedName="Daily_Report_WithoutAdmitcardRowChanged" msprop:Generator_RowChangingName="Daily_Report_WithoutAdmitcardRowChanging" msprop:Generator_TableClassName="Daily_Report_WithoutAdmitcardDataTable" msprop:Generator_RowClassName="Daily_Report_WithoutAdmitcardRow" msprop:Generator_TableVarName="tableDaily_Report_WithoutAdmitcard" msprop:Generator_UserTableName="Daily_Report_WithoutAdmitcard">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SrNo" msprop:Generator_ColumnPropNameInRow="SrNo" msprop:Generator_ColumnPropNameInTable="SrNoColumn" msprop:Generator_ColumnVarNameInTable="columnSrNo" msprop:Generator_UserColumnName="SrNo" type="xs:string" minOccurs="0" />
+              <xs:element name="RollNo" msprop:Generator_ColumnPropNameInRow="RollNo" msprop:Generator_ColumnPropNameInTable="RollNoColumn" msprop:Generator_ColumnVarNameInTable="columnRollNo" msprop:Generator_UserColumnName="RollNo" type="xs:string" minOccurs="0" />
+              <xs:element name="StartTime" msprop:Generator_ColumnPropNameInRow="StartTime" msprop:Generator_ColumnPropNameInTable="StartTimeColumn" msprop:Generator_ColumnVarNameInTable="columnStartTime" msprop:Generator_UserColumnName="StartTime" type="xs:string" minOccurs="0" />
+              <xs:element name="EndTime" msprop:Generator_ColumnPropNameInRow="EndTime" msprop:Generator_ColumnPropNameInTable="EndTimeColumn" msprop:Generator_ColumnVarNameInTable="columnEndTime" msprop:Generator_UserColumnName="EndTime" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Daily_Report_AdmitCard" msprop:Generator_RowEvHandlerName="Daily_Report_AdmitCardRowChangeEventHandler" msprop:Generator_RowDeletedName="Daily_Report_AdmitCardRowDeleted" msprop:Generator_RowDeletingName="Daily_Report_AdmitCardRowDeleting" msprop:Generator_RowEvArgName="Daily_Report_AdmitCardRowChangeEvent" msprop:Generator_TablePropName="Daily_Report_AdmitCard" msprop:Generator_RowChangedName="Daily_Report_AdmitCardRowChanged" msprop:Generator_RowChangingName="Daily_Report_AdmitCardRowChanging" msprop:Generator_TableClassName="Daily_Report_AdmitCardDataTable" msprop:Generator_RowClassName="Daily_Report_AdmitCardRow" msprop:Generator_TableVarName="tableDaily_Report_AdmitCard" msprop:Generator_UserTableName="Daily_Report_AdmitCard">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SrNo" msprop:Generator_ColumnPropNameInRow="SrNo" msprop:Generator_ColumnPropNameInTable="SrNoColumn" msprop:Generator_ColumnVarNameInTable="columnSrNo" msprop:Generator_UserColumnName="SrNo" type="xs:string" minOccurs="0" />
+              <xs:element name="RollNo" msprop:Generator_ColumnPropNameInRow="RollNo" msprop:Generator_ColumnPropNameInTable="RollNoColumn" msprop:Generator_ColumnVarNameInTable="columnRollNo" msprop:Generator_UserColumnName="RollNo" type="xs:string" minOccurs="0" />
+              <xs:element name="StartTime" msprop:Generator_ColumnPropNameInRow="StartTime" msprop:Generator_ColumnPropNameInTable="StartTimeColumn" msprop:Generator_ColumnVarNameInTable="columnStartTime" msprop:Generator_UserColumnName="StartTime" type="xs:string" minOccurs="0" />
+              <xs:element name="EndTime" msprop:Generator_ColumnPropNameInRow="EndTime" msprop:Generator_ColumnPropNameInTable="EndTimeColumn" msprop:Generator_ColumnVarNameInTable="columnEndTime" msprop:Generator_UserColumnName="EndTime" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
