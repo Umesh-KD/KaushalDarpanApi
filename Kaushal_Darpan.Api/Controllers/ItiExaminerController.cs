@@ -1553,7 +1553,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     CommonFuncationHelper.ConvertDataTable<List<ITITeacherForExaminerSearchModel>>(streams_data);
 
                 var groupedData = dataList
-                    .GroupBy(x => new { x.SubjectCode, x.StreamID, x.SemesterID })
+                    .GroupBy(x => new { x.SubjectCode, x.StreamID, x.SemesterID,x.CenterCode })
                     .ToList();
 
                 var sb = new StringBuilder();
@@ -1613,8 +1613,24 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         .page-break {
-            page-break-after: always;
+            --page-break-after: always;
+--border-bottom: 1px dashed #000;
         }
+
+  .table-wrapper {
+        width: 100%;
+      
+    }
+
+    .half-table {
+        width: 50%;
+        display: inline-block;
+        vertical-align: top;
+        font-size: 12px;
+        box-sizing: border-box;
+        padding-right: 10px;
+    }
+
     </style>
 </head>
 <body>
@@ -1628,10 +1644,11 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     var header = gitem.First();
 
-                    sb.Append($@"
+                   sb.Append($@"<div  style=""border:1px solid #ddd; padding:25px; margin-bottom:25px;"">
 <div {(groupIndex < totalGroups - 1 ? "class='page-break'" : "")}>
 
-<table width=""100%"" style=""border:none; margin-bottom:10px;"">
+
+<table width=""100%%"" style=""border:none; margin-bottom:10px;"">
     <tr>
         <td style=""border:none; text-align:left;"">
             <b>{header.ExamName}</b>
@@ -1688,16 +1705,16 @@ namespace Kaushal_Darpan.Api.Controllers
             </tr>");
                     }
 
-                    for (int i = sno; i <= 30; i++)
-                    {
-                        sb.Append($@"
-            <tr>
-                <td>{i}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>");
-                    }
+            //        for (int i = sno; i <= 30; i++)
+            //        {
+            //            sb.Append($@"
+            //<tr>
+            //    <td>{i}</td>
+            //    <td></td>
+            //    <td></td>
+            //    <td></td>
+            //</tr>");
+            //        }
 
                     sb.Append($@"
         </tbody>
@@ -1731,7 +1748,7 @@ namespace Kaushal_Darpan.Api.Controllers
     </table>
 
 
-</div>
+</div></div>
 ");
 
                     groupIndex++;
