@@ -147,7 +147,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@batchId", request.batchId);
                         command.Parameters.AddWithValue("@ReceiptBookFolio", request.receiptbookfolio);
                         command.Parameters.AddWithValue("@IssueDate", request.issuedate);
-                        command.Parameters.AddWithValue("@IndentNo", request.abbreviation);
+                        command.Parameters.AddWithValue("@IndentNo", request.IndentNo);
                         command.Parameters.AddWithValue("@IssueBookFolioDate", request.issuebookfoliodate);
                         command.Parameters.AddWithValue("@QuantityIssued", request.QuantityIssued); 
                         command.Parameters.AddWithValue("@QuantityBalance", request.QuantityBalance);

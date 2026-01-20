@@ -6882,6 +6882,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         localReport.AddDataSource("Daily_Report_Bhandar_Form1", data.Tables[0]);
                         localReport.AddDataSource("BhandarForm_DataTabl2", data.Tables[1]);
                         localReport.AddDataSource("Daily_Report_Bhandar_Form_UFM", data.Tables[2]);
+                        localReport.AddDataSource("Daily_Report_WithoutAdmitcard", data.Tables[3]);
+                        localReport.AddDataSource("Daily_Report_AdmitCard", data.Tables[4]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
 
                         System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
