@@ -81,6 +81,21 @@ namespace Kaushal_Darpan.Models.ItiExaminer
         public string? selectedCenters { get; set; }
         public string? selectedInstitute { get; set; }
         public string? selectedTrade { get; set; }
+        public string? sSOID { get; set; }
+        // vivek 
+        public int? MaxMarks { get; set; }
+        public Int64? RollNo { get; set; }
+        public int? ObtainedMarks { get; set; }
+        public string? ExaminerName { get; set; }
+        public string? MobileNo { get; set; }
+
+        public string? ObtainedMarks_inWords { get; set; }
+        public string? ExaminerCode { get; set; }
+        public string? CenterCode { get; set; }
+        public string? ExamName { get; set; }
+        public string? StreamName { get; set; }
+
+
     }
 
   

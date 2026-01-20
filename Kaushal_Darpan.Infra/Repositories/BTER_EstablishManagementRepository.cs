@@ -46,7 +46,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_BTER_EM_AddStaffInitialDetail_Admin";
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@Action", "AddDetails_ByAdmin");
-                        //command.Parameters.AddWithValue("@AdminT2ZonalDataJson", jsonData);
+                            //command.Parameters.AddWithValue("@AdminT2ZonalDataJson", jsonData);
                         command.Parameters.AddWithValue("@LevelID", request.LevelID ?? 0);
                         command.Parameters.AddWithValue("@OfficeID", request.OfficeID ?? 0);
                         command.Parameters.AddWithValue("@PostID", request.PostID ?? 0);

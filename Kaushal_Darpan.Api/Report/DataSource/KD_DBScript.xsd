@@ -1080,6 +1080,7 @@
               <xs:element name="Total_DetainedStudent" msprop:Generator_ColumnPropNameInTable="Total_DetainedStudentColumn" msprop:Generator_ColumnPropNameInRow="Total_DetainedStudent" msprop:Generator_UserColumnName="Total_DetainedStudent" msprop:Generator_ColumnVarNameInTable="columnTotal_DetainedStudent" type="xs:string" minOccurs="0" />
               <xs:element name="Total_ValidPresentStudent" msprop:Generator_ColumnPropNameInTable="Total_ValidPresentStudentColumn" msprop:Generator_ColumnPropNameInRow="Total_ValidPresentStudent" msprop:Generator_UserColumnName="Total_ValidPresentStudent" msprop:Generator_ColumnVarNameInTable="columnTotal_ValidPresentStudent" type="xs:string" minOccurs="0" />
               <xs:element name="SemesterName" msprop:Generator_ColumnPropNameInTable="SemesterNameColumn" msprop:Generator_ColumnPropNameInRow="SemesterName" msprop:Generator_UserColumnName="SemesterName" msprop:Generator_ColumnVarNameInTable="columnSemesterName" type="xs:string" minOccurs="0" />
+              <xs:element name="CenterName" msprop:Generator_ColumnPropNameInRow="CenterName" msprop:Generator_ColumnPropNameInTable="CenterNameColumn" msprop:Generator_ColumnVarNameInTable="columnCenterName" msprop:Generator_UserColumnName="CenterName" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -2074,7 +2075,7 @@
               <xs:element name="Any_suggestion_of_disposal" msprop:Generator_ColumnPropNameInTable="Any_suggestion_of_disposalColumn" msprop:Generator_ColumnPropNameInRow="Any_suggestion_of_disposal" msprop:Generator_UserColumnName="Any_suggestion_of_disposal" msprop:Generator_ColumnVarNameInTable="columnAny_suggestion_of_disposal" type="xs:string" minOccurs="0" />
               <xs:element name="Remarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_UserColumnName="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" type="xs:string" minOccurs="0" />
               <xs:element name="Orders_of_the_authority_for_disposal" msprop:Generator_ColumnPropNameInTable="Orders_of_the_authority_for_disposalColumn" msprop:Generator_ColumnPropNameInRow="Orders_of_the_authority_for_disposal" msprop:Generator_UserColumnName="Orders_of_the_authority_for_disposal" msprop:Generator_ColumnVarNameInTable="columnOrders_of_the_authority_for_disposal" type="xs:string" minOccurs="0" />
-              <xs:element name="ItemNo" msprop:Generator_ColumnPropNameInRow="ItemNo" msprop:Generator_ColumnPropNameInTable="ItemNoColumn" msprop:Generator_ColumnVarNameInTable="columnItemNo" msprop:Generator_UserColumnName="ItemNo" type="xs:string" minOccurs="0" />
+              <xs:element name="ItemNo" msprop:Generator_UserColumnName="ItemNo" msprop:Generator_ColumnPropNameInTable="ItemNoColumn" msprop:Generator_ColumnPropNameInRow="ItemNo" msprop:Generator_ColumnVarNameInTable="columnItemNo" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -2102,7 +2103,7 @@
               <xs:element name="Any_suggestion_of_disposal" msprop:Generator_ColumnPropNameInTable="Any_suggestion_of_disposalColumn" msprop:Generator_ColumnPropNameInRow="Any_suggestion_of_disposal" msprop:Generator_UserColumnName="Any_suggestion_of_disposal" msprop:Generator_ColumnVarNameInTable="columnAny_suggestion_of_disposal" type="xs:string" minOccurs="0" />
               <xs:element name="Remarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_UserColumnName="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" type="xs:string" minOccurs="0" />
               <xs:element name="Orders_of_the_authority_for_disposal" msprop:Generator_ColumnPropNameInTable="Orders_of_the_authority_for_disposalColumn" msprop:Generator_ColumnPropNameInRow="Orders_of_the_authority_for_disposal" msprop:Generator_UserColumnName="Orders_of_the_authority_for_disposal" msprop:Generator_ColumnVarNameInTable="columnOrders_of_the_authority_for_disposal" type="xs:string" minOccurs="0" />
-              <xs:element name="ItemNo" msprop:Generator_ColumnPropNameInRow="ItemNo" msprop:Generator_ColumnPropNameInTable="ItemNoColumn" msprop:Generator_ColumnVarNameInTable="columnItemNo" msprop:Generator_UserColumnName="ItemNo" type="xs:string" minOccurs="0" />
+              <xs:element name="ItemNo" msprop:Generator_UserColumnName="ItemNo" msprop:Generator_ColumnPropNameInTable="ItemNoColumn" msprop:Generator_ColumnPropNameInRow="ItemNo" msprop:Generator_ColumnVarNameInTable="columnItemNo" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

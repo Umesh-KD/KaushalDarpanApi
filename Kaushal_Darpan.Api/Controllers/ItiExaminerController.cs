@@ -1,16 +1,23 @@
 ﻿using AspNetCore.Reporting;
 using AutoMapper;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Api.Report.ITI;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.BridgeCourse;
 using Kaushal_Darpan.Models.Examiners;
+using Kaushal_Darpan.Models.GroupCodeAllocation;
 using Kaushal_Darpan.Models.ItiExaminer;
+using Kaushal_Darpan.Models.ItiInvigilator;
 using Kaushal_Darpan.Models.RenumerationExaminer;
 using Kaushal_Darpan.Models.TSPAreaMaster;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using System;
 using System.Data;
+using System.Text;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -25,11 +32,13 @@ namespace Kaushal_Darpan.Api.Controllers
 
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IConverter _converter;
 
-        public ItiExaminerController(IMapper mapper, IUnitOfWork unitOfWork)
+        public ItiExaminerController(IMapper mapper, IUnitOfWork unitOfWork, IConverter converter)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _converter = converter;
         }
 
         [HttpPost("GetAllData")]
@@ -1073,6 +1082,292 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+
+        [HttpPost("GetTeacherForExaminerReport")]
+        public async Task<ApiResult<DataTable>> GetTeacherForExaminerReport([FromBody] ITITeacherForExaminerSearchModel body)
+        {
+            ActionName = "GetTeacherForExaminerReport()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ItiExaminerRepository.GetTeacherForExaminerReport(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("TeacherForExaminerReportDewnloadPdf")]
+        public async Task<IActionResult> TeacherForExaminerReportDewnloadPdf(
+    [FromBody] ITITeacherForExaminerSearchModel body)
+        {
+            try
+            {
+                var streams_data =
+                    await _unitOfWork.ItiExaminerRepository.TeacherForExaminerReportDewnloadPdf(body);
+
+                var dataList =
+                    CommonFuncationHelper.ConvertDataTable<List<ITITeacherForExaminerSearchModel>>(streams_data);
+
+                var groupedData = dataList
+                    .GroupBy(x => new { x.SubjectCode, x.StreamID, x.SemesterID })
+                    .ToList();
+
+                var sb = new StringBuilder();
+
+                // ================= HTML HEADER =================
+                sb.Append(@"
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Teacher Examiner Report</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 5px;
+            text-align: center;
+        }
+        th {
+            font-weight: bold;
+        }
+        .text-left {
+            text-align: left;
+        }
+        .line {
+            border-bottom: 1px solid #000;
+            display: inline-block;
+            width: 200px;
+        }
+
+ .footer-table {{
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10px;
+    }}
+    .footer-table td {{
+        border: 1px solid #000;
+        padding: 6px;
+        vertical-align: top;
+    }}
+    .line {{
+        display: inline-block;
+        border-bottom: 1px solid #000;
+        width: 150px;
+    }}
+
+
+        .page-break {
+            page-break-after: always;
+        }
+    </style>
+</head>
+<body>
+");
+
+                // ================= BODY =================
+                int groupIndex = 0;
+                int totalGroups = groupedData.Count;
+
+                foreach (var gitem in groupedData)
+                {
+                    var header = gitem.First();
+
+                    sb.Append($@"
+<div {(groupIndex < totalGroups - 1 ? "class='page-break'" : "")}>
+
+<table width=""100%"" style=""border:none; margin-bottom:10px;"">
+    <tr>
+        <td style=""border:none; text-align:left;"">
+            <b>{header.ExamName}</b>
+        </td>
+        <td style=""border:none; text-align:right;"">
+            Center Code: <b>{header.CenterCode}</b>
+        </td>
+    </tr>
+
+    <tr>
+        <td style=""border:none; text-align:left;"">
+            Examiner Code: <b>{header.ExaminerCode}</b>
+        </td>
+        <td style=""border:none; text-align:right;"">
+            Subject: <b>{header.SubjectName}</b>
+        </td>
+    </tr>
+
+    <tr>
+        <td style=""border:none; text-align:left;"">
+            Trade: <b>{header.StreamName}</b>
+        </td>
+        <td style=""border:none; text-align:right;"">
+            Maximum Marks: <b>{header.MaxMarks}</b>
+        </td>
+    </tr>
+</table>
+
+
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Roll No</th>
+                <th>Marks (In Words)</th>
+                <th>Marks (In Fig.)</th>
+            </tr>
+        </thead>
+        <tbody>
+");
+
+                    int sno = 1;
+
+                    foreach (var item in gitem)
+                    {
+                        sb.Append($@"
+            <tr>
+                <td>{sno++}</td>
+                <td>{item.RollNo}</td>
+                <td>{item.ObtainedMarks_inWords}</td>
+                <td>{item.ObtainedMarks}</td>
+            </tr>");
+                    }
+
+                    for (int i = sno; i <= 30; i++)
+                    {
+                        sb.Append($@"
+            <tr>
+                <td>{i}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>");
+                    }
+
+                    sb.Append($@"
+        </tbody>
+    </table>
+
+    <br/><br/>
+
+    <table width='100%' style='border:none'>
+        <tr>
+            <td class='text-left' style='border:none'>
+                Name: <b>{header.ExaminerName}</b>
+            </td>
+            <td class='text-left' style='border:none'>
+                Date: <span class='line'></span>
+            </td>
+        </tr>
+        <tr>
+            <td class='text-left' style='border:none'>
+                Post: <span class='line'></span>
+            </td>
+            <td class='text-left' style='border:none'>
+                Signature: <span class='line'></span>
+            </td>
+        </tr>
+        <tr>
+            <td class='text-left' style='border:none'>
+                Mobile No: <b>{header.MobileNo}</b>
+            </td>
+            <td style='border:none'></td>
+        </tr>
+    </table>
+
+
+</div>
+");
+
+                    groupIndex++;
+                }
+
+                // ================= HTML FOOTER =================
+                sb.Append(@"
+</body>
+</html>
+");
+
+                // ================= PDF SETTINGS =================
+                var doc = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+            {
+                PaperSize = PaperKind.A4,
+                Orientation = Orientation.Portrait
+            },
+                    Objects =
+            {
+                new ObjectSettings
+                {
+                    HtmlContent = sb.ToString(),
+                    WebSettings = { DefaultEncoding = "utf-8" },
+                    FooterSettings = new FooterSettings
+                    {
+                        FontName = "Arial",
+                        FontSize = 9,
+                        Left = "Printed on: [date]",
+                        Right = "Page [page] of [toPage]",
+                        Line = true
+                    },
+                }
+            }
+                };
+
+                byte[] pdfBytes = _converter.Convert(doc);
+
+                return File(
+                    pdfBytes,
+                    "application/pdf",
+                    "Teacher_For_Examiner_Report.pdf"
+                );
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+
+
+
 
     }
 }

@@ -1073,6 +1073,86 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
         }
 
+
+        public async Task<DataTable> GetTeacherForExaminerReport(ITITeacherForExaminerSearchModel body)
+        {
+            _actionName = "GetTeacherForExaminer()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        //command.CommandText = "USP_ITI_GetStudentExaminer";
+                        command.CommandText = "USP_ITI_ExaminerThoreyReport";
+
+                       
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@userId", body.UserID);
+                        command.Parameters.AddWithValue("@sSOID", body.sSOID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        public async Task<DataTable> TeacherForExaminerReportDewnloadPdf(ITITeacherForExaminerSearchModel body)
+        {
+            _actionName = "GetTeacherForExaminer()";
+            try
+            {
+               
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        //command.CommandText = "USP_ITI_GetStudentExaminer";
+                        command.CommandText = "USP_ITI_ExaminerThoreyReport";
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@userId", body.UserID);
+                        command.Parameters.AddWithValue("@sSOID", body.sSOID);
+                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                        command.Parameters.AddWithValue("@ExaminerID", body.ExaminerID);
+                        command.Parameters.AddWithValue("@SubjectCode", body.SubjectCode);
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+         
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
     }
 }
 

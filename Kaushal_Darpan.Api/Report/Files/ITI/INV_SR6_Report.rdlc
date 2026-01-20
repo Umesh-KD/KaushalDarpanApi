@@ -416,21 +416,21 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox5">
+                    <Textbox Name="ItemNo">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!ItemNo.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox5</rd:DefaultName>
+                      <rd:DefaultName>ItemNo</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -682,7 +682,7 @@
         </TablixRowHierarchy>
         <DataSetName>ITI_INV_SR6_ReportDataTable</DataSetName>
         <Top>3.27766cm</Top>
-        <Left>0.49953cm</Left>
+        <Left>0.06328cm</Left>
         <Height>3.02562cm</Height>
         <Width>18.53376cm</Width>
         <ZIndex>3</ZIndex>
@@ -700,7 +700,7 @@
       </Border>
     </Style>
   </Body>
-  <Width>7.68527in</Width>
+  <Width>7.41444in</Width>
   <Page>
     <PageHeight>30cm</PageHeight>
     <PageWidth>21cm</PageWidth>
@@ -802,6 +802,10 @@
         </Field>
         <Field Name="Orders_of_the_authority_for_disposal">
           <DataField>Orders_of_the_authority_for_disposal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ItemNo">
+          <DataField>ItemNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

@@ -100,7 +100,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox10</rd:DefaultName>
-            <Top>0.25574cm</Top>
+            <Top>0.29101cm</Top>
             <Left>19.61513cm</Left>
             <Height>0.69673cm</Height>
             <Width>5.56661cm</Width>
@@ -281,15 +281,25 @@
             <TextRuns>
               <TextRun>
                 <Value>अनुचित साधनों का प्रयोग करने वाले परीक्षार्थियों का विवरणः 
-रोल नम्बर ................. कुल संख्या.......</Value>
+रोल नम्बर </Value>
                 <Style>
                   <FontSize>8pt</FontSize>
                 </Style>
               </TextRun>
               <TextRun>
-                <Label>RokeGaye</Label>
-                <Value>=First(Fields!Total_DetainedStudent.Value, "Report33")</Value>
-                <ToolTip>=First(Fields!Total_DetainedStudent.Value, "Report33")</ToolTip>
+                <Value>=First(Fields!UFMStudentRollNo.Value, "Report33")</Value>
+                <Style>
+                  <FontSize>8pt</FontSize>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value> कुल संख्या </Value>
+                <Style>
+                  <FontSize>8pt</FontSize>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>=First(Fields!Total_UFMStudent.Value, "Report33")</Value>
                 <Style>
                   <FontSize>8pt</FontSize>
                 </Style>
@@ -499,21 +509,19 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>2. बण्डल में कुल .........................</Value>
+                <Value>2. बण्डल में कुल ......................... </Value>
                 <Style>
                   <FontSize>8pt</FontSize>
                 </Style>
               </TextRun>
               <TextRun>
-                <Label>PresentStudent</Label>
-                <Value>=First(Fields!Total_PresentStudent.Value, "Report33")</Value>
-                <ToolTip>=First(Fields!Total_PresentStudent.Value, "Report33")</ToolTip>
+                <Value>=First(Fields!Total_PresentStudentAfterUFM.Value, "Report33")</Value>
                 <Style>
                   <FontSize>8pt</FontSize>
                 </Style>
               </TextRun>
               <TextRun>
-                <Value>.................. उत्तरपुस्तिकाएँ हैं। </Value>
+                <Value> .................. उत्तरपुस्तिकाएँ हैं। </Value>
                 <Style>
                   <FontSize>8pt</FontSize>
                 </Style>
@@ -2250,10 +2258,22 @@
           <DataField>UniqueBundalCode</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Total_UFMStudent">
+          <DataField>Total_UFMStudent</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="UFMStudentRollNo">
+          <DataField>UFMStudentRollNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Total_PresentStudentAfterUFM">
+          <DataField>Total_PresentStudentAfterUFM</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Projects\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Projects\doitoffice\KD-Api\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
         <rd:TableName>Report33</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />

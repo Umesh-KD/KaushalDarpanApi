@@ -54,5 +54,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> MarkForAuctionSR6(List<ItemsIssueReturnModels> request);
         Task<DataTable> Get_SR5_ReportData(inventoryIssueHistorySearchModel SearchReq);
         Task<DataTable> Get_SR6_ReportData(inventoryIssueHistorySearchModel SearchReq);
+        Task<DataSet> DownloadSR6ReportData_pdf_BTER(inventoryIssueHistorySearchModel SearchReq);
+        Task<DataSet> Download_SR5ReportData_pdf_BTER(inventoryIssueHistorySearchModel SearchReq);
     }
 }

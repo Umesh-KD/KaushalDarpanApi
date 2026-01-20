@@ -2999,8 +2999,8 @@
                   <Style />
                 </TextRun>
                 <TextRun>
-                  <Label>InstituteName</Label>
-                  <Value>=First(Fields!InstituteName.Value, "Daily_Report_Bhandar_Form1")</Value>
+                  <Label>CenterName</Label>
+                  <Value>=First(Fields!CenterName.Value, "Daily_Report_Bhandar_Form1")</Value>
                   <ToolTip>=First(Fields!InstituteName.Value, "Daily_Report_Bhandar_Form1")</ToolTip>
                   <Style />
                 </TextRun>
@@ -3142,13 +3142,16 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>परीक्षा केन्द्र कोड </Value>
+                  <Value>परीक्षा केन्द्र कोड [</Value>
                   <Style />
                 </TextRun>
                 <TextRun>
-                  <Label>CenterCode</Label>
-                  <Value>=First(Fields!CenterCode.Value, "Daily_Report_Bhandar_Form1")</Value>
-                  <ToolTip>=First(Fields!CenterCode.Value, "Daily_Report_Bhandar_Form1")</ToolTip>
+                  <Label>CCCode</Label>
+                  <Value>=First(Fields!CCCode.Value, "Daily_Report_Bhandar_Form1")</Value>
+                  <Style />
+                </TextRun>
+                <TextRun>
+                  <Value>]</Value>
                   <Style />
                 </TextRun>
               </TextRuns>
@@ -3229,6 +3232,78 @@
     </DataSource>
   </DataSources>
   <DataSets>
+    <DataSet Name="BhandarForm_DataTabl2">
+      <Query>
+        <DataSourceName>KD_DBScript</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="StartTime">
+          <DataField>StartTime</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EndTime">
+          <DataField>EndTime</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Total_Student">
+          <DataField>Total_Student</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ExamRoomSize">
+          <DataField>ExamRoomSize</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ExamRoom">
+          <DataField>ExamRoom</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CenterSuperidentName">
+          <DataField>CenterSuperidentName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>KD_DBScript</rd:DataSetName>
+        <rd:SchemaPath>D:\Project\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:TableName>BhandarForm_DataTabl2</rd:TableName>
+        <rd:TableAdapterFillMethod />
+        <rd:TableAdapterGetDataMethod />
+        <rd:TableAdapterName />
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="Daily_Report_Bhandar_Form_UFM">
+      <Query>
+        <DataSourceName>KD_DBScript</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="SrNo">
+          <DataField>SrNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RollNo">
+          <DataField>RollNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="StartTime">
+          <DataField>StartTime</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EndTime">
+          <DataField>EndTime</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>KD_DBScript</rd:DataSetName>
+        <rd:SchemaPath>D:\Kausal_Darpan\API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:TableName>Daily_Report_Bhandar_Form_UFM</rd:TableName>
+        <rd:TableAdapterFillMethod />
+        <rd:TableAdapterGetDataMethod />
+        <rd:TableAdapterName />
+      </rd:DataSetInfo>
+    </DataSet>
     <DataSet Name="Daily_Report_Bhandar_Form1">
       <Query>
         <DataSourceName>KD_DBScript</DataSourceName>
@@ -3299,83 +3374,15 @@
           <DataField>SemesterName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="CenterName">
+          <DataField>CenterName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Projects\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Projects\doitoffice\KD-Api\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
         <rd:TableName>Daily_Report_Bhandar_Form1</rd:TableName>
-        <rd:TableAdapterFillMethod />
-        <rd:TableAdapterGetDataMethod />
-        <rd:TableAdapterName />
-      </rd:DataSetInfo>
-    </DataSet>
-    <DataSet Name="BhandarForm_DataTabl2">
-      <Query>
-        <DataSourceName>KD_DBScript</DataSourceName>
-        <CommandText>/* Local Query */</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="StartTime">
-          <DataField>StartTime</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="EndTime">
-          <DataField>EndTime</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Total_Student">
-          <DataField>Total_Student</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ExamRoomSize">
-          <DataField>ExamRoomSize</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ExamRoom">
-          <DataField>ExamRoom</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CenterSuperidentName">
-          <DataField>CenterSuperidentName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-      <rd:DataSetInfo>
-        <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Project\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
-        <rd:TableName>BhandarForm_DataTabl2</rd:TableName>
-        <rd:TableAdapterFillMethod />
-        <rd:TableAdapterGetDataMethod />
-        <rd:TableAdapterName />
-      </rd:DataSetInfo>
-    </DataSet>
-    <DataSet Name="Daily_Report_Bhandar_Form_UFM">
-      <Query>
-        <DataSourceName>KD_DBScript</DataSourceName>
-        <CommandText>/* Local Query */</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="SrNo">
-          <DataField>SrNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="RollNo">
-          <DataField>RollNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="StartTime">
-          <DataField>StartTime</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="EndTime">
-          <DataField>EndTime</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-      <rd:DataSetInfo>
-        <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Kausal_Darpan\API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
-        <rd:TableName>Daily_Report_Bhandar_Form_UFM</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
         <rd:TableAdapterName />
