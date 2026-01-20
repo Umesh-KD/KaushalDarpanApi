@@ -1211,6 +1211,19 @@ namespace Kaushal_Darpan.Api.Controllers
         box-sizing: border-box;
         padding-right: 10px;
     }
+.page-col {
+        width: 50%;
+        display: inline-block;
+        vertical-align: top;
+        font-size: 12px;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+.page-row {
+        width: 100%;
+        font-size: 0; /* remove inline-block gap */
+    }
+
 
     </style>
 </head>
@@ -1225,11 +1238,11 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     var header = gitem.First();
 
-                   sb.Append($@"<div  style=""border:1px solid #ddd; padding:25px; margin-bottom:25px;"">
+                   sb.Append($@"<div   style=""border:1px solid #ddd; padding:35px; margin-bottom:25px;"">
 <div {(groupIndex < totalGroups - 1 ? "class='page-break'" : "")}>
 
 
-<table width=""100%%"" style=""border:none; margin-bottom:10px;"">
+<table width=""100%"" style=""border:none; margin-bottom:10px;"">
     <tr>
         <td style=""border:none; text-align:left;"">
             <b>{header.ExamName}</b>
@@ -1329,7 +1342,7 @@ namespace Kaushal_Darpan.Api.Controllers
     </table>
 
 
-</div></div>
+</div></div></div>
 ");
 
                     groupIndex++;
