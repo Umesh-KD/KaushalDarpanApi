@@ -9535,8 +9535,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_DDL_InternalSlidingUnitITI";
                         command.Parameters.AddWithValue("@ID", ID);
                         command.Parameters.AddWithValue("@FinancialYearID", FinancialYearID);
-                        command.Parameters.AddWithValue("@CourseTypeID", CourseTypeID);
-                        command.Parameters.AddWithValue("@Collegeid", InstituteID);
+                          command.Parameters.AddWithValue("@CourseTypeID", CourseTypeID);
+                         command.Parameters.AddWithValue("@Collegeid", InstituteID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

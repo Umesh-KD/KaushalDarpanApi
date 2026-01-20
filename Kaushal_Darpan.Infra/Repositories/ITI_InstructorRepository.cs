@@ -745,7 +745,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ItiInstructorDataAssigned";
 
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@CollegeId", model.CollegeId);
+                        command.Parameters.AddWithValue("@CollegeID", model.CollegeId);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
