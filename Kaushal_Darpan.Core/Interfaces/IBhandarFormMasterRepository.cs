@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.SetExamAttendanceMaster;
+﻿using Kaushal_Darpan.Models.BhandarFormDataModel;
+using Kaushal_Darpan.Models.SetExamAttendanceMaster;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,6 +11,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 {
     public interface IBhandarFormMasterRepository
     {
-        Task<DataTable> GetExamStudentData(SetExamAttendanceSearchModel filterModel);
+        Task<AddBhandarFormDataModel> GetExamStudentData(AddBhandarFormDataModel filterModel);
+        Task<bool> SaveData(AddBhandarFormDataModel productDetails);
     }
 }
