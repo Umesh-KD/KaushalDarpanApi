@@ -26,6 +26,8 @@ using Kaushal_Darpan.Models.BterCertificateReport;
 using System.Text;
 using iTextSharp.tool.xml.html;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DinkToPdf.Contracts;
+using DinkToPdf;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -39,10 +41,12 @@ namespace Kaushal_Darpan.Api.Controllers
         public override string ActionName { get; set; }
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        public StudentController(IMapper mapper, IUnitOfWork unitOfWork)
+        private readonly IConverter _converter;
+        public StudentController(IMapper mapper, IConverter converter, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _converter = converter;
         }
         [HttpPost("GetStudentDashboard")]
         public async Task<ApiResult<DataTable>> GetStudentDashboard([FromBody] StudentSearchModel body)
@@ -1344,10 +1348,26 @@ namespace Kaushal_Darpan.Api.Controllers
                         await CreateErrorLog(nex1, _unitOfWork);
 
 
+                        var doc = new HtmlToPdfDocument()
+                        {
+                            GlobalSettings = {
+                                  PaperSize = PaperKind.A4,
+                                  Orientation = Orientation.Landscape
+                              },
+                            Objects = {
+                              new ObjectSettings()
+                              {
+                                  HtmlContent = html,
+                                  WebSettings = { DefaultEncoding = "utf-8" }
+                              }
+                            }
+                        };
 
-                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", "");
+                        byte[] pdf = _converter.Convert(doc);
 
-                        result.Data = Convert.ToBase64String(pdfBytes);
+                        //byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", "");
+
+                        result.Data = Convert.ToBase64String(pdf);
                         result.State = EnumStatus.Success;
                         result.Message = "Success";
                     }
