@@ -1,5 +1,8 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using AutoMapper;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Kaushal_Darpan.Core.Entities;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
@@ -25,11 +28,14 @@ namespace Kaushal_Darpan.Api.Controllers
 
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IConverter _converter;
 
-        public UserRequestController(IMapper mapper, IUnitOfWork unitOfWork)
+        public UserRequestController(IMapper mapper, IConverter converter, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _converter = converter;
+
         }
 
 
@@ -446,8 +452,8 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             ActionName = "GetJoiningLetter(string ApplicationID)";
 
-            return await Task.Run(async () =>
-            {
+            //return await Task.Run(async () =>
+            //{
                 var result = new ApiResult<string>();
                 try
                 {
@@ -490,15 +496,32 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
 
+                        var doc = new HtmlToPdfDocument()
+                        {
+                            GlobalSettings = {
+                            PaperSize = PaperKind.A4,
+                            Orientation = Orientation.Landscape
+                        },
+                                Objects = {
+                            new ObjectSettings()
+                            {
+                                HtmlContent = html,
+                                WebSettings = { DefaultEncoding = "utf-8" }
+                            }
+                        }
+                        };
 
-                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1);
+                        byte[] pdf = _converter.Convert(doc);
+                        //return File(pdf, "application/pdf", "HindiDinkToPdf.pdf");
+
+                        //byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1);
 
                         // Example: Send in API
                         //return File(pdfBytes, "application/pdf", "Generated.pdf");
 
 
                         ///string dataUri = "data:application/pdf;base64," + base64String;
-                        result.Data = Convert.ToBase64String(pdfBytes); ;
+                        result.Data = Convert.ToBase64String(pdf); ;
                         result.State = EnumStatus.Success;
                         result.Message = "Success";
                     }
@@ -524,7 +547,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
                 }
                 return result;
-            });
+            //});
         }
 
         [HttpPost("GetRelievingLetter")]
@@ -576,15 +599,31 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
 
+                        var doc = new HtmlToPdfDocument()
+                        {
+                            GlobalSettings = {
+                            PaperSize = PaperKind.A4,
+                            Orientation = Orientation.Landscape
+                        },
+                            Objects = {
+                            new ObjectSettings()
+                            {
+                                HtmlContent = html,
+                                WebSettings = { DefaultEncoding = "utf-8" }
+                            }
+                        }
+                        };
 
-                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1);
+                        byte[] pdf = _converter.Convert(doc);
+
+                        //byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1);
 
                         // Example: Send in API
                         //return File(pdfBytes, "application/pdf", "Generated.pdf");
 
 
                         ///string dataUri = "data:application/pdf;base64," + base64String;
-                        result.Data = Convert.ToBase64String(pdfBytes); ;
+                        result.Data = Convert.ToBase64String(pdf); ;
                         result.State = EnumStatus.Success;
                         result.Message = "Success";
                     }
