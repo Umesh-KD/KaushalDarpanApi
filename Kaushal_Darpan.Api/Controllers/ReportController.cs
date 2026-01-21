@@ -6878,6 +6878,9 @@ namespace Kaushal_Darpan.Api.Controllers
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
                         string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/daily_report(Bhandar_form1).rdlc";
 
+                        string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[0].Rows[0]["FileName"]}";
+                        data.Tables[0].Rows[0]["moharImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
+
                         LocalReport localReport = new LocalReport(rdlcpath);
                         localReport.AddDataSource("Daily_Report_Bhandar_Form1", data.Tables[0]);
                         localReport.AddDataSource("BhandarForm_DataTabl2", data.Tables[1]);
