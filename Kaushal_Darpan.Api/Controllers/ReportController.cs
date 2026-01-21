@@ -14823,7 +14823,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     var col1 = subjectData.Take(rowsPerColumn).ToList();
                     var col2 = subjectData.Skip(rowsPerColumn).Take(rowsPerColumn).ToList();
-                    var col3 = subjectData.Skip(rowsPerColumn * 2).ToList();
+                    var col3 = subjectData.Skip(rowsPerColumn * 5).ToList();
 
                     sb.Append($@"
 <div class='subject-title'>
@@ -15098,8 +15098,10 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     var subjectData = subject.ToList();
 
+                   
+
                     int totalRows = subjectData.Count;
-                    int rowsPerColumn = (int)Math.Ceiling(totalRows / 1.0);
+                    int rowsPerColumn = (int)Math.Ceiling(totalRows / 2.0);
 
                     var col1 = subjectData.Take(rowsPerColumn).ToList();
                     var col2 = subjectData.Skip(rowsPerColumn).Take(rowsPerColumn).ToList();
