@@ -1129,16 +1129,12 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 var streams_data =
                     await _unitOfWork.ItiExaminerRepository.TeacherForExaminerReportDewnloadPdf(body);
-
                 var dataList =
                     CommonFuncationHelper.ConvertDataTable<List<ITITeacherForExaminerSearchModel>>(streams_data);
-
                 var groupedData = dataList
                     .GroupBy(x => new { x.SubjectCode, x.StreamID, x.SemesterID,x.CenterCode })
                     .ToList();
-
                 var sb = new StringBuilder();
-
                 // ================= HTML HEADER =================
                 sb.Append(@"
 <!DOCTYPE html>
