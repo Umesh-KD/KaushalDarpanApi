@@ -2667,7 +2667,7 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>Daily_Report_Bhandar_Form_UFM</DataSetName>
+        <DataSetName>Daily_Report_WithoutAdmitcard</DataSetName>
         <Top>12.71872cm</Top>
         <Left>0.42822cm</Left>
         <Height>1.2cm</Height>
@@ -2827,7 +2827,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -2925,7 +2924,7 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>Daily_Report_Bhandar_Form_UFM</DataSetName>
+        <DataSetName>Daily_Report_AdmitCard</DataSetName>
         <Top>15.16171cm</Top>
         <Left>0.45237cm</Left>
         <Height>1.2cm</Height>
@@ -2937,6 +2936,37 @@
           </Border>
         </Style>
       </Tablix>
+      <Textbox Name="Textbox6">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Label>date</Label>
+                <Value>=First(Fields!ExamDate.Value, "Daily_Report_Bhandar_Form1")</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox6</rd:DefaultName>
+        <Top>5.89247cm</Top>
+        <Left>15.68471cm</Left>
+        <Height>0.62646cm</Height>
+        <Width>3.26448cm</Width>
+        <ZIndex>14</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>8.99563in</Height>
     <Style>
@@ -2946,7 +2976,7 @@
       </Border>
     </Style>
   </Body>
-  <Width>10.18019in</Width>
+  <Width>10.84758in</Width>
   <Page>
     <PageHeader>
       <Height>5.71956cm</Height>
@@ -3112,7 +3142,12 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>प्रयुक्त अक्षर मोहर </Value>
+                  <Value>प्रयुक्त अक्षर मोहर - </Value>
+                  <Style />
+                </TextRun>
+                <TextRun>
+                  <Label>Mohar</Label>
+                  <Value>=First(Fields!MoharID.Value, "Daily_Report_Bhandar_Form1")</Value>
                   <Style />
                 </TextRun>
               </TextRuns>
@@ -3427,10 +3462,14 @@
           <DataField>CenterName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="MoharID">
+          <DataField>MoharID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Projects\doitoffice\KD-Api\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Kausal_Darpan\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
         <rd:TableName>Daily_Report_Bhandar_Form1</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
