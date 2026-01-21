@@ -2967,6 +2967,21 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
+      <Image Name="mohar">
+        <Source>Embedded</Source>
+        <Value>=First(Fields!moharImg.Value, "Daily_Report_Bhandar_Form1")</Value>
+        <Sizing>FitProportional</Sizing>
+        <Top>20.95201cm</Top>
+        <Left>13.83771cm</Left>
+        <Height>1.5cm</Height>
+        <Width>1.5cm</Width>
+        <ZIndex>15</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Image>
     </ReportItems>
     <Height>8.99563in</Height>
     <Style>
@@ -3464,6 +3479,10 @@
         </Field>
         <Field Name="MoharID">
           <DataField>MoharID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="moharImg">
+          <DataField>moharImg</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

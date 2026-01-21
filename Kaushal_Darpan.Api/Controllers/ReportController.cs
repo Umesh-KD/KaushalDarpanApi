@@ -6883,7 +6883,9 @@ namespace Kaushal_Darpan.Api.Controllers
                         string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[0].Rows[0]["FileName"]}";
                         data.Tables[0].Rows[0]["moharImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
 
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         LocalReport localReport = new LocalReport(rdlcpath);
+
                         localReport.AddDataSource("Daily_Report_Bhandar_Form1", data.Tables[0]);
                         localReport.AddDataSource("BhandarForm_DataTabl2", data.Tables[1]);
                         localReport.AddDataSource("Daily_Report_Bhandar_Form_UFM", data.Tables[2]);
@@ -6892,6 +6894,13 @@ namespace Kaushal_Darpan.Api.Controllers
                         var reportResult = localReport.Execute(RenderType.Pdf);
 
                         System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+
+                        //end report
+
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
                         //end report
 
                         result.Data = fileName;

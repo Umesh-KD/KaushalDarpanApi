@@ -28320,6 +28320,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnMoharID;
             
+            private global::System.Data.DataColumn columnmoharImg;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public Daily_Report_Bhandar_Form1DataTable() {
@@ -28499,6 +28501,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn moharImgColumn {
+                get {
+                    return this.columnmoharImg;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -28552,7 +28562,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         string Total_ValidPresentStudent, 
                         string SemesterName, 
                         string CenterName, 
-                        string MoharID) {
+                        string MoharID, 
+                        string moharImg) {
                 Daily_Report_Bhandar_Form1Row rowDaily_Report_Bhandar_Form1Row = ((Daily_Report_Bhandar_Form1Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         PaperCode,
@@ -28572,7 +28583,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         Total_ValidPresentStudent,
                         SemesterName,
                         CenterName,
-                        MoharID};
+                        MoharID,
+                        moharImg};
                 rowDaily_Report_Bhandar_Form1Row.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDaily_Report_Bhandar_Form1Row);
                 return rowDaily_Report_Bhandar_Form1Row;
@@ -28613,6 +28625,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnSemesterName = base.Columns["SemesterName"];
                 this.columnCenterName = base.Columns["CenterName"];
                 this.columnMoharID = base.Columns["MoharID"];
+                this.columnmoharImg = base.Columns["moharImg"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -28654,6 +28667,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnCenterName);
                 this.columnMoharID = new global::System.Data.DataColumn("MoharID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMoharID);
+                this.columnmoharImg = new global::System.Data.DataColumn("moharImg", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnmoharImg);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -74364,6 +74379,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string moharImg {
+                get {
+                    try {
+                        return ((string)(this[this.tableDaily_Report_Bhandar_Form1.moharImgColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'moharImg\' in table \'Daily_Report_Bhandar_Form1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDaily_Report_Bhandar_Form1.moharImgColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsPaperCodeNull() {
                 return this.IsNull(this.tableDaily_Report_Bhandar_Form1.PaperCodeColumn);
             }
@@ -74576,6 +74607,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetMoharIDNull() {
                 this[this.tableDaily_Report_Bhandar_Form1.MoharIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsmoharImgNull() {
+                return this.IsNull(this.tableDaily_Report_Bhandar_Form1.moharImgColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetmoharImgNull() {
+                this[this.tableDaily_Report_Bhandar_Form1.moharImgColumn] = global::System.Convert.DBNull;
             }
         }
         
