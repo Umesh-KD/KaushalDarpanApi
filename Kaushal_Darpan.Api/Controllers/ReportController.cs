@@ -6880,11 +6880,16 @@ namespace Kaushal_Darpan.Api.Controllers
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
                         string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/daily_report(Bhandar_form1).rdlc";
 
-                        string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[0].Rows[0]["FileName"]}";
-                        data.Tables[0].Rows[0]["moharImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
-
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
                         LocalReport localReport = new LocalReport(rdlcpath);
+
+                        foreach (DataRow row in data.Tables[0].Rows)
+                        {
+                            string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{row["FileName"]}";
+                            row["moharImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
+                        }
+
 
                         localReport.AddDataSource("Daily_Report_Bhandar_Form1", data.Tables[0]);
                         localReport.AddDataSource("BhandarForm_DataTabl2", data.Tables[1]);

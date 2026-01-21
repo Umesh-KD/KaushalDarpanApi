@@ -67,6 +67,8 @@ namespace Kaushal_Darpan.Models.BhandarFormDataModel
         public string ToDutyTime { get; set; } = string.Empty;
 
         public string Size { get; set; } = string.Empty;
+        public int? ShiftID { get; set; } = 0;
+        public string? Shift_str { get; set; } = string.Empty;
     }
 
     public class BhandarStudentModel
