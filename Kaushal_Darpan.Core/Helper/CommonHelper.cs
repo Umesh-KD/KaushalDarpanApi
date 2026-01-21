@@ -53,6 +53,8 @@ namespace Kaushal_Darpan.Core.Helper
         public const string MSG_COLLEGE_DUPLICATE = "The College Name already Exist";
         public const string MSG_AlreadyAssigned = "Entered Roll number range is already allocated to another invigilator. Please enter a new range.";
         public const string MSG_SAVE_SUCCESS_EXCEPT_UNVERIFIED_STUDENTS = "Saved successfully. Except Unverified Students!";
+        public const string MSG_INVALID_SSOID_PASSWORD = "Invalid SSOID or Password.!";
+
 
         public const string Login_DefaultPassword = "KD@1230";
 
