@@ -289,5 +289,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataSet> GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model);
         Task<DataSet> GetGroupCodeMasterReport(GroupCodeAllocationAddEditModel filterModel);
+        Task<DataSet> GetGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel filterModel);
     }
 }

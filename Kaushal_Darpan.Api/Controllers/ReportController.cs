@@ -3,6 +3,7 @@ using AutoMapper;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.Packaging;
 //using HtmlToOpenXml;
 using iTextSharp.text;
@@ -38,6 +39,7 @@ using Kaushal_Darpan.Models.TheoryMarks;
 using Kaushal_Darpan.Models.TimeTable;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
+using System;
 using System.Data;
 using System.Net;
 using System.Text;
@@ -14886,6 +14888,289 @@ namespace Kaushal_Darpan.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+
+
+
+        private string RenderTable(List<GroupCodeAllocationAddEditModel> list)
+        {
+            var sb = new StringBuilder();
+
+            // Group by GroupCode
+            var groupedByGroupCode = list
+                .GroupBy(x => x.GroupCode) // <-- change property if needed
+                .ToList();
+
+            foreach (var group in groupedByGroupCode)
+            {
+                int present = 0;
+                int total = 0;
+
+                sb.Append(@"
+<div class='group-block' style='page-break-inside:avoid; margin-bottom:8px;'>
+<table>
+<thead>
+<tr>
+    <th colspan='2' style='background:#f0f0f0;font-weight:bold;'>
+        Group Code : " + group.Key + @"
+    </th>
+</tr>
+<tr>
+    <th>CCode/Group/Branch</th>
+    <th>Present/Total</th>
+</tr>
+</thead>
+<tbody>
+");
+
+                foreach (var item in group)
+                {
+                    sb.Append($@"
+<tr>
+    <td>{item.centergroupcode}</td>
+    <td>{item.IsPresentTotal}/{item.Total}</td>
+</tr>");
+
+                    present += item.IsPresentTotal;
+                    total += item.Total;
+                }
+
+                sb.Append($@"
+<tr class='total-row'>
+    <td>Total</td>
+    <td>{present}/{total}</td>
+</tr>
+</tbody>
+</table>
+</div>
+");
+            }
+
+            return sb.ToString();
+        }
+
+
+
+        [HttpPost("GetGroupCodeMasterReportBranchwise")]
+
+        public async Task<IActionResult> GetGroupCodeMasterReportBranchwise([FromBody] GroupCodeAllocationAddEditModel filterModel)
+        {
+            try
+            {
+                //filterModel.SemesterId = 3;
+                //filterModel.EndTermID = 14;
+                //filterModel.DepartmentID = 1;
+                //filterModel.Eng_NonEng = 2;
+                //filterModel.action = "_getAllData";
+                //filterModel.schemeid = 0;
+
+
+
+                var streams_data = await _unitOfWork
+                    .ReportRepository
+                    .GetGroupCodeMasterReportBranchwise(filterModel);
+
+                var dataList = CommonFuncationHelper
+                    .ConvertDataTable<List<GroupCodeAllocationAddEditModel>>(
+                        streams_data.Tables[0]);
+
+                if (dataList == null || !dataList.Any())
+                    return BadRequest("No data found");
+
+                int semesterId = dataList.First().SemesterId;
+                string examName = dataList.First().ExamName ?? "";
+
+                var groupedSubjects = dataList
+                    .GroupBy(x => new { x.SubjectCode, x.SubjectName })
+                    .ToList();
+
+                string headerHtml = $@"
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    body {{
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        padding: 10px 20px;
+        font-size: 13px;
+    }}
+    .center {{ text-align: center; }}
+    .title {{ font-weight: bold; font-size: 17px; }}
+    .subtitle {{ font-size: 14px; margin-top: 3px; }}
+</style>
+</head>
+<body>
+    <div class='center'>
+        <div>Government of Rajasthan</div>
+        <div class='title'>Board of Technical Education Rajasthan, Jodhpur</div>
+        <div class='subtitle'>
+            Details of Examiner Group Code Diploma {examName}
+        </div>
+    </div>
+</body>
+</html>";
+
+                string headerFilePath = Path.Combine(
+                    Path.GetTempPath(),
+                    $"GroupCodeHeader_{Guid.NewGuid()}.html");
+
+                System.IO.File.WriteAllText(headerFilePath, headerHtml);
+
+                var sb = new StringBuilder();
+
+                sb.Append(@"
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13px;
+    }
+
+    .subject-title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 15px;
+        margin: 10px 0 6px 0;
+    }
+
+    .row {
+        width: 100%;
+        display: table;
+        table-layout: fixed;
+    }
+
+    .col {
+        display: table-cell;
+        vertical-align: top;
+        padding: 4px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #000;
+    }
+
+    th, td {
+        border: 1px solid #000;
+        padding: 6px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    tr {
+        page-break-inside: avoid;
+    }
+
+    .total-row td {
+        font-weight: bold;
+        background-color: #e6e6e6;
+    }
+
+    .page-break {
+        page-break-after: always;
+    }
+</style>.
+</head>
+<body>
+");
+
+                foreach (var subject in groupedSubjects)
+                {
+                    var subjectData = subject.ToList();
+
+                    int totalRows = subjectData.Count;
+                    int rowsPerColumn = (int)Math.Ceiling(totalRows / 1.0);
+
+                    var col1 = subjectData.Take(rowsPerColumn).ToList();
+                    var col2 = subjectData.Skip(rowsPerColumn).Take(rowsPerColumn).ToList();
+                    var col3 = subjectData.Skip(rowsPerColumn * 2).ToList();
+
+                    sb.Append($@"
+<div class='subject-title'>
+    Subject Code: {subject.Key.SubjectCode} &nbsp; {subject.Key.SubjectName}
+</div>
+");
+
+                    sb.Append("<div class='row'>");
+
+                    if (col1.Any())
+                        sb.Append($"<div class='col'>{RenderTable(col1)}</div>");
+
+                    if (col2.Any())
+                        sb.Append($"<div class='col'>{RenderTable(col2)}</div>");
+
+                    if (col3.Any())
+                        sb.Append($"<div class='col'>{RenderTable(col3)}</div>");
+
+                    sb.Append("</div>");
+
+                    sb.Append("<div class='page-break'></div>");
+                }
+
+                sb.Append(@"
+</body>
+</html>
+");
+
+                var doc = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+            {
+                PaperSize = PaperKind.A4,
+                Orientation = Orientation.Portrait,
+                Margins = new MarginSettings
+                {
+                    Top = 40,
+                    Bottom = 15,
+                    Left = 10,
+                    Right = 10
+                }
+            },
+                    Objects =
+            {
+                new ObjectSettings
+                {
+                    HtmlContent = sb.ToString(),
+                    WebSettings = { DefaultEncoding = "utf-8" },
+
+                    HeaderSettings = new HeaderSettings
+                    {
+                        HtmUrl = headerFilePath,
+                        Spacing = 3
+                    },
+
+                    FooterSettings = new FooterSettings
+                    {
+                        FontName = "Arial",
+                        FontSize = 9,
+                        Center = "Page [page] of [toPage]",
+                        Line = true
+                    }
+                }
+            }
+                };
+
+                byte[] pdfBytes = _converter.Convert(doc);
+
+                return File(pdfBytes, "application/pdf",
+                    "Group_Code_Master_Report_BranchWise.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+
 
 
     }
