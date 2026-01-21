@@ -635,6 +635,44 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<DataTable> Stream_InstituteIdWise(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0,int InstituteID=0,int AcademicYearID=0)
+        {
+            _actionName = "Stream_InstituteIdWise ()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Stream_InstituteIdWise";
+                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermId", EndTermId);
+                        command.Parameters.AddWithValue("@StreamType", StreamType);
+                        command.Parameters.AddWithValue("@InstituteID", InstituteID);
+                        command.Parameters.AddWithValue("@AcademicYearID", AcademicYearID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<DataTable> ItiTrade(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int DivisionId = 0,int SemesterID =0)
         {
             _actionName = "StreamMaster()";
