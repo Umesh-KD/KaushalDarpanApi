@@ -15089,8 +15089,10 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     var subjectData = subject.ToList();
 
+                   
+
                     int totalRows = subjectData.Count;
-                    int rowsPerColumn = (int)Math.Ceiling(totalRows / 1.0);
+                    int rowsPerColumn = (int)Math.Ceiling(totalRows / 2.0);
 
                     var col1 = subjectData.Take(rowsPerColumn).ToList();
                     var col2 = subjectData.Skip(rowsPerColumn).Take(rowsPerColumn).ToList();
