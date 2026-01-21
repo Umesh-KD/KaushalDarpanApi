@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.IDfFundDetailsModel;
 using Kaushal_Darpan.Models.ITIIIPManageDataModel;
+using Kaushal_Darpan.Models.SurveyPerformModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -36,6 +37,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetIIPQuaterlyFundReport(int id);
 
         Task<DataSet> GetAllIMCFundDataforReport(IIPManageFundSearchModel body);
-        Task<int> SavesurveyperformaReport(IDfFundDetailsModel FundDeatils);
+        Task<DataSet> GetAllsurveyperformaReport(GetSurveyPerformModel request);
+        Task<int> SavesurveyperformaReport(SurveyPerformModel SurveyPerformModel);
+        Task<DataSet> surveyperformaReportDownload(GetSurveyPerformModel body);
     }
 }
