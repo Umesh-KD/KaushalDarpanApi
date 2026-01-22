@@ -272,8 +272,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         private Daily_Report_AdmitCardDataTable tableDaily_Report_AdmitCard;
         
-        private Daily_Report_AdmitCard1DataTable tableDaily_Report_AdmitCard1;
-        
         private ExamLetterReportDataTable tableExamLetterReport;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
@@ -677,9 +675,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 }
                 if ((ds.Tables["Daily_Report_AdmitCard"] != null)) {
                     base.Tables.Add(new Daily_Report_AdmitCardDataTable(ds.Tables["Daily_Report_AdmitCard"]));
-                }
-                if ((ds.Tables["Daily_Report_AdmitCard1"] != null)) {
-                    base.Tables.Add(new Daily_Report_AdmitCard1DataTable(ds.Tables["Daily_Report_AdmitCard1"]));
                 }
                 if ((ds.Tables["ExamLetterReport"] != null)) {
                     base.Tables.Add(new ExamLetterReportDataTable(ds.Tables["ExamLetterReport"]));
@@ -1946,16 +1941,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public Daily_Report_AdmitCard1DataTable Daily_Report_AdmitCard1 {
-            get {
-                return this.tableDaily_Report_AdmitCard1;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
         public ExamLetterReportDataTable ExamLetterReport {
             get {
                 return this.tableExamLetterReport;
@@ -2400,9 +2385,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 }
                 if ((ds.Tables["Daily_Report_AdmitCard"] != null)) {
                     base.Tables.Add(new Daily_Report_AdmitCardDataTable(ds.Tables["Daily_Report_AdmitCard"]));
-                }
-                if ((ds.Tables["Daily_Report_AdmitCard1"] != null)) {
-                    base.Tables.Add(new Daily_Report_AdmitCard1DataTable(ds.Tables["Daily_Report_AdmitCard1"]));
                 }
                 if ((ds.Tables["ExamLetterReport"] != null)) {
                     base.Tables.Add(new ExamLetterReportDataTable(ds.Tables["ExamLetterReport"]));
@@ -3184,12 +3166,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                     this.tableDaily_Report_AdmitCard.InitVars();
                 }
             }
-            this.tableDaily_Report_AdmitCard1 = ((Daily_Report_AdmitCard1DataTable)(base.Tables["Daily_Report_AdmitCard1"]));
-            if ((initTable == true)) {
-                if ((this.tableDaily_Report_AdmitCard1 != null)) {
-                    this.tableDaily_Report_AdmitCard1.InitVars();
-                }
-            }
             this.tableExamLetterReport = ((ExamLetterReportDataTable)(base.Tables["ExamLetterReport"]));
             if ((initTable == true)) {
                 if ((this.tableExamLetterReport != null)) {
@@ -3454,8 +3430,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             base.Tables.Add(this.tableDaily_Report_WithoutAdmitcard);
             this.tableDaily_Report_AdmitCard = new Daily_Report_AdmitCardDataTable();
             base.Tables.Add(this.tableDaily_Report_AdmitCard);
-            this.tableDaily_Report_AdmitCard1 = new Daily_Report_AdmitCard1DataTable();
-            base.Tables.Add(this.tableDaily_Report_AdmitCard1);
             this.tableExamLetterReport = new ExamLetterReportDataTable();
             base.Tables.Add(this.tableExamLetterReport);
         }
@@ -4206,12 +4180,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private bool ShouldSerializeDaily_Report_AdmitCard1() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private bool ShouldSerializeExamLetterReport() {
             return false;
         }
@@ -4642,9 +4610,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public delegate void Daily_Report_AdmitCardRowChangeEventHandler(object sender, Daily_Report_AdmitCardRowChangeEvent e);
-        
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public delegate void Daily_Report_AdmitCard1RowChangeEventHandler(object sender, Daily_Report_AdmitCard1RowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public delegate void ExamLetterReportRowChangeEventHandler(object sender, ExamLetterReportRowChangeEvent e);
@@ -53693,297 +53658,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class Daily_Report_AdmitCard1DataTable : global::System.Data.TypedTableBase<Daily_Report_AdmitCard1Row> {
-            
-            private global::System.Data.DataColumn columnSrNo;
-            
-            private global::System.Data.DataColumn columnRollNo;
-            
-            private global::System.Data.DataColumn columnStartTime;
-            
-            private global::System.Data.DataColumn columnEndTime;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Daily_Report_AdmitCard1DataTable() {
-                this.TableName = "Daily_Report_AdmitCard1";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            internal Daily_Report_AdmitCard1DataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
-            protected Daily_Report_AdmitCard1DataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn SrNoColumn {
-                get {
-                    return this.columnSrNo;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn RollNoColumn {
-                get {
-                    return this.columnRollNo;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn StartTimeColumn {
-                get {
-                    return this.columnStartTime;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn EndTimeColumn {
-                get {
-                    return this.columnEndTime;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Daily_Report_AdmitCard1Row this[int index] {
-                get {
-                    return ((Daily_Report_AdmitCard1Row)(this.Rows[index]));
-                }
-            }
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event Daily_Report_AdmitCard1RowChangeEventHandler Daily_Report_AdmitCard1RowChanging;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event Daily_Report_AdmitCard1RowChangeEventHandler Daily_Report_AdmitCard1RowChanged;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event Daily_Report_AdmitCard1RowChangeEventHandler Daily_Report_AdmitCard1RowDeleting;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event Daily_Report_AdmitCard1RowChangeEventHandler Daily_Report_AdmitCard1RowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void AddDaily_Report_AdmitCard1Row(Daily_Report_AdmitCard1Row row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Daily_Report_AdmitCard1Row AddDaily_Report_AdmitCard1Row(string SrNo, string RollNo, string StartTime, string EndTime) {
-                Daily_Report_AdmitCard1Row rowDaily_Report_AdmitCard1Row = ((Daily_Report_AdmitCard1Row)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        SrNo,
-                        RollNo,
-                        StartTime,
-                        EndTime};
-                rowDaily_Report_AdmitCard1Row.ItemArray = columnValuesArray;
-                this.Rows.Add(rowDaily_Report_AdmitCard1Row);
-                return rowDaily_Report_AdmitCard1Row;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public override global::System.Data.DataTable Clone() {
-                Daily_Report_AdmitCard1DataTable cln = ((Daily_Report_AdmitCard1DataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new Daily_Report_AdmitCard1DataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            internal void InitVars() {
-                this.columnSrNo = base.Columns["SrNo"];
-                this.columnRollNo = base.Columns["RollNo"];
-                this.columnStartTime = base.Columns["StartTime"];
-                this.columnEndTime = base.Columns["EndTime"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            private void InitClass() {
-                this.columnSrNo = new global::System.Data.DataColumn("SrNo", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSrNo);
-                this.columnRollNo = new global::System.Data.DataColumn("RollNo", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnRollNo);
-                this.columnStartTime = new global::System.Data.DataColumn("StartTime", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnStartTime);
-                this.columnEndTime = new global::System.Data.DataColumn("EndTime", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEndTime);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Daily_Report_AdmitCard1Row NewDaily_Report_AdmitCard1Row() {
-                return ((Daily_Report_AdmitCard1Row)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new Daily_Report_AdmitCard1Row(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected override global::System.Type GetRowType() {
-                return typeof(Daily_Report_AdmitCard1Row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.Daily_Report_AdmitCard1RowChanged != null)) {
-                    this.Daily_Report_AdmitCard1RowChanged(this, new Daily_Report_AdmitCard1RowChangeEvent(((Daily_Report_AdmitCard1Row)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.Daily_Report_AdmitCard1RowChanging != null)) {
-                    this.Daily_Report_AdmitCard1RowChanging(this, new Daily_Report_AdmitCard1RowChangeEvent(((Daily_Report_AdmitCard1Row)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.Daily_Report_AdmitCard1RowDeleted != null)) {
-                    this.Daily_Report_AdmitCard1RowDeleted(this, new Daily_Report_AdmitCard1RowChangeEvent(((Daily_Report_AdmitCard1Row)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.Daily_Report_AdmitCard1RowDeleting != null)) {
-                    this.Daily_Report_AdmitCard1RowDeleting(this, new Daily_Report_AdmitCard1RowChangeEvent(((Daily_Report_AdmitCard1Row)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void RemoveDaily_Report_AdmitCard1Row(Daily_Report_AdmitCard1Row row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                KD_DBScript ds = new KD_DBScript();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "Daily_Report_AdmitCard1DataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class ExamLetterReportDataTable : global::System.Data.TypedTableBase<ExamLetterReportRow> {
             
             private global::System.Data.DataColumn columncentercode;
@@ -95195,133 +94869,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class Daily_Report_AdmitCard1Row : global::System.Data.DataRow {
-            
-            private Daily_Report_AdmitCard1DataTable tableDaily_Report_AdmitCard1;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            internal Daily_Report_AdmitCard1Row(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tableDaily_Report_AdmitCard1 = ((Daily_Report_AdmitCard1DataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string SrNo {
-                get {
-                    try {
-                        return ((string)(this[this.tableDaily_Report_AdmitCard1.SrNoColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'SrNo\' in table \'Daily_Report_AdmitCard1\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDaily_Report_AdmitCard1.SrNoColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string RollNo {
-                get {
-                    try {
-                        return ((string)(this[this.tableDaily_Report_AdmitCard1.RollNoColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'RollNo\' in table \'Daily_Report_AdmitCard1\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDaily_Report_AdmitCard1.RollNoColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string StartTime {
-                get {
-                    try {
-                        return ((string)(this[this.tableDaily_Report_AdmitCard1.StartTimeColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'StartTime\' in table \'Daily_Report_AdmitCard1\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDaily_Report_AdmitCard1.StartTimeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string EndTime {
-                get {
-                    try {
-                        return ((string)(this[this.tableDaily_Report_AdmitCard1.EndTimeColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'EndTime\' in table \'Daily_Report_AdmitCard1\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDaily_Report_AdmitCard1.EndTimeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsSrNoNull() {
-                return this.IsNull(this.tableDaily_Report_AdmitCard1.SrNoColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetSrNoNull() {
-                this[this.tableDaily_Report_AdmitCard1.SrNoColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsRollNoNull() {
-                return this.IsNull(this.tableDaily_Report_AdmitCard1.RollNoColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetRollNoNull() {
-                this[this.tableDaily_Report_AdmitCard1.RollNoColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsStartTimeNull() {
-                return this.IsNull(this.tableDaily_Report_AdmitCard1.StartTimeColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetStartTimeNull() {
-                this[this.tableDaily_Report_AdmitCard1.StartTimeColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsEndTimeNull() {
-                return this.IsNull(this.tableDaily_Report_AdmitCard1.EndTimeColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetEndTimeNull() {
-                this[this.tableDaily_Report_AdmitCard1.EndTimeColumn] = global::System.Convert.DBNull;
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
         public partial class ExamLetterReportRow : global::System.Data.DataRow {
             
             private ExamLetterReportDataTable tableExamLetterReport;
@@ -99872,40 +99419,6 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public Daily_Report_AdmitCardRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public class Daily_Report_AdmitCard1RowChangeEvent : global::System.EventArgs {
-            
-            private Daily_Report_AdmitCard1Row eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Daily_Report_AdmitCard1RowChangeEvent(Daily_Report_AdmitCard1Row row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Daily_Report_AdmitCard1Row Row {
                 get {
                     return this.eventRow;
                 }
