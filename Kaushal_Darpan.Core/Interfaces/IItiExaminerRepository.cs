@@ -1,5 +1,6 @@
 ﻿using Kaushal_Darpan.Models.BridgeCourse;
 using Kaushal_Darpan.Models.Examiners;
+using Kaushal_Darpan.Models.ITIAllotment;
 using Kaushal_Darpan.Models.ItiExaminer;
 using System.Data;
 
@@ -35,5 +36,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> RemoveStudent(ItiExaminerSearchModel model);
         Task<DataTable> GetTeacherForExaminerReport(ITITeacherForExaminerSearchModel filterModel);
         Task<DataTable> TeacherForExaminerReportDewnloadPdf(ITITeacherForExaminerSearchModel filterModel);
+
+        Task<int> ITIExaminerUploadFiles(ITIExaminerUploadFilesModel request);
+        Task<DataTable> ITIExaminerUploadFilesByAction(ITIExaminerUploadFilesModel request);
     }
 }

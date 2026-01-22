@@ -6,9 +6,11 @@ using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Api.Report.ITI;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Infra.Repositories;
 using Kaushal_Darpan.Models.BridgeCourse;
 using Kaushal_Darpan.Models.Examiners;
 using Kaushal_Darpan.Models.GroupCodeAllocation;
+using Kaushal_Darpan.Models.ITIAllotment;
 using Kaushal_Darpan.Models.ItiExaminer;
 using Kaushal_Darpan.Models.ItiInvigilator;
 using Kaushal_Darpan.Models.RenumerationExaminer;
@@ -1392,6 +1394,83 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
+
+
+        [HttpPost("ITIExaminerUploadFiles")]
+        public async Task<ApiResult<int>> ITIExaminerUploadFiles([FromBody] ITIExaminerUploadFilesModel request)
+        {
+            ActionName = "ITIExaminerUploadFilesModel([FromBody])";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.ItiExaminerRepository.ITIExaminerUploadFiles(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Saved successfully .!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "There was an error updating data.!";
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("ITIExaminerUploadFilesByAction")]
+        public async Task<ApiResult<DataTable>> ITIExaminerUploadFilesByAction([FromBody] ITIExaminerUploadFilesModel body)
+        {
+            ActionName = "GetTeacherForExaminerReport()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ItiExaminerRepository.ITIExaminerUploadFilesByAction(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
 
 
 

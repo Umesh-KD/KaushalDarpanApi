@@ -191,5 +191,21 @@ namespace Kaushal_Darpan.Models.ItiExaminer
 
 
 
+        public class ITIExaminerUploadFilesModel
+        {
+            public int UploadedID { get; set; }
+            public int ExaminerID { get; set; }
+            public string? FileName { get; set; }
+            public string? DisplayFileName { get; set; }
+            public int? EndTermID { get; set; }
+            public string? CreatedDate { get; set; }
+            public int? CreateByID { get; set; }
+            public int? UserID { get; set; }
+            public string SSOID { get; set; } = string.Empty;
+            public string? Remarks { get; set; } 
+            public string? Action { get; set; } 
+
+        }
+   
 
 }
