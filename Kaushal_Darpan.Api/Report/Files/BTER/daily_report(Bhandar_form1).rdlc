@@ -3193,7 +3193,17 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>डिप्लोमा इंजिनीयरिंग </Value>
+                  <Value xml:space="preserve"> </Value>
+                  <Style />
+                </TextRun>
+                <TextRun>
+                  <Label>EndTermName</Label>
+                  <Value>=First(Fields!EndTermName.Value, "Daily_Report_Bhandar_Form1")</Value>
+                  <ToolTip>=First(Fields!EndTermName.Value, "Daily_Report_Bhandar_Form1")</ToolTip>
+                  <Style />
+                </TextRun>
+                <TextRun>
+                  <Value xml:space="preserve"> </Value>
                   <Style />
                 </TextRun>
                 <TextRun>
@@ -3409,84 +3419,6 @@
         <DataSourceName>KD_DBScript</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
-      <Fields>
-        <Field Name="PaperCode">
-          <DataField>PaperCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="EndTermName">
-          <DataField>EndTermName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CCCode">
-          <DataField>CCCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="InstituteName">
-          <DataField>InstituteName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CenterCode">
-          <DataField>CenterCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ExamDate">
-          <DataField>ExamDate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="StartTime">
-          <DataField>StartTime</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="EndTime">
-          <DataField>EndTime</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Total_Student">
-          <DataField>Total_Student</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Total_PresentStudent">
-          <DataField>Total_PresentStudent</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Total_AbsentStudent">
-          <DataField>Total_AbsentStudent</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="SrNo">
-          <DataField>SrNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Total_UFMStudent">
-          <DataField>Total_UFMStudent</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Total_DetainedStudent">
-          <DataField>Total_DetainedStudent</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Total_ValidPresentStudent">
-          <DataField>Total_ValidPresentStudent</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="SemesterName">
-          <DataField>SemesterName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CenterName">
-          <DataField>CenterName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="MoharID">
-          <DataField>MoharID</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="moharImg">
-          <DataField>moharImg</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
         <rd:SchemaPath>D:\Kausal_Darpan\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
