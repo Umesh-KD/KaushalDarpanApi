@@ -52,6 +52,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? QuantityBalance { get; set; }
         public string? BillFileName { get; set; }
         public string? BillFilePath { get; set; }
+        public string? Specification { get; set; }
         public bool? IsRequested { get; set; }
     }
 
