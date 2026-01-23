@@ -52,6 +52,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? QuantityBalance { get; set; }
         public string? BillFileName { get; set; }
         public string? BillFilePath { get; set; }
+        public string? Specification { get; set; }
         public bool? IsRequested { get; set; }
     }
 
@@ -111,6 +112,10 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int RoleID { get; set; }
         public int OfficeID { get; set; }
         public string RowsID { get; set; }
+        public string? Authority_forAuctionOrder { get; set; }
+        public string? ModeOfDisposal { get; set; }
+        public string? Remarks { get; set; }
+        public decimal? ApproximateCost { get; set; }
     }
 
 

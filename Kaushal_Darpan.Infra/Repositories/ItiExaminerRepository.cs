@@ -3,6 +3,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.BridgeCourse;
 using Kaushal_Darpan.Models.Examiners;
+using Kaushal_Darpan.Models.ITIAllotment;
 using Kaushal_Darpan.Models.ItiExaminer;
 using Kaushal_Darpan.Models.RenumerationExaminer;
 using Microsoft.Data.SqlClient;
@@ -1152,6 +1153,95 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+
+        public async Task<int> ITIExaminerUploadFiles(ITIExaminerUploadFilesModel request)
+        {
+            return await Task.Run(async () =>
+            {
+                _actionName = "SaveData(GroupMaster request)";
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIExaminer_UploadFiles";
+                        command.Parameters.AddWithValue("@FileName", request.FileName);
+                        command.Parameters.AddWithValue("@Remarks", request.Remarks);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@SSOID", request.SSOID);
+                        command.Parameters.AddWithValue("@UploadedID", request.UploadedID);
+                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                        command.Parameters.AddWithValue("@Action", request.Action);
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
+
+        public async Task<DataTable> ITIExaminerUploadFilesByAction(ITIExaminerUploadFilesModel request)
+        {
+            _actionName = "GetTeacherForExaminer()";
+            try
+            {
+
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITIExaminer_UploadFiles_Get";
+                    command.Parameters.AddWithValue("@SSOID", request.SSOID);
+                    command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                    command.Parameters.AddWithValue("@Action", request.Action);
+                    command.Parameters.Add("@Return", SqlDbType.Int);// out
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
 
     }
 }

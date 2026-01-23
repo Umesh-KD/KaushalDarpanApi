@@ -519,6 +519,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", SearchReq.EndTermID);
                         command.Parameters.AddWithValue("@StatusID", SearchReq.StatusID);
                         command.Parameters.AddWithValue("@ItemType", SearchReq.ItemType);
+                        command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
                         command.Parameters.AddWithValue("@ItemFor", SearchReq.ItemFor);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -1083,6 +1084,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@AuctionDoc", request.AuctionDoc);
                         command.Parameters.AddWithValue("@AuctionQuantity", request.AuctionQuantity);
                         command.Parameters.AddWithValue("@RowsID", request.RowsID);
+                        command.Parameters.AddWithValue("@Authority", request.Authority_forAuctionOrder);
+                        command.Parameters.AddWithValue("@ModeOfDisposal", request.ModeOfDisposal);
+                        command.Parameters.AddWithValue("@Remarks", request.Remarks);
+                        command.Parameters.AddWithValue("@ApproximateCost", request.ApproximateCost);
+
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
 
@@ -2411,6 +2417,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
                         command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
                         command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
+                        command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         
                         dataTable = await command.FillAsync_DataTable();
