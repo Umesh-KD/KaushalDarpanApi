@@ -4,6 +4,7 @@ using DinkToPdf;
 using DinkToPdf.Contracts;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Packaging;
 //using HtmlToOpenXml;
 using iTextSharp.text;
@@ -55,6 +56,9 @@ namespace Kaushal_Darpan.Api.Controllers
     {
         public override string PageName => "ReportController";
         public override string ActionName { get; set; }
+        public object ListRoleListPath { get; private set; }
+        public object ModInsert { get; private set; }
+
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
@@ -1251,45 +1255,107 @@ namespace Kaushal_Darpan.Api.Controllers
             ActionName = "GetExamLetterReport()";
             return await Task.Run(async () =>
             {
+                List<string> ListRoleListPath = new List<string>();
                 var result = new ApiResult<string>();
                 try
                 {
                     var data = await _unitOfWork.ReportRepository.GetExamLetterReport(model);
                     if (data != null)
                     {
-                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-                        var fileName = $"ExamLetterReport.pdf";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/ExamLetter.rdlc";
-                        //
-                        var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
-                        //
-                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("ExamLetterReport", data.Tables[0]);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
-
-
-                        //check file exists
-                        if (!System.IO.Directory.Exists(folderPath))
+                        
+                        var groupedData = data.Tables[0]
+                        .AsEnumerable()
+                        .GroupBy(r => r.Field<int>("GroupCode"))
+                        .Select(g => g.Key)
+                        .ToList();
+                        
+                        foreach (var group in groupedData)
                         {
-                            Directory.CreateDirectory(folderPath);
+
+                            var filteredRows = data.Tables[0]
+                                .AsEnumerable()
+                                .Where(r => r.Field<int>("GroupCode") == group)
+                                .ToList();
+
+                            DataTable filteredTable = filteredRows.Any()
+                                ? filteredRows.CopyToDataTable()
+                                 : data.Tables[0].Clone();
+
+                            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                            var fileName = $"ExamLetterReport_{group}.pdf";
+                            string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                            string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/ExamLetter.rdlc";
+                            //
+                            var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                            //
+                            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                            LocalReport localReport = new LocalReport(rdlcpath);
+                            localReport.AddDataSource("ExamLetterReport", filteredTable);
+                            //localReport.AddDataSource("ExamLetterReport", data.Tables[0]);
+                            var reportResult = localReport.Execute(RenderType.Pdf);
+                            System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                            ListRoleListPath.Add(filepath);
+                            result.Data = fileName;
+                            result.State = EnumStatus.Success;
+                            result.Message = "Success.";
+
+                            //check file exists
+                            if (!System.IO.Directory.Exists(folderPath))
+                            {
+                                Directory.CreateDirectory(folderPath);
+                            }
+                            //save
+
+
+
+                            //end report
+
+                            result.Data = fileName;
+                            result.State = EnumStatus.Success;
+                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
                         }
-                        //save
-
-
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        //end report
-
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                     }
                     else
                     {
                         result.State = EnumStatus.Warning;
                         result.Message = Constants.MSG_DATA_NOT_FOUND;
                     }
+
+
+                    #region "Save Multiple PDF PAGES"
+                    string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                    string guid = Guid.NewGuid().ToString().ToUpper();
+                    string outputFile = $"{guid}_{timestamp}.pdf";
+                    string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                    
+                    if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
+                    {
+                        try
+                        {
+                            //delete files
+                            await DeleteFiles(ListRoleListPath);
+                        }
+                        catch (Exception exd)
+                        {
+                        }
+                        result.Data = outputFile;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Success.";
+
+                        await _unitOfWork.SaveChangesAsync();
+
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Something went wrong";
+                    }
+                    #endregion
+
+
+
                 }
                 catch (Exception ex)
                 {
@@ -1309,6 +1375,10 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+
+
         #endregion
 
         #region Student Admission Challan Receipt
@@ -9622,7 +9692,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         data.Tables[0].TableName = "GetITIStudent_Marksheet_SingleDetails";
 
                         data.Tables[0].Rows[0]["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
-                        data.Tables[0].Rows[0]["HeadLogo"] = $"{ConfigurationHelper.StaticFileRootPath+"/"+data.Tables[0].Rows[0]["HeadLogo"]}";
+                        data.Tables[0].Rows[0]["HeadLogo"] = $"{ConfigurationHelper.StaticFileRootPath + "/" + data.Tables[0].Rows[0]["HeadLogo"]}";
 
                         data.Tables[0].Rows[0]["NE100"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
                         data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
@@ -14782,7 +14852,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     return BadRequest("No data found");
 
                 int semesterId = dataList.First().SemesterId;
-                string examName = dataList.First().ExamName ??  "";
+                string examName = dataList.First().ExamName ?? "";
 
                 var groupedSubjects = dataList
                     .GroupBy(x => new { x.SubjectCode, x.SubjectName })
@@ -15170,7 +15240,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     var subjectData = subject.ToList();
 
-                   
+
 
                     int totalRows = subjectData.Count;
                     int rowsPerColumn = (int)Math.Ceiling(totalRows / 2.0);

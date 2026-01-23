@@ -89,5 +89,28 @@ namespace Kaushal_Darpan.Models.CommonModel
 
     }
 
+    public class ExamLetterReportModel
+    {
+        public int SrNo { get; set; }
+        public int SemesterID { get; set; }
 
-}
+        public string? CenterCode { get; set; }
+        public string? GroupCode { get; set; }
+
+        public string? SubjectCode { get; set; }
+        public string? SubjectName { get; set; }
+
+        public int Total { get; set; }
+        public int IsPresentTotal { get; set; }
+        public int IsUFM { get; set; }
+        public int IsDetain { get; set; }
+        public int IsAbsent { get; set; }
+
+        public string? ExamName { get; set; }
+
+        public int TotalAnswerSheet { get; set; }
+    }
+
+
+
+    }
