@@ -52005,6 +52005,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnItemNo;
             
+            private global::System.Data.DataColumn columnParticulars_brief;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ITI_INV_SR6_ReportDataTableDataTable() {
@@ -52138,6 +52140,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Particulars_briefColumn {
+                get {
+                    return this.columnParticulars_brief;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -52173,7 +52183,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ITI_INV_SR6_ReportDataTableRow AddITI_INV_SR6_ReportDataTableRow(string Particulars_of_stores, string Reference_of_stock_register, string Quantity, string Year_of_purchase, string Purchase_price, string unserviceable_obsolete, string Present_condition, string Approximate_cost_expected_to_be_realised, string Any_suggestion_of_disposal, string Remarks, string Orders_of_the_authority_for_disposal, string ItemNo) {
+            public ITI_INV_SR6_ReportDataTableRow AddITI_INV_SR6_ReportDataTableRow(string Particulars_of_stores, string Reference_of_stock_register, string Quantity, string Year_of_purchase, string Purchase_price, string unserviceable_obsolete, string Present_condition, string Approximate_cost_expected_to_be_realised, string Any_suggestion_of_disposal, string Remarks, string Orders_of_the_authority_for_disposal, string ItemNo, string Particulars_brief) {
                 ITI_INV_SR6_ReportDataTableRow rowITI_INV_SR6_ReportDataTableRow = ((ITI_INV_SR6_ReportDataTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Particulars_of_stores,
@@ -52187,7 +52197,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         Any_suggestion_of_disposal,
                         Remarks,
                         Orders_of_the_authority_for_disposal,
-                        ItemNo};
+                        ItemNo,
+                        Particulars_brief};
                 rowITI_INV_SR6_ReportDataTableRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowITI_INV_SR6_ReportDataTableRow);
                 return rowITI_INV_SR6_ReportDataTableRow;
@@ -52222,6 +52233,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnRemarks = base.Columns["Remarks"];
                 this.columnOrders_of_the_authority_for_disposal = base.Columns["Orders_of_the_authority_for_disposal"];
                 this.columnItemNo = base.Columns["ItemNo"];
+                this.columnParticulars_brief = base.Columns["Particulars_brief"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -52251,6 +52263,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnOrders_of_the_authority_for_disposal);
                 this.columnItemNo = new global::System.Data.DataColumn("ItemNo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnItemNo);
+                this.columnParticulars_brief = new global::System.Data.DataColumn("Particulars_brief", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnParticulars_brief);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -52699,6 +52713,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnItemNo;
             
+            private global::System.Data.DataColumn columnParticulars_brief;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ITI_INV_SR5_ReportDataTableDataTable() {
@@ -52832,6 +52848,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Particulars_briefColumn {
+                get {
+                    return this.columnParticulars_brief;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -52867,7 +52891,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ITI_INV_SR5_ReportDataTableRow AddITI_INV_SR5_ReportDataTableRow(string Particulars_of_stores, string Reference_of_stock_register, string Quantity, string Year_of_purchase, string Purchase_price, string unserviceable_obsolete, string Present_condition, string Approximate_cost_expected_to_be_realised, string Any_suggestion_of_disposal, string Remarks, string Orders_of_the_authority_for_disposal, string ItemNo) {
+            public ITI_INV_SR5_ReportDataTableRow AddITI_INV_SR5_ReportDataTableRow(string Particulars_of_stores, string Reference_of_stock_register, string Quantity, string Year_of_purchase, string Purchase_price, string unserviceable_obsolete, string Present_condition, string Approximate_cost_expected_to_be_realised, string Any_suggestion_of_disposal, string Remarks, string Orders_of_the_authority_for_disposal, string ItemNo, string Particulars_brief) {
                 ITI_INV_SR5_ReportDataTableRow rowITI_INV_SR5_ReportDataTableRow = ((ITI_INV_SR5_ReportDataTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Particulars_of_stores,
@@ -52881,7 +52905,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         Any_suggestion_of_disposal,
                         Remarks,
                         Orders_of_the_authority_for_disposal,
-                        ItemNo};
+                        ItemNo,
+                        Particulars_brief};
                 rowITI_INV_SR5_ReportDataTableRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowITI_INV_SR5_ReportDataTableRow);
                 return rowITI_INV_SR5_ReportDataTableRow;
@@ -52916,6 +52941,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnRemarks = base.Columns["Remarks"];
                 this.columnOrders_of_the_authority_for_disposal = base.Columns["Orders_of_the_authority_for_disposal"];
                 this.columnItemNo = base.Columns["ItemNo"];
+                this.columnParticulars_brief = base.Columns["Particulars_brief"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -52945,6 +52971,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnOrders_of_the_authority_for_disposal);
                 this.columnItemNo = new global::System.Data.DataColumn("ItemNo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnItemNo);
+                this.columnParticulars_brief = new global::System.Data.DataColumn("Particulars_brief", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnParticulars_brief);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -93975,6 +94003,23 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Particulars_brief {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR6_ReportDataTable.Particulars_briefColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Particulars_brief\' in table \'ITI_INV_SR6_ReportDataTable\' i" +
+                                "s DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR6_ReportDataTable.Particulars_briefColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsParticulars_of_storesNull() {
                 return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Particulars_of_storesColumn);
             }
@@ -94115,6 +94160,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetItemNoNull() {
                 this[this.tableITI_INV_SR6_ReportDataTable.ItemNoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsParticulars_briefNull() {
+                return this.IsNull(this.tableITI_INV_SR6_ReportDataTable.Particulars_briefColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetParticulars_briefNull() {
+                this[this.tableITI_INV_SR6_ReportDataTable.Particulars_briefColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -94466,6 +94523,23 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Particulars_brief {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_INV_SR5_ReportDataTable.Particulars_briefColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Particulars_brief\' in table \'ITI_INV_SR5_ReportDataTable\' i" +
+                                "s DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_INV_SR5_ReportDataTable.Particulars_briefColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsParticulars_of_storesNull() {
                 return this.IsNull(this.tableITI_INV_SR5_ReportDataTable.Particulars_of_storesColumn);
             }
@@ -94606,6 +94680,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetItemNoNull() {
                 this[this.tableITI_INV_SR5_ReportDataTable.ItemNoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsParticulars_briefNull() {
+                return this.IsNull(this.tableITI_INV_SR5_ReportDataTable.Particulars_briefColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetParticulars_briefNull() {
+                this[this.tableITI_INV_SR5_ReportDataTable.Particulars_briefColumn] = global::System.Convert.DBNull;
             }
         }
         
