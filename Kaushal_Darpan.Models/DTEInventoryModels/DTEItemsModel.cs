@@ -111,6 +111,10 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int RoleID { get; set; }
         public int OfficeID { get; set; }
         public string RowsID { get; set; }
+        public string? Authority_forAuctionOrder { get; set; }
+        public string? ModeOfDisposal { get; set; }
+        public string? Remarks { get; set; }
+        public decimal? ApproximateCost { get; set; }
     }
 
 

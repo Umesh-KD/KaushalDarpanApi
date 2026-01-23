@@ -462,6 +462,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Dis_AuctionDoc", request.Dis_AuctionDoc);
                         command.Parameters.AddWithValue("@AuctionDoc", request.AuctionDoc);
                         command.Parameters.AddWithValue("@AuctionQuantity", request.AuctionQuantity);
+                        command.Parameters.AddWithValue("@Authority", request.Authority_forAuctionOrder);
+                        command.Parameters.AddWithValue("@ModeOfDisposal", request.ModeOfDisposal);
+                        command.Parameters.AddWithValue("@Remarks", request.Remarks);
+                        command.Parameters.AddWithValue("@ApproximateCost", request.ApproximateCost);
+
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
 
