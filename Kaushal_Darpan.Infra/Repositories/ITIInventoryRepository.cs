@@ -2412,6 +2412,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
                         command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
                         command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
+                        command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         
                         dataTable = await command.FillAsync_DataTable();
