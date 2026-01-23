@@ -824,7 +824,7 @@ namespace Kaushal_Darpan.Api.Controllers
             DataTable result = new DataTable();
             result.Columns.Add("StudentID", typeof(int));
             result.Columns.Add("TraineeName", typeof(string));
-            result.Columns.Add("DOB", typeof(DateTime));
+            result.Columns.Add("DOB", typeof(string));
             result.Columns.Add("RollNo", typeof(string));
             result.Columns.Add("LastAppeared", typeof(string));
             result.Columns.Add("GrandTotal", typeof(decimal));
