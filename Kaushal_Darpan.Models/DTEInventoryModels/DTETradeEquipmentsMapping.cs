@@ -54,6 +54,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int PricePerUnit { get; set; }
         public int TotalPrice { get; set; }
         public string? VoucherNumber { get; set; }
+        public string? Specification { get; set; }
         public int MappingId { get; set; }
     }
 

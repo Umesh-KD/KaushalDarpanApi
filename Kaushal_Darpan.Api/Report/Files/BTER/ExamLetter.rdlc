@@ -9,7 +9,17 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Total No. of Sent Answer Books: 
+                <Value>Total No. of Sent Answer Books: </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>=Sum(Fields!totalanswersheet.Value,"ExamLetterReport")</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>
 Encl:</Value>
                 <Style />
               </TextRun>
@@ -82,9 +92,9 @@ Examiner code and Group code in place of Address.</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox20</rd:DefaultName>
-        <Top>3.42759cm</Top>
+        <Top>3.01484cm</Top>
         <Left>0.49953cm</Left>
-        <Height>4.57288cm</Height>
+        <Height>4.33475cm</Height>
         <Width>24.08939cm</Width>
         <Style>
           <Border>
@@ -116,7 +126,7 @@ Examiner code and Group code in place of Address.</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox26</rd:DefaultName>
-        <Top>8.5777cm</Top>
+        <Top>7.7522cm</Top>
         <Left>18.79729cm</Left>
         <Height>1.19547cm</Height>
         <Width>5.76753cm</Width>
@@ -460,16 +470,14 @@ Examiner code and Group code in place of Address.</Value>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="DeploymentDate3">
+                    <Textbox Name="SrNo">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Label>SrNo</Label>
-                              <Value />
-                              <ToolTip>=First(Fields!SrNo.Value, "Daily_Report_Bhandar_Form1")</ToolTip>
+                              <Value>=Fields!SrNo.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -478,7 +486,7 @@ Examiner code and Group code in place of Address.</Value>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>DeploymentDate</rd:DefaultName>
+                      <rd:DefaultName>SrNo</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -494,14 +502,14 @@ Examiner code and Group code in place of Address.</Value>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox44">
+                    <Textbox Name="centercode">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!centercode.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -510,7 +518,7 @@ Examiner code and Group code in place of Address.</Value>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox44</rd:DefaultName>
+                      <rd:DefaultName>centercode</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -526,14 +534,14 @@ Examiner code and Group code in place of Address.</Value>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox45">
+                    <Textbox Name="SubjectCode">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!SubjectCode.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -542,7 +550,7 @@ Examiner code and Group code in place of Address.</Value>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox45</rd:DefaultName>
+                      <rd:DefaultName>SubjectCode</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -558,14 +566,14 @@ Examiner code and Group code in place of Address.</Value>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox46">
+                    <Textbox Name="Total">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!Total.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -574,7 +582,7 @@ Examiner code and Group code in place of Address.</Value>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox46</rd:DefaultName>
+                      <rd:DefaultName>Total</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -590,14 +598,14 @@ Examiner code and Group code in place of Address.</Value>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox48">
+                    <Textbox Name="Isabsent">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!Isabsent.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -606,7 +614,7 @@ Examiner code and Group code in place of Address.</Value>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox48</rd:DefaultName>
+                      <rd:DefaultName>Isabsent</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -622,14 +630,14 @@ Examiner code and Group code in place of Address.</Value>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox49">
+                    <Textbox Name="IsUFM">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!IsUFM.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -638,7 +646,7 @@ Examiner code and Group code in place of Address.</Value>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox49</rd:DefaultName>
+                      <rd:DefaultName>IsUFM</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -654,14 +662,14 @@ Examiner code and Group code in place of Address.</Value>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox51">
+                    <Textbox Name="IsDetain">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!IsDetain.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -670,7 +678,7 @@ Examiner code and Group code in place of Address.</Value>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox51</rd:DefaultName>
+                      <rd:DefaultName>IsDetain</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -686,14 +694,14 @@ Examiner code and Group code in place of Address.</Value>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox53">
+                    <Textbox Name="totalanswersheet">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!totalanswersheet.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -702,7 +710,7 @@ Examiner code and Group code in place of Address.</Value>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox53</rd:DefaultName>
+                      <rd:DefaultName>totalanswersheet</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -723,7 +731,7 @@ Examiner code and Group code in place of Address.</Value>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox16">
+                    <Textbox Name="Textbox1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -741,7 +749,7 @@ Examiner code and Group code in place of Address.</Value>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox16</rd:DefaultName>
+                      <rd:DefaultName>Textbox1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -767,14 +775,14 @@ Examiner code and Group code in place of Address.</Value>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(Fields!Total.Value,"ExamLetterReport")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Center</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -801,7 +809,7 @@ Examiner code and Group code in place of Address.</Value>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(Fields!Isabsent.Value,"ExamLetterReport")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -835,7 +843,7 @@ Examiner code and Group code in place of Address.</Value>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(Fields!IsUFM.Value,"ExamLetterReport")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -869,7 +877,7 @@ Examiner code and Group code in place of Address.</Value>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(Fields!IsDetain.Value,"ExamLetterReport")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -903,7 +911,7 @@ Examiner code and Group code in place of Address.</Value>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(Fields!totalanswersheet.Value,"ExamLetterReport")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -960,8 +968,8 @@ Examiner code and Group code in place of Address.</Value>
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>Daily_Report_Bhandar_Form1</DataSetName>
-        <Top>0.67571cm</Top>
+        <DataSetName>ExamLetterReport</DataSetName>
+        <Top>0.13596cm</Top>
         <Left>0.49953cm</Left>
         <Height>2.46146cm</Height>
         <Width>24.06529cm</Width>
@@ -973,7 +981,7 @@ Examiner code and Group code in place of Address.</Value>
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>4.04771in</Height>
+    <Height>3.88104in</Height>
     <Style>
       <Border>
         <Style>Solid</Style>
@@ -984,9 +992,8 @@ Examiner code and Group code in place of Address.</Value>
   <Width>10.18019in</Width>
   <Page>
     <PageHeader>
-      <Height>10.17338cm</Height>
+      <Height>9.31573cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
-      <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
         <Textbox Name="Textbox2">
           <CanGrow>true</CanGrow>
@@ -1168,7 +1175,7 @@ Email : conf.bter@gmail.com</Value>
           <rd:DefaultName>Textbox10</rd:DefaultName>
           <Top>3.4087cm</Top>
           <Left>17.82235cm</Left>
-          <Height>3.30631cm</Height>
+          <Height>3.04173cm</Height>
           <Width>6.74247cm</Width>
           <ZIndex>3</ZIndex>
           <Style>
@@ -1196,7 +1203,7 @@ Email : conf.bter@gmail.com</Value>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox3</rd:DefaultName>
-          <Top>7.09777cm</Top>
+          <Top>6.17702cm</Top>
           <Left>0.49953cm</Left>
           <Height>0.78726cm</Height>
           <Width>5.9925cm</Width>
@@ -1281,7 +1288,7 @@ Email : conf.bter@gmail.com</Value>
           <rd:DefaultName>Textbox4</rd:DefaultName>
           <Top>3.63044cm</Top>
           <Left>0.44585cm</Left>
-          <Height>3.08457cm</Height>
+          <Height>2.3702cm</Height>
           <Width>6.04618cm</Width>
           <ZIndex>6</ZIndex>
           <Style>
@@ -1301,15 +1308,21 @@ Email : conf.bter@gmail.com</Value>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Subject Code : ......................</Value>
+                  <Value>Subject Code : </Value>
                   <Style />
+                </TextRun>
+                <TextRun>
+                  <Value>=First(Fields!SubjectCode.Value, "ExamLetterReport")</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
                 </TextRun>
               </TextRuns>
               <Style />
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox3</rd:DefaultName>
-          <Top>8.32226cm</Top>
+          <Top>7.40151cm</Top>
           <Left>0.49953cm</Left>
           <Height>0.78726cm</Height>
           <Width>5.9925cm</Width>
@@ -1331,8 +1344,14 @@ Email : conf.bter@gmail.com</Value>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Subject : MATHEMATICS-1</Value>
+                  <Value>Subject : </Value>
                   <Style />
+                </TextRun>
+                <TextRun>
+                  <Value>=First(Fields!SubjectName.Value, "ExamLetterReport")</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
                 </TextRun>
               </TextRuns>
               <Style>
@@ -1341,7 +1360,7 @@ Email : conf.bter@gmail.com</Value>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox3</rd:DefaultName>
-          <Top>8.32226cm</Top>
+          <Top>7.40151cm</Top>
           <Left>7.18116cm</Left>
           <Height>0.78726cm</Height>
           <Width>10.02178cm</Width>
@@ -1363,8 +1382,14 @@ Email : conf.bter@gmail.com</Value>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>    Group : 11001</Value>
+                  <Value>    Group : </Value>
                   <Style />
+                </TextRun>
+                <TextRun>
+                  <Value>=First(Fields!GroupCode.Value, "ExamLetterReport")</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
                 </TextRun>
               </TextRuns>
               <Style>
@@ -1373,8 +1398,8 @@ Email : conf.bter@gmail.com</Value>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox3</rd:DefaultName>
-          <Top>8.32226cm</Top>
-          <Left>17.82235cm</Left>
+          <Top>7.40151cm</Top>
+          <Left>17.76539cm</Left>
           <Height>0.78726cm</Height>
           <Width>6.74247cm</Width>
           <ZIndex>9</ZIndex>
@@ -1403,7 +1428,7 @@ Email : conf.bter@gmail.com</Value>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox40</rd:DefaultName>
-          <Top>9.39835cm</Top>
+          <Top>8.4776cm</Top>
           <Left>0.44585cm</Left>
           <Height>0.6cm</Height>
           <Width>9.45854cm</Width>
@@ -1418,43 +1443,33 @@ Email : conf.bter@gmail.com</Value>
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Textbox Name="Textbox30">
+        <Textbox Name="Textbox41">
           <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Session 2024-25 (Engg.)</Value>
+                  <Value xml:space="preserve">     </Value>
                   <Style />
                 </TextRun>
-              </TextRuns>
-              <Style />
-            </Paragraph>
-            <Paragraph>
-              <TextRuns>
                 <TextRun>
-                  <Value>           First Semester</Value>
-                  <Style />
+                  <Value>=First(Fields!ExamName.Value, "ExamLetterReport")</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
                 </TextRun>
               </TextRuns>
-              <Style />
-            </Paragraph>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>              Nov 2024</Value>
-                  <Style />
-                </TextRun>
-              </TextRuns>
-              <Style />
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
             </Paragraph>
           </Paragraphs>
-          <rd:DefaultName>Textbox10</rd:DefaultName>
+          <rd:DefaultName>Textbox3</rd:DefaultName>
           <Top>0.0882cm</Top>
-          <Left>20.024cm</Left>
-          <Height>1.45457cm</Height>
-          <Width>4.56496cm</Width>
+          <Left>18.79729cm</Left>
+          <Height>0.78726cm</Height>
+          <Width>5.79163cm</Width>
           <ZIndex>11</ZIndex>
           <Style>
             <Border>
@@ -1474,8 +1489,8 @@ Email : conf.bter@gmail.com</Value>
         </Border>
       </Style>
     </PageHeader>
-    <PageHeight>23.5cm</PageHeight>
-    <PageWidth>27.5cm</PageWidth>
+    <PageHeight>32cm</PageHeight>
+    <PageWidth>27cm</PageWidth>
     <LeftMargin>0.5cm</LeftMargin>
     <RightMargin>0.5cm</RightMargin>
     <TopMargin>0.5cm</TopMargin>
@@ -1494,157 +1509,65 @@ Email : conf.bter@gmail.com</Value>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="BhandarForm_DataTabl2">
+    <DataSet Name="ExamLetterReport">
       <Query>
         <DataSourceName>KD_DBScript</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="StartTime">
-          <DataField>StartTime</DataField>
+        <Field Name="centercode">
+          <DataField>centercode</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="EndTime">
-          <DataField>EndTime</DataField>
+        <Field Name="SubjectCode">
+          <DataField>SubjectCode</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Total_Student">
-          <DataField>Total_Student</DataField>
+        <Field Name="IsPresentTotal">
+          <DataField>IsPresentTotal</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ExamRoomSize">
-          <DataField>ExamRoomSize</DataField>
+        <Field Name="IsUFM">
+          <DataField>IsUFM</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ExamRoom">
-          <DataField>ExamRoom</DataField>
+        <Field Name="IsDetain">
+          <DataField>IsDetain</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CenterSuperidentName">
-          <DataField>CenterSuperidentName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-      <rd:DataSetInfo>
-        <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Project\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
-        <rd:TableName>BhandarForm_DataTabl2</rd:TableName>
-        <rd:TableAdapterFillMethod />
-        <rd:TableAdapterGetDataMethod />
-        <rd:TableAdapterName />
-      </rd:DataSetInfo>
-    </DataSet>
-    <DataSet Name="Daily_Report_Bhandar_Form_UFM">
-      <Query>
-        <DataSourceName>KD_DBScript</DataSourceName>
-        <CommandText>/* Local Query */</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="SrNo">
-          <DataField>SrNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="RollNo">
-          <DataField>RollNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="StartTime">
-          <DataField>StartTime</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="EndTime">
-          <DataField>EndTime</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-      <rd:DataSetInfo>
-        <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Kausal_Darpan\API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
-        <rd:TableName>Daily_Report_Bhandar_Form_UFM</rd:TableName>
-        <rd:TableAdapterFillMethod />
-        <rd:TableAdapterGetDataMethod />
-        <rd:TableAdapterName />
-      </rd:DataSetInfo>
-    </DataSet>
-    <DataSet Name="Daily_Report_Bhandar_Form1">
-      <Query>
-        <DataSourceName>KD_DBScript</DataSourceName>
-        <CommandText>/* Local Query */</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="PaperCode">
-          <DataField>PaperCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="EndTermName">
-          <DataField>EndTermName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CCCode">
-          <DataField>CCCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="InstituteName">
-          <DataField>InstituteName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CenterCode">
-          <DataField>CenterCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ExamDate">
-          <DataField>ExamDate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="StartTime">
-          <DataField>StartTime</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="EndTime">
-          <DataField>EndTime</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Total_Student">
-          <DataField>Total_Student</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Total_PresentStudent">
-          <DataField>Total_PresentStudent</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Total_AbsentStudent">
-          <DataField>Total_AbsentStudent</DataField>
+        <Field Name="Isabsent">
+          <DataField>Isabsent</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="SrNo">
           <DataField>SrNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Total_UFMStudent">
-          <DataField>Total_UFMStudent</DataField>
+        <Field Name="totalanswersheet">
+          <DataField>totalanswersheet</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Total_DetainedStudent">
-          <DataField>Total_DetainedStudent</DataField>
+        <Field Name="Total">
+          <DataField>Total</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Total_ValidPresentStudent">
-          <DataField>Total_ValidPresentStudent</DataField>
+        <Field Name="GroupCode">
+          <DataField>GroupCode</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="SemesterName">
-          <DataField>SemesterName</DataField>
+        <Field Name="SubjectName">
+          <DataField>SubjectName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CenterName">
-          <DataField>CenterName</DataField>
+        <Field Name="ExamName">
+          <DataField>ExamName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Projects\doitoffice\KD-Api\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
-        <rd:TableName>Daily_Report_Bhandar_Form1</rd:TableName>
+        <rd:SchemaPath>D:\Kaushal_Darpan\API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:TableName>ExamLetterReport</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
         <rd:TableAdapterName />

@@ -3,6 +3,8 @@ using AutoMapper;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Packaging;
 //using HtmlToOpenXml;
 using iTextSharp.text;
@@ -38,6 +40,7 @@ using Kaushal_Darpan.Models.TheoryMarks;
 using Kaushal_Darpan.Models.TimeTable;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
+using System;
 using System.Data;
 using System.Net;
 using System.Text;
@@ -53,6 +56,9 @@ namespace Kaushal_Darpan.Api.Controllers
     {
         public override string PageName => "ReportController";
         public override string ActionName { get; set; }
+        public object ListRoleListPath { get; private set; }
+        public object ModInsert { get; private set; }
+
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
@@ -1240,6 +1246,139 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+        #endregion
+
+        #region Exam Letter Report
+        [HttpPost("GetExamLetterReport")]
+        public async Task<ApiResult<string>> GetExamLetterReport(ExamLetterReport model)
+        {
+            ActionName = "GetExamLetterReport()";
+            return await Task.Run(async () =>
+            {
+                List<string> ListRoleListPath = new List<string>();
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.ReportRepository.GetExamLetterReport(model);
+                    if (data != null)
+                    {
+                        
+                        var groupedData = data.Tables[0]
+                        .AsEnumerable()
+                        .GroupBy(r => r.Field<int>("GroupCode"))
+                        .Select(g => g.Key)
+                        .ToList();
+                        
+                        foreach (var group in groupedData)
+                        {
+
+                            var filteredRows = data.Tables[0]
+                                .AsEnumerable()
+                                .Where(r => r.Field<int>("GroupCode") == group)
+                                .ToList();
+
+                            DataTable filteredTable = filteredRows.Any()
+                                ? filteredRows.CopyToDataTable()
+                                 : data.Tables[0].Clone();
+
+                            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                            var fileName = $"ExamLetterReport_{group}.pdf";
+                            string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                            string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/ExamLetter.rdlc";
+                            //
+                            var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                            //
+                            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                            LocalReport localReport = new LocalReport(rdlcpath);
+                            localReport.AddDataSource("ExamLetterReport", filteredTable);
+                            //localReport.AddDataSource("ExamLetterReport", data.Tables[0]);
+                            var reportResult = localReport.Execute(RenderType.Pdf);
+                            System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                            ListRoleListPath.Add(filepath);
+                            result.Data = fileName;
+                            result.State = EnumStatus.Success;
+                            result.Message = "Success.";
+
+                            //check file exists
+                            if (!System.IO.Directory.Exists(folderPath))
+                            {
+                                Directory.CreateDirectory(folderPath);
+                            }
+                            //save
+
+
+
+                            //end report
+
+                            result.Data = fileName;
+                            result.State = EnumStatus.Success;
+                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                        }
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+
+
+                    #region "Save Multiple PDF PAGES"
+                    string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                    string guid = Guid.NewGuid().ToString().ToUpper();
+                    string outputFile = $"{guid}_{timestamp}.pdf";
+                    string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                    
+                    if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
+                    {
+                        try
+                        {
+                            //delete files
+                            await DeleteFiles(ListRoleListPath);
+                        }
+                        catch (Exception exd)
+                        {
+                        }
+                        result.Data = outputFile;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Success.";
+
+                        await _unitOfWork.SaveChangesAsync();
+
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Something went wrong";
+                    }
+                    #endregion
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+
+
         #endregion
 
         #region Student Admission Challan Receipt
@@ -6878,7 +7017,17 @@ namespace Kaushal_Darpan.Api.Controllers
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
                         string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/daily_report(Bhandar_form1).rdlc";
 
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
                         LocalReport localReport = new LocalReport(rdlcpath);
+
+                        foreach (DataRow row in data.Tables[0].Rows)
+                        {
+                            string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{row["FileName"]}";
+                            row["moharImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
+                        }
+
+
                         localReport.AddDataSource("Daily_Report_Bhandar_Form1", data.Tables[0]);
                         localReport.AddDataSource("BhandarForm_DataTabl2", data.Tables[1]);
                         localReport.AddDataSource("Daily_Report_Bhandar_Form_UFM", data.Tables[2]);
@@ -6887,6 +7036,13 @@ namespace Kaushal_Darpan.Api.Controllers
                         var reportResult = localReport.Execute(RenderType.Pdf);
 
                         System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+
+                        //end report
+
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
                         //end report
 
                         result.Data = fileName;
@@ -9536,7 +9692,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         data.Tables[0].TableName = "GetITIStudent_Marksheet_SingleDetails";
 
                         data.Tables[0].Rows[0]["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
-                        data.Tables[0].Rows[0]["HeadLogo"] = $"{ConfigurationHelper.StaticFileRootPath+"/"+data.Tables[0].Rows[0]["HeadLogo"]}";
+                        data.Tables[0].Rows[0]["HeadLogo"] = $"{ConfigurationHelper.StaticFileRootPath + "/" + data.Tables[0].Rows[0]["HeadLogo"]}";
 
                         data.Tables[0].Rows[0]["NE100"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
                         data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
@@ -14696,7 +14852,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     return BadRequest("No data found");
 
                 int semesterId = dataList.First().SemesterId;
-                string examName = dataList.First().ExamName ??  "";
+                string examName = dataList.First().ExamName ?? "";
 
                 var groupedSubjects = dataList
                     .GroupBy(x => new { x.SubjectCode, x.SubjectName })
@@ -14809,7 +14965,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     var col1 = subjectData.Take(rowsPerColumn).ToList();
                     var col2 = subjectData.Skip(rowsPerColumn).Take(rowsPerColumn).ToList();
-                    var col3 = subjectData.Skip(rowsPerColumn * 2).ToList();
+                    var col3 = subjectData.Skip(rowsPerColumn * 5).ToList();
 
                     sb.Append($@"
 <div class='subject-title'>
@@ -14886,6 +15042,291 @@ namespace Kaushal_Darpan.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+
+
+
+        private string RenderTable(List<GroupCodeAllocationAddEditModel> list)
+        {
+            var sb = new StringBuilder();
+
+            // Group by GroupCode
+            var groupedByGroupCode = list
+                .GroupBy(x => x.GroupCode) // <-- change property if needed
+                .ToList();
+
+            foreach (var group in groupedByGroupCode)
+            {
+                int present = 0;
+                int total = 0;
+
+                sb.Append(@"
+<div class='group-block' style='page-break-inside:avoid; margin-bottom:8px;'>
+<table>
+<thead>
+<tr>
+    <th colspan='2' style='background:#f0f0f0;font-weight:bold;'>
+        Group Code : " + group.Key + @"
+    </th>
+</tr>
+<tr>
+    <th>CCode/Group/Branch</th>
+    <th>Present/Total</th>
+</tr>
+</thead>
+<tbody>
+");
+
+                foreach (var item in group)
+                {
+                    sb.Append($@"
+<tr>
+    <td>{item.centergroupcode}</td>
+    <td>{item.IsPresentTotal}/{item.Total}</td>
+</tr>");
+
+                    present += item.IsPresentTotal;
+                    total += item.Total;
+                }
+
+                sb.Append($@"
+<tr class='total-row'>
+    <td>Total</td>
+    <td>{present}/{total}</td>
+</tr>
+</tbody>
+</table>
+</div>
+");
+            }
+
+            return sb.ToString();
+        }
+
+
+
+        [HttpPost("GetGroupCodeMasterReportBranchwise")]
+
+        public async Task<IActionResult> GetGroupCodeMasterReportBranchwise([FromBody] GroupCodeAllocationAddEditModel filterModel)
+        {
+            try
+            {
+                //filterModel.SemesterId = 3;
+                //filterModel.EndTermID = 14;
+                //filterModel.DepartmentID = 1;
+                //filterModel.Eng_NonEng = 2;
+                //filterModel.action = "_getAllData";
+                //filterModel.schemeid = 0;
+
+
+
+                var streams_data = await _unitOfWork
+                    .ReportRepository
+                    .GetGroupCodeMasterReportBranchwise(filterModel);
+
+                var dataList = CommonFuncationHelper
+                    .ConvertDataTable<List<GroupCodeAllocationAddEditModel>>(
+                        streams_data.Tables[0]);
+
+                if (dataList == null || !dataList.Any())
+                    return BadRequest("No data found");
+
+                int semesterId = dataList.First().SemesterId;
+                string examName = dataList.First().ExamName ?? "";
+
+                var groupedSubjects = dataList
+                    .GroupBy(x => new { x.SubjectCode, x.SubjectName })
+                    .ToList();
+
+                string headerHtml = $@"
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    body {{
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        padding: 10px 20px;
+        font-size: 13px;
+    }}
+    .center {{ text-align: center; }}
+    .title {{ font-weight: bold; font-size: 17px; }}
+    .subtitle {{ font-size: 14px; margin-top: 3px; }}
+</style>
+</head>
+<body>
+    <div class='center'>
+        <div>Government of Rajasthan</div>
+        <div class='title'>Board of Technical Education Rajasthan, Jodhpur</div>
+        <div class='subtitle'>
+            Details of Examiner Group Code Diploma {examName}
+        </div>
+    </div>
+</body>
+</html>";
+
+                string headerFilePath = Path.Combine(
+                    Path.GetTempPath(),
+                    $"GroupCodeHeader_{Guid.NewGuid()}.html");
+
+                System.IO.File.WriteAllText(headerFilePath, headerHtml);
+
+                var sb = new StringBuilder();
+
+                sb.Append(@"
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13px;
+    }
+
+    .subject-title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 15px;
+        margin: 10px 0 6px 0;
+    }
+
+    .row {
+        width: 100%;
+        display: table;
+        table-layout: fixed;
+    }
+
+    .col {
+        display: table-cell;
+        vertical-align: top;
+        padding: 4px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #000;
+    }
+
+    th, td {
+        border: 1px solid #000;
+        padding: 6px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    tr {
+        page-break-inside: avoid;
+    }
+
+    .total-row td {
+        font-weight: bold;
+        background-color: #e6e6e6;
+    }
+
+    .page-break {
+        page-break-after: always;
+    }
+</style>.
+</head>
+<body>
+");
+
+                foreach (var subject in groupedSubjects)
+                {
+                    var subjectData = subject.ToList();
+
+
+
+                    int totalRows = subjectData.Count;
+                    int rowsPerColumn = (int)Math.Ceiling(totalRows / 2.0);
+
+                    var col1 = subjectData.Take(rowsPerColumn).ToList();
+                    var col2 = subjectData.Skip(rowsPerColumn).Take(rowsPerColumn).ToList();
+                    var col3 = subjectData.Skip(rowsPerColumn * 2).ToList();
+
+                    sb.Append($@"
+<div class='subject-title'>
+    Subject Code: {subject.Key.SubjectCode} &nbsp; {subject.Key.SubjectName}
+</div>
+");
+
+                    sb.Append("<div class='row'>");
+
+                    if (col1.Any())
+                        sb.Append($"<div class='col'>{RenderTable(col1)}</div>");
+
+                    if (col2.Any())
+                        sb.Append($"<div class='col'>{RenderTable(col2)}</div>");
+
+                    if (col3.Any())
+                        sb.Append($"<div class='col'>{RenderTable(col3)}</div>");
+
+                    sb.Append("</div>");
+
+                    sb.Append("<div class='page-break'></div>");
+                }
+
+                sb.Append(@"
+</body>
+</html>
+");
+
+                var doc = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+            {
+                PaperSize = PaperKind.A4,
+                Orientation = Orientation.Portrait,
+                Margins = new MarginSettings
+                {
+                    Top = 40,
+                    Bottom = 15,
+                    Left = 10,
+                    Right = 10
+                }
+            },
+                    Objects =
+            {
+                new ObjectSettings
+                {
+                    HtmlContent = sb.ToString(),
+                    WebSettings = { DefaultEncoding = "utf-8" },
+
+                    HeaderSettings = new HeaderSettings
+                    {
+                        HtmUrl = headerFilePath,
+                        Spacing = 3
+                    },
+
+                    FooterSettings = new FooterSettings
+                    {
+                        FontName = "Arial",
+                        FontSize = 9,
+                        Center = "Page [page] of [toPage]",
+                        Line = true
+                    }
+                }
+            }
+                };
+
+                byte[] pdfBytes = _converter.Convert(doc);
+
+                return File(pdfBytes, "application/pdf",
+                    "Group_Code_Master_Report_BranchWise.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+
 
 
     }

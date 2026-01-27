@@ -25,7 +25,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             _dbContext = dbContext;
             _pageName = "SSORepository";
         }
-        public async Task<SSOUserDetailsModel> GetSSOUserDetails(string SearchRecordID)
+        public async Task<SSOUserDetailsModel> GetSSOUserDetails(string SearchRecordID, int DepartmentID = 0)
         {
             return await Task.Run(async () =>
             {
@@ -37,6 +37,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_SSOProfile";
                         command.Parameters.AddWithValue("@SearchRecordID", SearchRecordID);
+                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -63,7 +64,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<SSOUserDetailsModel> Login(string SSOID, string Password)
+        public async Task<SSOUserDetailsModel> Login(string SSOID, string Password, int DepartmentID = 0)
         {
             _actionName = "Login(string SSOID, string Password)";
             return await Task.Run(async () =>
@@ -77,6 +78,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_SSOLogin";
                         command.Parameters.AddWithValue("@SSOID", SSOID);
                         command.Parameters.AddWithValue("@Password", Password);
+                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -344,7 +346,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> GetAcedmicYearList(int RoleID=0, int DepartmentID = 0 , int SessionTypeID =0)
+        public async Task<DataTable> GetAcedmicYearList(int RoleID = 0, int DepartmentID = 0, int SessionTypeID = 0)
         {
             _actionName = "GetUserRoleList(string SSOID, bool IsWeb)";
 
@@ -422,11 +424,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserType", model.userType);
                         command.Parameters.AddWithValue("@Mfa", model.mfa);
                         //new for emitra
-                         command.Parameters.AddWithValue("@KIOSKCODE", model.KIOSKCODE);
-                         command.Parameters.AddWithValue("@IsKiosk", model.IsKiosk);
-                         command.Parameters.AddWithValue("@SERVICEID", model.SERVICEID);
-                         command.Parameters.AddWithValue("@EmitraDepartmentID", model.EmitraDepartmentID);
-                         command.Parameters.AddWithValue("@SSoToken", model.SSoToken);
+                        command.Parameters.AddWithValue("@KIOSKCODE", model.KIOSKCODE);
+                        command.Parameters.AddWithValue("@IsKiosk", model.IsKiosk);
+                        command.Parameters.AddWithValue("@SERVICEID", model.SERVICEID);
+                        command.Parameters.AddWithValue("@EmitraDepartmentID", model.EmitraDepartmentID);
+                        command.Parameters.AddWithValue("@SSoToken", model.SSoToken);
 
                         command.Parameters.Add("@SearchRecordID_out", SqlDbType.NVarChar, -1);// out
                         command.Parameters["@SearchRecordID_out"].Direction = ParameterDirection.Output;// out
@@ -628,7 +630,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<SSOUserDetailsModel> MobileLogin(string SSOID,int CourseType)
+        public async Task<SSOUserDetailsModel> MobileLogin(string SSOID, int CourseType)
         {
             _actionName = "Login(string SSOID, string Password)";
             return await Task.Run(async () =>
@@ -673,7 +675,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<int> CreateCollegePrincipal( CreatePrincipalModel Model)
+        public async Task<int> CreateCollegePrincipal(CreatePrincipalModel Model)
         {
             _actionName = "CreateCollegePrincipal(CreateCollegePrincipal request)";
             return await Task.Run(async () =>
@@ -791,6 +793,78 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+
+        public async Task<UserLoginExtraInfoResponseModel> CheckMultiDepartUser(UserLoginExtraInfoRequestModel model)
+        {
+            _actionName = "CheckMultiDepartUser(UserLoginExtraInfoRequestModel model)";
+            try
+            {
+                UserLoginExtraInfoResponseModel resp = new UserLoginExtraInfoResponseModel();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_CheckMultiDepartmentUser";
+                    command.Parameters.AddWithValue("@action", "_getMultiDepartmentUser");
+                    command.Parameters.AddWithValue("@UserName", model.UserName);
+                    command.Parameters.AddWithValue("@Password", model.Password);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    var dataTable = await command.FillAsync_DataTable();
+
+                    resp = CommonFuncationHelper.ConvertDataTable<UserLoginExtraInfoResponseModel>(dataTable);
+                }
+
+                return resp;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<UserLoginExtraInfoResponseModel> CheckMultiDepartUserBySearchRecordID(string SearchRecordID)
+        {
+            _actionName = "CheckMultiDepartUserBySearchRecordID(string SearchRecordID)";
+            try
+            {
+                UserLoginExtraInfoResponseModel resp = new UserLoginExtraInfoResponseModel();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_CheckMultiDepartmentUser";
+                    command.Parameters.AddWithValue("@action", "_getMultiDepartmentUserBySearchRecordID");
+                    command.Parameters.AddWithValue("@SearchRecordID", SearchRecordID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    var dataTable = await command.FillAsync_DataTable();
+
+                    resp = CommonFuncationHelper.ConvertDataTable<UserLoginExtraInfoResponseModel>(dataTable);
+                }
+
+                return resp;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
     }

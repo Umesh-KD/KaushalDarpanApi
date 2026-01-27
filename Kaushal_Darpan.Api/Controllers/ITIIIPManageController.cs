@@ -1,17 +1,24 @@
 ﻿using AspNetCore.Reporting;
 using AutoMapper;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using DocumentFormat.OpenXml.EMMA;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using iTextSharp.text.pdf;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.IDfFundDetailsModel;
 using Kaushal_Darpan.Models.ITIIIPManageDataModel;
+using Kaushal_Darpan.Models.ItiInvigilator;
+using Kaushal_Darpan.Models.SurveyPerformModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
-
 using System.Text;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
+//vivek 
+using WorkerDesignationTradeModel = Kaushal_Darpan.Models.SurveyPerformModel.WorkerDesignationTradeModel;
+using WorkerDetailsOfExistingApprenticeshipModel = Kaushal_Darpan.Models.SurveyPerformModel.WorkerDetailsOfExistingApprenticeshipModel;
+using WorkerDetalisOffacilitiesModel = Kaushal_Darpan.Models.SurveyPerformModel.WorkerDetalisOffacilitiesModel;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -23,12 +30,14 @@ namespace Kaushal_Darpan.Api.Controllers
         public override string ActionName { get; set; }
 
         private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork; 
+        private readonly IConverter _converter;
 
-        public ITIIIPManageController(IMapper mapper, IUnitOfWork unitOfWork)
+        public ITIIIPManageController(IMapper mapper, IUnitOfWork unitOfWork, IConverter converter)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _converter = converter;
         }
 
         [HttpPost("GetAllData")]
@@ -761,9 +770,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("SavesurveyperformaReport")]
-        public async Task<ApiResult<int>> SavesurveyperformaReport([FromBody] IDfFundDetailsModel request)
+        public async Task<ApiResult<int>> SavesurveyperformaReport([FromBody] SurveyPerformModel request)
         {
-            ActionName = "Task<ApiResult<int>> SavesurveyperformaReport([FromBody] ITIIIPManageDataModel request)";
+            ActionName = "Task<ApiResult<int>> SavesurveyperformaReport([FromBody] SurveyPerformModel request)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<int>();
@@ -802,5 +811,536 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+
+
+        [HttpPost("GetAllsurveyperformaReport")]
+        public async Task<ApiResult<DataSet>> GetAllsurveyperformaReport([FromBody] GetSurveyPerformModel body)
+        {
+            //ActionName = "GetAllData()";
+            ActionName = "GetAllsurveyperformaReport()";
+            var result = new ApiResult<DataSet>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITIIIPManageRepository.GetAllsurveyperformaReport(body));
+                result.State = EnumStatus.Success;
+                if (result.Data != null)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+
+        
+
+        [HttpPost("surveyperformaReportDownload")]
+        //        public async Task<IActionResult> surveyperformaReportDownload([FromBody] GetSurveyPerformModel body)
+        //        {
+        //            try
+        //            {
+        //                var streams_data = await _unitOfWork.ITIIIPManageRepository.surveyperformaReportDownload(body);
+
+        //                if (streams_data == null || streams_data.Tables.Count < 2)
+        //                    return BadRequest("No data found");
+
+
+        //                var headerData = CommonFuncationHelper
+        //                   .ConvertDataTable<List<GetSurveyPerformModel>>(streams_data.Tables[0]);
+
+        //                var WorkerDesignationTradeData = CommonFuncationHelper
+        //                    .ConvertDataTable<List<WorkerDesignationTradeModel>>(streams_data.Tables[1]);
+
+        //                var WorkerDetailsOfExistingApprenticeshipData = CommonFuncationHelper
+        //                    .ConvertDataTable<List<WorkerDetailsOfExistingApprenticeshipModel>>(streams_data.Tables[2]);
+
+        //                var WorkerDetalisOffacilitiesData = CommonFuncationHelper
+        //                    .ConvertDataTable<List<WorkerDetalisOffacilitiesModel>>(streams_data.Tables[3]);
+
+        //                var sb = new StringBuilder();
+
+        //                sb.Append(@"
+
+        //                    <!DOCTYPE html>
+        //                    <html lang=""en"">
+        //                    <head>
+        //                        <meta charset=""UTF-8"">
+        //                        <title>Survey Performa</title>
+        //                        <style>
+        //                            body {
+        //                                font-family: ""Times New Roman"", serif;
+        //                                margin: 30px;
+        //                                color: #000;
+        //                            }
+
+        //                            h2, h3 {
+        //                                text-align: center;
+        //                                margin: 5px 0;
+        //                            }
+
+        //                            .subtitle {
+        //                                text-align: center;
+        //                                font-size: 14px;
+        //                                margin-bottom: 20px;
+        //                            }
+
+        //                            .section {
+        //                                margin-bottom: 20px;
+        //                            }
+
+        //                            .section p {
+        //                                margin: 6px 0;
+        //                                font-size: 14px;
+        //                            }
+
+        //                            table {
+        //                                width: 100%;
+        //                                border-collapse: collapse;
+        //                                margin-top: 10px;
+        //                                font-size: 14px;
+        //                            }
+
+        //                            table, th, td {
+        //                                border: 1px solid #000;
+        //                            }
+
+        //                            th, td {
+        //                                padding: 6px;
+        //                                text-align: center;
+        //                                vertical-align: middle;
+        //                            }
+
+        //                            th {
+        //                                font-weight: bold;
+        //                            }
+
+        //                            .left {
+        //                                text-align: left;
+        //                            }
+
+        //                            .signature {
+        //                                margin-top: 40px;
+        //                                display: flex;
+        //                                justify-content: space-between;
+        //                                font-size: 14px;
+        //                            }
+
+        //                            .signature div {
+        //                                width: 40%;
+        //                            }
+
+        //                            .line {
+        //                                display: inline-block;
+        //                                width: 250px;
+        //                                border-bottom: 1px dotted #000;
+        //                            }
+        //                        </style>
+        //                    </head>
+        //                    <body>
+
+        //                        <h2>Survey Performa</h2>
+        //                        <h3>Office of the Apprenticeship Adviser, State of</h3>
+        //                        <div class=""subtitle"">
+        //                            (The column for ‘Designated Trade’ is to be filled up keeping in view the type of work performed by
+        //                            employees as classified in the National Classification of Occupation (N.C.O.) irrespective of their designation/post)
+        //                        </div>
+
+        //                        <div class=""section"">
+        //<--    Call table 1  -->
+        //                            <p>1. Name of the Establishment: ________________________________</p>
+        //                            <p>2. Name, Designation and Address of the Head of the Establishment: ________________________________</p>
+        //                            <p>3. Nature of business (Please describe what the establishment makes or does as its principal activity): ________________________________</p>
+        //                            <p>4. Total no. of persons employed: ________________________________</p>
+        //                            <p>5. Basic Training Facility: ________________________________</p>
+        //                            <p>6. Occupational distribution of workers employed (other than unskilled workers) in the designated trade shown below
+        //                               (please give below the number of employee in each trade separately).</p>
+        //                        </div>
+
+        //                        <table>
+        //                            <tr>
+        //                                <th>S. No.</th>
+        //                                <th>Designated Trade</th>
+        //                                <th>
+        //                                    N.C.O. No. workers (Semi Skilled)<br>
+        //                                    Engaged chiefly on repetitive or production lines process
+        //                                </th>
+        //                                <th>
+        //                                    Less Skilled workers<br>
+        //                                    Tradesman skilled those who are not included in col. 4
+        //                                </th>
+        //                                <th>Fully Skilled</th>
+        //                                <th>Total</th>
+        //                                <th>Remarks</th>
+        //                            </tr>
+        //                            <tr>
+        //                                <td>1</td>
+        //                                <td></td>
+        //                                <td></td>
+        //                                <td></td>
+        //                                <td></td>
+        //                                <td></td>
+        //                                <td></td>
+        //                            </tr>
+        //                        </table>
+
+        //                        <div class=""section"">
+        //                            <h3>ANNEXURE – II</h3>
+        //                            <p>7. Details of the existing apprenticeship training programmes (other than scheme for training graduate and diploma apprentices referred to under item 8 below):</p>
+        //                        </div>
+
+        //                        <table>
+        //                            <tr>
+        //        	                    <th>S. No.</th>
+        //                                <th>Trade Training</th>
+        //                                <th>Duration of per last survey (if surveyed)</th>
+        //                                <th>Number of seats located as</th>
+        //                                <th>Number actually undergoing training</th>
+        //                            </tr>
+        //                            <tr>
+        //                                <td>1</td>
+        //                                <td></td>
+        //                                <td></td>
+        //                                <td></td>
+        //                                <td></td>
+        //                            </tr>
+        //                        </table>
+
+        //                        <div class=""section"">
+        //                            <p>8. Details of the facilities, if any, available for the training of ‘Graduate’ and ‘Diploma’ apprentices under any scheme framed by or with the approval of Central Government.</p>
+        //                        </div>
+
+        //                        <table>
+        //                            <tr>
+        //        	                    <th rowspan=""2"">S. No.</th>
+        //                                <th rowspan=""2"">Trade</th>
+        //                                <th rowspan=""2"">Duration of Training</th>
+        //                                <th rowspan=""2"">Number of Training seats sanctioned</th>
+        //                                <th colspan=""4"">Number actually undergoing training</th>
+        //                            </tr>
+        //                            <tr>
+        //                                <th>Designate</th>
+        //                                <th>Optional</th>
+        //                                <th>NATS</th>
+        //                                <th>Fresher</th>
+        //                            </tr>
+        //                            <tr>
+        //                                <td>1</td>
+        //                                <td></td>
+        //                                <td></td>
+        //                                <td></td>
+        //                                <td></td>
+        //                                <td></td>
+        //                                <td></td>
+        //                                <td></td>
+        //                            </tr>
+        //                        </table>
+
+        //                        <div class=""section"">
+        //                            <p>9. Remarks, if any: ________________________________________________</p>
+        //                        </div>
+
+        //                        <div class=""signature"">
+        //                            <div>
+        //                                Signature of AAA: <span class=""line""></span>
+        //                            </div>
+        //                            <div>
+        //                                Signature of the Employer: <span class=""line""></span><br><br>
+        //                                Designation: <span class=""line""></span><br><br>
+        //                                Office Seal: <span class=""line""></span>
+        //                            </div>
+        //                        </div>
+
+        //                    </body>
+        //                    </html>
+
+
+        //                    ");
+
+        //                var doc = new HtmlToPdfDocument
+        //                {
+        //                    GlobalSettings =
+        //            {
+        //                PaperSize = PaperKind.A4,
+        //                Orientation = Orientation.Portrait
+        //            },
+        //                    Objects =
+        //            {
+        //                new ObjectSettings
+        //                {
+        //                    HtmlContent = sb.ToString(),
+        //                    WebSettings = { DefaultEncoding = "utf-8" },
+        //                    FooterSettings = new FooterSettings
+        //                    {
+        //                        FontName = "Arial",
+        //                        FontSize = 9,
+        //                        Right = "Page [page] of [toPage]",
+        //                        Left = "Printed on: [date]",
+        //                        Line = true
+        //                    }
+        //                }
+        //            }
+        //                };
+
+        //                byte[] pdfBytes = _converter.Convert(doc);
+
+        //                return File(pdfBytes, "application/pdf", "Center_Wise_Present_Absent_Report.pdf");
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                return StatusCode(500, ex.Message);
+        //            }
+        //        }
+
+
+
+        public async Task<IActionResult> surveyperformaReportDownload([FromBody] GetSurveyPerformModel body)
+        {
+            try
+            {
+                var streams_data = await _unitOfWork
+                    .ITIIIPManageRepository
+                    .surveyperformaReportDownload(body);
+
+                if (streams_data == null || streams_data.Tables.Count < 4)
+                    return BadRequest("No data found");
+
+                var headerData = CommonFuncationHelper
+                    .ConvertDataTable<List<GetSurveyPerformModel>>(streams_data.Tables[0]);
+
+                var header = headerData.FirstOrDefault();
+
+                var workerDesignationTradeData =
+                    CommonFuncationHelper.ConvertDataTable<List<WorkerDesignationTradeModel>>(streams_data.Tables[1]);
+
+                var workerExistingApprenticeshipData =
+                    CommonFuncationHelper.ConvertDataTable<List<WorkerDetailsOfExistingApprenticeshipModel>>(streams_data.Tables[2]);
+
+                var workerFacilitiesData =
+                    CommonFuncationHelper.ConvertDataTable<List<WorkerDetalisOffacilitiesModel>>(streams_data.Tables[3]);
+
+                var sb = new StringBuilder();
+
+                sb.Append(@"
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>Survey Performa</title>
+<style>
+body { font-family: 'Times New Roman'; font-size: 14px; margin: 30px; }
+h2,h3 { text-align:center; margin:5px; }
+.subtitle { text-align:center; margin-bottom:20px; }
+table { width:100%; border-collapse:collapse; margin-top:10px; }
+table, th, td { border:1px solid #000; }
+th, td { padding:6px; text-align:center; }
+.left { text-align:left; }
+.section { margin-top:15px; }
+.signature { margin-top:40px; display:flex; justify-content:space-between; }
+.line { border-bottom:1px dotted #000; display:inline-block; width:250px; }
+.center-title {
+    text-align: center;
+}
+</style>
+</head>
+<body>
+
+<h1>
+    <span style=""display: block; text-align: center;"">
+        Survey Performa
+    </span>
+</h1>
+<h3>Office of the Apprenticeship Adviser, State of:--------------------------</h3>
+
+<div class='subtitle'>
+(The column for ‘Designated Trade’ is to be filled up keeping in view the type of work performed by employees as classified in the National
+Classification of Occupation (N.C.O.) irrespective of their designation/post)
+</div>
+");
+
+                sb.Append($@"
+<div class='section'>
+<p>1. Name of the Establishment: <b>{header?.NameofEstablishment}</b></p>
+<p>2. Name, Designation and Address of the Head of the Establishment:
+   <b>{header?.NameofDesignation}, {header?.HeadofEstablishmentAddress}</b>
+</p>
+<p>3. Nature of business: <b>{header?.NatureOfBusiness}</b></p>
+<p>4. Total no. of persons employed: <b>{header?.TotalNoPersonEmployeed}</b></p>
+<p>5. Basic Training Facility: <b>{header?.BasicTraningFacility}</b></p>
+<p>6. Occupational distribution of workers employed:</p>
+</div>
+");
+
+                sb.Append(@"
+<table>
+<tr>
+<th>S.No</th>
+<th>N.C.O. No. workers (Semi Skilled)
+Engaged chiefly on repetitive or
+production lines process</th>
+<th>Less Skilled workers
+Tradesman skilled those who are not
+included in col. 4</th>
+<th>Fully Skilled</th>
+<th>Total</th>
+<th>Remarks</th>
+</tr>
+");
+
+                int i = 1;
+                foreach (var row in workerDesignationTradeData)
+                {
+                    sb.Append($@"
+<tr>
+<td>{i++}</td>
+<td>{row.NCONumberWorkers}</td>
+<td>{row.LessSkilledWorker}</td>
+<td>{row.FullySkilledWorker}</td>
+<td>{row.TotalWorker}</td>
+<td>{row.Remark}</td>
+</tr>
+");
+                }
+
+                sb.Append("</table>");
+
+                sb.Append(@"
+<h3 style='margin-top:25px;'>ANNEXURE – II</h3>
+<p>7. Details of the existing apprenticeship training programmes (other than scheme for training graduate and diploma apprentices referred to under
+item 8 below)</p>
+
+<table>
+<tr>
+<th>S.No</th>
+<th>Trade Training</th>
+<th>Duration of per last survey (if surveyed)</th>
+<th>Number of seats located as</th>
+<th>Number actually undergoing training</th>
+</tr>
+");
+
+                i = 1;
+                foreach (var row in workerExistingApprenticeshipData)
+                {
+                    sb.Append($@"
+<tr>
+<td>{i++}</td>
+<td>{row.TradeTraning}</td>
+<td>{row.DurationofLastSurvey}</td>
+<td>{row.NumberOfSeatsLocated}</td>
+<td>{row.NumberActuallyUndergoingtraning}</td>
+</tr>
+");
+                }
+
+                sb.Append("</table>");
+
+                sb.Append(@"
+<p style='margin-top:20px;'>8. Details of the facilities, if any, available for the training of ‘Graduate’ and ‘Diploma’ apprentices under any scheme framed by or with the
+approval of Central Government.</p>
+
+<table>
+ <tr>
+        <th rowspan='2'>S. No.</th>
+        <th rowspan='2'>Trade</th>
+        <th rowspan='2'>Duration of Training</th>
+        <th rowspan='2'>Number of Training seats sanctioned</th>
+        <th colspan='4'>Number actually undergoing training</th>
+    </tr>
+    <tr>
+        <th>Designate</th>
+        <th>Optional</th>
+        <th>NATS</th>
+        <th>Fresher</th>
+    </tr>
+");
+
+                i = 1;
+                foreach (var row in workerFacilitiesData)
+                {
+                    sb.Append($@"
+<tr>
+<td>{i++}</td>
+<td>{row.TradeName}</td>
+<td>{row.DurationOfTraning}</td>
+<td>{row.NumberOfSeatsSanctioned}</td>
+<td>{row.NAUT_Deginate}</td>
+<td>{row.NAUT_Optional}</td>
+<td>{row.NAUT_NATS}</td>
+<td>{row.NAUT_Fresher}</td>
+</tr>
+");
+                }
+
+                sb.Append("</table>");
+
+                sb.Append($@"
+<p style='margin-top:20px;'>
+9. Remark:---------------------------.
+</p>
+
+<div class='signature'>
+<div>Signature of AAA: <span class='line'></span></div>
+<div>
+Signature of Employer: <span class='line'></span><br><br>
+Designation: <span class='line'></span><br><br>
+Office Seal: <span class='line'></span>
+</div>
+</div>
+
+</body>
+</html>
+");
+
+                var doc = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+            {
+                PaperSize = PaperKind.A4,
+                Orientation = Orientation.Portrait
+            },
+                    Objects =
+            {
+                new ObjectSettings
+                {
+                    HtmlContent = sb.ToString(),
+                    WebSettings = { DefaultEncoding = "utf-8" }
+                }
+            }
+                };
+
+                byte[] pdfBytes = _converter.Convert(doc);
+
+                return File(pdfBytes, "application/pdf", "Survey_Performa_Report.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+
     }
 }

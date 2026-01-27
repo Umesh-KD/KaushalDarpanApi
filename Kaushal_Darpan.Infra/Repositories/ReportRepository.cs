@@ -531,6 +531,46 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
+        #region Exam Letter Report
+        public async Task<DataSet> GetExamLetterReport(ExamLetterReport model)
+        {
+            _actionName = "GetExamLetterReport()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetGroupCode__brachwisewise_Report";
+                        command.Parameters.AddWithValue("@action", "_getAllData");
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndtermID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
+
         #region Student Challan Receipt
         public async Task<DataSet> GetStudentApplicationChallanReceipt(int ApplicationID)
         {
@@ -8757,6 +8797,51 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+        public async Task<DataSet> GetGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel filterModel)
+        {
+            _actionName = "GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model)";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetGroupCodeMasterReport_brachwise";
+
+                        command.Parameters.AddWithValue("@action", "_getAllData");
+                        command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterId);
+                        command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                        command.Parameters.AddWithValue("@schemeId", filterModel.schemeid);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+
+
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
 
 

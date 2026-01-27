@@ -13,7 +13,18 @@ namespace Kaushal_Darpan.Models
         public bool IsActive { get; set; }
         public bool IsDelete { get; set; }
     }
-
-
+   
+    public class UserLoginExtraInfoRequestModel
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
+    
+    public class UserLoginExtraInfoResponseModel
+    {
+        public string SSOID { get; set; }
+        public string UserIDs { get; set; }
+        public string DepartmentIDs { get; set; } 
+    }
 
 }
