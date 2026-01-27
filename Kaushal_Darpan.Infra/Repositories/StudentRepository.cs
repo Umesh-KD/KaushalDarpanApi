@@ -1087,7 +1087,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
-                        command.CommandText = "USP_ITI_AddEdit_StudentAttandance";
+                        command.CommandText = "USP_ITI_AddEdit_StudentAttandanceNew";
                         command.CommandType = CommandType.StoredProcedure;
 
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));

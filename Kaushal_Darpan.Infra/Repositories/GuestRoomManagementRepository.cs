@@ -635,7 +635,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return await Task.Run(async () =>
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    using (var command = await _dbContext.CreateCommandAsync()) 
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GuestRequestList";
@@ -1301,6 +1301,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsPayment", model.IsPayment);
                         command.Parameters.AddWithValue("@RoomFee", model.RoomFee);
                         command.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
+                        command.Parameters.AddWithValue("@GuestReqID", model.GuestReqID);
                         // command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// sql query
