@@ -1976,7 +1976,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<List<CommonDDLModel>> GetCampusPostMasterDDL(int DepartmentID)
+        public async Task<List<CommonDDLModel>> GetCampusPostMasterDDL(int DepartmentID,int CreatedBy)
         {
             _actionName = "GetCampusPostMasterDDL()";
             return await Task.Run(async () =>
@@ -1989,6 +1989,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_DDL_CampusPostMaster";
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@CreatedBy", CreatedBy);
 
                         command.Parameters.AddWithValue("@action", "_getCampusPostMasterDDL");
 

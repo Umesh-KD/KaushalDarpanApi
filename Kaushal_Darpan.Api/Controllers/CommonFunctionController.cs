@@ -1865,8 +1865,8 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpGet("GetCampusPostMasterDDL/{DepartmentID}")]
-        public async Task<ApiResult<List<CommonDDLModel>>> GetCampusPostMasterDDL(int DepartmentID)
+        [HttpGet("GetCampusPostMasterDDL/{DepartmentID}/{CreatedBy}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> GetCampusPostMasterDDL(int DepartmentID,int CreatedBy)
         {
             ActionName = "GetCampusPostMasterDDL()";
             return await Task.Run(async () =>
@@ -1874,7 +1874,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<List<CommonDDLModel>>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetCampusPostMasterDDL(DepartmentID);
+                    var data = await _unitOfWork.CommonFunctionRepository.GetCampusPostMasterDDL(DepartmentID, CreatedBy);
                     if (data != null)
                     {
                         result.Data = data;
