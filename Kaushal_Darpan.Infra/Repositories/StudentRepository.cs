@@ -1087,7 +1087,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
-                        command.CommandText = "USP_ITI_AddEdit_StudentAttandance";
+                        command.CommandText = "USP_ITI_AddEdit_StudentAttandanceNew";
                         command.CommandType = CommandType.StoredProcedure;
 
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
@@ -1641,6 +1641,49 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<DataTable> GetAssignedLCStream(PostAttendanceTimeTable model)
+        {
+            _actionName = "GetAssignedLCStream()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ReAssignTeacherLCAttendance_filter";
+                        // Add parameters to the stored procedure from the model
+                        command.Parameters.AddWithValue("@Action", "_GetAssignedLCStream");
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@AssignToSSOID", model.AssignToSSOID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
     }
 }
 

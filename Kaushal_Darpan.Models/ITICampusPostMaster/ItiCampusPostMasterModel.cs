@@ -78,6 +78,7 @@ namespace Kaushal_Darpan.Models.ITICampusPostMaster
         public string Dis_AgeAllowedTo { get; set; }
         public int EligibleInstitutesID { get; set; }
         public string SalaryTypeID { get; set; }
+        public string appointmentLocation { get; set; }
     }
 
     public class ItiCampusPostMaster_Action

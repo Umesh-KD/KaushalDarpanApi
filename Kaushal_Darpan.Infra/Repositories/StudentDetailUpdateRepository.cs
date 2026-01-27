@@ -374,6 +374,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         //command.Parameters.AddWithValue("@AID", model.AID);
                         //command.Parameters.AddWithValue("@CompanyName", model.CompanyName);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@StudentID", model.StudentID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
                         command.Parameters.AddWithValue("@StudentQualificationID", model.StudentQualificationID);

@@ -10649,6 +10649,45 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<DataTable> getStudBasicDetailsEnrollmentWise(string EnrollNo,int departmentId)
+        {
+            _actionName = "getStudBasicDetailsEnrollmentWise(int EnrollNo,int DepartmentID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_StudBasicDetailsEnrollmentWise";
+                        command.Parameters.AddWithValue("@EnrollNo",EnrollNo);
+                        command.Parameters.AddWithValue("@DepartmentID", departmentId);
+                        command.Parameters.AddWithValue("@Action", "getStudBasicDetailsEnrollmentWise");
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
     }
 }
 

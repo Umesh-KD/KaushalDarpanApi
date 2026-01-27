@@ -85,10 +85,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StateID", request.StateID);
                         command.Parameters.AddWithValue("@Website", request.Website);
                         command.Parameters.AddWithValue("@Address", request.Address);
-
+                        command.Parameters.AddWithValue("@CompanyRegNo", request.CompanyRegNo);
                         command.Parameters.AddWithValue("@CompanyTypeId", request.CompanyTypeId);
                         command.Parameters.AddWithValue("@Logo", request.CompanyPhoto);
                         command.Parameters.AddWithValue("@Dis_Name", request.Dis_CompanyName);
+                        command.Parameters.AddWithValue("@UploadedDoc", request.UploadedDoc);
+                        command.Parameters.AddWithValue("@Dis_UploadedDoc", request.Dis_UploadedDoc);
+
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
 
@@ -131,8 +134,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                        command.CommandText = " select pcm.*, hr.Name As HRName, hr.EmailId,hr.MobileNo from M_ITIPlacementCompanyMaster pcm left join M_ITIHRManagerMaster hr on pcm.ID=hr.PlacementCompanyID Where ID='" + PK_ID + "' ";
+                        //command.CommandText = " select pcm.*, hr.Name As HRName, hr.EmailId,hr.MobileNo from M_ITIPlacementCompanyMaster pcm left join M_ITIHRManagerMaster hr on pcm.ID=hr.PlacementCompanyID Where ID='" + PK_ID + "' ";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIPlacement_Action";
 
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@Action", "_GetCompanyByID");
+                        command.Parameters.AddWithValue("@PK_ID", PK_ID);
+                        
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
