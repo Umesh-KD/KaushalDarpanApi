@@ -14703,7 +14703,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     int? prevgroupCode = 0;
                     int? currentgroupCode = 0;
                     int? nextgroupCode = 0;
-                    int pageHeightCount = 35;
+                    int pageHeightCount = 25;
                     int pageHeightLoop = 0;
                     int pageColumnCount = 3;
                     int pageColumnLoop = 0;
@@ -14752,7 +14752,6 @@ namespace Kaushal_Darpan.Api.Controllers
                                     <tbody>
                                 ");
                             isTotalTableFooterAdded = false;
-                            pageHeightLoop++;
                         }
 
                         // total
@@ -14782,7 +14781,6 @@ namespace Kaushal_Darpan.Api.Controllers
                             total = 0;
 
                             isTotalTableFooterAdded = true;
-                            pageHeightLoop++;
                         }
 
                         // column divided loop
