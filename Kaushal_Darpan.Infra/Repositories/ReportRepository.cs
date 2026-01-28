@@ -8755,7 +8755,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataSet> GetGroupCodeMasterReport(GroupCodeAllocationAddEditModel filterModel)
         {
-            _actionName = "GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model)";
+            _actionName = "GetGroupCodeMasterReport(GroupCodeAllocationAddEditModel filterModel)";
 
             try
             {
@@ -8799,7 +8799,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataSet> GetGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel filterModel)
         {
-            _actionName = "GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model)";
+            _actionName = "GetGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel filterModel)";
 
             return await Task.Run(async () =>
             {
@@ -8810,6 +8810,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetGroupCodeMasterReport_brachwise";
+                        //command.CommandText = "USP_GetGroupCodeMasterReport_dummy";
 
                         command.Parameters.AddWithValue("@action", "_getAllData");
                         command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterId);
