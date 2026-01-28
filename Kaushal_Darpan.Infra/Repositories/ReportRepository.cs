@@ -8763,8 +8763,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_GetGroupCodeMasterReport";
-                    //command.CommandText = "USP_GetGroupCodeMasterReport_dummy";
+                    //command.CommandText = "USP_GetGroupCodeMasterReport";
+                    command.CommandText = "USP_GetGroupCodeMasterReport_dummy";
 
                     command.Parameters.AddWithValue("@action", "_getAllData");
                     command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterId);
