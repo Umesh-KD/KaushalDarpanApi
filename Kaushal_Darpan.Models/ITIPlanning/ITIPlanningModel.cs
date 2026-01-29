@@ -32,14 +32,16 @@ namespace Kaushal_Darpan.Models.ITIPlanning
         public string? MemberIdProofName { get; set; }
         public string? MemberIdDisProofName { get; set; }
         public int OwnerShipID { get; set; }
-        public int IsRented { get; set; }   
+        public int IsRented { get; set; }
+        public int FinancialYearID { get; set; }
+        public int EndTermID { get; set; }
         public string? AgreementLeaseDate { get; set; }
         public string? ValidUpToLeaseDate { get; set; }
         public string? InstituteRegOffice { get; set; }
         public int InstituteStateID { get; set; }
         public int RegDistrictID { get; set; }
         public int InstituteDistrictID { get; set; }
-        public int RegStateID { get; set; }   
+        public int RegStateID { get; set; }
         public string? AgreementFileName { get; set; }
         public string? AgreementDisFileName { get; set; }
         public int IsOwnRented { get; set; }
@@ -53,7 +55,7 @@ namespace Kaushal_Darpan.Models.ITIPlanning
         public int PropTehsilID { get; set; }
         public int PropUrbanRural { get; set; }
         public int AdministrativeBodyId { get; set; }
-        public int VillageID{ get; set; }
+        public int VillageID { get; set; }
         public int PanchayatSamiti { get; set; }
         public int GramPanchayatSamiti { get; set; }
 
@@ -75,10 +77,10 @@ namespace Kaushal_Darpan.Models.ITIPlanning
         public string? SubDivOffice { get; set; }
         public string? Latitude { get; set; }
         public string? Longitude { get; set; }
-     
+
         public int ModifyBy { get; set; }
         public int Status { get; set; }
-      
+
         public int DepartmentID { get; set; }
         public int CourseTypeID { get; set; }
         public List<ItiAffiliationList>? ItiAffiliationList { get; set; }
@@ -87,7 +89,7 @@ namespace Kaushal_Darpan.Models.ITIPlanning
         public string? CategoryName { get; set; }
         public string? ManagementTypeName { get; set; }
         public string? StateName { get; set; }
-        public string? DistrictName { get; set; }   
+        public string? DistrictName { get; set; }
         public string? OwnerShipName { get; set; }
         public string? RegistrationStateName { get; set; }
         public string? RegistrationDistirctName { get; set; }
@@ -97,47 +99,62 @@ namespace Kaushal_Darpan.Models.ITIPlanning
         public string? InsUrbanName { get; set; }
         public string? InsCityName { get; set; }
         public string? AdministrativeBodyName { get; set; }
+        public string? Remarks { get; set; }
 
+        public string? ManagementStatus { get; set; }
+        public string? ManagementRemark { get; set; }
+
+        public string? TrustMemberStatus { get; set; }
+        public string? TrustMemberRemark { get; set; }
+
+        public string? AddressStatus { get; set; }
+        public string? AddressRemark { get; set; }
+
+        public string? ContactStatus { get; set; }
+        public string? ContactRemark { get; set; }
+
+        public string? ElectricalStatus { get; set; }
+        public string? ElectricalRemark { get; set; }
+
+        public string? AffilationStatus { get; set; }
+        public string? AffilationRemark { get; set; }
 
     }
 
-
-
-    public class ItiAffiliationList
+        public class ItiAffiliationList
         {
-        public int AffiliationID { get; set; }
-        public int CollegeID { get; set; }
-        public string? OrderNo { get; set; }
-        public string? SerialNo { get; set; }
-        public string? PageNo { get; set; }
-        public string? OrderDate { get; set; }
-        public string? EffectFrom { get; set; }
-        public string? FileName { get; set; }
-        public string? Dis_Filename { get; set; }
-        
-
-    }
-
-    public class ItiMembersModel
-    {
-        public int MemberId { get; set; }
-        public int CollegeID { get; set; }
-        public int PostID { get; set; }
-        public string? MemberName { get; set; }
-        public string? PostName { get; set; }
-        public string? ContactNo { get; set; }
-        public string? IDFileName { get; set; }
-        public string? IDdis_Filename { get; set; }
-     
-    }
-
-    public class ItiVerificationModel
-    {
-        public int InstituteID { get; set; }
-        public int Status { get; set; }
-        public int UserID { get; set ; }
-        public string? Remarks { get; set ; }
-    }
+            public int AffiliationID { get; set; }
+            public int CollegeID { get; set; }
+            public string? OrderNo { get; set; }
+            public string? SerialNo { get; set; }
+            public string? PageNo { get; set; }
+            public string? OrderDate { get; set; }
+            public string? EffectFrom { get; set; }
+            public string? FileName { get; set; }
+            public string? Dis_Filename { get; set; }
 
 
+        }
+
+        public class ItiMembersModel
+        {
+            public int MemberId { get; set; }
+            public int CollegeID { get; set; }
+            public int PostID { get; set; }
+            public string? MemberName { get; set; }
+            public string? PostName { get; set; }
+            public string? ContactNo { get; set; }
+            public string? IDFileName { get; set; }
+            public string? IDdis_Filename { get; set; }
+
+        }
+
+        public class ItiVerificationModel
+        {
+            public int InstituteID { get; set; }
+            public int Status { get; set; }
+            public int UserID { get; set; }
+            public string? Remarks { get; set; }
+        }
+    
 }
