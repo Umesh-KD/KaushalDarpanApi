@@ -51,15 +51,15 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         // login process = /login
-        [HttpGet("Login/{SSOID}/{Password}")]
-        public async Task<ApiResult<SSOUserDetailsModel>> Login(string SSOID, string Password)
+        [HttpPost("Login")]
+        public async Task<ApiResult<SSOUserDetailsModel>> Login(UserLoginModel model)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<SSOUserDetailsModel>();
                 try
                 {
-                    result.Data = await _unitOfWork.SSORepository.Login(SSOID, Password);
+                    result.Data = await _unitOfWork.SSORepository.Login(model.UserName, model.Password, model.DepartmentID);
                     if (result.Data != null)
                     {
 
@@ -90,7 +90,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     else
                     {
                         result.State = EnumStatus.Warning;
-                        result.Message = "Invalid SSOID or Password.!";
+                        result.Message = Constants.MSG_INVALID_SSOID_PASSWORD;
                     }
                 }
                 catch (Exception ex)
@@ -193,6 +193,7 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
                 result.ErrorMessage = ex.Message;
                 // write error log
                 var nex = new NewException
@@ -254,8 +255,8 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         //sso login process = /ssologin(redirected)
-        [HttpGet("GetSSOUserDetails/{SearchRecordID}")]
-        public async Task<ApiResult<SSOUserDetailsModel>> GetSSOUserDetails(string SearchRecordID)//encoded search id
+        [HttpGet("GetSSOUserDetails/{SearchRecordID}/{DepartmentID}")]
+        public async Task<ApiResult<SSOUserDetailsModel>> GetSSOUserDetails(string SearchRecordID, int DepartmentID = 0)//encoded search id
         {
             return await Task.Run(async () =>
             {
@@ -264,7 +265,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     // decode sso search id
                     var ssoSearchId = CommonFuncationHelper.Decrypt(HttpUtility.UrlDecode(SearchRecordID));
-                    var data = await _unitOfWork.SSORepository.GetSSOUserDetails(ssoSearchId);
+                    var data = await _unitOfWork.SSORepository.GetSSOUserDetails(ssoSearchId, DepartmentID);
                     result.State = EnumStatus.Success;
                     //
                     if (data != null)
@@ -290,6 +291,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_ERROR_OCCURRED;
                     result.ErrorMessage = ex.Message;
                     // write error log
                     var nex = new NewException
@@ -339,13 +341,13 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
         [HttpGet("GetAcedmicYearList/{RoleID=0}/{DepartmentID=0}/{SessionTypeID=0}")]
-        public async Task<ApiResult<DataTable>> GetAcedmicYearList(int RoleID = 0, int DepartmentID = 0 , int SessionTypeID =0)
+        public async Task<ApiResult<DataTable>> GetAcedmicYearList(int RoleID = 0, int DepartmentID = 0, int SessionTypeID = 0)
         {
             ActionName = "GetAllData()";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.SSORepository.GetAcedmicYearList(RoleID, DepartmentID , SessionTypeID));
+                result.Data = await Task.Run(() => _unitOfWork.SSORepository.GetAcedmicYearList(RoleID, DepartmentID, SessionTypeID));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
@@ -980,7 +982,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("SSOLoginWithIDPass")]
         public async Task<ApiResult<SSOUserDetailsModel>> SSOLoginWithIDPass(SsoLoginPassModel Model)
         {
-            bool isValid=true;
+            bool isValid = true;
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<SSOUserDetailsModel>();
@@ -1017,7 +1019,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                     isValid = true;
                                 }
                             }
-                            else 
+                            else
                             {
                                 Model.Password = Constants.Login_DefaultPassword;// when user authenthicate then
                                 isValid = true;
@@ -1027,7 +1029,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             Model.Password = Constants.Login_DefaultPassword;// when user authenthicate then
                             isValid = true;
-                          
+
                         }
                     }
                     if (isValid) // when is valid
@@ -1066,7 +1068,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             result.Message = "no sso found in kd!";
                         }
                     }
-                    else 
+                    else
                     {
                         result.State = EnumStatus.Warning;
                         result.Message = "Invalid SSOID or Password.!";
@@ -1078,7 +1080,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
                     result.Message = "Invalid SSOID or Password.!";
 
-       
+
                     // write error log
                     var nex = new NewException
                     {
@@ -1164,6 +1166,83 @@ namespace Kaushal_Darpan.Api.Controllers
                 };
                 await CreateErrorLog(nex, _unitOfWork);
             }
+        }
+
+
+        [HttpPost("CheckMultiDepartUser")]
+        public async Task<ApiResult<UserLoginExtraInfoResponseModel>> CheckMultiDepartUser([FromBody] UserLoginExtraInfoRequestModel model)
+        {
+            ActionName = "CheckMultiDepartUser([FromBody] UserLoginExtraInfoRequestModel model)";
+            var result = new ApiResult<UserLoginExtraInfoResponseModel>();
+            try
+            {
+                result.Data = await _unitOfWork.SSORepository.CheckMultiDepartUser(model);
+                if (result.Data != null)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_INVALID_SSOID_PASSWORD;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpGet("CheckMultiDepartUserBySearchRecordID/{SearchRecordID}")]
+        public async Task<ApiResult<UserLoginExtraInfoResponseModel>> CheckMultiDepartUserBySearchRecordID(string SearchRecordID)
+        {
+            ActionName = "CheckMultiDepartUserBySearchRecordID(string SearchRecordID)";
+            var result = new ApiResult<UserLoginExtraInfoResponseModel>();
+            try
+            {
+                //var ssoSearchId1 = HttpUtility.UrlEncode(CommonFuncationHelper.Encrypt(SearchRecordID));
+                var ssoSearchId = CommonFuncationHelper.Decrypt(HttpUtility.UrlDecode(SearchRecordID));
+                result.Data = await _unitOfWork.SSORepository.CheckMultiDepartUserBySearchRecordID(ssoSearchId);
+                if (result.Data != null)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_INVALID_SSOID_PASSWORD;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
     }
 

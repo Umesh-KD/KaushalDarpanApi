@@ -3,6 +3,8 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.IDfFundDetailsModel;
 using Kaushal_Darpan.Models.ITIIIPManageDataModel;
+using Kaushal_Darpan.Models.ItiInvigilator;
+using Kaushal_Darpan.Models.SurveyPerformModel;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using System;
@@ -784,7 +786,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         //}
 
-        public async Task<int> SavesurveyperformaReport(IDfFundDetailsModel request)
+        public async Task<int> SavesurveyperformaReport(SurveyPerformModel request)
         {
             _actionName = "SaveAllData1(AdminUserDetailModel entity)";
             return await Task.Run(async () =>
@@ -796,18 +798,20 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         // Set the stored procedure name and type
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITI_IIP_InsertFundWithDeposits";
-                        command.Parameters.AddWithValue("@FundID", request.FundID);
-                        command.Parameters.AddWithValue("@FinYearQuaterID", request.FinYearQuaterID);
-                        command.Parameters.AddWithValue("@FinancialYearId", request.FinancialYearID);
-                        command.Parameters.AddWithValue("@PrincipalName", request.PrincipalName);
-                        command.Parameters.AddWithValue("@OpeningBalance", request.OpeningBalance);
-                        command.Parameters.AddWithValue("@ReceivedAmount", request.ReceivedAmount);
-                        command.Parameters.AddWithValue("@Expense", request.Expense);
-                        command.Parameters.AddWithValue("@ClosingBalance", request.ClosingBalance);
-                        command.Parameters.AddWithValue("@Remark", request.Remark);
-                        command.Parameters.AddWithValue("@InstituteID", request.InsituteID);
-                        command.Parameters.AddWithValue("@OtherDepositList", JsonConvert.SerializeObject(request.OtherDepositList));
+                        command.CommandText = "USP_ITI_Appr_SaveSurveyperformaReport";
+                        command.Parameters.AddWithValue("@SurveyPerformID", request.SurveyPerformID);
+                        command.Parameters.AddWithValue("@NameofEstablishment", request.NameofEstablishment);
+                        command.Parameters.AddWithValue("@NameofDesignation", request.NameofDesignation);
+                        command.Parameters.AddWithValue("@HeadofEstablishmentAddress", request.HeadofEstablishmentAddress);
+                        command.Parameters.AddWithValue("@NatureOfBusiness", request.NatureOfBusiness);
+                        command.Parameters.AddWithValue("@TotalNoPersonEmployeed", request.TotalNoPersonEmployeed);
+                        command.Parameters.AddWithValue("@BasicTraningFacility", request.BasicTraningFacility);
+                        command.Parameters.AddWithValue("@DistributionofWorker", request.DistributionofWorker);
+                        command.Parameters.AddWithValue("@OtherITIWorkerDesignationTrade", JsonConvert.SerializeObject(request.OtherITIWorkerDesignationTrade));
+                        command.Parameters.AddWithValue("@OtherITIApprWorkerDetailsOfExistingApprenticeship", JsonConvert.SerializeObject(request.OtherITIApprWorkerDetailsOfExistingApprenticeship));
+                        command.Parameters.AddWithValue("@OtherITIApprWorkerDetalisOffacilities", JsonConvert.SerializeObject(request.OtherITIApprWorkerDetalisOffacilities));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -830,6 +834,83 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+
+        public async Task<DataSet> GetAllsurveyperformaReport(GetSurveyPerformModel body)
+        {
+
+            _actionName = "GetAllData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataSet dataTable = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_Appr_SurveyperformaReport_GetData";
+                        command.Parameters.AddWithValue("@SurveyPerformID", body.SurveyPerformID);
+                        command.Parameters.AddWithValue("@Action", "GetList");
+                       
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        // vivek report work
+        public async Task<DataSet> surveyperformaReportDownload(GetSurveyPerformModel body)
+        {
+            _actionName = "GetPracticalExaminerMark(string TransactionId)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_Appr_SurveyperformaReport_GetData";
+                        command.Parameters.AddWithValue("@SurveyPerformID", body.SurveyPerformID);
+                        command.Parameters.AddWithValue("@Action", "GetByID");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        // end 
+
     }
 }
 

@@ -1519,6 +1519,9 @@ namespace Kaushal_Darpan.Api.Controllers
                     worksheet.Cell(row, col++).Value = "UO Note Number";
                     worksheet.Cell(row, col++).Value = "UO Note Date";
                     worksheet.Cell(row, col++).Value = "Reject Remark";
+                    worksheet.Cell(row, col++).Value = "Gender";
+                    worksheet.Cell(row, col++).Value = "Category_A";
+                    worksheet.Cell(row, col++).Value = "Category_B";
 
                     // Set header row height and style
                     worksheet.Row(row).Height = 40;
@@ -1588,6 +1591,9 @@ namespace Kaushal_Darpan.Api.Controllers
                         worksheet.Cell(row, col++).Value = dt.Rows[i]["UONoteNumber"]?.ToString();
                         worksheet.Cell(row, col++).Value = dt.Rows[i]["UONoteDate"]?.ToString();
                         worksheet.Cell(row, col++).Value = dt.Rows[i]["RejectRemark"]?.ToString();
+                        worksheet.Cell(row, col++).Value = dt.Rows[i]["Gender"]?.ToString();
+                        worksheet.Cell(row, col++).Value = dt.Rows[i]["Category_A"]?.ToString();
+                        worksheet.Cell(row, col++).Value = dt.Rows[i]["Category_B"]?.ToString();
                     }
                     // Apply borders to all cells in the used range
                     worksheet.Cells().Style.Border.TopBorder = XLBorderStyleValues.Thin;

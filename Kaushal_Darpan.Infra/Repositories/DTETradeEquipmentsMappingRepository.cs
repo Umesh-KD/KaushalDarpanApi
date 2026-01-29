@@ -162,6 +162,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@MappingId", request.MappingId);
                         command.Parameters.AddWithValue("@ApprovedQuantity", request.ApprovedQuantity);
+                        command.Parameters.AddWithValue("@Specification", request.Specification);
+
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 

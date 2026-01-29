@@ -10,10 +10,14 @@
         public int DistrictID { get; set; }
         public int DepartmentID { get; set; }
         public string CompanyPhoto { get; set; }
+        public string CompanyRegNo { get; set; }
 
         public string CompanyTypeId { get; set; }
 
         public string Dis_CompanyName { get; set; }
+
+        public string UploadedDoc { get; set; }
+        public string Dis_UploadedDoc { get; set; }
 
         public bool ActiveStatus { get; set; }
         public bool DeleteStatus { get; set; }

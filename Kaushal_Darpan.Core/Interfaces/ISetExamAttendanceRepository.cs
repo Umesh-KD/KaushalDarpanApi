@@ -18,5 +18,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveData(List<SetExamAttendanceModel> productDetails,int InvigilatorAppointmentID=0 );
         Task<DataTable> GetExamStudentData_Internal(SetExamAttendanceSearchModel filterModel);
         Task<DataTable> GetTimeTableBranchesData(SetExamAttendanceSearchModel body);
+        Task<DataTable> GetBlankReportData_Admin(SetExamAttendanceSearchModel body);
     }
 }

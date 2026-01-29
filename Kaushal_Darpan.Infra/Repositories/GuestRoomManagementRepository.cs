@@ -635,7 +635,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return await Task.Run(async () =>
                 {
                     DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    using (var command = await _dbContext.CreateCommandAsync()) 
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GuestRequestList";
@@ -1301,6 +1301,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsPayment", model.IsPayment);
                         command.Parameters.AddWithValue("@RoomFee", model.RoomFee);
                         command.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
+                        command.Parameters.AddWithValue("@GuestReqID", model.GuestReqID);
                         // command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// sql query
@@ -1343,6 +1344,38 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CoolingFacilities", body.CoolingFacilities);
                     command.Parameters.AddWithValue("@RoomType", body.RoomType);
                     command.Parameters.AddWithValue("@GenderId", body.GenderId);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetGuestHouseRoomAvailabilityData(GuestRoomSeatSearchModel body)
+        {
+            _actionName = "GetGuestHouseRoomAvailabilityData(GuestRoomSeatSearchModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GuestHouseRoomAvailabilityGet";
+
+                    command.Parameters.AddWithValue("@GuestHouseID", body.GuestHouseID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();

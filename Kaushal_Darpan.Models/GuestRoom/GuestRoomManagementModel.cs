@@ -271,6 +271,7 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public int RoomQuantity { get; set; }
         public int RoomFee { get; set; }
         public int? UserID { get; set; }
+        public int? GuestReqID { get; set; }
     }
 
     public class GuestHouseDropdownDataModel

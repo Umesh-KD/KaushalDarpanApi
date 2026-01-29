@@ -11,6 +11,9 @@
         public string Logo { get; set; }
         public string Dis_Name { get; set; }
         public string CompanyTypeId { get; set; }
+        public string UploadedDoc { get; set; }
+        public string Dis_UploadedDoc { get; set; }
+        public string CompanyRegNo { get; set; }
 
         public bool ActiveStatus { get; set; }
         public bool DeleteStatus { get; set; }

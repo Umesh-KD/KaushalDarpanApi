@@ -46,6 +46,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> Iticollege(int DepartmentID, int Eng_NonEng, int EndTermId, int InsutiteId);
         Task<DataTable> IticenterColleges(int DepartmentID, int Eng_NonEng, int EndTermId, int InstituteID);
         Task<DataTable> StreamMaster(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0);
+        Task<DataTable> Stream_InstituteIdWise(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituteID=0,int AcademicYearID=0);
         Task<DataTable> ItiTrade(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituiteID = 0, int DivisionId = 0,int SemesterID=0);
         Task<DataTable> ItiTradecouncelling(string DesignationID);
         Task<DataTable> ItiShiftUnitDDL(int ID = 0, int FinancialYearID = 0, int CourseTypeID = 0, int InstituteID = 0);
@@ -80,7 +81,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> CollegeType();
         Task<List<CommonDDLModel>> GetSubjectMasterDDL(int DepartmentID);
         Task<List<CommonDDLModel>> GetCommonMasterDDLByType(string type);
-        Task<List<CommonDDLModel>> GetCampusPostMasterDDL(int DepartmentID);
+        Task<List<CommonDDLModel>> GetCampusPostMasterDDL(int DepartmentID,int CreatedBy);
 
         Task<List<CommonDDLModel>> GetCategoryDMasterDDL(int MeritalStatus);
         Task<List<CommonDDLModel>> GetCampusWiseHiringRoleDDL(int campusPostId, int DepartmentID);
@@ -345,5 +346,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetALLOptionalSubjects(DDL_OptionalSubjectModel model);
         Task<DataTable> EmitraFeePaymentList_GetData(EmitraFeePaymentListSearchModel model);
+        Task<DataTable> getStudBasicDetailsEnrollmentWise(string EnrollNo,int DepartmentID);
     }
 }
