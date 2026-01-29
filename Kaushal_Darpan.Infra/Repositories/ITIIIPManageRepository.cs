@@ -877,7 +877,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         // vivek report work
         public async Task<DataSet> surveyperformaReportDownload(GetSurveyPerformModel body)
         {
-            _actionName = "GetPracticalExaminerMark(string TransactionId)";
+            _actionName = "surveyperformaReportDownload(GetSurveyPerformModel body)";
             return await Task.Run(async () =>
             {
                 try
