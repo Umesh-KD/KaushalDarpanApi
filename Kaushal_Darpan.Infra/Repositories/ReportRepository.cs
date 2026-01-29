@@ -533,6 +533,45 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
+        #region Internal Assessment Student Report
+        public async Task<DataSet> GetInternalAssessmentStudentReport(PassoutStudentReport model)
+        {
+            _actionName = "GetInternalAssessmentStudentReport()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetInternalAssessmentStudentReport";
+                        //command.Parameters.AddWithValue("@action", "_getStudentAllotmentFeesReceipt");
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndtermID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
+
         #region Exam Letter Report
         public async Task<DataSet> GetExamLetterReport(ExamLetterReport model)
         {

@@ -49,6 +49,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataSet> GetStudentAllotmentFeeReceipt(string EnrollmentNo);
         Task<DataSet> GetPassoutStudentReport(PassoutStudentReport model);
+        Task<DataSet> GetInternalAssessmentStudentReport(PassoutStudentReport model);
         Task<DataSet> GetExamLetterReport(ExamLetterReport model);
         Task<DataSet> GetStudentApplicationChallanReceipt(int ApplicationID);
         Task<DataSet> GetITIStudentApplicationChallanReceipt(int ApplicationID);
