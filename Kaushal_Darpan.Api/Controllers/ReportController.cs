@@ -15269,11 +15269,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-
-
-        // vivek new 
-
-
         [HttpPost("GetSampleAnnexture")]    
         public async Task<IActionResult> GetSampleAnnexture([FromBody] AnnextureModel model)
         {
