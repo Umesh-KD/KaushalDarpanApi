@@ -54,6 +54,8 @@ namespace Kaushal_Darpan.Models.StudentDetailUpdate
 
         public string IPAddress { get; set; }
         public int DepartmentID { get; set; }
+        public string StudentName { get; set; }
+        public string StudFatherName { get; set; }
         public List<StudentEmploymentDetailsModel> ListEmployementDetails { get; set; }
     }
 

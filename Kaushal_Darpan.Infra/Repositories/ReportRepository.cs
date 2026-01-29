@@ -8754,54 +8754,52 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
         public async Task<DataSet> GetGroupCodeMasterReport(GroupCodeAllocationAddEditModel filterModel)
+        {
+            _actionName = "GetGroupCodeMasterReport(GroupCodeAllocationAddEditModel filterModel)";
+
+            try
             {
-            _actionName = "GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model)";
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetGroupCodeMasterReport";
+                    //command.CommandText = "USP_GetGroupCodeMasterReport_dummy";
 
-            return await Task.Run(async () =>
+                    command.Parameters.AddWithValue("@action", "_getAllData");
+                    command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterId);
+                    command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                    command.Parameters.AddWithValue("@schemeId", filterModel.schemeid);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
+                }
+
+
+                return ds;
+            }
+            catch (Exception ex)
             {
-                try
+                var errorDesc = new ErrorDescription
                 {
-                    var ds = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetGroupCodeMasterReport";
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
 
-                        command.Parameters.AddWithValue("@action", "_getAllData");
-                        command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterId);
-                        command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
-                        command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
-                        command.Parameters.AddWithValue("@schemeId", filterModel.schemeid);
-
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        ds = await command.FillAsync();
-                    }
-                   
-
-                    return ds;
-                }
-                catch (Exception ex)
-                {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
 
         public async Task<DataSet> GetGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel filterModel)
         {
-            _actionName = "GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model)";
+            _actionName = "GetGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel filterModel)";
 
             return await Task.Run(async () =>
             {
@@ -8812,6 +8810,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetGroupCodeMasterReport_brachwise";
+                        //command.CommandText = "USP_GetGroupCodeMasterReport_dummy";
 
                         command.Parameters.AddWithValue("@action", "_getAllData");
                         command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterId);

@@ -81,7 +81,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> CollegeType();
         Task<List<CommonDDLModel>> GetSubjectMasterDDL(int DepartmentID);
         Task<List<CommonDDLModel>> GetCommonMasterDDLByType(string type);
-        Task<List<CommonDDLModel>> GetCampusPostMasterDDL(int DepartmentID);
+        Task<List<CommonDDLModel>> GetCampusPostMasterDDL(int DepartmentID,int CreatedBy);
 
         Task<List<CommonDDLModel>> GetCategoryDMasterDDL(int MeritalStatus);
         Task<List<CommonDDLModel>> GetCampusWiseHiringRoleDDL(int campusPostId, int DepartmentID);
@@ -346,5 +346,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetALLOptionalSubjects(DDL_OptionalSubjectModel model);
         Task<DataTable> EmitraFeePaymentList_GetData(EmitraFeePaymentListSearchModel model);
+        Task<DataTable> getStudBasicDetailsEnrollmentWise(string EnrollNo,int DepartmentID);
     }
 }

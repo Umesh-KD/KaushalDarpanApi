@@ -129,6 +129,10 @@ namespace Kaushal_Darpan.Models.ApplicationData
         public int? StudentQualificationID { get; set; }
         public int OtherQualification { get; set; }
 
+        public string? StudentName { get; set; }
+
+        public string? StudFatherName { get; set; }
+
     }
 
     public class BTERStudentProfileUpdateModel

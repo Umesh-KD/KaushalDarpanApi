@@ -568,7 +568,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<bool> SaveItiworkflow(ItiVerificationModel request)
+        public async Task<bool> SaveItiworkflow(ITI_PlanningColleges request)
         {
             _actionName = "SaveDataPlanning(ITI_PlanningColleges request)";
             return await Task.Run(async () =>
@@ -581,10 +581,23 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITIPlanningWorkflow_IU"; // Your stored procedure
                         command.CommandType = CommandType.StoredProcedure;
 
-                        command.Parameters.AddWithValue("@CollegeId", request.InstituteID);
+                        command.Parameters.AddWithValue("@CollegeId", request.CollegeId);
                         command.Parameters.AddWithValue("@Status", request.Status);
                         command.Parameters.AddWithValue("@Remarks", request.Remarks);
-                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@UserID", request.ModifyBy);
+                        command.Parameters.AddWithValue("@ManagementStatus", request.ManagementStatus);
+                        command.Parameters.AddWithValue("@ManagementRemark", request.ManagementRemark);
+                        command.Parameters.AddWithValue("@AddressRemark", request.AddressRemark);
+                        command.Parameters.AddWithValue("@AddressStatus", request.AddressStatus);
+                        command.Parameters.AddWithValue("@ElectricalRemark", request.ElectricalRemark);
+                        command.Parameters.AddWithValue("@ElectricalStatus", request.ElectricalStatus);
+                        command.Parameters.AddWithValue("@ContactRemark", request.ContactRemark);
+                        command.Parameters.AddWithValue("@ContactStatus", request.ContactStatus);
+                        command.Parameters.AddWithValue("@AffilationStatus", request.AffilationStatus);
+                        command.Parameters.AddWithValue("@AffilationRemark", request.AffilationRemark);
+                        command.Parameters.AddWithValue("@TrustMemberStatus", request.TrustMemberStatus);
+                        command.Parameters.AddWithValue("@TrustMemberRemark", request.TrustMemberRemark);
+                        command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
     
 
                         var returnParam = new SqlParameter("@Return", SqlDbType.Int) { Direction = ParameterDirection.Output };

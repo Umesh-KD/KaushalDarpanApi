@@ -21,6 +21,7 @@ namespace Kaushal_Darpan.Models.GroupCodeAllocation
         public string? centergroupcode { get; set; }
         public string? EndTerm { get; set; }
         public string? ExamName { get; set; }
+        public int? CCCode { get; set; }
     }
 
     // group code
