@@ -9798,18 +9798,34 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         data.Tables[0].Rows[0]["logo"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
                         data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
+                        data.Tables[0].Rows[0]["HeadLogo"] = $"{ConfigurationHelper.StaticFileRootPath + "/" + data.Tables[0].Rows[0]["HeadLogo"]}";
 
                         string devFontSize = "15px";
                         System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
+ 
+
+
+
                         string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.StateTradeCertificateITI}/StateTradeCertificateReport.html";
 
                         string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+                        string css = @"
+<style>
+    table {
+        font-family: 'Times New Roman', Arial, sans-serif;
+        font-size: 12pt;
+    }
+</style>";
+
+                 
+
+
 
                         System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
 
                         html = Utility.PDFWorks.ReplaceCustomTag(html);
-
+                        html = css + html;
                         sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
 
                         var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogoWaterMark.png";
