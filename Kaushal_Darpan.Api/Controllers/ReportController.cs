@@ -15270,200 +15270,246 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-
-
-        // vivek new 
-
-
-        [HttpPost("GetSampleAnnexture")]
-        public async Task<IActionResult> GetSampleAnnexture([FromBody] AnnextureModel filterModel)
+        [HttpPost("GetSampleAnnexture")]    
+        public async Task<IActionResult> GetSampleAnnexture([FromBody] AnnextureModel model)
         {
             try
             {
+                    // static pass data
+                //model.EndTermID = 9;
+                //model.InstituteID = 1;
+                //model.CourseTypeID = 0;
 
-                //var streams_data = await _unitOfWork.ReportRepository.GetGroupCodeMasterReportBranchwise(filterModel);
-                //var dataList = await _unitOfWork.ReportRepository.GetSampleAnnexture(model);
 
-                //var dataList = CommonFuncationHelper.ConvertDataTable<List<GroupCodeAllocationAddEditModel>>(streams_data.Tables[0]);
+                var Main_data = await _unitOfWork.ReportRepository.GetSampleAnnexture(model);
 
-                //if (dataList == null || !dataList.Any())
-                //    return BadRequest("No data found");
+                var dataList = CommonFuncationHelper.ConvertDataTable<List<AnnextureModel>>(Main_data.Tables[0]);
+
+
+                
+
+                if (dataList == null || !dataList.Any())
+                    return BadRequest("No data found");
+                var instituteName = dataList.FirstOrDefault()?.InstituteName ?? "";
+                var instituteCode = dataList.FirstOrDefault()?.InstituteCode ?? 0;
+                var endTermName = dataList.FirstOrDefault()?.EndTermName ?? "";
 
                 string html = @"
 <!DOCTYPE html>
 <html lang='hi'>
 <head>
 <meta charset='UTF-8'>
-<title>अंक प्रमाण पत्र</title>
-
+<title>परिशिष्ट 32</title>
 <style>
-body {
-    font-family: Mangal, Arial, sans-serif;
-    font-size: 14px;
-    margin: 20px;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-}
-
-.left-header, .right-header {
-    line-height: 22px;
-}
-
-.center-title {
-    text-align: center;
-    margin-top: 10px;
-    font-weight: bold;
-    font-size: 16px;
-    text-decoration: underline;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-th, td {
-    border: 1px solid #000;
-    padding: 5px;
-    text-align: center;
-}
-
-.signature-box {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 40px;
-}
-
-.sign {
-    width: 30%;
-    text-align: center;
-}
-
-.footer-note {
-    margin-top: 15px;
-    font-size: 13px;
-}
-
-.page-break {
-    page-break-before: always;
-}
+    html, body, table {
+        font-family: arial;
+        line-height: 26px;
+        font-size: 16px;
+    }
 </style>
-</head>
 
-<body>
+<div style='max-width:1200px;margin:0px auto;font-size:14px;padding:15px 45px;'>
+    <table border='0' width='100%'>
+        <tr>
+            <td>
+                <p style='text-align:right;'>
+                    Email<br />
+                    <b>परिशिष्ट 32</b>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table border='0' width='100%'>
+                    <tr>
+                        <td>
+                            प्रेषक<br />
+                            प्रधानाचार्य,<br />
+                            पॉलिटेक्निक महाविद्यालय<br />
+                            नाम : " + instituteName + @"<br />
+                            संस्थान कोड संख्या : "+ instituteCode + @"
+                        </td>
+                        <td width='300' align='left'>
+                            प्रेषित<br />
+                            संयुक्त निदेशक (गोपनीय)<br />
+                            प्राविधिक शिक्षा मण्डल, जोधपुर
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+            <tr>
+                <td>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;विषय :- आंतरिक मूल्यांकन में 85% से अधिक एवं 45% से कम प्राप्तांक के विद्यार्थियों का रिकॉर्ड सत्यापन रिपोर्ट।</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;संदर्भ :- परीक्षा : "+ endTermName + @"</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3 style=""text-align:center;margin-top:0px;text-decoration:underline;"">संस्थान स्तर पर प्राप्त अंकों का प्रमाण पत्र</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p style=""margin-bottom:15px;"">
+                        विषयान्तर्गत निम्न विद्यार्थियों को उनके अर्जित अंकों विवरण अनुसार मण्डल कार्यालय में आंतरिक मूल्यांकन के सम्बन्ध में निम्न प्रमाणिकरण प्रस्तुत है :-
+                    </p>
+                    <p>(अ) 85 प्रतिशत से अधिक प्राप्तांक प्राप्त किये गये।</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table border=""1"" width=""100%"" cellpadding=""10"" style=""border-collapse:collapse;"">
+                        <thead>
+                            <tr>
+                                <th rowspan=""3"">क्र.सं.</th>
+                                <th rowspan=""3"">रोल नं. / एस.पी.एन.</th>
+                                <th rowspan=""3"">नाम</th>
+                                <th colspan=""15"">85 प्रतिशत से अधिक प्राप्तांक विषय कोड</th>
+                                <th rowspan=""3"">शिक्षक के हस्ताक्षर</th>
+                            </tr>
+                            <tr>
+                                <th colspan=""15""></th>
+                            </tr>
+                            <tr>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                                <th>6</th>
+                                <th>7</th>
+                                <th>8</th>
+                                <th>9</th>
+                                <th>10</th>
+                                <th>11</th>
+                                <th>12</th>
+                                <th>13</th>
+                                <th>14</th>
+                                <th>15</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td colspan=""15""></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
 
-<div class='header'>
-    <div class='left-header'>
-        प्रेषक<br>
-        प्रधानाचार्य<br>
-        राजकीय पॉलिटेक्निक महाविद्यालय<br>
-        नाम : Govt. Polytechnic College, Banswara<br>
-        संस्था कोड संख्या : 003
+        <div style=""page-break-after:always;""></div>
+
+        <table border=""0"" width=""100%"">
+            <tr>
+                <td>
+                    <p style=""margin-top:45px"">(ब) आंतरिक मूल्यांकन में 45 प्रतिशत से कम प्राप्तांक के विद्यार्थियों का विवरण:-</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table border=""1"" width=""100%"" cellpadding=""10"" style=""border-collapse:collapse;"">
+                        <thead>
+                            <tr>
+                                <th rowspan=""3"">क्र.सं.</th>
+                                <th rowspan=""3"">रोल नं. / एस.पी.एन.</th>
+                                <th rowspan=""3"">नाम</th>
+                                <th colspan=""15"">45 प्रतिशत से अधिक प्राप्तांक विषय कोड</th>
+                                <th rowspan=""3"">शिक्षक के हस्ताक्षर</th>
+                            </tr>
+                            <tr>
+                                <th colspan=""15""></th>
+                            </tr>
+                            <tr>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                                <th>6</th>
+                                <th>7</th>
+                                <th>8</th>
+                                <th>9</th>
+                                <th>10</th>
+                                <th>11</th>
+                                <th>12</th>
+                                <th>13</th>
+                                <th>14</th>
+                                <th>15</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td colspan=""15""></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p style=""margin-bottom:15px;"">
+                        प्रमाणित किया जाता है कि उपरोक्त विद्यार्थियों के मण्डल द्वारा निर्धारित समस्त रिकार्डों की जांच की गई है, विद्यार्थियों का नियमिततानुसार प्रमाणिकरण किया जाता है।
+                    </p>
+                    <ol>
+                        <li>उपरोक्त विद्यार्थियों के प्रदत्त अंकों से सम्बन्धित एवं विद्यार्थियों के प्रत्येक रिकार्ड की व्यक्तिगत जांच की गई, विद्यार्थी उपरोक्त प्रदत्त अंक के योग्य है। </li>
+                        <li>मण्डल कार्यालय द्वारा रिकार्ड मंगवाने पर समयबद्ध रूप से रिकार्ड मण्डल कार्यालय में उपलब्ध करवा दिया जायेगा। </li>
+                        <li>प्रदत्त अंकों में अनियमितता पर अधोहस्ताक्षरकर्ता व्यक्तिगत रूप से उत्तरदायी होंगे।</li>
+                    </ol>
+                    <p>
+                        उपरोक्त प्रमाणिकरण ऑनलाइन अंकों को दर्ज करते समय करें एवं एक प्रति <b>Email: conf.bter@gmail.com</b> पर भिजवायें।
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table border=""0"" width=""100%"">
+                        <tr>
+                            <td>
+                                <b>विभागाध्यक्ष</b><br />
+                                हस्ताक्षर........................................<br />
+                                नाम..............................................<br />
+                                पद...............................................
+                            </td>
+                            <td width=""300"" align=""left"">
+                                <b>परीक्षा अधीक्षक</b><br />
+                                हस्ताक्षर........................................<br />
+                                नाम..............................................<br />
+                                पद...............................................<br />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style=""padding-top:20px;"">
+                    <table border=""0"" width=""100%"">
+                        <tr>
+                            <td>
+                                आवश्यक कार्यवाही हेतु प्रस्तुत है।
+                            </td>
+                            <td width=""300"" align=""right"">
+                                प्रधानाचार्य
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
     </div>
-
-    <div class='right-header'>
-        Email<br>
-        परीक्षाधिकारी<br>
-        तकनीकी शिक्षा (पोली.)<br>
-        तकनीकी शिक्षा भवन, जयपुर
-    </div>
-</div>
-
-<div class='center-title'>
-    शैक्षणिक सत्र 2024-2025 / मई 2025<br>
-    आंतरिक मूल्यांकन स्तर पर प्राप्त अंकों का प्रमाण पत्र
-</div>
-
-<p>
-प्रमाणित किया जाता है कि नीचे अंकित विवरण अनुसार महाविद्यालय में आंतरिक मूल्यांकन के अन्तर्गत निम्न विद्यार्थियों को
-</p>
-
-<p>
-(अ) 85 प्रतिशत से अधिक प्रतिशत प्राप्त किये
-</p>
-
-<table>
-<thead>
-<tr>
-    <th>क्रम सं.</th>
-    <th>रोल नं./एन.आर.</th>
-    <th>नाम</th>
-    <th colspan='15'>85 प्रतिशत से अधिक प्राप्त विषय कोड</th>
-    <th>शिक्षक के हस्ताक्षर</th>
-</tr>
-<tr>
-    <th colspan='3'></th>
-    <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
-    <th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
-    <th>11</th><th>12</th><th>13</th><th>14</th><th>15</th>
-    <th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-    <td>1</td>
-    <td>12345</td>
-    <td>राम कुमार</td>
-    <td></td><td></td><td></td><td></td><td></td>
-    <td></td><td></td><td></td><td></td><td></td>
-    <td></td><td></td><td></td><td></td><td></td>
-    <td></td>
-</tr>
-</tbody>
-</table>
-
-<div class='page-break'></div>
-
-<p>
-(ब) आंतरिक मूल्यांकन में 45 प्रतिशत से कम प्राप्तांक के विद्यार्थी का विवरण :
-</p>
-
-<table>
-<thead>
-<tr>
-    <th>क्रम सं.</th>
-    <th>रोल नं./एन.आर.</th>
-    <th>नाम</th>
-    <th colspan='15'>45 प्रतिशत से कम प्राप्त विषय कोड</th>
-    <th>शिक्षक के हस्ताक्षर</th>
-</tr>
-<tr>
-    <th colspan='3'></th>
-    <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
-    <th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
-    <th>11</th><th>12</th><th>13</th><th>14</th><th>15</th>
-    <th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-    <td>1</td>
-    <td>54321</td>
-    <td>श्याम लाल</td>
-    <td></td><td></td><td></td><td></td><td></td>
-    <td></td><td></td><td></td><td></td><td></td>
-    <td></td><td></td><td></td><td></td><td></td>
-    <td></td>
-</tr>
-</tbody>
-</table>
-
-<div class='footer-note'>
-प्रमाणित किया जाता है कि उपरोक्त विद्यार्थियों के सम्बन्ध में निर्धारित समस्त निर्देशों का पालन किया गया है।
-</div>
-
-<div class='signature-box'>
-    <div class='sign'>विभागाध्यक्ष<br><br>हस्ताक्षर ___________<br>नाम ___________</div>
-    <div class='sign'>परीक्षा अधिकारी<br><br>हस्ताक्षर ___________<br>नाम ___________</div>
-    <div class='sign'>प्रधानाचार्य<br><br>हस्ताक्षर ___________<br>नाम ___________</div>
-</div>
-
-</body>
-</html>
 ";
 
             var doc = new HtmlToPdfDocument()

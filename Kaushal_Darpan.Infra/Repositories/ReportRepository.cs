@@ -8847,7 +8847,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataSet> GetSampleAnnexture(AnnextureModel model)
         {
-            _actionName = "DownloadTimeTable(ReportBaseModel model)";
+            _actionName = "GetSampleAnnexture(AnnextureModel model)";
             return await Task.Run(async () =>
             {
                 try
@@ -8857,13 +8857,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_GetSampleAnnexture32";
-                        //command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        //command.Parameters.AddWithValue("@Action", model.Action);
-                        //command.Parameters.AddWithValue("@StudentExamID", model.StudentExamID);
-                        //command.Parameters.AddWithValue("@ExamType", model.ExamType);
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dt = await command.FillAsync();
                     }
