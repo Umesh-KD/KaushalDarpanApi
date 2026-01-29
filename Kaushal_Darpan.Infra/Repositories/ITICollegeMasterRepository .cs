@@ -510,7 +510,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteSubDivisionID", request.InstituteSubDivisionID);
                         command.Parameters.AddWithValue("@PropDistrictID", request.PropDistrictID);
                         command.Parameters.AddWithValue("@PropTehsilID", request.PropTehsilID);
-                        command.Parameters.AddWithValue("@Prop  ", request.PropUrbanRural);
+                        command.Parameters.AddWithValue("@PropUrbanRural", request.PropUrbanRural);
                         command.Parameters.AddWithValue("@AdministrativeBodyId", request.AdministrativeBodyId);
                             command.Parameters.AddWithValue("@VillageID", request.VillageID);
                                 command.Parameters.AddWithValue("@GramPanchayatSamiti", request.GramPanchayatSamiti);
