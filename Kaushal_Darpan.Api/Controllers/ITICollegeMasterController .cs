@@ -702,7 +702,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("SaveItiworkflow")]
-        public async Task<ApiResult<bool>> SaveItiworkflow([FromBody] ItiVerificationModel request)
+        public async Task<ApiResult<bool>> SaveItiworkflow([FromBody] ITI_PlanningColleges request)
         {
             ActionName = "SaveData([FromBody] ItiReportDataModel request)";
             return await Task.Run(async () =>
@@ -724,7 +724,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
-                        if (request.InstituteID == 0)
+                        if (request.CollegeId == 0)
 
                         {
                             result.Message = Constants.MSG_SAVE_SUCCESS;
@@ -737,7 +737,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     else
                     {
                         result.State = EnumStatus.Error;
-                        if (request.InstituteID == 0)
+                        if (request.CollegeId == 0)
                         {
                             result.ErrorMessage = Constants.MSG_ADD_ERROR;
                         }

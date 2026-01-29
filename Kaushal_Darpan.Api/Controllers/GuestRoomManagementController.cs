@@ -1459,6 +1459,49 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        [HttpPost("GetGuestHouseRoomAvailabilityData")]
+        public async Task<ApiResult<DataTable>> GetGuestHouseRoomAvailabilityData([FromBody] GuestRoomSeatSearchModel body)
+        {
+            ActionName = "GetGuestHouseRoomAvailabilityData([FromBody] GuestRoomSeatSearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.GuestRoomManagementRepository.GetGuestHouseRoomAvailabilityData(body));
+
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found.!";
+                }
+                else if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Something went wrong.!";
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }
 
