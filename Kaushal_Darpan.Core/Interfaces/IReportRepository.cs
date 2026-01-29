@@ -19,6 +19,7 @@ using Kaushal_Darpan.Models.NodalApperentship;
 using Kaushal_Darpan.Models.OptionalFormatReport;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Report;
+using Kaushal_Darpan.Models.ScholarshipMaster;
 using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.TheoryMarks;
 using System;
@@ -293,5 +294,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetGroupCodeMasterReport(GroupCodeAllocationAddEditModel filterModel);
         Task<DataSet> GetGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel filterModel);
         Task<DataSet> GetSampleAnnexture(AnnextureModel filterModel);
+        Task<bool> UploadAnnexture32(AnnextureModel filterModel);
+        Task<DataTable> GetUploadAnnexture32(AnnextureModel model);
     }
 }

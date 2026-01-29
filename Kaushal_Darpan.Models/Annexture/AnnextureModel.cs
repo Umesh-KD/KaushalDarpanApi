@@ -13,6 +13,10 @@ namespace Kaushal_Darpan.Models.LeaveMaster
         public int Eng_NonEng { get; set; } = 0;
         public int DepartmentID { get; set; } = 0;
         public int EndTermID { get; set; } = 0;
+        public int UserID { get; set; } = 0;
+        public string? FileName { get; set; }
+        public string? DisFileName { get; set; }
+        public string? Code { get; set; }
 
     }
 }
