@@ -50,9 +50,14 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         result.State = EnumStatus.Warning;
                         result.Message = "This office has already reached its post limit.";
-                    }
-                }
+                    }                    
 
+                }
+                else if (result.Data == -3)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "This Post is not Sanctioned Yet!";
+                }
                 else if (result.Data == -2)
                 {
                     result.State = EnumStatus.Warning;
@@ -73,6 +78,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.State = EnumStatus.Warning;
                     result.Message = "USER WITH  ROLE Already Exists in system";
                 }
+
             }
             catch (Exception ex)
             {
