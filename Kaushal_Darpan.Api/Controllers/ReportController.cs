@@ -15291,7 +15291,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 if (dataList == null || !dataList.Any())
                     return BadRequest("No data found");
                 var instituteName = dataList.FirstOrDefault()?.InstituteName ?? "";
-                var instituteCode = dataList.FirstOrDefault()?.InstituteCode ?? 0;
+                var instituteCode = dataList.FirstOrDefault()?.InstituteCode ?? "";
                 var endTermName = dataList.FirstOrDefault()?.EndTermName ?? "";
 
                 string html = @"
