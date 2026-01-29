@@ -14736,7 +14736,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                     <table>
                                     <thead>                                    
                                     <tr>
-                                        <th>CCode/Group/Branch</th>
+                                        <th>CCode/Code/Group</th>
                                         <th>Present/Total</th>
                                     </tr>
                                     </thead>
