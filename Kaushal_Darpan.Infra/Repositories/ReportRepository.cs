@@ -18,6 +18,7 @@ using Kaushal_Darpan.Models.ITIApplication;
 using Kaushal_Darpan.Models.ItiInvigilator;
 using Kaushal_Darpan.Models.ItiStudentActivities;
 using Kaushal_Darpan.Models.ITITheoryMarks;
+using Kaushal_Darpan.Models.LeaveMaster;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.NodalApperentship;
 using Kaushal_Darpan.Models.OptionalFormatReport;
@@ -8843,7 +8844,44 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-
+        public async Task<DataSet> GetSampleAnnexture(AnnextureModel model)
+        {
+            _actionName = "DownloadTimeTable(ReportBaseModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var dt = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_GetSampleAnnexture32";
+                        //command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        //command.Parameters.AddWithValue("@Action", model.Action);
+                        //command.Parameters.AddWithValue("@StudentExamID", model.StudentExamID);
+                        //command.Parameters.AddWithValue("@ExamType", model.ExamType);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dt = await command.FillAsync();
+                    }
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
     }
 }

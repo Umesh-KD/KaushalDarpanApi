@@ -23,6 +23,7 @@ using Kaushal_Darpan.Models.GroupCodeAllocation;
 using Kaushal_Darpan.Models.ITIApplication;
 using Kaushal_Darpan.Models.ItiInvigilator;
 using Kaushal_Darpan.Models.ITITheoryMarks;
+using Kaushal_Darpan.Models.LeaveMaster;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.NodalApperentship;
 using Kaushal_Darpan.Models.OptionalFormatReport;
@@ -15259,6 +15260,230 @@ namespace Kaushal_Darpan.Api.Controllers
                 // return
                 byte[] pdfBytes = _converter.Convert(doc);
                 return File(pdfBytes, "application/pdf", "Group_Code_Master_Report_SubjectWise.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+
+
+
+        // vivek new 
+
+
+        [HttpPost("GetSampleAnnexture")]
+        public async Task<IActionResult> GetSampleAnnexture([FromBody] AnnextureModel filterModel)
+        {
+            try
+            {
+
+                //var streams_data = await _unitOfWork.ReportRepository.GetGroupCodeMasterReportBranchwise(filterModel);
+                //var dataList = await _unitOfWork.ReportRepository.GetSampleAnnexture(model);
+
+                //var dataList = CommonFuncationHelper.ConvertDataTable<List<GroupCodeAllocationAddEditModel>>(streams_data.Tables[0]);
+
+                //if (dataList == null || !dataList.Any())
+                //    return BadRequest("No data found");
+
+                string html = @"
+<!DOCTYPE html>
+<html lang='hi'>
+<head>
+<meta charset='UTF-8'>
+<title>अंक प्रमाण पत्र</title>
+
+<style>
+body {
+    font-family: Mangal, Arial, sans-serif;
+    font-size: 14px;
+    margin: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-header, .right-header {
+    line-height: 22px;
+}
+
+.center-title {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: underline;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #000;
+    padding: 5px;
+    text-align: center;
+}
+
+.signature-box {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.sign {
+    width: 30%;
+    text-align: center;
+}
+
+.footer-note {
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+.page-break {
+    page-break-before: always;
+}
+</style>
+</head>
+
+<body>
+
+<div class='header'>
+    <div class='left-header'>
+        प्रेषक<br>
+        प्रधानाचार्य<br>
+        राजकीय पॉलिटेक्निक महाविद्यालय<br>
+        नाम : Govt. Polytechnic College, Banswara<br>
+        संस्था कोड संख्या : 003
+    </div>
+
+    <div class='right-header'>
+        Email<br>
+        परीक्षाधिकारी<br>
+        तकनीकी शिक्षा (पोली.)<br>
+        तकनीकी शिक्षा भवन, जयपुर
+    </div>
+</div>
+
+<div class='center-title'>
+    शैक्षणिक सत्र 2024-2025 / मई 2025<br>
+    आंतरिक मूल्यांकन स्तर पर प्राप्त अंकों का प्रमाण पत्र
+</div>
+
+<p>
+प्रमाणित किया जाता है कि नीचे अंकित विवरण अनुसार महाविद्यालय में आंतरिक मूल्यांकन के अन्तर्गत निम्न विद्यार्थियों को
+</p>
+
+<p>
+(अ) 85 प्रतिशत से अधिक प्रतिशत प्राप्त किये
+</p>
+
+<table>
+<thead>
+<tr>
+    <th>क्रम सं.</th>
+    <th>रोल नं./एन.आर.</th>
+    <th>नाम</th>
+    <th colspan='15'>85 प्रतिशत से अधिक प्राप्त विषय कोड</th>
+    <th>शिक्षक के हस्ताक्षर</th>
+</tr>
+<tr>
+    <th colspan='3'></th>
+    <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+    <th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
+    <th>11</th><th>12</th><th>13</th><th>14</th><th>15</th>
+    <th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>1</td>
+    <td>12345</td>
+    <td>राम कुमार</td>
+    <td></td><td></td><td></td><td></td><td></td>
+    <td></td><td></td><td></td><td></td><td></td>
+    <td></td><td></td><td></td><td></td><td></td>
+    <td></td>
+</tr>
+</tbody>
+</table>
+
+<div class='page-break'></div>
+
+<p>
+(ब) आंतरिक मूल्यांकन में 45 प्रतिशत से कम प्राप्तांक के विद्यार्थी का विवरण :
+</p>
+
+<table>
+<thead>
+<tr>
+    <th>क्रम सं.</th>
+    <th>रोल नं./एन.आर.</th>
+    <th>नाम</th>
+    <th colspan='15'>45 प्रतिशत से कम प्राप्त विषय कोड</th>
+    <th>शिक्षक के हस्ताक्षर</th>
+</tr>
+<tr>
+    <th colspan='3'></th>
+    <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+    <th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
+    <th>11</th><th>12</th><th>13</th><th>14</th><th>15</th>
+    <th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>1</td>
+    <td>54321</td>
+    <td>श्याम लाल</td>
+    <td></td><td></td><td></td><td></td><td></td>
+    <td></td><td></td><td></td><td></td><td></td>
+    <td></td><td></td><td></td><td></td><td></td>
+    <td></td>
+</tr>
+</tbody>
+</table>
+
+<div class='footer-note'>
+प्रमाणित किया जाता है कि उपरोक्त विद्यार्थियों के सम्बन्ध में निर्धारित समस्त निर्देशों का पालन किया गया है।
+</div>
+
+<div class='signature-box'>
+    <div class='sign'>विभागाध्यक्ष<br><br>हस्ताक्षर ___________<br>नाम ___________</div>
+    <div class='sign'>परीक्षा अधिकारी<br><br>हस्ताक्षर ___________<br>नाम ___________</div>
+    <div class='sign'>प्रधानाचार्य<br><br>हस्ताक्षर ___________<br>नाम ___________</div>
+</div>
+
+</body>
+</html>
+";
+
+            var doc = new HtmlToPdfDocument()
+            {
+                GlobalSettings =
+            {
+                PaperSize = PaperKind.A4,
+                Orientation = Orientation.Portrait
+            },
+                Objects =
+            {
+            new ObjectSettings
+            {
+                HtmlContent = html,
+                WebSettings = { DefaultEncoding = "utf-8" }
+            }
+            }
+             };
+
+                byte[] pdf = _converter.Convert(doc);
+                return File(pdf, "application/pdf", "MarksheetReport.pdf");
             }
             catch (Exception ex)
             {

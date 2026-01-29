@@ -13,6 +13,7 @@ using Kaushal_Darpan.Models.GroupCodeAllocation;
 using Kaushal_Darpan.Models.ITIApplication;
 using Kaushal_Darpan.Models.ItiInvigilator;
 using Kaushal_Darpan.Models.ITITheoryMarks;
+using Kaushal_Darpan.Models.LeaveMaster;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.NodalApperentship;
 using Kaushal_Darpan.Models.OptionalFormatReport;
@@ -291,5 +292,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetstudentWithdrawnList(AllotmentReportCollegeRequestModel model);
         Task<DataSet> GetGroupCodeMasterReport(GroupCodeAllocationAddEditModel filterModel);
         Task<DataSet> GetGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel filterModel);
+        Task<DataSet> GetSampleAnnexture(AnnextureModel filterModel);
     }
 }
