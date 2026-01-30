@@ -1245,7 +1245,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #region Internal Assessment Student Report
         [HttpPost("GetInternalAssessmentStudentReport")]
-        public async Task<ApiResult<string>> GetInternalAssessmentStudentReport(PassoutStudentReport model)
+        public async Task<ApiResult<string>> GetInternalAssessmentStudentReport(InternalAssessmentStudentReport model)
         {
             ActionName = "GetInternalAssessmentStudentReport()";
             return await Task.Run(async () =>

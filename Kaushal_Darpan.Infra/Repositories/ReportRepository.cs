@@ -534,7 +534,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         #endregion
 
         #region Internal Assessment Student Report
-        public async Task<DataSet> GetInternalAssessmentStudentReport(PassoutStudentReport model)
+        public async Task<DataSet> GetInternalAssessmentStudentReport(InternalAssessmentStudentReport model)
         {
             _actionName = "GetInternalAssessmentStudentReport()";
             return await Task.Run(async () =>
@@ -545,12 +545,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetInternalAssessmentStudentReport";
+                        command.CommandText = "USP_InternalMarksReportCollegeWise";
                         //command.Parameters.AddWithValue("@action", "_getStudentAllotmentFeesReceipt");
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndtermID);
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@Type", model.Type);
+                        //command.Parameters.AddWithValue("@SchemeID", model.Type);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
