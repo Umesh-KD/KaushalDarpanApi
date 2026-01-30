@@ -15530,7 +15530,7 @@ namespace Kaushal_Darpan.Api.Controllers
              };
 
                 byte[] pdf = _converter.Convert(doc);
-                return File(pdf, "application/pdf", "MarksheetReport.pdf");
+                return File(pdf, "application/pdf", "Annexure32.pdf");
             }
             catch (Exception ex)
             {
