@@ -15367,7 +15367,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 sb.Append($"<td>{s.Subject14}</td>");
                 sb.Append($"<td>{s.Subject15}</td>");
 
-                sb.Append("<td></td>"); // Teacher signature
+                sb.Append("<td></td>"); 
                 sb.Append("</tr>");
             }
 
@@ -15381,21 +15381,17 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 // Static values
-                model.EndTermID = 14;
-                model.InstituteID = 1;
-                model.CourseTypeID = 1;
+                //model.EndTermID = 14;
+                //model.InstituteID = 1;
+                //model.CourseTypeID = 1;
 
                 var mainData = await _unitOfWork.ReportRepository.GetSampleAnnexture(model);
-
                 var dataList = CommonFuncationHelper
                                 .ConvertDataTable<List<AnnextureModel>>(mainData.Tables[0]);
-
                 var above = CommonFuncationHelper
                                 .ConvertDataTable<List<StudentSubjectModel>>(mainData.Tables[1]);
-
                 var below = CommonFuncationHelper
                                 .ConvertDataTable<List<StudentSubjectModel>>(mainData.Tables[2]);
-
                 if (dataList == null || !dataList.Any())
                     return BadRequest("No data found");
 
@@ -15403,7 +15399,6 @@ namespace Kaushal_Darpan.Api.Controllers
                 var instituteCode = dataList.First().InstituteCode;
                 var endTermName = dataList.First().EndTermName;
 
-                // 🔹 Generate dynamic rows
                 var aboveRows = GenerateStudentTableRows(above);
                 var belowRows = GenerateStudentTableRows(below);
 
