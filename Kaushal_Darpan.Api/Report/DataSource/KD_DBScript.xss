@@ -131,7 +131,7 @@
     <Shape ID="DesignTable:Daily_Report_WithoutAdmitcard" ZOrder="4" X="1469" Y="2420" Height="106" Width="268" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="102" />
     <Shape ID="DesignTable:Daily_Report_AdmitCard" ZOrder="3" X="1192" Y="2532" Height="105" Width="261" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="101" />
     <Shape ID="DesignTable:ExamLetterReport" ZOrder="2" X="330" Y="2643" Height="257" Width="171" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="253" />
-    <Shape ID="DesignTable:InternalAssessmentStudent" ZOrder="1" X="572" Y="2636" Height="143" Width="224" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="44" SplitterPosition="139" />
+    <Shape ID="DesignTable:InternalAssessmentStudent" ZOrder="1" X="572" Y="2636" Height="181" Width="224" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="44" SplitterPosition="177" />
   </Shapes>
   <Connectors />
 </DiagramLayout>
