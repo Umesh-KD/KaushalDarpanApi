@@ -17,7 +17,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public string? IdentificationMark { get; set; }
         public string? CampanyName { get; set; }
 
-        public int? VoucherNumber { get; set; }
+        public string? VoucherNumber { get; set; }
         public int? Quantity { get; set; }
 
         public int? PricePerUnit { get; set; }
