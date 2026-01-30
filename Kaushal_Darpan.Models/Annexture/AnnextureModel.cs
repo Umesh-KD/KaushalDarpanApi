@@ -22,4 +22,52 @@ namespace Kaushal_Darpan.Models.LeaveMaster
         public string? DisFileName { get; set; }
         public string? Code { get; set; }
     }
+
+    public class StudentSubjectModel
+    {
+        public string? EnrollmentNo { get; set; }
+        public string? RollNo { get; set; }
+        public string? StudentName { get; set; }
+
+        public string? Subject1 { get; set; }
+        public string? Subject2 { get; set; }
+        public string? Subject3 { get; set; }
+        public string? Subject4 { get; set; }
+        public string? Subject5 { get; set; }
+        public string? Subject6 { get; set; }
+        public string? Subject7 { get; set; }
+        public string? Subject8 { get; set; }
+        public string? Subject9 { get; set; }
+        public string? Subject10 { get; set; }
+        public string? Subject11 { get; set; }
+        public string? Subject12 { get; set; }
+        public string? Subject13 { get; set; }
+        public string? Subject14 { get; set; }
+        public string? Subject15 { get; set; }
+        public List<StudentSubjectCode> SubjectCode { get; set; }
+    }
+
+
+    public class StudentSubjectCode
+    {
+       
+        public string? Subject1 { get; set; }
+        public string? Subject2 { get; set; }
+        public string? Subject3 { get; set; }
+        public string? Subject4 { get; set; }
+        public string? Subject5 { get; set; }
+        public string? Subject6 { get; set; }
+        public string? Subject7 { get; set; }
+        public string? Subject8 { get; set; }
+        public string? Subject9 { get; set; }
+        public string? Subject10 { get; set; }
+        public string? Subject11 { get; set; }
+        public string? Subject12 { get; set; }
+        public string? Subject13 { get; set; }
+        public string? Subject14 { get; set; }
+        public string? Subject15 { get; set; }
+    }
+
+
+
 }
