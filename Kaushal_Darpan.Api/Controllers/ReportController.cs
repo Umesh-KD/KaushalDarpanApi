@@ -15447,8 +15447,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         प्रेषक<br>
                         प्रधानाचार्य,<br>
                         पॉलिटेक्निक महाविद्यालय<br>
-                        नाम :- Govt. Polytechnic College, Banswara<br>
-                        संस्थान कोड संख्या :- 003
+                        नाम :- {instituteName}<br>
+                        संस्थान कोड संख्या :- {instituteCode}
                     </td>
 
                     <td class=""right"" style=""float: right;"">
@@ -15467,7 +15467,7 @@ namespace Kaushal_Darpan.Api.Controllers
     </tr>
     <tr>
         <td>
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;संदर्भ :- परीक्षा : 2024-2025 / May 2025</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;संदर्भ :- परीक्षा : {endTermName}</p>
         </td>
     </tr>
     <tr>
@@ -15582,7 +15582,15 @@ namespace Kaushal_Darpan.Api.Controllers
                         new ObjectSettings
                         {
                             HtmlContent = html,
-                            WebSettings = { DefaultEncoding = "utf-8" }
+                            WebSettings = { DefaultEncoding = "utf-8" },
+                            FooterSettings = new FooterSettings
+                            {
+                                FontName = "Arial",
+                                FontSize = 9,
+                                Center = " [page] / [toPage]",
+                                
+                                //Line = true 
+                            }
                         }
                     }
                 };
