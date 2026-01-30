@@ -15423,7 +15423,7 @@ namespace Kaushal_Darpan.Api.Controllers
         width: 100%;
     }}
     th, td {{
-        border: 1px solid #000;
+        border: 1px solid #ccc;;
         padding: 5px;
        
     }}
