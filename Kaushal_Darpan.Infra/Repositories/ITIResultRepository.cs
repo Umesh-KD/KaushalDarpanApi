@@ -242,6 +242,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TradeScheme", model.TradeScheme);
                         command.Parameters.AddWithValue("@StudentType", model.StudentType);
                         command.Parameters.AddWithValue("@is_appeared", model.is_appeared);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
