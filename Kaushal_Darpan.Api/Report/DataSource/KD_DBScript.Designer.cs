@@ -54138,6 +54138,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnSubjectCode;
             
+            private global::System.Data.DataColumn columnObtainedMarks;
+            
+            private global::System.Data.DataColumn columnMaxMarks;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public InternalAssessmentStudentDataTable() {
@@ -54223,6 +54227,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ObtainedMarksColumn {
+                get {
+                    return this.columnObtainedMarks;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn MaxMarksColumn {
+                get {
+                    return this.columnMaxMarks;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -54258,7 +54278,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public InternalAssessmentStudentRow AddInternalAssessmentStudentRow(string SrNo, string RollNo, string EnrollmentNo, string StudentName, string StudentType, string SubjectCode) {
+            public InternalAssessmentStudentRow AddInternalAssessmentStudentRow(string SrNo, string RollNo, string EnrollmentNo, string StudentName, string StudentType, string SubjectCode, string ObtainedMarks, string MaxMarks) {
                 InternalAssessmentStudentRow rowInternalAssessmentStudentRow = ((InternalAssessmentStudentRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         SrNo,
@@ -54266,7 +54286,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         EnrollmentNo,
                         StudentName,
                         StudentType,
-                        SubjectCode};
+                        SubjectCode,
+                        ObtainedMarks,
+                        MaxMarks};
                 rowInternalAssessmentStudentRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowInternalAssessmentStudentRow);
                 return rowInternalAssessmentStudentRow;
@@ -54295,6 +54317,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnStudentName = base.Columns["StudentName"];
                 this.columnStudentType = base.Columns["StudentType"];
                 this.columnSubjectCode = base.Columns["SubjectCode"];
+                this.columnObtainedMarks = base.Columns["ObtainedMarks"];
+                this.columnMaxMarks = base.Columns["MaxMarks"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -54312,6 +54336,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnStudentType);
                 this.columnSubjectCode = new global::System.Data.DataColumn("SubjectCode", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSubjectCode);
+                this.columnObtainedMarks = new global::System.Data.DataColumn("ObtainedMarks", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnObtainedMarks);
+                this.columnMaxMarks = new global::System.Data.DataColumn("MaxMarks", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMaxMarks);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -95773,6 +95801,39 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ObtainedMarks {
+                get {
+                    try {
+                        return ((string)(this[this.tableInternalAssessmentStudent.ObtainedMarksColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ObtainedMarks\' in table \'InternalAssessmentStudent\' is DBNu" +
+                                "ll.", e);
+                    }
+                }
+                set {
+                    this[this.tableInternalAssessmentStudent.ObtainedMarksColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string MaxMarks {
+                get {
+                    try {
+                        return ((string)(this[this.tableInternalAssessmentStudent.MaxMarksColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'MaxMarks\' in table \'InternalAssessmentStudent\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableInternalAssessmentStudent.MaxMarksColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsSrNoNull() {
                 return this.IsNull(this.tableInternalAssessmentStudent.SrNoColumn);
             }
@@ -95841,6 +95902,30 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetSubjectCodeNull() {
                 this[this.tableInternalAssessmentStudent.SubjectCodeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsObtainedMarksNull() {
+                return this.IsNull(this.tableInternalAssessmentStudent.ObtainedMarksColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetObtainedMarksNull() {
+                this[this.tableInternalAssessmentStudent.ObtainedMarksColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsMaxMarksNull() {
+                return this.IsNull(this.tableInternalAssessmentStudent.MaxMarksColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetMaxMarksNull() {
+                this[this.tableInternalAssessmentStudent.MaxMarksColumn] = global::System.Convert.DBNull;
             }
         }
         
