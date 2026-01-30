@@ -201,6 +201,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteId", model.InstituteId);
                         command.Parameters.AddWithValue("@Action", model.Action);
                         command.Parameters.AddWithValue("@TradeScheme", model.TradeScheme);
+                        command.Parameters.AddWithValue("@ExamType", model.ExamType);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync();
                     }
