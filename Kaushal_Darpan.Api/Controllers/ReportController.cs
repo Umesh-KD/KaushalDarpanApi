@@ -15337,201 +15337,188 @@ namespace Kaushal_Darpan.Api.Controllers
             }
         }
 
+        //  Sample Annexture
+
+        private string GenerateStudentTableRows(List<StudentSubjectModel> students, int maxSubjects = 15)
+        {
+            var sb = new StringBuilder();
+            int srNo = 1;
+
+            foreach (var s in students)
+            {
+                sb.Append("<tr style='page-break-inside:avoid;'>");
+
+                sb.Append($"<td>{srNo++}</td>");
+                sb.Append($"<td>{s.RollNo}</td>");
+                sb.Append($"<td>{s.StudentName}</td>");
+                sb.Append($"<td>{s.Subject1}</td>");
+                sb.Append($"<td>{s.Subject2}</td>");
+                sb.Append($"<td>{s.Subject3}</td>");
+                sb.Append($"<td>{s.Subject4}</td>");
+                sb.Append($"<td>{s.Subject5}</td>");
+                sb.Append($"<td>{s.Subject6}</td>");
+                sb.Append($"<td>{s.Subject7}</td>");
+                sb.Append($"<td>{s.Subject8}</td>");
+                sb.Append($"<td>{s.Subject9}</td>");
+                sb.Append($"<td>{s.Subject10}</td>");
+                sb.Append($"<td>{s.Subject11}</td>");
+                sb.Append($"<td>{s.Subject12}</td>");
+                sb.Append($"<td>{s.Subject13}</td>");
+                sb.Append($"<td>{s.Subject14}</td>");
+                sb.Append($"<td>{s.Subject15}</td>");
+
+                sb.Append("<td></td>"); // Teacher signature
+                sb.Append("</tr>");
+            }
+
+            return sb.ToString();
+        }
 
 
-        [HttpPost("GetSampleAnnexture")]    
+        [HttpPost("GetSampleAnnexture")]
         public async Task<IActionResult> GetSampleAnnexture([FromBody] AnnextureModel model)
         {
             try
             {
-                    // static pass data
-                //model.EndTermID = 9;
-                //model.InstituteID = 1;
-                //model.CourseTypeID = 0;
+                // Static values
+                model.EndTermID = 14;
+                model.InstituteID = 1;
+                model.CourseTypeID = 1;
 
+                var mainData = await _unitOfWork.ReportRepository.GetSampleAnnexture(model);
 
-                var Main_data = await _unitOfWork.ReportRepository.GetSampleAnnexture(model);
+                var dataList = CommonFuncationHelper
+                                .ConvertDataTable<List<AnnextureModel>>(mainData.Tables[0]);
 
-                var dataList = CommonFuncationHelper.ConvertDataTable<List<AnnextureModel>>(Main_data.Tables[0]);
+                var above = CommonFuncationHelper
+                                .ConvertDataTable<List<StudentSubjectModel>>(mainData.Tables[1]);
 
-
-                
+                var below = CommonFuncationHelper
+                                .ConvertDataTable<List<StudentSubjectModel>>(mainData.Tables[2]);
 
                 if (dataList == null || !dataList.Any())
                     return BadRequest("No data found");
-                var instituteName = dataList.FirstOrDefault()?.InstituteName ?? "";
-                var instituteCode = dataList.FirstOrDefault()?.InstituteCode ?? "";
-                var endTermName = dataList.FirstOrDefault()?.EndTermName ?? "";
 
-                string html = @"
+                var instituteName = dataList.First().InstituteName;
+                var instituteCode = dataList.First().InstituteCode;
+                var endTermName = dataList.First().EndTermName;
+
+                // 🔹 Generate dynamic rows
+                var aboveRows = GenerateStudentTableRows(above);
+                var belowRows = GenerateStudentTableRows(below);
+
+                string html = $@"
 <!DOCTYPE html>
 <html lang='hi'>
 <head>
 <meta charset='UTF-8'>
-<title>परिशिष्ट 32</title>
 <style>
-    html, body, table {
-        font-family: arial;
-        line-height: 26px;
-        font-size: 16px;
-    }
+    body, table {{
+        font-family: Arial;
+        font-size: 14px;
+        line-height: 22px;
+    }}
+    table {{
+        border-collapse: collapse;
+        width: 100%;
+    }}
+    th, td {{
+        border: 1px solid #000;
+        padding: 5px;
+       
+    }}
+.no-border,
+    .no-border td,
+    .no-border tr {{border: none;
+        border-collapse: collapse;
+    }}
+
+
 </style>
-
+</head>
+<body>
 <div style='max-width:1200px;margin:0px auto;font-size:14px;padding:15px 45px;'>
-    <table border='0' width='100%'>
-        <tr>
-            <td>
-                <p style='text-align:right;'>
-                    Email<br />
-                    <b>परिशिष्ट 32</b>
-                </p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <table border='0' width='100%'>
-                    <tr>
-                        <td>
-                            प्रेषक<br />
-                            प्रधानाचार्य,<br />
-                            पॉलिटेक्निक महाविद्यालय<br />
-                            नाम : " + instituteName + @"<br />
-                            संस्थान कोड संख्या : "+ instituteCode + @"
-                        </td>
-                        <td width='300' align='left'>
-                            प्रेषित<br />
-                            संयुक्त निदेशक (गोपनीय)<br />
-                            प्राविधिक शिक्षा मण्डल, जोधपुर
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-            <tr>
-                <td>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;विषय :- आंतरिक मूल्यांकन में 85% से अधिक एवं 45% से कम प्राप्तांक के विद्यार्थियों का रिकॉर्ड सत्यापन रिपोर्ट।</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;संदर्भ :- परीक्षा : "+ endTermName + @"</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <h3 style=""text-align:center;margin-top:0px;text-decoration:underline;"">संस्थान स्तर पर प्राप्त अंकों का प्रमाण पत्र</h3>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p style=""margin-bottom:15px;"">
-                        विषयान्तर्गत निम्न विद्यार्थियों को उनके अर्जित अंकों विवरण अनुसार मण्डल कार्यालय में आंतरिक मूल्यांकन के सम्बन्ध में निम्न प्रमाणिकरण प्रस्तुत है :-
-                    </p>
-                    <p>(अ) 85 प्रतिशत से अधिक प्राप्तांक प्राप्त किये गये।</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <table border=""1"" width=""100%"" cellpadding=""10"" style=""border-collapse:collapse;"">
-                        <thead>
-                            <tr>
-                                <th rowspan=""3"">क्र.सं.</th>
-                                <th rowspan=""3"">रोल नं. / एस.पी.एन.</th>
-                                <th rowspan=""3"">नाम</th>
-                                <th colspan=""15"">85 प्रतिशत से अधिक प्राप्तांक विषय कोड</th>
-                                <th rowspan=""3"">शिक्षक के हस्ताक्षर</th>
-                            </tr>
-                            <tr>
-                                <th colspan=""15""></th>
-                            </tr>
-                            <tr>
-                                <th>1</th>
-                                <th>2</th>
-                                <th>3</th>
-                                <th>4</th>
-                                <th>5</th>
-                                <th>6</th>
-                                <th>7</th>
-                                <th>8</th>
-                                <th>9</th>
-                                <th>10</th>
-                                <th>11</th>
-                                <th>12</th>
-                                <th>13</th>
-                                <th>14</th>
-                                <th>15</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td colspan=""15""></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        </table>
+            
+    <tr>
+        <td>
+             <table class=""no-border"">
+                <tr>
+                    <td class=""left"">
+                        प्रेषक<br>
+                        प्रधानाचार्य,<br>
+                        पॉलिटेक्निक महाविद्यालय<br>
+                        नाम :- Govt. Polytechnic College, Banswara<br>
+                        संस्थान कोड संख्या :- 003
+                    </td>
 
-        <div style=""page-break-after:always;""></div>
+                    <td class=""right"" style=""float: right;"">
+                        प्रेषित<br>
+                        संयुक्त निदेशक (गोपनीय)<br>
+                        प्राविधिक शिक्षा मण्डल, जोधपुर
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;विषय :- आंतरिक मूल्यांकन में 85% से अधिक एवं 45% से कम प्राप्तांक के विद्यार्थियों का रिकॉर्ड सत्यापन रिपोर्ट।</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;संदर्भ :- परीक्षा : 2024-2025 / May 2025</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h3 style=""text-align:center;margin-top:0px;text-decoration:underline;"">संस्थान स्तर पर प्राप्त अंकों का प्रमाण पत्र</h3>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p>विषयान्तर्गत निम्न विद्यार्थियों को उनके अर्जित अंकों विवरण अनुसार मण्डल कार्यालय में आंतरिक मूल्यांकन के सम्बन्ध में निम्न प्रमाणिकरण प्रस्तुत है :-।</p>
+            <p>(अ) 85 प्रतिशत से अधिक प्राप्तांक प्राप्त किये गये।</p>
+        </td>
+    </tr>
 
-        <table border=""0"" width=""100%"">
-            <tr>
-                <td>
-                    <p style=""margin-top:45px"">(ब) आंतरिक मूल्यांकन में 45 प्रतिशत से कम प्राप्तांक के विद्यार्थियों का विवरण:-</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <table border=""1"" width=""100%"" cellpadding=""10"" style=""border-collapse:collapse;"">
-                        <thead>
-                            <tr>
-                                <th rowspan=""3"">क्र.सं.</th>
-                                <th rowspan=""3"">रोल नं. / एस.पी.एन.</th>
-                                <th rowspan=""3"">नाम</th>
-                                <th colspan=""15"">45 प्रतिशत से अधिक प्राप्तांक विषय कोड</th>
-                                <th rowspan=""3"">शिक्षक के हस्ताक्षर</th>
-                            </tr>
-                            <tr>
-                                <th colspan=""15""></th>
-                            </tr>
-                            <tr>
-                                <th>1</th>
-                                <th>2</th>
-                                <th>3</th>
-                                <th>4</th>
-                                <th>5</th>
-                                <th>6</th>
-                                <th>7</th>
-                                <th>8</th>
-                                <th>9</th>
-                                <th>10</th>
-                                <th>11</th>
-                                <th>12</th>
-                                <th>13</th>
-                                <th>14</th>
-                                <th>15</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td colspan=""15""></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p style=""margin-bottom:15px;"">
-                        प्रमाणित किया जाता है कि उपरोक्त विद्यार्थियों के मण्डल द्वारा निर्धारित समस्त रिकार्डों की जांच की गई है, विद्यार्थियों का नियमिततानुसार प्रमाणिकरण किया जाता है।
+
+<table>
+<thead>
+<tr>
+<th>क्र.सं.</th>
+<th>रोल नं / एस.पी.एन. </th>
+<th>नाम</th>
+<th colspan='15'>85 प्रतिशत से अधिक प्राप्तांक विषय कोड</th>
+<th>शिक्षक के हस्ताक्षर</th>
+</tr>
+</thead>
+<tbody>
+{aboveRows}
+</tbody>
+</table>
+
+<div style='page-break-after:always;'></div>
+
+<p><b>(ब) आंतरिक मूल्यांकन में 45 प्रतिशत से कम प्राप्तांक के विद्यार्थियों का विवरण:</b></p>
+
+<table>
+<thead>
+<tr>
+<th>क्र.सं.</th>
+<th>रोल नं / एस.पी.एन. </th>
+<th>नाम</th>
+<th colspan='15'>45 प्रतिशत से कम प्राप्तांक विषय कोड</th>
+<th>शिक्षक के हस्ताक्षर</th>
+</tr>
+</thead>
+<tbody>
+{belowRows}
+</tbody>
+</table>
+
+<p>
+प्रमाणित किया जाता है कि उपरोक्त विद्यार्थियों के मण्डल द्वारा निर्धारित समस्त रिकार्डों की जांच की गई है, विद्यार्थियों का नियमिततानुसार प्रमाणिकरण किया जाता है।
                     </p>
                     <ol>
                         <li>उपरोक्त विद्यार्थियों के प्रदत्त अंकों से सम्बन्धित एवं विद्यार्थियों के प्रत्येक रिकार्ड की व्यक्तिगत जांच की गई, विद्यार्थी उपरोक्त प्रदत्त अंक के योग्य है। </li>
@@ -15545,7 +15532,7 @@ namespace Kaushal_Darpan.Api.Controllers
             </tr>
             <tr>
                 <td>
-                    <table border=""0"" width=""100%"">
+                    <table class=""no-border"">
                         <tr>
                             <td>
                                 <b>विभागाध्यक्ष</b><br />
@@ -15553,7 +15540,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                 नाम..............................................<br />
                                 पद...............................................
                             </td>
-                            <td width=""300"" align=""left"">
+                            <td  style=""float: right;"">
                                 <b>परीक्षा अधीक्षक</b><br />
                                 हस्ताक्षर........................................<br />
                                 नाम..............................................<br />
@@ -15565,12 +15552,12 @@ namespace Kaushal_Darpan.Api.Controllers
             </tr>
             <tr>
                 <td style=""padding-top:20px;"">
-                    <table border=""0"" width=""100%"">
+                    <table class=""no-border"">
                         <tr>
                             <td>
                                 आवश्यक कार्यवाही हेतु प्रस्तुत है।
                             </td>
-                            <td width=""300"" align=""right"">
+                            <td style=""float: right;"">
                                 प्रधानाचार्य
                             </td>
                         </tr>
@@ -15579,33 +15566,37 @@ namespace Kaushal_Darpan.Api.Controllers
             </tr>
         </table>
     </div>
-";
+</body>
+</html>";
 
-            var doc = new HtmlToPdfDocument()
-            {
-                GlobalSettings =
-            {
-                PaperSize = PaperKind.A4,
-                Orientation = Orientation.Portrait
-            },
-                Objects =
-            {
-            new ObjectSettings
-            {
-                HtmlContent = html,
-                WebSettings = { DefaultEncoding = "utf-8" }
-            }
-            }
-             };
+
+                var doc = new HtmlToPdfDocument()
+                {
+                    GlobalSettings =
+                    {
+                        PaperSize = PaperKind.A4,
+                        Orientation = Orientation.Portrait
+                    },
+                                    Objects =
+                    {
+                        new ObjectSettings
+                        {
+                            HtmlContent = html,
+                            WebSettings = { DefaultEncoding = "utf-8" }
+                        }
+                    }
+                };
 
                 byte[] pdf = _converter.Convert(doc);
                 return File(pdf, "application/pdf", "Annexure32.pdf");
+
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
+
 
 
         [HttpPost("UploadAnnexture32")]
