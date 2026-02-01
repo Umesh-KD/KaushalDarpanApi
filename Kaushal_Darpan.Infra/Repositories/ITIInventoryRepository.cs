@@ -2706,6 +2706,135 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<int> SaveMinRequiredItems_ITI_INV(AddMinRequiredItemDataModel request)
+        {
+            _actionName = "SaveMinRequiredItems_ITI_INV(AddMinRequiredItemDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_ITI_INV_MinRequiredItems_IU";
+                        command.CommandType = CommandType.StoredProcedure;
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@RequiredItemId", request.RequiredItemId);
+                        command.Parameters.AddWithValue("@TradeId", request.TradeId);
+                        command.Parameters.AddWithValue("@ItemCategoryId", request.ItemCategoryId);
+                        command.Parameters.AddWithValue("@EquipmentsId", request.EquipmentsId);
+                        command.Parameters.AddWithValue("@RequiredQuantity", request.RequiredQuantity);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetMinRequiredItem_ITI_INV(MinRequiredItemSearchModel SearchReq)
+        {
+            _actionName = "GetMinRequiredItem_ITI_INV(MinRequiredItemSearchModel SearchReq)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_INV_MinRequiredItems_GetData";
+                        command.Parameters.AddWithValue("@EquipmentsId", SearchReq.EquipmentsId);
+                        command.Parameters.AddWithValue("@RequiredItemId", SearchReq.RequiredItemId);
+                        command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
+                        command.Parameters.AddWithValue("@ItemCategoryId", SearchReq.ItemCategoryId);
+                        command.Parameters.AddWithValue("@Action", SearchReq.Action);
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.CollegeId);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> DeleteMinRequiredItem_ITI_INV(AddMinRequiredItemDataModel request)
+        {
+            _actionName = "DeleteMinRequiredItem_ITI_INV(AddMinRequiredItemDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_INV_MinRequiredItems_GetData";
+                        command.Parameters.AddWithValue("@Action", "DeleteDataById");
+
+                        command.Parameters.AddWithValue("@RequiredItemId", request.RequiredItemId);
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
 
