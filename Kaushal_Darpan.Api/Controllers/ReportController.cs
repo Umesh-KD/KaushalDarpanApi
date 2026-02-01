@@ -23,12 +23,14 @@ using Kaushal_Darpan.Models.GroupCodeAllocation;
 using Kaushal_Darpan.Models.ITIApplication;
 using Kaushal_Darpan.Models.ItiInvigilator;
 using Kaushal_Darpan.Models.ITITheoryMarks;
+using Kaushal_Darpan.Models.LeaveMaster;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.NodalApperentship;
 using Kaushal_Darpan.Models.OptionalFormatReport;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.RenumerationExaminer;
 using Kaushal_Darpan.Models.Report;
+using Kaushal_Darpan.Models.ScholarshipMaster;
 using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.TheoryMarks;
 using Kaushal_Darpan.Models.TimeTable;
@@ -1198,6 +1200,75 @@ namespace Kaushal_Darpan.Api.Controllers
                         localReport.AddDataSource("PassoutReport", data.Tables[0]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
 
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        //save
+
+
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        //end report
+
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+        #endregion
+
+
+        #region Internal Assessment Student Report
+        [HttpPost("GetInternalAssessmentStudentReport")]
+        public async Task<ApiResult<string>> GetInternalAssessmentStudentReport(InternalAssessmentStudentReport model)
+        {
+            ActionName = "GetInternalAssessmentStudentReport()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.ReportRepository.GetInternalAssessmentStudentReport(model);
+                    if (data != null)
+                    {
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        //report
+                        //var fileName = $"AllotmentFeeReceipt_{EnrollmentNo}.pdf";
+                        var fileName = $"InternalAssessmentStudentReport.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/InternalAssessmentReport.rdlc";
+                        //
+                        var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                        //
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+                        localReport.AddDataSource("InternalAssessmentStudent", data.Tables[0]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
 
                         //check file exists
                         if (!System.IO.Directory.Exists(folderPath))
@@ -15265,6 +15336,372 @@ namespace Kaushal_Darpan.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        //  Sample Annexture
+
+        private string GenerateStudentTableRows(List<StudentSubjectModel> students, int maxSubjects = 15)
+        {
+            var sb = new StringBuilder();
+            int srNo = 1;
+
+            foreach (var s in students)
+            {
+                sb.Append("<tr style='page-break-inside:avoid;'>");
+
+                sb.Append($"<td>{srNo++}</td>");
+                sb.Append($"<td>{s.RollNo}</td>");
+                sb.Append($"<td>{s.StudentName}</td>");
+                sb.Append($"<td>{s.Subject1}</td>");
+                sb.Append($"<td>{s.Subject2}</td>");
+                sb.Append($"<td>{s.Subject3}</td>");
+                sb.Append($"<td>{s.Subject4}</td>");
+                sb.Append($"<td>{s.Subject5}</td>");
+                sb.Append($"<td>{s.Subject6}</td>");
+                sb.Append($"<td>{s.Subject7}</td>");
+                sb.Append($"<td>{s.Subject8}</td>");
+                sb.Append($"<td>{s.Subject9}</td>");
+                sb.Append($"<td>{s.Subject10}</td>");
+                sb.Append($"<td>{s.Subject11}</td>");
+                sb.Append($"<td>{s.Subject12}</td>");
+                sb.Append($"<td>{s.Subject13}</td>");
+                sb.Append($"<td>{s.Subject14}</td>");
+                sb.Append($"<td>{s.Subject15}</td>");
+
+                sb.Append("<td></td>"); 
+                sb.Append("</tr>");
+            }
+
+            return sb.ToString();
+        }
+
+
+        [HttpPost("GetSampleAnnexture")]
+        public async Task<IActionResult> GetSampleAnnexture([FromBody] AnnextureModel model)
+        {
+            try
+            {
+                // Static values
+                //model.EndTermID = 14;
+                //model.InstituteID = 1;
+                //model.CourseTypeID = 1;
+
+                var mainData = await _unitOfWork.ReportRepository.GetSampleAnnexture(model);
+                var dataList = CommonFuncationHelper
+                                .ConvertDataTable<List<AnnextureModel>>(mainData.Tables[0]);
+                var above = CommonFuncationHelper
+                                .ConvertDataTable<List<StudentSubjectModel>>(mainData.Tables[1]);
+                var below = CommonFuncationHelper
+                                .ConvertDataTable<List<StudentSubjectModel>>(mainData.Tables[2]);
+                if (dataList == null || !dataList.Any())
+                    return BadRequest("No data found");
+
+                var instituteName = dataList.First().InstituteName;
+                var instituteCode = dataList.First().InstituteCode;
+                var endTermName = dataList.First().EndTermName;
+
+                var aboveRows = GenerateStudentTableRows(above);
+                var belowRows = GenerateStudentTableRows(below);
+
+                string html = $@"
+<!DOCTYPE html>
+<html lang='hi'>
+<head>
+<meta charset='UTF-8'>
+<style>
+    body, table {{
+        font-family: Arial;
+        font-size: 14px;
+        line-height: 22px;
+    }}
+    table {{
+        border-collapse: collapse;
+        width: 100%;
+    }}
+    th, td {{
+        border: 1px solid #ccc;;
+        padding: 5px;
+       
+    }}
+.no-border,
+    .no-border td,
+    .no-border tr {{border: none;
+        border-collapse: collapse;
+    }}
+
+
+</style>
+</head>
+<body>
+<div style='max-width:1200px;margin:0px auto;font-size:14px;padding:15px 45px;'>
+            
+    <tr>
+        <td>
+             <table class=""no-border"">
+                <tr>
+                    <td class=""left"">
+                        प्रेषक<br>
+                        प्रधानाचार्य,<br>
+                        पॉलिटेक्निक महाविद्यालय<br>
+                        नाम :- {instituteName}<br>
+                        संस्थान कोड संख्या :- {instituteCode}
+                    </td>
+
+                    <td class=""right"" style=""float: right;"">
+                        प्रेषित<br>
+                        संयुक्त निदेशक (गोपनीय)<br>
+                        प्राविधिक शिक्षा मण्डल, जोधपुर
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;विषय :- आंतरिक मूल्यांकन में 85% से अधिक एवं 45% से कम प्राप्तांक के विद्यार्थियों का रिकॉर्ड सत्यापन रिपोर्ट।</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;संदर्भ :- परीक्षा : {endTermName}</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h3 style=""text-align:center;margin-top:0px;text-decoration:underline;"">संस्थान स्तर पर प्राप्त अंकों का प्रमाण पत्र</h3>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p>विषयान्तर्गत निम्न विद्यार्थियों को उनके अर्जित अंकों विवरण अनुसार मण्डल कार्यालय में आंतरिक मूल्यांकन के सम्बन्ध में निम्न प्रमाणिकरण प्रस्तुत है :-।</p>
+            <p>(अ) 85 प्रतिशत से अधिक प्राप्तांक प्राप्त किये गये।</p>
+        </td>
+    </tr>
+
+
+<table>
+<thead>
+<tr>
+<th>क्र.सं.</th>
+<th>रोल नं / एस.पी.एन. </th>
+<th>नाम</th>
+<th colspan='15'>85 प्रतिशत से अधिक प्राप्तांक विषय कोड</th>
+<th>शिक्षक के हस्ताक्षर</th>
+</tr>
+</thead>
+<tbody>
+{aboveRows}
+</tbody>
+</table>
+
+<div style='page-break-after:always;'></div>
+
+<p><b>(ब) आंतरिक मूल्यांकन में 45 प्रतिशत से कम प्राप्तांक के विद्यार्थियों का विवरण:</b></p>
+
+<table>
+<thead>
+<tr>
+<th>क्र.सं.</th>
+<th>रोल नं / एस.पी.एन. </th>
+<th>नाम</th>
+<th colspan='15'>45 प्रतिशत से कम प्राप्तांक विषय कोड</th>
+<th>शिक्षक के हस्ताक्षर</th>
+</tr>
+</thead>
+<tbody>
+{belowRows}
+</tbody>
+</table>
+
+<p>
+प्रमाणित किया जाता है कि उपरोक्त विद्यार्थियों के मण्डल द्वारा निर्धारित समस्त रिकार्डों की जांच की गई है, विद्यार्थियों का नियमिततानुसार प्रमाणिकरण किया जाता है।
+                    </p>
+                    <ol>
+                        <li>उपरोक्त विद्यार्थियों के प्रदत्त अंकों से सम्बन्धित एवं विद्यार्थियों के प्रत्येक रिकार्ड की व्यक्तिगत जांच की गई, विद्यार्थी उपरोक्त प्रदत्त अंक के योग्य है। </li>
+                        <li>मण्डल कार्यालय द्वारा रिकार्ड मंगवाने पर समयबद्ध रूप से रिकार्ड मण्डल कार्यालय में उपलब्ध करवा दिया जायेगा। </li>
+                        <li>प्रदत्त अंकों में अनियमितता पर अधोहस्ताक्षरकर्ता व्यक्तिगत रूप से उत्तरदायी होंगे।</li>
+                    </ol>
+                    <p>
+                        उपरोक्त प्रमाणिकरण ऑनलाइन अंकों को दर्ज करते समय करें एवं एक प्रति <b>Email: conf.bter@gmail.com</b> पर भिजवायें।
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class=""no-border"">
+                        <tr>
+                            <td>
+                                <b>विभागाध्यक्ष</b><br />
+                                हस्ताक्षर........................................<br />
+                                नाम..............................................<br />
+                                पद...............................................
+                            </td>
+                            <td  style=""float: right;"">
+                                <b>परीक्षा अधीक्षक</b><br />
+                                हस्ताक्षर........................................<br />
+                                नाम..............................................<br />
+                                पद...............................................<br />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style=""padding-top:20px;"">
+                    <table class=""no-border"">
+                        <tr>
+                            <td>
+                                आवश्यक कार्यवाही हेतु प्रस्तुत है।
+                            </td>
+                            <td style=""float: right;"">
+                                प्रधानाचार्य
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>";
+
+
+                var doc = new HtmlToPdfDocument()
+                {
+                    GlobalSettings =
+                    {
+                        PaperSize = PaperKind.A4,
+                        Orientation = Orientation.Portrait
+                    },
+                                    Objects =
+                    {
+                        new ObjectSettings
+                        {
+                            HtmlContent = html,
+                            WebSettings = { DefaultEncoding = "utf-8" },
+                            FooterSettings = new FooterSettings
+                            {
+                                FontName = "Arial",
+                                FontSize = 9,
+                                Center = " [page] / [toPage]",
+                                
+                                //Line = true 
+                            }
+                        }
+                    }
+                };
+
+                byte[] pdf = _converter.Convert(doc);
+                return File(pdf, "application/pdf", "Annexure32.pdf");
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+
+        [HttpPost("UploadAnnexture32")]
+        public async Task<ApiResult<bool>> UploadAnnexture32([FromBody] AnnextureModel request)
+        {
+            ActionName = "SaveData([FromBody] AppointExaminerModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    //if (!ModelState.IsValid)
+                    //{
+                    //    result.State = EnumStatus.Error;
+                    //    result.ErrorMessage = "Validation failed!";
+                    //    return result;
+                    //}
+
+
+                    result.Data = await _unitOfWork.ReportRepository.UploadAnnexture32(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (request.InstituteID == 0)
+                        {
+                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (request.InstituteID == 0)
+                        {
+                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        }
+                        else
+                        {
+                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+        [HttpPost("GetUploadAnnexture32")]
+        public async Task<ApiResult<DataTable>> GetUploadAnnexture32([FromBody] AnnextureModel model)
+        {
+            ActionName = "GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.ReportRepository.GetUploadAnnexture32(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
 
     }
 }

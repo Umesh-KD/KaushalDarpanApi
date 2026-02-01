@@ -112,5 +112,19 @@ namespace Kaushal_Darpan.Models.CommonModel
     }
 
 
+    public class InternalAssessmentStudentReport
+    {
+        public int SemesterID { get; set; }
+        public int DepartmentID { get; set; }
+        public int EndTermID { get; set; }
+        public int Eng_NonEng { get; set; }
+        public int InstituteID { get; set; }
+        public int StreamID { get; set; }
+        public int Type { get; set; }
+        //public int SchemeID { get; set; }
+
+    }
+
+
 
     }
