@@ -15895,7 +15895,7 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 StringBuilder sb = new StringBuilder();
 
-                string[] streamids = [];
+                string[] streamids = [model.StreamID.ToString()];
                 if (model.StreamID == 0)
                 {
                     streamids = model.StreamIDs.Split(',');
@@ -15909,8 +15909,15 @@ namespace Kaushal_Darpan.Api.Controllers
                         var dataSet = await _unitOfWork.ReportRepository
                             .GetInternalAssessmentStudentReport(model);
 
+                        // log 
+                        var logfilename = "InternalMarksReportCollegeWise_log";
+                        CommonFuncationHelper.WriteTextLog($"1 streamid : {model.StreamID}", logfilename);
+                        CommonFuncationHelper.WriteTextLog($"1.2 table count : {dataSet.Tables.Count}", logfilename);
+                        CommonFuncationHelper.WriteTextLog($"1.3 table 0 row count : {dataSet.Tables[0].Rows.Count}", logfilename);
+                        CommonFuncationHelper.WriteTextLog($"1.4 table 1 row count : {dataSet.Tables[1].Rows.Count}", logfilename);
+
                         if (dataSet == null || dataSet.Tables.Count < 1)
-                        {                            
+                        {
                             continue;
                         }
                         if (dataSet.Tables[0].Rows.Count == 0 || dataSet.Tables[1].Rows.Count == 0)
@@ -15919,16 +15926,21 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
 
                         //
-                        sb.Append(
-                            _printHtmlFile.InternalAssessmentStudent_GetHtml(
-                               dataSet
-                            )
-                        );
+                        var _sb = _printHtmlFile.InternalAssessmentStudent_GetHtml(dataSet);
+                        sb.Append(_sb);
                     }
                 }
-                catch
+                catch (Exception ex1)
                 {
                     // handal exception
+                    await _unitOfWork.DisposeAsync();
+
+                    await CreateErrorLog(new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex1
+                    }, _unitOfWork);
                 }
 
                 // print
@@ -15981,7 +15993,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
                 };
 
-                byte[] arrbyte = _converter.Convert(doc);
+                byte[] arrbyte = await Task.Run(() => _converter.Convert(doc));
                 result.State = EnumStatus.Success;
                 result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                 result.Data = Convert.ToBase64String(arrbyte);
