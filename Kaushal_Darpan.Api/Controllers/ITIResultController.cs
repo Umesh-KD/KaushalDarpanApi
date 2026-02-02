@@ -835,6 +835,7 @@ namespace Kaushal_Darpan.Api.Controllers
             result.Columns.Add("AcadSession", typeof(string));
             result.Columns.Add("EnrollmentNo", typeof(string));
             result.Columns.Add("IsPresent", typeof(string));
+            result.Columns.Add("ObtainedMarkPrint", typeof(string));
 
             subjectNames.ForEach(s => result.Columns.Add(s));
 
@@ -855,6 +856,8 @@ namespace Kaushal_Darpan.Api.Controllers
                     row["AcadSession"] = first["AcadSession"];
                     row["EnrollmentNo"] = first["EnrollmentNo"];
                     row["IsPresent"] = first["IsPresent"];
+                    row["ObtainedMarkPrint"] = first["ObtainedMarkPrint"];
+
 
 
                     row["Result"] = first["Result"].ToString() == "1" ? "P"
@@ -879,7 +882,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     g.ToList().ForEach(x =>
                     {
                         string subjectName = x.Field<string>("SubjectName");
-                        row[subjectName] = x["ObtainedMarks"];
+                        row[subjectName] = x["ObtainedMarkPrint"];
                     });
 
                     return row;
