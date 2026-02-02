@@ -15549,7 +15549,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 sb.Append($"<td>{s.Subject14}</td>");
                 sb.Append($"<td>{s.Subject15}</td>");
 
-                sb.Append("<td></td>"); 
+                sb.Append("<td></td>");
                 sb.Append("</tr>");
             }
 
@@ -15754,7 +15754,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         PaperSize = PaperKind.A4,
                         Orientation = Orientation.Portrait
                     },
-                                    Objects =
+                    Objects =
                     {
                         new ObjectSettings
                         {
@@ -15886,34 +15886,62 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("GetInternalAssessmentStudentReport")]
-        public async Task<ApiResult<string>> GetInternalAssessmentStudentReport(
-            InternalAssessmentStudentReport model)
+        public async Task<ApiResult<string>> GetInternalAssessmentStudentReport(InternalAssessmentStudentReport model)
         {
-            ActionName = "GetInternalAssessmentStudentReport";
+            ActionName = "GetInternalAssessmentStudentReport(InternalAssessmentStudentReport model)";
             var result = new ApiResult<string>();
 
             try
             {
-                var dataSet = await _unitOfWork.ReportRepository
-                    .GetInternalAssessmentStudentReport(model);
+                StringBuilder sb = new StringBuilder();
 
-                if (dataSet == null || dataSet.Tables.Count == 0)
+                string[] streamids = [];
+                if (model.StreamID == 0)
+                {
+                    streamids = model.StreamIDs.Split(',');
+                }
+
+                try
+                {
+                    foreach (var streamid in streamids)
+                    {
+                        model.StreamID = int.Parse(streamid);
+                        var dataSet = await _unitOfWork.ReportRepository
+                            .GetInternalAssessmentStudentReport(model);
+
+                        if (dataSet == null || dataSet.Tables.Count < 1)
+                        {                            
+                            continue;
+                        }
+                        if (dataSet.Tables[0].Rows.Count == 0 || dataSet.Tables[1].Rows.Count == 0)
+                        {
+                            continue;
+                        }
+
+                        //
+                        sb.Append(
+                            _printHtmlFile.InternalAssessmentStudent_GetHtml(
+                               dataSet
+                            )
+                        );
+                    }
+                }
+                catch
+                {
+                    // handal exception
+                }
+
+                // print
+                string htmlContent = sb.ToString();
+
+                // validate
+                if (string.IsNullOrWhiteSpace(htmlContent))
                 {
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
                     return result;
                 }
 
-                StringBuilder sb = new StringBuilder();
-
-                sb.Append(
-                    _printHtmlFile.InternalAssessmentStudent_GetHtml(
-                       dataSet
-
-                    )
-                );
-
-                string htmlContent = sb.ToString();
 
                 var doc = new HtmlToPdfDocument
                 {
@@ -15975,6 +16003,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
 
             return result;
+            //return File(result.Data, "application/pdf", "HindiDinkToPdf.pdf");
         }
 
     }

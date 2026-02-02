@@ -573,17 +573,16 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
             try
             {
-                DataTable dt = dataSet.Tables[0];
+                DataTable dt_heading = dataSet.Tables[0];
+                DataTable dt = dataSet.Tables[1];
 
                 // heading
+                DataRow firstRow = dt_heading.Rows[0];
 
-                DataRow firstRow = dt.Rows[0];
-
-                string InstituteName = firstRow["InstituteName"].ToString();
                 string StreamName = firstRow["StreamName"].ToString();
-
-                //string InstituteID = InternalAssessmentStudentReport.InstituteID;
-                //string StreamID = InternalAssessmentStudentReport.StreamID;
+                string InstituteName = firstRow["InstituteName"].ToString();
+                string ReportType = firstRow["ReportType"].ToString();
+                string ExamSession = firstRow["ExamSession"].ToString();
 
                 sb.Append(@"
                     <!DOCTYPE html>
@@ -597,23 +596,14 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         th { background-color: #f2f2f2; }
                         .left { text-align: left; }
                         .header { text-align: center; font-weight: bold; margin-bottom: 10px; }
+                        .page-break {page-break-after: always; }
                     </style>
                     </head>
                     <body>
-
-                    <div class='header'>
-                        GOVERNMENT OF RAJASTHAN<br/>
-                        BOARD OF TECHNICAL EDUCATION, RAJASTHAN, JODHPUR<br/>
-                        SECOND SEMESTER ENGINEERING MAY 2025<br/>
-                        
-                        <span>Internal Assessment Report</span>
-                    </div>
-
-                    <div style='font-weight:bold; margin-bottom:8px;'>
-                        College Name : {(009) Govt. Polytechnic College, Jodhpur} 
-                        (Branch : CIVIL ENGINEERING )
-                    </div>
                 ");
+
+                sb.Append($"<div class='header'> {ExamSession } <span> {ReportType} </span></div>");
+                sb.Append($"<div style='font-weight:bold; margin-bottom:8px;' >  College Name: {InstituteName}  (Branch: {StreamName}) </div>");
 
                 // table
                 sb.Append("<table>");
@@ -639,6 +629,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
                 // table
                 sb.Append("</table>");
+                sb.Append("<div class='page-break'></div>");
                 sb.Append("</body>");
                 sb.Append("</html>");
             }
