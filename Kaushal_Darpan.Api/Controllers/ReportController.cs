@@ -10409,7 +10409,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
                         html = html.Replace("class=\"IsRowBold_1\"", "style=\"font-weight:bold\"");
-              
+
                         System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
 
                         sb1.Append(html);
@@ -15901,9 +15901,9 @@ namespace Kaushal_Darpan.Api.Controllers
                     streamids = model.StreamIDs.Split(',');
                 }
 
-                try
+                foreach (var streamid in streamids)
                 {
-                    foreach (var streamid in streamids)
+                    try
                     {
                         model.StreamID = int.Parse(streamid);
                         var dataSet = await _unitOfWork.ReportRepository
@@ -15916,6 +15916,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         CommonFuncationHelper.WriteTextLog($"1.3 table 0 row count : {dataSet.Tables[0].Rows.Count}", logfilename);
                         CommonFuncationHelper.WriteTextLog($"1.4 table 1 row count : {dataSet.Tables[1].Rows.Count}", logfilename);
 
+                        // validating
                         if (dataSet == null || dataSet.Tables.Count < 1)
                         {
                             continue;
@@ -15928,19 +15929,20 @@ namespace Kaushal_Darpan.Api.Controllers
                         //
                         var _sb = _printHtmlFile.InternalAssessmentStudent_GetHtml(dataSet);
                         sb.Append(_sb);
-                    }
-                }
-                catch (Exception ex1)
-                {
-                    // handal exception
-                    await _unitOfWork.DisposeAsync();
 
-                    await CreateErrorLog(new NewException
+                    }
+                    catch (Exception ex1)
                     {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex1
-                    }, _unitOfWork);
+                        // handal exception
+                        await _unitOfWork.DisposeAsync();
+
+                        await CreateErrorLog(new NewException
+                        {
+                            PageName = PageName,
+                            ActionName = ActionName,
+                            Ex = ex1
+                        }, _unitOfWork);
+                    }
                 }
 
                 // print
