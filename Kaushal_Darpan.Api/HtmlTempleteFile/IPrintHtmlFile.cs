@@ -10,5 +10,6 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         StringBuilder GetHtmlOfConsolidateForTabulation(DataTable consolidate_dt);
         StringBuilder CounsellingAllotmentOrder_GetHtml(DataTable consolidate_dt);
         StringBuilder GetHtmlOfTimeTable(int loopIndex, DataTable dtHeader, DataTable dtDetails);
+        StringBuilder InternalAssessmentStudent_GetHtml(DataSet dataSet);
     }
 }
