@@ -1,19 +1,20 @@
-﻿<div>
+﻿
+<div>
     <table style="border-collapse: collapse; width: 100%; font-family: Arial; font-size:14px" border="0" cellpadding="5" cellspacing="0">
         <tr>
             <td>
                 <table style="border-collapse:collapse;width:100%;">
                     <tr>
-                        <td valign="top" style="font-size: 12px;width:15%">S.No. <b>{#=MarksheetConsolidated.SNo=#}</b></td>
-                        <td valign="top" style="text-align: center; font-size: 14px; width: 70%">
-                            <img src='{#=MarksheetConsolidated.logo=#}' style="width:40px;" />
-                            <h4 style="margin:0px 0px 3px 0px;font-size:15px">{#=MarksheetConsolidated.Heading1=#}</h4>
-                            <p style="margin:0px 0px 3px 0px;">{#=MarksheetConsolidated.Heading2=#}</p>
-                            <p style="margin:0px 0px 3px 0px;">{#=MarksheetConsolidated.Heading3=#}</p>
-                            <p style="margin:0px 0px 3px 0px;">{#=MarksheetConsolidated.Heading4=#}</p>
-                            <p style="margin:0px 0px 15px 0px;">{#=MarksheetConsolidated.Heading5=#}</p>
+                        <td valign="top" style="font-size: 12px;width:10%">S.No. <b>{#=MarksheetConsolidated.SNo=#}</b></td>
+                        <td valign="top" style="text-align: center; font-size: 14px; width: 80%">
+                            <img src='{#=MarksheetConsolidated.HeadLogo=#}' style="width:37px;" />
+                            <h4 style="margin:10px 0px 3px 0px;font-size:15px;font-weight:bold">{#=MarksheetConsolidated.Heading1=#}</h4>
+                            <p style="margin:0px 0px 3px 0px;font-weight:bold;">{#=MarksheetConsolidated.Heading2=#}</p>
+                            <p style="margin: 0px 0px 3px 0px; font-weight: bold;">{#=MarksheetConsolidated.Heading3=#}</p>
+                            <p style="margin: 0px 0px 3px 0px; font-weight: bold;">{#=MarksheetConsolidated.Heading4=#}</p>
+                            <p style="margin: 0px 0px 15px 0px; font-weight: bold;">{#=MarksheetConsolidated.Heading5=#}</p>
                         </td>
-                        <td valign="top" style="text-align: right; width: 15%">
+                        <td valign="top" style="text-align: right; width: 10%">
                             <img src='{#=MarksheetConsolidated.mainlogo=#}' style="width:100px" />
                         </td>
                     </tr>
@@ -50,7 +51,7 @@
         </tr>
         <tr>
             <td>
-                <table style="border-collapse:collapse;width:100%;" cellpadding="5" cellspacing="0">
+                <table class="marks" style="border-collapse:collapse;width:100%;" cellpadding="5" cellspacing="0">
                     <tr>
                         <th rowspan="2" style="border: 0.5px solid #808080; font-size: 12px; text-align: left;">Year </th>
                         <th colspan="2" style="border: 0.5px solid #808080;font-size:12px;text-align:left;">Trade Theory </th>
@@ -98,7 +99,9 @@
                     {#LOOP.Consolidated_Marksheet#}
 
 
-                    <tr>
+                  
+                    <tr class="IsRowBold_{#=Consolidated_Marksheet.IsBoldRow=#}">
+              
 
 
                         <td style="border: 0.5px solid #808080;font-size:12px; width:50px; white-space:nowrap;"><b>{#=Consolidated_Marksheet.Year=#}</b></td>
@@ -117,17 +120,17 @@
                         <td style="border: 0.5px solid #808080;font-size:12px;">{#=Consolidated_Marksheet.Mx_FormativeAssessment=#}</td>
                         <td style="border: 0.5px solid #808080;font-size:12px;">{#=Consolidated_Marksheet.Ob_FormativeAssessment=#}</td>
                         <td style="border: 0.5px solid #808080;font-size:12px;">{#=Consolidated_Marksheet.Total_Mx=#}</td>
-                        <td style="border: 0.5px solid #808080;font-size:12px;">{#=Consolidated_Marksheet.Total_Ob=#}</td>
+                        <td style="border: 0.5px solid #808080;font-size:12px; ">{#=Consolidated_Marksheet.Total_Ob=#}</td>
                     </tr>
                     {#ENDLOOP.Consolidated_Marksheet#}
                     <!--{#ENDLOOP.GetITIStudent_Marksheet_Details#}-->
                     <!--<tr>
-                        <td></td>
-                        <td><b>TOTAL</b></td>
-                        <td style="text-align:center;"><b>600</b></td>
-                        <td style="text-align:center;"></td>
-                        <td style="text-align:center;"><b>459</b></td>
-                    </tr>-->
+        <td></td>
+        <td><b>TOTAL</b></td>
+        <td style="text-align:center;"><b>600</b></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"><b>459</b></td>
+    </tr>-->
                 </table>
             </td>
         </tr>

@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Data;
+using Unity.Injection;
 using static QRCoder.PayloadGenerator;
 
 namespace Kaushal_Darpan.Api.Controllers
@@ -323,7 +324,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                 sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>Grand Total                 </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Result                      </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Original Certificate Number </th>");
-                                sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Acad Session                </th>");
+                                sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Academic Session                </th>");
 
 
                                 sb1.Append("</tr>");
@@ -611,7 +612,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                 sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>Grand Total                 </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Result                      </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Original Certificate Number </th>");
-                                sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Acad Session                </th>");
+                                sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Academic Session                </th>");
 
 
                                 sb1.Append("</tr>");
@@ -833,6 +834,7 @@ namespace Kaushal_Darpan.Api.Controllers
             result.Columns.Add("OriginalCertificateNumber", typeof(string));
             result.Columns.Add("AcadSession", typeof(string));
             result.Columns.Add("EnrollmentNo", typeof(string));
+            result.Columns.Add("IsPresent", typeof(string));
 
             subjectNames.ForEach(s => result.Columns.Add(s));
 
@@ -852,17 +854,34 @@ namespace Kaushal_Darpan.Api.Controllers
                     row["OriginalCertificateNumber"] = first["OriginalCertificateNumber"];
                     row["AcadSession"] = first["AcadSession"];
                     row["EnrollmentNo"] = first["EnrollmentNo"];
+                    row["IsPresent"] = first["IsPresent"];
+
 
                     row["Result"] = first["Result"].ToString() == "1" ? "P"
                                   : first["Result"].ToString() == "2" ? "F" : "";
 
-                    row["GrandTotal"] = g.Sum(x => Convert.ToDecimal(x["ObtainedMarks"]));
+                    try
+                    {
+                        //row["GrandTotal"] = g.Sum(x => Convert.ToDecimal(x["ObtainedMarks"]));
 
+                        row["GrandTotal"] = g.Sum(x =>
+                        {
+                            decimal marks;
+                            return decimal.TryParse(x["ObtainedMarks"].ToString(), out marks)
+                                   ? marks
+                                   : 0;
+                        });
+                    }
+                    catch (Exception ex)
+                    { 
+                    
+                    }
                     g.ToList().ForEach(x =>
                     {
                         string subjectName = x.Field<string>("SubjectName");
                         row[subjectName] = x["ObtainedMarks"];
                     });
+
                     return row;
                 });
 

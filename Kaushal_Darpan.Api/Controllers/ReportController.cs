@@ -10388,7 +10388,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         data.Tables[0].Rows[0]["logo"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
                         data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
+
                         data.Tables[0].Rows[0]["mainlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
+                        data.Tables[0].Rows[0]["HeadLogo"] = $"{ConfigurationHelper.StaticFileRootPath + "/" + data.Tables[0].Rows[0]["HeadLogo"]}";
                         data.Tables[1].TableName = "Consolidated_Marksheet";
                         decimal Total_Ob = 0;
                         decimal Total_Mx = 0;
@@ -10406,7 +10408,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.StateTradeCertificateITI}/ITIMarksheetCONSOLIDATED.html";
 
                         string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
-
+                        html = html.Replace("class=\"IsRowBold_1\"", "style=\"font-weight:bold\"");
+              
                         System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
 
                         sb1.Append(html);
