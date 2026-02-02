@@ -55,6 +55,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@Name", model.Name ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@ItiCode", model.ItiCode ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@DgetCode", model.DgetCode ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@CampusID", model.CampusID );
+                        command.Parameters.AddWithValue("@IsCampus", model.IsCampus);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -274,6 +277,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Has10th", request.Has10th);
                         command.Parameters.AddWithValue("@Has12th", request.Has12th);
                         command.Parameters.AddWithValue("@CourseTypeID", request.CourseTypeID);
+                        command.Parameters.AddWithValue("@IsCampus", request.IsCampus);
+                        command.Parameters.AddWithValue("@CampusID", request.CampusID);
                    
                   
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);

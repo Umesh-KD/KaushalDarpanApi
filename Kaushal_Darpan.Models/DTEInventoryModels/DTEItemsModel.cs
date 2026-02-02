@@ -198,5 +198,27 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         // Optional field for stored procedure operation type
         public string ActionName { get; set; }
     }
+
+    public class AddMinRequiredItemDataModel
+    {
+        public int? RequiredItemId { get; set; }
+        public int? TradeId { get; set; }
+        public int? ItemCategoryId { get; set; }
+        public int? EquipmentsId { get; set; }
+        public int? UnitId { get; set; }
+        public int? RequiredQuantity { get; set; }
+        public int? ModifyBy { get; set; }
+    }
+
+    public class MinRequiredItemSearchModel
+    {
+        public int? RequiredItemId { get; set; }
+        public int? TradeId { get; set; }
+        public int? ItemCategoryId { get; set; }
+        public int? EquipmentsId { get; set; }
+        public int? UnitId { get; set; }
+        public int? CollegeId { get; set; }
+        public string? Action { get; set; }
+    }
 }
 
