@@ -121,7 +121,7 @@ namespace Kaushal_Darpan.Models.CommonModel
         public int InstituteID { get; set; }
         public int StreamID { get; set; }
         public int Type { get; set; }
-        //public int SchemeID { get; set; }
+        public int SchemeID { get; set; }
 
     }
 

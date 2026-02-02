@@ -1,7 +1,11 @@
 ﻿
+using DocumentFormat.OpenXml.EMMA;
 using Kaushal_Darpan.Core.Helper;
+using Kaushal_Darpan.Models.CommonModel;
+using Org.BouncyCastle.Utilities;
 using System.Data;
 using System.Text;
+
 
 namespace Kaushal_Darpan.Api.HtmlTempleteFile
 {
@@ -561,5 +565,91 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             }
         }
         #endregion
+
+        #region Internal Assessment Student
+        public StringBuilder InternalAssessmentStudent_GetHtml(DataSet dataSet)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                DataTable dt = dataSet.Tables[0];
+
+                // heading
+
+                DataRow firstRow = dt.Rows[0];
+
+                string InstituteName = firstRow["InstituteName"].ToString();
+                string StreamName = firstRow["StreamName"].ToString();
+
+                //string InstituteID = InternalAssessmentStudentReport.InstituteID;
+                //string StreamID = InternalAssessmentStudentReport.StreamID;
+
+                sb.Append(@"
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                    <meta charset='utf-8'>
+                    <style>
+                        body { font-family: Arial; font-size: 12px; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { border: 1px solid #000; padding: 4px; text-align: center; }
+                        th { background-color: #f2f2f2; }
+                        .left { text-align: left; }
+                        .header { text-align: center; font-weight: bold; margin-bottom: 10px; }
+                    </style>
+                    </head>
+                    <body>
+
+                    <div class='header'>
+                        GOVERNMENT OF RAJASTHAN<br/>
+                        BOARD OF TECHNICAL EDUCATION, RAJASTHAN, JODHPUR<br/>
+                        SECOND SEMESTER ENGINEERING MAY 2025<br/>
+                        
+                        <span>Internal Assessment Report</span>
+                    </div>
+
+                    <div style='font-weight:bold; margin-bottom:8px;'>
+                        College Name : {(009) Govt. Polytechnic College, Jodhpur} 
+                        (Branch : CIVIL ENGINEERING )
+                    </div>
+                ");
+
+                // table
+                sb.Append("<table>");
+
+                // th
+                sb.Append("<tr>");
+                foreach (DataColumn dc in dt.Columns)
+                {
+                    sb.Append($"<th>{dc.ColumnName}</th>");
+                }
+                sb.Append("</tr>");
+
+                // td            
+                foreach (DataRow dr in dt.Rows)
+                {
+                    sb.Append("<tr>");
+                    foreach (DataColumn dc in dt.Columns)
+                    {
+                        sb.Append($"<td>{dr[dc.ColumnName]}</td>");
+                    }
+                    sb.Append("</tr>");
+                }
+
+                // table
+                sb.Append("</table>");
+                sb.Append("</body>");
+                sb.Append("</html>");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating HTML", ex);
+            }
+
+            return sb;
+        }
+        #endregion
+
     }
 }
