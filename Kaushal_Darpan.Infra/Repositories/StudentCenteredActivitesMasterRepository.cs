@@ -47,10 +47,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteName", body.InstituteName);
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-           
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);                                   
                         command.Parameters.AddWithValue("@UserID", body.UserID);
                         command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@CheckedStatus", body.CheckedStatus);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();

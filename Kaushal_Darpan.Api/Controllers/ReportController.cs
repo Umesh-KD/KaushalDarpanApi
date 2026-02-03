@@ -15912,9 +15912,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         // log 
                         var logfilename = "InternalMarksReportCollegeWise_log";
                         CommonFuncationHelper.WriteTextLog($"1 streamid : {model.StreamID}", logfilename);
-                        CommonFuncationHelper.WriteTextLog($"1.2 table count : {dataSet.Tables.Count}", logfilename);
-                        CommonFuncationHelper.WriteTextLog($"1.3 table 0 row count : {dataSet.Tables[0].Rows.Count}", logfilename);
-                        CommonFuncationHelper.WriteTextLog($"1.4 table 1 row count : {dataSet.Tables[1].Rows.Count}", logfilename);
+                        CommonFuncationHelper.WriteTextLog($"2 table count : {dataSet?.Tables?.Count}", logfilename);
 
                         // validating
                         if (dataSet == null || dataSet.Tables.Count < 1)
