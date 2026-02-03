@@ -58,6 +58,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
                         command.Parameters.AddWithValue("@OnlyForWomen", request.OnlyForWomen);
+                        command.Parameters.AddWithValue("@Syllabuslink", request.Syllabuslink);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
                         command.Parameters.AddWithValue("@Action", "SaveITITrade");
@@ -105,6 +106,48 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DurationYear", body.DurationYear);
                         command.Parameters.AddWithValue("@TradeCode", body.TradeCode);
                         command.Parameters.AddWithValue("@CourseTypeID", body.CourseTypeID);
+                        command.Parameters.AddWithValue("@Action", "getTradetblListList");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        public async Task<DataTable> getTradeList(ITISearchModel body)
+        {
+            _actionName = "GetAllData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITITrade";
+
+                        command.Parameters.AddWithValue("@TradeName", body.TradeName);
+                        command.Parameters.AddWithValue("@TradeTypeId", body.TradeTypeId);
+                        command.Parameters.AddWithValue("@TradeLevelId", body.TradeLevelId);
+                        command.Parameters.AddWithValue("@DurationYear", body.DurationYear);
+                        command.Parameters.AddWithValue("@TradeCode", body.TradeCode);
+                        command.Parameters.AddWithValue("@CourseTypeID", body.CourseTypeID);
+                        command.Parameters.AddWithValue("@TradeId", body.TradeId);
+                        command.Parameters.AddWithValue("@Syllabuslink", body.Syllabuslink);
                         command.Parameters.AddWithValue("@Action", "getTradetblListList");
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
