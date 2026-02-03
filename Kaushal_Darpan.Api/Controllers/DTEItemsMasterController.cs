@@ -1239,14 +1239,14 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
-        [HttpGet("GetDTEIssueItemListPermanent/{itemId}")]
-        public async Task<ApiResult<DataTable>> GetDTEIssueItemListPermanent(int itemId)
+        [HttpGet("GetDTEIssueItemListPermanent/{EquipmentsId}/{ItemCategoryId}")]
+        public async Task<ApiResult<DataTable>> GetDTEIssueItemListPermanent(int EquipmentsId, int ItemCategoryId)
         {
             ActionName = "GetIssueItemListPermanent(int itemId)";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.iDTEItemsMasterRepository.GetDTEIssueItemListPermanent(itemId));
+                result.Data = await Task.Run(() => _unitOfWork.iDTEItemsMasterRepository.GetDTEIssueItemListPermanent(EquipmentsId, ItemCategoryId));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
