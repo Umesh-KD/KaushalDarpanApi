@@ -30,7 +30,7 @@ namespace Kaushal_Darpan.Models.CommonModel
         public int RoleID { get; set; }
 
     }
-    
+
     public class OptionalFormatReportModel
     {
         public string? BranchCode { get; set; }
@@ -44,7 +44,7 @@ namespace Kaushal_Darpan.Models.CommonModel
         public int RoleID { get; set; }
 
     }
-    
+
     public class DateWiseAttendanceReport
     {
         public int SemesterID { get; set; }
@@ -112,19 +112,19 @@ namespace Kaushal_Darpan.Models.CommonModel
     }
 
 
-    public class InternalAssessmentStudentReport
+    public class InternalAssessmentStudentReport : RequestBaseModel
     {
         public int SemesterID { get; set; }
-        public int DepartmentID { get; set; }
-        public int EndTermID { get; set; }
-        public int Eng_NonEng { get; set; }
         public int InstituteID { get; set; }
         public int StreamID { get; set; }
         public int Type { get; set; }
-        //public int SchemeID { get; set; }
+        public int TypeID { get; set; }
+        public int SchemeID { get; set; }
+        public int TermPart { get; set; }
+        public string? StreamIDs { get; set; }
 
     }
 
 
 
-    }
+}

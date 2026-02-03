@@ -1,5 +1,4 @@
-﻿using Kaushal_Darpan.Core.Entities;
-using Kaushal_Darpan.Core.Helper;
+﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ApplicationData;
@@ -553,8 +552,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@StreamID", model.StreamID);
-                        command.Parameters.AddWithValue("@Type", model.Type);
-                        //command.Parameters.AddWithValue("@SchemeID", model.Type);
+                        command.Parameters.AddWithValue("@Type", model.TypeID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@TermPart", model.TermPart);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }

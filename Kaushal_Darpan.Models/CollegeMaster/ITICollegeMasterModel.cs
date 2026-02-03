@@ -22,6 +22,8 @@
     public string IPAddress { get; set; }
     public int DepartmentID { get; set; }
     public int CourseTypeID { get; set; }
+    public int? CampusID { get; set; }
+    public Boolean IsCampus { get; set; }
     public List<SeatIntakesModel> SeatIntakes { get; set; }
     public string? Remark { get; set; }
 }
@@ -57,8 +59,11 @@ public class ITIsSearchModel
     public int DepartmentID { get; set; } = 0;
     public string Name { get; set; } = string.Empty;
     public string ItiCode { get; set; } = string.Empty;
+    public string DgetCode { get; set; } = string.Empty;
     public int CourseTypeID { get; set; } = 0;
+    public int CampusID { get; set; } = 0;
     public int InstituteID { get; set; } = 0;
+    public string? IsCampus { get; set; }
 }
 
 

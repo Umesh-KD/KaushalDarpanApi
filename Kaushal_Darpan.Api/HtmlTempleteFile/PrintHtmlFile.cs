@@ -1,7 +1,11 @@
 ﻿
+using DocumentFormat.OpenXml.EMMA;
 using Kaushal_Darpan.Core.Helper;
+using Kaushal_Darpan.Models.CommonModel;
+using Org.BouncyCastle.Utilities;
 using System.Data;
 using System.Text;
+
 
 namespace Kaushal_Darpan.Api.HtmlTempleteFile
 {
@@ -561,5 +565,82 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             }
         }
         #endregion
+
+        #region Internal Assessment Student
+        public StringBuilder InternalAssessmentStudent_GetHtml(DataSet dataSet)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                DataTable dt_heading = dataSet.Tables[0];
+                DataTable dt = dataSet.Tables[1];
+
+                // heading
+                DataRow firstRow = dt_heading.Rows[0];
+
+                string StreamName = firstRow["StreamName"].ToString();
+                string InstituteName = firstRow["InstituteName"].ToString();
+                string ReportType = firstRow["ReportType"].ToString();
+                string ExamSession = firstRow["ExamSession"].ToString();
+
+                sb.Append(@"
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                    <meta charset='utf-8'>
+                    <style>
+                        body { font-family: Arial; font-size: 12px; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { border: 1px solid #000; padding: 4px; text-align: center; }
+                        th { background-color: #f2f2f2; }
+                        .left { text-align: left; }
+                        .header { text-align: center; font-weight: bold; margin-bottom: 10px; }
+                        .page-break {page-break-after: always; }
+                    </style>
+                    </head>
+                    <body>
+                ");
+
+                sb.Append($"<div class='header'> {ExamSession } <span> {ReportType} </span></div>");
+                sb.Append($"<div style='font-weight:bold; margin-bottom:8px;' >  College Name: {InstituteName}  (Branch: {StreamName}) </div>");
+
+                // table
+                sb.Append("<table>");
+
+                // th
+                sb.Append("<tr>");
+                foreach (DataColumn dc in dt.Columns)
+                {
+                    sb.Append($"<th>{dc.ColumnName}</th>");
+                }
+                sb.Append("</tr>");
+
+                // td            
+                foreach (DataRow dr in dt.Rows)
+                {
+                    sb.Append("<tr>");
+                    foreach (DataColumn dc in dt.Columns)
+                    {
+                        sb.Append($"<td>{dr[dc.ColumnName]}</td>");
+                    }
+                    sb.Append("</tr>");
+                }
+
+                // table
+                sb.Append("</table>");
+                sb.Append("<div class='page-break'></div>");
+                sb.Append("</body>");
+                sb.Append("</html>");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating HTML", ex);
+            }
+
+            return sb;
+        }
+        #endregion
+
     }
 }
