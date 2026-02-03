@@ -136,6 +136,44 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("GetEM_JDTEDashData")]
+        public async Task<ApiResult<DataTable>> GetEM_JDTEDashData([FromBody] EM_JDTEDashboardSearchModel model)
+
+        {
+            ActionName = "GetEM_JDTEDashData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.AdminDashboardRepository.GetEM_JDTEDashData(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
     }
 }
 

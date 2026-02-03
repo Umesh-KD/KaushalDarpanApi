@@ -33,5 +33,6 @@
         public int InstituteID { get; set; }
         public int? RoleID { get; set; }
         public string? InstituteName { get; set; }
+        public int? CheckedStatus { get; set; }
     }
 }

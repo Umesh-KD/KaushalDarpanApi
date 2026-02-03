@@ -28,4 +28,18 @@ namespace Kaushal_Darpan.Models.AdminDashboard
         public string Menu { get; set; }
         public int InstituteID { get; set; }
     }
+
+
+    public class EM_JDTEDashboardSearchModel
+    {
+        public int DepartmentID { get; set; }
+        public int EndTermID { get; set; }
+        public int Eng_NonEng { get; set; }
+        public int FinancialYearID { get; set; }
+        public int RoleID { get; set; }
+        public int CommonID { get; set; }
+        public int UserID { get; set; }
+        public int StaffID { get; set; }
+        public int IsYearly { get; set; }
+    }
 }
