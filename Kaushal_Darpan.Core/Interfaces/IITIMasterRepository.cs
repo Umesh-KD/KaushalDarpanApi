@@ -44,7 +44,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> getTradeList(ITISearchModel filterModel);
 
-
+        Task<DataTable> GetDashboardData(ITISearchModel filterModel);
 
     }
 }

@@ -1022,7 +1022,46 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataTable> GetDashboardData(ITISearchModel body)
+        {
+            _actionName = "GetAllData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITITrade_Master_Dashboard";
 
+                        command.Parameters.AddWithValue("@TradeName", body.TradeName);
+                        command.Parameters.AddWithValue("@TradeTypeId", body.TradeTypeId);
+                        command.Parameters.AddWithValue("@TradeLevelId", body.TradeLevelId);
+                        command.Parameters.AddWithValue("@DurationYear", body.DurationYear);
+                        command.Parameters.AddWithValue("@TradeCode", body.TradeCode);
+                        command.Parameters.AddWithValue("@CourseTypeID", body.CourseTypeID);
+                        command.Parameters.AddWithValue("@Action", "getTradetblListList");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
 
 
 
