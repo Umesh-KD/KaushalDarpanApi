@@ -122,6 +122,7 @@ namespace Kaushal_Darpan.Models.CommonModel
         public int SchemeID { get; set; }
         public int TermPart { get; set; }
         public string? StreamIDs { get; set; }
+        public int? PresentStatus { get; set; }
 
     }
 

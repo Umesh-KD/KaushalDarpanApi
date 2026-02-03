@@ -40,6 +40,7 @@ using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.TheoryMarks;
 using Kaushal_Darpan.Models.TimeTable;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Data;
 using System.Net;
 using System.Text;
@@ -15946,6 +15947,15 @@ namespace Kaushal_Darpan.Api.Controllers
                 // print
                 string htmlContent = sb.ToString();
 
+                // remove last blank page
+                string endTag = "<div class='page-break'></div></body></html>";
+                if (htmlContent.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    htmlContent = htmlContent.Substring(0, htmlContent.Length - endTag.Length)
+                                 + "</body></html>";
+                }
+
+
                 // validate
                 if (string.IsNullOrWhiteSpace(htmlContent))
                 {
@@ -15960,7 +15970,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     GlobalSettings =
                     {
                         PaperSize = PaperKind.A4,
-                        Orientation = Orientation.Portrait,
+                        Orientation = Orientation.Landscape,
                         Margins = new MarginSettings
                         {
                             Top = 10,

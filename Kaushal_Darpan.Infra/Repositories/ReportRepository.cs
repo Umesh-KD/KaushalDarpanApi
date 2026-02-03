@@ -555,6 +555,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Type", model.TypeID);
                         command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
                         command.Parameters.AddWithValue("@TermPart", model.TermPart);
+                        command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
