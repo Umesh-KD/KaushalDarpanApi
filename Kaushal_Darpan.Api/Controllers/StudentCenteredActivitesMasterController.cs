@@ -34,16 +34,16 @@ namespace Kaushal_Darpan.Api.Controllers
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.StudentCenteredActivitesMasterRepository.GetAllData(body));
+                result.Data = await _unitOfWork.StudentCenteredActivitesMasterRepository.GetAllData(body);
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
                     result.State = EnumStatus.Success;
-                    result.Message = "No record found.!";
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                     return result;
                 }
                 result.State = EnumStatus.Success;
-                result.Message = "Data load successfully .!";
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
             }
             catch (System.Exception ex)
             {
