@@ -59,6 +59,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
                         command.Parameters.AddWithValue("@OnlyForWomen", request.OnlyForWomen);
                         command.Parameters.AddWithValue("@Syllabuslink", request.Syllabuslink);
+                        command.Parameters.AddWithValue("@electricityUnit", request.electricityUnit);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
                         command.Parameters.AddWithValue("@Action", "SaveITITrade");

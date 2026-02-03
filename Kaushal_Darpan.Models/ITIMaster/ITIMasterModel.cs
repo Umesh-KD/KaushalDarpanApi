@@ -30,6 +30,7 @@ namespace Kaushal_Darpan.Models.ITIMaster
         public bool OnlyForWomen { get; set; } = false;
         public bool IsAdmission { get; set; } = false;
         public string? Syllabuslink { get; set; } 
+        public int? electricityUnit { get; set; } 
 
     }
     public class ITISearchModel
