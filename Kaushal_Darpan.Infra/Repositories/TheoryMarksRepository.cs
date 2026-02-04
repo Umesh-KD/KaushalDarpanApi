@@ -50,6 +50,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@GroupCodeID", body.GroupCodeID);
                         command.Parameters.AddWithValue("@ExaminerCode", body.ExaminerCode);
                         //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
+                        command.Parameters.AddWithValue("@CheckedStatus", body.CheckedStatus);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
