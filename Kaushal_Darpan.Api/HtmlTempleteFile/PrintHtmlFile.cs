@@ -585,11 +585,17 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 string ExamSession = firstRow["ExamSession"].ToString();
 
                 // page break with pagging
-                int pageSize = 25;
+                int pageSize = 23;
 
                 for (int i = 0; i < dt_data.Rows.Count; i += pageSize)
                 {
                     DataTable dt = dt_data.Clone();
+
+                    // max marks row
+                    if (i > 0)
+                    {
+                        dt.ImportRow(dt_data.Rows[0]);
+                    }
 
                     for (int j = i; j < i + pageSize && j < dt_data.Rows.Count; j++)
                     {
@@ -607,7 +613,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         th, td { border: 1px solid #000; padding: 4px; text-align: center; }
                         th { background-color: #f2f2f2; }
                         .left { text-align: left; }
-                        .header { text-align: center; font-weight: bold; margin-bottom: 10px; }
+                        .header { font-size:15px;text-align: center; font-weight: bold; margin-bottom: 10px; }
                         .page-break {page-break-after: always; }
                         
                     .line {
