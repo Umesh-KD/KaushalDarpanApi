@@ -1034,15 +1034,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITITrade_Master_Dashboard";
-
-                        command.Parameters.AddWithValue("@TradeName", body.TradeName);
-                        command.Parameters.AddWithValue("@TradeTypeId", body.TradeTypeId);
-                        command.Parameters.AddWithValue("@TradeLevelId", body.TradeLevelId);
-                        command.Parameters.AddWithValue("@DurationYear", body.DurationYear);
-                        command.Parameters.AddWithValue("@TradeCode", body.TradeCode);
-                        command.Parameters.AddWithValue("@CourseTypeID", body.CourseTypeID);
-                        command.Parameters.AddWithValue("@Action", "getTradetblListList");
-
+                        command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
