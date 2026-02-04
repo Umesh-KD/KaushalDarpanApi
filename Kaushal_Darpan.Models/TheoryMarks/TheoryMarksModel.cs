@@ -61,6 +61,7 @@
         public string? SubjectName { get; set; }
         public int? CenterCode { get; set; }
         public int? IsPersentAbsent { get; set; }
+        public int? CheckedStatus { get; set; }
 
     }
 

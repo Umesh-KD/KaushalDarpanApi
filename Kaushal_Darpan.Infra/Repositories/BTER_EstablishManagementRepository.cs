@@ -103,6 +103,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
+                        
                         command.CommandText = "USP_BTER_EM_GetStaffList";
                         command.Parameters.AddWithValue("@action", "GetData");
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
@@ -114,6 +115,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
                         command.Parameters.AddWithValue("@UserID", body.UserID);
                         command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@status", body.status);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

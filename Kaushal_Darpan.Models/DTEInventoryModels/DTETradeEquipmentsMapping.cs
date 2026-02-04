@@ -141,6 +141,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
 
         public int? StreamID { get; set; }
         public int? LabID { get; set; }
+        public string? IndentNo { get; set; }
     }
 
     public class ItemsDetails

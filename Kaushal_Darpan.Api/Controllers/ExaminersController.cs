@@ -168,7 +168,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        [HttpDelete("DeleteByID/{ExaminerID:int}/{ModifyBy:int}")]
+        [HttpPost("DeleteByID/{ExaminerID:int}/{ModifyBy:int}")]
         public async Task<ApiResult<bool>> DeleteByID(int ExaminerID, int ModifyBy)
         {
             ActionName = "DeleteByID(int ExaminerID, int ModifyBy)";
@@ -730,7 +730,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         //[RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
-        [HttpDelete("DeleteByID_Reval/{ExaminerID:int}/{ModifyBy:int}")]
+        [HttpPost("DeleteByID_Reval/{ExaminerID:int}/{ModifyBy:int}")]
         public async Task<ApiResult<bool>> DeleteByID_Reval(int ExaminerID, int ModifyBy)
         {
             ActionName = "DeleteByID_Reval(int ExaminerID, int ModifyBy)";

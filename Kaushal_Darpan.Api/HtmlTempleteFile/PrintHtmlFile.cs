@@ -1,7 +1,11 @@
 ﻿
+using DocumentFormat.OpenXml.EMMA;
 using Kaushal_Darpan.Core.Helper;
+using Kaushal_Darpan.Models.CommonModel;
+using Org.BouncyCastle.Utilities;
 using System.Data;
 using System.Text;
+
 
 namespace Kaushal_Darpan.Api.HtmlTempleteFile
 {
@@ -561,5 +565,133 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             }
         }
         #endregion
+
+        #region Internal Assessment Student
+        public StringBuilder InternalAssessmentStudent_GetHtml(DataSet dataSet)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                DataTable dt_heading = dataSet.Tables[0];
+                DataTable dt_data = dataSet.Tables[1];
+
+                // heading
+                DataRow firstRow = dt_heading.Rows[0];
+
+                string StreamName = firstRow["StreamName"].ToString();
+                string InstituteName = firstRow["InstituteName"].ToString();
+                string ReportType = firstRow["ReportType"].ToString();
+                string ExamSession = firstRow["ExamSession"].ToString();
+
+                // page break with pagging
+                int pageSize = 25;
+
+                for (int i = 0; i < dt_data.Rows.Count; i += pageSize)
+                {
+                    DataTable dt = dt_data.Clone();
+
+                    for (int j = i; j < i + pageSize && j < dt_data.Rows.Count; j++)
+                    {
+                        dt.ImportRow(dt_data.Rows[j]);
+                    }
+
+                    sb.Append(@"
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                    <meta charset='utf-8'>
+                    <style>
+                        body { font-family: Arial; font-size: 12px; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { border: 1px solid #000; padding: 4px; text-align: center; }
+                        th { background-color: #f2f2f2; }
+                        .left { text-align: left; }
+                        .header { text-align: center; font-weight: bold; margin-bottom: 10px; }
+                        .page-break {page-break-after: always; }
+                        
+                    .line {
+                          display: inline-block;
+                          min-width: 150px;
+                          border-bottom: 1px dashed #000;
+                        }
+                        .footer {
+                          bottom: 0;
+                          left: 0;
+                          right: 0;
+                          border-collapse: collapse;
+                          padding: 8px 10px;
+                          margin-top:10px;
+                        }
+                        .footer .note {
+                          font-size: 11px;
+                          margin-bottom: 8px;
+                        }
+                        .footer-table {
+                          width: 100%;
+                          border-collapse: collapse;
+                        }
+ 
+                        .footer-table td {
+                          width: 33%;
+                          vertical-align: bottom;
+                          padding-top: 5px;
+                        }
+                        .footer-table tr,
+                        .footer-table td,
+                        .footer-table th {
+                          border: none !important;
+                          text-align:left;
+                        }
+                    </style>
+                    </head>
+                    <body>
+                ");
+
+                    sb.Append($"<div class='header'> {ExamSession} <span> {ReportType} </span></div>");
+                    sb.Append($"<div style='font-weight:bold; margin-bottom:8px;' >  College Name: {InstituteName}  (Branch: {StreamName}) </div>");
+
+                    // table
+                    sb.Append("<table>");
+
+                    // th
+                    sb.Append("<tr>");
+                    foreach (DataColumn dc in dt.Columns)
+                    {
+                        sb.Append($"<th>{dc.ColumnName}</th>");
+                    }
+                    sb.Append("</tr>");
+
+                    // td            
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        sb.Append("<tr>");
+                        foreach (DataColumn dc in dt.Columns)
+                        {
+                            sb.Append($"<td>{dr[dc.ColumnName]}</td>");
+                        }
+                        sb.Append("</tr>");
+                    }
+
+                    // table
+                    sb.Append("</table>");
+
+                    // footer
+                    sb.Append("<div class=\"footer\">\r\n  <div><b>CERTIFICATE:</b> Entered marks as per maintained records by institute.</div>\r\n\r\n  <div class=\"note\">\r\n    <b>NOTE:</b> The record of students securing &lt; 45% or &gt; 85% marks have been reviewed to my satisfaction.\r\n  </div>\r\n\r\n  <table class=\"footer-table\">\r\n  <tr>\r\n  <th>Feeded By</th>\r\n  <th>Checked By</th>\r\n  <th>Signature:</th>\r\n  </tr>\r\n    <tr>\r\n      <td>\r\n        Signature: <span class=\"line\"></span><br><br>\r\n        Name: <span class=\"line\"></span><br><br>\r\n        Date: <span class=\"line\"></span>\r\n      </td>\r\n\r\n      <td>\r\n        Signature: <span class=\"line\"></span><br><br>\r\n        Name: <span class=\"line\"></span>\r\n      </td>\r\n\r\n      <td>\r\n        Principal: <span class=\"line\"></span><br>\r\n      </td>\r\n    </tr>\r\n  </table>\r\n</div>");
+
+                    sb.Append("<div class='page-break'></div>");
+                    sb.Append("</body>");
+                    sb.Append("</html>");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating HTML", ex);
+            }
+
+            return sb;
+        }
+        #endregion
+
     }
 }

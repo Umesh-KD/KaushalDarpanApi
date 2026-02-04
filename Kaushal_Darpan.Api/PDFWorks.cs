@@ -514,30 +514,6 @@ namespace Utility
             return html;
         }
 
-        private static string ProcessConditions1(string html, DataSet data)
-        {
-            // IF–ELSE
-            string pattern = @"{#IF\.(\w+)\.(\w+)=([^#]+)#}(.*?){#ELSE\.\1\.\2=\3#}(.*?){#ENDIF\.\1\.\2=\3#}";
-            html = Regex.Replace(html, pattern, match =>
-            {
-                string table = match.Groups[1].Value;
-                string column = match.Groups[2].Value;
-                string expected = match.Groups[3].Value;
-                string trueContent = match.Groups[4].Value;
-                string falseContent = match.Groups[5].Value;
-
-                if (data.Tables.Contains(table) && data.Tables[table].Rows.Count > 0)
-                {
-                    string actual = data.Tables[table].Rows[0][column]?.ToString();
-                    return actual == expected ? trueContent : falseContent;
-                }
-
-                return falseContent;
-            }, RegexOptions.Singleline);
-
-            return html;
-        }
-
         private static string ProcessConditions(string html, DataSet data)
         {
             // Handle IF–ELSE blocks
@@ -579,6 +555,32 @@ namespace Utility
 
             return html;
         }
+
+        private static string ProcessConditions1(string html, DataSet data)
+        {
+            // IF–ELSE
+            string pattern = @"{#IF\.(\w+)\.(\w+)=([^#]+)#}(.*?){#ELSE\.\1\.\2=\3#}(.*?){#ENDIF\.\1\.\2=\3#}";
+            html = Regex.Replace(html, pattern, match =>
+            {
+                string table = match.Groups[1].Value;
+                string column = match.Groups[2].Value;
+                string expected = match.Groups[3].Value;
+                string trueContent = match.Groups[4].Value;
+                string falseContent = match.Groups[5].Value;
+
+                if (data.Tables.Contains(table) && data.Tables[table].Rows.Count > 0)
+                {
+                    string actual = data.Tables[table].Rows[0][column]?.ToString();
+                    return actual == expected ? trueContent : falseContent;
+                }
+
+                return falseContent;
+            }, RegexOptions.Singleline);
+
+            return html;
+        }
+
+
     }
 
  

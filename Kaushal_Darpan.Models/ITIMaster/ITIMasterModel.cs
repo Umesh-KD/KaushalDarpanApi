@@ -29,6 +29,8 @@ namespace Kaushal_Darpan.Models.ITIMaster
         public int DepartmentID { get; set; }
         public bool OnlyForWomen { get; set; } = false;
         public bool IsAdmission { get; set; } = false;
+        public string? Syllabuslink { get; set; } 
+        public int? electricityUnit { get; set; } 
 
     }
     public class ITISearchModel
@@ -39,6 +41,7 @@ namespace Kaushal_Darpan.Models.ITIMaster
         public int TradeLevelId { get; set; }
         public string DurationYear { get; set; } = string.Empty;
         public string TradeCode { get; set; } = string.Empty;
+        public string Syllabuslink { get; set; } = string.Empty;
         public int CourseTypeID { get; set; }
 
     }

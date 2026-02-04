@@ -343,8 +343,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetMenuByUserAndRoleWise";//old=USP_MenuUserandRoleWise
-
+                        command.CommandText = "USP_GetMenuByUserAndRoleWise";
+                        //command.CommandText = "USP_GetMenuByUserAndRoleWise_02022026";//old=USP_MenuUserandRoleWise
+                        
                         command.Parameters.AddWithValue("@action", "_getMenuByUserAndRoleWise");
                         command.Parameters.AddWithValue("@UserID", model.UserID);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);

@@ -46,6 +46,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? BranchID { get; set; }
         public string? SSOID { get; set; }
         public string? Name { get; set; }
+        public int? status { get; set; }
+        public int? Eng_NonEng { get; set; }
     }
 
     public class BTER_EM_GetPersonalDetailByUserID

@@ -2,8 +2,13 @@
 using AutoMapper;
 using DinkToPdf;
 using DinkToPdf.Contracts;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using iTextSharp.tool.xml.html;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Api.Code.Helper;
 using Kaushal_Darpan.Api.Email;
@@ -35,9 +40,11 @@ using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.TheoryMarks;
 using Kaushal_Darpan.Models.TimeTable;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Data;
 using System.Net;
 using System.Text;
+
 
 
 namespace Kaushal_Darpan.Api.Controllers
@@ -1243,73 +1250,248 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
 
-        #region Internal Assessment Student Report
-        [HttpPost("GetInternalAssessmentStudentReport")]
-        public async Task<ApiResult<string>> GetInternalAssessmentStudentReport(InternalAssessmentStudentReport model)
-        {
-            ActionName = "GetInternalAssessmentStudentReport()";
-            return await Task.Run(async () =>
-            {
-                var result = new ApiResult<string>();
-                try
-                {
-                    var data = await _unitOfWork.ReportRepository.GetInternalAssessmentStudentReport(model);
-                    if (data != null)
-                    {
-                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-                        //report
-                        //var fileName = $"AllotmentFeeReceipt_{EnrollmentNo}.pdf";
-                        var fileName = $"InternalAssessmentStudentReport.pdf";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/InternalAssessmentReport.rdlc";
-                        //
-                        var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
-                        //
-                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("InternalAssessmentStudent", data.Tables[0]);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
+        //#region Internal Assessment Student Report
+        //[HttpPost("GetInternalAssessmentStudentReport")]
+        //public async Task<ApiResult<string>> GetInternalAssessmentStudentReport(InternalAssessmentStudentReport model)
+        //{
+        //    ActionName = "GetInternalAssessmentStudentReport()";
+        //    return await Task.Run(async () =>
+        //    {
+        //        var result = new ApiResult<string>();
+        //        try
+        //        {
+        //            var data = await _unitOfWork.ReportRepository.GetInternalAssessmentStudentReport(model);
+        //            if (data != null)
+        //            {
+        //                var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+        //                //report
+        //                //var fileName = $"AllotmentFeeReceipt_{EnrollmentNo}.pdf";
+        //                var fileName = $"InternalAssessmentStudentReport.pdf";
+        //                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+        //                string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/InternalAssessmentReport.rdlc";
+        //                //
+        //                var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+        //                //
+        //                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+        //                LocalReport localReport = new LocalReport(rdlcpath);
+        //                localReport.AddDataSource("InternalAssessmentStudent", data.Tables[0]);
+        //                var reportResult = localReport.Execute(RenderType.Pdf);
 
-                        //check file exists
-                        if (!System.IO.Directory.Exists(folderPath))
-                        {
-                            Directory.CreateDirectory(folderPath);
-                        }
-                        //save
+        //                //check file exists
+        //                if (!System.IO.Directory.Exists(folderPath))
+        //                {
+        //                    Directory.CreateDirectory(folderPath);
+        //                }
+        //                //save
 
 
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        //end report
+        //                System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+        //                //end report
 
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                }
-                return result;
-            });
-        }
-        #endregion
+        //                result.Data = fileName;
+        //                result.State = EnumStatus.Success;
+        //                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+        //            }
+        //            else
+        //            {
+        //                result.State = EnumStatus.Warning;
+        //                result.Message = Constants.MSG_DATA_NOT_FOUND;
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            await _unitOfWork.DisposeAsync();
+        //            // Write error log
+        //            var nex = new NewException
+        //            {
+        //                PageName = PageName,
+        //                ActionName = ActionName,
+        //                Ex = ex,
+        //            };
+        //            await CreateErrorLog(nex, _unitOfWork);
+        //            //
+        //            result.State = EnumStatus.Error;
+        //            result.ErrorMessage = ex.Message;
+        //        }
+        //        return result;
+        //    });
+        //}
+        //#endregion
+
+        //#region Exam Letter Report
+        //[HttpPost("GetExamLetterReportBkp")]
+        //public async Task<ApiResult<string>> GetExamLetterReport(ExamLetterReport model)
+        //{
+        //    ActionName = "GetExamLetterReport()";
+        //    return await Task.Run(async () =>
+        //    {
+        //        List<string> ListRoleListPath = new List<string>();
+        //        var result = new ApiResult<string>();
+        //        try
+        //        {
+        //            var data = await _unitOfWork.ReportRepository.GetExamLetterReport(model);
+        //            if (data != null)
+        //            {
+
+        //                var groupedData = data.Tables[0]
+        //                .AsEnumerable()
+        //                //.GroupBy(r => r.Field<int>("GroupCode"))
+        //                .GroupBy(r => new
+        //                {
+        //                    GroupCode = r.Field<int>("GroupCode"),
+        //                    SubjectCode = r.Field<string>("SubjectCode") // or string, depending on your DB type
+        //                })
+        //                //.Select(g => g.Key)
+        //                .Select(g => new
+        //                {
+        //                    g.Key.GroupCode,
+        //                    g.Key.SubjectCode,
+        //                    Items = g.ToList() // Optional: keeps the list of rows for each group
+        //                })
+        //                .ToList();
+
+
+
+        //                foreach (var group in groupedData)
+        //                {
+
+        //                    //var filteredRows = data.Tables[0]
+        //                    //    .AsEnumerable()
+        //                    //    //.Where(r => r.Field<int>("GroupCode") == group)
+        //                    //    .Where(r => r.Field<int>("GroupCode") == group.GroupCode && r.Field<string>("SubjectCode") == group.SubjectCode)
+        //                    //    .ToList();
+
+        //                    var filteredRows = data.Tables[0].AsEnumerable()
+        //                            .Where(r => r.Field<int>("GroupCode") == group.GroupCode &&
+        //                                        r.Field<string>("SubjectCode") == group.SubjectCode)
+        //                            .ToList();
+
+
+        //                    //DataTable filteredTable = filteredRows.SelectMany(g => g).Any()
+        //                    //        ? filteredRows.SelectMany(g => g).CopyToDataTable()
+        //                    //        : data.Tables[0].Clone();
+
+        //                    //if (filteredRows.Any())
+        //                    //        {
+        //                    //            filteredTable = filteredRows.CopyToDataTable();
+        //                    //        }
+        //                    //        else
+        //                    //        {
+        //                    //            // No rows matched → create empty table with same schema
+        //                    //            filteredTable = data.Tables[0].Clone();
+        //                    //        }
+
+        //                    DataTable filteredTable;
+
+        //                    if (filteredRows.Any())
+        //                    {
+        //                        filteredTable = filteredRows.CopyToDataTable();
+        //                    }
+        //                    else
+        //                    {
+        //                        filteredTable = data.Tables[0].Clone();
+        //                    }
+
+
+        //                    var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+        //                    var fileName = $"ExamLetterReport_{group}.pdf";
+        //                    string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+        //                    string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/ExamLetter.rdlc";
+        //                    //
+        //                    var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+        //                    //
+        //                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+        //                    LocalReport localReport = new LocalReport(rdlcpath);
+        //                    localReport.AddDataSource("ExamLetterReport", filteredTable);
+        //                    //localReport.AddDataSource("ExamLetterReport", data.Tables[0]);
+        //                    var reportResult = localReport.Execute(RenderType.Pdf);
+        //                    System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+        //                    ListRoleListPath.Add(filepath);
+        //                    result.Data = fileName;
+        //                    result.State = EnumStatus.Success;
+        //                    result.Message = "Success.";
+
+        //                    //check file exists
+        //                    if (!System.IO.Directory.Exists(folderPath))
+        //                    {
+        //                        Directory.CreateDirectory(folderPath);
+        //                    }
+        //                    //save
+
+
+
+        //                    //end report
+
+        //                    result.Data = fileName;
+        //                    result.State = EnumStatus.Success;
+        //                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+        //                }
+        //            }
+        //            else
+        //            {
+        //                result.State = EnumStatus.Warning;
+        //                result.Message = Constants.MSG_DATA_NOT_FOUND;
+        //            }
+
+
+        //            #region "Save Multiple PDF PAGES"
+        //            string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        //            string guid = Guid.NewGuid().ToString().ToUpper();
+        //            string outputFile = $"{guid}_{timestamp}.pdf";
+        //            string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+
+        //            if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
+        //            {
+        //                try
+        //                {
+        //                    //delete files
+        //                    await DeleteFiles(ListRoleListPath);
+        //                }
+        //                catch (Exception exd)
+        //                {
+        //                }
+        //                result.Data = outputFile;
+        //                result.State = EnumStatus.Success;
+        //                result.Message = "Success.";
+
+        //                await _unitOfWork.SaveChangesAsync();
+
+
+        //            }
+        //            else
+        //            {
+        //                result.State = EnumStatus.Error;
+        //                result.ErrorMessage = "Something went wrong";
+        //            }
+        //            #endregion
+
+
+
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            await _unitOfWork.DisposeAsync();
+        //            // Write error log
+        //            var nex = new NewException
+        //            {
+        //                PageName = PageName,
+        //                ActionName = ActionName,
+        //                Ex = ex,
+        //            };
+        //            await CreateErrorLog(nex, _unitOfWork);
+        //            //
+        //            result.State = EnumStatus.Error;
+        //            result.ErrorMessage = ex.Message;
+        //        }
+        //        return result;
+        //    });
+        //}
+
+
+
+
+
 
         #region Exam Letter Report
         [HttpPost("GetExamLetterReport")]
@@ -9866,7 +10048,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         string devFontSize = "15px";
                         System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
- 
+
 
 
 
@@ -9881,7 +10063,7 @@ namespace Kaushal_Darpan.Api.Controllers
     }
 </style>";
 
-                 
+
 
 
 
@@ -10207,7 +10389,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         data.Tables[0].Rows[0]["logo"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
                         data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
+
                         data.Tables[0].Rows[0]["mainlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
+                        data.Tables[0].Rows[0]["HeadLogo"] = $"{ConfigurationHelper.StaticFileRootPath + "/" + data.Tables[0].Rows[0]["HeadLogo"]}";
                         data.Tables[1].TableName = "Consolidated_Marksheet";
                         decimal Total_Ob = 0;
                         decimal Total_Mx = 0;
@@ -10225,6 +10409,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.StateTradeCertificateITI}/ITIMarksheetCONSOLIDATED.html";
 
                         string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+                        html = html.Replace("class=\"IsRowBold_1\"", "style=\"font-weight:bold\"");
 
                         System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
 
@@ -14661,8 +14846,6 @@ namespace Kaushal_Darpan.Api.Controllers
             return sb.ToString();
         }
 
-
-
         [HttpPost("GetGroupCodeMasterReport")]
 
         public async Task<IActionResult> GetGroupCodeMasterReport([FromBody] GroupCodeAllocationAddEditModel filterModel)
@@ -14770,7 +14953,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     var filtered_SubjectCodes = dataList.Where(x => x.SubjectCode == distinct_SubjectCode.SubjectCode)
                                                         .OrderBy(x => x.GroupCode)
                                                         .ToList();
-                    
+
                     // heading
                     sb.Append(headerHtml);
 
@@ -14861,8 +15044,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         // column divided loop
                         pageHeightLoop++;
                         if (pageHeightCount < pageHeightLoop + 1 || filtered_SubjectCodes.Count + 1 == pageHeightLoop + 1)
-                        {                            
-                                sb.Append(@"
+                        {
+                            sb.Append(@"
                                     </tbody>
                                     </table>
                                     </div>
@@ -15226,9 +15409,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         // column divided loop
                         pageHeightLoop++;
-                        if (pageHeightCount < pageHeightLoop + 1 || filtered_SubjectCodes.Count+1 == pageHeightLoop+1)
+                        if (pageHeightCount < pageHeightLoop + 1 || filtered_SubjectCodes.Count + 1 == pageHeightLoop + 1)
                         {
-                                sb.Append(@"
+                            sb.Append(@"
                                     </tbody>
                                     </table>
                                     </div>
@@ -15367,7 +15550,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 sb.Append($"<td>{s.Subject14}</td>");
                 sb.Append($"<td>{s.Subject15}</td>");
 
-                sb.Append("<td></td>"); 
+                sb.Append("<td></td>");
                 sb.Append("</tr>");
             }
 
@@ -15572,7 +15755,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         PaperSize = PaperKind.A4,
                         Orientation = Orientation.Portrait
                     },
-                                    Objects =
+                    Objects =
                     {
                         new ObjectSettings
                         {
@@ -15702,6 +15885,148 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+        [HttpPost("GetInternalAssessmentStudentReport")]
+        public async Task<ApiResult<string>> GetInternalAssessmentStudentReport(InternalAssessmentStudentReport model)
+        {
+            ActionName = "GetInternalAssessmentStudentReport(InternalAssessmentStudentReport model)";
+            var result = new ApiResult<string>();
+
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                string[] streamids = [model.StreamID.ToString()];
+                if (model.StreamID == 0)
+                {
+                    streamids = model.StreamIDs.Split(',');
+                }
+
+                foreach (var streamid in streamids)
+                {
+                    try
+                    {
+                        model.StreamID = int.Parse(streamid);
+                        var dataSet = await _unitOfWork.ReportRepository
+                            .GetInternalAssessmentStudentReport(model);
+
+                        // log 
+                        var logfilename = "InternalMarksReportCollegeWise_log";
+                        CommonFuncationHelper.WriteTextLog($"1 streamid : {model.StreamID}", logfilename);
+                        CommonFuncationHelper.WriteTextLog($"2 table count : {dataSet?.Tables?.Count}", logfilename);
+
+                        // validating
+                        if (dataSet == null || dataSet.Tables.Count < 1)
+                        {
+                            continue;
+                        }
+                        if (dataSet.Tables[0].Rows.Count == 0 || dataSet.Tables[1].Rows.Count == 0)
+                        {
+                            continue;
+                        }
+
+                        //
+                        var _sb = _printHtmlFile.InternalAssessmentStudent_GetHtml(dataSet);
+                        sb.Append(_sb);
+
+                    }
+                    catch (Exception ex1)
+                    {
+                        // handal exception
+                        await _unitOfWork.DisposeAsync();
+
+                        await CreateErrorLog(new NewException
+                        {
+                            PageName = PageName,
+                            ActionName = ActionName,
+                            Ex = ex1
+                        }, _unitOfWork);
+                    }
+                }
+
+                // print
+                string htmlContent = sb.ToString();
+
+                // remove last blank page
+                string endTag = "<div class='page-break'></div></body></html>";
+                if (htmlContent.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    htmlContent = htmlContent.Substring(0, htmlContent.Length - endTag.Length)
+                                 + "</body></html>";
+                }
+
+
+                // validate
+                if (string.IsNullOrWhiteSpace(htmlContent))
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+
+
+                var doc = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+                    {
+                        PaperSize = PaperKind.A4,
+                        Orientation = Orientation.Landscape,
+                        Margins = new MarginSettings
+                        {
+                            Top = 10,
+                            Bottom = 10,
+                            Left = 5,
+                            Right = 5
+                        }
+                    },
+                    Objects =
+                    {
+                        new ObjectSettings
+                        {
+                            HtmlContent = htmlContent,
+                            WebSettings = { DefaultEncoding = "utf-8" },
+
+                            //HeaderSettings = new HeaderSettings
+                            //{
+                            //    HtmUrl = headerFilePath,
+                            //    Spacing = 3
+                            //},
+
+                            FooterSettings = new FooterSettings
+                            {
+                                FontName = "Arial",
+                                FontSize = 7,
+                                Center = "Page [page] of [toPage]",
+                                Line = true
+                            }
+                        }
+                    }
+                };
+
+                byte[] arrbyte = await Task.Run(() => _converter.Convert(doc));
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                result.Data = Convert.ToBase64String(arrbyte);
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                await CreateErrorLog(new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                }, _unitOfWork);
+            }
+
+            return result;
+            //return File(result.Data, "application/pdf", "HindiDinkToPdf.pdf");
+        }
 
     }
 }

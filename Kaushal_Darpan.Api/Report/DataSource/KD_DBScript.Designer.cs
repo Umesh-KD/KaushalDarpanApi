@@ -53747,6 +53747,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnExamName;
             
+            private global::System.Data.DataColumn columnsub_streamSubjectCode;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ExamLetterReportDataTable() {
@@ -53880,6 +53882,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn sub_streamSubjectCodeColumn {
+                get {
+                    return this.columnsub_streamSubjectCode;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -53915,7 +53925,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ExamLetterReportRow AddExamLetterReportRow(string centercode, string SubjectCode, string IsPresentTotal, string IsUFM, string IsDetain, string Isabsent, string SrNo, string totalanswersheet, string Total, string GroupCode, string SubjectName, string ExamName) {
+            public ExamLetterReportRow AddExamLetterReportRow(string centercode, string SubjectCode, string IsPresentTotal, string IsUFM, string IsDetain, string Isabsent, string SrNo, string totalanswersheet, string Total, string GroupCode, string SubjectName, string ExamName, string sub_streamSubjectCode) {
                 ExamLetterReportRow rowExamLetterReportRow = ((ExamLetterReportRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         centercode,
@@ -53929,7 +53939,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         Total,
                         GroupCode,
                         SubjectName,
-                        ExamName};
+                        ExamName,
+                        sub_streamSubjectCode};
                 rowExamLetterReportRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowExamLetterReportRow);
                 return rowExamLetterReportRow;
@@ -53964,6 +53975,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnGroupCode = base.Columns["GroupCode"];
                 this.columnSubjectName = base.Columns["SubjectName"];
                 this.columnExamName = base.Columns["ExamName"];
+                this.columnsub_streamSubjectCode = base.Columns["sub_streamSubjectCode"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -53993,6 +54005,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnSubjectName);
                 this.columnExamName = new global::System.Data.DataColumn("ExamName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnExamName);
+                this.columnsub_streamSubjectCode = new global::System.Data.DataColumn("sub_streamSubjectCode", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnsub_streamSubjectCode);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -95542,6 +95556,23 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string sub_streamSubjectCode {
+                get {
+                    try {
+                        return ((string)(this[this.tableExamLetterReport.sub_streamSubjectCodeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'sub_streamSubjectCode\' in table \'ExamLetterReport\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableExamLetterReport.sub_streamSubjectCodeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IscentercodeNull() {
                 return this.IsNull(this.tableExamLetterReport.centercodeColumn);
             }
@@ -95682,6 +95713,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetExamNameNull() {
                 this[this.tableExamLetterReport.ExamNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool Issub_streamSubjectCodeNull() {
+                return this.IsNull(this.tableExamLetterReport.sub_streamSubjectCodeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void Setsub_streamSubjectCodeNull() {
+                this[this.tableExamLetterReport.sub_streamSubjectCodeColumn] = global::System.Convert.DBNull;
             }
         }
         
