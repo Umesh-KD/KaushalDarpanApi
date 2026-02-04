@@ -696,26 +696,31 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         }
 
                         sb.Append("</tr>");
-
-                        //}
-
-                        sb.Append("</tr>");
-                        //i1 ++;
                     }
 
+                    // teacher row
+                    if (TypeID != 3)
+                    {
+                        int i1 = 0;
+                        sb.Append("<tr>");
+                        sb.Append($"<td colspan='5'>Teacher Signature :</td>");
+                        foreach (DataColumn dc in dt.Columns)
+                        {
+                            if (i1 > 4)
+                            {
+                                sb.Append($"<td >&nbsp;</td>");
+                            }
+                            i1++;
+                        }
+                        sb.Append("</tr>");
+                    }
                     // table
                     sb.Append("</table>");
 
                     // footer
-                    if (TypeID == 3)
-                    {
-                        sb.Append("<div class=\"footer\">\r\n  <div><b>CERTIFICATE :</b> Entered marks as per maintained records by institute.</div>\r\n\r\n  <div class=\"note\">\r\n    <b>NOTE:</b> The record of students securing &lt; 45% or &gt; 85% marks have been reviewed to my satisfaction.\r\n  </div>\r\n\r\n  <table class=\"footer-table\">\r\n  <tr>\r\n  <th>Feeded By</th>\r\n  <th>Checked By</th>\r\n  <th>Signature:</th>\r\n  </tr>\r\n    <tr>\r\n      <td>\r\n        Signature: <span class=\"line\"></span><br><br>\r\n        Name: <span class=\"line\"></span><br><br>\r\n        Date: <span class=\"line\"></span>\r\n      </td>\r\n\r\n      <td>\r\n        Signature: <span class=\"line\"></span><br><br>\r\n        Name: <span class=\"line\"></span>\r\n      </td>\r\n\r\n      <td>\r\n        Principal: <span class=\"line\"></span><br>\r\n      </td>\r\n    </tr>\r\n  </table>\r\n</div>");
-                    }
-                    else
-                    {
-                        sb.Append("<div class=\"footer\">\r\n  <div><b>Teacher Signature :</b>  </div>\r\n\r\n <div><b>CERTIFICATE :</b> Entered marks as per maintained records by institute.</div>\r\n\r\n  <div class=\"note\">\r\n    <b>NOTE:</b> The record of students securing &lt; 45% or &gt; 85% marks have been reviewed to my satisfaction.\r\n  </div>\r\n\r\n  <table class=\"footer-table\">\r\n  <tr>\r\n  <th>Feeded By</th>\r\n  <th>Checked By</th>\r\n  <th>Signature:</th>\r\n  </tr>\r\n    <tr>\r\n      <td>\r\n        Signature: <span class=\"line\"></span><br><br>\r\n        Name: <span class=\"line\"></span><br><br>\r\n        Date: <span class=\"line\"></span>\r\n      </td>\r\n\r\n      <td>\r\n        Signature: <span class=\"line\"></span><br><br>\r\n        Name: <span class=\"line\"></span>\r\n      </td>\r\n\r\n      <td>\r\n        Principal: <span class=\"line\"></span><br>\r\n      </td>\r\n    </tr>\r\n  </table>\r\n</div>");
-                    }
-                        sb.Append("<div class='page-break'></div>");
+                    sb.Append("<div class=\"footer\">\r\n  <div><b>CERTIFICATE :</b> Entered marks as per maintained records by institute.</div>\r\n\r\n  <div class=\"note\">\r\n    <b>NOTE:</b> The record of students securing &lt; 45% or &gt; 85% marks have been reviewed to my satisfaction.\r\n  </div>\r\n\r\n  <table class=\"footer-table\">\r\n  <tr>\r\n  <th>Feeded By</th>\r\n  <th>Checked By</th>\r\n  <th>Signature:</th>\r\n  </tr>\r\n    <tr>\r\n      <td>\r\n        Signature: <span class=\"line\"></span><br><br>\r\n        Name: <span class=\"line\"></span><br><br>\r\n        Date: <span class=\"line\"></span>\r\n      </td>\r\n\r\n      <td>\r\n        Signature: <span class=\"line\"></span><br><br>\r\n        Name: <span class=\"line\"></span>\r\n      </td>\r\n\r\n      <td>\r\n        Principal: <span class=\"line\"></span><br>\r\n      </td>\r\n    </tr>\r\n  </table>\r\n</div>");
+
+                    sb.Append("<div class='page-break'></div>");
                     sb.Append("</body>");
                     sb.Append("</html>");
                 }
