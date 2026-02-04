@@ -8899,7 +8899,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITI_GetSampleAnnexture32";
+                        command.CommandText = "USP_GetSampleAnnexture32";
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
@@ -8933,7 +8933,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
-                        command.CommandText = "USP_ITI_UploadAnnexturesample32";
+                        command.CommandText = "USP_UploadAnnexturesample32";
                         command.CommandType = CommandType.StoredProcedure;
 
                         // Add parameters with appropriate null handling
