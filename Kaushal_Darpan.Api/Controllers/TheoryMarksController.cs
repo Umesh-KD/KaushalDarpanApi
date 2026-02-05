@@ -34,7 +34,7 @@ namespace Kaushal_Darpan.Api.Controllers
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.TheoryMarksRepository.GetTheoryMarksDetailList(body));
+                result.Data = await _unitOfWork.TheoryMarksRepository.GetTheoryMarksDetailList(body);
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {

@@ -43,6 +43,7 @@ namespace Kaushal_Darpan.Models.ITIMaster
         public string TradeCode { get; set; } = string.Empty;
         public string Syllabuslink { get; set; } = string.Empty;
         public int CourseTypeID { get; set; }
+        public int FinancialYearID { get; set; }
 
     }
 

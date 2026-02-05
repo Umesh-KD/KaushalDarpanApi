@@ -567,7 +567,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         #endregion
 
         #region Internal Assessment Student
-        public StringBuilder InternalAssessmentStudent_GetHtml(DataSet dataSet)
+        public StringBuilder InternalAssessmentStudent_GetHtml(DataSet dataSet,int TypeID)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -585,11 +585,17 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 string ExamSession = firstRow["ExamSession"].ToString();
 
                 // page break with pagging
-                int pageSize = 25;
+                int pageSize = 23;
 
                 for (int i = 0; i < dt_data.Rows.Count; i += pageSize)
                 {
                     DataTable dt = dt_data.Clone();
+
+                    // max marks row
+                    if (i > 0)
+                    {
+                        dt.ImportRow(dt_data.Rows[0]);
+                    }
 
                     for (int j = i; j < i + pageSize && j < dt_data.Rows.Count; j++)
                     {
@@ -604,10 +610,13 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     <style>
                         body { font-family: Arial; font-size: 12px; }
                         table { width: 100%; border-collapse: collapse; }
-                        th, td { border: 1px solid #000; padding: 4px; text-align: center; }
+                        th, td { border: 1px solid #000; padding: 4px; text-align: center; font-size:10px;}
                         th { background-color: #f2f2f2; }
+                        .table-row {
+                            font-size: 11px;
+                        }
                         .left { text-align: left; }
-                        .header { text-align: center; font-weight: bold; margin-bottom: 10px; }
+                        .header { font-size:15px;text-align: center; font-weight: bold; margin-bottom: 10px; }
                         .page-break {page-break-after: always; }
                         
                     .line {
@@ -643,16 +652,20 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                           border: none !important;
                           text-align:left;
                         }
+                        .bold-text {
+                            font-weight: bold;
+                        }
+
                     </style>
                     </head>
                     <body>
                 ");
 
                     sb.Append($"<div class='header'> {ExamSession} <span> {ReportType} </span></div>");
-                    sb.Append($"<div style='font-weight:bold; margin-bottom:8px;' >  College Name: {InstituteName}  (Branch: {StreamName}) </div>");
+                    sb.Append($"<div style='font-weight:bold; margin-bottom:8px; font-size:12px' >  College Name: {InstituteName}  (Branch: {StreamName}) </div>");
 
                     // table
-                    sb.Append("<table>");
+                    sb.Append("<table style='font-size:12px'>");
 
                     // th
                     sb.Append("<tr>");
@@ -662,22 +675,50 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     }
                     sb.Append("</tr>");
 
-                    // td            
+                    // td
+                    
                     foreach (DataRow dr in dt.Rows)
                     {
-                        sb.Append("<tr>");
+
+
+                        sb.Append("<tr class='table-row'>");
+
                         foreach (DataColumn dc in dt.Columns)
                         {
-                            sb.Append($"<td>{dr[dc.ColumnName]}</td>");
+                            if (dr[dc.ColumnName].ToString() == "MAX MARKS")
+                            {
+                                sb.Append($"<td class='bold-text'>{dr[dc.ColumnName]}</td>");
+                            }
+                            else
+                            {
+                                sb.Append($"<td>{dr[dc.ColumnName]}</td>");
+                            }
                         }
+
                         sb.Append("</tr>");
                     }
 
+                    // teacher row
+                    if (TypeID != 3)
+                    {
+                        int i1 = 0;
+                        sb.Append("<tr>");
+                        sb.Append($"<td colspan='5'>Teacher Signature :</td>");
+                        foreach (DataColumn dc in dt.Columns)
+                        {
+                            if (i1 > 4)
+                            {
+                                sb.Append($"<td >&nbsp;</td>");
+                            }
+                            i1++;
+                        }
+                        sb.Append("</tr>");
+                    }
                     // table
                     sb.Append("</table>");
 
                     // footer
-                    sb.Append("<div class=\"footer\">\r\n  <div><b>CERTIFICATE:</b> Entered marks as per maintained records by institute.</div>\r\n\r\n  <div class=\"note\">\r\n    <b>NOTE:</b> The record of students securing &lt; 45% or &gt; 85% marks have been reviewed to my satisfaction.\r\n  </div>\r\n\r\n  <table class=\"footer-table\">\r\n  <tr>\r\n  <th>Feeded By</th>\r\n  <th>Checked By</th>\r\n  <th>Signature:</th>\r\n  </tr>\r\n    <tr>\r\n      <td>\r\n        Signature: <span class=\"line\"></span><br><br>\r\n        Name: <span class=\"line\"></span><br><br>\r\n        Date: <span class=\"line\"></span>\r\n      </td>\r\n\r\n      <td>\r\n        Signature: <span class=\"line\"></span><br><br>\r\n        Name: <span class=\"line\"></span>\r\n      </td>\r\n\r\n      <td>\r\n        Principal: <span class=\"line\"></span><br>\r\n      </td>\r\n    </tr>\r\n  </table>\r\n</div>");
+                    sb.Append("<div class=\"footer\">\r\n  <div><b>CERTIFICATE :</b> Entered marks as per maintained records by institute.</div>\r\n\r\n  <div class=\"note\">\r\n    <b>NOTE:</b> The record of students securing &lt; 45% or &gt; 85% marks have been reviewed to my satisfaction.\r\n  </div>\r\n\r\n  <table class=\"footer-table\">\r\n  <tr>\r\n  <th>Feeded By</th>\r\n  <th>Checked By</th>\r\n  <th>Signature:</th>\r\n  </tr>\r\n    <tr>\r\n      <td>\r\n        Signature: <span class=\"line\"></span><br><br>\r\n        Name: <span class=\"line\"></span><br><br>\r\n        Date: <span class=\"line\"></span>\r\n      </td>\r\n\r\n      <td>\r\n        Signature: <span class=\"line\"></span><br><br>\r\n        Name: <span class=\"line\"></span>\r\n      </td>\r\n\r\n      <td>\r\n        Principal: <span class=\"line\"></span><br>\r\n      </td>\r\n    </tr>\r\n  </table>\r\n</div>");
 
                     sb.Append("<div class='page-break'></div>");
                     sb.Append("</body>");
@@ -691,6 +732,8 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
             return sb;
         }
+
+        
         #endregion
 
     }
