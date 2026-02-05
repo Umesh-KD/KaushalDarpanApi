@@ -219,7 +219,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [RoleActionFilter(EnumRole.DTE_Eng, EnumRole.DTE_NonEng)]
+        [RoleActionFilter(EnumRole.DTE_Eng, EnumRole.DTE_NonEng, EnumRole.CommitteeInchargeDTE)]
         [HttpPost("ApplicationList_ForDTE_THTE")]
         public async Task<ApiResult<DataTable>> ApplicationList_ForDTE_THTE(PrincipleApplicationListSearchModel model)
         {
@@ -257,7 +257,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [RoleActionFilter(EnumRole.DTE_Eng, EnumRole.DTE_NonEng)]
+        [RoleActionFilter(EnumRole.DTE_Eng, EnumRole.DTE_NonEng, EnumRole.CommitteeInchargeDTE)]
         [HttpPost("UpdateApplicationStatus_DTE_THTE")]
         public async Task<ApiResult<bool>> UpdateApplicationStatus_DTE_THTE([FromBody] List<UpdateApplicationStatusDataModel_Principle> request)
         {
