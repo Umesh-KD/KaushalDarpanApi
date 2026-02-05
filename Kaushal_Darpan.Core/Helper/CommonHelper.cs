@@ -396,6 +396,7 @@ namespace Kaushal_Darpan.Core.Helper
 
         ITCell_Eng = 206,
         ITCell_NonEng = 210,
+        CommitteeInchargeDTE = 247,
     }
     public enum EnmPaymentGatway
     {

@@ -5,6 +5,7 @@ using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.GuestRoomManagementModel;
 using Kaushal_Darpan.Models.ITI_Inspection;
+using Kaushal_Darpan.Models.ITITheoryMarks;
 using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.Test;
@@ -113,6 +114,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DeleteStatus", 0);
                         command.Parameters.AddWithValue("@CreatedBy", model.CreatedBy); // Set if you have this info
                         command.Parameters.AddWithValue("@UpdatedBy", model.CreatedBy); // Set if you have this info
+                        command.Parameters.AddWithValue("@SessionID", model.SessionID); // Set if you have this info
+                        command.Parameters.AddWithValue("@CollegeDetailList", JsonConvert.SerializeObject(model.CollegeDetailList)); // Set if you have this info
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress); // Set if you have this info
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
@@ -271,7 +274,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                             {
                                 data = CommonFuncationHelper.ConvertDataTable<TeacherHigherEducationApplicationModel>(dataSet.Tables[0]);
                             }
+                        if (dataSet.Tables.Count > 1)
+                        {
+                            data.CollegeDetailList = CommonFuncationHelper.ConvertDataTable<List<CollegeDetailList>>(dataSet.Tables[1]);
                         }
+                    }
                     return data;
                 });
             }
@@ -439,7 +446,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         // Set the stored procedure name and type
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_THTE_Committee_IU";
+                        if(request.RoleID == 17)
+                        {
+                            command.CommandText = "USP_THTE_Committee_IU_DTE";
+                        }
+                        else
+                        {
+                            command.CommandText = "USP_THTE_Committee_IU";
+                        }
                         command.Parameters.AddWithValue("@InspectionTeamID", request.InspectionTeamID);
                         command.Parameters.AddWithValue("@InspectionTeamName", request.InspectionTeamName);
                         command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
@@ -450,6 +464,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DeploymentDateTo", request.DeploymentDateTo);
                         command.Parameters.AddWithValue("@InspectionMemberDetails", JsonConvert.SerializeObject(request.InspectionMemberDetails));
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteId);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
 
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
@@ -488,7 +503,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_THTE_CommitteeList";
+                        if (body.RoleID == 17)
+                        {
+                            command.CommandText = "USP_THTE_CommitteeList_DTE";
+                        }
+                        else
+                        {
+                            command.CommandText = "USP_THTE_CommitteeList";
+                        }
                         command.Parameters.AddWithValue("@Action", "GetAllData");
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
@@ -498,6 +520,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InspectionTeamName", body.InspectionTeamName);
                         command.Parameters.AddWithValue("@UserID", body.UserID);
                         command.Parameters.AddWithValue("@LevelId", body.LevelId);
+                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -520,7 +544,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<CommitteeDataModel> GetCommitteeById_Team(int ID)
+        public async Task<CommitteeDataModel> GetCommitteeById_Team(int ID, int RoleID)
         {
             _actionName = "GetById(int PK_ID)";
             return await Task.Run(async () =>
@@ -531,7 +555,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_THTE_CommitteeList";
+                        if(RoleID == 17)
+                        {
+                            command.CommandText = "USP_THTE_CommitteeList_DTE";
+                        }
+                        else
+                        {
+                            command.CommandText = "USP_THTE_CommitteeList";
+                        }
                         command.Parameters.AddWithValue("@InspectionTeamID", ID);
                         command.Parameters.AddWithValue("@Action", "GetById_Team");
 
@@ -588,6 +619,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_THTE_CommitteeDDL";
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -645,6 +679,121 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
 
 
+        }
+
+
+
+        public async Task<DataTable> THTE_GrtApplyInstituteList(THTE_ApplicationSearchModel body)
+        {
+            _actionName = "THTE_GrtApplyInstituteList(THTE_ApplicationSearchModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_THTE_ApplyInstituteList";
+           
+                        command.Parameters.AddWithValue("@THTEAppID", body.THTEAppID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        public async Task<int> UpdateInstitutestatus(List<CollegeDetailList> entity)
+        {
+            _actionName = "UpdateSaveData(List<ITITheoryMarksModel> entity)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_UpdateApplyCollegeDetails";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(entity));
+
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> THTE_GetInstituteCommitteeList(InstituteCommitteListDataModel body)
+        {
+            _actionName = "THTE_GetInstituteCommitteeList(InstituteCommitteListDataModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_THTE_InstituteCommitteeList_GetData";
+
+                        command.Parameters.AddWithValue("@action", body.action);
+                        command.Parameters.AddWithValue("@CommitteeID", body.CommitteeID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
         }
     }
 }

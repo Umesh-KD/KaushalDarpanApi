@@ -13,22 +13,41 @@ namespace Kaushal_Darpan.Models.Test
         public string DOB { get; set; }
         public string JoiningDate { get; set; }
         public int AppliedCourse { get; set; }
-        public string AppliedInstitute { get; set; }
+        public string? AppliedInstitute { get; set; }
         public int PHDStatus { get; set; }
-        public int AppliedInstituteDistance { get; set; }
+        public string? AppliedInstituteDistance { get; set; }
         public int AppliedInstituteCourseCategory { get; set; }
         public int AppliedInstituteSubCategory { get; set; }
-        public string Remark { get; set; }
+        public string? Remark { get; set; }
         public int CreatedBy{ get; set; }
+        public int SessionID { get; set; }
 
-        public string InstituteID { get; set; }
+        public string? InstituteID { get; set; }
 
+        public List<CollegeDetailList>? CollegeDetailList { get; set; }
     }
+
+
+    public class CollegeDetailList
+    {
+        public int ID { get; set; }
+        public int StatusID { get; set; }
+        public int THTEAppID { get; set; }
+        public int CommitteStatus { get; set; }
+        public int UserID { get; set; }
+        public string? CollegeName { get; set; }
+        public string? Distance{ get; set; }
+        public string? Remarks{ get; set; }
+    }
+
 
     public class THTE_DDL
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int? UserID { get; set; }
+        public int? RoleID { get; set; }
+        public int? StaffID { get; set; }
     }
 
     public class THTE_ApplicationSearchModel
@@ -194,5 +213,13 @@ namespace Kaushal_Darpan.Models.Test
         public string? SSOID { get; set; }
         public int RoleID { get; set; }
         public int InstituteID { get; set; }
+    }
+
+    public class InstituteCommitteListDataModel
+    {
+        public int DepartmentID { get; set; }
+        public int CommitteeID { get; set; }
+        public int InstituteID { get; set; }
+        public string? action { get; set; }
     }
 }

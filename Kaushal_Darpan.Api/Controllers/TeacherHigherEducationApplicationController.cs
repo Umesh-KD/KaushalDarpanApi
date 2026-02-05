@@ -8,6 +8,7 @@ using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.GuestRoomManagementModel;
 using Kaushal_Darpan.Models.ITI_Inspection;
+using Kaushal_Darpan.Models.ITITheoryMarks;
 using Kaushal_Darpan.Models.PlacementSelectedStudentMaster;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
@@ -554,8 +555,8 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpGet("GetCommitteeById_Team/{ID}")]
-        public async Task<ApiResult<CommitteeDataModel>> GetCommitteeById_Team(int ID)
+        [HttpGet("GetCommitteeById_Team/{ID}/{RoleID}")]
+        public async Task<ApiResult<CommitteeDataModel>> GetCommitteeById_Team(int ID, int RoleID)
         {
             ActionName = "GetByID(int PK_ID)";
             return await Task.Run(async () =>
@@ -563,7 +564,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<CommitteeDataModel>();
                 try
                 {
-                    var data = await _unitOfWork.TeacherHigherEducationApplicationRepository.GetCommitteeById_Team(ID);
+                    var data = await _unitOfWork.TeacherHigherEducationApplicationRepository.GetCommitteeById_Team(ID, RoleID);
                     result.Data = data;
                     if (data != null)
                     {
@@ -665,6 +666,131 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+        [HttpPost("THTE_GrtApplyInstituteList")]
+        public async Task<ApiResult<DataTable>> THTE_ApplicationSearchModel([FromBody] THTE_ApplicationSearchModel body)
+        {
 
+            ActionName = "BTER_EM_GetStaffList()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.TeacherHigherEducationApplicationRepository.THTE_GrtApplyInstituteList(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpPost("UpdateInstitutestatus")]
+        public async Task<ApiResult<bool>> UpdateInstitutestatus([FromBody] List<CollegeDetailList> request)
+        {
+            ActionName = "UpdateSaveData([FromBody] List<TheoryMarksModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                  
+                    // Pass the list to the repository for batch update
+                    var isSave = await _unitOfWork.TeacherHigherEducationApplicationRepository.UpdateInstitutestatus(request);
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                    if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("THTE_GetInstituteCommitteeList")]
+        public async Task<ApiResult<DataTable>> THTE_GetInstituteCommitteeList([FromBody] InstituteCommitteListDataModel body)
+        {
+            ActionName = "THTE_GetInstituteCommitteeList([FromBody] InstituteCommitteListDataModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.TeacherHigherEducationApplicationRepository.THTE_GetInstituteCommitteeList(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }
