@@ -222,6 +222,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         command.Parameters.AddWithValue("@StudentID", body.StudentID);
                         command.Parameters.AddWithValue("@PartnerApplicationID", body.PartnerApplicationID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@Action", body.Action);
 
                         _sqlQuery = command.GetSqlExecutableQuery();

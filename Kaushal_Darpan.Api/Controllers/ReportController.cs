@@ -40,6 +40,7 @@ using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.TheoryMarks;
 using Kaushal_Darpan.Models.TimeTable;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Data;
 using System.Net;
 using System.Text;
@@ -15525,6 +15526,19 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             var sb = new StringBuilder();
             int srNo = 1;
+            int studentcount = students.Count;
+
+            if (students == null || students.Count == 0)
+            {
+                sb.Append("<tr style='page-break-inside:avoid;'>");
+                sb.Append("<td colspan='19' style='text-align:center; font-weight:bold;'>");
+                sb.Append("NIL");
+                sb.Append("</td>");
+                sb.Append("</tr>");
+
+                return sb.ToString(); // VERY IMPORTANT
+            }
+
 
             foreach (var s in students)
             {
@@ -15552,6 +15566,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 sb.Append("<td></td>");
                 sb.Append("</tr>");
             }
+           
 
             return sb.ToString();
         }
@@ -15562,10 +15577,6 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             try
             {
-                // Static values
-                //model.EndTermID = 14;
-                //model.InstituteID = 1;
-                //model.CourseTypeID = 1;
 
                 var mainData = await _unitOfWork.ReportRepository.GetSampleAnnexture(model);
                 var dataList = CommonFuncationHelper
@@ -15621,6 +15632,15 @@ namespace Kaushal_Darpan.Api.Controllers
              <table class=""no-border"">
                 <tr>
                     <td class=""left"">
+                       
+                    </td>
+
+                    <td class=""right"" style=""float: right;"">
+                       परिशिष्ट-32
+                    </td>
+                </tr>
+                <tr>
+                    <td class=""left"">
                         प्रेषक<br>
                         प्रधानाचार्य,<br>
                         पॉलिटेक्निक महाविद्यालय<br>
@@ -15654,7 +15674,7 @@ namespace Kaushal_Darpan.Api.Controllers
     </tr>
     <tr>
         <td>
-            <p>विषयान्तर्गत निम्न विद्यार्थियों को उनके अर्जित अंकों विवरण अनुसार मण्डल कार्यालय में आंतरिक मूल्यांकन के सम्बन्ध में निम्न प्रमाणिकरण प्रस्तुत है :-।</p>
+            <p>विषयान्तर्गत निम्न विद्यार्थियों को उनके अर्जित अंकों विवरण अनुसार मण्डल कार्यालय में आंतरिक मूल्यांकन के सम्बन्ध में निम्न प्रमाणीकरण प्रस्तुत है :-।</p>
             <p>(अ) 85 प्रतिशत से अधिक प्राप्तांक प्राप्त किये गये।</p>
         </td>
     </tr>
@@ -15695,7 +15715,7 @@ namespace Kaushal_Darpan.Api.Controllers
 </table>
 
 <p>
-प्रमाणित किया जाता है कि उपरोक्त विद्यार्थियों के मण्डल द्वारा निर्धारित समस्त रिकार्डों की जांच की गई है, विद्यार्थियों का नियमिततानुसार प्रमाणिकरण किया जाता है।
+प्रमाणित किया जाता है कि उपरोक्त विद्यार्थियों के मण्डल द्वारा निर्धारित समस्त रिकार्डों की जांच की गई है, विद्यार्थियों का निम्नानुसार प्रमाणीकरण किया जाता है।
                     </p>
                     <ol>
                         <li>उपरोक्त विद्यार्थियों के प्रदत्त अंकों से सम्बन्धित एवं विद्यार्थियों के प्रत्येक रिकार्ड की व्यक्तिगत जांच की गई, विद्यार्थी उपरोक्त प्रदत्त अंक के योग्य है। </li>
@@ -15703,7 +15723,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         <li>प्रदत्त अंकों में अनियमितता पर अधोहस्ताक्षरकर्ता व्यक्तिगत रूप से उत्तरदायी होंगे।</li>
                     </ol>
                     <p>
-                        उपरोक्त प्रमाणिकरण ऑनलाइन अंकों को दर्ज करते समय करें एवं एक प्रति <b>Email: conf.bter@gmail.com</b> पर भिजवायें।
+                        उपरोक्त प्रमाणीकरण ऑनलाइन अंकों को दर्ज करते समय करें एवं एक प्रति <b>Email: conf.bter@gmail.com</b> पर भिजवायें।
                     </p>
                 </td>
             </tr>
@@ -15718,7 +15738,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                 पद...............................................
                             </td>
                             <td  style=""float: right;"">
-                                <b>परीक्षा अधीक्षक</b><br />
+                                <b>प्रधानाचार्य</b><br />
                                 हस्ताक्षर........................................<br />
                                 नाम..............................................<br />
                                 पद...............................................<br />
@@ -15734,10 +15754,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             <td>
                                 आवश्यक कार्यवाही हेतु प्रस्तुत है।
                             </td>
-                            <td style=""float: right;"">
-                                प्रधानाचार्य
-                            </td>
-                        </tr>
+                                                   </tr>
                     </table>
                 </td>
             </tr>
@@ -15925,7 +15942,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
 
                         //
-                        var _sb = _printHtmlFile.InternalAssessmentStudent_GetHtml(dataSet);
+                        var _sb = _printHtmlFile.InternalAssessmentStudent_GetHtml(dataSet,model.TypeID);
                         sb.Append(_sb);
 
                     }
@@ -15946,6 +15963,15 @@ namespace Kaushal_Darpan.Api.Controllers
                 // print
                 string htmlContent = sb.ToString();
 
+                // remove last blank page
+                string endTag = "<div class='page-break'></div></body></html>";
+                if (htmlContent.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    htmlContent = htmlContent.Substring(0, htmlContent.Length - endTag.Length)
+                                 + "</body></html>";
+                }
+
+
                 // validate
                 if (string.IsNullOrWhiteSpace(htmlContent))
                 {
@@ -15960,7 +15986,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     GlobalSettings =
                     {
                         PaperSize = PaperKind.A4,
-                        Orientation = Orientation.Portrait,
+                        Orientation = Orientation.Landscape,
                         Margins = new MarginSettings
                         {
                             Top = 10,
