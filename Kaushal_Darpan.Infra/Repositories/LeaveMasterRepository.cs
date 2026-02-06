@@ -380,5 +380,52 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+
+        public async Task<DataTable> GetLeaveCreditStaffData(LeaveMasterSearchModel body)
+        {
+            _actionName = "GetLeaveCreditStaffData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_StaffLeave_Action";
+                        command.Parameters.AddWithValue("@Name", body.Name);
+                        command.Parameters.AddWithValue("@Status", body.Status);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        //command.Parameters.AddWithValue("@To_Date", body.To_Date);
+                        //command.Parameters.AddWithValue("@From_Date", body.From_Date);
+                        command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                        command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
+                        command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
+                        command.Parameters.AddWithValue("@Action", body.Action);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
     }
 }

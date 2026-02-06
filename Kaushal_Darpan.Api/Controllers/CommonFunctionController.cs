@@ -1542,8 +1542,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
             });
         }
-        [HttpGet("CommonMasterDataByCode/{MasterCode}/{DepartmentID}/{CourseTypeID?}")]
-        public async Task<ApiResult<DataTable>> CommonMasterDataByCode(string MasterCode, int DepartmentID, int CourseTypeID = 0)
+        [HttpGet("CommonMasterDataByCode/{MasterCode}/{DepartmentID}/{CourseTypeID?}/{StaffTypeID?}")]
+        public async Task<ApiResult<DataTable>> CommonMasterDataByCode(string MasterCode, int DepartmentID, int CourseTypeID = 0,int StaffTypeID=0)
 
         {
             return await Task.Run(async () =>
@@ -1551,7 +1551,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetCommonMasterData(MasterCode, DepartmentID, CourseTypeID);
+                    var data = await _unitOfWork.CommonFunctionRepository.GetCommonMasterData(MasterCode, DepartmentID, CourseTypeID, StaffTypeID);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;

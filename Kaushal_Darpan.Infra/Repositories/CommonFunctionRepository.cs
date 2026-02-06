@@ -1498,7 +1498,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> GetCommonMasterData(string MasterCode = "", int DepartmentID = 0, int CourseTypeID = 0)
+        public async Task<DataTable> GetCommonMasterData(string MasterCode = "", int DepartmentID = 0, int CourseTypeID = 0,int StaffTypeID=0)
         {
             _actionName = "GetFinancialYear()";
             return await Task.Run(async () =>
@@ -1514,6 +1514,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@MasterCode", MasterCode);
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
                         command.Parameters.AddWithValue("@CourseTypeID", CourseTypeID);
+                        command.Parameters.AddWithValue("@StaffTypeID", StaffTypeID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
