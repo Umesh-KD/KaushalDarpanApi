@@ -1,7 +1,9 @@
 ﻿using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.CenterObserver;
+using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.GuestRoomManagementModel;
 using Kaushal_Darpan.Models.ITI_Inspection;
+using Kaushal_Darpan.Models.ITITheoryMarks;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Student;
@@ -24,6 +26,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetCategoryOfApplyCourseInstitute(THTE_DDL body);
 
         Task<DataTable> THTE_GetStaffPersonalDetailByUserID(BTER_EM_GetPersonalDetailByUserID body);
+        Task<DataTable> THTE_GrtApplyInstituteList(THTE_ApplicationSearchModel body);
 
         Task<TeacherHigherEducationApplicationModel> GetTHTE_ApplicationByID(THTE_ApplicationSearchModel model);
 
@@ -36,10 +39,12 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetCommitteeAllData(CommitteeSearchModel body);
 
-        Task<CommitteeDataModel> GetCommitteeById_Team(int ID);
+        Task<CommitteeDataModel> GetCommitteeById_Team(int ID, int RoleID);
 
         Task<DataTable> GetCommitteeDDL(THTE_DDL body);
 
         Task<DataTable> Bter_CommitteeStaffCheckSSOID(CommitteeStaffSSOIDSearchModel body);
+        Task<int> UpdateInstitutestatus(List<CollegeDetailList> productDetails);
+        Task<DataTable> THTE_GetInstituteCommitteeList(InstituteCommitteListDataModel body);
     }
 }

@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Kaushal_Darpan.Models.LeaveMaster
+{
+    public class MiscellaneousModel
+    {
+        public int SemesterID { get; set; } = 0;
+        public int InstituteID { get; set; } = 0;
+        public int EndTermID { get; set; } = 0;
+        public int DepartmentID { get; set; } = 0;
+        public int Eng_NonEng { get; set; } = 0;
+        public int RoleID { get; set; } = 0;
+        public int UserID { get; set; } = 0;
+        public string Action { get; set; } = string.Empty;
+        public int SchemeID { get; set; } = 0;
+        public int PresentStatus { get; set; } = 0;
+        public int Type { get; set; } = 0;
+    }
+}
