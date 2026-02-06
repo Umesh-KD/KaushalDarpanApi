@@ -349,5 +349,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> getStudBasicDetailsEnrollmentWise(string EnrollNo,int DepartmentID);
 
         Task<DataTable> GetEmployeeQualificationDDL();
+
+        Task<DataTable> GetCalenderYearList();
     }
 }
