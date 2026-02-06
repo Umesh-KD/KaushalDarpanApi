@@ -9577,6 +9577,37 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpGet("GetEmployeeQualificationDDL")]
+        public async Task<ApiResult<DataTable>> GetEmployeeQualificationDDL()
+        {
+            return await Task.Run(async () =>
+            {
+                //var result = new ApiResult<List<CommonDDLModel>>();
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.GetEmployeeQualificationDDL();
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
 
 
 

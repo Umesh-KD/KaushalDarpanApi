@@ -347,5 +347,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetALLOptionalSubjects(DDL_OptionalSubjectModel model);
         Task<DataTable> EmitraFeePaymentList_GetData(EmitraFeePaymentListSearchModel model);
         Task<DataTable> getStudBasicDetailsEnrollmentWise(string EnrollNo,int DepartmentID);
+
+        Task<DataTable> GetEmployeeQualificationDDL();
     }
 }

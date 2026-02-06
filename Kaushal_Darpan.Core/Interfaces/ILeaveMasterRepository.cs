@@ -18,5 +18,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> Save_HrValidation_NodalAction(LeaveMaster model);
         Task<DataTable> HrValidationList(LeaveMasterSearchModel filterModel);
         Task<DataTable> ByIDStaffLeaveList(LeaveMasterSearchModel filterModel);
+        Task<DataTable> GetRemainingLeave(LeaveMasterSearchModel filterModel);
     }
 }
