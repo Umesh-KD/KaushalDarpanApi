@@ -446,14 +446,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         // Set the stored procedure name and type
                         command.CommandType = CommandType.StoredProcedure;
-                        if(request.RoleID == 17)
-                        {
-                            command.CommandText = "USP_THTE_Committee_IU_DTE";
-                        }
-                        else
-                        {
-                            command.CommandText = "USP_THTE_Committee_IU";
-                        }
+                        command.CommandText = "USP_THTE_Committee_IU";
+
                         command.Parameters.AddWithValue("@InspectionTeamID", request.InspectionTeamID);
                         command.Parameters.AddWithValue("@InspectionTeamName", request.InspectionTeamName);
                         command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
@@ -503,14 +497,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        if (body.RoleID == 17)
-                        {
-                            command.CommandText = "USP_THTE_CommitteeList_DTE";
-                        }
-                        else
-                        {
-                            command.CommandText = "USP_THTE_CommitteeList";
-                        }
+                        command.CommandText = "USP_THTE_CommitteeList";
                         command.Parameters.AddWithValue("@Action", "GetAllData");
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
@@ -780,6 +767,141 @@ namespace Kaushal_Darpan.Infra.Repositories
                     }
 
                     return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> THTE_GetDTECommitteeList(CommitteeSearchModel body)
+        {
+            _actionName = "THTE_GetDTECommitteeList(CommitteeSearchModel body)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_THTE_CommitteeList_DTE";
+                        command.Parameters.AddWithValue("@Action", "GetAllData");
+
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@InspectionTeamName", body.InspectionTeamName);
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
+                        command.Parameters.AddWithValue("@LevelId", body.LevelId);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> THTE_DTECommitteeSaveData(DTECommitteeDataModel request)
+        {
+            _actionName = "THTE_DTECommitteeSaveData(DTECommitteeDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_THTE_Committee_IU_DTE";
+                        command.Parameters.AddWithValue("@DTECommitteeID", request.DTECommitteeID);
+                        command.Parameters.AddWithValue("@DTECommitteeName", request.DTECommitteeName);
+                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@DTECommitteeMemberDetails", JsonConvert.SerializeObject(request.DTECommitteeMemberDetails));
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DTECommitteeDataModel> THTE_GetDTECommitteeById(int ID, int RoleID)
+        {
+            _actionName = "THTE_GetDTECommitteeById(int ID, int RoleID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataSet dataSet = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_THTE_CommitteeList_DTE";
+                        command.Parameters.AddWithValue("@DTECommitteeID", ID);
+                        command.Parameters.AddWithValue("@Action", "GetById_Team");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataSet = await command.FillAsync();
+                    }
+                    var data = new DTECommitteeDataModel();
+                    if (dataSet != null)
+                    {
+                        if (dataSet.Tables.Count > 0)
+                        {
+                            data = CommonFuncationHelper.ConvertDataTable<DTECommitteeDataModel>(dataSet.Tables[0]);
+                            if (dataSet.Tables[1].Rows.Count > 0)
+                            {
+                                data.DTECommitteeMemberDetails = CommonFuncationHelper.ConvertDataTable<List<DTECommitteeMemberDetailsDataModel>>(dataSet.Tables[1]);
+                            }
+                        }
+                    }
+                    return data;
                 }
                 catch (Exception ex)
                 {

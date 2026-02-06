@@ -792,5 +792,124 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        [HttpPost("THTE_GetDTECommitteeList")]
+        public async Task<ApiResult<DataTable>> THTE_GetDTECommitteeList([FromBody] CommitteeSearchModel body)
+        {
+            ActionName = "THTE_GetDTECommitteeList([FromBody] CommitteeSearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.TeacherHigherEducationApplicationRepository.THTE_GetDTECommitteeList(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("THTE_DTECommitteeSaveData")]
+        public async Task<ApiResult<int>> THTE_DTECommitteeSaveData([FromBody] DTECommitteeDataModel request)
+        {
+            ActionName = " THTE_DTECommitteeSaveData([FromBody] DTECommitteeDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.TeacherHigherEducationApplicationRepository.THTE_DTECommitteeSaveData(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpGet("THTE_GetDTECommitteeById/{ID}/{RoleID}")]
+        public async Task<ApiResult<DTECommitteeDataModel>> THTE_GetDTECommitteeById(int ID, int RoleID)
+        {
+            ActionName = "GetByID(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DTECommitteeDataModel>();
+                try
+                {
+                    var data = await _unitOfWork.TeacherHigherEducationApplicationRepository.THTE_GetDTECommitteeById(ID, RoleID);
+                    result.Data = data;
+                    if (data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
     }
 }

@@ -222,4 +222,23 @@ namespace Kaushal_Darpan.Models.Test
         public int InstituteID { get; set; }
         public string? action { get; set; }
     }
+
+    public class DTECommitteeDataModel: RequestBaseModel
+    {
+        public int? DTECommitteeID { get; set; }
+        public int? UserID { get; set; }
+        public int? RoleID { get; set; }
+        public string? DTECommitteeName { get; set; }
+        public List<DTECommitteeMemberDetailsDataModel>? DTECommitteeMemberDetails { get; set; }
+    }
+
+    public class DTECommitteeMemberDetailsDataModel
+    {
+        public int? CommitteeMemberID { get; set; }
+        public int? StaffID { get; set; }
+        public bool? IsIncharge { get; set; }
+        public string? SSOID { get; set; }
+        public string? StaffName { get; set; }
+    }
 }
+
