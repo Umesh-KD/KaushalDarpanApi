@@ -35,7 +35,6 @@ namespace Kaushal_Darpan.Models.LeaveMaster
     public class LeaveMasterSearchModel:RequestBaseModel
     {
         public string Name { get; set; }
-        public int RoleID { get; set; }
         public int InstituteID {  set; get; }
         public string? Status { get; set; }
         public string? SSOID { get; set; }
@@ -46,6 +45,17 @@ namespace Kaushal_Darpan.Models.LeaveMaster
         public string? StaffTypeID { get; set; }
         public string? Action { get; set; }
 
+        public int LeaveID { get; set; }
+
+
+    }
+
+    public class CreditLeaveModel : RequestBaseModel
+    {
+        public int StaffID { get; set; }
+        public int InstituteID { set; get; }
+        public int ModifyBy { get; set; }
+        public int StaffTypeID { get; set; }
 
 
     }

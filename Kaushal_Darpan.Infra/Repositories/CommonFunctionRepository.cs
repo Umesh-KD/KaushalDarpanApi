@@ -1498,7 +1498,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> GetCommonMasterData(string MasterCode = "", int DepartmentID = 0, int CourseTypeID = 0)
+        public async Task<DataTable> GetCommonMasterData(string MasterCode = "", int DepartmentID = 0, int CourseTypeID = 0,int StaffTypeID=0)
         {
             _actionName = "GetFinancialYear()";
             return await Task.Run(async () =>
@@ -1514,6 +1514,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@MasterCode", MasterCode);
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
                         command.Parameters.AddWithValue("@CourseTypeID", CourseTypeID);
+                        command.Parameters.AddWithValue("@StaffTypeID", StaffTypeID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -10702,6 +10703,47 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetEmployeeQualification";
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    //class
+                    //List<CommonDDLModel> dataModels = new List<CommonDDLModel>();
+                    //if (dataTable != null)
+                    //{
+                    //    dataModels = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    //}
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> GetCalenderYearList()
+        {
+            _actionName = "GetCalenderYearList()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetCalenderYearList";
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
