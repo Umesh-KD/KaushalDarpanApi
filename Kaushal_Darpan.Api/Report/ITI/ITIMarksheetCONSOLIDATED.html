@@ -54,6 +54,7 @@
                 <table class="marks" style="border-collapse:collapse;width:100%;" cellpadding="5" cellspacing="0">
                     <tr>
                         <th rowspan="2" style="border: 0.5px solid #808080; font-size: 12px; text-align: left;">Year </th>
+                        <th rowspan="2" style="border: 0.5px solid #808080; font-size: 12px; text-align: left;">SNo/Roll No</th>
                         <th colspan="2" style="border: 0.5px solid #808080;font-size:12px;text-align:left;">Trade Theory </th>
                         <th colspan="2" style="border: 0.5px solid #808080;font-size:12px;text-align:center;">Employability Skill</th>
                         <th colspan="2" style="border: 0.5px solid #808080;font-size:12px;text-align:center;">Workshop Calculation and Science</th>
@@ -105,6 +106,11 @@
 
 
                         <td style="border: 0.5px solid #808080;font-size:12px; width:50px; white-space:nowrap;"><b>{#=Consolidated_Marksheet.Year=#}</b></td>
+                        <td style="border: 0.5px solid #808080;font-size:12px; width:50px; white-space:nowrap;">
+    {#=Consolidated_Marksheet.serial_number=#}
+    <br />
+   {#=Consolidated_Marksheet.roll_number=#}
+</td>
                         <td style="border: 0.5px solid #808080;font-size:12px;">{#=Consolidated_Marksheet.Mx_Paper-I=#}</td>
                         <td style="border: 0.5px solid #808080;font-size:12px;">{#=Consolidated_Marksheet.Ob_Paper-I=#}</td>
                         <td style="border: 0.5px solid #808080;font-size:12px;">{#=Consolidated_Marksheet.Mx_Paper-II=#}</td>
