@@ -1635,6 +1635,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                                     decimal grandTotal = 0;
+                                    decimal Avgtotal = 0;
                                     srNo++;
                                     int rowSpan = group.Count();
                                     bool isFirstRow = true;
@@ -1700,13 +1701,14 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                                         grandTotal += Convert.ToDecimal( rowTrnee["GrandTotal"]);
+                                        Avgtotal += Convert.ToDecimal( rowTrnee["GrandTotal"]);
                                         sb1.Append("</tr>");
                                         isFirstRow = false;
                                     }
 
            
 
-                                    sb1.Append($"<tr style='font-weight:bold;background-color:#ddd'>" +
+                                    sb1.Append($"<tr style='font-weight:bold;background-color:#fff'>" +
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'>Total</td>" +
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
@@ -1723,6 +1725,13 @@ namespace Kaushal_Darpan.Api.Controllers
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
 
                                         "</tr>");
+
+                                    sb1.Append(
+                                         "<tr style='font-weight:bold;background-color:#fff'>" +
+                                         "<td colspan='11' style='text-align: right;font-size:10px;border:1px solid gray;'>Average</td>" +
+                                         $"<td style='text-align:center;font-size:10px;border:1px solid gray;'>{Math.Ceiling(Avgtotal)}</td>" +
+                                         "<td colspan='3' style='text-align:center;font-size:10px;border:1px solid gray;'></td>" +
+                                         "</tr>");
 
 
                                 }
@@ -2005,8 +2014,6 @@ namespace Kaushal_Darpan.Api.Controllers
                                     sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["OriginalCertificateNumber"] + "</td>");
                                     sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["AcadSession"] + "</td>");
 
-
-
                                     sb1.Append("</tr>");
                                 }
                                 //}
@@ -2054,6 +2061,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             sb1.Append("</table>");
                             sb1.Append("<div style='margin-top:10px;'>&nbsp;</div>");
+                            sb1.Append("<div style='page-break-after: always;'></div>");
                         }
 
 
@@ -2287,6 +2295,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                                     decimal grandTotal = 0;
+                                    decimal Avgtotal = 0;
                                     srNo++;
                                     int rowSpan = group.Count();
                                     bool isFirstRow = true;
@@ -2353,12 +2362,13 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                                         grandTotal += Convert.ToDecimal(rowTrnee["GrandTotal"]);
+                                        Avgtotal += Convert.ToDecimal(rowTrnee["GrandTotal"]) / 2;
                                         sb1.Append("</tr>");
                                         isFirstRow = false;
                                     }
 
 
-                                    sb1.Append($"<tr style='font-weight:bold;background-color:#ddd'>" +
+                                    sb1.Append($"<tr style='font-weight:bold;background-color:#fff'>" +
                                                       $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'>Total</td>" +
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
@@ -2375,6 +2385,16 @@ namespace Kaushal_Darpan.Api.Controllers
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
 
                                         "</tr>");
+
+                                    sb1.Append(
+                                         "<tr style='font-weight:bold;background-color:#fff'>" +
+                                         "<td colspan='11' style='text-align: right;font-size:10px;border:1px solid gray;'>Average</td>" +
+                                         $"<td style='text-align:center;font-size:10px;border:1px solid gray;'>{Math.Ceiling(Avgtotal)}</td>" +
+                                         "<td colspan='3' style='text-align:center;font-size:10px;border:1px solid gray;'></td>" +
+                                         "</tr>");
+
+
+
 
 
                                 }
@@ -2422,6 +2442,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             sb1.Append("</table>");
                             sb1.Append("<div style='margin-top:10px;'>&nbsp;</div>");
+                            sb1.Append("<div style='page-break-after: always;'></div>");
                         }
 
 
