@@ -9023,10 +9023,6 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-
-
-
-
         #region "GetMiscellaneousReport"
         public async Task<DataTable> GetMiscellaneousReport(MiscellaneousModel model)
         {
@@ -9128,6 +9124,43 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         }
 
+        #endregion
+
+        #region Certificate Letter Report
+        public async Task<DataSet> GetCertificateLetterReport(BterCertificateReportDataModel model)
+        {
+            _actionName = "GetPassoutStudentReport()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "Usp_Bter_CertificateLetter_Report";
+                        command.Parameters.AddWithValue("@Action", model.Action);
+                        command.Parameters.AddWithValue("@CertificateType", model.CertificateType);
+                        command.Parameters.AddWithValue("@StudentID", model.StudentID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
         #endregion
 
 
