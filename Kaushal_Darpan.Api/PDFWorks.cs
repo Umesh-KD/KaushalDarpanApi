@@ -122,8 +122,8 @@ namespace Utility
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            float leftMargin = 18f;
-            float rightMargin = 18f;
+            float leftMargin = 20f;
+            float rightMargin = 20f;
             float topMargin = 25f;
             float bottomMargin = 25f;
 
@@ -936,8 +936,8 @@ public class PdfWatermark : PdfPageEventHelper
             PdfGState gState = new PdfGState();
             ///gState.FillOpacity = 0.10f; // 10% opacity
 
-            gState.FillOpacity = 0.13f;
-            gState.StrokeOpacity = 0.13f;
+            gState.FillOpacity = 0.14f;
+            gState.StrokeOpacity = 0.14f;
             cb.SetGState(gState);
 
             // Position watermark in the center of the page
