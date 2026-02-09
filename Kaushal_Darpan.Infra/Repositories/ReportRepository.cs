@@ -5864,6 +5864,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@ExamYearID", model.ExamYearID);
                         command.Parameters.AddWithValue("@TradeScheme", model.TradeScheme);
+                        command.Parameters.AddWithValue("@ExamType", model.ExamType);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
