@@ -22,6 +22,7 @@ namespace Kaushal_Darpan.Models.Report
         public int ExamYearID { get; set; }
         public int StudentID { get; set; }
         public int TradeScheme { get; set; }
+        public int ExamType { get; set; }
 
 
     }
