@@ -81,6 +81,8 @@ namespace Kaushal_Darpan.Models.Test
         public int? status { get; set; }
         public int? RoleID { get; set; }
         public string? Remark { get; set; }
+        public string? CommitteeDocs { get; set; }
+        public string? Dis_CommitteeDocs { get; set; }
     }
 
     public class UpdateApplicationStatusDataModel_Committee
