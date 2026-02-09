@@ -93,7 +93,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<bool> SaveData(DTELaboratoryDataModel request)
+        public async Task<int> SaveData(DTELaboratoryDataModel request)
         {
             _actionName = "SaveData(DTELaboratoryDataModel request)";
             return await Task.Run(async () =>
@@ -104,7 +104,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         // Set the stored procedure name and type
-                        command.CommandText = "USP_DTELabMaster_Operation";
+                        command.CommandText = "USP_DTELabMaster_IU";
                         command.CommandType = CommandType.StoredProcedure;
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@ActionName", request.ActionName);
@@ -117,17 +117,17 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Lab_ActiveStatus", request.ActiveStatus);
                         command.Parameters.AddWithValue("@Lab_DeleteStatus", request.DeleteStatus);
                         command.Parameters.AddWithValue("@Lab_CreatedBy", request.CreatedBy);
-                        command.Parameters.AddWithValue("@Lab_ModifyBy", request.ModifyBy); 
+                        command.Parameters.AddWithValue("@Lab_ModifyBy", request.ModifyBy);
 
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
                         result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
                     }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    return result;
                 }
                 catch (Exception ex)
                 {

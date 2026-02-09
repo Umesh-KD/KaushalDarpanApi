@@ -62,12 +62,12 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("SaveData")]
-        public async Task<ApiResult<bool>> SaveData([FromBody] DTELaboratoryDataModel request)
+        public async Task<ApiResult<int>> SaveData([FromBody] DTELaboratoryDataModel request)
         {
             ActionName = "SaveData([FromBody] DTELaboratoryDataModel request)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<bool>();
+                var result = new ApiResult<int>();
                 try
                 {
 
@@ -81,7 +81,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     result.Data = await _unitOfWork.iDTELaboratoryMasterRepository.SaveData(request);
                     await _unitOfWork.SaveChangesAsync();
-                    if (result.Data)
+                    if (result.Data > 0)
                     {
                         result.State = EnumStatus.Success;
                         if (request.LabID == 0)
@@ -92,6 +92,11 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             result.Message = Constants.MSG_UPDATE_SUCCESS;
                         }
+                    }
+                    else if(result.Data == -1)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "Staff already exists as lab incharge!";
                     }
                     else
                     {
