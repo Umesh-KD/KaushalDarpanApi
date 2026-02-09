@@ -150,7 +150,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStudentStatusByRole(int roleId, int type);
         Task<DataTable> GetEnrollmentCancelStatusByRole(int roleId, int type);
         Task<DataTable> ItiGetStudentStatusByRole(int roleId, int type);
-        Task<DataTable> GetCommonMasterData(string MasterCode, int DepartmentID, int CourseTypeID = 0);
+        Task<DataTable> GetCommonMasterData(string MasterCode, int DepartmentID, int CourseTypeID = 0,int StaffTypeID=0);
         Task<List<CommonDDLModel>> GetCenterMasterDDL(RequestBaseModel request);
         Task<List<CommonDDLModel>> GetSubjectMasterDDL_New(CommonDDLSubjectMasterModel request);
 
@@ -347,5 +347,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetALLOptionalSubjects(DDL_OptionalSubjectModel model);
         Task<DataTable> EmitraFeePaymentList_GetData(EmitraFeePaymentListSearchModel model);
         Task<DataTable> getStudBasicDetailsEnrollmentWise(string EnrollNo,int DepartmentID);
+
+        Task<DataTable> GetEmployeeQualificationDDL();
+
+        Task<DataTable> GetCalenderYearList();
     }
 }

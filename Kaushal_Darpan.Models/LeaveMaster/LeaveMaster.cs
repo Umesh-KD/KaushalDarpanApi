@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,11 +26,15 @@ namespace Kaushal_Darpan.Models.LeaveMaster
         public bool IsHeadQuarter { get; set; }
         public int LeaveTypeID { get; set; }
 
+        public string txtIsHeadQuarterAddress { get; set; }
+        public string txtIsHeadQuarterMobileNo { get; set; }
+        public string DisUploadDoc { get; set; }
+        public string UploadDoc { get; set; }
+
     }
     public class LeaveMasterSearchModel:RequestBaseModel
     {
         public string Name { get; set; }
-        public int RoleID { get; set; }
         public int InstituteID {  set; get; }
         public string? Status { get; set; }
         public string? SSOID { get; set; }
@@ -37,5 +42,21 @@ namespace Kaushal_Darpan.Models.LeaveMaster
         public int StaffID { get; set; }
         public string? From_Date { get; set; }
         public string? To_Date { get; set; }
+        public string? StaffTypeID { get; set; }
+        public string? Action { get; set; }
+
+        public int LeaveID { get; set; }
+
+
+    }
+
+    public class CreditLeaveModel : RequestBaseModel
+    {
+        public int StaffID { get; set; }
+        public int InstituteID { set; get; }
+        public int ModifyBy { get; set; }
+        public int StaffTypeID { get; set; }
+
+
     }
 }

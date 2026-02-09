@@ -9022,5 +9022,114 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+
+
+        #region "GetMiscellaneousReport"
+        public async Task<DataTable> GetMiscellaneousReport(MiscellaneousModel model)
+        {
+            string GetAction = "";
+
+           // GetAction = "_get_UFM_data";
+
+            _actionName = "GetMiscellaneousReport()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        //if (model.Type == 1)
+                        //{
+                        //    command.CommandText = "USP_UFMReport";
+                        //    command.Parameters.AddWithValue("@action", "_get_UFM_data");
+                        //}
+                        //else if (model.Type == 0)
+                        //{
+                        //    command.CommandText = "USP_Single_Present_AbsentReport";
+                        //    command.Parameters.AddWithValue("@action", "_get_present_or_absent_data");
+                        //}
+                        //else if (model.Type == 2)
+                        //{
+                        //    command.CommandText = "USP_GetConsolatedDetainStudentList";
+                        //    command.Parameters.AddWithValue("@action", "_Consolated_Detain_Student_List");
+                        //}
+
+
+                        if (model.Type == 2)
+                        {
+                            command.CommandText = "USP_UFMReport";
+                            command.Parameters.AddWithValue("@action", "_get_UFM_data");
+                        }
+                        else if (model.Type == 0)
+                        {
+                            command.CommandText = "USP_Single_Present_AbsentReport";
+                            command.Parameters.AddWithValue("@action", "_get_present_or_absent_data");
+                        } else if (model.Type == 1)
+                        {
+                            command.CommandText = "USP_Single_Present_AbsentReport";
+                            command.Parameters.AddWithValue("@action", "_get_present_or_absent_data");
+                        }
+                        else if (model.Type == 3)
+                        {
+                            command.CommandText = "USP_GetConsolatedDetainStudentList";
+                            command.Parameters.AddWithValue("@action", "_Consolated_Detain_Student_List");
+                        }
+
+
+                        else
+                        {
+
+
+                            command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                            command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                            command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                            command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                            command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                            command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                            command.Parameters.AddWithValue("@UserID", model.UserID);
+                            command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                            command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
+                            command.Parameters.AddWithValue("@Type", model.Type);
+                        }
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
+                        command.Parameters.AddWithValue("@Type", model.Type);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+
+        }
+
+        #endregion
+
+
+
     }
 }

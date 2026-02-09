@@ -4,6 +4,7 @@ using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.LeaveMaster;
+using Newtonsoft.Json;
 using System.Data;
 
 namespace Kaushal_Darpan.Infra.Repositories
@@ -136,6 +137,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsHeadQuarter", request.IsHeadQuarter);
                         command.Parameters.AddWithValue("@LeaveTypeID", request.LeaveTypeID);
                         command.Parameters.AddWithValue("@ActionBy", request.UserID);
+                        command.Parameters.AddWithValue("@txtIsHeadQuarterAddress", request.txtIsHeadQuarterAddress);
+                        command.Parameters.AddWithValue("@txtIsHeadQuarterMobileNo", request.txtIsHeadQuarterMobileNo);
+                        command.Parameters.AddWithValue("@DisUploadDoc", request.DisUploadDoc);
+                        command.Parameters.AddWithValue("@UploadDoc", request.UploadDoc);
+
+                        command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
@@ -323,6 +330,187 @@ namespace Kaushal_Darpan.Infra.Repositories
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                 throw new Exception(errordetails, ex);
             }
+        }
+
+
+        public async Task<DataTable> GetRemainingLeave(LeaveMasterSearchModel body)
+        {
+            _actionName = "GetRemainingLeave(LeaveMasterSearchModel body)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_StaffLeave_Action";
+                        command.Parameters.AddWithValue("@Name", body.Name);
+                        command.Parameters.AddWithValue("@Status", body.Status);
+
+
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        //command.Parameters.AddWithValue("@To_Date", body.To_Date);
+                        //command.Parameters.AddWithValue("@From_Date", body.From_Date);
+                        command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                        command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
+                        command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
+                        command.Parameters.AddWithValue("@LeaveID", body.LeaveID);
+                        command.Parameters.AddWithValue("@Action", body.Action);
+
+                        //command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        public async Task<DataTable> GetLeaveCreditStaffData(LeaveMasterSearchModel body)
+        {
+            _actionName = "GetLeaveCreditStaffData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetStaffForLeaveCredit";
+                        command.Parameters.AddWithValue("@Name", body.Name);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        //command.Parameters.AddWithValue("@To_Date", body.To_Date);
+                        //command.Parameters.AddWithValue("@From_Date", body.From_Date);
+                        command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
+                        command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
+                        command.Parameters.AddWithValue("@Action", body.Action);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetStaffWithLeaveBalance(LeaveMasterSearchModel body)
+        {
+            _actionName = "GetStaffWithLeaveBalance()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetStaffWithLeaveBalance";
+                        command.Parameters.AddWithValue("@Name", body.Name);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        //command.Parameters.AddWithValue("@To_Date", body.To_Date);
+                        //command.Parameters.AddWithValue("@From_Date", body.From_Date);
+                        command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
+                        command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
+                        command.Parameters.AddWithValue("@Action", "_getStaffWithLeaveBalanceData");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> Save_CreditStaffLeave(List<CreditLeaveModel> request)
+        {
+            _actionName = "Save_CreditStaffLeave(CreditLeaveModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_SaveLeaveCreditForStaff";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@action", "_addLeaveCreditForStaffData");
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
         }
 
     }
