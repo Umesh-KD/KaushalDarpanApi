@@ -72,7 +72,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAllinventoryIssueHistoryNew(inventoryIssueHistorySearchModel SearchReq);
 
         Task<DataTable> GetAllStoksNew(DTEStoksSearchModel SearchReq);
-        Task<DataTable> GetIssueItemListPermanent(int EquipmentsId, int ItemCategoryId);
+        Task<DataTable> GetIssueItemListPermanent(int EquipmentsId, int ItemCategoryId, int TradeId);
 
         Task<DataTable> GetIssueSubmitPermanent(ItemsIssueReturnModels SearchReq);
         Task<DataTable> GetSR5ReportData_ITI_INV(inventoryIssueHistorySearchModel SearchReq);
