@@ -162,10 +162,9 @@ namespace Utility
                     ;
 
                 PdfWriter writer = PdfWriter.GetInstance(pdfDoc, memoryStream);
-
                 var fontPath1 = $"{ConfigurationHelper.RootPath}/fonts/K010_1.TTF";
                 var fontPath2 = $"{ConfigurationHelper.RootPath}/fonts/krdv011.ttf";
-
+                var fontPath = $"{ConfigurationHelper.RootPath}/StaticFiles/fonts/";
                 // Show Borader
                 if (IsShowBorder)
                 {
@@ -194,10 +193,20 @@ namespace Utility
                     var fontProvider = new XMLWorkerFontProvider(XMLWorkerFontProvider.DONTLOOKFORFONTS);
                     fontProvider.Register(fontPath1, "Kruti Dev 010");
                     fontProvider.Register(fontPath2, "Kruti Dev 010");
+                    try
+                    {
+                        fontProvider.Register(Path.Combine(fontPath, "Georgia", "Georgia.ttf"), "Georgia");
+                        fontProvider.Register(Path.Combine(fontPath, "roman_new_times", "times.ttf"), "times");
+
+
+                     
+
+
+                    }
+                    catch { }
 
                     var cssFiles = new CssFilesImpl();
                     cssFiles.Add(XMLWorkerHelper.GetInstance().GetDefaultCSS());
-
                     var cssResolver = new StyleAttrCSSResolver(cssFiles);
                     var cssAppliers = new CssAppliersImpl(fontProvider);
                     var context = new HtmlPipelineContext(cssAppliers);
@@ -921,6 +930,7 @@ public class PdfWatermark : PdfPageEventHelper
 
             float width = img.ScaledWidth;
             float height = img.ScaledHeight;
+
 
             // Set transparency
             PdfGState gState = new PdfGState();

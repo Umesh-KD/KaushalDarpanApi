@@ -222,8 +222,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         sb1.Append("<table id='pdf-header' style='width:100%' border='0' cellpadding='5' cellspacing='0'>");
                         sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment & Entrepreneurship</td></tr>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + data.Tables[0].Rows[0]["ExamName"].ToString() + "  Examination Result</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment And Entrepreneurship</td></tr>");
+                        
+                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] + "</td></tr>");
                         sb1.Append("</table>");
 
 
@@ -284,7 +285,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             sb1.Append("<tr>");
                             sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 13px;border:1px solid gray; '>");
                             //sb1.Append("<b> Trade: " + row["TradeName"] + "</b>");
-                            sb1.Append("<b> Trade: " + TradeName + "</b>");
+                            sb1.Append("<b > Trade: " + TradeName.ToUpper() + "</b>");
                             sb1.Append("</th>");
                             sb1.Append("</tr>");
 
@@ -323,7 +324,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                                 sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>Grand Total                 </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Result                      </th>");
-                                sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Original Certificate Number </th>");
+                                sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Certificate/Marksheet Number </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Academic Session                </th>");
 
 
@@ -402,10 +403,10 @@ namespace Kaushal_Darpan.Api.Controllers
                                 sb1.Append("<table  style='border-collapse: collapse; width: 100%;margin-top:30px;margin-bottom:15px;' border='0' cellpadding='5' cellspacing='0'>");
                                 sb1.Append("<tr>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Lalit Baral)<br/>Senior Instructor</b></td>");
-                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(PremPrakash Rathore)<br/>Senior Instructor</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Prem Prakash Rathore)<br/>Senior Instructor</b></td>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Surendra Baghmar)<br/>Group Instructor</b></td>");
-                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(HukamSingh Rathore)<br/>DeputyDirector</b></td>");
-                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Dr. Jagdish Prasad)<br/>DeputyDirector</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Hukam Singh Rathore)<br/>Deputy Director</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Dr. Jagdish Prasad)<br/>Deputy Director</b></td>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Praveen Kumar Verma)<br/>S.A. (Joint Director)</b></td>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Sugar Singh Meena)<br/>Director, RCVET</b></td>");
                                 sb1.Append("</tr>");
@@ -522,7 +523,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
                         sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment & Entrepreneurship</td></tr>");
                         //sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + (request.ExamType == 1 ? "Main" : "Supplementary") + "  Examination Result</td></tr>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + data.Tables[0].Rows[0]["ExamName"] + "  Examination Result</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] +   "</td></tr>");
                         sb1.Append("</table>");
 
 
@@ -789,9 +790,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         sb1.Append("<table id='pdf-header' style='width:100%' border='0' cellpadding='5' cellspacing='0'>");
                         sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment & Entrepreneurship</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment And Entrepreneurship</td></tr>");
                         //sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + (request.ExamType == 1 ? "Main" : "Supplementary") + "  Examination Result</td></tr>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + data.Tables[0].Rows[0]["ExamName"] + "  Examination Result</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] + "</td></tr>");
                         sb1.Append("</table>");
 
 
@@ -850,7 +851,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             sb1.Append("<tr>");
                             sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 13px;border:1px solid gray; '>");
                             //sb1.Append("<b> Trade: " + row["TradeName"] + "</b>");
-                            sb1.Append("<b> Trade: " + TradeName + "</b>");
+                            sb1.Append("<b> Trade: " + TradeName.ToUpper() + "</b>");
                             sb1.Append("</th>");
                             sb1.Append("</tr>");
 
@@ -982,10 +983,10 @@ namespace Kaushal_Darpan.Api.Controllers
                                 sb1.Append("<table  style='border-collapse: collapse; width: 100%;margin-top:30px;margin-bottom:15px;' border='0' cellpadding='5' cellspacing='0'>");
                                 sb1.Append("<tr>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Lalit Baral)<br/>Senior Instructor</b></td>");
-                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(PremPrakash Rathore)<br/>Senior Instructor</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Prem Prakash Rathore)<br/>Senior Instructor</b></td>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Surendra Baghmar)<br/>Group Instructor</b></td>");
-                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(HukamSingh Rathore)<br/>DeputyDirector</b></td>");
-                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Dr. Jagdish Prasad)<br/>DeputyDirector</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Hukam Singh Rathore)<br/>Deputy Director</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Dr. Jagdish Prasad)<br/>Deputy Director</b></td>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Praveen Kumar Verma)<br/>S.A. (Joint Director)</b></td>");
                                 sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Sugar Singh Meena)<br/>Director, RCVET</b></td>");
                                 sb1.Append("</tr>");
@@ -1003,6 +1004,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             sb1.Append("</table>");
                             sb1.Append("<div style='margin-top:10px;'>&nbsp;</div>");
+                            sb1.Append("<div style='page-break-after: always;'></div>");
                         }
 
 
@@ -1698,7 +1700,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
            
 
-                                    sb1.Append($"<tr style='font-weight:bold'>" +
+                                    sb1.Append($"<tr style='font-weight:bold;background-color:#ddd'>" +
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'>Total</td>" +
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
@@ -1759,7 +1761,11 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             }
                             sb1.Append("</table>");
+
                             sb1.Append("<div style='margin-top:10px;'>&nbsp;</div>");
+                            sb1.Append("<div style='page-break-after: always;'></div>");
+
+
                         }
 
 
@@ -2346,9 +2352,8 @@ namespace Kaushal_Darpan.Api.Controllers
                                     }
 
 
-
-                                    sb1.Append($"<tr style='font-weight:bold'>" +
-                                        $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'>Total</td>" +
+                                    sb1.Append($"<tr style='font-weight:bold;background-color:#ddd'>" +
+                                                      $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'>Total</td>" +
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
 

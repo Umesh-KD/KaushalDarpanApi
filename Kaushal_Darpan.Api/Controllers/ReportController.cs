@@ -9980,6 +9980,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         html = Utility.PDFWorks.ReplaceCustomTag(html);
 
+                        html = html.Replace("class=\"IsRowBold_2\"", "style=\"font-weight:bold\"");
                         //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
                         sb1.Append(html);
 
@@ -10050,30 +10051,16 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-
-
                         string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.StateTradeCertificateITI}/StateTradeCertificateReport.html";
 
                         string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
-                        string css = @"
-<style>
-    table {
-        font-family: 'Times New Roman', Arial, sans-serif;
-        font-size: 12pt;
-    }
-</style>";
-
-
-
-
-
                         System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
-
                         html = Utility.PDFWorks.ReplaceCustomTag(html);
-                        html = css + html;
+                 
                         sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
 
                         var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogoWaterMark.png";
+             
 
                         byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "", watermarkImagePath);
 
@@ -10409,7 +10396,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.StateTradeCertificateITI}/ITIMarksheetCONSOLIDATED.html";
 
                         string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
-                        html = html.Replace("class=\"IsRowBold_1\"", "style=\"font-weight:bold\"");
+                        html = html.Replace("class=\"IsRowBold_1\"", "style=\"font-weight:bold;text-align:center\"");
 
                         System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
 

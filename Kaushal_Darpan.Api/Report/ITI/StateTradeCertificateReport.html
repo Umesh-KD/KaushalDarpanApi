@@ -1,9 +1,20 @@
 ﻿
-<div style="padding:20px 50px 50px 20px; font-family:'Times New Roman', Times, serif">
+
+<style>
+ 
+
+   
+ /*   table {
+        font-family: Georgia,'Times New Roman', Arial, sans-serif !important;
+        font-size: 12pt;
+    }*/
+</style>
+
+<div style="padding: 20px 50px 50px 20px; font-family: 'Times New Roman', Times, serif; text-align: justify;">
     <table style="width:100%">
         <tr>
-            <td style="text-align:left">Certificate No. {#=StateTradeCertificate.CertificateNo=#} </td>
-            <td style="text-align: right;">Roll No. {#=StateTradeCertificate.RollNo=#}</td>
+            <td style="text-align:left">Certificate No. <b> {#=StateTradeCertificate.CertificateNo=#}</b> </td>
+            <td style="text-align: right;">Roll No. <b>{#=StateTradeCertificate.RollNo=#}</b></td>
         </tr>
     </table>
     <!--<div style="margin-top:10px;">&nbsp;</div>-->
@@ -23,13 +34,13 @@
 
         <tr>
             <td>
-                <table style="width:100%;border-collapse:collapse;">
+                <table style="width:100%;border-collapse:collapse; margin-bottom:5px;">
                     <tr>
-                       
+
 
                         <!-- Center Logos -->
                         <td style="width:70%;text-align:center;vertical-align:middle;">
-                            <img src="{#=StateTradeCertificate.HeadLogo=#}" style="width:40px;vertical-align:middle;margin-left:8px;" />
+                            <img src="{#=StateTradeCertificate.HeadLogo=#}" style="width:40px;vertical-align:middle;margin-left:8px;margin-bottom:10px;" />
                         </td>
                     </tr>
                 </table>
@@ -38,7 +49,7 @@
 
 
         <tr>
-            <td style='text-align:center;font-size:17px;margin-top:0px;margin-bottom:2px;font-weight:500;padding:5px;'>
+            <td style='text-align:center;font-size:17px;padding-top:10px;margin-bottom:2px;font-weight:500;padding:5px;'>
                 <b>  GOVERNMENT OF RAJASTHAN </b>
             </td>
         </tr>
@@ -63,8 +74,8 @@
     <div style="margin-top:50px;">&nbsp;</div>
     <table style="width:100%">
         <tr>
-            <td style='text-align:center;font-size:17px;margin-top:0px;margin-bottom:2px;font-weight:500;'>
-                <b>  STATE TRADE CERTIFICATE</b>
+            <td style='text-align:center;font-size:18px;margin-top:0px;margin-bottom:2px;font-weight:500;'>
+                <b><u>  STATE TRADE CERTIFICATE</u></b>
             </td>
         </tr>
     </table>
@@ -75,7 +86,7 @@
             <td style="padding: 10px 0; width:18%;">
                 Shri/Smt./Kumari
             </td>
-            <td style="border-bottom: 1px solid gray; width: 72%;">
+            <td style="border-bottom: 1px solid gray; width: 72%;font-family: Georgia">
                 <b> {#=StateTradeCertificate.StudentName=#}</b>
             </td>
         </tr>
@@ -85,7 +96,7 @@
             <td style="padding: 10px 0; width:30%">
                 Son/Wife/Daughter of Shri
             </td>
-            <td style="border-bottom: 1px solid gray; width: 70%;">
+            <td style="border-bottom: 1px solid gray; width: 70%;font-family: Georgia, " Times New Roman", Times, serif;">
                 <b> {#=StateTradeCertificate.FatherName=#}</b>
             </td>
         </tr>
@@ -95,7 +106,7 @@
             <td style="padding: 10px 0; width: 20%;">
                 Date of Birth
             </td>
-            <td style="border-bottom: 1px solid gray; width: 80%;">
+            <td style="border-bottom: 1px solid gray; width: 80%;font-family: Georgia, " Times New Roman", Times, serif;">
                 <b>{#=StateTradeCertificate.DOB=#}</b>
             </td>
         </tr>
@@ -110,7 +121,7 @@
 
     <table style="width:100%">
         <tr>
-            <td style="border-bottom:1px solid gray" colspan="2">
+            <td style="border-bottom:1px solid gray;font-family: Georgia, " Times New Roman", Times, serif;" colspan="2">
                 <b>{#=StateTradeCertificate.InstituteName=#}</b>
             </td>
         </tr>
@@ -122,7 +133,7 @@
             <td style="padding: 10px 0; width: 10%;">
                 Trade
             </td>
-            <td style="border-bottom: 1px solid gray; width: 90%;">
+            <td style="border-bottom: 1px solid gray; width: 90%;font-family: Georgia, " Times New Roman", Times, serif;">
                 <b> {#=StateTradeCertificate.TradeName=#}</b>
             </td>
         </tr>
@@ -132,40 +143,40 @@
             <td style="padding: 10px 0; width: 20%;">
                 Training Duration
             </td>
-            <td style="border-bottom: 1px solid gray; width: 30%;">
+            <td style="border-bottom: 1px solid gray; width: 30%;font-family: Georgia, " Times New Roman", Times, serif;">
                 <b>  {#=StateTradeCertificate.TrainingDuration=#}</b>
             </td>
 
             <td style="width: 25%;">
                 Admission Session
             </td>
-            <td style="border-bottom: 1px solid gray; width: 25%;">
+            <td style="border-bottom: 1px solid gray; width: 25%;font-family: Georgia, " Times New Roman", Times, serif;">
                 <b> {#=StateTradeCertificate.AdmissionSession=#}</b>
             </td>
 
         </tr>
     </table>
-    <table style="width:100%">
+    <table style="width:100%;">
         <tr>
             <td style="padding: 10px 0; width: 50%;">
                 having passed State Trade Test, Month
             </td>
-            <td style="border-bottom: 1px solid gray; width: 20%;">
+            <td style="border-bottom: 1px solid gray; width: 20%;font-family: Georgia," Times New Roman", Times, serif;">
                 <b> {#=StateTradeCertificate.Months=#}</b>
             </td>
             <td style=" width: 10%;">Year</td>
-            <td style="border-bottom: 1px solid gray; width: 20%;">
+            <td style="border-bottom: 1px solid gray; width: 20%;font-family: Georgia," Times New Roman", Times, serif;">
                 <b> {#=StateTradeCertificate.Years=#}</b>
             </td>
             <td style=" width: 10%;">
-                is
+                is hereby
             </td>
         </tr>
     </table>
     <table style="width:100%">
         <tr>
             <td style="padding: 10px 0;" colspan="2">
-                is hereby awarded this State Trade Certificate.
+                awarded this State Trade Certificate.
             </td>
         </tr>
     </table>
@@ -174,7 +185,7 @@
             <td style="padding: 10px 0 ; width: 30%">
                 Result Declaration Date
             </td>
-            <td style="border-bottom: 1px solid gray; width: 30%">
+            <td style="border-bottom: 1px solid gray; width: 30%;font-family: Georgia, " Times New Roman", Times, serif;">
                 <b> {#=StateTradeCertificate.ResultDate=#} </b>
             </td>
             <td style="width:40%">
@@ -182,19 +193,61 @@
         </tr>
 
     </table>
-    <table style="width:100%">
+    <!--<table style="width:100%">
         <tr>
             <td style="padding: 100px 0 0; width: 50%; text-align:center;">
                 Principal/Superintendent <br />
                 Industrial Training Institute
             </td>
             <td style="padding: 100px 0 0; width: 50%; text-align: center;">
-                <img  src="{#=StateTradeCertificate.signlogo=#}" alt=""  style="width:80px;"/><br />
+                <img src="{#=StateTradeCertificate.signlogo=#}" alt="" style="width:80px;" /><br />
                 Member Secretary & Director <br />
                 Rajasthan Council For Vocational<br />
-                Education & Training, Jodhpu
+                Education And Training, Jodhpu
             </td>
 
         </tr>
-    </table>
+    </table>-->
+
+    <!--<table style="border-collapse: collapse; width: 100%; margin-top:20px; " border="0" cellpadding="5" cellspacing="0">
+        <tr>
+            <td width="30%" style="font-size: 14px; vertical-align: bottom; padding-left:120px" height="100" align="center">
+                Principal/Superintendent <br />
+                Industrial Training Institute
+            </td>
+
+            <td width="19%"></td>
+            <td width="19%"></td>
+            <td width="30%" style="font-size: 14px; text-align: center; vertical-align: bottom;padding-right:120px;" height="100">
+
+                <img src="{#=StateTradeCertificate.signlogo=#}" alt="" style="width:120px;" /><br />
+                Member Secretary & Director <br />
+                Rajasthan Council For Vocational<br />
+                Education and Training, Jodhpur
+            </td>
+        </tr>
+    </table>-->
+
+
+
+    <table style="border-collapse: collapse; width: 100%;  margin-top:50px;" border="0" cellpadding="5" cellspacing="0" >
+        <tr>
+            <td width="30%" style="font-size: 12px; vertical-align: bottom; padding-left:120px" height="100" align="center">
+                Signature of Principal<br />
+                Industrial Training Institute
+            </td>
+
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="30%" style="font-size: 12px; text-align: center; vertical-align: bottom;padding-right:120px;" height="100">
+                <img src="{#=StateTradeCertificate.signlogo=#}" alt="" style="width:120px;" /><br />
+                Member Secretary & Director <br />
+                Rajasthan Council For Vocational<br />
+                Education and Training, Jodhpur
+            </td>
+        </tr>
+        </table>
+
+
+
 </div>
