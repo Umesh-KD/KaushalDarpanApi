@@ -934,7 +934,10 @@ public class PdfWatermark : PdfPageEventHelper
 
             // Set transparency
             PdfGState gState = new PdfGState();
-            gState.FillOpacity = 0.1f; // 10% opacity
+            ///gState.FillOpacity = 0.10f; // 10% opacity
+
+            gState.FillOpacity = 0.13f;
+            gState.StrokeOpacity = 0.13f;
             cb.SetGState(gState);
 
             // Position watermark in the center of the page
