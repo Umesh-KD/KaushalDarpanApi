@@ -53,6 +53,10 @@
           <DataField>PinCode</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="FinancialYearName">
+          <DataField>FinancialYearName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
@@ -871,7 +875,21 @@
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> सत्र   परीक्षा के अस्थाई डिप्लोमा प्रमाण पत्र एवं प्रव्रजन प्रमाण पत्र निम्नानुसार भिजवाए जा रहे हैं :-</Value>
+                      <Value> सत्र </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!FinancialYearName.Value, "CertificateLetter")</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> परीक्षा के अस्थाई डिप्लोमा प्रमाण पत्र एवं प्रव्रजन प्रमाण पत्र निम्नानुसार भिजवाए जा रहे हैं :-</Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                         <FontWeight>Bold</FontWeight>
