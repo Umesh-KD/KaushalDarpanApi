@@ -492,11 +492,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-
-
-
-        [HttpPost("DownloadCFormReport")]
-        public async Task<ApiResult<string>> DownloadCFormReport([FromBody] ITIResultsModel request)
+        [HttpPost("DownloadCFormReportold")]
+        public async Task<ApiResult<string>> DownloadCFormReportold([FromBody] ITIResultsModel request)
         {
             ActionName = "DownloadCFormReport(string ApplicationID)";
 
@@ -528,26 +525,19 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-                        sb1.Append("<table id='pdf-header' style='width:100%' border='0' cellpadding='5' cellspacing='0'>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment And Entrepreneurship</td></tr>");
+                        sb1.Append("<table style='margin-top:5px;'>");
+                        sb1.Append("</table>");
+                        sb1.Append("<table id='pdf-header' style='width:100%' border='0' cellpadding='4' cellspacing='0'>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 2px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 2px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment & Entrepreneurship</td></tr>");
                         //sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + (request.ExamType == 1 ? "Main" : "Supplementary") + "  Examination Result</td></tr>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] + "</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 2px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] +   "</td></tr>");
                         sb1.Append("</table>");
 
 
-                        var list = new List<TradeSubjectModel>();
-                        if (data.Tables[0] != null)
-                        {
-                            list = CommonFuncationHelper.ConvertDataTable<List<TradeSubjectModel>>(data.Tables[0]);
-                        }
-
-                        foreach (var item in list.GroupBy(f => f.TradeId))
+                        foreach (DataRow row in data.Tables[0].Rows)
                         {
 
-                            //  }
-                            //foreach (DataRow row in data.Tables[0].Rows)
-                            //{
                             int TotalTrainee = 0;
                             int PassTrainee = 0;
                             int FailTrainee = 0;
@@ -558,29 +548,17 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             //@for(trade of TradeList; track trade) {
                             //<!-- ✅ Trade Name -->
-                            // int TradeId = Convert.ToInt32(row["TradeId"].ToString());
-                            int TradeId = item.Key;
+                            int TradeId = Convert.ToInt32(row["TradeId"].ToString());
                             var colspan = data.Tables[1].AsEnumerable()
                                 .Where(row => row.Field<int>("TradeId") == TradeId)
                                 .Select(row => row.Field<int>("SubjectID"))
                                 .Distinct()
                                 .Count() + 9;
-
-
-                            string TradeName = item?.FirstOrDefault()?.TradeName ?? string.Empty;// tradeRow?.Field<string>("TradeName") ?? string.Empty;
-                            string DurationYear = item?.FirstOrDefault()?.DurationYear ?? string.Empty;
-
                             //var colspan = data.Tables[0].AsEnumerable().Where(row => row.Field<string>("QualificationID") == "10").CopyToDataTable();
 
                             sb1.Append("<tr>");
                             sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold;border:1px solid gray; '>");
-                            sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> " + request.SemesterID + " Year (Annual Examination) "
-                                //+ row["DurationYear"] +
-                                + DurationYear +
-
-
-
-                                " Year Trades</b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Dec Date: _______________</b></td></tr></table>");
+                            sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> " + request.SemesterID + " Year (Annual Examination) " + row["DurationYear"] + " Year Trades</b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Dec Date: _______________</b></td></tr></table>");
                             sb1.Append("</th>");
 
                             //sb1.Append("<th style='text-align: right; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 15px;border:1px solid gray; '>");
@@ -590,8 +568,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             sb1.Append("</tr>");
                             sb1.Append("<tr>");
                             sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 13px;border:1px solid gray; '>");
-                            //sb1.Append("<b> Trade: " + row["TradeName"] + "</b>");
-                            sb1.Append("<b> Trade: " + TradeName.ToUpper() + "</b>");
+                            sb1.Append("<b> Trade: " + row["TradeName"] + "</b>");
                             sb1.Append("</th>");
                             sb1.Append("</tr>");
 
@@ -617,7 +594,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                 //<!-- ✅ Column Headers ONLY here -->
                                 sb1.Append("<tr>");
                                 sb1.Append("<th rowspan='2' style='text-align: left;font-size: 10px;border:1px solid gray; '>S.No.</th>");
-                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Trainee's Name / Father's Name</th>");
+                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray ;'>Trainee's Name / Father's Name</th>");
                                 sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Enrollment/Date of Birth</th>");
                                 sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Roll Number</th>");
                                 sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Last Appeared</th>");
@@ -718,6 +695,238 @@ namespace Kaushal_Darpan.Api.Controllers
                                 sb1.Append("<td colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Checked 1______________________ Checked 2______________________ all marks are entered online by concerned examiners and submitted hard copy at RCVET.</b></td>");
                                 sb1.Append("</tr>");
 
+
+
+        [HttpPost("DownloadCFormReport")]
+        public async Task<ApiResult<string>> DownloadCFormReport([FromBody] ITIResultsModel request)
+        {
+            ActionName = "DownloadCFormReport(string ApplicationID)";
+
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.ITIResultRepository.GetCFormReport(request);
+                    if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+                    {
+
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        //data.Tables[0].TableName = "StateTradeCertificate";   
+
+                        //data.Tables[0].Rows[0]["logo"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
+                        //data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/iti_signlogo.png";
+
+                        string devFontSize = "15px";
+                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+                        //string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.StateTradeCertificateITI}/ITIMarksheetCONSOLIDATED.html";
+
+                        //string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+
+                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+                        //html = Utility.PDFWorks.ReplaceCustomTag(html);
+
+
+
+                       
+                        sb1.Append("<table id='pdf-header' style='width:100%' margin:0; padding:0;border='0' cellpadding='6'>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 2px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 2px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment And Entrepreneurship</td></tr>");
+                        //sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + (request.ExamType == 1 ? "Main" : "Supplementary") + "  Examination Result</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 2px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] + "</td></tr>");
+                        sb1.Append("</table>");
+
+
+                        var list = new List<TradeSubjectModel>();
+                        if (data.Tables[0] != null)
+                        {
+                            list = CommonFuncationHelper.ConvertDataTable<List<TradeSubjectModel>>(data.Tables[0]);
+                        }
+
+                        foreach (var item in list.GroupBy(f => f.TradeId))
+                        {
+
+                            //  }
+                            //foreach (DataRow row in data.Tables[0].Rows)
+                            //{
+                            int TotalTrainee = 0;
+                            int PassTrainee = 0;
+                            int FailTrainee = 0;
+                            float PercentageTrainee = 0;
+
+                            sb1.Append("<table style='border-collapse: collapse;margin:0; padding:0; width: 100%; font-family: Arial; font-size:14px' border='0' cellpadding='5' cellspacing='0'>");
+
+
+                            //@for(trade of TradeList; track trade) {
+                            //<!-- ✅ Trade Name -->
+                            // int TradeId = Convert.ToInt32(row["TradeId"].ToString());
+                            int TradeId = item.Key;
+                            var colspan = data.Tables[1].AsEnumerable()
+                                .Where(row => row.Field<int>("TradeId") == TradeId)
+                                .Select(row => row.Field<int>("SubjectID"))
+                                .Distinct()
+                                .Count() + 9;
+
+
+                            string TradeName = item?.FirstOrDefault()?.TradeName ?? string.Empty;// tradeRow?.Field<string>("TradeName") ?? string.Empty;
+                            string DurationYear = item?.FirstOrDefault()?.DurationYear ?? string.Empty;
+
+                            //var colspan = data.Tables[0].AsEnumerable().Where(row => row.Field<string>("QualificationID") == "10").CopyToDataTable();
+
+                            sb1.Append("<tr>");
+                            sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold;border:1px solid gray; '>");
+                            sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> " + request.SemesterID + " Year (Annual Examination) "
+                                //+ row["DurationYear"] +
+                                + DurationYear +
+
+
+
+                                " Year Trades</b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Dec Date: _______________</b></td></tr></table>");
+                            sb1.Append("</th>");
+
+                            //sb1.Append("<th style='text-align: right; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 15px;border:1px solid gray; '>");
+                            //sb1.Append("<b>  Exam Month Year: "+ data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Dec Date: _______________</b>");
+                            //sb1.Append("</th>'");
+
+                            sb1.Append("</tr>");
+                            sb1.Append("<tr>");
+                            sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 13px;border:1px solid gray; '>");
+                            //sb1.Append("<b> Trade: " + row["TradeName"] + "</b>");
+                            sb1.Append("<b> Trade: " + TradeName.ToUpper() + "</b>");
+                            sb1.Append("</th>");
+                            sb1.Append("</tr>");
+
+                            //<!-- ✅ Institute Loop -->
+                            //@for(institute of getInstitutesByTrade(trade.TradeId); track institute) {
+
+
+
+                            DataTable instituteData = GetInstitutesByTrade(TradeId, data.Tables[1]);
+                            DataTable subjectData = GetSubjectNameDataList(TradeId, data.Tables[1]);
+
+                            foreach (DataRow rowIns in instituteData.Rows)
+                            {
+
+
+                                //<!-- ✅ Institutename -->
+                                sb1.Append("<tr>");
+                                sb1.Append("<th colspan='" + colspan + "' style='text-align:left;padding:10px;font-weight:bold;text-decoration:underline;font-size:11px;border:1px solid gray;'>");
+                                sb1.Append("<b> Institute: " + rowIns["InstituteName"] + "</b>");
+                                sb1.Append("</th>");
+                                sb1.Append("</tr>");
+
+                                //<!-- ✅ Column Headers ONLY here -->
+                                sb1.Append("<tr>");
+                                sb1.Append("<th rowspan='2' style='text-align: left;font-size: 10px;border:1px solid gray; width:1%;  '>S.No.</th>");
+                                //sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Trainee's Name / Father's Name</th>");
+                                sb1.Append("<th rowspan='2' style='text-align:left; font-size:10px; border:1px solid gray; width:20%; white-space:normal;'>Trainee's Name / Father's Name</th>");
+                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Enrollment/Date of Birth</th>");
+                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray; width:5%;'>Roll Number</th>");
+                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray; width:2.5%;'>Last Appeared</th>");
+                                //@for(subj of ReporSubjectNameDataList(trade.TradeId); let idx2 = $index; track subj) {
+                                foreach (DataRow rowSub in subjectData.Rows)
+                                {
+                                    try
+                                    {
+                                        sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray; '>" + rowSub["SubjectName"] + "</th>");
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        var nex = new NewException
+                                        {
+                                            PageName = "subjectData.Rows",
+                                            ActionName = ActionName,
+                                            Ex = ex,
+                                        };
+                                        await CreateErrorLog(nex, _unitOfWork);
+                                    }
+                                }
+
+
+                                sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>Grand Total                 </th>");
+                                sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Result                      </th>");
+                                sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Original Certificate Number </th>");
+                                sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Academic Session                </th>");
+
+
+                                sb1.Append("</tr>");
+                                sb1.Append("<tr>");
+                                //@for(subj of ReporSubjectNameDataList(trade.TradeId); let idx2 = $index; track subj) {
+                                int grantTotal = 0;
+                                foreach (DataRow rowSub in subjectData.Rows)
+                                {
+                                    grantTotal += Convert.ToInt32(rowSub["MaxMarks"]);
+                                    sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowSub["MinMarks"] + "/" + rowSub["MaxMarks"] + "</th>");
+                                }
+                                sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>" + grantTotal + "</th>");
+                                sb1.Append("</tr>");
+
+                                //<!-- ✅ Trainee List -->
+                                DataTable traineeData = GetTraineesByInstitute(TradeId, Convert.ToInt32(rowIns["InstituteID"].ToString()), data.Tables[1]);
+                                //@for(trainee of getTraineesByInstitute(trade.TradeId, institute.InstituteID); let idx = $index; track trainee) {
+                                int idx = 1;
+                                foreach (DataRow rowTrnee in traineeData.Rows)
+                                {
+
+                                    TotalTrainee += 1;
+                                    PassTrainee = PassTrainee + (rowTrnee["Result"].ToString() == "P" ? 1 : 0);
+                                    FailTrainee = FailTrainee + (rowTrnee["Result"].ToString() == "F" ? 1 : 0);
+                                    sb1.Append("<tr>");
+
+                                    sb1.Append("<td style='text-align: left;   font-size: 10px;border:1px solid gray;'>" + (idx++) + "</td>");
+                                    sb1.Append("<td style='text-align: left;   font-size: 10px;border:1px solid gray;'> " + rowTrnee["TraineeName"] + "</td>");
+                                    sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["EnrollmentNo"] + "<br />" + rowTrnee["DOB"] + " </td>");
+                                    sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["RollNo"] + "</td>");
+                                    sb1.Append("<td style='text-align:left;    font-size: 10px;border:1px solid gray;'>" + rowTrnee["LastAppeared"] + "</td>");
+                                    //@for(subj of ReporSubjectNameDataList(trade.TradeId); let idx2 = $index; track subj) {
+                                    foreach (DataRow rowSub in subjectData.Rows)
+                                    {
+                                        try
+                                        {
+                                            if (rowSub["SubjectName"].ToString() == "Paper-III: Workshop Calculation & Science")
+                                            { sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray; width:10%;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>"); 
+                                            }
+                                            else {
+                                                sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>");
+                                            }
+                                                
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                        }
+                                    }
+
+                                    //}
+                                    sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["GrandTotal"] + "</td>");
+                                    sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["Result"] + "</td>");
+                                    sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["OriginalCertificateNumber"] + "</td>");
+                                    sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["AcadSession"] + "</td>");
+
+
+
+                                    sb1.Append("</tr>");
+                                }
+                                //}
+                            }
+                            int col = Convert.ToInt16((colspan - (colspan / 4) * 4)) + Convert.ToInt16((colspan / 4));
+
+                            PercentageTrainee = (PassTrainee / TotalTrainee) * 100;
+
+                            sb1.Append("<tr>");
+                            sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Total Trainee :" + TotalTrainee + " </b></td>");
+                            sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Pass Trainee :" + PassTrainee + " </b></td>");
+                            sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Fail Trainee :" + FailTrainee + " </b></td>");
+                            sb1.Append("<td colspan='" + col + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Percentage Trainee :" + PercentageTrainee + "</b></td>");
+                            sb1.Append("</tr>");
+
+                            if (request.InstituteId == 0)
+                            {
+                                sb1.Append("<tr>");
+                                sb1.Append("<td colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Checked 1______________________ Checked 2______________________ all marks are entered online by concerned examiners and submitted hard copy at RCVET.</b></td>");
+                                sb1.Append("</tr>");
+
                                 sb1.Append("<tr>");
                                 sb1.Append("<td colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:1px solid gray'>");
                                 sb1.Append("<table  style='border-collapse: collapse; width: 100%;margin-top:30px;margin-bottom:15px;' border='0' cellpadding='5' cellspacing='0'>");
@@ -743,7 +952,6 @@ namespace Kaushal_Darpan.Api.Controllers
                             }
 
                             sb1.Append("</table>");
-                            sb1.Append("<div style='margin-top:10px;'>&nbsp;</div>");
                             sb1.Append("<div style='page-break-after: always;'></div>");
                         }
 
@@ -755,7 +963,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
 
-                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "LANDSCAPE A4");
+                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte_Cfrom(sb1, "LANDSCAPE A4");
 
                         result.Data = Convert.ToBase64String(pdfBytes); ;
                         result.State = EnumStatus.Success;
@@ -1197,7 +1405,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        // Vivek
+        
         [HttpPost("GetCFormConsolidatedReport")]
         public async Task<ApiResult<DataSet>> GetCFormConsolidatedReport([FromBody] ITIResultsModel request)
         {
@@ -1369,6 +1577,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                                     decimal grandTotal = 0;
+                                    decimal Avgtotal = 0;
                                     srNo++;
                                     int rowSpan = group.Count();
                                     bool isFirstRow = true;
@@ -1434,13 +1643,14 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                                         grandTotal += Convert.ToDecimal( rowTrnee["GrandTotal"]);
+                                        Avgtotal += Convert.ToDecimal( rowTrnee["GrandTotal"]);
                                         sb1.Append("</tr>");
                                         isFirstRow = false;
                                     }
 
            
 
-                                    sb1.Append($"<tr style='font-weight:bold;background-color:#ddd'>" +
+                                    sb1.Append($"<tr style='font-weight:bold;background-color:#fff'>" +
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'>Total</td>" +
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
@@ -1457,6 +1667,13 @@ namespace Kaushal_Darpan.Api.Controllers
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
 
                                         "</tr>");
+
+                                    sb1.Append(
+                                         "<tr style='font-weight:bold;background-color:#fff'>" +
+                                         "<td colspan='11' style='text-align: right;font-size:10px;border:1px solid gray;'>Average</td>" +
+                                         $"<td style='text-align:center;font-size:10px;border:1px solid gray;'>{Math.Ceiling(Avgtotal)}</td>" +
+                                         "<td colspan='3' style='text-align:center;font-size:10px;border:1px solid gray;'></td>" +
+                                         "</tr>");
 
 
                                 }
@@ -1594,7 +1811,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-                        sb1.Append("<table id='pdf-header' style='width:100%' border='0' cellpadding='5' cellspacing='0'>");
+                        sb1.Append("<table id='pdf-header' style='width:100%' border='0' cellpadding='4' cellspacing='0'>");
                         sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
                         sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment & Entrepreneurship</td></tr>");
                         //sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + (request.ExamType == 1 ? "Main" : "Supplementary") + "  Examination Result</td></tr>");
@@ -1661,7 +1878,9 @@ namespace Kaushal_Darpan.Api.Controllers
                                 //<!-- ✅ Column Headers ONLY here -->
                                 sb1.Append("<tr>");
                                 sb1.Append("<th rowspan='2' style='text-align: left;font-size: 10px;border:1px solid gray; '>S.No.</th>");
-                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Trainee's Name / Father's Name</th>");
+                                //sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Trainee's Name / Father's Name</th>");
+                                sb1.Append("<th rowspan='2' style='text-align:left; font-size:10px; border:1px solid gray; width:25%; white-space:normal;'>Trainee's Name / Father's Name</th>");
+
                                 sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Enrollment/Date of Birth</th>");
                                 sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Roll Number</th>");
                                 sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Last Appeared</th>");
@@ -1739,8 +1958,6 @@ namespace Kaushal_Darpan.Api.Controllers
                                     sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["OriginalCertificateNumber"] + "</td>");
                                     sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["AcadSession"] + "</td>");
 
-
-
                                     sb1.Append("</tr>");
                                 }
                                 //}
@@ -1788,6 +2005,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             sb1.Append("</table>");
                             sb1.Append("<div style='margin-top:10px;'>&nbsp;</div>");
+                            sb1.Append("<div style='page-break-after: always;'></div>");
                         }
 
 
@@ -2021,6 +2239,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                                     decimal grandTotal = 0;
+                                    decimal Avgtotal = 0;
                                     srNo++;
                                     int rowSpan = group.Count();
                                     bool isFirstRow = true;
@@ -2087,12 +2306,13 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                                         grandTotal += Convert.ToDecimal(rowTrnee["GrandTotal"]);
+                                        Avgtotal += Convert.ToDecimal(rowTrnee["GrandTotal"]) / 2;
                                         sb1.Append("</tr>");
                                         isFirstRow = false;
                                     }
 
 
-                                    sb1.Append($"<tr style='font-weight:bold;background-color:#ddd'>" +
+                                    sb1.Append($"<tr style='font-weight:bold;background-color:#fff'>" +
                                                       $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'>Total</td>" +
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
@@ -2109,6 +2329,16 @@ namespace Kaushal_Darpan.Api.Controllers
                                         $"<td style='text-align: center;   font-size: 10px;border:1px solid gray;'></td>" +
 
                                         "</tr>");
+
+                                    sb1.Append(
+                                         "<tr style='font-weight:bold;background-color:#fff'>" +
+                                         "<td colspan='11' style='text-align: right;font-size:10px;border:1px solid gray;'>Average</td>" +
+                                         $"<td style='text-align:center;font-size:10px;border:1px solid gray;'>{Math.Ceiling(Avgtotal)}</td>" +
+                                         "<td colspan='3' style='text-align:center;font-size:10px;border:1px solid gray;'></td>" +
+                                         "</tr>");
+
+
+
 
 
                                 }
@@ -2156,6 +2386,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             sb1.Append("</table>");
                             sb1.Append("<div style='margin-top:10px;'>&nbsp;</div>");
+                            sb1.Append("<div style='page-break-after: always;'></div>");
                         }
 
 

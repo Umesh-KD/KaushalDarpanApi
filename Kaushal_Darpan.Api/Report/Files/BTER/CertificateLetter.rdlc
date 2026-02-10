@@ -95,7 +95,7 @@
         <rd:TableAdapterName />
       </rd:DataSetInfo>
     </DataSet>
-    <DataSet Name="CertificateLetter">
+    <DataSet Name="&#xD;&#xA;    ">
       <Query>
         <DataSourceName>KD_DBScript</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
