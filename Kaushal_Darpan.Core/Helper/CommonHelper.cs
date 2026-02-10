@@ -54,6 +54,7 @@ namespace Kaushal_Darpan.Core.Helper
         public const string MSG_AlreadyAssigned = "Entered Roll number range is already allocated to another invigilator. Please enter a new range.";
         public const string MSG_SAVE_SUCCESS_EXCEPT_UNVERIFIED_STUDENTS = "Saved successfully. Except Unverified Students!";
         public const string MSG_INVALID_SSOID_PASSWORD = "Invalid SSOID or Password.!";
+        public const string MSG_DO_NOT_ENOUGH_LEAVE_BALANCE = "You Do not have Enough Leave Balance.!";
 
 
         public const string Login_DefaultPassword = "KD@1230";
@@ -515,6 +516,12 @@ namespace Kaushal_Darpan.Core.Helper
         Ex = 1323,
         NotFormFilled = 1324,
         Detained = 1330
+    }
+
+    public enum SessionType
+    {
+        FinancialYear = 1,
+        CalenderYear = 2
     }
 
     #endregion

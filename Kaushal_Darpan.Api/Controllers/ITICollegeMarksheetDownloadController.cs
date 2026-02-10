@@ -321,6 +321,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         studentData.Tables[0].Rows[0]["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
                         studentData.Tables[0].Rows[0]["NE100"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
                         studentData.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + studentData.Tables[0].Rows[0]["signlogo"];
+                        studentData.Tables[0].Rows[0]["HeadLogo"] = $"{ConfigurationHelper.StaticFileRootPath + "/" + data.Tables[0].Rows[0]["HeadLogo"]}";
                         studentData.Tables[1].TableName = "GetITIStudent_Marksheet_Details";
 
                         string devFontSize = "15px";
@@ -336,6 +337,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
 
                         html = Utility.PDFWorks.ReplaceCustomTag(html);
+                        html = html.Replace("class=\"IsRowBold_2\"", "style=\"font-weight:bold;text-align:center\"");
+
 
                         //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
                         sb1.Append(html);
@@ -494,6 +497,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         studentData.Tables[0].Rows[0]["logo"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
                         studentData.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + studentData.Tables[0].Rows[0]["signlogo"];
+                        studentData.Tables[0].Rows[0]["HeadLogo"] = $"{ConfigurationHelper.StaticFileRootPath + "/" + data.Tables[0].Rows[0]["HeadLogo"]}";
                         studentData.Tables[0].Rows[0]["mainlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
                         studentData.Tables[1].TableName = "Consolidated_Marksheet";
                         decimal Total_Ob = 0;
@@ -512,6 +516,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.StateTradeCertificateITI}/ITIMarksheetCONSOLIDATED.html";
 
                         string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, studentData);
+                        html = html.Replace("class=\"IsRowBold_1\"", "style=\"font-weight:bold;text-align:center\"");
 
                         System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
 
@@ -631,6 +636,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         studentData.Tables[0].Rows[0]["logo"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
                         studentData.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + studentData.Tables[0].Rows[0]["signlogo"];
+                        studentData.Tables[0].Rows[0]["HeadLogo"] = $"{ConfigurationHelper.StaticFileRootPath + "/" + data.Tables[0].Rows[0]["HeadLogo"]}";
 
                         string devFontSize = "15px";
                         System.Text.StringBuilder sb = new System.Text.StringBuilder();

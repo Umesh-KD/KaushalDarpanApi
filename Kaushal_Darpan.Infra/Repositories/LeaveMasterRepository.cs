@@ -75,10 +75,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                        command.CommandText = " select * from M_StaffLeave Where StaffLeaveID='" + PK_ID + "' ";
+                        //command.CommandText = " select * from M_StaffLeave Where StaffLeaveID='" + PK_ID + "' ";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_StaffLeave_Action";
+                        
+                        command.Parameters.AddWithValue("@StaffLeaveID", PK_ID);
+                        command.Parameters.AddWithValue("@Action", "GetLeaveRequestByID");
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
+                        
                     }
                     var data = new LeaveMaster();
                     if (dataTable != null)
@@ -110,8 +116,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     int result = 0;
                     using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
+                    { 
                         command.CommandText = "sp_InsertOrUpdate_StaffLeave";
                         command.CommandType = CommandType.StoredProcedure;
 
@@ -141,8 +146,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@txtIsHeadQuarterMobileNo", request.txtIsHeadQuarterMobileNo);
                         command.Parameters.AddWithValue("@DisUploadDoc", request.DisUploadDoc);
                         command.Parameters.AddWithValue("@UploadDoc", request.UploadDoc);
-
                         command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
+                        //command.Parameters.AddWithValue("@RemainingLeave", request.RemainingLeave);
+                        command.Parameters.AddWithValue("@SessionTypeID", request.SessionTypeID);
+                        command.Parameters.AddWithValue("@AppliedRoleID", request.RoleID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
@@ -216,13 +223,19 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP__SaveLeavevalidation";
-                        command.Parameters.AddWithValue("@StaffLeaveID", request.StaffLeaveID);
+                        command.CommandText = "USP_SaveLeavevalidation";
+                        
                         command.Parameters.AddWithValue("@Action", request.Action);
-                        command.Parameters.AddWithValue("@ActionBy", request.ActionBy);
-                        //command.Parameters.AddWithValue("@ActionDate", request.ActionDate);
-                    
+
+                        command.Parameters.AddWithValue("@StaffLeaveID", request.StaffLeaveID);
+                        command.Parameters.AddWithValue("@ActionBy", request.ActionBy);                    
                         command.Parameters.AddWithValue("@ActionRemark", request.ActionRemark);
+                        command.Parameters.AddWithValue("@TotalDays", request.TotalDays);
+                        command.Parameters.AddWithValue("@StaffID", request.StaffID);
+                        command.Parameters.AddWithValue("@LeaveID", request.LeaveID);
+                        command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
+                        command.Parameters.AddWithValue("@SessionTypeID", request.SessionTypeID);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// sql query
                         result = await command.ExecuteNonQueryAsync();
@@ -247,9 +260,9 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> HrValidationList(LeaveMasterSearchModel body)
+        public async Task<DataTable> GetStaffLeaveRequest(LeaveMasterSearchModel body)
         {
-            _actionName = "HrValidationList(HrMasterSearchModel body)";
+            _actionName = "GetStaffLeaveRequest(LeaveMasterSearchModel body)";
             try
             {
                 return await Task.Run(async () =>
@@ -259,15 +272,17 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetLeaveMasterValidation";
+                        
+                        command.Parameters.AddWithValue("@action", "_getPrincipalLeaveRequestData");
+
                         command.Parameters.AddWithValue("@Name", body.Name);
                         command.Parameters.AddWithValue("@Status", body.Status);
-
-
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
-                        //command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                        command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
+                       
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -345,23 +360,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_StaffLeave_Action";
-                        command.Parameters.AddWithValue("@Name", body.Name);
-                        command.Parameters.AddWithValue("@Status", body.Status);
-
-
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
-                        //command.Parameters.AddWithValue("@To_Date", body.To_Date);
-                        //command.Parameters.AddWithValue("@From_Date", body.From_Date);
-                        command.Parameters.AddWithValue("@StaffID", body.StaffID);
-                        command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
-                        command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
-                        command.Parameters.AddWithValue("@LeaveID", body.LeaveID);
+                        
                         command.Parameters.AddWithValue("@Action", body.Action);
+                        command.Parameters.AddWithValue("@LeaveID", body.LeaveID);
+                        command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
+                        command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                        command.Parameters.AddWithValue("@SessionTypeID", body.SessionTypeID);
+                        command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
 
-                        //command.Parameters.AddWithValue("@SSOID", body.SSOID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -395,6 +401,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetStaffForLeaveCredit";
+
+                        if (body.SessionTypeID == (int)SessionType.FinancialYear)
+                        {
+                        command.Parameters.AddWithValue("@Action", "_getLeaveCreditStaffData_FY");
+                        }
+                        else if (body.SessionTypeID == (int)SessionType.CalenderYear)
+                        {
+                            command.Parameters.AddWithValue("@Action", "_getLeaveCreditStaffData_CY");
+                        }
+
                         command.Parameters.AddWithValue("@Name", body.Name);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
@@ -404,7 +420,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         //command.Parameters.AddWithValue("@From_Date", body.From_Date);
                         command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
                         command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
-                        command.Parameters.AddWithValue("@Action", body.Action);
+                        command.Parameters.AddWithValue("@SessionTypeID", body.SessionTypeID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -448,6 +464,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         //command.Parameters.AddWithValue("@From_Date", body.From_Date);
                         command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
                         command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
+                        command.Parameters.AddWithValue("@SessionTypeID", body.SessionTypeID);
                         command.Parameters.AddWithValue("@Action", "_getStaffWithLeaveBalanceData");
 
                         _sqlQuery = command.GetSqlExecutableQuery();

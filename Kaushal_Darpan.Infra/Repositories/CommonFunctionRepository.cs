@@ -636,7 +636,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> Stream_InstituteIdWise(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0,int InstituteID=0,int AcademicYearID=0)
+        public async Task<DataTable> Stream_InstituteIdWise(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int AcademicYearID = 0)
         {
             _actionName = "Stream_InstituteIdWise ()";
             return await Task.Run(async () =>
@@ -673,7 +673,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> ItiTrade(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int DivisionId = 0,int SemesterID =0)
+        public async Task<DataTable> ItiTrade(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int DivisionId = 0, int SemesterID = 0)
         {
             _actionName = "StreamMaster()";
             return await Task.Run(async () =>
@@ -689,7 +689,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.Parameters.AddWithValue("@Action", "getTradeForPaperSetters");
                         }
-                        else if(InstituteID != 0)
+                        else if (InstituteID != 0)
                         {
                             command.Parameters.AddWithValue("@Action", "collegeWiseTrade");
                         }
@@ -724,7 +724,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-    
+
 
 
         public async Task<DataTable> ItiTradecouncelling(string DesignationID)
@@ -738,7 +738,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ItiCollegeWiseTradecouncelling"; 
+                        command.CommandText = "USP_ItiCollegeWiseTradecouncelling";
                         command.Parameters.AddWithValue("@action", "getAllTrade");
                         command.Parameters.AddWithValue("@DesignationId", DesignationID);
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -761,7 +761,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> StreamMasterwithcount(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0 ,int SemesterID=0 ,int InstituteId =0)
+        public async Task<DataTable> StreamMasterwithcount(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0)
         {
             _actionName = "StreamMaster()";
             return await Task.Run(async () =>
@@ -1494,11 +1494,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-                
+
             });
         }
 
-        public async Task<DataTable> GetCommonMasterData(string MasterCode = "", int DepartmentID = 0, int CourseTypeID = 0,int StaffTypeID=0)
+        public async Task<DataTable> GetCommonMasterData(string MasterCode = "", int DepartmentID = 0, int CourseTypeID = 0, int StaffTypeID = 0)
         {
             _actionName = "GetFinancialYear()";
             return await Task.Run(async () =>
@@ -1977,7 +1977,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<List<CommonDDLModel>> GetCampusPostMasterDDL(int DepartmentID,int CreatedBy)
+        public async Task<List<CommonDDLModel>> GetCampusPostMasterDDL(int DepartmentID, int CreatedBy)
         {
             _actionName = "GetCampusPostMasterDDL()";
             return await Task.Run(async () =>
@@ -6003,8 +6003,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_DDL_QualificationDetails";
-                       
-                        
+
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -9575,8 +9575,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_DDL_InternalSlidingUnitITI";
                         command.Parameters.AddWithValue("@ID", ID);
                         command.Parameters.AddWithValue("@FinancialYearID", FinancialYearID);
-                          command.Parameters.AddWithValue("@CourseTypeID", CourseTypeID);
-                         command.Parameters.AddWithValue("@Collegeid", InstituteID);
+                        command.Parameters.AddWithValue("@CourseTypeID", CourseTypeID);
+                        command.Parameters.AddWithValue("@Collegeid", InstituteID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -10363,7 +10363,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_M_Counselling_Qualification";
-                       
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -10430,7 +10430,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_M_Counselling_TradeDDL";
-                      
+
                         command.Parameters.AddWithValue("@designationId", designationId);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -10488,7 +10488,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        
+
         public async Task<DataTable> GetCollegeTradeMaster(ItiTradeSearchModel request)
         {
             _actionName = "TradeListGetAllData()";
@@ -10557,7 +10557,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         dataTable = await command.FillAsync_DataTable();
                     }
                     // class
-                    
+
                     return dataTable;
                 }
                 catch (Exception ex)
@@ -10652,7 +10652,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<DataTable> getStudBasicDetailsEnrollmentWise(string EnrollNo,int departmentId)
+        public async Task<DataTable> getStudBasicDetailsEnrollmentWise(string EnrollNo, int departmentId)
         {
             _actionName = "getStudBasicDetailsEnrollmentWise(int EnrollNo,int DepartmentID)";
             return await Task.Run(async () =>
@@ -10664,7 +10664,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_StudBasicDetailsEnrollmentWise";
-                        command.Parameters.AddWithValue("@EnrollNo",EnrollNo);
+                        command.Parameters.AddWithValue("@EnrollNo", EnrollNo);
                         command.Parameters.AddWithValue("@DepartmentID", departmentId);
                         command.Parameters.AddWithValue("@Action", "getStudBasicDetailsEnrollmentWise");
 
@@ -10693,7 +10693,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetEmployeeQualificationDDL()
         {
             //Task<List<CommonDDLModel>>
-           _actionName = "GetEmployeeQualificationDDL()";
+            _actionName = "GetEmployeeQualificationDDL()";
             return await Task.Run(async () =>
             {
                 try
@@ -10744,6 +10744,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetCalenderYearList";
+
+                        command.Parameters.AddWithValue("@action", "_getAll");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

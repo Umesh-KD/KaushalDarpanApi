@@ -107,8 +107,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataSet> GetITICollegeStudent_Marksheet(ITICollegeStudentMarksheetSearchModel model)
         {
             _actionName = "GetITICollegeStudent_Marksheet(ITICollegeStudentMarksheetSearchModel model)";
-            return await Task.Run(async () =>
-            {
+          
                 try
                 {
                     var ds = new DataSet();
@@ -141,15 +140,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+        
         }
 
 
         public async Task<DataSet> ITIStateTradeCertificateReport(ITICollegeStudentMarksheetSearchModel model)
         {
             _actionName = "ITIStateTradeCertificateReport(ITICollegeStudentMarksheetSearchModel model)";
-            return await Task.Run(async () =>
-            {
+           
                 try
                 {
                     var ds = new DataSet();
@@ -181,7 +179,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+         
         }
 
         public async Task<DataTable> GetITICollegeList(ITICollegeStudentMarksheetSearchModel model)
