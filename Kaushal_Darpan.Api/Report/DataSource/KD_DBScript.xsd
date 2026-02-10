@@ -1700,8 +1700,9 @@
               <xs:element name="InstituteCode" msprop:Generator_ColumnPropNameInTable="InstituteCodeColumn" msprop:Generator_ColumnPropNameInRow="InstituteCode" msprop:Generator_UserColumnName="InstituteCode" msprop:Generator_ColumnVarNameInTable="columnInstituteCode" type="xs:string" minOccurs="0" />
               <xs:element name="ProvisionalCertificateNo" msprop:Generator_ColumnPropNameInTable="ProvisionalCertificateNoColumn" msprop:Generator_ColumnPropNameInRow="ProvisionalCertificateNo" msprop:Generator_UserColumnName="ProvisionalCertificateNo" msprop:Generator_ColumnVarNameInTable="columnProvisionalCertificateNo" type="xs:string" minOccurs="0" />
               <xs:element name="SrNo" msprop:Generator_ColumnPropNameInTable="SrNoColumn" msprop:Generator_ColumnPropNameInRow="SrNo" msprop:Generator_UserColumnName="SrNo" msprop:Generator_ColumnVarNameInTable="columnSrNo" type="xs:string" minOccurs="0" />
-              <xs:element name="Year" msprop:Generator_ColumnPropNameInRow="Year" msprop:Generator_ColumnPropNameInTable="YearColumn" msprop:Generator_ColumnVarNameInTable="columnYear" msprop:Generator_UserColumnName="Year" type="xs:string" minOccurs="0" />
-              <xs:element name="EndTermName" msprop:Generator_ColumnPropNameInRow="EndTermName" msprop:Generator_ColumnPropNameInTable="EndTermNameColumn" msprop:Generator_ColumnVarNameInTable="columnEndTermName" msprop:Generator_UserColumnName="EndTermName" type="xs:string" minOccurs="0" />
+              <xs:element name="Year" msprop:Generator_UserColumnName="Year" msprop:Generator_ColumnPropNameInTable="YearColumn" msprop:Generator_ColumnPropNameInRow="Year" msprop:Generator_ColumnVarNameInTable="columnYear" type="xs:string" minOccurs="0" />
+              <xs:element name="EndTermName" msprop:Generator_UserColumnName="EndTermName" msprop:Generator_ColumnPropNameInTable="EndTermNameColumn" msprop:Generator_ColumnPropNameInRow="EndTermName" msprop:Generator_ColumnVarNameInTable="columnEndTermName" type="xs:string" minOccurs="0" />
+              <xs:element name="PinCode" msprop:Generator_ColumnPropNameInRow="PinCode" msprop:Generator_ColumnPropNameInTable="PinCodeColumn" msprop:Generator_ColumnVarNameInTable="columnPinCode" msprop:Generator_UserColumnName="PinCode" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -2149,7 +2150,7 @@
               <xs:element name="GroupCode" msprop:Generator_ColumnPropNameInTable="GroupCodeColumn" msprop:Generator_ColumnPropNameInRow="GroupCode" msprop:Generator_UserColumnName="GroupCode" msprop:Generator_ColumnVarNameInTable="columnGroupCode" type="xs:string" minOccurs="0" />
               <xs:element name="SubjectName" msprop:Generator_ColumnPropNameInTable="SubjectNameColumn" msprop:Generator_ColumnPropNameInRow="SubjectName" msprop:Generator_UserColumnName="SubjectName" msprop:Generator_ColumnVarNameInTable="columnSubjectName" type="xs:string" minOccurs="0" />
               <xs:element name="ExamName" msprop:Generator_ColumnPropNameInTable="ExamNameColumn" msprop:Generator_ColumnPropNameInRow="ExamName" msprop:Generator_UserColumnName="ExamName" msprop:Generator_ColumnVarNameInTable="columnExamName" type="xs:string" minOccurs="0" />
-              <xs:element name="sub_streamSubjectCode" msprop:Generator_UserColumnName="sub_streamSubjectCode" msprop:Generator_ColumnPropNameInTable="sub_streamSubjectCodeColumn" msprop:Generator_ColumnPropNameInRow="sub_streamSubjectCode" msprop:Generator_ColumnVarNameInTable="columnsub_streamSubjectCode" type="xs:string" minOccurs="0" />
+              <xs:element name="sub_streamSubjectCode" msprop:Generator_ColumnPropNameInTable="sub_streamSubjectCodeColumn" msprop:Generator_ColumnPropNameInRow="sub_streamSubjectCode" msprop:Generator_UserColumnName="sub_streamSubjectCode" msprop:Generator_ColumnVarNameInTable="columnsub_streamSubjectCode" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

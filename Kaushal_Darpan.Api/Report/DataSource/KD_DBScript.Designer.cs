@@ -43252,6 +43252,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnEndTermName;
             
+            private global::System.Data.DataColumn columnPinCode;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public CertificateLetterDataTable() {
@@ -43353,6 +43355,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PinCodeColumn {
+                get {
+                    return this.columnPinCode;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -43388,7 +43398,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public CertificateLetterRow AddCertificateLetterRow(string Name, string Enrollment, string Institute, string InstituteCode, string ProvisionalCertificateNo, string SrNo, string Year, string EndTermName) {
+            public CertificateLetterRow AddCertificateLetterRow(string Name, string Enrollment, string Institute, string InstituteCode, string ProvisionalCertificateNo, string SrNo, string Year, string EndTermName, string PinCode) {
                 CertificateLetterRow rowCertificateLetterRow = ((CertificateLetterRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Name,
@@ -43398,7 +43408,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         ProvisionalCertificateNo,
                         SrNo,
                         Year,
-                        EndTermName};
+                        EndTermName,
+                        PinCode};
                 rowCertificateLetterRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCertificateLetterRow);
                 return rowCertificateLetterRow;
@@ -43429,6 +43440,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnSrNo = base.Columns["SrNo"];
                 this.columnYear = base.Columns["Year"];
                 this.columnEndTermName = base.Columns["EndTermName"];
+                this.columnPinCode = base.Columns["PinCode"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -43450,6 +43462,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnYear);
                 this.columnEndTermName = new global::System.Data.DataColumn("EndTermName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEndTermName);
+                this.columnPinCode = new global::System.Data.DataColumn("PinCode", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPinCode);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -87316,6 +87330,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PinCode {
+                get {
+                    try {
+                        return ((string)(this[this.tableCertificateLetter.PinCodeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PinCode\' in table \'CertificateLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCertificateLetter.PinCodeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsNameNull() {
                 return this.IsNull(this.tableCertificateLetter.NameColumn);
             }
@@ -87408,6 +87438,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetEndTermNameNull() {
                 this[this.tableCertificateLetter.EndTermNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPinCodeNull() {
+                return this.IsNull(this.tableCertificateLetter.PinCodeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPinCodeNull() {
+                this[this.tableCertificateLetter.PinCodeColumn] = global::System.Convert.DBNull;
             }
         }
         
