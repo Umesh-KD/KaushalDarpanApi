@@ -1485,14 +1485,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             }
                             int col = Convert.ToInt16((colspan - (colspan / 4) * 4)) + Convert.ToInt16((colspan / 4));
 
-                            PercentageTrainee = (PassTrainee / TotalTrainee) * 100;
-
-                            sb1.Append("<tr>");
-                            sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Total Trainee :" + TotalTrainee + " </b></td>");
-                            sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Pass Trainee :" + PassTrainee + " </b></td>");
-                            sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Fail Trainee :" + FailTrainee + " </b></td>");
-                            sb1.Append("<td colspan='" + col + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Percentage Trainee :" + PercentageTrainee + "</b></td>");
-                            sb1.Append("</tr>");
+                   
                             if (request.InstituteId == 0)
                             {
                                 //sb1.Append("<tr>");
@@ -1769,14 +1762,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             }
                             int col = Convert.ToInt16((colspan - (colspan / 4) * 4)) + Convert.ToInt16((colspan / 4));
 
-                            PercentageTrainee = (PassTrainee / TotalTrainee) * 100;
-
-                            sb1.Append("<tr>");
-                            sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Total Trainee :" + TotalTrainee + " </b></td>");
-                            sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Pass Trainee :" + PassTrainee + " </b></td>");
-                            sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Fail Trainee :" + FailTrainee + " </b></td>");
-                            sb1.Append("<td colspan='" + col + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Percentage Trainee :" + PercentageTrainee + "</b></td>");
-                            sb1.Append("</tr>");
+                  
 
                             if (request.InstituteId == 0)
                             {
@@ -2151,14 +2137,9 @@ namespace Kaushal_Darpan.Api.Controllers
                             }
                             int col = Convert.ToInt16((colspan - (colspan / 4) * 4)) + Convert.ToInt16((colspan / 4));
 
-                            PercentageTrainee = (PassTrainee / TotalTrainee) * 100;
+                  
 
-                            sb1.Append("<tr>");
-                            sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Total Trainee :" + TotalTrainee + " </b></td>");
-                            sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Pass Trainee :" + PassTrainee + " </b></td>");
-                            sb1.Append("<td colspan='" + colspan / 4 + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Fail Trainee :" + FailTrainee + " </b></td>");
-                            sb1.Append("<td colspan='" + col + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Percentage Trainee :" + PercentageTrainee + "</b></td>");
-                            sb1.Append("</tr>");
+        
                             if (request.InstituteId == 0)
                             {
                                 //sb1.Append("<tr>");
