@@ -9980,6 +9980,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         html = Utility.PDFWorks.ReplaceCustomTag(html);
 
+                        html = html.Replace("class=\"IsRowBold_2\"", "style=\"font-weight:bold\"");
                         //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
                         sb1.Append(html);
 
@@ -10050,30 +10051,16 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-
-
                         string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.StateTradeCertificateITI}/StateTradeCertificateReport.html";
 
                         string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
-                        string css = @"
-<style>
-    table {
-        font-family: 'Times New Roman', Arial, sans-serif;
-        font-size: 12pt;
-    }
-</style>";
-
-
-
-
-
                         System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
-
                         html = Utility.PDFWorks.ReplaceCustomTag(html);
-                        html = css + html;
+                 
                         sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
 
                         var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogoWaterMark.png";
+             
 
                         byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "", watermarkImagePath);
 
@@ -10409,7 +10396,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.StateTradeCertificateITI}/ITIMarksheetCONSOLIDATED.html";
 
                         string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
-                        html = html.Replace("class=\"IsRowBold_1\"", "style=\"font-weight:bold\"");
+                        html = html.Replace("class=\"IsRowBold_1\"", "style=\"font-weight:bold;text-align:center\"");
 
                         System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
 
@@ -16085,5 +16072,80 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         #endregion
+
+        #region Certificate Letter Report
+        [HttpPost("GetCertificateLetterReport")]
+        public async Task<ApiResult<string>> GetCertificateLetterReport(BterCertificateReportDataModel model)
+        {
+            ActionName = "GetCertificateLetterReport()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.ReportRepository.GetCertificateLetterReport(model);
+                    if (data != null)
+                    {
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        //report
+                        //var fileName = $"AllotmentFeeReceipt_{EnrollmentNo}.pdf";
+                        var fileName = $"CertificateLetterReport.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/CertificateLetter.rdlc";
+                        //
+                        var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                        //
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+                        localReport.AddDataSource("CertificateLetter", data.Tables[0]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        //save
+
+
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        //end report
+
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+        #endregion
+
+
+
+
+
+
     }
 }
