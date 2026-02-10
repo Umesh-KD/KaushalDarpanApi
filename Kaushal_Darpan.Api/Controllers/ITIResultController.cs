@@ -525,6 +525,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
+                        sb1.Append("<table style='margin-top:5px;'>");
+                        sb1.Append("</table>");
                         sb1.Append("<table id='pdf-header' style='width:100%' border='0' cellpadding='5' cellspacing='0'>");
                         sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
                         sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment & Entrepreneurship</td></tr>");
@@ -592,7 +594,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                 //<!-- ✅ Column Headers ONLY here -->
                                 sb1.Append("<tr>");
                                 sb1.Append("<th rowspan='2' style='text-align: left;font-size: 10px;border:1px solid gray; '>S.No.</th>");
-                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Trainee's Name / Father's Name</th>");
+                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray ;'>Trainee's Name / Father's Name</th>");
                                 sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Enrollment/Date of Birth</th>");
                                 sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Roll Number</th>");
                                 sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Last Appeared</th>");
@@ -776,7 +778,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
 
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        //data.Tables[0].TableName = "StateTradeCertificate";
+                        //data.Tables[0].TableName = "StateTradeCertificate";   
 
                         //data.Tables[0].Rows[0]["logo"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
                         //data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/iti_signlogo.png";
@@ -794,11 +796,12 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-                        sb1.Append("<table id='pdf-header' style='width:100%' border='0' cellpadding='5' cellspacing='0'>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment And Entrepreneurship</td></tr>");
+                       
+                        sb1.Append("<table id='pdf-header' style='width:100%' margin:0; padding:0;border='0' cellpadding='6'>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 2px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 2px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment And Entrepreneurship</td></tr>");
                         //sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + (request.ExamType == 1 ? "Main" : "Supplementary") + "  Examination Result</td></tr>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] + "</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 2px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] + "</td></tr>");
                         sb1.Append("</table>");
 
 
@@ -819,7 +822,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             int FailTrainee = 0;
                             float PercentageTrainee = 0;
 
-                            sb1.Append("<table style='border-collapse: collapse; width: 100%; font-family: Arial; font-size:14px' border='0' cellpadding='5' cellspacing='0'>");
+                            sb1.Append("<table style='border-collapse: collapse;margin:0; padding:0; width: 100%; font-family: Arial; font-size:14px' border='0' cellpadding='5' cellspacing='0'>");
 
 
                             //@for(trade of TradeList; track trade) {
@@ -882,11 +885,12 @@ namespace Kaushal_Darpan.Api.Controllers
 
                                 //<!-- ✅ Column Headers ONLY here -->
                                 sb1.Append("<tr>");
-                                sb1.Append("<th rowspan='2' style='text-align: left;font-size: 10px;border:1px solid gray; '>S.No.</th>");
-                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Trainee's Name / Father's Name</th>");
+                                sb1.Append("<th rowspan='2' style='text-align: left;font-size: 10px;border:1px solid gray; width:1%;  '>S.No.</th>");
+                                //sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Trainee's Name / Father's Name</th>");
+                                sb1.Append("<th rowspan='2' style='text-align:left; font-size:10px; border:1px solid gray; width:20%; white-space:normal;'>Trainee's Name / Father's Name</th>");
                                 sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Enrollment/Date of Birth</th>");
-                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Roll Number</th>");
-                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Last Appeared</th>");
+                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray; width:5%;'>Roll Number</th>");
+                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray; width:2.5%;'>Last Appeared</th>");
                                 //@for(subj of ReporSubjectNameDataList(trade.TradeId); let idx2 = $index; track subj) {
                                 foreach (DataRow rowSub in subjectData.Rows)
                                 {
@@ -947,8 +951,13 @@ namespace Kaushal_Darpan.Api.Controllers
                                     {
                                         try
                                         {
-
-                                            sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>");
+                                            if (rowSub["SubjectName"].ToString() == "Paper-III: Workshop Calculation & Science")
+                                            { sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray; width:10%;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>"); 
+                                            }
+                                            else {
+                                                sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>");
+                                            }
+                                                
                                         }
                                         catch (Exception ex)
                                         {
@@ -1009,7 +1018,6 @@ namespace Kaushal_Darpan.Api.Controllers
                             }
 
                             sb1.Append("</table>");
-                            sb1.Append("<div style='margin-top:10px;'>&nbsp;</div>");
                             sb1.Append("<div style='page-break-after: always;'></div>");
                         }
 
@@ -1021,7 +1029,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
 
-                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "LANDSCAPE A4");
+                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte_Cfrom(sb1, "LANDSCAPE A4");
 
                         result.Data = Convert.ToBase64String(pdfBytes); ;
                         result.State = EnumStatus.Success;
@@ -1463,7 +1471,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        // Vivek
+        
         [HttpPost("GetCFormConsolidatedReport")]
         public async Task<ApiResult<DataSet>> GetCFormConsolidatedReport([FromBody] ITIResultsModel request)
         {
@@ -1869,7 +1877,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-                        sb1.Append("<table id='pdf-header' style='width:100%' border='0' cellpadding='5' cellspacing='0'>");
+                        sb1.Append("<table id='pdf-header' style='width:100%' border='0' cellpadding='4' cellspacing='0'>");
                         sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
                         sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment & Entrepreneurship</td></tr>");
                         //sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + (request.ExamType == 1 ? "Main" : "Supplementary") + "  Examination Result</td></tr>");
@@ -1936,7 +1944,9 @@ namespace Kaushal_Darpan.Api.Controllers
                                 //<!-- ✅ Column Headers ONLY here -->
                                 sb1.Append("<tr>");
                                 sb1.Append("<th rowspan='2' style='text-align: left;font-size: 10px;border:1px solid gray; '>S.No.</th>");
-                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Trainee's Name / Father's Name</th>");
+                                //sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Trainee's Name / Father's Name</th>");
+                                sb1.Append("<th rowspan='2' style='text-align:left; font-size:10px; border:1px solid gray; width:25%; white-space:normal;'>Trainee's Name / Father's Name</th>");
+
                                 sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Enrollment/Date of Birth</th>");
                                 sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Roll Number</th>");
                                 sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Last Appeared</th>");
