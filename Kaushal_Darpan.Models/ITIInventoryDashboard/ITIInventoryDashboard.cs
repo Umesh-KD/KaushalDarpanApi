@@ -14,6 +14,7 @@ namespace Kaushal_Darpan.Models.ITIInventoryDashboard
         public int EndTermID { get; set; }
         public int Eng_NonEng { get; set; }
         public int RoleID { get; set; }
+        public int InstituteID { get; set; }
         public string Menu { get; set; }
         public int Status { get; set; }
     }
