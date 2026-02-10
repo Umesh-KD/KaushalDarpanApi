@@ -852,6 +852,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
                         command.Parameters.AddWithValue("@ModifyBy", filterModel.ModifyBy );
                         command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                        command.Parameters.AddWithValue("@UserID", filterModel.UserID);
+                        command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

@@ -9127,9 +9127,9 @@ namespace Kaushal_Darpan.Infra.Repositories
         #endregion
 
         #region Certificate Letter Report
-        public async Task<DataSet> GetCertificateLetterReport(BterCertificateReportDataModel model)
+        public async Task<DataSet> GetCertificateLetterReport(CertificateReportModel model)
         {
-            _actionName = "GetPassoutStudentReport()";
+            _actionName = "GetCertificateLetterReport()";
             return await Task.Run(async () =>
             {
                 try
@@ -9139,9 +9139,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "Usp_Bter_CertificateLetter_Report";
-                        command.Parameters.AddWithValue("@Action", model.Action);
-                        command.Parameters.AddWithValue("@CertificateType", model.CertificateType);
-                        command.Parameters.AddWithValue("@StudentID", model.StudentID);
+                        command.Parameters.AddWithValue("@Action", "certificate-letter-download");
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        //command.Parameters.AddWithValue("@ExamTypeID", model.ExamTypeID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
