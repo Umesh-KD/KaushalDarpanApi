@@ -43254,6 +43254,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnPinCode;
             
+            private global::System.Data.DataColumn columnFinancialYearName;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public CertificateLetterDataTable() {
@@ -43363,6 +43365,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn FinancialYearNameColumn {
+                get {
+                    return this.columnFinancialYearName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -43398,7 +43408,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public CertificateLetterRow AddCertificateLetterRow(string Name, string Enrollment, string Institute, string InstituteCode, string ProvisionalCertificateNo, string SrNo, string Year, string EndTermName, string PinCode) {
+            public CertificateLetterRow AddCertificateLetterRow(string Name, string Enrollment, string Institute, string InstituteCode, string ProvisionalCertificateNo, string SrNo, string Year, string EndTermName, string PinCode, string FinancialYearName) {
                 CertificateLetterRow rowCertificateLetterRow = ((CertificateLetterRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Name,
@@ -43409,7 +43419,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         SrNo,
                         Year,
                         EndTermName,
-                        PinCode};
+                        PinCode,
+                        FinancialYearName};
                 rowCertificateLetterRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCertificateLetterRow);
                 return rowCertificateLetterRow;
@@ -43441,6 +43452,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnYear = base.Columns["Year"];
                 this.columnEndTermName = base.Columns["EndTermName"];
                 this.columnPinCode = base.Columns["PinCode"];
+                this.columnFinancialYearName = base.Columns["FinancialYearName"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -43464,6 +43476,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnEndTermName);
                 this.columnPinCode = new global::System.Data.DataColumn("PinCode", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPinCode);
+                this.columnFinancialYearName = new global::System.Data.DataColumn("FinancialYearName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFinancialYearName);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -87346,6 +87360,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string FinancialYearName {
+                get {
+                    try {
+                        return ((string)(this[this.tableCertificateLetter.FinancialYearNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FinancialYearName\' in table \'CertificateLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCertificateLetter.FinancialYearNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsNameNull() {
                 return this.IsNull(this.tableCertificateLetter.NameColumn);
             }
@@ -87450,6 +87480,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetPinCodeNull() {
                 this[this.tableCertificateLetter.PinCodeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsFinancialYearNameNull() {
+                return this.IsNull(this.tableCertificateLetter.FinancialYearNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetFinancialYearNameNull() {
+                this[this.tableCertificateLetter.FinancialYearNameColumn] = global::System.Convert.DBNull;
             }
         }
         
