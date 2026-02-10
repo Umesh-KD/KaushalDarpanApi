@@ -298,6 +298,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> UploadAnnexture32(AnnextureModel filterModel);
         Task<DataTable> GetUploadAnnexture32(AnnextureModel model);
         Task<DataTable> GetMiscellaneousReport(MiscellaneousModel model);
-        Task<DataSet> GetCertificateLetterReport(BterCertificateReportDataModel model);
+        Task<DataSet> GetCertificateLetterReport(CertificateReportModel model);
     }
 }

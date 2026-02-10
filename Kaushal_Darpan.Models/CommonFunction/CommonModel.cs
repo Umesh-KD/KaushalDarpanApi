@@ -126,6 +126,16 @@ namespace Kaushal_Darpan.Models.CommonModel
 
     }
 
+    public class CertificateReportModel
+    {
+        public int DepartmentID { get; set; }
+        public int Eng_NonEng { get; set; }
+        public int EndtermID { get; set; }
+        public int InstituteID { get; set; }
+       // public int ExamTypeID { get; set; }
+
+    }
+
 
 
 }

@@ -16075,7 +16075,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #region Certificate Letter Report
         [HttpPost("GetCertificateLetterReport")]
-        public async Task<ApiResult<string>> GetCertificateLetterReport(BterCertificateReportDataModel model)
+        public async Task<ApiResult<string>> GetCertificateLetterReport(CertificateReportModel model)
         {
             ActionName = "GetCertificateLetterReport()";
             return await Task.Run(async () =>
@@ -16091,7 +16091,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         //var fileName = $"AllotmentFeeReceipt_{EnrollmentNo}.pdf";
                         var fileName = $"CertificateLetterReport.pdf";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/CertificateLetter.rdlc";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/CertificateLetterNew.rdlc";
                         //
                         var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
                         //
@@ -16100,15 +16100,12 @@ namespace Kaushal_Darpan.Api.Controllers
                         localReport.AddDataSource("CertificateLetter", data.Tables[0]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
 
-
                         //check file exists
                         if (!System.IO.Directory.Exists(folderPath))
                         {
                             Directory.CreateDirectory(folderPath);
                         }
                         //save
-
-
                         System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
                         //end report
 
