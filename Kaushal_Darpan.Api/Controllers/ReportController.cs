@@ -16097,7 +16097,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         //
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("CertificateLetter", data.Tables[0]);
+                        localReport.AddDataSource("CertificateLetter", data.Tables[1]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
 
                         //check file exists
