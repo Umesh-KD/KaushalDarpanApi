@@ -49,6 +49,10 @@
           <DataField>EndTermName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="PinCode">
+          <DataField>PinCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
@@ -653,6 +657,13 @@
                         <FontWeight>Bold</FontWeight>
                       </Style>
                     </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!PinCode.Value, "CertificateLetter")</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
                   </TextRuns>
                   <Style />
                 </Paragraph>
@@ -661,7 +672,7 @@
               <Top>3.97843cm</Top>
               <Left>0.48682cm</Left>
               <Height>0.6cm</Height>
-              <Width>4.53962cm</Width>
+              <Width>4.46024cm</Width>
               <ZIndex>4</ZIndex>
               <Style>
                 <Border>
@@ -846,7 +857,21 @@
                   <TextRuns>
                     <TextRun>
                       <Value>महोदय,
-      इस पत्र के साथ आपको मई   सत्र   परीक्षा के अस्थाई डिप्लोमा प्रमाण पत्र एवं प्रव्रजन प्रमाण पत्र निम्नानुसार भिजवाए जा रहे हैं :-</Value>
+      इस पत्र के साथ आपको मई </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Year.Value, "CertificateLetter")</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> सत्र   परीक्षा के अस्थाई डिप्लोमा प्रमाण पत्र एवं प्रव्रजन प्रमाण पत्र निम्नानुसार भिजवाए जा रहे हैं :-</Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                         <FontWeight>Bold</FontWeight>
