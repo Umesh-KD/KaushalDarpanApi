@@ -43248,6 +43248,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnSrNo;
             
+            private global::System.Data.DataColumn columnYear;
+            
+            private global::System.Data.DataColumn columnEndTermName;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public CertificateLetterDataTable() {
@@ -43333,6 +43337,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn YearColumn {
+                get {
+                    return this.columnYear;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EndTermNameColumn {
+                get {
+                    return this.columnEndTermName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -43368,7 +43388,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public CertificateLetterRow AddCertificateLetterRow(string Name, string Enrollment, string Institute, string InstituteCode, string ProvisionalCertificateNo, string SrNo) {
+            public CertificateLetterRow AddCertificateLetterRow(string Name, string Enrollment, string Institute, string InstituteCode, string ProvisionalCertificateNo, string SrNo, string Year, string EndTermName) {
                 CertificateLetterRow rowCertificateLetterRow = ((CertificateLetterRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Name,
@@ -43376,7 +43396,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         Institute,
                         InstituteCode,
                         ProvisionalCertificateNo,
-                        SrNo};
+                        SrNo,
+                        Year,
+                        EndTermName};
                 rowCertificateLetterRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCertificateLetterRow);
                 return rowCertificateLetterRow;
@@ -43405,6 +43427,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnInstituteCode = base.Columns["InstituteCode"];
                 this.columnProvisionalCertificateNo = base.Columns["ProvisionalCertificateNo"];
                 this.columnSrNo = base.Columns["SrNo"];
+                this.columnYear = base.Columns["Year"];
+                this.columnEndTermName = base.Columns["EndTermName"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -43422,6 +43446,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnProvisionalCertificateNo);
                 this.columnSrNo = new global::System.Data.DataColumn("SrNo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSrNo);
+                this.columnYear = new global::System.Data.DataColumn("Year", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnYear);
+                this.columnEndTermName = new global::System.Data.DataColumn("EndTermName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEndTermName);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -87256,6 +87284,38 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Year {
+                get {
+                    try {
+                        return ((string)(this[this.tableCertificateLetter.YearColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Year\' in table \'CertificateLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCertificateLetter.YearColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string EndTermName {
+                get {
+                    try {
+                        return ((string)(this[this.tableCertificateLetter.EndTermNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EndTermName\' in table \'CertificateLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCertificateLetter.EndTermNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsNameNull() {
                 return this.IsNull(this.tableCertificateLetter.NameColumn);
             }
@@ -87324,6 +87384,30 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetSrNoNull() {
                 this[this.tableCertificateLetter.SrNoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsYearNull() {
+                return this.IsNull(this.tableCertificateLetter.YearColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetYearNull() {
+                this[this.tableCertificateLetter.YearColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEndTermNameNull() {
+                return this.IsNull(this.tableCertificateLetter.EndTermNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEndTermNameNull() {
+                this[this.tableCertificateLetter.EndTermNameColumn] = global::System.Convert.DBNull;
             }
         }
         
