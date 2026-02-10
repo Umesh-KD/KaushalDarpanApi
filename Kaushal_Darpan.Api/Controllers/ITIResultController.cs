@@ -1880,12 +1880,10 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                         sb1.Append("<table id='pdf-header' style='width:100%' border='0' cellpadding='5' cellspacing='0'>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment & Entrepreneurship</td></tr>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + data.Tables[0].Rows[0]["ExamName"].ToString() + "  Examination Result</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment & Entrepreneurship</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + data.Tables[0].Rows[0]["ExamName"].ToString() + "  Examination Result</td></tr>");
                         sb1.Append("</table>");
-
-
 
                         var list = new List<TradeSubjectModel>();
                         if (data.Tables[0] != null)
@@ -1899,6 +1897,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             int PassTrainee = 0;
                             int FailTrainee = 0;
                             float PercentageTrainee = 0;
+
 
                             sb1.Append("<table style='border-collapse: collapse; width: 100%; font-family: Arial; font-size:14px' border='0' cellpadding='5' cellspacing='0'>");
 
@@ -1914,7 +1913,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             string DurationYear = item?.FirstOrDefault()?.DurationYear ?? string.Empty;
 
                             sb1.Append("<tr>");
-                            sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold;border:1px solid gray; '>");
+                            sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 0px; font-weight: bold;border:1px solid gray; '>");
                             sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> " + request.SemesterID + " Year (Annual Examination) "
                                 //+ row["DurationYear"] +
                                 + DurationYear +
