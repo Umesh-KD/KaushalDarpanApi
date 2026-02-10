@@ -7,6 +7,7 @@ using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.LeaveMaster;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using static Kaushal_Darpan.Core.Helper.CommonFuncationHelper;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -119,7 +120,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<bool>();
                 try
                 {
-                        
+
                     if (!ModelState.IsValid)
                     {
                         result.State = EnumStatus.Error;
@@ -127,6 +128,13 @@ namespace Kaushal_Darpan.Api.Controllers
                         return result;
                     }
 
+                    // Set the stored procedure name and type
+                    if (request.TotalDays > request.RemainingLeave)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
 
                     result.Data = await _unitOfWork.LeaveMasterRepository.SaveData(request);
                     await _unitOfWork.SaveChangesAsync();
@@ -172,8 +180,8 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-        
-        
+
+
         [HttpDelete("DeleteByID/{ID:int}/{ModifyBy:int}")]
         public async Task<ApiResult<bool>> DeleteByID(int ID, int ModifyBy)
         {
@@ -237,6 +245,36 @@ namespace Kaushal_Darpan.Api.Controllers
                         return result;
                     }
 
+                    // remaining leave validation
+                    var body = new LeaveMasterSearchModel
+                    {
+                        Action = "GetRemainingLeave",
+                        LeaveID = request.LeaveID,
+                        StaffTypeID = request.StaffTypeID.Value,
+                        StaffID = request.StaffID,
+                        SessionTypeID = request.SessionTypeID,
+                        FinancialYearID = request.FinancialYearID
+                    };
+
+                    // only approve
+                    if (request.Action == "Approved")
+                    {
+                        // get
+                        var dtLeaveBalance = await _unitOfWork.LeaveMasterRepository.GetRemainingLeave(body);
+                        if (dtLeaveBalance == null || dtLeaveBalance.Rows.Count == 0)
+                        {
+                            result.State = EnumStatus.Error;
+                            result.ErrorMessage = "You have not Leave data!";
+                            return result;
+                        }
+                        var leaveBalance = Convert.ToInt32(dtLeaveBalance?.Rows[0]["LeaveBlance"]);
+                        if (request.TotalDays > leaveBalance)
+                        {
+                            result.State = EnumStatus.Error;
+                            result.ErrorMessage = Constants.MSG_DO_NOT_ENOUGH_LEAVE_BALANCE;
+                            return result;
+                        }
+                    }
 
                     result.Data = await _unitOfWork.LeaveMasterRepository.Save_HrValidation_NodalAction(request);
                     await _unitOfWork.SaveChangesAsync();
@@ -270,14 +308,14 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpPost("HrValidationList")]
-        public async Task<ApiResult<DataTable>> HrValidationList([FromBody] LeaveMasterSearchModel body)
+        [HttpPost("GetStaffLeaveRequest")]
+        public async Task<ApiResult<DataTable>> GetStaffLeaveRequest([FromBody] LeaveMasterSearchModel body)
         {
-            ActionName = "GetAllData()";
+            ActionName = "GetStaffLeaveRequest(LeaveMasterSearchModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.LeaveMasterRepository.HrValidationList(body));
+                result.Data = await Task.Run(() => _unitOfWork.LeaveMasterRepository.GetStaffLeaveRequest(body));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
@@ -421,18 +459,30 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("GetStaffWithLeaveBalance")]
-        public async Task<ApiResult<DataTable>> GetStaffWithLeaveBalance([FromBody] LeaveMasterSearchModel body)
+        public async Task<ApiResult<object>> GetStaffWithLeaveBalance([FromBody] LeaveMasterSearchModel body)
         {
             ActionName = "GetStaffWithLeaveBalance(([FromBody] LeaveMasterSearchModel body)";
-            var result = new ApiResult<DataTable>();
+            var result = new ApiResult<object>();
             try
             {
 
                 // Pass the entire model to the repository
-                result.Data = await _unitOfWork.LeaveMasterRepository.GetStaffWithLeaveBalance(body);
-
-                if (result.Data.Rows.Count > 0)
+                var dt = await _unitOfWork.LeaveMasterRepository.GetStaffWithLeaveBalance(body);
+                var response = new
                 {
+                    Columns = dt.Columns.Cast<DataColumn>()
+                         .Select(c => c.ColumnName)
+                         .ToList(),
+
+                    Rows = dt.AsEnumerable()
+                         .Select(r => dt.Columns.Cast<DataColumn>()
+                         .ToDictionary(c => c.ColumnName, c => r[c]))
+                };
+
+                result.Data = response;
+                if (dt.Rows.Count > 0)
+                {
+
                     result.State = EnumStatus.Success;
                     result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                 }
@@ -459,6 +509,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
 
 
         [HttpPost("Save_CreditStaffLeave")]
