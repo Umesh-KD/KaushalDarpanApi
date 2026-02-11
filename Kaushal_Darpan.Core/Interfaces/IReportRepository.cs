@@ -17,6 +17,7 @@ using Kaushal_Darpan.Models.LeaveMaster;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.NodalApperentship;
 using Kaushal_Darpan.Models.OptionalFormatReport;
+using Kaushal_Darpan.Models.PlacementReport;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Report;
 using Kaushal_Darpan.Models.ScholarshipMaster;
@@ -299,5 +300,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetUploadAnnexture32(AnnextureModel model);
         Task<DataTable> GetMiscellaneousReport(MiscellaneousModel model);
         Task<DataSet> GetCertificateLetterReport(CertificateReportModel model);
+        Task<DataTable> GetITIAllDataExcelReport(ITIPlacementReportSearch filterModel);
     }
 }
