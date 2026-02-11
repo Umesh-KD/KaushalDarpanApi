@@ -32,6 +32,7 @@ using Kaushal_Darpan.Models.LeaveMaster;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.NodalApperentship;
 using Kaushal_Darpan.Models.OptionalFormatReport;
+using Kaushal_Darpan.Models.PlacementReport;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.RenumerationExaminer;
 using Kaushal_Darpan.Models.Report;
@@ -16140,6 +16141,45 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
 
+        [HttpPost("GetITIAllDataExcelReport")]
+        public async Task<ApiResult<DataTable>> GetITIAllDataExcelReport([FromBody] ITIPlacementReportSearch filterModel)
+        {
+            ActionName = "GetITIAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ReportRepository.GetITIAllDataExcelReport(filterModel);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
 
 
 

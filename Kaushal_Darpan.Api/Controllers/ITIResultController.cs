@@ -1443,7 +1443,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                         }
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["GrandTotal"] + "</td>");
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["Result"] + "</td>");
-                                        sb1.Append("<td  style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["OriginalCertificateNumber"] + "</td>");
+                                        sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["OriginalCertificateNumber"] + "</td>");
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["AcadSession"] + "</td>");
 
 
@@ -2091,7 +2091,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                         //}
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["GrandTotal"] + "</td>");
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["Result"] + "</td>");
-                                        sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["OriginalCertificateNumber"] + "</td>");
+                                        sb1.Append("<td   style='text-align: center; rowspan='3' ;font-size: 1px;border:1px solid gray;'><p style='font-size:10px;'>" +  rowTrnee["OriginalCertificateNumber"] + "</p></td>");
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["AcadSession"] + "</td>");
 
 

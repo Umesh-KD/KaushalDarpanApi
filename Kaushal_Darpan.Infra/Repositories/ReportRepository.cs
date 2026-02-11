@@ -21,6 +21,7 @@ using Kaushal_Darpan.Models.LeaveMaster;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.NodalApperentship;
 using Kaushal_Darpan.Models.OptionalFormatReport;
+using Kaushal_Darpan.Models.PlacementReport;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Report;
 using Kaushal_Darpan.Models.ScholarshipMaster;
@@ -9163,6 +9164,42 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
+
+
+        public async Task<DataTable> GetITIAllDataExcelReport(ITIPlacementReportSearch filterModel)
+        {
+            _actionName = "GetITIAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_TehsilMaster_DummyData";
+                       
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
 
     }
