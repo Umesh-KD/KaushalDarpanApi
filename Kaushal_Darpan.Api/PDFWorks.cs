@@ -287,6 +287,7 @@ namespace Utility
                     ;
 
                 PdfWriter writer = PdfWriter.GetInstance(pdfDoc, memoryStream);
+                writer.PageEvent = new PdfPageNumberEvent();
                 var fontPath1 = $"{ConfigurationHelper.RootPath}/fonts/K010_1.TTF";
                 var fontPath2 = $"{ConfigurationHelper.RootPath}/fonts/krdv011.ttf";
                 var fontPath = $"{ConfigurationHelper.RootPath}/StaticFiles/fonts/";
@@ -439,6 +440,8 @@ namespace Utility
 
                 PdfWriter writer = PdfWriter.GetInstance(pdfDoc, memoryStream);
 
+                writer.PageEvent = new PdfPageNumberEvent();
+
                 var fontPath1 = $"{ConfigurationHelper.RootPath}/fonts/K010_1.TTF";
                 var fontPath2 = $"{ConfigurationHelper.RootPath}/fonts/krdv011.ttf";
                 var fontPath = $"{ConfigurationHelper.RootPath}/StaticFiles/fonts/";
@@ -448,12 +451,16 @@ namespace Utility
                     writer.PageEvent = new PageBorderHelper();
 
                 // ----------- FOOTER ONLY (HEADER REMOVED HERE) -------------
-                if (!string.IsNullOrWhiteSpace(footerHtml))
-                {
+              
                     var footerOnly = new PdfHeaderFooter("", footerHtml, fontPath1, fontPath2);
-                    writer.PageEvent = footerOnly;
+                 
 
-                }
+
+
+
+                
+
+  
 
                 // ----------- WATERMARK -------------
                 if (!string.IsNullOrWhiteSpace(watermarkImagePath))
@@ -1179,13 +1186,8 @@ namespace Utility
             footer.AddCell(footerCell);
             footer.WriteSelectedRows(0, -1, document.LeftMargin, document.BottomMargin - 5, writer.DirectContent);
 
-
-
-
+            
         }
-
-
-
 
     }
 }
@@ -1227,11 +1229,18 @@ public class PdfWatermark : PdfPageEventHelper
 
             img.SetAbsolutePosition(x, y);
             cb.AddImage(img);
+
+
+
+
+
+
+
+
         }
         catch { /* ignore if image fails */ }
     }
 }
-
 
 
 public class PdfPageNumberEvent : PdfPageEventHelper
@@ -1239,41 +1248,81 @@ public class PdfPageNumberEvent : PdfPageEventHelper
     private PdfTemplate totalPages;
     private BaseFont baseFont;
 
+    // footer height position
+    private float footerY = 15f;
+
+    public PdfPageNumberEvent()
+    {
+    }
+
+    // Called once when document opens
     public override void OnOpenDocument(PdfWriter writer, Document document)
     {
         totalPages = writer.DirectContent.CreateTemplate(50, 50);
-        baseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+
+        // Standard font (very important)
+        baseFont = BaseFont.CreateFont(
+            BaseFont.HELVETICA,
+            BaseFont.CP1252,
+            BaseFont.NOT_EMBEDDED
+        );
     }
 
+    // Called on EVERY page
     public override void OnEndPage(PdfWriter writer, Document document)
     {
         PdfContentByte cb = writer.DirectContent;
 
         int pageNumber = writer.PageNumber;
 
-        string text = "Page " + pageNumber + " of ";
-        float textSize = 9f;
+        float left = document.LeftMargin;
+        float right = document.PageSize.Width - document.RightMargin;
+        float bottom = footerY;
 
-        float textWidth = baseFont.GetWidthPoint(text, textSize);
-
-        float x = (document.PageSize.Left + document.PageSize.Right) / 2;
-        float y = document.BottomMargin - 15;
+        // -------- LEFT SIDE : PRINT DATE ----------
+        string printedDate = "Printed on : " + DateTime.Now.ToString("dd-MM-yyyy hh:mm tt");
 
         cb.BeginText();
-        cb.SetFontAndSize(baseFont, textSize);
-        cb.SetTextMatrix(x - textWidth / 2, y);
-        cb.ShowText(text);
+        cb.SetFontAndSize(baseFont, 9);
+        cb.ShowTextAligned(
+            Element.ALIGN_LEFT,
+            printedDate,
+            left,
+            bottom,
+            0
+        );
         cb.EndText();
 
-        cb.AddTemplate(totalPages, x - textWidth / 2 + textWidth, y);
+        // -------- RIGHT SIDE : PAGE NUMBER ----------
+        string pageText = "Page " + pageNumber + " of ";
+
+        float textSize = baseFont.GetWidthPoint(pageText, 9);
+        float textX = right - textSize;
+
+        cb.BeginText();
+        cb.SetFontAndSize(baseFont, 9);
+        cb.ShowTextAligned(
+            Element.ALIGN_LEFT,
+            pageText,
+            textX,
+            bottom,
+            0
+        );
+        cb.EndText();
+
+        // placeholder for total pages
+        cb.AddTemplate(totalPages, textX + textSize, bottom);
     }
 
+    // Called once when document closes
     public override void OnCloseDocument(PdfWriter writer, Document document)
     {
         totalPages.BeginText();
-        totalPages.SetFontAndSize(baseFont, 9f);
-        totalPages.SetTextMatrix(0, 0);
+        totalPages.SetFontAndSize(baseFont, 9);
+
+        // writer.PageNumber gives +1 extra
         totalPages.ShowText((writer.PageNumber - 1).ToString());
+
         totalPages.EndText();
     }
 }
