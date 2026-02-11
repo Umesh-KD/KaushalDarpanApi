@@ -23,95 +23,94 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetCollegeNodalDashboardData(CollageDashboardSearchModel model)
         {
-            _actionName = "GetAllData()";
-            return await Task.Run(async () =>
+            _actionName = "GetCollegeNodalDashboardData(CollageDashboardSearchModel model)";
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_CollegeNodalDashboard ";
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_CollegeNodalDashboard ";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
 
-                    return dataTable;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         public async Task<DataTable> GetAllData(CollegeMasterSearchModel model)
         {
-            _actionName = "GetAllData()";
-            return await Task.Run(async () =>
+            _actionName = "GetAllData(CollegeMasterSearchModel model)";
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    command.CommandType = CommandType.StoredProcedure;
+                    if (model.RoleID == (int)EnumRole.DTE_Eng 
+                        || model.RoleID == (int)EnumRole.DTE_NonEng  
+                        || model.RoleID == (int)EnumRole.DTE_Litral  
+                        || model.RoleID == (int)EnumRole.DTE_Degree  
+                        || model.RoleID == (int)EnumRole.DTE_Litral_Degree)
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-                        if(model.RoleID==17 || model.RoleID == 18 || model.RoleID == 33 || model.RoleID == 80 || model.RoleID == 81)
-                        {
-                            command.CommandText = "USP_InstitutionMasterCourseWise ";
-                        }
-                        else
-                        {
-                            command.CommandText = "USP_InstitutionMaster ";
-                        }
-                       
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
-                        command.Parameters.AddWithValue("@InstituteCode", model.InstituteCode);
-                        command.Parameters.AddWithValue("@InstituteName", model.InstituteName);
-                        command.Parameters.AddWithValue("@ManagementType", model.ManagementType);
-                        command.Parameters.AddWithValue("@DistrictId"      , model.DistrictId);
-                        command.Parameters.AddWithValue("@Email"           ,  model.Email);
-                        command.Parameters.AddWithValue("@SSOID"          , model.SSOID);
-                        command.Parameters.AddWithValue("@Status", model.Status);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@CourseType", model.Eng_NonEng);
-
-                        command.Parameters.AddWithValue("@PageNumber", model.PageNumber);
-                        command.Parameters.AddWithValue("@PageSize",   model.PageSize);
-
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
+                        command.CommandText = "USP_InstitutionMasterCourseWise";
+                    }
+                    else
+                    {
+                        command.CommandText = "USP_InstitutionMaster";
                     }
 
-                    return dataTable;
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+                    command.Parameters.AddWithValue("@InstituteCode", model.InstituteCode);
+                    command.Parameters.AddWithValue("@InstituteName", model.InstituteName);
+                    command.Parameters.AddWithValue("@ManagementType", model.ManagementType);
+                    command.Parameters.AddWithValue("@DistrictId", model.DistrictId);
+                    command.Parameters.AddWithValue("@Email", model.Email);
+                    command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                    command.Parameters.AddWithValue("@Status", model.Status);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@CourseType", model.Eng_NonEng);
+
+                    command.Parameters.AddWithValue("@PageNumber", model.PageNumber);
+                    command.Parameters.AddWithValue("@PageSize", model.PageSize);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         public async Task<CollegeMasterModel> GetById(CollegeMasterRequestModel model)
         {
@@ -489,7 +488,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         command.Parameters.AddWithValue("@action", "_getCollegeAddress");
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
