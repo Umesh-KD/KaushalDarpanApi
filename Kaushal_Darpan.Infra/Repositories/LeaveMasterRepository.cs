@@ -212,11 +212,11 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<bool> Save_HrValidation_NodalAction(LeaveMaster request)
+        public async Task<bool> SaveStaffLeaveRequest(LeaveMaster request)
         {
             return await Task.Run(async () =>
             {
-                _actionName = "Save_HrValidation_NodalAction(HrMaster_Action request)";
+                _actionName = "SaveStaffLeaveRequest(LeaveMaster request)";
                 try
                 {
                     int result = 0;
