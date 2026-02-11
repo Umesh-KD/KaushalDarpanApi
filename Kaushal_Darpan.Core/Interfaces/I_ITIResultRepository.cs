@@ -1,4 +1,5 @@
 ﻿using Kaushal_Darpan.Models.ITICenterObserver;
+using Kaushal_Darpan.Models.ITIMaster;
 using Kaushal_Darpan.Models.ITIResults;
 using System;
 using System.Collections.Generic;
@@ -21,5 +22,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         //Task<DataTable> GetCurrentPassFailResultStatus(ITIStudentPassFailResultsModel model);
         Task<DataTable> GetITITradeList(ITIStudentPassFailResultsModel model);
         Task<DataSet> GetCFormConsolidatedReport(ITIResultsModel model);
+        Task<DataTable> GetExamLiveResult(ExamLiveResultModel obj);
     }
 }
