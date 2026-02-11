@@ -1235,9 +1235,9 @@ namespace Kaushal_Darpan.Api.Controllers
                         System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
 
                         sb1.Append("<table id='pdf-header' style='width:100%' border='0' cellpadding='5' cellspacing='0'>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment & Entrepreneurship</td></tr>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + data.Tables[0].Rows[0]["ExamName"].ToString() + "  Examination Result</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment & Entrepreneurship</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + data.Tables[0].Rows[0]["ExamName"].ToString() + "  Examination Result</td></tr>");
                         sb1.Append("</table>");
 
 
@@ -1434,7 +1434,18 @@ namespace Kaushal_Darpan.Api.Controllers
                                             try
                                             {
 
-                                                sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</td>");
+                                                if (rowSub["SubjectName"].ToString() == "Paper-III: Workshop Calculation & Science")
+                                                {
+                                                    sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray; width:10%;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>");
+                                                }
+                                                else
+                                                {
+                                                    sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>");
+                                                }
+
+
+
+                                               
                                             }
                                             catch (Exception ex)
                                             {
@@ -1879,11 +1890,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-                        sb1.Append("<table id='pdf-header' style='width:100%' border='0' cellpadding='5' cellspacing='0'>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment & Entrepreneurship</td></tr>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + data.Tables[0].Rows[0]["ExamName"].ToString() + "  Examination Result</td></tr>");
-                        sb1.Append("</table>");
+                   
 
                         var list = new List<TradeSubjectModel>();
                         if (data.Tables[0] != null)
@@ -1898,7 +1905,11 @@ namespace Kaushal_Darpan.Api.Controllers
                             int FailTrainee = 0;
                             float PercentageTrainee = 0;
 
-
+                            sb1.Append("<table id='pdf-headeree' style='width:100%' border='0' cellpadding='5' cellspacing='0'>");
+                            sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 15px;'>Rajasthan Council For Vocational Education And Training, Rajasthan</td></tr>");
+                            sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment & Entrepreneurship</td></tr>");
+                            sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + data.Tables[0].Rows[0]["ExamName"].ToString() + "  Examination Result</td></tr>");
+                            sb1.Append("</table>");
                             sb1.Append("<table style='border-collapse: collapse; width: 100%; font-family: Arial; font-size:14px' border='0' cellpadding='5' cellspacing='0'>");
 
                             int TradeId = item.Key;
@@ -2081,7 +2092,19 @@ namespace Kaushal_Darpan.Api.Controllers
                                             try
                                             {
 
-                                                sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</td>");
+                                                if (rowSub["SubjectName"].ToString() == "Paper-III: Workshop Calculation & Science")
+                                                {
+                                                    sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray; width:10%;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>");
+                                                }
+                                                else
+                                                {
+                                                    sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>");
+                                                }
+
+
+
+
+                                                
                                             }
                                             catch (Exception ex)
                                             {
@@ -2182,7 +2205,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
 
-                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "LANDSCAPE A4");
+                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte_Cfrom(sb1, "LANDSCAPE A4");
 
                         result.Data = Convert.ToBase64String(pdfBytes); ;
                         result.State = EnumStatus.Success;
