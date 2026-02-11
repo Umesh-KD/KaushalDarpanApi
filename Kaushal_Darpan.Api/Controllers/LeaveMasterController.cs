@@ -136,31 +136,55 @@ namespace Kaushal_Darpan.Api.Controllers
                         return result;
                     }
 
-                    result.Data = await _unitOfWork.LeaveMasterRepository.SaveData(request);
+                    //result.Data = await _unitOfWork.LeaveMasterRepository.SaveData(request);
+                    var isSave = await _unitOfWork.LeaveMasterRepository.SaveData(request);
                     await _unitOfWork.SaveChangesAsync();
-                    if (result.Data)
+                    //if (result.Data)
+                    //{
+                    //    result.State = EnumStatus.Success;
+                    //    if (request.StaffLeaveID == 0)
+                    //    {
+                    //        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    //    }
+                    //    else
+                    //    {
+                    //        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    result.State = EnumStatus.Error;
+                    //    if (request.StaffLeaveID == 0)
+                    //    {
+                    //        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    //    }
+                    //    else
+                    //    {
+                    //        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    //    }
+                    //}
+                    if (isSave == -1)
                     {
+                        result.Data = true;
                         result.State = EnumStatus.Success;
-                        if (request.StaffLeaveID == 0)
-                        {
-                            result.Message = Constants.MSG_SAVE_SUCCESS;
-                        }
-                        else
-                        {
-                            result.Message = Constants.MSG_UPDATE_SUCCESS;
-                        }
+                        result.Message = Constants.MSG_DATE_RANGE_ALREDY_EXIST;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else if (isSave ==2)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
                     }
                     else
                     {
                         result.State = EnumStatus.Error;
-                        if (request.StaffLeaveID == 0)
-                        {
-                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                        }
-                        else
-                        {
-                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
-                        }
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
                     }
                 }
                 catch (System.Exception ex)
@@ -182,7 +206,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpDelete("DeleteByID/{ID:int}/{ModifyBy:int}")]
+        [HttpPost("DeleteByID/{ID:int}/{ModifyBy:int}")]
         public async Task<ApiResult<bool>> DeleteByID(int ID, int ModifyBy)
         {
             ActionName = "DeleteByID(int HRManagerID, int ModifyBy)";
@@ -228,10 +252,10 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpPost("Save_HrValidation_NodalAction")]
-        public async Task<ApiResult<bool>> Save_HrValidation_NodalAction([FromBody] LeaveMaster request)
+        [HttpPost("SaveStaffLeaveRequest")]
+        public async Task<ApiResult<bool>> SaveStaffLeaveRequest([FromBody] LeaveMaster request)
         {
-            ActionName = "Save_HrValidation_NodalAction([FromBody] LeaveMaster request)";
+            ActionName = "SaveStaffLeaveRequest([FromBody] LeaveMaster request)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<bool>();
@@ -276,7 +300,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
                     }
 
-                    result.Data = await _unitOfWork.LeaveMasterRepository.Save_HrValidation_NodalAction(request);
+                    result.Data = await _unitOfWork.LeaveMasterRepository.SaveStaffLeaveRequest(request);
                     await _unitOfWork.SaveChangesAsync();
                     if (result.Data)
                     {
@@ -561,10 +585,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-
-
     }
-
 
 }
 

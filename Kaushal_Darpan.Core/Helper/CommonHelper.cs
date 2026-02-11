@@ -55,6 +55,7 @@ namespace Kaushal_Darpan.Core.Helper
         public const string MSG_SAVE_SUCCESS_EXCEPT_UNVERIFIED_STUDENTS = "Saved successfully. Except Unverified Students!";
         public const string MSG_INVALID_SSOID_PASSWORD = "Invalid SSOID or Password.!";
         public const string MSG_DO_NOT_ENOUGH_LEAVE_BALANCE = "You Do not have Enough Leave Balance.!";
+        public const string MSG_DATE_RANGE_ALREDY_EXIST = "You cannot applied in same date range.!";
 
 
         public const string Login_DefaultPassword = "KD@1230";
@@ -357,7 +358,7 @@ namespace Kaushal_Darpan.Core.Helper
     {
         Success = 1,
         Error = 2,
-        Warning = 3
+        Warning = 3,
     }
     public enum EnumRole
     {
@@ -398,6 +399,9 @@ namespace Kaushal_Darpan.Core.Helper
         ITCell_Eng = 206,
         ITCell_NonEng = 210,
         CommitteeInchargeDTE = 247,
+        DTE_Litral = 33,
+        DTE_Degree = 80,
+        DTE_Litral_Degree = 81,
     }
     public enum EnmPaymentGatway
     {

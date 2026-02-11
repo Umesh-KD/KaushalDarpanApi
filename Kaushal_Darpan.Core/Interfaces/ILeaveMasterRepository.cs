@@ -13,9 +13,9 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetAllData(LeaveMasterSearchModel filterModel);
         Task<LeaveMaster> GetById(int HRManagerID);
-        Task<bool> SaveData(LeaveMaster productDetails);
+        Task<int> SaveData(LeaveMaster productDetails);
         Task<bool> DeleteDataByID(LeaveMaster productDetails);
-        Task<bool> Save_HrValidation_NodalAction(LeaveMaster model);
+        Task<bool> SaveStaffLeaveRequest(LeaveMaster model);
         Task<DataTable> GetStaffLeaveRequest(LeaveMasterSearchModel filterModel);
         Task<DataTable> ByIDStaffLeaveList(LeaveMasterSearchModel filterModel);
         Task<DataTable> GetRemainingLeave(LeaveMasterSearchModel filterModel);

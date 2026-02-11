@@ -3,6 +3,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ITICenterObserver;
 using Kaushal_Darpan.Models.ITICollegeMarksheetDownloadmodel;
+using Kaushal_Darpan.Models.ITIMaster;
 using Kaushal_Darpan.Models.ITIResults;
 using System;
 using System.Collections.Generic;
@@ -336,6 +337,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
                 return dataTable;
 
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        public async Task<DataTable> GetExamLiveResult(ExamLiveResultModel obj)
+        {
+            _actionName = "GetAllData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_LiveResult";
+                        command.Parameters.AddWithValue("@EndTermID", obj.EndTermID);
+                        command.Parameters.AddWithValue("@Action", obj.Action);
+                        command.Parameters.AddWithValue("@UserID", obj.UserID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
             }
             catch (Exception ex)
             {
