@@ -107,7 +107,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<bool> SaveData(LeaveMaster request)
+        public async Task<int> SaveData(LeaveMaster request)
         {
             _actionName = "SaveData(CollegeMasterModel request)";
             return await Task.Run(async () =>
@@ -151,14 +151,17 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SessionTypeID", request.SessionTypeID);
                         command.Parameters.AddWithValue("@AppliedRoleID", request.RoleID);
 
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int);
+                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
                         result = await command.ExecuteNonQueryAsync();
+
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);
                     }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    
+                        return result;
                 }
                 catch (Exception ex)
                 {

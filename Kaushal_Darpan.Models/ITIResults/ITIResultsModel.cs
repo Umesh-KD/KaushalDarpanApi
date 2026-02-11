@@ -45,4 +45,17 @@ namespace Kaushal_Darpan.Models.ITIResults
         public string AcadSession { get; set; }
         public int SubjectId { get; set; }
     }
+
+
+    public class ExamLiveResultModel
+    {
+        public int EndTermID { get; set; }
+        public int UserID { get; set; }
+        public string? ExamName { get; set; }
+        public bool IsLiveResult { get; set; }
+        public int ModifyBy { get; set; }
+        public DateTime ModifyDate { get; set; }
+        public string? Action { get; set; }
+    }
+
 }
