@@ -30,7 +30,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetCollegeNodalDashboardData")]
         public async Task<ApiResult<DataTable>> GetCollegeNodalDashboardData([FromBody] CollageDashboardSearchModel model)
         {
-            ActionName = "GetAllData()";
+            ActionName = "GetCollegeNodalDashboardData([FromBody] CollageDashboardSearchModel model)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -67,7 +67,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetAllData")]
         public async Task<ApiResult<DataTable>> GetAllData([FromBody] CollegeMasterSearchModel model)
         {
-            ActionName = "GetAllData()";
+            ActionName = "GetAllData([FromBody] CollegeMasterSearchModel model)";
             var result = new ApiResult<DataTable>();
             try
             {

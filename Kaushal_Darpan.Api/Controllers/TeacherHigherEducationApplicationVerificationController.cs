@@ -658,5 +658,55 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [RoleActionFilter(EnumRole.DTE_Eng, EnumRole.DTE_NonEng, EnumRole.CommitteeInchargeDTE)]
+        [HttpPost("DTECommitteeAssign_THTE")]
+        public async Task<ApiResult<bool>> DTECommitteeAssign_THTE([FromBody] List<UpdateApplicationStatusDataModel_Principle> request)
+        {
+            ActionName = "DTECommitteeAssign_THTE([FromBody] List<UpdateApplicationStatusDataModel_Principle> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    var isSave = await _unitOfWork.TeacherHigherEducationApplicationVerificationRepository.DTECommitteeAssign_THTE(request);
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                    if (isSave == -1)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_NO_DATA_SAVE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }
