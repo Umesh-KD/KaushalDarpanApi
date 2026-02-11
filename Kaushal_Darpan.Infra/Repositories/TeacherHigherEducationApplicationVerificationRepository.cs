@@ -515,6 +515,52 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<int> DTECommitteeAssign_THTE(List<UpdateApplicationStatusDataModel_Principle> model)
+        {
+            _actionName = "DTECommitteeAssign_THTE(List<UpdateApplicationStatusDataModel_Principle> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    int retval = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_THTE_DTECommitteeAssign";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@action", "UpdateStatus");
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                    }
+                    return retval;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
 

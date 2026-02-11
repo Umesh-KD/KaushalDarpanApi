@@ -115,6 +115,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CreatedBy", model.CreatedBy); // Set if you have this info
                         command.Parameters.AddWithValue("@UpdatedBy", model.CreatedBy); // Set if you have this info
                         command.Parameters.AddWithValue("@SessionID", model.SessionID); // Set if you have this info
+                        command.Parameters.AddWithValue("@IsQualificationRecorded", model.IsQualificationRecorded);
                         command.Parameters.AddWithValue("@CollegeDetailList", JsonConvert.SerializeObject(model.CollegeDetailList)); // Set if you have this info
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress); // Set if you have this info
 
@@ -916,6 +917,48 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+        public async Task<DataTable> THTE_GetDTECommitteeDDL(CommitteeSearchModel body)
+        {
+            _actionName = "THTE_GetDTECommitteeDDL(CommitteeSearchModel body)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_THTE_CommitteeList_DTE";
+                        command.Parameters.AddWithValue("@Action", "DTECommitteeDDL");
+
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@InspectionTeamName", body.InspectionTeamName);
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
+                        command.Parameters.AddWithValue("@LevelId", body.LevelId);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
     }
 }

@@ -23,6 +23,9 @@ namespace Kaushal_Darpan.Models.Test
         public int SessionID { get; set; }
 
         public string? InstituteID { get; set; }
+        public int? InstituteType { get; set; }
+        public int? IsQualificationRecorded { get; set; }
+        public string? InstituteTypeName { get; set; }
 
         public List<CollegeDetailList>? CollegeDetailList { get; set; }
     }
@@ -38,6 +41,9 @@ namespace Kaushal_Darpan.Models.Test
         public string? CollegeName { get; set; }
         public string? Distance{ get; set; }
         public string? Remarks{ get; set; }
+        public int? InstituteType { get; set; }
+        public string? InstituteTypeName { get; set; }
+        public int InstituteStatus { get; set; }
     }
 
 
@@ -83,6 +89,7 @@ namespace Kaushal_Darpan.Models.Test
         public string? Remark { get; set; }
         public string? CommitteeDocs { get; set; }
         public string? Dis_CommitteeDocs { get; set; }
+        public int? DTECommitteID { get; set; }
     }
 
     public class UpdateApplicationStatusDataModel_Committee
