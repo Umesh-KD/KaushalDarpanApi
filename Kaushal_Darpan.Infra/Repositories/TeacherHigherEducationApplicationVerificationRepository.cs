@@ -225,6 +225,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@InstituteId", model.InstituteId);
                         command.Parameters.AddWithValue("@status", model.status);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();

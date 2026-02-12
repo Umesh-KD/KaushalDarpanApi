@@ -43,7 +43,8 @@ namespace Kaushal_Darpan.Models.Test
         public string? Remarks{ get; set; }
         public int? InstituteType { get; set; }
         public string? InstituteTypeName { get; set; }
-        public int InstituteStatus { get; set; }
+        public int? InstituteStatus { get; set; }
+        public int? DTECommitteeStatus { get; set; }
     }
 
 
@@ -62,6 +63,8 @@ namespace Kaushal_Darpan.Models.Test
         public int THTEAppID { get; set; }
         public string Name { get; set; }
         public int StaffID { get; set; }
+        public string? action { get; set; }
+        public int RoleID { get; set; }
     }
 
     public class PrincipleApplicationListSearchModel: RequestBaseModel
@@ -71,6 +74,7 @@ namespace Kaushal_Darpan.Models.Test
         public string Name { get; set; }
         public int StaffID { get; set; }
         public int? status { get; set; }
+        public int? UserID { get; set; }
         
     }
 
