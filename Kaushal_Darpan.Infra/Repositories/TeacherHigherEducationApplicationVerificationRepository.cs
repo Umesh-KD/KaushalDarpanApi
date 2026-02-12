@@ -202,7 +202,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        
+
 
 
         public async Task<DataTable> ApplicationList_ForDTE_THTE(PrincipleApplicationListSearchModel model)
@@ -388,33 +388,30 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> GetApplication_GenrateOrder_Dte_THTE(ApplicationGenrateOrderByDteListSearchModel model)
+        public async Task<DataSet> GetApplication_GenrateOrder_Dte_THTE(ApplicationGenrateOrderByDteListSearchModel model)
         {
             _actionName = "GetApplication_GenrateOrder_Dte_THTE(ApplicationGenrateOrderByDteListSearchModel model)";
             try
             {
-                return await Task.Run(async () =>
+                DataSet ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_THTE_ApplicationList_ForGenrateOrderDte";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_THTE_ApplicationList_ForGenrateOrderDte";
 
-                        command.Parameters.AddWithValue("@action", "GetApplicationList");
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
-                        command.Parameters.AddWithValue("@InstituteId", model.InstituteId);
-                        command.Parameters.AddWithValue("@status", model.status);
-                        command.Parameters.AddWithValue("@THTEAppIDs", model.THTEAppIDs);
+                    command.Parameters.AddWithValue("@action", "GetApplicationList");
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                    command.Parameters.AddWithValue("@InstituteId", model.InstituteId);
+                    command.Parameters.AddWithValue("@status", model.status);
+                    command.Parameters.AddWithValue("@THTEAppIDs", model.THTEAppIDs);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    ds = await command.FillAsync();
+                }
+                return ds;
             }
             catch (Exception ex)
             {
