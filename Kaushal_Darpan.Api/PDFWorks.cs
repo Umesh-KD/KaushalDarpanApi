@@ -243,125 +243,8 @@ namespace Utility
             }
         }
 
-        public static byte[] GeneratePDFGetByte_Cfrom0(StringBuilder HtmlString, string PageOriantation = "" ,string watermarkImagePath="",bool IsShowBorder=false)
-        {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-            float leftMargin = 20f;
-            float rightMargin = 20f;
-            float topMargin = 25f;
-            float bottomMargin = 25f;
-
-            string headerHtml = "";
-            string footerHtml = "";
-
-            var headerMatch = Regex.Match(HtmlString.ToString(), @"<table[^>]*id\s*=\s*[""']pdf-header[""'][^>]*>(.*?)</table>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
-            var footerHtmlMatch = Regex.Match(HtmlString.ToString(), @"<table[^>]*id\s*=\s*[""']pdf-footer[""'][^>]*>(.*?)</table>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
-
-            if (headerMatch.Success)
-            {
-                headerHtml = headerMatch.ToString();
-                topMargin = 95f;
-            }
-
-            if (footerHtmlMatch.Success)
-            {
-                footerHtml = footerHtmlMatch.ToString();
-                bottomMargin = 95f;
-            }
-
-            string cleanedHtml = Regex.Replace(HtmlString.ToString(), @"<table[^>]*id\s*=\s*[""']pdf-header[""'][^>]*>.*?</table>", "", RegexOptions.Singleline | RegexOptions.IgnoreCase);
-            cleanedHtml = Regex.Replace(cleanedHtml, @"<table[^>]*id\s*=\s*[""']pdf-footer[""'][^>]*>.*?</table>", "", RegexOptions.Singleline | RegexOptions.IgnoreCase);
-
-            HtmlString.Clear();
-            HtmlString.Append(cleanedHtml);
-
-            using (var memoryStream = new MemoryStream())
-            {
-
-                Document pdfDoc = PageOriantation == ""
-                    ? new Document(PageSize.A4, leftMargin, rightMargin, topMargin, bottomMargin)
-                    : PageOriantation == "LANDSCAPE"? new Document(PageSize.A4.Rotate(), leftMargin, rightMargin, topMargin, bottomMargin)
-                    : PageOriantation == "LANDSCAPE A4" ? new Document(PageSize.LEGAL.Rotate(), leftMargin, rightMargin, topMargin, bottomMargin):
-                    new Document(PageSize.A4.Rotate(), leftMargin, rightMargin, topMargin, bottomMargin)
-                    ;
-
-                PdfWriter writer = PdfWriter.GetInstance(pdfDoc, memoryStream);
-                var fontPath1 = $"{ConfigurationHelper.RootPath}/fonts/K010_1.TTF";
-                var fontPath2 = $"{ConfigurationHelper.RootPath}/fonts/krdv011.ttf";
-                var fontPath = $"{ConfigurationHelper.RootPath}/StaticFiles/fonts/";
-                // Show Borader
-                if (IsShowBorder)
-                {
-                    writer.PageEvent = new PageBorderHelper();
-                }
-
-
-
-                if (!string.IsNullOrWhiteSpace(headerHtml) || !string.IsNullOrWhiteSpace(footerHtml))
-                {
-                    var headerFooter = new PdfHeaderFooter(headerHtml, footerHtml, fontPath1, fontPath2);
-                    writer.PageEvent = headerFooter;
-                }
-
-                if (!string.IsNullOrWhiteSpace(watermarkImagePath) || !string.IsNullOrWhiteSpace(watermarkImagePath))
-                {
-                    var watermark = new PdfWatermark(watermarkImagePath);
-                    writer.PageEvent = watermark;
-                }
-
-
-                pdfDoc.Open();
-
-                try
-                {
-                    var fontProvider = new XMLWorkerFontProvider(XMLWorkerFontProvider.DONTLOOKFORFONTS);
-                    fontProvider.Register(fontPath1, "Kruti Dev 010");
-                    fontProvider.Register(fontPath2, "Kruti Dev 010");
-                    try
-                    {
-                        fontProvider.Register(Path.Combine(fontPath, "Georgia", "Georgia.ttf"), "Georgia");
-                        fontProvider.Register(Path.Combine(fontPath, "roman_new_times", "times.ttf"), "times");
-
-
-                     
-
-
-                    }
-                    catch { }
-
-                    var cssFiles = new CssFilesImpl();
-                    cssFiles.Add(XMLWorkerHelper.GetInstance().GetDefaultCSS());
-                    var cssResolver = new StyleAttrCSSResolver(cssFiles);
-                    var cssAppliers = new CssAppliersImpl(fontProvider);
-                    var context = new HtmlPipelineContext(cssAppliers);
-                    context.SetAcceptUnknown(true).AutoBookmark(true).SetTagFactory(Tags.GetHtmlTagProcessorFactory());
-
-                    var htmlPipeline = new HtmlPipeline(context, new PdfWriterPipeline(pdfDoc, writer));
-                    var cssPipeline = new CssResolverPipeline(cssResolver, htmlPipeline);
-
-                    var worker = new XMLWorker(cssPipeline, true);
-                    var xmlParser = new XMLParser(true, worker, Encoding.UTF8);
-
-                    using (var sr = new StringReader(HtmlString.ToString()))
-                    {
-                        xmlParser.Parse(sr);
-                    }
-
-
-                    pdfDoc.Close();
-                    writer.Close();
-
-                    return memoryStream.ToArray(); // ✅ Return byte array
-                }
-                catch (Exception ex)
-                {
-                    pdfDoc.Close();
-                    writer.Close();
-                    throw ex;
-                }
-            }
-        }
+     
+     
 
 
 
@@ -439,6 +322,8 @@ namespace Utility
 
                 PdfWriter writer = PdfWriter.GetInstance(pdfDoc, memoryStream);
 
+                writer.PageEvent = new PdfPageNumberEvent();
+
                 var fontPath1 = $"{ConfigurationHelper.RootPath}/fonts/K010_1.TTF";
                 var fontPath2 = $"{ConfigurationHelper.RootPath}/fonts/krdv011.ttf";
                 var fontPath = $"{ConfigurationHelper.RootPath}/StaticFiles/fonts/";
@@ -448,12 +333,16 @@ namespace Utility
                     writer.PageEvent = new PageBorderHelper();
 
                 // ----------- FOOTER ONLY (HEADER REMOVED HERE) -------------
-                if (!string.IsNullOrWhiteSpace(footerHtml))
-                {
+              
                     var footerOnly = new PdfHeaderFooter("", footerHtml, fontPath1, fontPath2);
-                    writer.PageEvent = footerOnly;
+                 
 
-                }
+
+
+
+                
+
+  
 
                 // ----------- WATERMARK -------------
                 if (!string.IsNullOrWhiteSpace(watermarkImagePath))
@@ -1127,7 +1016,6 @@ namespace Utility
             _headerElements = ParseHtmlToElements(headerHtml, fontPath1, fontPath2);
             _footerElements = ParseHtmlToElements(footerHtml, fontPath1, fontPath2);
         }
-
         private ElementList ParseHtmlToElements(string html, string fontPath1, string fontPath2)
         {
             var elements = new ElementList();
@@ -1179,13 +1067,8 @@ namespace Utility
             footer.AddCell(footerCell);
             footer.WriteSelectedRows(0, -1, document.LeftMargin, document.BottomMargin - 5, writer.DirectContent);
 
-
-
-
+            
         }
-
-
-
 
     }
 }
@@ -1227,11 +1110,18 @@ public class PdfWatermark : PdfPageEventHelper
 
             img.SetAbsolutePosition(x, y);
             cb.AddImage(img);
+
+
+
+
+
+
+
+
         }
         catch { /* ignore if image fails */ }
     }
 }
-
 
 
 public class PdfPageNumberEvent : PdfPageEventHelper
@@ -1239,41 +1129,81 @@ public class PdfPageNumberEvent : PdfPageEventHelper
     private PdfTemplate totalPages;
     private BaseFont baseFont;
 
+    // footer height position
+    private float footerY = 15f;
+
+    public PdfPageNumberEvent()
+    {
+    }
+
+    // Called once when document opens
     public override void OnOpenDocument(PdfWriter writer, Document document)
     {
         totalPages = writer.DirectContent.CreateTemplate(50, 50);
-        baseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+
+        // Standard font (very important)
+        baseFont = BaseFont.CreateFont(
+            BaseFont.HELVETICA,
+            BaseFont.CP1252,
+            BaseFont.NOT_EMBEDDED
+        );
     }
 
+    // Called on EVERY page
     public override void OnEndPage(PdfWriter writer, Document document)
     {
         PdfContentByte cb = writer.DirectContent;
 
         int pageNumber = writer.PageNumber;
 
-        string text = "Page " + pageNumber + " of ";
-        float textSize = 9f;
+        float left = document.LeftMargin;
+        float right = document.PageSize.Width - document.RightMargin;
+        float bottom = footerY;
 
-        float textWidth = baseFont.GetWidthPoint(text, textSize);
-
-        float x = (document.PageSize.Left + document.PageSize.Right) / 2;
-        float y = document.BottomMargin - 15;
+        // -------- LEFT SIDE : PRINT DATE ----------
+        string printedDate = "Printed on : " + DateTime.Now.ToString("dd-MM-yyyy hh:mm tt");
 
         cb.BeginText();
-        cb.SetFontAndSize(baseFont, textSize);
-        cb.SetTextMatrix(x - textWidth / 2, y);
-        cb.ShowText(text);
+        cb.SetFontAndSize(baseFont, 9);
+        cb.ShowTextAligned(
+            Element.ALIGN_LEFT,
+            printedDate,
+            left,
+            bottom,
+            0
+        );
         cb.EndText();
 
-        cb.AddTemplate(totalPages, x - textWidth / 2 + textWidth, y);
+        // -------- RIGHT SIDE : PAGE NUMBER ----------
+        string pageText = "Page " + pageNumber + " of ";
+
+        float textSize = baseFont.GetWidthPoint(pageText, 9);
+        float textX = right - textSize;
+
+        cb.BeginText();
+        cb.SetFontAndSize(baseFont, 9);
+        cb.ShowTextAligned(
+            Element.ALIGN_LEFT,
+            pageText,
+            textX,
+            bottom,
+            0
+        );
+        cb.EndText();
+
+        // placeholder for total pages
+        cb.AddTemplate(totalPages, textX + textSize, bottom);
     }
 
+    // Called once when document closes
     public override void OnCloseDocument(PdfWriter writer, Document document)
     {
         totalPages.BeginText();
-        totalPages.SetFontAndSize(baseFont, 9f);
-        totalPages.SetTextMatrix(0, 0);
+        totalPages.SetFontAndSize(baseFont, 9);
+
+        // writer.PageNumber gives +1 extra
         totalPages.ShowText((writer.PageNumber - 1).ToString());
+
         totalPages.EndText();
     }
 }
