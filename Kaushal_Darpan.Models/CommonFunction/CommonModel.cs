@@ -132,7 +132,7 @@ namespace Kaushal_Darpan.Models.CommonModel
         public int Eng_NonEng { get; set; }
         public int EndtermID { get; set; }
         public int InstituteID { get; set; }
-       // public int ExamTypeID { get; set; }
+        public int ResultType { get; set; }
 
     }
 

@@ -9139,10 +9139,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "Usp_Bter_CertificateLetter_Report";
-                        command.Parameters.AddWithValue("@Action", "certificate-letter-download");
+                        command.CommandText = "Usp_Bter_DownloadCertificateLetter";
+                        //command.Parameters.AddWithValue("@Action", "certificate-letter-download");
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        //command.Parameters.AddWithValue("@ExamTypeID", model.ExamTypeID);
+                        command.Parameters.AddWithValue("@ResultType", model.ResultType);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndtermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
