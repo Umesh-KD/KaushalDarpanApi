@@ -24,5 +24,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<int> UpdateApplicationStatus_CommitteeAfterPrinciple_THTE(List<UpdateApplicationStatusDataModel_Principle> model);
         Task<int> DTECommitteeAssign_THTE(List<UpdateApplicationStatusDataModel_Principle> model);
+        Task<DataTable> StaffDetailsPreview_THTE(StaffDetailsPreviewDataModel model);
     }
 }

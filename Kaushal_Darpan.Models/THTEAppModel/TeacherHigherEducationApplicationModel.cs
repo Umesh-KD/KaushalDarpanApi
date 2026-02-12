@@ -253,5 +253,34 @@ namespace Kaushal_Darpan.Models.Test
         public string? SSOID { get; set; }
         public string? StaffName { get; set; }
     }
+
+    public class StaffDetailsPreviewDataModel
+    {
+        public string? SSOID { get; set; }
+        public string? Office { get; set; }
+        public string? ServiceBookDesignation { get; set; }
+        public string? ServiceBookBranch { get; set; }
+        public string? Name { get; set; }
+        public string? Gender { get; set; }
+        public string? DateofBirth { get; set; }
+        public string? DateOfFirstAppointment { get; set; }
+        public string? DepartmentJoiningDate { get; set; }
+        public string? DateOfJoining { get; set; }
+        public string? DateOfAppointment { get; set; }
+        public string? MobileNumber { get; set; }
+        public string? EmployeeID { get; set; }
+        public string? CurrentDesignation { get; set; }
+        public string? CurrentBranch { get; set; }
+        public string? Experience { get; set; }
+        public string? QualificationAtJoining { get; set; }
+        public string? QualificationAfterJoining { get; set; }
+        public string? DateOfRetirement { get; set; }
+
+        public int StaffID { get; set; }
+        public int StaffUserID { get; set; }
+        public int UserID { get; set; }
+        public int RoleID { get; set; }
+    }
+
 }
 
