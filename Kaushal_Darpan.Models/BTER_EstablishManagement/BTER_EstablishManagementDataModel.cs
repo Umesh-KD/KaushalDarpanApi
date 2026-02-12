@@ -146,6 +146,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? Gender { get; set; }
         public string? Name { get; set; }
         public string? DateOfBirth { get; set; }
+        public string? DateOfFirstAppointment { get; set; }
         public string? DateOfAppointment { get; set; }
         public string? DateOfJoining { get; set; }
         public string? DepartmentJoiningDate { get; set; }
