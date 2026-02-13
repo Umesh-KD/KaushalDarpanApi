@@ -737,6 +737,9 @@
         public string ModifyDate { get; set; }
         public string IPAddress { get; set; }
         public int PostedSeat { get; set; }
+        public string Dis_UploadedDocument { get; set; }
+        public string UploadedDocument { get; set; }
+        public string? Name { get; set; }
     }
 
 

@@ -30,6 +30,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? DistrictID { get; set; }
         public int? ModifyBy { get; set; }
         public int? GuestHouseID { get; set; }
+        public int? BugetHeadID { get; set; }
     }
 
     public class BTER_EM_GetStaffListDataModel
@@ -233,6 +234,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? StaffUserID { get; set; }
         public int? WorkOfficeID { get; set; }
         public int? ModifyBy { get; set; }
+        public int? BugetHeadID { get; set; }
     }
 
     public class BTER_EM_UnlockProfileDataModel

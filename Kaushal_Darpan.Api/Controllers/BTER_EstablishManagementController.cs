@@ -53,6 +53,11 @@ namespace Kaushal_Darpan.Api.Controllers
                     }                    
 
                 }
+                else if (result.Data == -3 && body.OfficeID==21)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "This Post is not Sanctioned for this Institute!";
+                }
                 else if (result.Data == -3)
                 {
                     result.State = EnumStatus.Warning;
@@ -439,8 +444,19 @@ namespace Kaushal_Darpan.Api.Controllers
                 else if (result.Data == -2)
                 {
                     result.State = EnumStatus.Warning;
-                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    result.Message = Constants.MSG_SAVE_Duplicate;
                 }
+                else if (result.Data == -3 && body.WorkOfficeID == 21)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "The Post is not Sanctioned for this Institute";
+                }
+                else if (result.Data == -3)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "The Post is not Sanctioned Yet!";
+                }
+            
                 else
                 {
                     result.State = EnumStatus.Error;
