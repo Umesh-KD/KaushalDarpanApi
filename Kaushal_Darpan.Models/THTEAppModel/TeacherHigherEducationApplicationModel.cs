@@ -23,6 +23,9 @@ namespace Kaushal_Darpan.Models.Test
         public int SessionID { get; set; }
 
         public string? InstituteID { get; set; }
+        public int? InstituteType { get; set; }
+        public int? IsQualificationRecorded { get; set; }
+        public string? InstituteTypeName { get; set; }
 
         public List<CollegeDetailList>? CollegeDetailList { get; set; }
     }
@@ -38,6 +41,10 @@ namespace Kaushal_Darpan.Models.Test
         public string? CollegeName { get; set; }
         public string? Distance{ get; set; }
         public string? Remarks{ get; set; }
+        public int? InstituteType { get; set; }
+        public string? InstituteTypeName { get; set; }
+        public int? InstituteStatus { get; set; }
+        public int? DTECommitteeStatus { get; set; }
     }
 
 
@@ -56,6 +63,8 @@ namespace Kaushal_Darpan.Models.Test
         public int THTEAppID { get; set; }
         public string Name { get; set; }
         public int StaffID { get; set; }
+        public string? action { get; set; }
+        public int RoleID { get; set; }
     }
 
     public class PrincipleApplicationListSearchModel: RequestBaseModel
@@ -65,6 +74,7 @@ namespace Kaushal_Darpan.Models.Test
         public string Name { get; set; }
         public int StaffID { get; set; }
         public int? status { get; set; }
+        public int? UserID { get; set; }
         
     }
 
@@ -83,6 +93,7 @@ namespace Kaushal_Darpan.Models.Test
         public string? Remark { get; set; }
         public string? CommitteeDocs { get; set; }
         public string? Dis_CommitteeDocs { get; set; }
+        public int? DTECommitteID { get; set; }
     }
 
     public class UpdateApplicationStatusDataModel_Committee
@@ -242,5 +253,34 @@ namespace Kaushal_Darpan.Models.Test
         public string? SSOID { get; set; }
         public string? StaffName { get; set; }
     }
+
+    public class StaffDetailsPreviewDataModel
+    {
+        public string? SSOID { get; set; }
+        public string? Office { get; set; }
+        public string? ServiceBookDesignation { get; set; }
+        public string? ServiceBookBranch { get; set; }
+        public string? Name { get; set; }
+        public string? Gender { get; set; }
+        public string? DateofBirth { get; set; }
+        public string? DateOfFirstAppointment { get; set; }
+        public string? DepartmentJoiningDate { get; set; }
+        public string? DateOfJoining { get; set; }
+        public string? DateOfAppointment { get; set; }
+        public string? MobileNumber { get; set; }
+        public string? EmployeeID { get; set; }
+        public string? CurrentDesignation { get; set; }
+        public string? CurrentBranch { get; set; }
+        public string? Experience { get; set; }
+        public string? QualificationAtJoining { get; set; }
+        public string? QualificationAfterJoining { get; set; }
+        public string? DateOfRetirement { get; set; }
+
+        public int StaffID { get; set; }
+        public int StaffUserID { get; set; }
+        public int UserID { get; set; }
+        public int RoleID { get; set; }
+    }
+
 }
 

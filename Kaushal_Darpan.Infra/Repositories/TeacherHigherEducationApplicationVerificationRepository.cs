@@ -202,7 +202,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        
+
 
 
         public async Task<DataTable> ApplicationList_ForDTE_THTE(PrincipleApplicationListSearchModel model)
@@ -225,6 +225,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@InstituteId", model.InstituteId);
                         command.Parameters.AddWithValue("@status", model.status);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -387,33 +388,30 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> GetApplication_GenrateOrder_Dte_THTE(ApplicationGenrateOrderByDteListSearchModel model)
+        public async Task<DataSet> GetApplication_GenrateOrder_Dte_THTE(ApplicationGenrateOrderByDteListSearchModel model)
         {
             _actionName = "GetApplication_GenrateOrder_Dte_THTE(ApplicationGenrateOrderByDteListSearchModel model)";
             try
             {
-                return await Task.Run(async () =>
+                DataSet ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_THTE_ApplicationList_ForGenrateOrderDte";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_THTE_ApplicationList_ForGenrateOrderDte";
 
-                        command.Parameters.AddWithValue("@action", "GetApplicationList");
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
-                        command.Parameters.AddWithValue("@InstituteId", model.InstituteId);
-                        command.Parameters.AddWithValue("@status", model.status);
-                        command.Parameters.AddWithValue("@THTEAppIDs", model.THTEAppIDs);
+                    command.Parameters.AddWithValue("@action", "GetApplicationList");
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                    command.Parameters.AddWithValue("@InstituteId", model.InstituteId);
+                    command.Parameters.AddWithValue("@status", model.status);
+                    command.Parameters.AddWithValue("@THTEAppIDs", model.THTEAppIDs);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    ds = await command.FillAsync();
+                }
+                return ds;
             }
             catch (Exception ex)
             {
@@ -514,6 +512,91 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+        public async Task<int> DTECommitteeAssign_THTE(List<UpdateApplicationStatusDataModel_Principle> model)
+        {
+            _actionName = "DTECommitteeAssign_THTE(List<UpdateApplicationStatusDataModel_Principle> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    int retval = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_THTE_DTECommitteeAssign";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 0;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@action", "UpdateStatus");
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                    }
+                    return retval;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> StaffDetailsPreview_THTE(StaffDetailsPreviewDataModel model)
+        {
+            _actionName = "StaffDetailsPreview_THTE(StaffDetailsPreviewDataModel model)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_THTE_GetStaffDetailsPreview";
+
+                        command.Parameters.AddWithValue("@StaffID", model.StaffID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@StaffUserID", model.StaffUserID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@SSOID", model.SSOID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
     }
 }

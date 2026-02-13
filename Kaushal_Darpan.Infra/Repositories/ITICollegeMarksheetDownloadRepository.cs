@@ -201,6 +201,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Code", model.CollegeCode);
                         command.Parameters.AddWithValue("@TradeScheme", model.TradeScheme);
                         _sqlQuery = command.GetSqlExecutableQuery();
+                        
                         dataTable = await command.FillAsync_DataTable();
                     }
 

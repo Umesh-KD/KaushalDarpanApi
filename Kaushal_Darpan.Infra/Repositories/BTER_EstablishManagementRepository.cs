@@ -337,6 +337,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SSOID", request.SSOID ?? "");
                         command.Parameters.AddWithValue("@DesignationID", request.DesignationID);
                         command.Parameters.AddWithValue("@DateOfBirth", request.DateOfBirth ?? "");
+                        command.Parameters.AddWithValue("@DateOfFirstAppointment", request.DateOfFirstAppointment ?? "");
                         command.Parameters.AddWithValue("@GenderID", request.Gender);
                         command.Parameters.AddWithValue("@MobileNumber", request.MobileNumber);
                         command.Parameters.AddWithValue("@DepartmentId", request.DepartmentID);
