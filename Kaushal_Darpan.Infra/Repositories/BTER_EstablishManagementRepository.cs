@@ -1505,6 +1505,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Action", "View");
                         command.Parameters.AddWithValue("@ID", model.ID);
                         command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
+                        command.Parameters.AddWithValue("@DesignationID", model.DesignationID);
+                        command.Parameters.AddWithValue("@BugetHeadID", model.BugetHeadID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
