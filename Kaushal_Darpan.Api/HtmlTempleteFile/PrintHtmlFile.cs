@@ -785,13 +785,30 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
 
                 //4.
-                sb.Append($"<div style=\"display: flex;justify-content: flex-end; width: 100%;\">             <div style=\"text-align:center; margin-top: 40px; margin-bottom: 20px; width:250px; float:right;\">                 (आलोक बंसल)<br>                 निदेशक, तकनीकी शिक्षा             </div>         </div>          <div style=\"margin-bottom: 10px;display: flex;justify-content: space-between;\">             <div>क्रमांक :- एफ 10(17) प्राशिनि / ई-1 / सी-1 / {dt1.Rows[0]["YearName"]} / .... </div>             <div style=\"white-space: nowrap;\">दिनांक :- .....</div>         </div>          <div>प्रतिलिपि निम्नलिखित को सूचनार्थ एवं आवश्यक कार्यवाही हेतु प्रेषित है :-</div>");
+                //sb.Append($"<div style=\"display: flex;justify-content: flex-end; width: 100%;\">             <div style=\"text-align:center; margin-top: 40px; margin-bottom: 20px; width:250px; float:right;\">                 (आलोक बंसल)<br>                 निदेशक, तकनीकी शिक्षा             </div>         </div>          <div style=\"margin-bottom: 10px;display: flex;justify-content: space-between;\">             <div>क्रमांक :- एफ 10(17) प्राशिनि / ई-1 / सी-1 / {dt1.Rows[0]["YearName"]} / .... </div>             <div style=\"white-space: nowrap;\">दिनांक :- .....</div>         </div>          <div>प्रतिलिपि निम्नलिखित को सूचनार्थ एवं आवश्यक कार्यवाही हेतु प्रेषित है :-</div>");
+                sb.Append($@"
+<div style='display: flex; justify-content: flex-end; width: 100%;'>
+    <div style='text-align: right; margin-top: 40px; margin-bottom: 20px; width: 250px;'>
+        (आलोक बंसल)<br>
+        निदेशक, तकनीकी शिक्षा
+    </div>
+</div>
+
+<div style='margin-bottom: 10px; display: flex; justify-content: space-between;'>
+    <div>क्रमांक :- एफ 10(17) प्राशिनि / ई-1 / सी-1 / {dt1.Rows[0]["YearName"]} / .... </div>
+    <div style='white-space: nowrap;'>दिनांक :- .....</div>
+</div>
+
+<div>
+    प्रतिलिपि निम्नलिखित को सूचनार्थ एवं आवश्यक कार्यवाही हेतु प्रेषित है :-
+</div>");
+
 
                 //5.
                 sb.Append($"<ol style=\"list-style-type: decimal;margin-left: 20px; \">             <li style=\"margin-bottom: 10px;\">निजी सचिव, शासन सचिव, तकनीकी शिक्षा विभाग, शासन सचिवालय, जयपुर।</li>             <li style=\"margin-bottom: 10px;\">संयुक्त शासन सचिव, तकनीकी शिक्षा विभाग, शासन सचिवालय, जयपुर को उनके पत्रांक                 एफ 8 (17) त.शि./ {dt1.Rows[0]["HTERulesYear"]} पार्ट दिनांक {dt1.Rows[0]["CurrentDate"]} की अनुपालना में।</li>             <li style=\"margin-bottom: 10px;\">प्रधानाचार्य, राजकीय पॉलिटेक्निक महाविद्यालय - झालावाड़/ कोटा/                 भीलवाडा/डूंगरपुर/झुन्झुनू/श्रीगंगानगर/अलवर/हनुमानगढ़/नागौर/उदयपुर/ अजमेर/सवाईमाधोपुर/सिरोही/मण्डोर                 (कैम्प जोधपुर)/पाली/बून्दी/करौली (कैम्प अवलर)/ जोधपुर/ भरतपुर/ बांसवाड़ा/ दौसा/ बीकानेर/ धौलपुर/ खेतान                 जयपुर/ सीकर</li>             <li style=\"margin-bottom: 10px;\">प्रधानाचार्य, राजकीय महिला पॉलिटेक्निक महाविद्यालय, जोधपुर।</li>             <li style=\"margin-bottom: 10px;\">संबंधित उपरोक्त कार्मिक द्वारा प्रधानाचार्य।</li>             <li style=\"margin-bottom: 10px;\">निजी/ रक्षित पत्रावली -संस्था स्तर।</li>         </ol>");
 
                 //6.
-                sb.Append("<div style=\"display: flex;justify-content: flex-end; width: 100%;\">             <div style=\"text-align: center; margin-top: 40px; margin-bottom: 20px; width:250px; float:right;\">                 (आलोक बंसल)<br>                 निदेशक, तकनीकी शिक्षा             </div>         </div>");
+                sb.Append("<div style=\"display: flex;justify-content: flex-end; width: 100%;\">             <div style=\"text-align: right; margin-top: 40px; margin-bottom: 20px; width:250px; float:right;\">                 (आलोक बंसल)<br>                 निदेशक, तकनीकी शिक्षा             </div>         </div>");
 
                 sb.AppendLine("</body>");
                 sb.AppendLine("</html>");

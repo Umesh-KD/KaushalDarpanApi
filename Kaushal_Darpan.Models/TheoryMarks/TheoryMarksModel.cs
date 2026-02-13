@@ -62,6 +62,8 @@
         public int? CenterCode { get; set; }
         public int? IsPersentAbsent { get; set; }
         public int? CheckedStatus { get; set; }
+        public int centersubmitstatus { get; set; }
+        public int centerpresentstatus { get; set; }
 
     }
 

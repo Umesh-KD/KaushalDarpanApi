@@ -282,5 +282,12 @@ namespace Kaushal_Darpan.Models.Test
         public int RoleID { get; set; }
     }
 
+    public class CommitteeStatusChangeDataModel
+    {
+        public int? CommitteeID { get; set; }
+        public int? UserID { get; set; }
+        public int? IsActive { get; set; }
+    }
+
 }
 
