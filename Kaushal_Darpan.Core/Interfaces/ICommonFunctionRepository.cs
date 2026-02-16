@@ -255,6 +255,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetApplicationSubmittedSteps(string AppplicationId);
 
         Task<List<CommonDDLModel>> DDL_OfficeMaster(int DepartmentID, int LevelID);
+        Task<List<CommonDDLModel>> DDL_RoleWiseOffice(int DepartmentID, int RoleID);
         Task<DataTable> BTER_BGT_BudgetType(int DepartmentID, int LevelID);
         Task<List<CommonDDLModel>> DDL_PostMaster();
 

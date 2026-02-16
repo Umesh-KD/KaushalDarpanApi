@@ -1706,7 +1706,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_DDL_RoleOfficeMapping";
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        //command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

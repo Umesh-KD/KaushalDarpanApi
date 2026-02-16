@@ -48,6 +48,7 @@ namespace Kaushal_Darpan.Models.LeaveMaster
         public string? Action { get; set; }
 
         public int? LeaveID { get; set; }
+        public int? RoleID { get; set; }
 
 
     }
