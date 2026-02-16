@@ -6948,6 +6948,48 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpGet("DDL_RoleWiseOffice/{DepartmentID}/{RoleID}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> DDL_RoleWiseOffice(int DepartmentID, int RoleID)
+        {
+            ActionName = "DDL_RoleWiseOffice(int DepartmentID, int RoleID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<CommonDDLModel>>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.DDL_RoleWiseOffice(DepartmentID, RoleID);
+                    if (data != null)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
         [HttpGet("BTER_BGT_BudgetType/{DepartmentID}/{LevelID}")]
         public async Task<ApiResult<DataTable>> BTER_BGT_BudgetType(int DepartmentID, int LevelID)
         {

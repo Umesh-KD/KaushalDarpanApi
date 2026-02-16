@@ -363,8 +363,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_StaffLeave_Action";
-                        
+                        if (body.RoleID.HasValue && (body.RoleID == (int)EnumRole.EM_Secretary_BTER || body.RoleID == (int)EnumRole.EM_JD_BTER))
+                        {
+                            command.CommandText = "USP_StaffLeave_Action_NonGazetted";
+                            command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        }
+                        else
+                        {
+                            command.CommandText = "USP_StaffLeave_Action";
+                        }
                         command.Parameters.AddWithValue("@Action", body.Action);
                         command.Parameters.AddWithValue("@LeaveID", body.LeaveID);
                         command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
@@ -404,7 +411,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetStaffForLeaveCredit";
+
+                        if(body.RoleID.HasValue && (body.RoleID ==(int)EnumRole.EM_Secretary_BTER || body.RoleID==(int)EnumRole.EM_JD_BTER))
+                        {
+                            command.CommandText = "USP_GetStaffForLeaveCredit_NonGazetted";
+                            command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        }
+                        else
+                        {
+                            command.CommandText = "USP_GetStaffForLeaveCredit";
+                        }
 
                         if (body.SessionTypeID == (int)SessionType.FinancialYear)
                         {
@@ -458,7 +474,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetStaffWithLeaveBalance";
+                        if (body.RoleID.HasValue && (body.RoleID == (int)EnumRole.EM_Secretary_BTER || body.RoleID == (int)EnumRole.EM_JD_BTER))
+                        {
+                            command.CommandText = "USP_GetStaffWithLeaveBalance_NonGazetted";
+                            command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        }
+                        else
+                        {
+                            command.CommandText = "USP_GetStaffWithLeaveBalance";
+                        }
                         command.Parameters.AddWithValue("@Name", body.Name);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
@@ -534,5 +558,49 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        #region credit leave for non_gazetted staff
+        public async Task<bool> Save_CreditStaffLeave_NonGazetted(List<CreditLeaveModel> request)
+        {
+            _actionName = "Save_CreditStaffLeave_NonGazetted(CreditLeaveModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_SaveLeaveCreditForStaff_NonGazetted";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@action", "_addLeaveCreditForStaffData");
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        #endregion
     }
 }

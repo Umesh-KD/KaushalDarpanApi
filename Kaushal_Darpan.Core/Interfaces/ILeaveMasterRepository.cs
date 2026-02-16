@@ -25,5 +25,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStaffWithLeaveBalance(LeaveMasterSearchModel filterModel);
 
         Task<bool> Save_CreditStaffLeave(List<CreditLeaveModel> request);
+        Task<bool> Save_CreditStaffLeave_NonGazetted(List<CreditLeaveModel> request);
     }
 }
