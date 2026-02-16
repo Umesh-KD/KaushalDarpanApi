@@ -262,7 +262,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<CommonDDLModel>> AllDDlManageByTypeCommanMaster(string type);
         Task<List<CommonDDLModel>> AllDDlCenterMaster(string type);
 
-        Task<List<CommonDDLModel>> GetDesignationAndPostMaster();
+        Task<List<CommonDDLModel>> GetDesignationAndPostMaster(int id=0);
         Task<DataTable> CenterSuperitendentDDL(CenterSuperitendentDDL body);
         Task<bool> HasValidAge(string dateFrom);
         Task<string> CommonVerifierApiSSOIDGetSomeDetails(CommonVerifierApiDataModel request);

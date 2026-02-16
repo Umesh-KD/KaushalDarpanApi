@@ -7940,7 +7940,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<List<CommonDDLModel>> GetDesignationAndPostMaster()
+        public async Task<List<CommonDDLModel>> GetDesignationAndPostMaster(int id=0)
         {
             _actionName = "GetDesignationAndPostMaster()";
             return await Task.Run(async () =>
@@ -7952,6 +7952,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetDesignationAndPostMaster";
+                        command.Parameters.AddWithValue("@Typeid", id);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

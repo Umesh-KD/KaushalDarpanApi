@@ -7149,15 +7149,15 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("GetDesignationAndPostMaster")]
-        public async Task<ApiResult<List<CommonDDLModel>>> GetDesignationAndPostMaster()
+        [HttpGet("GetDesignationAndPostMaster/{id}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> GetDesignationAndPostMaster(int id=0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<List<CommonDDLModel>>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetDesignationAndPostMaster();
+                    var data = await _unitOfWork.CommonFunctionRepository.GetDesignationAndPostMaster(id);
                     if (data.Count > 0)
                     {
                         result.Data = data;
