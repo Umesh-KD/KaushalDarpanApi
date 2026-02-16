@@ -863,13 +863,13 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
             var distinctInstitutes = reportData.AsEnumerable()
-    .Where(row => row.Field<int>("TradeId") == tradeId)
-    .GroupBy(row => row.Field<int>("InstituteID"))
-    .Select(g => new
-    {
-        InstituteID = g.Key,
-        InstituteName = g.First().Field<string>("InstituteName")?.Trim()
-    });
+                .Where(row => row.Field<int>("TradeId") == tradeId)
+                .GroupBy(row => row.Field<int>("InstituteID"))
+                .Select(g => new
+                {
+                    InstituteID = g.Key,
+                    InstituteName = g.First().Field<string>("InstituteName")?.Trim()
+                });
 
             DataTable result = new DataTable();
             result.Columns.Add("InstituteID", typeof(int));
