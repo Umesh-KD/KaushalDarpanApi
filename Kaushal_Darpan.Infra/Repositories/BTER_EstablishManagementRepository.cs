@@ -1512,6 +1512,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@Name", model.Name);
+                        command.Parameters.AddWithValue("@StaffTypeID", model.StaffTypeID);
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();

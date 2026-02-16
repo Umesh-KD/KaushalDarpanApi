@@ -833,25 +833,44 @@ namespace Kaushal_Darpan.Api.Controllers
 
         private DataTable GetInstitutesByTradeConsolidated(int tradeId, DataTable reportData)
         {
+       //     var distinctInstitutes = reportData.AsEnumerable()
+       //.Where(row => row.Field<int>("TradeId") == tradeId)
+       //.GroupBy(row => new
+       //{
+       //    InstituteID = row.Field<int>("InstituteID"),
+       //    InstituteName = row.Field<string>("InstituteName")?
+       //                        .Trim()
+       //                        .ToUpper()
+       //})
+       //.Select(g => new
+       //{
+       //    InstituteID = g.Key.InstituteID,
+       //    InstituteName = g.First().Field<string>("InstituteName").Trim()
+       //});
+
+
+
+
+       //     // Create the result table manually
+       //     DataTable result = new DataTable();
+       //     result.Columns.Add("InstituteID", typeof(int));
+       //     result.Columns.Add("InstituteName", typeof(string));
+
+       //     foreach (var item in distinctInstitutes)
+       //     {
+       //         result.Rows.Add(item.InstituteID, item.InstituteName);
+       //     }
+
+
             var distinctInstitutes = reportData.AsEnumerable()
-       .Where(row => row.Field<int>("TradeId") == tradeId)
-       .GroupBy(row => new
-       {
-           InstituteID = row.Field<int>("InstituteID"),
-           InstituteName = row.Field<string>("InstituteName")?
-                               .Trim()
-                               .ToUpper()
-       })
-       .Select(g => new
-       {
-           InstituteID = g.Key.InstituteID,
-           InstituteName = g.First().Field<string>("InstituteName").Trim()
-       });
+    .Where(row => row.Field<int>("TradeId") == tradeId)
+    .GroupBy(row => row.Field<int>("InstituteID"))
+    .Select(g => new
+    {
+        InstituteID = g.Key,
+        InstituteName = g.First().Field<string>("InstituteName")?.Trim()
+    });
 
-
-
-
-            // Create the result table manually
             DataTable result = new DataTable();
             result.Columns.Add("InstituteID", typeof(int));
             result.Columns.Add("InstituteName", typeof(string));
@@ -860,6 +879,9 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 result.Rows.Add(item.InstituteID, item.InstituteName);
             }
+
+
+
 
             return result;
         }
