@@ -51,5 +51,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DTECommitteeDataModel> THTE_GetDTECommitteeById(int ID, int RoleID);
         Task<DataTable> THTE_GetDTECommitteeDDL(CommitteeSearchModel body);
         Task<int> SaveDTERecommendationInstitutes_THTE(List<CollegeDetailList> entity);
+        Task<bool> CommitteeStatusChange_THTE(CommitteeStatusChangeDataModel request);
     }
 }

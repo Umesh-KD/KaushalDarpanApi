@@ -567,7 +567,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         #endregion
 
         #region Internal Assessment Student
-        public StringBuilder InternalAssessmentStudent_GetHtml(DataSet dataSet,int TypeID)
+        public StringBuilder InternalAssessmentStudent_GetHtml(DataSet dataSet, int TypeID)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -676,7 +676,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     sb.Append("</tr>");
 
                     // td
-                    
+
                     foreach (DataRow dr in dt.Rows)
                     {
 
@@ -732,8 +732,94 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
             return sb;
         }
+        #endregion
 
-        
+        #region Application GenrateOrder Dte THTE
+        public StringBuilder GetHtmlOfApplicationGenrateOrderDteTHTE(DataSet ds)
+        {
+            StringBuilder sb = new StringBuilder();
+            try
+            {
+                DataTable dt1 = ds.Tables[0];//session
+                DataTable dt2 = ds.Tables[1];//data
+
+                // heading
+                sb.AppendLine("<!DOCTYPE html>");
+                sb.AppendLine("<html lang=\"hi\">");
+                sb.AppendLine("<head>");
+                sb.AppendLine("    <meta charset=\"UTF-8\" />");
+                sb.AppendLine("    <title>Office Order</title>");
+                sb.AppendLine("    <style>");
+                sb.AppendLine("        @font-face {");
+                sb.AppendLine("            font-family: 'Noto Sans Devanagari';");
+                sb.AppendLine($"            src: local('Noto Sans Devanagari'), url(\"{ConfigurationHelper.FontPath_Noto_Sans_Devanagari}\") format('truetype');");
+                sb.AppendLine("        }");
+                sb.AppendLine("</style>");
+                sb.AppendLine("</head>");
+                sb.AppendLine("<body>");
+
+                //1. 
+                sb.AppendLine($"<div style=\"max-width: 210mm; margin: 0 auto; padding: 20px;background-color: white;color: black;line-height: 1.5;\">          <div style=\"text-align: center;margin-bottom: 20px; position: relative;\">             <div style=\"text-align: right;text-decoration: underline;font-weight: bold;margin-bottom: 10px;\">ई मेल से                 प्रेषित (अति-आवश्यक)</div>             <div style=\" font-size: 1.2em; font-weight: bold;\">राजस्थान सरकार</div>             <div style=\"font-size: 1.1em;font-weight: bold;\">तकनीकी शिक्षा निदेशालय, राजस्थान, जोधपुर।</div>         </div>          <div style=\"display: flex;justify-content: space-between;margin-top: 20px;margin-bottom: 20px;\">             <div>क्रमांक :- एफ 10(17) प्राशिनि / ई-1 / सी-1 / {dt1.Rows[0]["YearName"]} /</div>             <div>दिनांक :- {dt1.Rows[0]["CurrentDate"]}</div>         </div>          <div             style=\"text-align: center;font-weight: bold;text-decoration: underline;font-size: 1.2em;margin-bottom: 20px;\">             कार्यालय आदेश</div>          <div style=\"text-align: justify;margin-bottom: 20px;\">             प्रशासनिक विभाग द्वारा जारी नई उच्च अध्ययन नीति दिनांक {dt1.Rows[0]["HTERulesDate"]} में प्रावधित नियमों के अनुसार गठित कमेटी की             अभिशंषा एवं प्रशासनिक विभाग के पत्रांक एफ 8 (17) त.शि./ {dt1.Rows[0]["HTERulesYear"]} पार्ट दिनांक {dt1.Rows[0]["CurrentDate"]} द्वारा अनुमोदित अन्तिम             सूची             अनुसार शैक्षणिक सत्र {dt1.Rows[0]["FinancialYearName"]} (प्रथम सत्र उच्च अध्ययन प्रक्रिया के अन्तर्गत) हेतु निम्न शिक्षकों को             शैक्षणिक             सत्र {dt1.Rows[0]["FinancialYearName"]} के लिए अंशकालीन / पार्टटाईम / मोड्यूलर आधार पर उच्च अध्ययन किये जाने की अनुमति निम्न शर्तों             के             अध्याधीन प्रदान की जाती है :-         </div>");
+
+                //2.
+                sb.Append($"<ol style=\" margin-left: 20px;\">             <li style=\"margin-bottom: 10px;\">उच्च अध्ययन के कारण संस्थान में शैक्षणिक / अध्ययन कार्य एवं राजकीय कार्य                 बाधित                 नहीं होंगे।</li>             <li style=\"margin-bottom: 10px;\">संस्थान के कार्यालय समय में उच्च अध्ययन कोर्स करने की अनुमति नहीं होगी।             </li>             <li style=\"margin-bottom: 10px;\">उच्च अध्ययन हेतु किसी संस्थान में चयन हो जाने मात्र से कार्मिक को उच्च                 अध्ययन                 हेतु अनुमति का अधिकार प्राप्त                 नहीं होगा।</li>             <li style=\"margin-bottom: 10px;\">राज्य सरकार प्रशासनिक कारणों से किसी भी समय उच्च अध्ययन की अनुमति समाप्त कर                 सकती है</li>             <li style=\"margin-bottom: 10px;\">राज्य सरकार प्रशासनिक कार्यों से, ऐसे कार्मिक जिन्हे इस उच्च अध्ययन नीति के                 तहत                 अनुमति प्रदान की गई है, का                 स्थानान्तरण कर सकती है।</li>             <li style=\"margin-bottom: 10px;\">पीएचडी (पार्ट टाईम) उच्च अध्ययन हेतु पदस्थापित पॉलिटेक्निक संस्थान से उच्च                 अध्ययन संस्थान के मध्य दूरी {dt1.Rows[0]["DistanceBetweenInstitute"]}                 कि.मी. से अधिक न हो।</li>         </ol>");
+
+                //3.
+                sb.Append("<table style=\"width: 100%;border-collapse: collapse;margin-top: 20px;margin-bottom: 20px;\">             <thead>                 <tr>                     <th                         style=\"width: 5%;text-align: center; font-weight: bold;border: 1px solid black;padding: 8px;vertical-align: top;\">                         क्र.सं.</th>                     <th                         style=\"width: 30%; text-align: center; font-weight: bold;border: 1px solid black;padding: 8px;vertical-align: top;\">                         कार्मिक का नाम,पद, एवं पदस्थापन स्थान                     </th>                     <th                         style=\"width: 30%;text-align: center; font-weight: bold;border: 1px solid black;padding: 8px;vertical-align: top;\">                         पाठ्यक्रम का नाम जिसके लिये आवेदन किया गया                         है</th>                     <th                         style=\"width: 35%;text-align: center; font-weight: bold;border: 1px solid black;padding: 8px;vertical-align: top;\">                         उच्च अध्ययन की जाने वाली संस्थान का नाम                     </th>                 </tr>             </thead>");
+
+                //loop table data
+                sb.Append("<tbody>");
+                int i = 1;
+                foreach (DataRow dr in dt2.Rows)
+                {
+                    sb.Append("<tr>");
+                    sb.Append($"<td style=\"text-align: center;border: 1px solid black;padding: vertical-align: top;\">{i}</td>");
+                    sb.Append($"<td style=\"border: 1px solid black;padding: 8px;text-align: left;vertical-align: top;\">{dr["TeacherName"]}, {dr["DesignationNameEnglish"]}, {dr["DistrictNameEnglish"]}</td>");
+                    sb.Append($"<td style=\"border: 1px solid black;padding: 8px;text-align: left;vertical-align: top;\">{dr["AppliedInstituteCategory"]}</td>");
+                    sb.Append($"<td style=\"border: 1px solid black;padding: 8px;text-align: left;vertical-align: top;\">{dr["AppliededInstitute"]}</td>");
+                    sb.Append("</tr>");
+                    i++;
+                }
+                sb.Append("</tbody>");
+                sb.Append("</table>");
+
+
+                //4.
+                //sb.Append($"<div style=\"display: flex;justify-content: flex-end; width: 100%;\">             <div style=\"text-align:center; margin-top: 40px; margin-bottom: 20px; width:250px; float:right;\">                 (आलोक बंसल)<br>                 निदेशक, तकनीकी शिक्षा             </div>         </div>          <div style=\"margin-bottom: 10px;display: flex;justify-content: space-between;\">             <div>क्रमांक :- एफ 10(17) प्राशिनि / ई-1 / सी-1 / {dt1.Rows[0]["YearName"]} / .... </div>             <div style=\"white-space: nowrap;\">दिनांक :- .....</div>         </div>          <div>प्रतिलिपि निम्नलिखित को सूचनार्थ एवं आवश्यक कार्यवाही हेतु प्रेषित है :-</div>");
+                sb.Append($@"
+<div style='display: flex; justify-content: flex-end; width: 100%;'>
+    <div style='text-align: right; margin-top: 40px; margin-bottom: 20px; width: 250px;'>
+        (आलोक बंसल)<br>
+        निदेशक, तकनीकी शिक्षा
+    </div>
+</div>
+
+<div style='margin-bottom: 10px; display: flex; justify-content: space-between;'>
+    <div>क्रमांक :- एफ 10(17) प्राशिनि / ई-1 / सी-1 / {dt1.Rows[0]["YearName"]} / .... </div>
+    <div style='white-space: nowrap;'>दिनांक :- .....</div>
+</div>
+
+<div>
+    प्रतिलिपि निम्नलिखित को सूचनार्थ एवं आवश्यक कार्यवाही हेतु प्रेषित है :-
+</div>");
+
+
+                //5.
+                sb.Append($"<ol style=\"list-style-type: decimal;margin-left: 20px; \">             <li style=\"margin-bottom: 10px;\">निजी सचिव, शासन सचिव, तकनीकी शिक्षा विभाग, शासन सचिवालय, जयपुर।</li>             <li style=\"margin-bottom: 10px;\">संयुक्त शासन सचिव, तकनीकी शिक्षा विभाग, शासन सचिवालय, जयपुर को उनके पत्रांक                 एफ 8 (17) त.शि./ {dt1.Rows[0]["HTERulesYear"]} पार्ट दिनांक {dt1.Rows[0]["CurrentDate"]} की अनुपालना में।</li>             <li style=\"margin-bottom: 10px;\">प्रधानाचार्य, राजकीय पॉलिटेक्निक महाविद्यालय - झालावाड़/ कोटा/                 भीलवाडा/डूंगरपुर/झुन्झुनू/श्रीगंगानगर/अलवर/हनुमानगढ़/नागौर/उदयपुर/ अजमेर/सवाईमाधोपुर/सिरोही/मण्डोर                 (कैम्प जोधपुर)/पाली/बून्दी/करौली (कैम्प अवलर)/ जोधपुर/ भरतपुर/ बांसवाड़ा/ दौसा/ बीकानेर/ धौलपुर/ खेतान                 जयपुर/ सीकर</li>             <li style=\"margin-bottom: 10px;\">प्रधानाचार्य, राजकीय महिला पॉलिटेक्निक महाविद्यालय, जोधपुर।</li>             <li style=\"margin-bottom: 10px;\">संबंधित उपरोक्त कार्मिक द्वारा प्रधानाचार्य।</li>             <li style=\"margin-bottom: 10px;\">निजी/ रक्षित पत्रावली -संस्था स्तर।</li>         </ol>");
+
+                //6.
+                sb.Append("<div style=\"display: flex;justify-content: flex-end; width: 100%;\">             <div style=\"text-align: right; margin-top: 40px; margin-bottom: 20px; width:250px; float:right;\">                 (आलोक बंसल)<br>                 निदेशक, तकनीकी शिक्षा             </div>         </div>");
+
+                sb.AppendLine("</body>");
+                sb.AppendLine("</html>");
+
+                return sb;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating HTML", ex);
+            }
+        }
         #endregion
 
     }

@@ -51,6 +51,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ExaminerCode", body.ExaminerCode);
                         //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
                         command.Parameters.AddWithValue("@CheckedStatus", body.CheckedStatus);
+                        command.Parameters.AddWithValue("@centersubmitstatus", body.centersubmitstatus);
+                        command.Parameters.AddWithValue("@centerpresentstatus", body.centerpresentstatus);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();

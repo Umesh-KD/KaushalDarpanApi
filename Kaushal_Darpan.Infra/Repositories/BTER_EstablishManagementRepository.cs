@@ -65,6 +65,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DistrictID", request.DistrictID ?? 0);
                         command.Parameters.AddWithValue("@GuestHouseID", request.GuestHouseID ?? 0);
                         command.Parameters.AddWithValue("@EndtermID", request.EndTermID);
+                        command.Parameters.AddWithValue("@BugetHeadID", request.BugetHeadID);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -476,6 +477,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffUserID", request.StaffUserID ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@WorkOfficeID", request.WorkOfficeID ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@BugetHeadID", request.BugetHeadID ?? (object)DBNull.Value);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -1503,9 +1505,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Action", "View");
                         command.Parameters.AddWithValue("@ID", model.ID);
                         command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
+                        command.Parameters.AddWithValue("@StaffTypeID", model.StaffTypeID);
+                        command.Parameters.AddWithValue("@DesignationID", model.DesignationID);
+                        command.Parameters.AddWithValue("@BugetHeadID", model.BugetHeadID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@Name", model.Name);
+                        command.Parameters.AddWithValue("@StaffTypeID", model.StaffTypeID);
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();
