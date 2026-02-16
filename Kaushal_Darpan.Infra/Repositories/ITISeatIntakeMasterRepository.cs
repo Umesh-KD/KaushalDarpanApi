@@ -977,5 +977,59 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<DataTable> GetTradeCollegesMaster(ITICollegeTradeSearchModel request)
+        {
+            _actionName = "GetTradeAndColleges(ITICollegeTradeSearchModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandTimeout = 999999999;
+                        command.CommandText = "USP_ITIGetCollegeTradeMasterList";
+                        command.Parameters.AddWithValue("@CollegeId", request.CollegeID);
+                        command.Parameters.AddWithValue("@CollegeTradeId", request.CollegeTradeId);
+                        command.Parameters.AddWithValue("@TradeSchemeId", request.TradeSchemeId);
+                        command.Parameters.AddWithValue("@AcademicYearID", request.FinancialYearID);
+                        command.Parameters.AddWithValue("@AllotmentMasterId", request.AllotmentMasterId);
+                        command.Parameters.AddWithValue("@TradeCode", request.TradeCode);
+                        command.Parameters.AddWithValue("@TradeID", request.TradeID);
+                        command.Parameters.AddWithValue("@TradeLevelId", request.TradeLevelId);
+                        command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
+                        command.Parameters.AddWithValue("@ManagementTypeId", request.ManagementTypeId);
+                        command.Parameters.AddWithValue("@TotalSeatAvailable", request.TotalSeatAvailable);
+                        command.Parameters.AddWithValue("@FeeStatus", request.FeeStatus);
+                        command.Parameters.AddWithValue("@SeatStatus", request.SeatStatus);
+                        command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
+                        command.Parameters.AddWithValue("@PageNumber", request.PageNumber);
+                        command.Parameters.AddWithValue("@PageSize", request.PageSize);
+                        command.Parameters.AddWithValue("@Action", request.Action);
+                        command.Parameters.AddWithValue("@CreateBy", request.CreateBy);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
     }
 }

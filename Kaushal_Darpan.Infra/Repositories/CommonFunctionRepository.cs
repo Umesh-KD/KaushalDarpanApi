@@ -10575,6 +10575,52 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+
+        public async Task<DataTable> GetActiveTradeList(ItiTradeSearchModel request)
+        {
+            _actionName = "TradeListGetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ItiCollegeTradeMaster";
+
+                        command.Parameters.AddWithValue("@action", request.action);
+                        command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
+                        command.Parameters.AddWithValue("@TradeLevel", request.TradeLevel);
+                        command.Parameters.AddWithValue("@IsPH", request.IsPH);
+                        command.Parameters.AddWithValue("@Age", request.Age);
+                        command.Parameters.AddWithValue("@Gender", request.Gender);
+                        //command.Parameters.AddWithValue("@IsPH", request.MathPercentage);
+                        //command.Parameters.AddWithValue("@IsPH", request.SciencePercentage);
+                        command.Parameters.AddWithValue("@FinancialYear", request.FinancialYear);
+                        command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+                        command.Parameters.AddWithValue("@ManagementTypeID", request.ManagementTypeID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<DataTable> GetALLOptionalSubjects(DDL_OptionalSubjectModel model)
         {
             _actionName = "GetLevelMaster()";
