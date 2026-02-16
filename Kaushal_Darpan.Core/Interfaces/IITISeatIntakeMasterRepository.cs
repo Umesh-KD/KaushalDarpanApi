@@ -18,6 +18,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<BTERSeatIntakeDataModel>> GetAllData(BTERSeatIntakeSearchModel request);
         Task<DataTable> GetAllDataPlanning(BTERSeatIntakeSearchModel request);
         Task<DataTable> GetTradeAndColleges(ITICollegeTradeSearchModel request);
+        Task<DataTable> GetTradeCollegesMaster(ITICollegeTradeSearchModel request);
         
        
         Task<BTERSeatIntakeDataModel>GetById(int id);

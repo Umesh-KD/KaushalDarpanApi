@@ -9651,6 +9651,37 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+
+        [HttpPost("GetActiveTradeList")]
+        public async Task<ApiResult<DataTable>> GetActiveTradeList(ItiTradeSearchModel request)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.GetActiveTradeList(request);
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
     }
 }
 
