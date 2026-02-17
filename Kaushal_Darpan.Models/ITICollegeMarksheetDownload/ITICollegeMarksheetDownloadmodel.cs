@@ -2,7 +2,7 @@
 {
     public class ITICollegeStudentMarksheetSearchModel
     {
-        public int DistrictID { get; set; }
+        public int? DistrictID { get; set; }
         public int InstituteID { get; set; }
         public int EndTermID { get; set; }
         public string? CollegeCode { get; set; }
