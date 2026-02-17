@@ -253,7 +253,7 @@ namespace Utility
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            float leftMargin = 20f;
+            float leftMargin = 55f;
             float rightMargin = 20f;
             float topMargin = 25f;     // no fake header space now
             float bottomMargin = 25f;

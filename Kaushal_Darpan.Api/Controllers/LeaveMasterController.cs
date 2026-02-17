@@ -70,8 +70,8 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpGet("GetByID/{ID:int}")]
-        public async Task<ApiResult<LeaveMaster>> GetByID(int ID)
+        [HttpGet("GetByID/{ID:int}/{RoleID:int?}")]
+        public async Task<ApiResult<LeaveMaster>> GetByID(int ID,int RoleID=0)
         {
             ActionName = "GetByID(int HRManagerID)";
             return await Task.Run(async () =>
@@ -79,7 +79,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<LeaveMaster>();
                 try
                 {
-                    var data = await _unitOfWork.LeaveMasterRepository.GetById(ID);
+                    var data = await _unitOfWork.LeaveMasterRepository.GetById(ID,RoleID);
                     if (data != null)
                     {
                         var mappedData = _mapper.Map<LeaveMaster>(data);
@@ -206,10 +206,10 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpPost("DeleteByID/{ID:int}/{ModifyBy:int}")]
-        public async Task<ApiResult<bool>> DeleteByID(int ID, int ModifyBy)
+        [HttpPost("DeleteByID/{ID:int}/{ModifyBy:int}/{RoleID:int?}")]
+        public async Task<ApiResult<bool>> DeleteByID(int ID, int ModifyBy,int? RoleID)
         {
-            ActionName = "DeleteByID(int HRManagerID, int ModifyBy)";
+            ActionName = "DeleteByID(int HRManagerID, int ModifyBy,int? RoleID)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<bool>();
@@ -219,6 +219,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         StaffLeaveID = ID,
                         ModifyBy = ModifyBy,
+                        RoleID=RoleID
                     };
                     result.Data = await _unitOfWork.LeaveMasterRepository.DeleteDataByID(mappedData);
                     await _unitOfWork.SaveChangesAsync();
@@ -277,7 +278,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         StaffTypeID = request.StaffTypeID.Value,
                         StaffID = request.StaffID,
                         SessionTypeID = request.SessionTypeID,
-                        FinancialYearID = request.FinancialYearID
+                        FinancialYearID = request.FinancialYearID,
+                        RoleID=request.RoleID
                     };
 
                     // only approve
