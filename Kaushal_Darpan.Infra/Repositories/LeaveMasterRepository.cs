@@ -459,7 +459,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
 
-                        if(body.RoleID.HasValue && (body.RoleID ==(int)EnumRole.EM_Secretary_BTER || body.RoleID==(int)EnumRole.EM_JD_BTER))
+                        if(body.RoleID.HasValue && (body.RoleID ==(int)EnumRole.EM_Secretary_BTER || body.RoleID==(int)EnumRole.EM_JD_BTER || body.RoleID==(int)EnumRole.EM_ADTE_NON_GAZETTED_STAFF)
                         {
                             command.CommandText = "USP_GetStaffForLeaveCredit_NonGazetted";
                             command.Parameters.AddWithValue("@RoleID", body.RoleID);
