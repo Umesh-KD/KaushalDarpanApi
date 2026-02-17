@@ -53,6 +53,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CheckedStatus", body.CheckedStatus);
                         command.Parameters.AddWithValue("@centersubmitstatus", body.centersubmitstatus);
                         command.Parameters.AddWithValue("@centerpresentstatus", body.centerpresentstatus);
+                        command.Parameters.AddWithValue("@StudentStatus", body.StudentStatus);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
