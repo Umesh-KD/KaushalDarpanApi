@@ -2681,7 +2681,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<List<CommonDDLModel>> SubjectMaster_StreamIDWise(int StreamID, int DepartmentID, int SemesterID)
+        public async Task<List<CommonDDLModel>> SubjectMaster_StreamIDWise(int StreamID, int DepartmentID, int SemesterID, int Eng_NonEng, int EndTermID)
         {
             _actionName = "SubjectMaster_StreamIDWise(int StreamID)";
             return await Task.Run(async () =>
@@ -2697,6 +2697,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StreamID", StreamID);
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
                         command.Parameters.AddWithValue("@SemesterID", SemesterID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", EndTermID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -2776,6 +2778,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

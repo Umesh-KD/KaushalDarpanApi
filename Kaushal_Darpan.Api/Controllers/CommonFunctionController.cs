@@ -2880,8 +2880,8 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpGet("SubjectMaster_StreamIDWise/{StreamID}/{DepartmentID}/{SemesterID}")]
-        public async Task<ApiResult<List<CommonDDLModel>>> SubjectMaster_StreamIDWise(int StreamID, int DepartmentID, int SemesterID)
+        [HttpGet("SubjectMaster_StreamIDWise/{StreamID}/{DepartmentID}/{SemesterID}/{Eng_NonEng}/{EndTermID}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> SubjectMaster_StreamIDWise(int StreamID, int DepartmentID, int SemesterID, int Eng_NonEng, int EndTermID)
         {
             ActionName = "SubjectMaster_StreamIDWise(int StreamID)";
             return await Task.Run(async () =>
@@ -2889,7 +2889,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<List<CommonDDLModel>>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.SubjectMaster_StreamIDWise(StreamID, DepartmentID, SemesterID);
+                    var data = await _unitOfWork.CommonFunctionRepository.SubjectMaster_StreamIDWise(StreamID, DepartmentID, SemesterID, Eng_NonEng, EndTermID);
                     if (data != null)
                     {
                         result.Data = data;
