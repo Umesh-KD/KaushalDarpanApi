@@ -61,6 +61,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@Status", body.Status);
                         command.Parameters.AddWithValue("@CourseTypeId", body.CourseTypeId);
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();
