@@ -70,8 +70,8 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpGet("GetByID/{ID:int}")]
-        public async Task<ApiResult<LeaveMaster>> GetByID(int ID)
+        [HttpGet("GetByID/{ID:int}/{RoleID:int?}")]
+        public async Task<ApiResult<LeaveMaster>> GetByID(int ID,int RoleID=0)
         {
             ActionName = "GetByID(int HRManagerID)";
             return await Task.Run(async () =>
@@ -79,7 +79,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<LeaveMaster>();
                 try
                 {
-                    var data = await _unitOfWork.LeaveMasterRepository.GetById(ID);
+                    var data = await _unitOfWork.LeaveMasterRepository.GetById(ID,RoleID);
                     if (data != null)
                     {
                         var mappedData = _mapper.Map<LeaveMaster>(data);
@@ -206,10 +206,10 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpPost("DeleteByID/{ID:int}/{ModifyBy:int}")]
-        public async Task<ApiResult<bool>> DeleteByID(int ID, int ModifyBy)
+        [HttpPost("DeleteByID/{ID:int}/{ModifyBy:int}/{RoleID:int?}")]
+        public async Task<ApiResult<bool>> DeleteByID(int ID, int ModifyBy,int? RoleID)
         {
-            ActionName = "DeleteByID(int HRManagerID, int ModifyBy)";
+            ActionName = "DeleteByID(int HRManagerID, int ModifyBy,int? RoleID)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<bool>();
@@ -219,6 +219,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         StaffLeaveID = ID,
                         ModifyBy = ModifyBy,
+                        RoleID=RoleID
                     };
                     result.Data = await _unitOfWork.LeaveMasterRepository.DeleteDataByID(mappedData);
                     await _unitOfWork.SaveChangesAsync();
@@ -277,7 +278,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         StaffTypeID = request.StaffTypeID.Value,
                         StaffID = request.StaffID,
                         SessionTypeID = request.SessionTypeID,
-                        FinancialYearID = request.FinancialYearID
+                        FinancialYearID = request.FinancialYearID,
+                        RoleID=request.RoleID
                     };
 
                     // only approve
@@ -585,6 +587,57 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [HttpPost("Save_CreditStaffLeave_NonGazetted")]
+        public async Task<ApiResult<bool>> Save_CreditStaffLeave_NonGazetted([FromBody] List<CreditLeaveModel> request)
+        {
+            ActionName = "CreditStaffLeave_NonGazetted([FromBody] List<CreditLeaveModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+
+                    result.Data = await _unitOfWork.LeaveMasterRepository.Save_CreditStaffLeave_NonGazetted(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
     }
 
 }

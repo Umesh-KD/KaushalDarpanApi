@@ -2880,8 +2880,8 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpGet("SubjectMaster_StreamIDWise/{StreamID}/{DepartmentID}/{SemesterID}")]
-        public async Task<ApiResult<List<CommonDDLModel>>> SubjectMaster_StreamIDWise(int StreamID, int DepartmentID, int SemesterID)
+        [HttpGet("SubjectMaster_StreamIDWise/{StreamID}/{DepartmentID}/{SemesterID}/{Eng_NonEng}/{EndTermID}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> SubjectMaster_StreamIDWise(int StreamID, int DepartmentID, int SemesterID, int Eng_NonEng, int EndTermID)
         {
             ActionName = "SubjectMaster_StreamIDWise(int StreamID)";
             return await Task.Run(async () =>
@@ -2889,7 +2889,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<List<CommonDDLModel>>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.SubjectMaster_StreamIDWise(StreamID, DepartmentID, SemesterID);
+                    var data = await _unitOfWork.CommonFunctionRepository.SubjectMaster_StreamIDWise(StreamID, DepartmentID, SemesterID, Eng_NonEng, EndTermID);
                     if (data != null)
                     {
                         result.Data = data;
@@ -6948,6 +6948,48 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpGet("DDL_RoleWiseOffice/{DepartmentID}/{RoleID}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> DDL_RoleWiseOffice(int DepartmentID, int RoleID)
+        {
+            ActionName = "DDL_RoleWiseOffice(int DepartmentID, int RoleID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<CommonDDLModel>>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.DDL_RoleWiseOffice(DepartmentID, RoleID);
+                    if (data != null)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
         [HttpGet("BTER_BGT_BudgetType/{DepartmentID}/{LevelID}")]
         public async Task<ApiResult<DataTable>> BTER_BGT_BudgetType(int DepartmentID, int LevelID)
         {
@@ -7107,15 +7149,15 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("GetDesignationAndPostMaster")]
-        public async Task<ApiResult<List<CommonDDLModel>>> GetDesignationAndPostMaster()
+        [HttpGet("GetDesignationAndPostMaster/{id}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> GetDesignationAndPostMaster(int id=0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<List<CommonDDLModel>>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetDesignationAndPostMaster();
+                    var data = await _unitOfWork.CommonFunctionRepository.GetDesignationAndPostMaster(id);
                     if (data.Count > 0)
                     {
                         result.Data = data;

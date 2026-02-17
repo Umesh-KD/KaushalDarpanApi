@@ -539,6 +539,7 @@
     public class ITI_Govt_EM_RoleOfficeMappingSearchDataModel
     {    
         public int DepartmentID { get; set; }
+        public int? RoleID { get; set; }
        
     }
 

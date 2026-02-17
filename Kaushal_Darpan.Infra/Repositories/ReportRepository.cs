@@ -9142,10 +9142,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "Usp_Bter_DownloadCertificateLetter";
                         //command.Parameters.AddWithValue("@Action", "certificate-letter-download");
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@ResultType", model.ResultType);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndtermID);
+                        command.Parameters.AddWithValue("@ResultType", model.ExamTypeID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }

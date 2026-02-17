@@ -402,6 +402,14 @@ namespace Kaushal_Darpan.Core.Helper
         DTE_Litral = 33,
         DTE_Degree = 80,
         DTE_Litral_Degree = 81,
+
+        // BTER Establishment 
+        EM_JDTE = 239,
+        EM_JD_BTER = 48,
+        EM_Secretary_BTER = 243,
+        EM_NON_GAZETTED_STAFF = 252,
+        EM_ADTE_GAZETTED_STAFF = 240,
+        EM_ADTE_NON_GAZETTED_STAFF = 241,
     }
     public enum EnmPaymentGatway
     {

@@ -146,7 +146,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<CommonDDLModel>> GetParentSubjectDDL(SubjectSearchModel req);
         Task<List<CommonDDLModel>> SubjectMaster_SemesterIDWise(int SemesterID, int DepartmentID);
         Task<List<CommonDDLModel>> SubjectMaster_SubjectCode_SemesterIDWise(int SemesterID, int DepartmentID, string SubjectCode);
-        Task<List<CommonDDLModel>> SubjectMaster_StreamIDWise(int StreamID, int DepartmentID, int SemesterID);
+        Task<List<CommonDDLModel>> SubjectMaster_StreamIDWise(int StreamID, int DepartmentID, int SemesterID, int Eng_NonEng, int EndTermID);
         Task<DataTable> GetStudentStatusByRole(int roleId, int type);
         Task<DataTable> GetEnrollmentCancelStatusByRole(int roleId, int type);
         Task<DataTable> ItiGetStudentStatusByRole(int roleId, int type);
@@ -255,13 +255,14 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetApplicationSubmittedSteps(string AppplicationId);
 
         Task<List<CommonDDLModel>> DDL_OfficeMaster(int DepartmentID, int LevelID);
+        Task<List<CommonDDLModel>> DDL_RoleWiseOffice(int DepartmentID, int RoleID);
         Task<DataTable> BTER_BGT_BudgetType(int DepartmentID, int LevelID);
         Task<List<CommonDDLModel>> DDL_PostMaster();
 
         Task<List<CommonDDLModel>> AllDDlManageByTypeCommanMaster(string type);
         Task<List<CommonDDLModel>> AllDDlCenterMaster(string type);
 
-        Task<List<CommonDDLModel>> GetDesignationAndPostMaster();
+        Task<List<CommonDDLModel>> GetDesignationAndPostMaster(int id=0);
         Task<DataTable> CenterSuperitendentDDL(CenterSuperitendentDDL body);
         Task<bool> HasValidAge(string dateFrom);
         Task<string> CommonVerifierApiSSOIDGetSomeDetails(CommonVerifierApiDataModel request);
