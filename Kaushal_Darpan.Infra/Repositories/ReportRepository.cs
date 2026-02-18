@@ -5,6 +5,7 @@ using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.BterApplication;
 using Kaushal_Darpan.Models.BterCertificateReport;
 using Kaushal_Darpan.Models.CenterObserver;
+using Kaushal_Darpan.Models.CertificateDownload;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.CommonModel;
@@ -9204,6 +9205,48 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        #region Provisional Certificate Report
+        public async Task<DataSet> GetProvisionalCertificateReport(CertificateSearchModel model)
+        {
+            _actionName = "GetProvisionalCertificateReport()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "Usp_Bter_DownloadProvisionalCertificate";
+                        //command.Parameters.AddWithValue("@Action", "certificate-letter-download");
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@ProvisionalTypeID", model.ProvisionalTypeID);
+                        command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                        command.Parameters.AddWithValue("@RevisedID", model.RevisedID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
 
     }
 }
