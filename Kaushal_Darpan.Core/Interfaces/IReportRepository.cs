@@ -3,6 +3,7 @@ using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.AssignRoleRight;
 using Kaushal_Darpan.Models.BterApplication;
 using Kaushal_Darpan.Models.BterCertificateReport;
+using Kaushal_Darpan.Models.CertificateDownload;
 using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.DTEApplicationDashboardModel;
@@ -301,5 +302,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetMiscellaneousReport(MiscellaneousModel model);
         Task<DataSet> GetCertificateLetterReport(CertificateReportModel model);
         Task<DataTable> GetITIAllDataExcelReport(ITIPlacementReportSearch filterModel);
+        Task<DataSet> GetProvisionalCertificateReport(CertificateSearchModel model);
     }
 }

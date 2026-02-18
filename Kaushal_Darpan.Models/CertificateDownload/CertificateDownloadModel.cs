@@ -22,6 +22,7 @@ namespace Kaushal_Darpan.Models.CertificateDownload
         public int ModifyBy { get; set; }
         public int RoleID { get; set; }
         public int DepartmentID { get; set; }
+        public int CourseTypeID { get; set; }
        
 
     }

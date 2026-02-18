@@ -28,6 +28,7 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public int StaffLevelID { get; set; }
         public int Status { get; set; }
         public int? CourseTypeId { get; set; }
+        public int? UserID { get; set; }
 
     }
 

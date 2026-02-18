@@ -5,6 +5,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.BTEReatsDistributionsMaster;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
+using Kaushal_Darpan.Models.ITIAdminDashboard;
 using Kaushal_Darpan.Models.ITIApplication;
 using Kaushal_Darpan.Models.MenuMaster;
 using Kaushal_Darpan.Models.TSPAreaMaster;
@@ -1275,6 +1276,46 @@ namespace Kaushal_Darpan.Api.Controllers
                 // write error log
                 var nex = new NewException
                 {
+                    PageName = PageName,    
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+
+        [HttpPost("GetPlanningDashboardData")]
+        public async Task<ApiResult<DataTable>> GetPlanningDashboardData([FromBody] ITIAdminDashboardSearchModel model)
+
+        {
+            ActionName = "GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.ITISeatIntakeMasterRepository.GetPlanningDashboardData(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
                     PageName = PageName,
                     ActionName = ActionName,
                     Ex = ex,
@@ -1283,6 +1324,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
 
     }
 }

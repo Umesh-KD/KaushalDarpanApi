@@ -61,6 +61,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@Status", body.Status);
                         command.Parameters.AddWithValue("@CourseTypeId", body.CourseTypeId);
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -384,8 +385,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@StaffID", request.StaffID);
                         command.Parameters.AddWithValue("@StatusOfStaff", request.StatusOfStaff);
-
-
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.AddWithValue("@action", "_UnlockStaff");
