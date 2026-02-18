@@ -68,6 +68,43 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        //public async Task<DataTable> GetAllProvisionalCertificateData(CertificateSearchModel body)
+        //{
+        //    _actionName = "GetAllData()";
+        //    return await Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            DataTable dataTable = new DataTable();
+        //            using (var command = await _dbContext.CreateCommandAsync())
+        //            {
+        //                command.CommandType = CommandType.StoredProcedure;
+        //                command.CommandText = "USP_GetProvisionalCertificat";
+        //                command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
+        //                command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+        //                command.Parameters.AddWithValue("@RevisedID", body.RevisedID);
+        //                command.Parameters.AddWithValue("@ProvisionalTypeID", body.ProvisionalTypeID);
+        //                _sqlQuery = command.GetSqlExecutableQuery();
+        //                dataTable = await command.FillAsync_DataTable();
+        //            }
+
+        //            return dataTable;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            var errorDesc = new ErrorDescription
+        //            {
+        //                Message = ex.Message,
+        //                PageName = _pageName,
+        //                ActionName = _actionName,
+        //                SqlExecutableQuery = _sqlQuery
+        //            };
+        //            var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+        //            throw new Exception(errordetails, ex);
+        //        }
+        //    });
+        //}
+
         public async Task<DataTable> GetAllProvisionalCertificateData(CertificateSearchModel body)
         {
             _actionName = "GetAllData()";
@@ -79,11 +116,17 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetProvisionalCertificat";
+                        command.CommandText = "Usp_Bter_ProvisionalCertificate_Report";
+                        command.Parameters.AddWithValue("@Action", "provisional-certificate");
                         command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
-                        command.Parameters.AddWithValue("@RevisedID", body.RevisedID);
-                        command.Parameters.AddWithValue("@ProvisionalTypeID", body.ProvisionalTypeID);
+                        //command.Parameters.AddWithValue("@RevisedID", body.RevisedID);
+                        //command.Parameters.AddWithValue("@ProvisionalTypeID", body.ProvisionalTypeID);
+                        command.Parameters.AddWithValue("@ResultType", body.ExamTypeID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.CourseTypeID);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -104,5 +147,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
     }
 }
