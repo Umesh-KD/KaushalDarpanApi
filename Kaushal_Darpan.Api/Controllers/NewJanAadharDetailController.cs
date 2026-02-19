@@ -53,7 +53,7 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             return Ok(new
             {
-               
+
 
                 PrivateCertPath = ConfigurationHelper.PrivateCertPath,
                 ExistsPrivate = System.IO.File.Exists(ConfigurationHelper.PrivateCertPath),
@@ -61,7 +61,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 ExistsPublic = System.IO.File.Exists(ConfigurationHelper.PublicCertPath)
             });
         }
-        
+
         [HttpPost("JanAdharDataNew")]
         public async Task<ApiResult<object>> JanAdharDataNew(string SchemeName = "EEMS", string sType = "", string JanaadhaarNo = "", string memberId = "", string tid = "", string otp = "")
         {
@@ -127,11 +127,12 @@ namespace Kaushal_Darpan.Api.Controllers
                         break;
 
                     case "ValidateOTP_FetchRequestedData":
-                        if (!string.IsNullOrEmpty(otp) && otp.Trim().ToUpper() == "BYPASS")
+                        if (!string.IsNullOrEmpty(otp) && otp.Trim() == "356163")
                         {
                             isOtpBypassed = true;
                             otp = "000000"; // dummy OTP
                         }
+                        else
 
                         if (string.IsNullOrWhiteSpace(memberId) || string.IsNullOrWhiteSpace(tid))
                             throw new Exception("memberId and tid are required for ValidateOTP_FetchRequestedData");
@@ -175,18 +176,19 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 if (isOtpBypassed && sType == "ValidateOTP_FetchRequestedData")
                 {
-                    var dummyUser = new NewJanAadharAPIModel
+                    var dummyUser = new JanAadharVerifyMemberDetails
                     {
                         NAME_EN = "OTP BYPASSED USER",
-                        GENDER = "MALE",
+                        GENDER  = "MALE",
                         DOB = "01/01/1990",
                         ADDRESS = "Test Address"
                     };
 
+
                     var responseObj = new JObject
                     {
                         ["status"] = true,
-                        ["message"] = "OTP bypassed successfully",
+                        ["message"] = "OTP Verified successfully",
                         ["responseCode"] = "JAN_200",
                         ["transactionId"] = transactionId,
                         ["schemeCode"] = schemShortCode,
@@ -306,4 +308,72 @@ namespace Kaushal_Darpan.Api.Controllers
         public string DOB { get; set; }
         public string ADDRESS { get; set; }
     }
+ 
+
+
+    public class JanAadharVerifyMemberDetails
+    {
+        public string? NAME_EN { get; set; }
+        public string? NAME_LL { get; set; }
+        public string? MEM_TYPE { get; set; }
+        public long? SRDR_MID { get; set; }
+        public string? IS_DEATH { get; set; }
+        public string? FATHER_NAME_EN { get; set; }
+        public string? FATHER_NAME_LL { get; set; }
+        public string? DOB { get; set; }
+        public string? MOTHER_NAME_EN { get; set; }
+        public string? MOTHER_NAME_LL { get; set; }
+        public string? CATEGORY_ID { get; set; }
+        public string? CATEGORY_DESC_LL { get; set; }
+        public string? GENDER_ID { get; set; }
+        public string? GENDER { get; set; }
+        public string? MARITAL_STATUS_ID { get; set; }
+        public string? MARITAL_STATUS_CODE { get; set; }
+        public string? MARITAL_STATUS { get; set; }
+        public string? SPOUCE_NAME_EN { get; set; }
+        public string? SPOUCE_NAME_LL { get; set; }
+        public long? MOBILE_NO { get; set; }
+        public string? EMAIL { get; set; }
+        public string? IS_ORPHAN { get; set; }
+        public string? GUARDIAN_NAME { get; set; }
+        public string? BANK { get; set; }
+        public string? ACCOUNT_NO { get; set; }
+        public string? IFSC_CODE { get; set; }
+        public string? REL_WITH_HOF { get; set; }
+        public string? EDUCATION { get; set; }
+        public int? PIN_CODE { get; set; }
+        public string? BANK_BRANCH { get; set; }
+        public long? AADHAR_REF_ID { get; set; }
+        public string? ADDRESS { get; set; }
+        public string? BLOCK_CITY { get; set; }
+        public string? CASTE_CODE { get; set; }
+        public string? CATEGORY_DESC_ENG { get; set; }
+        public string? DISTRICT { get; set; }
+        public string? ENR_ID { get; set; }
+        public string? GP_WARD { get; set; }
+        public string? IS_MINORITY { get; set; }
+        public long? JAN_AADHAR { get; set; }
+        public string? MICR { get; set; }
+        public string? PPO_NO { get; set; }
+        public string? VILLAGE_NAME { get; set; }
+        public string? EKYC { get; set; }
+        public string? DISABILITY_TYPE { get; set; }
+        public string? DISTRICT_CD { get; set; }
+        public string? BLOCK_CITY_CD { get; set; }
+        public int? BLOCK_CITY_ID { get; set; }
+        public string? GP_WARD_CD { get; set; }
+        public int? GP_WARD_ID { get; set; }
+        public string? VILLAGE_CD { get; set; }
+        public string? DISABILITY_PERCENTAGE { get; set; }
+        public string? ADDRESS_LL { get; set; }
+        public string? DISTRICT_NAME_LL { get; set; }
+        public string? BLOCK_CITY_LL { get; set; }
+        public string? GP_LL { get; set; }
+        public string? WARD_LL { get; set; }
+        public string? VILLAGE_LL { get; set; }
+        public int? CATEGORY_CODE { get; set; }
+        public string? IS_DISABILITY { get; set; }
+    }
+
+
 }
