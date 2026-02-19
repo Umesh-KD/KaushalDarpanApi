@@ -1502,11 +1502,20 @@ namespace Kaushal_Darpan.Api.Controllers
                                         }
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["GrandTotal"] + "</td>");
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["Result"] + "</td>");
-                                        sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray; width: 15%;'>" +
-                                            rowTrnee["OriginalCertificateNumber"] + "<br/>" +
-                                            rowTrnee["serial_number"] +
+                                        //sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray; width: 15%;'>" +
+                                        //    rowTrnee["OriginalCertificateNumber"] +
                                             
-                                            "</td>");
+                                        //    "</td>");
+
+
+                                        if (rowTrnee["Semester"].ToString().ToUpper() == "1ST")
+                                        {
+                                            sb1.Append("<td rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>"
+                                                + rowTrnee["OriginalCertificateNumber"] +
+                                                "</td>");
+                                        }
+
+
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["AcadSession"] + "</td>");
 
 
