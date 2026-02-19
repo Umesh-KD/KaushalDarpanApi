@@ -9030,7 +9030,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         {
             string GetAction = "";
 
-           // GetAction = "_get_UFM_data";
+          
 
             _actionName = "GetMiscellaneousReport()";
             return await Task.Run(async () =>
@@ -9042,21 +9042,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
 
-                        //if (model.Type == 1)
-                        //{
-                        //    command.CommandText = "USP_UFMReport";
-                        //    command.Parameters.AddWithValue("@action", "_get_UFM_data");
-                        //}
-                        //else if (model.Type == 0)
-                        //{
-                        //    command.CommandText = "USP_Single_Present_AbsentReport";
-                        //    command.Parameters.AddWithValue("@action", "_get_present_or_absent_data");
-                        //}
-                        //else if (model.Type == 2)
-                        //{
-                        //    command.CommandText = "USP_GetConsolatedDetainStudentList";
-                        //    command.Parameters.AddWithValue("@action", "_Consolated_Detain_Student_List");
-                        //}
 
 
                         if (model.Type == 2)
@@ -9068,7 +9053,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.CommandText = "USP_Single_Present_AbsentReport";
                             command.Parameters.AddWithValue("@action", "_get_present_or_absent_data");
-                        } else if (model.Type == 1)
+                        }
+                        else if (model.Type == 1)
                         {
                             command.CommandText = "USP_Single_Present_AbsentReport";
                             command.Parameters.AddWithValue("@action", "_get_present_or_absent_data");
@@ -9078,12 +9064,18 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.CommandText = "USP_GetConsolatedDetainStudentList";
                             command.Parameters.AddWithValue("@action", "_Consolated_Detain_Student_List");
                         }
-
+                        else if (model.Type == 4)
+                        {
+                            command.CommandText = "USP_GetExaminersWithGroupCodeAndMarking_Rpt";
+                            command.Parameters.AddWithValue("@action", "_Examiners_With_Group_Code_And_Marking_report");
+                            command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
+                            command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                            command.Parameters.AddWithValue("@GroupCode", model.GroupCode);
+                           
+                        }
 
                         else
                         {
-
-
                             command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                             command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                             command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
