@@ -2203,7 +2203,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
                                         if (rowTrnee["Semester"].ToString().ToUpper() == "1ST")
                                         {
-                                            sb1.Append("<td rowspan='2' style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>" + rowTrnee["OriginalCertificateNumber"] + "</td>");
+                                            sb1.Append("<td rowspan='2' style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>"
+                                                + rowTrnee["OriginalCertificateNumber"] +
+                                                "</td>");
                                         }
                                        // sb1.Append("<td   style='text-align: center; rowspan='3' ;font-size: 1px;border:1px solid gray;'><p style='font-size:10px;'>" + rowTrnee["OriginalCertificateNumber"] + "</p></td>");
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>" + rowTrnee["AcadSession"] + "</td>");
