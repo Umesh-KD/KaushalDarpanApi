@@ -62,11 +62,11 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetJDConfidentialDashboardCount")]
         public async Task<ApiResult<DataTable>> GetJDConfidentialDashboardCount([FromBody] SecretaryJDDashboardDataModel body)
         {
-            ActionName = "GetAllData()";
+            ActionName = "GetJDConfidentialDashboardCount([FromBody] SecretaryJDDashboardDataModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.SecretaryJDDashboardRepository.GetDashboardCount(body));
+                result.Data = await _unitOfWork.SecretaryJDDashboardRepository.GetDashboardCount(body);
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
