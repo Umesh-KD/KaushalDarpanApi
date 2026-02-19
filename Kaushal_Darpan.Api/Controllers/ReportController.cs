@@ -18,6 +18,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.BterCertificateReport;
 using Kaushal_Darpan.Models.CampusPostMaster;
+using Kaushal_Darpan.Models.CertificateDownload;
 using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.DTEApplicationDashboardModel;
@@ -16181,6 +16182,62 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        #region Provisional Certificate Report
+        [HttpPost("GetProvisionalCertificateReport")]
+        public async Task<ApiResult<string>> GetProvisionalCertificateReport(CertificateSearchModel model)
+        {
+            ActionName = "GetProvisionalCertificateReport()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.ReportRepository.GetProvisionalCertificateReport(model);
+                    if (data != null)
+                    {
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        var fileName = $"ProvisionalCertificate.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/ProvisionalCertificate.rdlc";
+                        //var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+                        localReport.AddDataSource("ProvisionalCertificate", data.Tables[0]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+        #endregion
 
 
 

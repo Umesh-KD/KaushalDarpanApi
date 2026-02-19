@@ -1,5 +1,6 @@
 ﻿using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
+using Kaushal_Darpan.Models.ITIAdminDashboard;
 using Kaushal_Darpan.Models.ITIApplication;
 using Kaushal_Darpan.Models.MenuMaster;
 using System;
@@ -45,6 +46,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<SanctionOrderModel> GetSanctionOrderByID(int id);
 
         Task<DataTable> GetOrderDetailsList();
+
+        Task<DataTable> GetPlanningDashboardData(ITIAdminDashboardSearchModel model);
 
     }
 }

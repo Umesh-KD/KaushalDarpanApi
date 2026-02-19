@@ -3,6 +3,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
+using Kaushal_Darpan.Models.ITIAdminDashboard;
 using Kaushal_Darpan.Models.ITIApplication;
 using Kaushal_Darpan.Models.MenuMaster;
 using Microsoft.Data.SqlClient;
@@ -1014,6 +1015,46 @@ namespace Kaushal_Darpan.Infra.Repositories
                         dataTable = await command.FillAsync_DataTable();
                     }
 
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetPlanningDashboardData(ITIAdminDashboardSearchModel model)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_PlanningDashboard";
+                        command.Parameters.AddWithValue("@action", "DashboardCounts");
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@CourseType", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
                     return dataTable;
                 }
                 catch (Exception ex)

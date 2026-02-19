@@ -70,8 +70,8 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpGet("GetByID/{ID:int}/{RoleID:int?}")]
-        public async Task<ApiResult<LeaveMaster>> GetByID(int ID,int RoleID=0)
+        [HttpGet("GetByID/{ID:int}/{RoleID:int?}/{StaffID:int?}")]
+        public async Task<ApiResult<LeaveMaster>> GetByID(int ID,int RoleID=0,int StaffID=0)
         {
             ActionName = "GetByID(int HRManagerID)";
             return await Task.Run(async () =>
@@ -79,7 +79,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<LeaveMaster>();
                 try
                 {
-                    var data = await _unitOfWork.LeaveMasterRepository.GetById(ID,RoleID);
+                    var data = await _unitOfWork.LeaveMasterRepository.GetById(ID,RoleID,StaffID);
                     if (data != null)
                     {
                         var mappedData = _mapper.Map<LeaveMaster>(data);
@@ -206,8 +206,55 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpPost("DeleteByID/{ID:int}/{ModifyBy:int}/{RoleID:int?}")]
-        public async Task<ApiResult<bool>> DeleteByID(int ID, int ModifyBy,int? RoleID)
+        //[HttpPost("DeleteByID/{ID:int}/{ModifyBy:int}/{RoleID:int?}")]
+        //public async Task<ApiResult<bool>> DeleteByID(int ID, int ModifyBy,int? RoleID)
+        //{
+        //    ActionName = "DeleteByID(int HRManagerID, int ModifyBy,int? RoleID)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        var result = new ApiResult<bool>();
+        //        try
+        //        {
+        //            var mappedData = new LeaveMaster
+        //            {
+        //                StaffLeaveID = ID,
+        //                ModifyBy = ModifyBy,
+        //                RoleID=RoleID
+        //            };
+        //            result.Data = await _unitOfWork.LeaveMasterRepository.DeleteDataByID(mappedData);
+        //            await _unitOfWork.SaveChangesAsync();
+
+        //            if (result.Data)
+        //            {
+        //                result.State = EnumStatus.Success;
+        //                result.Message = Constants.MSG_DELETE_SUCCESS;
+        //            }
+        //            else
+        //            {
+        //                result.State = EnumStatus.Error;
+        //                result.ErrorMessage = Constants.MSG_DELETE_ERROR;
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            await _unitOfWork.DisposeAsync();
+        //            // Write error log
+        //            var nex = new NewException
+        //            {
+        //                PageName = PageName,
+        //                ActionName = ActionName,
+        //                Ex = ex,
+        //            };
+        //            await CreateErrorLog(nex, _unitOfWork);
+        //            result.State = EnumStatus.Error;
+        //            result.ErrorMessage = ex.Message;
+        //        }
+        //        return result;
+        //    });
+        //}
+
+        [HttpPost("DeleteByID/{ID:int}/{ModifyBy:int}/{RoleID:int?}/{StaffID:int}")]
+        public async Task<ApiResult<bool>> DeleteByID(int ID, int ModifyBy, int? RoleID,int StaffID)
         {
             ActionName = "DeleteByID(int HRManagerID, int ModifyBy,int? RoleID)";
             return await Task.Run(async () =>
@@ -219,13 +266,15 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         StaffLeaveID = ID,
                         ModifyBy = ModifyBy,
-                        RoleID=RoleID
+                        RoleID = RoleID,
+                        StaffID= StaffID
                     };
-                    result.Data = await _unitOfWork.LeaveMasterRepository.DeleteDataByID(mappedData);
+                    var isDelete = await _unitOfWork.LeaveMasterRepository.DeleteDataByID(mappedData);
                     await _unitOfWork.SaveChangesAsync();
 
-                    if (result.Data)
+                    if (isDelete!=0)
                     {
+                        result.Data = true;
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_DELETE_SUCCESS;
                     }
@@ -588,6 +637,8 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        #region NON-GAZETTED  (BTER AND ADTE)
+
         [HttpPost("Save_CreditStaffLeave_NonGazetted")]
         public async Task<ApiResult<bool>> Save_CreditStaffLeave_NonGazetted([FromBody] List<CreditLeaveModel> request)
         {
@@ -637,6 +688,58 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [HttpPost("Save_CreditStaffLeave_ADTE_NonGazetted")]
+        public async Task<ApiResult<bool>> Save_CreditStaffLeave_ADTE_NonGazetted([FromBody] List<CreditLeaveModel> request)
+        {
+            ActionName = "Save_CreditStaffLeave_ADTE_NonGazetted([FromBody] List<CreditLeaveModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+
+                    result.Data = await _unitOfWork.LeaveMasterRepository.Save_CreditStaffLeave_ADTE_NonGazetted(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        #endregion
 
     }
 

@@ -16,5 +16,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveData(ITIAdminUserDetailModel productDetails);
         Task<bool> UpdateData(ITIAdminUserDetailModel productDetails);
         Task<bool> DeleteDataByID(ITIAdminUserDetailModel productDetails);
+        Task<int> adminUserDataSave(ITIAdminUserDetailModel productDetails);
+        Task<DataTable> getAlladminUserData(ITIAdminUserDetailModel body);
     }
 }

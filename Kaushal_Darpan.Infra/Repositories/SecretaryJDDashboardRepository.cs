@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
-    public class SecretaryJDDashboardRepository: ISecretaryJDDashboardRepository
+    public class SecretaryJDDashboardRepository : ISecretaryJDDashboardRepository
     {
         private readonly DBContext _dbContext;
         private readonly string _pageName;
@@ -31,21 +31,18 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetDashboardCount(SecretaryJDDashboardDataModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_SecretaryJDDashboard";
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_SecretaryJDDashboard";
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {

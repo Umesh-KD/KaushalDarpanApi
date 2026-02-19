@@ -12,9 +12,9 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface ILeaveMasterRepository
     {
         Task<DataTable> GetAllData(LeaveMasterSearchModel filterModel);
-        Task<LeaveMaster> GetById(int HRManagerID,int RoleID);
+        Task<LeaveMaster> GetById(int HRManagerID,int RoleID,int StaffID);
         Task<int> SaveData(LeaveMaster productDetails);
-        Task<bool> DeleteDataByID(LeaveMaster productDetails);
+        Task<int> DeleteDataByID(LeaveMaster productDetails);
         Task<bool> SaveStaffLeaveRequest(LeaveMaster model);
         Task<DataTable> GetStaffLeaveRequest(LeaveMasterSearchModel filterModel);
         Task<DataTable> ByIDStaffLeaveList(LeaveMasterSearchModel filterModel);
@@ -26,5 +26,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<bool> Save_CreditStaffLeave(List<CreditLeaveModel> request);
         Task<bool> Save_CreditStaffLeave_NonGazetted(List<CreditLeaveModel> request);
+        Task<bool> Save_CreditStaffLeave_ADTE_NonGazetted(List<CreditLeaveModel> request);
     }
 }
