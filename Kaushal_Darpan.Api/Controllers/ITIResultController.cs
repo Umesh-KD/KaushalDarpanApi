@@ -1500,7 +1500,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                                             }
                                         }
-                                        sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["GrandTotal"] + "</td>");
+                                        sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["GrandTotal"] + "</th>");
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["Result"] + "</td>");
                                         //sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray; width: 15%;'>" +
                                         //    rowTrnee["OriginalCertificateNumber"] +
@@ -2206,7 +2206,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                         }
 
                                         //}
-                                        sb1.Append("<td style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>" + rowTrnee["GrandTotal"] + "</td>");
+                                        sb1.Append("<th style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>" + rowTrnee["GrandTotal"] + "</th>");
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>" + rowTrnee["Result"] + "</td>");
 
 
