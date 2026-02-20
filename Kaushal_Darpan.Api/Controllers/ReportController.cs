@@ -84,7 +84,7 @@ namespace Kaushal_Darpan.Api.Controllers
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetAllDataRpt(body));
+                result.Data = await _unitOfWork.ReportRepository.GetAllDataRpt(body);
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
@@ -8092,11 +8092,11 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("ScaReportAdmin")]
         public async Task<ApiResult<DataTable>> ScaReportAdmin([FromBody] StudentCenteredActivitesMasterSearchModel body)
         {
-            ActionName = "GetAllData([FromBody] StudentCenteredActivitesMasterSearchModel body)";
+            ActionName = "ScaReportAdmin([FromBody] StudentCenteredActivitesMasterSearchModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.ScaReportAdmin(body));
+                result.Data = await _unitOfWork.ReportRepository.ScaReportAdmin(body);
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {

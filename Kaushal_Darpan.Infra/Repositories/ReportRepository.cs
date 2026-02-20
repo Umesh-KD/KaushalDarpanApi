@@ -62,44 +62,61 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetAllDataRpt(TheorySearchModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    if (body.InternalPracticalID == 1)
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-
-                        if (body.InternalPracticalID == 1)
-                        {
-                            command.CommandText = "USP_GetInternalPracticalStudentRPT";
-                        }
-                        else if (body.InternalPracticalID == 2)
-                        {
-                            command.CommandText = "USP_GetInternalAssismentStudentRPT";
-                        }
-                        else
-                        {
-                            throw new Exception(Constants.MSG_INVALID_REQUEST);
-                        }
-
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
-                        command.Parameters.AddWithValue("@StudentID", body.StudentID);
-                        command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
-                        command.Parameters.AddWithValue("@RollNo", body.RollNo);
-                        command.Parameters.AddWithValue("@MarkEnter", body.MarkEnter);
-                        command.Parameters.AddWithValue("@InternalPracticalID", body.InternalPracticalID);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
-                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
-
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
+                        command.CommandText = "USP_GetInternalPracticalStudentRPT";
                     }
-                    return dataTable;
-                });
+                    else if (body.InternalPracticalID == 2)
+                    {
+                        command.CommandText = "USP_GetInternalAssismentStudentRPT";
+                    }
+                    else if (body.StrKey == "totl1")
+                    {
+                        command.CommandText = "USP_GetInternalMarkingStudentRPT";
+                        command.Parameters.AddWithValue("@Action", "_getInternalPracticalStudentTotal");
+                    }
+                    else if (body.StrKey == "totl2")
+                    {
+                        command.CommandText = "USP_GetInternalMarkingStudentRPT";
+                        command.Parameters.AddWithValue("@Action", "_getInternalAssismentStudentTotal");
+                    }
+                    else if (body.StrKey == "mrkent1")
+                    {
+                        command.CommandText = "USP_GetInternalMarkingStudentRPT";
+                        command.Parameters.AddWithValue("@Action", "_getInternalPracticalStudentMarksEntered");
+                    }
+                    else if (body.StrKey == "mrkent2")
+                    {
+                        command.CommandText = "USP_GetInternalMarkingStudentRPT";
+                        command.Parameters.AddWithValue("@Action", "_getInternalAssismentStudentMarksEntered");
+                    }
+                    else
+                    {
+                        throw new Exception(Constants.MSG_INVALID_REQUEST);
+                    }
+
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                    command.Parameters.AddWithValue("@StudentID", body.StudentID);
+                    command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
+                    command.Parameters.AddWithValue("@RollNo", body.RollNo);
+                    command.Parameters.AddWithValue("@MarkEnter", body.MarkEnter);
+                    command.Parameters.AddWithValue("@InternalPracticalID", body.InternalPracticalID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
@@ -4658,35 +4675,46 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> ScaReportAdmin(StudentCenteredActivitesMasterSearchModel body)
         {
-            _actionName = "GetAllData(StudentCenteredActivitesMasterSearchModel body)";
+            _actionName = "ScaReportAdmin(StudentCenteredActivitesMasterSearchModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    if (body.StrKey == "totl3")
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ReportStudentCenteredActivityStudent";
-
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
-                        command.Parameters.AddWithValue("@StudentID", body.StudentID);
-                        command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
-                        command.Parameters.AddWithValue("@RollNo", body.RollNo);
-                        command.Parameters.AddWithValue("@MarkEnter", body.MarkEnter);
-                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
-                        command.Parameters.AddWithValue("@InstituteName", body.InstituteName);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
-
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
+                        command.CommandText = "USP_GetInternalMarkingStudentRPT";
+                        command.Parameters.AddWithValue("@Action", "_getSCAStudentTotal");
                     }
-                    return dataTable;
-                });
+                    else if (body.StrKey == "mrkent3")
+                    {
+                        command.CommandText = "USP_GetInternalMarkingStudentRPT";
+                        command.Parameters.AddWithValue("@Action", "_getSCAStudentMarksEntered");
+                    }
+                    else
+                    {
+                        command.CommandText = "USP_ReportStudentCenteredActivityStudent";
+                    }
+
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                    command.Parameters.AddWithValue("@StudentID", body.StudentID);
+                    command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
+                    command.Parameters.AddWithValue("@RollNo", body.RollNo);
+                    command.Parameters.AddWithValue("@MarkEnter", body.MarkEnter);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@InstituteName", body.InstituteName);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
@@ -8942,7 +8970,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
 
                         // Add parameters with appropriate null handling
-                 
+
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
                         command.Parameters.AddWithValue("@FileName", request.FileName);
                         command.Parameters.AddWithValue("@DisFileName", request.DisFileName);
@@ -8950,11 +8978,11 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
                         command.Parameters.AddWithValue("@UserID", request.UserID);
-                     
-                       
+
+
                         command.Parameters.AddWithValue("@CourseTypeID", request.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
-               
+
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -8997,12 +9025,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_UploadAnnexturesample32List";
-                  
+
                         command.Parameters.AddWithValue("@CourseTypeID", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@Code", model.Code);
-                 
-                      
+
+
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -9030,7 +9058,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         {
             string GetAction = "";
 
-          
+
 
             _actionName = "GetMiscellaneousReport()";
             return await Task.Run(async () =>
@@ -9071,7 +9099,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
                             command.Parameters.AddWithValue("@SSOID", model.SSOID);
                             command.Parameters.AddWithValue("@GroupCode", model.GroupCode);
-                           
+
                         }
 
                         else
@@ -9174,7 +9202,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_TehsilMaster_DummyData";
-                       
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
