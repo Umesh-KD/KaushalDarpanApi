@@ -300,14 +300,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_get_ITISubAdminUser_IU";
-                        command.Parameters.AddWithValue("@RoleID", body.Name);
-                        command.Parameters.AddWithValue("@SSOID", body.MobileNo);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@SSOID", body.Name);
+                        command.Parameters.AddWithValue("@MobileNo", body.MobileNo);
+                        command.Parameters.AddWithValue("@Email", body.Email);
                         
-
-
-                        command.Parameters.Add("@Return", SqlDbType.Int); 
-                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
-
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
