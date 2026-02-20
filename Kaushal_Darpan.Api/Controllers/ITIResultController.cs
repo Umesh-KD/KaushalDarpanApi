@@ -1092,6 +1092,7 @@ namespace Kaushal_Darpan.Api.Controllers
             result.Columns.Add("ObtainedMarkPrint", typeof(string));
             result.Columns.Add("Semester", typeof(string));
             result.Columns.Add("FatherName", typeof(string));
+            result.Columns.Add("serial_number", typeof(string));
 
             subjectNames.ForEach(s => result.Columns.Add(s));
 
@@ -1115,6 +1116,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     row["ObtainedMarkPrint"] = first["ObtainedMarkPrint"];
                     row["Semester"] = first["Semester"];
                     row["FatherName"] = first["FatherName"];
+                    row["serial_number"] = first["serial_number"];
 
 
                     row["Result"] = first["Result"].ToString() == "1" ? "P"
@@ -1319,22 +1321,19 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             sb1.Append("<tr>");
                             sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold;border:1px solid gray; '>");
-                            sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> " + request.SemesterID + " Year (Annual Examination) "
-                                //+ row["DurationYear"] +
-                                + DurationYear +
-
-
-
-                                " Year Trades</b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Declaration Date: _______________</b></td></tr></table>");
+                            sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> Trade: "
+                               //+ request.SemesterID + " Year (Annual Examination) " + DurationYear +
+                               + TradeName+
+                                " </b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Declaration Date: _______________</b></td></tr></table>");
                             sb1.Append("</th>");
 
                             sb1.Append("</tr>");
-                            sb1.Append("<tr>");
-                            sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 13px;border:1px solid gray; '>");
+                            //sb1.Append("<tr>");
+                            //sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 13px;border:1px solid gray; '>");
 
-                            sb1.Append("<b> Trade: " + TradeName + "</b>");
-                            sb1.Append("</th>");
-                            sb1.Append("</tr>");
+                            //sb1.Append("<b> Trade: " + TradeName + "</b>");
+                            //sb1.Append("</th>");
+                            //sb1.Append("</tr>");
 
                             DataTable instituteData = GetInstitutesByTradeConsolidated(TradeId, data.Tables[1]);
                             DataTable subjectData = GetSubjectNameDataListConsolidated(TradeId, data.Tables[1]);
@@ -1363,7 +1362,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                                 sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>Grand Total                 </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Result                      </th>");
-                                sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Certificate Number / Serial Number </th>");
+                                sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Certificate <br/> Marksheet Number </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>Academic Session                </th>");
 
 
@@ -1495,19 +1494,28 @@ namespace Kaushal_Darpan.Api.Controllers
                                                 {
                                                     sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee[rowSub["SubjectName"].ToString()] + "</th>");
                                                 }
-
-
-
-
                                             }
                                             catch (Exception ex)
                                             {
 
                                             }
                                         }
-                                        sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["GrandTotal"] + "</td>");
+                                        sb1.Append("<th style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["GrandTotal"] + "</th>");
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["Result"] + "</td>");
-                                        sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray; width: 15%;'>" + rowTrnee["OriginalCertificateNumber"] + "</td>");
+                                        //sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray; width: 15%;'>" +
+                                        //    rowTrnee["OriginalCertificateNumber"] +
+                                            
+                                        //    "</td>");
+
+
+                                        if (rowTrnee["Semester"].ToString().ToUpper() == "1ST")
+                                        {
+                                            sb1.Append("<td rowspan='2' style='text-align: center; font-size: 10px;border:1px solid gray;'>"
+                                                + rowTrnee["OriginalCertificateNumber"] +
+                                                "</td>");
+                                        }
+
+
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:1px solid gray;'>" + rowTrnee["AcadSession"] + "</td>");
 
 
@@ -1572,25 +1580,36 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             if (request.InstituteId == 0)
                             {
-                                //sb1.Append("<tr>");
-                                //sb1.Append("<td colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Checked 1______________________ Checked 2______________________ all marks are entered online by concerned examiners and submitted hard copy at RCVET.</b></td>");
-                                //sb1.Append("</tr>");
 
-                                //sb1.Append("<tr>");
-                                //sb1.Append("<td colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:1px solid gray'>");
-                                //sb1.Append("<table  style='border-collapse: collapse; width: 100%;margin-top:30px;margin-bottom:15px;' border='0' cellpadding='5' cellspacing='0'>");
-                                //sb1.Append("<tr>");
-                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Lalit Baral)<br/>Senior Instructor</b></td>");
-                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(PremPrakash Rathore)<br/>Senior Instructor</b></td>");
-                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Surendra Baghmar)<br/>Group Instructor</b></td>");
-                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(HukamSingh Rathore)<br/>DeputyDirector</b></td>");
-                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Dr. Jagdish Prasad)<br/>DeputyDirector</b></td>");
-                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Praveen Kumar Verma)<br/>S.A. (Joint Director)</b></td>");
-                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Sugar Singh Meena)<br/>Director, RCVET</b></td>");
-                                //sb1.Append("</tr>");
-                                //sb1.Append("</table>");
-                                //sb1.Append("</td>");
-                                //sb1.Append("</tr>");
+
+                                sb1.Append("<tr>");
+
+                                sb1.Append("<td height='40' valign='bottom' colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:0.2px solid #d1d0d0;'><b>Checked 1______________________ Checked 2______________________ all marks are entered online by concerned examiners and submitted hard copy at RCVET.</b></td>");
+                                sb1.Append("</tr>");
+
+
+
+
+
+
+                                sb1.Append("<tr>");
+                                sb1.Append("<td height='70' valign='bottom' colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:1px solid gray'>");
+                                sb1.Append("<table  style='border-collapse: collapse; width: 100%;' border='0' cellpadding='0' cellspacing='0'>");
+                                sb1.Append("<tr>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Lalit Baral)<br/>Senior Instructor</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Prem Prakash Rathore)<br/>Senior Instructor</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Surendra Baghmar)<br/>Group Instructor</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Hukam Singh Rathore)<br/>Deputy Director</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Dr. Jagdish Prasad)<br/>Deputy Director</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Praveen Kumar Verma)<br/>S.A. (Joint Director)</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Sugar Singh Meena)<br/>Director, RCVET</b></td>");
+                                sb1.Append("</tr>");
+                                sb1.Append("</table>");
+                                sb1.Append("</td>");
+                                sb1.Append("</tr>");
+
+
+
                             }
                             else
                             {
@@ -1998,21 +2017,17 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             sb1.Append("<tr>");
                             sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 0px; font-weight: bold;border:0.5px solid #c5c5c5; '>");
-                            sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> " + request.SemesterID + " Year (Annual Examination) "
-                                //+ row["DurationYear"] +
-                                + DurationYear +
-
-
-
-                                " Year Trades</b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Declaration Date: _______________</b></td></tr></table>");
+                            sb1.Append("<table style='width:100%;'><tr><td style='text-align: left; text-decoration: underline; font-size: 13px;'><b> Trade: "
+                               + TradeName+
+                                " </b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Declaration Date: _______________</b></td></tr></table>");
                             sb1.Append("</th>");
 
                             sb1.Append("</tr>");
                             sb1.Append("<tr>");
-                            sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 13px;border:0.5px solid #c5c5c5; '>");
+                            //sb1.Append("<th colspan='" + colspan + "' style='text-align: left; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 13px;border:0.5px solid #c5c5c5; '>");
 
-                            sb1.Append("<b> Trade: " + TradeName + "</b>");
-                            sb1.Append("</th>");
+                            //sb1.Append("<b> Trade: " + TradeName + "</b>");
+                            //sb1.Append("</th>");
                             sb1.Append("</tr>");
 
                             DataTable instituteData = GetInstitutesByTradeConsolidated(TradeId, data.Tables[1]);
@@ -2045,7 +2060,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                                 sb1.Append("<th style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>Grand Total                 </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>Result                      </th>");
-                                sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5; width: 15%;'>Certificate / Marksheet Number </th>");
+                                sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5; width: 15%;'>Certificate <br/> Marksheet Number </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5; '>Academic Session                </th>");
 
 
@@ -2191,13 +2206,15 @@ namespace Kaushal_Darpan.Api.Controllers
                                         }
 
                                         //}
-                                        sb1.Append("<td style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>" + rowTrnee["GrandTotal"] + "</td>");
+                                        sb1.Append("<th style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>" + rowTrnee["GrandTotal"] + "</th>");
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>" + rowTrnee["Result"] + "</td>");
 
 
                                         if (rowTrnee["Semester"].ToString().ToUpper() == "1ST")
                                         {
-                                            sb1.Append("<td rowspan='2' style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>" + rowTrnee["OriginalCertificateNumber"] + "</td>");
+                                            sb1.Append("<td rowspan='2' style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>"
+                                                + rowTrnee["OriginalCertificateNumber"] +
+                                                "</td>");
                                         }
                                        // sb1.Append("<td   style='text-align: center; rowspan='3' ;font-size: 1px;border:1px solid gray;'><p style='font-size:10px;'>" + rowTrnee["OriginalCertificateNumber"] + "</p></td>");
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>" + rowTrnee["AcadSession"] + "</td>");
@@ -2272,25 +2289,31 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             if (request.InstituteId == 0)
                             {
-                                //sb1.Append("<tr>");
-                                //sb1.Append("<td colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:1px solid gray;'><b>Checked 1______________________ Checked 2______________________ all marks are entered online by concerned examiners and submitted hard copy at RCVET.</b></td>");
-                                //sb1.Append("</tr>");
+                                sb1.Append("<tr>");
 
-                                //sb1.Append("<tr>");
-                                //sb1.Append("<td colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:1px solid gray'>");
-                                //sb1.Append("<table  style='border-collapse: collapse; width: 100%;margin-top:30px;margin-bottom:15px;' border='0' cellpadding='5' cellspacing='0'>");
-                                //sb1.Append("<tr>");
-                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Lalit Baral)<br/>Senior Instructor</b></td>");
-                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(PremPrakash Rathore)<br/>Senior Instructor</b></td>");
-                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Surendra Baghmar)<br/>Group Instructor</b></td>");
-                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(HukamSingh Rathore)<br/>DeputyDirector</b></td>");
-                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Dr. Jagdish Prasad)<br/>DeputyDirector</b></td>");
-                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Praveen Kumar Verma)<br/>S.A. (Joint Director)</b></td>");
-                                //sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Sugar Singh Meena)<br/>Director, RCVET</b></td>");
-                                //sb1.Append("</tr>");
-                                //sb1.Append("</table>");
-                                //sb1.Append("</td>");
-                                //sb1.Append("</tr>");
+                                sb1.Append("<td height='40' valign='bottom' colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:0.2px solid #d1d0d0;'><b>Checked 1______________________ Checked 2______________________ all marks are entered online by concerned examiners and submitted hard copy at RCVET.</b></td>");
+                                sb1.Append("</tr>");
+
+
+
+
+
+
+                                sb1.Append("<tr>");
+                                sb1.Append("<td height='70' valign='bottom' colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:1px solid gray'>");
+                                sb1.Append("<table  style='border-collapse: collapse; width: 100%;' border='0' cellpadding='0' cellspacing='0'>");
+                                sb1.Append("<tr>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Lalit Baral)<br/>Senior Instructor</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Prem Prakash Rathore)<br/>Senior Instructor</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Surendra Baghmar)<br/>Group Instructor</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Hukam Singh Rathore)<br/>Deputy Director</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Dr. Jagdish Prasad)<br/>Deputy Director</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Praveen Kumar Verma)<br/>S.A. (Joint Director)</b></td>");
+                                sb1.Append("<td style='text-align:center;font-size: 11px;'>______________<br/><b>(Sugar Singh Meena)<br/>Director, RCVET</b></td>");
+                                sb1.Append("</tr>");
+                                sb1.Append("</table>");
+                                sb1.Append("</td>");
+                                sb1.Append("</tr>");
                             }
                             else
                             {
