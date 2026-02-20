@@ -56,5 +56,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> Get_SR6_ReportData(inventoryIssueHistorySearchModel SearchReq);
         Task<DataSet> DownloadSR6ReportData_pdf_BTER(inventoryIssueHistorySearchModel SearchReq);
         Task<DataSet> Download_SR5ReportData_pdf_BTER(inventoryIssueHistorySearchModel SearchReq);
+        Task<DataTable> GetIssueItemsForApprove(inventoryIssueHistorySearchModel SearchReq);
+        Task<int> ApproveIssuedItems(List<ApproveIssuedItemsDataModel> request);
     }
 }

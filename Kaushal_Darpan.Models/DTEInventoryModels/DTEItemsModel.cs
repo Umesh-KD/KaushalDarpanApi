@@ -148,6 +148,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int ItemType { get; set; }
         public bool? IsStaff { get; set; }
         public int? ReturnStatus { get; set; }
+        public int? IssueStatus { get; set; }
         public string? actionName { get; set; }
 
     }
@@ -219,6 +220,14 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? UnitId { get; set; }
         public int? CollegeId { get; set; }
         public string? Action { get; set; }
+    }
+
+    public class ApproveIssuedItemsDataModel
+    {
+        public int? IssuedId { get; set; }
+        public int? UserID { get; set; }
+        public int? ApproveIssueQuantity { get; set; }
+        public int? IssueStatus { get; set; }
     }
 }
 
