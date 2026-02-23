@@ -8473,7 +8473,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         LocalReport localReport = new LocalReport(rdlcpath);
                         localReport.AddDataSource("Statistical_Information", data.Tables[0]);
-                        localReport.AddDataSource("report_Information", data.Tables[1]);
+                        localReport.AddDataSource("Statistical_report_Information", data.Tables[1]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
 
                         //check file exists
