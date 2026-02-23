@@ -586,7 +586,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-                                " Year Trades</b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Declaration Date: <u>"+ data.Tables[0].Rows[0]["AcadSession"].ToString()+ "</u></b></td></tr></table>");
+                                " Year Trades</b></td><td  style='text-align: right; font-size: 13px;'><b>  Exam Month Year: " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " | Result Declaration Date: <u>"+ data.Tables[0].Rows[0]["ResultDecDate"].ToString()+ "</u></b></td></tr></table>");
                             sb1.Append("</th>");
 
                             //sb1.Append("<th style='text-align: right; padding: 10px; font-weight: bold; text-decoration: underline; font-size: 15px;border:1px solid gray; '>");
