@@ -778,20 +778,11 @@ namespace Kaushal_Darpan.Api.Controllers
                             sb1.Append("</table>");
                             sb1.Append("<div class='page-break'></div>");
                             // sb1.Append("<div class='page-break' style='page-break-after: always;'></div>");
-
-
                         }
 
-
-
-
-
                         //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
-
                         var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
-
                         byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte_Cfrom(sb1, "LANDSCAPE A4");
-
                         result.Data = Convert.ToBase64String(pdfBytes); ;
                         result.State = EnumStatus.Success;
                         result.Message = "Success";
@@ -2002,7 +1993,11 @@ namespace Kaushal_Darpan.Api.Controllers
                             sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment and Entrepreneurship</td></tr>");
                             sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] + "</td></tr>");
                             sb1.Append("</table>");
-                            sb1.Append("<table style='border-collapse: collapse; width: 100%; font-family: Arial; font-size:14px' border='0' cellpadding='5' cellspacing='0'>");
+
+                           // sb1.Append("<table style='border-collapse: collapse; width: 100%; font-family: Arial; font-size:14px' border='0' cellpadding='5' cellspacing='0'>");
+
+                            sb1.Append("<table style='border-collapse: collapse;margin-top:10; padding:0; width: 100%; font-family: Arial; font-size:14px' border='0' cellpadding='3' cellspacing='0'>");
+
 
                             int TradeId = item.Key;
                             var colspan = data.Tables[1].AsEnumerable()
@@ -2057,12 +2052,10 @@ namespace Kaushal_Darpan.Api.Controllers
                                     sb1.Append("<th style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5; '>" + rowSub["SubjectName"] + "</th>");
                                 }
 
-
                                 sb1.Append("<th style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>Grand Total                 </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>Result                      </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5; width: 15%;'>Certificate <br/> Marksheet Number </th>");
                                 sb1.Append("<th rowspan='2' style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5; '>Academic Session                </th>");
-
 
                                 sb1.Append("</tr>");
                                 sb1.Append("<tr>");
