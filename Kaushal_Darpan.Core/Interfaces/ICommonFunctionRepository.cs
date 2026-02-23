@@ -56,6 +56,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> StreamMasterByCampus(int CampusPostID, int DepartmentID, int EndTermId);
         Task<DataTable> SemesterMaster(int ShowAllSemester = 0,int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0, int IsWithNot6thSem = 0,int EngNonEng = 0);
         Task<DataTable> SemesterGenerateMaster();
+
+        Task<DataTable> CenterCodeMaster();
         Task<List<CommonDDLModel>> StudentType();
         //Task<List<CommonDDLModel>> StudentStatus();
         Task<DataTable> ExamCategory();
