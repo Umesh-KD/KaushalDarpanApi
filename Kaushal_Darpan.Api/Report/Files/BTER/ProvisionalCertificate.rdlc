@@ -86,7 +86,7 @@
         <ReportItems>
           <Image Name="Image2">
             <Source>Embedded</Source>
-            <Value>LOGO12</Value>
+            <Value>outputonlinepngtools</Value>
             <Sizing>FitProportional</Sizing>
             <Left>7.01448cm</Left>
             <Height>4.62208cm</Height>

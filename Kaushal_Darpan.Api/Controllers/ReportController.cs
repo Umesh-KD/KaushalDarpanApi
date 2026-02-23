@@ -16184,7 +16184,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #region Provisional Certificate Report
         [HttpPost("GetProvisionalCertificateReport")]
-        public async Task<ApiResult<string>> GetProvisionalCertificateReport(CertificateSearchModel model)
+        public async Task<ApiResult<string>> GetProvisionalCertificateReport(ProvisionalCertificateModel model)
         {
             ActionName = "GetProvisionalCertificateReport()";
             return await Task.Run(async () =>

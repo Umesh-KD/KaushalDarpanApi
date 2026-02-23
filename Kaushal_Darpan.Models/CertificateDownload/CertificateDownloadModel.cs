@@ -26,4 +26,17 @@ namespace Kaushal_Darpan.Models.CertificateDownload
        
 
     }
+
+    public class ProvisionalCertificateModel
+    {
+        public int InstituteID { get; set; }
+        public int ProvisionalTypeID { get; set; }
+        public string? EnrollmentNo { get; set; }
+        public int RevisedID { get; set; }
+        public int EndTermID { get; set; }
+        public int DepartmentID { get; set; }
+        public int CourseTypeID { get; set; }
+
+
+    }
 }
