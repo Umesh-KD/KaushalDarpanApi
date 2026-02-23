@@ -5015,7 +5015,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         #region Theory Marks Report Pdf BTER
         public async Task<DataSet> TheorymarksReportPdf_BTER(TheorySearchModel body)
         {
-            _actionName = "TheorymarksReportPdf()";
+            _actionName = "TheorymarksReportPdf_BTER(TheorySearchModel body)";
             return await Task.Run(async () =>
             {
                 try
@@ -9228,7 +9228,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
         #region Provisional Certificate Report
-        public async Task<DataSet> GetProvisionalCertificateReport(CertificateSearchModel model)
+        public async Task<DataSet> GetProvisionalCertificateReport(ProvisionalCertificateModel model)
         {
             _actionName = "GetProvisionalCertificateReport()";
             return await Task.Run(async () =>

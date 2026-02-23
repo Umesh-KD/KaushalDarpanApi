@@ -1,4 +1,7 @@
-﻿namespace Kaushal_Darpan.Models.ItiCompanyMaster
+﻿using Kaushal_Darpan.Models.HrMaster;
+using Kaushal_Darpan.Models.ITIHrMaster;
+
+namespace Kaushal_Darpan.Models.ItiCompanyMaster
 {
     public class ItiCompanyMasterModels
     {
@@ -25,10 +28,10 @@
         public int ModifyBy { get; set; }
 
         public string? IPAddress { get; set; }
-        public string? MobileNo { get; set; }
-        public string? EmailId { get; set; }
-        public string? HRName { get; set; }
-
+        //public string? MobileNo { get; set; }
+        //public string? EmailId { get; set; }
+        //public string? HRName { get; set; }
+        public List<ItiHrMaster> ListCompanyHRDetails { get; set; }
     }
 
 

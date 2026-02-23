@@ -1,5 +1,7 @@
 ﻿
 using Kaushal_Darpan.Models.ITI_InstructorModel;
+using Kaushal_Darpan.Models.ITIApplication;
+using Kaushal_Darpan.Models.ITIPlanning;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -27,8 +29,13 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetAllTechCITSDetails(ITI_Instructor_TechCITSDetailsSearchModel model);
 
         Task<int> UpdateInstructorDataAsync(ITI_InstructorModel request);
+        Task<int> Onfinaljoin(Iti_InstructorVerification request);
         Task<DataTable> GetInstructorListIsAssign(ITI_InstructorDataAssign model);
+        Task<DataTable> GetverificationStatus(Iti_InstructorVerification model);
 
          Task<DataTable> ToggleAssignStatusAsync(string uid);
+        Task<bool> SaveItiworkflow(Iti_InstructorVerification productDetails);
+        Task<int> SaveOptionDetailsData(List<InstructorChoiceFillingModel> productDetails);
+        Task<bool> PriorityChange(InstructorChoiceFillingModel productDetails);
     }
 }
