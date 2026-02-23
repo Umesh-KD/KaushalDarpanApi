@@ -65,6 +65,7 @@
         public int centersubmitstatus { get; set; }
         public int centerpresentstatus { get; set; }
         public int? StudentStatus { get; set; }
+        public string? StrKey { get; set; }
     }
 
     public class StudentFailTheoryReportModel

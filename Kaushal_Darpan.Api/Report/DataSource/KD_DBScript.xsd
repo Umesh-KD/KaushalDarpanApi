@@ -1303,6 +1303,7 @@
               <xs:element name="ObtainedTheoryInword" msprop:Generator_ColumnPropNameInTable="ObtainedTheoryInwordColumn" msprop:Generator_ColumnPropNameInRow="ObtainedTheoryInword" msprop:Generator_UserColumnName="ObtainedTheoryInword" msprop:Generator_ColumnVarNameInTable="columnObtainedTheoryInword" type="xs:string" minOccurs="0" />
               <xs:element name="ObtainedTheory" msprop:Generator_ColumnPropNameInTable="ObtainedTheoryColumn" msprop:Generator_ColumnPropNameInRow="ObtainedTheory" msprop:Generator_UserColumnName="ObtainedTheory" msprop:Generator_ColumnVarNameInTable="columnObtainedTheory" type="xs:string" minOccurs="0" />
               <xs:element name="BranchName" msprop:Generator_ColumnPropNameInTable="BranchNameColumn" msprop:Generator_ColumnPropNameInRow="BranchName" msprop:Generator_UserColumnName="BranchName" msprop:Generator_ColumnVarNameInTable="columnBranchName" type="xs:string" minOccurs="0" />
+              <xs:element name="SessionName" msprop:Generator_ColumnPropNameInRow="SessionName" msprop:Generator_ColumnPropNameInTable="SessionNameColumn" msprop:Generator_ColumnVarNameInTable="columnSessionName" msprop:Generator_UserColumnName="SessionName" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -1702,8 +1703,8 @@
               <xs:element name="SrNo" msprop:Generator_ColumnPropNameInTable="SrNoColumn" msprop:Generator_ColumnPropNameInRow="SrNo" msprop:Generator_UserColumnName="SrNo" msprop:Generator_ColumnVarNameInTable="columnSrNo" type="xs:string" minOccurs="0" />
               <xs:element name="Year" msprop:Generator_ColumnPropNameInTable="YearColumn" msprop:Generator_ColumnPropNameInRow="Year" msprop:Generator_UserColumnName="Year" msprop:Generator_ColumnVarNameInTable="columnYear" type="xs:string" minOccurs="0" />
               <xs:element name="EndTermName" msprop:Generator_ColumnPropNameInTable="EndTermNameColumn" msprop:Generator_ColumnPropNameInRow="EndTermName" msprop:Generator_UserColumnName="EndTermName" msprop:Generator_ColumnVarNameInTable="columnEndTermName" type="xs:string" minOccurs="0" />
-              <xs:element name="PinCode" msprop:Generator_UserColumnName="PinCode" msprop:Generator_ColumnPropNameInTable="PinCodeColumn" msprop:Generator_ColumnPropNameInRow="PinCode" msprop:Generator_ColumnVarNameInTable="columnPinCode" type="xs:string" minOccurs="0" />
-              <xs:element name="FinancialYearName" msprop:Generator_ColumnPropNameInRow="FinancialYearName" msprop:Generator_ColumnPropNameInTable="FinancialYearNameColumn" msprop:Generator_ColumnVarNameInTable="columnFinancialYearName" msprop:Generator_UserColumnName="FinancialYearName" type="xs:string" minOccurs="0" />
+              <xs:element name="PinCode" msprop:Generator_ColumnPropNameInTable="PinCodeColumn" msprop:Generator_ColumnPropNameInRow="PinCode" msprop:Generator_UserColumnName="PinCode" msprop:Generator_ColumnVarNameInTable="columnPinCode" type="xs:string" minOccurs="0" />
+              <xs:element name="FinancialYearName" msprop:Generator_UserColumnName="FinancialYearName" msprop:Generator_ColumnPropNameInTable="FinancialYearNameColumn" msprop:Generator_ColumnPropNameInRow="FinancialYearName" msprop:Generator_ColumnVarNameInTable="columnFinancialYearName" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
