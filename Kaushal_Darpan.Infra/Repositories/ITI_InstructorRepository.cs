@@ -3,6 +3,8 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ITI_InstructorModel;
 using Kaushal_Darpan.Models.ITIAllotment;
+using Kaushal_Darpan.Models.ITIApplication;
+using Kaushal_Darpan.Models.ITIPlanning;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -196,6 +198,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PropTehsilID", request.PropTehsilID ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@City", request.City ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@pincode", request.Pincode ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@StatusID", request.StatusID);
 
                         // Correspondence
                         command.Parameters.AddWithValue("@Correspondence_PlotHouseBuildingNo", request.Correspondence_PlotHouseBuildingNo ?? (object)DBNull.Value);
@@ -531,6 +534,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Name", model.Name);
                         command.Parameters.AddWithValue("@Uid", model.Uid);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -731,6 +737,53 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        public async Task<int> Onfinaljoin(Iti_InstructorVerification request)
+        {
+            _actionName = "UpdateInstructorDataAsync(ITI_InstructorModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIInstructorFINALJOIN";
+                        command.Parameters.AddWithValue("@OptionID", request.OptionID);
+                        command.Parameters.AddWithValue("@Seatintake", request.Seatintake);
+                        command.Parameters.AddWithValue("@TradeID", request.TradeID);
+                        command.Parameters.AddWithValue("@InstructorID", request.InstructorID);
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int); // out
+                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
+                        //_sqlQuery = command.GetSqlExecutableQuery();
+                        //result = await command.ExecuteNonQueryAsync();
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
+
         public async Task<DataTable> GetInstructorListIsAssign(ITI_InstructorDataAssign model)
         {
             _actionName = "GetInstructorListIsAssign(ITI_InstructorBindDataSearchModel model )";
@@ -769,6 +822,52 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        public async Task<DataTable> GetverificationStatus(Iti_InstructorVerification model)
+        {
+            _actionName = "GetInstructorListIsAssign(ITI_InstructorBindDataSearchModel model )";
+            return await Task.Run(async () =>
+            {       
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ItiInstructorVerificationList";
+
+                        command.Parameters.AddWithValue("@InstructorID", model.InstructorID);
+                        command.Parameters.AddWithValue("@ActiveStatus", model.ActiveStatus);
+                        command.Parameters.AddWithValue("@StatusID", model.StatusID);
+                        command.Parameters.AddWithValue("@Action", model.Action);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@TradeID", model.TradeID);
+                        command.Parameters.AddWithValue("@Seatintake", model.Seatintake);
+                        command.Parameters.AddWithValue("@ModifyBy", model.ModifyBy);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
+
         public async Task<DataTable> ToggleAssignStatusAsync(string uid)
         {
             _actionName = "ToggleAssignStatusAsync(uid)";
@@ -793,6 +892,186 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     var errorDesc = new ErrorDescription
                     {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<bool> SaveItiworkflow(Iti_InstructorVerification request)
+        {
+            _actionName = "SaveDataPlanning(ITI_PlanningColleges request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int returnValue = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandText = "USP_ITIInstructorVerification_IU"; // Your stored procedure
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@VerificationID", request.VerificationID);
+                        command.Parameters.AddWithValue("@InstructorID", request.InstructorID);
+
+                        command.Parameters.AddWithValue("@PersonalStatus", request.PersonalStatus);
+                        command.Parameters.AddWithValue("@PersonalRemark", request.PersonalRemark);
+
+                        command.Parameters.AddWithValue("@BankStatus", request.BankStatus);
+                        command.Parameters.AddWithValue("@BankRemark", request.BankRemark);
+
+                        command.Parameters.AddWithValue("@AddressStatus", request.AddressStatus);
+                        command.Parameters.AddWithValue("@AddressRemark", request.AddressRemark);
+
+                        command.Parameters.AddWithValue("@CorAddressStatus", request.CorAddressStatus);
+                        command.Parameters.AddWithValue("@CorAddressRemark", request.CorAddressRemark);
+
+                        command.Parameters.AddWithValue("@EducationalStatus", request.EducationalStatus);
+                        command.Parameters.AddWithValue("@EducationalRemark", request.EducationalRemark);
+
+                        command.Parameters.AddWithValue("@TechnicalStatus", request.TechnicalStatus);
+                        command.Parameters.AddWithValue("@TechnicalRemark", request.TechnicalRemark);
+
+                        command.Parameters.AddWithValue("@EmpStatus", request.EmpStatus);
+                        command.Parameters.AddWithValue("@EmpRemark", request.EmpRemark);
+
+                        command.Parameters.AddWithValue("@FinancialYear", request.FinancialYear);
+
+                        command.Parameters.AddWithValue("@StatusID", request.StatusID);
+
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@Remark", request.Remark);
+
+
+                        var returnParam = new SqlParameter("@Return", SqlDbType.Int) { Direction = ParameterDirection.Output };
+                        command.Parameters.Add(returnParam);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        await command.ExecuteNonQueryAsync();
+                        returnValue = (int)returnParam.Value;
+
+                        return returnValue > 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> SaveOptionDetailsData(List<InstructorChoiceFillingModel> request)
+        {
+            _actionName = "SaveOptionDetailsData(List<OptionDetailsDataModel> request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_ITIInstructorOptionform";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@action", "_addEditData");
+                        //command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                        //command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                        //command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                        //command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                        //command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                        //command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                        //command.Parameters.AddWithValue("@OptionID", request[0].OptionID);
+                        //command.Parameters.AddWithValue("@InstructorID", request[0].InstructorID);
+                        //command.Parameters.AddWithValue("@ManagementTypeID", request[0].ManagementTypeID);
+                        //command.Parameters.AddWithValue("@DistrictID", request[0].DistrictID);
+                        //command.Parameters.AddWithValue("@InstituteID", request[0].InstituteID);
+                        //command.Parameters.AddWithValue("@TradeID", request[0].TradeID);
+                        //command.Parameters.AddWithValue("@DepartmentID", request[0].DepartmentID);
+                        //command.Parameters.AddWithValue("@ModifyBy", request[0].ModifyBy);
+                        //command.Parameters.AddWithValue("@Priority", request[0].Priority);
+                        //command.Parameters.AddWithValue("@TradeLevel", request[0].TradeLevel);
+                        command.Parameters.AddWithValue("@InstructorID", request[0].InstructorID);
+                        command.Parameters.AddWithValue("@Json", JsonConvert.SerializeObject(request));
+                        // Add IP Address parameter
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        // Add the return parameter
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int); // out
+                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value); // out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errorDetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> PriorityChange(InstructorChoiceFillingModel model)
+        {
+            _actionName = "PriorityChange(OptionDetailsDataModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIInstructorOptionform";
+                        command.Parameters.AddWithValue("@OptionID", model.OptionID);
+                        command.Parameters.AddWithValue("@InstructorID", model.InstructorID);
+                        command.Parameters.AddWithValue("@Type", model.Type);
+              
+                        command.Parameters.AddWithValue("@Action", "PriorityChange");
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int); // out
+                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value); // out
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {   
                         Message = ex.Message,
                         PageName = _pageName,
                         ActionName = _actionName,
