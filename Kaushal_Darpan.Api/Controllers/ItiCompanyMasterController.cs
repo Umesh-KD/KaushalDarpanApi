@@ -70,16 +70,56 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpGet("GetByID/{PK_ID}")]
-        public async Task<ApiResult<ItiCompanyMasterResponsiveModel>> GetByID(int PK_ID)
+        //[HttpGet("GetByID/{PK_ID}")]
+        //public async Task<ApiResult<ItiCompanyMasterResponsiveModel>> GetByID(int PK_ID)
+        //{
+        //    ActionName = "GetByID(int PK_ID)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        var result = new ApiResult<ItiCompanyMasterResponsiveModel>();
+        //        try
+        //        {
+        //            var data = await _unitOfWork.i_ITICompanyMasterRepository.GetById(PK_ID);
+        //            result.Data = data;
+        //            if (data != null)
+        //            {
+        //                result.State = EnumStatus.Success;
+        //                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+        //            }
+        //            else
+        //            {
+        //                result.State = EnumStatus.Warning;
+        //                result.Message = Constants.MSG_DATA_NOT_FOUND;
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            await _unitOfWork.DisposeAsync();
+        //            // Write error log
+        //            var nex = new NewException
+        //            {
+        //                PageName = PageName,
+        //                ActionName = ActionName,
+        //                Ex = ex,
+        //            };
+        //            await CreateErrorLog(nex, _unitOfWork);
+        //            result.State = EnumStatus.Error;
+        //            result.ErrorMessage = ex.Message;
+        //        }
+        //        return result;
+        //    });
+        //}
+
+        [HttpPost("GetByID")]
+        public async Task<ApiResult<ItiCompanyMasterModels>> GetByID(ItiCompanyMasterSearchModel req)
         {
             ActionName = "GetByID(int PK_ID)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<ItiCompanyMasterResponsiveModel>();
+                var result = new ApiResult<ItiCompanyMasterModels>();
                 try
                 {
-                    var data = await _unitOfWork.i_ITICompanyMasterRepository.GetById(PK_ID);
+                    var data = await _unitOfWork.i_ITICompanyMasterRepository.GetById(req);
                     result.Data = data;
                     if (data != null)
                     {
@@ -109,6 +149,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
 
         [HttpPost("SaveData")]
         public async Task<ApiResult<bool>> SaveData([FromBody] ItiCompanyMasterModels request)

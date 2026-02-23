@@ -12,7 +12,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface I_ITICompanyMasterRepository
     {
         Task<DataTable> GetAllData(ItiCompanyMasterSearchModel filterModel);
-        Task<ItiCompanyMasterResponsiveModel> GetById(int ID);
+        Task<ItiCompanyMasterModels> GetById(ItiCompanyMasterSearchModel req);
         Task<bool> SaveData(ItiCompanyMasterModels productDetails);
         Task<bool> Save_CompanyValidation_NodalAction(ItiCompanyMaster_Action model);
         Task<bool> DeleteDataByID(ItiCompanyMasterModels productDetails);
