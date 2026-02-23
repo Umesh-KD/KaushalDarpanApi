@@ -1349,7 +1349,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                                 sb1.Append("<th rowspan='2' style='text-align: left;font-size: 10px;border:1px solid gray; '>Year</th>");
                                 sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Roll Number</th>");
-                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Last Appeared</th>");
+                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:1px solid gray;'>Passing <br/> Month & Year</th>");
 
                                 foreach (DataRow rowSub in subjectData.Rows)
                                 {
@@ -2045,7 +2045,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                                 //<!-- ✅ Column Headers ONLY here -->
                                 sb1.Append("<tr>");
-                                sb1.Append("<th rowspan='2' style='text-align: left;font-size: 10px;border:0.5px solid #c5c5c5; '>S.No.</th>");
+                                sb1.Append("<th rowspan='2' style='text-align: center;font-size: 10px;border:0.5px solid #c5c5c5; '>S.No.</th>");
                                 //sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:0.5px solid #c5c5c5;width:18% '>Trainee's Details</th>");
 
 
@@ -2059,9 +2059,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-                                sb1.Append("<th rowspan='2' style='text-align: left;font-size: 10px;border:0.5px solid #c5c5c5; '>Year</th>");
-                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:0.5px solid #c5c5c5;'>Roll Number</th>");
-                                sb1.Append("<th rowspan='2' style='text-align:left; font-size: 10px;border:0.5px solid #c5c5c5;'>Last Appeared</th>");
+                                sb1.Append("<th rowspan='2' style='text-align: center;font-size: 10px;border:0.5px solid #c5c5c5; '>Year</th>");
+                                sb1.Append("<th rowspan='2' style='text-align:center; font-size: 10px;border:0.5px solid #c5c5c5;'>Roll Number</th>");
+                                sb1.Append("<th rowspan='2' style='text-align:center; font-size: 10px;border:0.5px solid #c5c5c5;'>Passing <br/> Month & Year</th>");
 
                                 foreach (DataRow rowSub in subjectData.Rows)
                                 {
@@ -2166,7 +2166,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                         if (isFirstRow)
                                         {
 
-                                            sb1.Append($"<td rowspan='{rowSpan + 1}' style='text-align: left;   font-size: 10px;border:0.5px solid #c5c5c5;'>" + (idx++) + "</td>");
+                                            sb1.Append($"<td rowspan='{rowSpan + 1}' style='text-align: center;   font-size: 10px;border:0.5px solid #c5c5c5;'>" + (idx++) + "</td>");
                                             //sb1.Append($"<td rowspan='{rowSpan}' style='text-align:left;font-size:10px;border:1px solid gray;'> Trainee Name" +  + "</td>");
                                             //sb1.Append($"<td rowspan='{rowSpan}'  style='text-align:center;font-size:10px;border:1px solid gray;'>"
                                             //            + rowTrnee["EnrollmentNo"] + "<br/>" + rowTrnee["DOB"] + "</td>");
@@ -2187,9 +2187,9 @@ namespace Kaushal_Darpan.Api.Controllers
                                         }
 
 
-                                        sb1.Append("<td style='text-align: left;   font-size: 10px;border:0.5px solid #c5c5c5;'>" + rowTrnee["Semester"] + "</td>");
+                                        sb1.Append("<td style='text-align: center;   font-size: 10px;border:0.5px solid #c5c5c5;'>" + rowTrnee["Semester"] + "</td>");
                                         sb1.Append("<td style='text-align: center; font-size: 10px;border:0.5px solid #c5c5c5;'>" + rowTrnee["RollNo"] + "</td>");
-                                        sb1.Append("<td style='text-align:left;    font-size: 10px;border:0.5px solid #c5c5c5;'>" + rowTrnee["LastAppeared"] + "</td>");
+                                        sb1.Append("<td style='text-align:center;    font-size: 10px;border:0.5px solid #c5c5c5;'>" + rowTrnee["LastAppeared"] + "</td>");
                                         foreach (DataRow rowSub in subjectData.Rows)
                                         {
                                             try
