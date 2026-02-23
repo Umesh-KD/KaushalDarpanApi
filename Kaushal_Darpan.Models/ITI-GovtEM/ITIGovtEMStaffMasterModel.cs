@@ -751,21 +751,21 @@
         public int OfficeID { get; set; }
         public int InstituteID { get; set; }
         public int PlanningID { get; set; } = 0;
-        public int DesignationID { get; set; }
+        public int? DesignationID { get; set; }
         public int TotalSeatID { get; set; }
         public int RemainingSeatID { get; set; }
         public int StaffTypeID { get; set; }
-        public string Comments { get; set; }
+        public string? Comments { get; set; }
         public int DepartmentID { get; set; }
         public int EndTermID { get; set; }
         public int CourseTypeID { get; set; }
         public bool ActiveStatus { get; set; }
         public bool DeleteStatus { get; set; }
-        public string RTS { get; set; }
+        public string? RTS { get; set; }
         public int CreatedBy { get; set; }
         public int ModifyBy { get; set; }
-        public string ModifyDate { get; set; }
-        public string IPAddress { get; set; }
+        public string? ModifyDate { get; set; }
+        public string? IPAddress { get; set; }
         public int PostedSeat { get; set; }
         public int TradeID { get; set; }
     }

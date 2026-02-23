@@ -21,7 +21,7 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? Category { get; set; }
         public string? Mobile { get; set; }
         public string? Email { get; set; }
-
+        public int StatusID { get; set; }
 
         //Bank Details
         public string? BankAccountNumber { get; set; }
@@ -226,6 +226,9 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? Uid { get; set; }
         public string? Name { get; set; }
         public int? DepartmentID { get; set; }
+        public int? RoleID { get; set; }
+        public int? UserID { get; set; }
+        public int? InstituteID { get; set; }
 
         //public string? ApplicationNo { get; set; }
     }
@@ -242,6 +245,79 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? DepartmentID { get; set; }
         public int? CollegeId { get; set; }
 
+    }
+
+    public class Iti_InstructorVerification
+    {
+        public int VerificationID { get; set; }
+
+        public int InstructorID { get; set; }
+
+        public string? PersonalStatus { get; set; }
+        public string? PersonalRemark { get; set; }
+
+        public string? BankStatus { get; set; }
+        public string? BankRemark { get; set; }
+
+        public string? AddressStatus { get; set; }
+        public string? AddressRemark { get; set; }
+
+        public string? CorAddressStatus { get; set; }
+        public string? CorAddressRemark { get; set; }
+
+        public string? EducationalStatus { get; set; }
+        public string? EducationalRemark { get; set; }
+
+        public string? TechnicalStatus { get; set; }
+        public string? TechnicalRemark { get; set; }
+
+        public string? EmpStatus { get; set; }
+        public string? EmpRemark { get; set; }
+        public string? Action { get; set; }
+        public string? Remark { get; set; }
+
+        public int FinancialYear { get; set; }
+
+        public int StatusID { get; set; }
+
+        public int ModifyBy { get; set; }
+        public bool? ActiveStatus { get; set; }
+
+        public int? InstituteID { get; set; }
+        public int? TradeID { get; set; }
+        public int? Seatintake { get; set; }
+        public int? OptionID { get; set; }
+    }
+    public class InstructorChoiceFillingModel
+    {
+        public int OptionID { get; set; } = 0;
+        public int InstructorID { get; set; } = 0;
+        public int ManagementTypeID { get; set; } = 0;
+        public string ManagementTypeName { get; set; } = string.Empty;
+
+        public int DistrictID { get; set; } = 0;
+        public string DistrictName { get; set; } = string.Empty;
+
+        public int InstituteID { get; set; } = 0;
+        public string InstituteName { get; set; } = string.Empty;
+
+        public int TradeID { get; set; } = 0;
+        public string TradeName { get; set; } = string.Empty;
+
+        public int Priority { get; set; } = 0;
+        public int TradeLevel { get; set; } = 0;
+        public int TradeTypeId { get; set; } = 0;
+
+        public string? Type { get; set; } = string.Empty;
+
+        public int ModifyBy { get; set; } = 0;
+        public int DepartmentID { get; set; } = 2;
+
+        public string SSOID { get; set; } = string.Empty;
+        public int AcademicYear { get; set; } = 0;
+
+        public string MinPercentageInScience { get; set; } = string.Empty;
+        public string MinPercentageInMath { get; set; } = string.Empty;
     }
 
 }
