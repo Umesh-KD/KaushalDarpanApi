@@ -8,6 +8,7 @@ using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.GroupMaster;
 using Kaushal_Darpan.Models.ItemsMaster;
 using Kaushal_Darpan.Models.ITI_Inspection;
+using Kaushal_Darpan.Models.StaffMaster;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Data;
@@ -1627,6 +1628,81 @@ namespace Kaushal_Darpan.Api.Controllers
                     //
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetIssueItemsForApprove")]
+        public async Task<ApiResult<DataTable>> GetIssueItemsForApprove([FromBody] inventoryIssueHistorySearchModel body)
+        {
+            ActionName = "GetIssueItemsForApprove([FromBody] inventoryIssueHistorySearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.iDTEItemsMasterRepository.GetIssueItemsForApprove(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("ApproveIssuedItems")]
+        public async Task<ApiResult<int>> ApproveIssuedItems([FromBody] List<ApproveIssuedItemsDataModel> request)
+        {
+            ActionName = "ApproveIssuedItems([FromBody] ApproveIssuedItemsDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.iDTEItemsMasterRepository.ApproveIssuedItems(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
                 }
                 return result;
             });

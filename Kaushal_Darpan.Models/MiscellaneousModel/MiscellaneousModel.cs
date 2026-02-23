@@ -19,5 +19,8 @@ namespace Kaushal_Darpan.Models.LeaveMaster
         public int SchemeID { get; set; } = 0;
         public int PresentStatus { get; set; } = 0;
         public int Type { get; set; } = 0;
+        public string SubjectCode { get; set; } = string.Empty;
+        public string SSOID { get; set; } = string.Empty;
+        public int GroupCode { get; set; } = 0;
     }
 }

@@ -6,6 +6,7 @@ using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.EquipmentsMaster;
 using Kaushal_Darpan.Models.ItemCategoryMasterModel;
 using Kaushal_Darpan.Models.ItemsMaster;
+using Kaushal_Darpan.Models.StaffMaster;
 using Microsoft.Data.SqlClient;
 using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json;
@@ -843,6 +844,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
                         command.Parameters.AddWithValue("@status", SearchReq.status);
                         command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
+                        command.Parameters.AddWithValue("@IssueStatus", SearchReq.IssueStatus);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1455,6 +1457,87 @@ namespace Kaushal_Darpan.Infra.Repositories
                         ds = await command.FillAsync();
                     }
                     return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetIssueItemsForApprove(inventoryIssueHistorySearchModel SearchReq)
+        {
+            _actionName = "GetIssueItemsForApprove(inventoryIssueHistorySearchModel SearchReq)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Bter_INV_GetIssueItemsForApprove";
+                        command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
+                        command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
+                        command.Parameters.AddWithValue("@status", SearchReq.status);
+                        command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> ApproveIssuedItems(List<ApproveIssuedItemsDataModel> request)
+        {
+            _actionName = "ApproveIssuedItems(ApproveIssuedItemsDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandText = "USP_Bter_INV_ApproveIssuedItems";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(request));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; 
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+                    return result;
                 }
                 catch (Exception ex)
                 {
