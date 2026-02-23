@@ -222,7 +222,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                         sb1.Append("<table id='pdf-header' style='width:100%' border='0' cellpadding='5' cellspacing='0'>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 15px;'>Rajasthan Council of Vocational Education and Training, Rajasthan</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 15px;'>Rajasthan Council for Vocational Education and Training, Rajasthan</td></tr>");
                         sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment and Entrepreneurship</td></tr>");
 
                         sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] + "</td></tr>");
@@ -545,7 +545,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                           
                             sb1.Append("<table id='pdf-headers' style='width:100%' margin:0; padding:0;border='0' cellpadding='0'>");
-                            sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 15px;'>Rajasthan Council of Vocational Education and Training, Rajasthan</td></tr>");
+                            sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 15px;'>Rajasthan Council for Vocational Education and Training, Rajasthan</td></tr>");
                             sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment and Entrepreneurship</td></tr>");
                             //sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>SCVT Yearly " + data.Tables[0].Rows[0]["AcadSession"].ToString() + " " + (request.ExamType == 1 ? "Main" : "Supplementary") + "  Examination Result</td></tr>");
                             sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] + "</td></tr>");
@@ -1277,7 +1277,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
 
                         sb1.Append("<table id='pdf-header' style='width:100%' border='0' cellpadding='5' cellspacing='0'>");
-                        sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 15px;'>Rajasthan Council of Vocational Education And Training, Rajasthan</td></tr>");
+                        sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 15px;'>Rajasthan Council for Vocational Education And Training, Rajasthan</td></tr>");
                         sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment and Entrepreneurship</td></tr>");
                         sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] + "</td></tr>");
                         sb1.Append("</table>");
@@ -1994,7 +1994,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             int FailTrainee = 0;
                             float PercentageTrainee = 0;
                             sb1.Append("<table id='pdf-headeree' style='width:100%' border='0' cellpadding='5' cellspacing='0'>");
-                            sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 15px;'>Rajasthan Council of Vocational Education and Training, Rajasthan</td></tr>");
+                            sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 15px;'>Rajasthan Council for Vocational Education and Training, Rajasthan</td></tr>");
                             sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 14px;'>Department of Skill, Employment and Entrepreneurship</td></tr>");
                             sb1.Append("<tr><td style='text-align: center; padding: 0px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] + "</td></tr>");
                             sb1.Append("</table>");
