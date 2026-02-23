@@ -302,7 +302,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetMiscellaneousReport(MiscellaneousModel model);
         Task<DataSet> GetCertificateLetterReport(CertificateReportModel model);
         Task<DataTable> GetITIAllDataExcelReport(ITIPlacementReportSearch filterModel);
-        Task<DataSet> GetProvisionalCertificateReport(CertificateSearchModel model);
+        //Task<DataSet> GetProvisionalCertificateReport(CertificateSearchModel model);
         Task<int> SaveExaminerStaticReportFeedbackForm(ExaminerStaticReportFeedbackDataModel request);
         Task<DataSet> GetProvisionalCertificateReport(ProvisionalCertificateModel model);
     }
