@@ -8686,7 +8686,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("TheorymarksReportPdf_BTER")]
         public async Task<ApiResult<string>> TheorymarksReportPdf_BTER(TheorySearchModel filterModel)
         {
-            ActionName = "TheorymarksReportPdf()";
+            ActionName = "TheorymarksReportPdf_BTER(TheorySearchModel filterModel)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
