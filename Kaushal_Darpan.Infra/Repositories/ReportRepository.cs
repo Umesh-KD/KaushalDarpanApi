@@ -10,6 +10,7 @@ using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.DTEApplicationDashboardModel;
+using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.FlyingSquad;
 using Kaushal_Darpan.Models.GenerateAdmitCard;
 using Kaushal_Darpan.Models.GenerateEnroll;
@@ -9268,5 +9269,74 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
+        #region Examiner Static Report Feedback form
+
+        public async Task<int> SaveExaminerStaticReportFeedbackForm(ExaminerStaticReportFeedbackDataModel request)
+        {
+            _actionName = "SaveExaminerStaticReportFeedbackForm(ExaminerStaticReportFeedbackDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_ExaminerStaticReportFeedback_IU";
+                        command.CommandType = CommandType.StoredProcedure;
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@ExaminerStaticRptFeedbackID", request.ExaminerStaticRptFeedbackID);
+                        command.Parameters.AddWithValue("@ExaminerID", request.ExaminerID);
+                        command.Parameters.AddWithValue("@CommonRemarkForQueAns", request.CommonRemarkForQueAns);
+                        command.Parameters.AddWithValue("@IsMassCoping", request.IsMassCoping);
+                        command.Parameters.AddWithValue("@Syllabus", request.Syllabus);
+                        command.Parameters.AddWithValue("@InstituteLevel", request.InstituteLevel);
+                        command.Parameters.AddWithValue("@TeachingByTeacher", request.TeachingByTeacher);
+                        command.Parameters.AddWithValue("@StudyOfStudent", request.StudyOfStudent);
+                        command.Parameters.AddWithValue("@SuggestionForImprovement", request.SuggestionForImprovement);
+                        command.Parameters.AddWithValue("@Date", request.Date);
+                        command.Parameters.AddWithValue("@SignPhoto", request.SignPhoto);
+                        command.Parameters.AddWithValue("@Dis_SignPhoto", request.Dis_SignPhoto);
+                        command.Parameters.AddWithValue("@GroupCode", request.GroupCode);
+                        command.Parameters.AddWithValue("@SubjectCode", request.SubjectCode);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@CourseType", request.CourseType);
+                        command.Parameters.AddWithValue("@SubjectID", request.SubjectID);
+                        command.Parameters.AddWithValue("@GroupCodeID", request.GroupCodeID);
+                        command.Parameters.AddWithValue("@CenterID", request.CenterID);
+                        command.Parameters.AddWithValue("@MassCopyDocument", request.MassCopyDocument);
+                        command.Parameters.AddWithValue("@Dis_MassCopyDocument", request.Dis_MassCopyDocument);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        #endregion
     }
 }

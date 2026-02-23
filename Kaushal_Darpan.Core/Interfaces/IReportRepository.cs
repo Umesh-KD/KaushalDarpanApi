@@ -303,5 +303,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetCertificateLetterReport(CertificateReportModel model);
         Task<DataTable> GetITIAllDataExcelReport(ITIPlacementReportSearch filterModel);
         Task<DataSet> GetProvisionalCertificateReport(CertificateSearchModel model);
+        Task<int> SaveExaminerStaticReportFeedbackForm(ExaminerStaticReportFeedbackDataModel request);
     }
 }
