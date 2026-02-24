@@ -1154,7 +1154,7 @@ email: conf.bter@gmail.com</Value>
         <rd:DefaultName>Textbox1</rd:DefaultName>
         <Top>14.88432cm</Top>
         <Left>0.508cm</Left>
-        <Height>6.97243cm</Height>
+        <Height>6.68139cm</Height>
         <Width>30.3624cm</Width>
         <ZIndex>6</ZIndex>
         <Style>
@@ -1256,9 +1256,9 @@ email: conf.bter@gmail.com</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox34</rd:DefaultName>
-        <Top>20.08778cm</Top>
+        <Top>19.80556cm</Top>
         <Left>15.47638cm</Left>
-        <Height>1.76897cm</Height>
+        <Height>1.76015cm</Height>
         <Width>15.39402cm</Width>
         <ZIndex>8</ZIndex>
         <Style>
@@ -1273,10 +1273,10 @@ email: conf.bter@gmail.com</Value>
       </Textbox>
       <Image Name="Image1">
         <Source>Database</Source>
-        <Value>=First(Fields!SignPhoto.Value, "Statistical_report_Information")</Value>
+        <Value>=First(Fields!SignImg.Value, "Statistical_report_Information")</Value>
         <MIMEType>image/jpeg</MIMEType>
         <Sizing>FitProportional</Sizing>
-        <Top>18.76417cm</Top>
+        <Top>18.44667cm</Top>
         <Left>26.34237cm</Left>
         <Height>1.28833cm</Height>
         <Width>4.33753cm</Width>
@@ -1288,7 +1288,7 @@ email: conf.bter@gmail.com</Value>
         </Style>
       </Image>
     </ReportItems>
-    <Height>8.73497in</Height>
+    <Height>8.53705in</Height>
     <Style>
       <Border>
         <Style>Solid</Style>
@@ -1437,6 +1437,14 @@ email: conf.bter@gmail.com</Value>
         </Field>
         <Field Name="MassCopyDocument">
           <DataField>MassCopyDocument</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SignImg">
+          <DataField>SignImg</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MassCopyImg">
+          <DataField>MassCopyImg</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
