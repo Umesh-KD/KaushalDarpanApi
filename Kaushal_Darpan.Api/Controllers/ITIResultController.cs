@@ -2307,9 +2307,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-
-
-
                                 sb1.Append("<tr>");
                                 sb1.Append("<td height='70' valign='bottom' colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:1px solid gray'>");
                                 sb1.Append("<table  style='border-collapse: collapse; width: 100%;' border='0' cellpadding='0' cellspacing='0'>");
