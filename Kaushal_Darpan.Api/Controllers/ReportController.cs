@@ -8701,100 +8701,97 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<string>> TheorymarksReportPdf_BTER(TheorySearchModel filterModel)
         {
             ActionName = "TheorymarksReportPdf_BTER(TheorySearchModel filterModel)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<string>();
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                var data = await _unitOfWork.ReportRepository.TheorymarksReportPdf_BTER(filterModel);
+
+                if (data != null)
                 {
-                    var data = await _unitOfWork.ReportRepository.TheorymarksReportPdf_BTER(filterModel);
+                    var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
 
-                    if (data != null)
+                    if (!System.IO.Directory.Exists(folderPath))
                     {
-                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        Directory.CreateDirectory(folderPath);
+                    }
 
-                        if (!System.IO.Directory.Exists(folderPath))
+                    // Group data by GroupCode, Branch, and SubjectCode
+                    var groupedData = data.Tables[0].AsEnumerable()
+                        .GroupBy(row => new
                         {
-                            Directory.CreateDirectory(folderPath);
-                        }
+                            GroupCode = row["GroupCode"],
+                            Branch = row["BranchName"],
+                            SubjectCode = row["SubjectCode"]
+                        });
 
-                        // Group data by GroupCode, Branch, and SubjectCode
-                        var groupedData = data.Tables[0].AsEnumerable()
-                            .GroupBy(row => new
-                            {
-                                GroupCode = row["GroupCode"],
-                                Branch = row["BranchName"],
-                                SubjectCode = row["SubjectCode"]
-                            });
+                    // Initialize a list to store the individual PDF file paths
+                    List<string> pdfFiles = new List<string>();
+                    string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                    foreach (var group in groupedData)
+                    {
+                        // Get data for this specific group
+                        var groupData = group.CopyToDataTable();
 
-                        // Initialize a list to store the individual PDF file paths
-                        List<string> pdfFiles = new List<string>();
-                        string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                        foreach (var group in groupedData)
-                        {
-                            // Get data for this specific group
-                            var groupData = group.CopyToDataTable();
+                        var fileName = $"{group.Key.GroupCode}_{group.Key.Branch}_{group.Key.SubjectCode}_TheoryReport_{timestamp}.pdf";
+                        string filepath = $"{folderPath}/{fileName}";
 
-                            var fileName = $"{group.Key.GroupCode}_{group.Key.Branch}_{group.Key.SubjectCode}_TheoryReport_{timestamp}.pdf";
-                            string filepath = $"{folderPath}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/Theory_Marks_Report.rdlc";
 
-                            string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/Theory_Marks_Report.rdlc";
+                        var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
 
-                            var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+                        localReport.AddDataSource("TheoryMarksReport", groupData);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
 
-                            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                            LocalReport localReport = new LocalReport(rdlcpath);
-                            localReport.AddDataSource("TheoryMarksReport", groupData);
-                            var reportResult = localReport.Execute(RenderType.Pdf);
+                        // Save the report for this group
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
 
-                            // Save the report for this group
-                            System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        // Add this PDF file to the list of PDFs to merge
+                        pdfFiles.Add(filepath);
+                    }
 
-                            // Add this PDF file to the list of PDFs to merge
-                            pdfFiles.Add(filepath);
-                        }
+                    // Now merge all individual PDFs into a single PDF
+                    string mergedFilePath = $"Merged_TheoryMarksReport_{timestamp}.pdf";
+                    string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{mergedFilePath}";
 
-                        // Now merge all individual PDFs into a single PDF
-                        string mergedFilePath = $"Merged_TheoryMarksReport_{timestamp}.pdf";
-                        string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{mergedFilePath}";
-
-                        bool mergeSuccess = await MergePdfFilesAsync(pdfFiles, outputPath);
-                        if (mergeSuccess)
-                        {
-                            result.Data = mergedFilePath;
-                            result.State = EnumStatus.Success;
-                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                        }
-                        else
-                        {
-                            result.State = EnumStatus.Error;
-                            result.ErrorMessage = "Something went wrong while merging the PDFs.";
-                        }
-
+                    bool mergeSuccess = await MergePdfFilesAsync(pdfFiles, outputPath);
+                    if (mergeSuccess)
+                    {
+                        result.Data = mergedFilePath;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                     }
                     else
                     {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Something went wrong while merging the PDFs.";
                     }
+
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = "something went wrong please try again";
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
 
-                return result;
-            });
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = "something went wrong please try again";
+            }
+
+            return result;
         }
         #endregion
 
@@ -10083,16 +10080,17 @@ namespace Kaushal_Darpan.Api.Controllers
                         //string qrData = "http://localhost:4200/iti-Examination-public-info?rollNo="+ rollNo + "&dob=" + dob + "&sessionId=" + sessionId;
 
 
-                       // string dob = Convert.ToString(data.Tables[0].Rows[0]["DOB"]);
+                        // string dob = Convert.ToString(data.Tables[0].Rows[0]["DOB"]);
                         string dob = "";
-                        if (data.Tables[0].Rows[0]["DOB"] != DBNull.Value)
+                        if (data.Tables[0].Rows[0]["QRDOB"] != DBNull.Value)
                         {
-                            DateTime dobDate = Convert.ToDateTime(data.Tables[0].Rows[0]["DOB"]);
+                            DateTime dobDate = Convert.ToDateTime(data.Tables[0].Rows[0]["QRDOB"]);
                             dob = dobDate.ToString("yyyy-MM-dd");
                         }
                         string sessionId = Convert.ToString(data.Tables[0].Rows[0]["EndTermId"]);
                         string QRScanerURL = Convert.ToString(data.Tables[0].Rows[0]["QRScanerURL"]);
                         string qrData = $"{QRScanerURL}?rollNo={rollNo}&dob={dob}&sessionId={sessionId}";
+
                         QRCodeGenerator qrGenerator = new QRCodeGenerator();
                         QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrData, QRCodeGenerator.ECCLevel.Q);
                         QRCode qrCode = new QRCode(qrCodeData);
@@ -10234,7 +10232,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-       
+
 
         #region ITI GetITIStudent_MarksheetList
         [HttpPost("GetITIStudent_MarksheetList")]
@@ -15695,7 +15693,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 sb.Append("<td></td>");
                 sb.Append("</tr>");
             }
-           
+
 
             return sb.ToString();
         }
@@ -16071,7 +16069,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
 
                         //
-                        var _sb = _printHtmlFile.InternalAssessmentStudent_GetHtml(dataSet,model.TypeID);
+                        var _sb = _printHtmlFile.InternalAssessmentStudent_GetHtml(dataSet, model.TypeID);
                         sb.Append(_sb);
 
                     }

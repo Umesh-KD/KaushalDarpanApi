@@ -94,6 +94,7 @@ public class ItiEstablishmentSearchModel
 {
     public int InstituteID { get; set; } 
     public int IsNewCollege { get; set; }
+    public int DistrictID { get; set; }
     public string? CollegeName { get; set; }
 }
 
