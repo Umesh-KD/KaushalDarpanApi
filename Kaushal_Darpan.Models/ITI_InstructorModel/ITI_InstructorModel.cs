@@ -144,7 +144,7 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string? panDocument { get; set; }
         public string? EmployeeCode { get; set; }
         public string? BasicSalaryDocument { get; set; }
-        public int? PostHeld { get; set; }
+        public string? PostHeld { get; set; }
         public bool? Employer_presentlyWorking { get; set; }
         public string? CreatedBy { get; set; }
 

@@ -647,7 +647,7 @@ Mobile No: </Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>CENTER Code: </Value>
+                <Value>CC Code: </Value>
                 <Style>
                   <FontSize>12pt</FontSize>
                   <FontWeight>Normal</FontWeight>

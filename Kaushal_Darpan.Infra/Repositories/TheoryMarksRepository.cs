@@ -40,7 +40,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@action", "_getTheoryDetail");
                         command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
                         command.Parameters.AddWithValue("@StreamID", body.StreamID);
-                        command.Parameters.AddWithValue("@StudentID", body.StudentID); 
+                        command.Parameters.AddWithValue("@StudentID", body.StudentID);
                         command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
                         command.Parameters.AddWithValue("@RollNo", body.RollNo);
                         command.Parameters.AddWithValue("@MarkEnter", body.MarkEnter);
@@ -122,37 +122,34 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetTheoryMarksDetailList(TheorySearchModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_TheoryMasterList";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_TheoryMasterList";
 
-                        command.Parameters.AddWithValue("@action", "GetTheoryMarksRptData");
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
-                        command.Parameters.AddWithValue("@StudentID", body.StudentID);
-                        command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
-                        command.Parameters.AddWithValue("@RollNo", body.RollNo);
-                        command.Parameters.AddWithValue("@MarkEnter", body.MarkEnter);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@GroupCodeID", body.GroupCodeID);
-                        command.Parameters.AddWithValue("@ExaminerCode", body.ExaminerCode);
-                        command.Parameters.AddWithValue("@SSOID", body.SSOID);
-                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
-                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
-                        command.Parameters.AddWithValue("@CenterCode", body.CenterCode);
-                        //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
+                    command.Parameters.AddWithValue("@action", "GetTheoryMarksRptData");
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                    command.Parameters.AddWithValue("@StudentID", body.StudentID);
+                    command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
+                    command.Parameters.AddWithValue("@RollNo", body.RollNo);
+                    command.Parameters.AddWithValue("@MarkEnter", body.MarkEnter);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@GroupCodeID", body.GroupCodeID);
+                    command.Parameters.AddWithValue("@ExaminerCode", body.ExaminerCode);
+                    command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@CenterCode", body.CenterCode);
+                    //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
