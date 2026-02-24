@@ -54372,6 +54372,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnMassCopyDocument;
             
+            private global::System.Data.DataColumn columnSignImg;
+            
+            private global::System.Data.DataColumn columnMassCopyImg;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public Statistical_report_InformationDataTable() {
@@ -54479,6 +54483,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn SignImgColumn {
+                get {
+                    return this.columnSignImg;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn MassCopyImgColumn {
+                get {
+                    return this.columnMassCopyImg;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -54514,7 +54534,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Statistical_report_InformationRow AddStatistical_report_InformationRow(string IsMassCopy, string Syllabus, string InstituteLevel, string TeachingByTeacher, string StudyOfStudent, string CommonRemarkForQueAns, string SuggestionForImprovement, string SignPhoto, string MassCopyDocument) {
+            public Statistical_report_InformationRow AddStatistical_report_InformationRow(string IsMassCopy, string Syllabus, string InstituteLevel, string TeachingByTeacher, string StudyOfStudent, string CommonRemarkForQueAns, string SuggestionForImprovement, string SignPhoto, string MassCopyDocument, string SignImg, string MassCopyImg) {
                 Statistical_report_InformationRow rowStatistical_report_InformationRow = ((Statistical_report_InformationRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         IsMassCopy,
@@ -54525,7 +54545,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         CommonRemarkForQueAns,
                         SuggestionForImprovement,
                         SignPhoto,
-                        MassCopyDocument};
+                        MassCopyDocument,
+                        SignImg,
+                        MassCopyImg};
                 rowStatistical_report_InformationRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStatistical_report_InformationRow);
                 return rowStatistical_report_InformationRow;
@@ -54557,6 +54579,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnSuggestionForImprovement = base.Columns["SuggestionForImprovement"];
                 this.columnSignPhoto = base.Columns["SignPhoto"];
                 this.columnMassCopyDocument = base.Columns["MassCopyDocument"];
+                this.columnSignImg = base.Columns["SignImg"];
+                this.columnMassCopyImg = base.Columns["MassCopyImg"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -54580,6 +54604,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnSignPhoto);
                 this.columnMassCopyDocument = new global::System.Data.DataColumn("MassCopyDocument", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMassCopyDocument);
+                this.columnSignImg = new global::System.Data.DataColumn("SignImg", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSignImg);
+                this.columnMassCopyImg = new global::System.Data.DataColumn("MassCopyImg", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMassCopyImg);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -96535,6 +96563,40 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string SignImg {
+                get {
+                    try {
+                        return ((string)(this[this.tableStatistical_report_Information.SignImgColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SignImg\' in table \'Statistical_report_Information\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableStatistical_report_Information.SignImgColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string MassCopyImg {
+                get {
+                    try {
+                        return ((string)(this[this.tableStatistical_report_Information.MassCopyImgColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'MassCopyImg\' in table \'Statistical_report_Information\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStatistical_report_Information.MassCopyImgColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsIsMassCopyNull() {
                 return this.IsNull(this.tableStatistical_report_Information.IsMassCopyColumn);
             }
@@ -96639,6 +96701,30 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetMassCopyDocumentNull() {
                 this[this.tableStatistical_report_Information.MassCopyDocumentColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsSignImgNull() {
+                return this.IsNull(this.tableStatistical_report_Information.SignImgColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetSignImgNull() {
+                this[this.tableStatistical_report_Information.SignImgColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsMassCopyImgNull() {
+                return this.IsNull(this.tableStatistical_report_Information.MassCopyImgColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetMassCopyImgNull() {
+                this[this.tableStatistical_report_Information.MassCopyImgColumn] = global::System.Convert.DBNull;
             }
         }
         

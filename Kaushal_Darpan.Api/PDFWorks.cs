@@ -255,7 +255,7 @@ namespace Utility
 
             float leftMargin = 55f;
             float rightMargin = 20f;
-            float topMargin = 25f;     // no fake header space now
+            float topMargin = 10f;     // no fake header space now
             float bottomMargin = 25f;
 
             string headerHtml = "";

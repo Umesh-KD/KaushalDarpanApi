@@ -1,6 +1,7 @@
 ﻿using Kaushal_Darpan.Core.Entities;
 using Kaushal_Darpan.Models.ApplicationData;
 using Kaushal_Darpan.Models.AssignRoleRight;
+using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.BterApplication;
 using Kaushal_Darpan.Models.BterCertificateReport;
 using Kaushal_Darpan.Models.CertificateDownload;
@@ -73,6 +74,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> DateWiseAttendanceReport(DateWiseAttendanceReport filterModel);
         Task<DataTable> GetDownloadCenterDailyReports(GroupCenterMappingModel filterModel);
         Task<DataTable> GetStaticsReportProvideByExaminer(GroupCenterMappingModel filterModel);
+        Task<DataTable> GetExaminerWithGroupCodeList(MiscellaneousModel filterModel);
+        Task<bool> UnlockExaminerWithGroupCode(MiscellaneousModel productDetails);
         Task<DataTable> GetOnlineReportProvideByExaminer(OnlineMarkingSearchModel filterModel);
         Task<DataTable> GetExaminerReportAndMarksTracking(GroupCenterMappingModel filterModel);
         Task<DataTable> GetExaminerReportAndMarksTrackingStudent(GroupCenterMappingModel filterModel);
@@ -305,5 +308,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         //Task<DataSet> GetProvisionalCertificateReport(CertificateSearchModel model);
         Task<int> SaveExaminerStaticReportFeedbackForm(ExaminerStaticReportFeedbackDataModel request);
         Task<DataSet> GetProvisionalCertificateReport(ProvisionalCertificateModel model);
+        Task<DataTable> GetStaticsReportExaminerMarksData(GroupCenterMappingModel filterModel);
     }
 }

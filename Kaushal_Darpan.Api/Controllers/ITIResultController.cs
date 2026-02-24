@@ -2307,9 +2307,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-
-
-
                                 sb1.Append("<tr>");
                                 sb1.Append("<td height='70' valign='bottom' colspan='" + colspan + "' style='text-align: left;   font-size: 11px;border:1px solid gray'>");
                                 sb1.Append("<table  style='border-collapse: collapse; width: 100%;' border='0' cellpadding='0' cellspacing='0'>");
@@ -2338,11 +2335,6 @@ namespace Kaushal_Darpan.Api.Controllers
                             sb1.Append("<div style='margin-top:10px;'>&nbsp;</div>");
                             sb1.Append("<div style='page-break-after: always;'></div>");
                         }
-
-
-
-
-
 
 
                         //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));

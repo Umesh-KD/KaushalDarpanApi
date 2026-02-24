@@ -16,6 +16,7 @@ using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ApplicationData;
+using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.BterCertificateReport;
 using Kaushal_Darpan.Models.CampusPostMaster;
 using Kaushal_Darpan.Models.CertificateDownload;
@@ -6090,6 +6091,104 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #endregion
 
+        #region GetExaminerWithGroupCodeList
+        [HttpPost("GetExaminerWithGroupCodeList")]
+        public async Task<ApiResult<DataTable>> GetExaminerWithGroupCodeList([FromBody] MiscellaneousModel body)
+        {
+
+            ActionName = "GetExaminerWithGroupCodeList()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ReportRepository.GetExaminerWithGroupCodeList(body);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("UnlockExaminerWithGroupCode")]
+        public async Task<ApiResult<bool>> UnlockExaminerWithGroupCode([FromBody] MiscellaneousModel request)
+        {
+            ActionName = " UnlockExaminerWithGroupCode([FromBody] MiscellaneousModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.ReportRepository.UnlockExaminerWithGroupCode(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                        //if (request.StaffID == 0)
+                        //{
+                        //    result.Message = Constants.MSG_SAVE_SUCCESS;
+                        //}
+                        //else
+                        //{
+                        //    result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        //}
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        //if (request.StaffID == 0)
+                        //{
+                        //    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        //}
+                        //else
+                        //{
+                        //    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        //}
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        #endregion
+
         #region GetOnlineReportProvideByExaminer
         [HttpPost("GetOnlineReportProvideByExaminer")]
         public async Task<ApiResult<DataTable>> GetOnlineReportProvideByExaminer([FromBody] OnlineMarkingSearchModel body)
@@ -8469,7 +8568,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         var fileName = $"StatisticsReport.pdf";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
                         string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/Statistical_Information.rdlc";
-                        //
+                        
 
                         string singimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[1].Rows[0]["SignPhoto"]}";
                         data.Tables[1].Rows[0]["SignImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(singimgFilepath));
@@ -16417,6 +16516,47 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 return result;
             });
+        }
+
+        #endregion
+
+        #region Get Statics Report Examiner Marks Data
+        [HttpPost("GetStaticsReportExaminerMarksData")]
+        public async Task<ApiResult<DataTable>> GetStaticsReportExaminerMarksData([FromBody] GroupCenterMappingModel body)
+        {
+            ActionName = "GetStaticsReportExaminerMarksData([FromBody] GroupCenterMappingModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ReportRepository.GetStaticsReportExaminerMarksData(body);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
         #endregion
