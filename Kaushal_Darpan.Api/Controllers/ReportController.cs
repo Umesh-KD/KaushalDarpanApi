@@ -10085,14 +10085,15 @@ namespace Kaushal_Darpan.Api.Controllers
 
                        // string dob = Convert.ToString(data.Tables[0].Rows[0]["DOB"]);
                         string dob = "";
-                        if (data.Tables[0].Rows[0]["DOB"] != DBNull.Value)
+                        if (data.Tables[0].Rows[0]["QRDOB"] != DBNull.Value)
                         {
-                            DateTime dobDate = Convert.ToDateTime(data.Tables[0].Rows[0]["DOB"]);
+                            DateTime dobDate = Convert.ToDateTime(data.Tables[0].Rows[0]["QRDOB"]);
                             dob = dobDate.ToString("yyyy-MM-dd");
                         }
                         string sessionId = Convert.ToString(data.Tables[0].Rows[0]["EndTermId"]);
                         string QRScanerURL = Convert.ToString(data.Tables[0].Rows[0]["QRScanerURL"]);
                         string qrData = $"{QRScanerURL}?rollNo={rollNo}&dob={dob}&sessionId={sessionId}";
+
                         QRCodeGenerator qrGenerator = new QRCodeGenerator();
                         QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrData, QRCodeGenerator.ECCLevel.Q);
                         QRCode qrCode = new QRCode(qrCodeData);
