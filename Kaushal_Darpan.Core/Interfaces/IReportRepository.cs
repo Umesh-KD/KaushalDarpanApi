@@ -305,5 +305,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         //Task<DataSet> GetProvisionalCertificateReport(CertificateSearchModel model);
         Task<int> SaveExaminerStaticReportFeedbackForm(ExaminerStaticReportFeedbackDataModel request);
         Task<DataSet> GetProvisionalCertificateReport(ProvisionalCertificateModel model);
+        Task<DataTable> GetStaticsReportExaminerMarksData(GroupCenterMappingModel filterModel);
     }
 }
