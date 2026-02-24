@@ -29757,6 +29757,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnStaffDate;
             
+            private global::System.Data.DataColumn columnInstituteNameEnglish;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public RemunerationDataTable() {
@@ -29976,6 +29978,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn InstituteNameEnglishColumn {
+                get {
+                    return this.columnInstituteNameEnglish;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -30034,7 +30044,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         string YearName, 
                         string SubjectCode, 
                         string DesignationNameEnglish, 
-                        string StaffDate) {
+                        string StaffDate, 
+                        string InstituteNameEnglish) {
                 RemunerationRow rowRemunerationRow = ((RemunerationRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         StaffName,
@@ -30059,7 +30070,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         YearName,
                         SubjectCode,
                         DesignationNameEnglish,
-                        StaffDate};
+                        StaffDate,
+                        InstituteNameEnglish};
                 rowRemunerationRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRemunerationRow);
                 return rowRemunerationRow;
@@ -30105,6 +30117,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnSubjectCode = base.Columns["SubjectCode"];
                 this.columnDesignationNameEnglish = base.Columns["DesignationNameEnglish"];
                 this.columnStaffDate = base.Columns["StaffDate"];
+                this.columnInstituteNameEnglish = base.Columns["InstituteNameEnglish"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -30156,6 +30169,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnDesignationNameEnglish);
                 this.columnStaffDate = new global::System.Data.DataColumn("StaffDate", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnStaffDate);
+                this.columnInstituteNameEnglish = new global::System.Data.DataColumn("InstituteNameEnglish", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnInstituteNameEnglish);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -77009,6 +77024,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string InstituteNameEnglish {
+                get {
+                    try {
+                        return ((string)(this[this.tableRemuneration.InstituteNameEnglishColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'InstituteNameEnglish\' in table \'Remuneration\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRemuneration.InstituteNameEnglishColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsStaffNameNull() {
                 return this.IsNull(this.tableRemuneration.StaffNameColumn);
             }
@@ -77281,6 +77312,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetStaffDateNull() {
                 this[this.tableRemuneration.StaffDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsInstituteNameEnglishNull() {
+                return this.IsNull(this.tableRemuneration.InstituteNameEnglishColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetInstituteNameEnglishNull() {
+                this[this.tableRemuneration.InstituteNameEnglishColumn] = global::System.Convert.DBNull;
             }
         }
         
