@@ -973,7 +973,7 @@ email: conf.bter@gmail.com</Value>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=First(Fields!Below18to54MarksStudent.Value, "Statistical_Information")</Value>
+                              <Value>=Sum(Fields!Below18to54MarksStudent.Value, "Statistical_Information")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -1154,7 +1154,7 @@ email: conf.bter@gmail.com</Value>
         <rd:DefaultName>Textbox1</rd:DefaultName>
         <Top>14.88432cm</Top>
         <Left>0.508cm</Left>
-        <Height>5.49076cm</Height>
+        <Height>6.97243cm</Height>
         <Width>30.3624cm</Width>
         <ZIndex>6</ZIndex>
         <Style>
@@ -1256,7 +1256,7 @@ email: conf.bter@gmail.com</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox34</rd:DefaultName>
-        <Top>18.60611cm</Top>
+        <Top>20.08778cm</Top>
         <Left>15.47638cm</Left>
         <Height>1.76897cm</Height>
         <Width>15.39402cm</Width>
@@ -1271,15 +1271,31 @@ email: conf.bter@gmail.com</Value>
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
+      <Image Name="Image1">
+        <Source>Database</Source>
+        <Value>=First(Fields!SignPhoto.Value, "Statistical_report_Information")</Value>
+        <MIMEType>image/jpeg</MIMEType>
+        <Sizing>FitProportional</Sizing>
+        <Top>18.76417cm</Top>
+        <Left>26.34237cm</Left>
+        <Height>1.28833cm</Height>
+        <Width>4.33753cm</Width>
+        <ZIndex>9</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Image>
     </ReportItems>
-    <Height>8.14754in</Height>
+    <Height>8.73497in</Height>
     <Style>
       <Border>
         <Style>Solid</Style>
       </Border>
     </Style>
   </Body>
-  <Width>12.34345in</Width>
+  <Width>12.81847in</Width>
   <Page>
     <PageHeight>23cm</PageHeight>
     <PageWidth>34cm</PageWidth>
