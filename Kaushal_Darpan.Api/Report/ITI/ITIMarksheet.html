@@ -10,59 +10,55 @@
         {#ENDIF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
         <tr>
             <td>
-                <!--<table style="border-collapse:collapse;width:100%;">
-                    <tr>
-                        <td valign="top" style="font-size: 12px;width:15%;padding-top:50px;">S.No. <b>{#=GetITIStudent_Marksheet_SingleDetails.SNo=#}</b></td>
-                        <td valign="top" style="text-align: center; font-size: 13px; width: 70%; font-weight:600">
-                            <img src='{#=GetITIStudent_Marksheet_SingleDetails.NE100=#}' style="width:60px;" />
-                            <img src='{#=GetITIStudent_Marksheet_SingleDetails.HeadLogo=#}' style="width:30px;" />
-                            <h4 style="margin:3px 0px 3px 0px;font-size:17px">{#=GetITIStudent_Marksheet_SingleDetails.Heading1=#}</h4>
-                            <p style="margin:0px 0px 3px 0px;">{#=GetITIStudent_Marksheet_SingleDetails.Heading2=#}</p>
-                            <p style="margin:0px 0px 3px 0px;">{#=GetITIStudent_Marksheet_SingleDetails.Heading3=#}</p>
-                            <p style="margin:0px 0px 3px 0px;">{#=GetITIStudent_Marksheet_SingleDetails.Heading4=#}</p>
-                            <p style="margin:0px 0px 3px 0px;">{#=GetITIStudent_Marksheet_SingleDetails.Heading5=#}</p>
-                        </td>
-                        <td valign="top" style="text-align: right; width: 15%; padding-top: 20px;">
-                            <img src='{#=GetITIStudent_Marksheet_SingleDetails.ITILogo=#}' style="width:100px" />
-                        </td>
-                    </tr>
-                </table>-->
                 <table style="border-collapse:collapse;width:100%;">
-                    <!-- ONE LINE : S.No + Logos -->
                     <tr>
                         <td>
                             <table style="width:100%;border-collapse:collapse;">
                                 <tr>
-                                    <!-- S.No -->
-                                    <td style="width:15%;font-size:12px;vertical-align:middle;">
+                                    <td style="width:15%;font-size:12px;vertical-align:top;">
                                         <b> S.No. {#=GetITIStudent_Marksheet_SingleDetails.SNo=#}</b>
                                     </td>
 
-                                    <!-- Center Logos -->
-                                    <td style="width:70%;text-align:center;vertical-align:middle; padding-bottom:10px;">
-                                        <!--<img src="{#=GetITIStudent_Marksheet_SingleDetails.NE100=#}" style="width:60px;vertical-align:middle;" />-->
+                                    <td style="width:70%;text-align:center;vertical-align:middle; padding-bottom:10px;padding-top:50px">
                                         <img src="{#=GetITIStudent_Marksheet_SingleDetails.HeadLogo=#}" style="width:32px;vertical-align:middle;margin-left:8px;" />
+                                        <h4 style="margin:10px 0px 3px 0px;font-size:17px">{#=GetITIStudent_Marksheet_SingleDetails.Heading1=#}</h4>
+                                        <p style="margin:0px; font-size:14px;">
+                                            {#=GetITIStudent_Marksheet_SingleDetails.Heading2=#}
+                                        </p>
+
+                                        <p style="margin: 0px; font-size:14px;">
+                                            {#=GetITIStudent_Marksheet_SingleDetails.Heading3=#}
+                                        </p>
+
+                                        <p style="margin: 0px; font-size:14px;">
+                                            {#=GetITIStudent_Marksheet_SingleDetails.Heading4=#}
+                                        </p>
+
+                                        <p style="margin: 0px; font-size:14px; font-weight: 600;">
+                                            {#=GetITIStudent_Marksheet_SingleDetails.Heading5=#}
+                                        </p>
                                     </td>
 
-                                    <!-- ITI Logo -->
-                                    <td style="width: 15%; text-align: right; vertical-align: middle; padding-bottom: 10px;">
-                                        <img src="{#=GetITIStudent_Marksheet_SingleDetails.ITILogo=#}" style="width:100px;" />
+                                    <td style="width: 15%; text-align: right; vertical-align: top;">
+                                       
+                                        <div style="text-align:center;float:right; ">
+                                            <img src="{#=GetITIStudent_Marksheet_SingleDetails.ITILogo=#}" style="width:100px;" /><br />
+                                            <img src="{#=GetITIStudent_Marksheet_SingleDetails.QRCode=#}"
+                                                 style="width:80px;height:80px;" />
+                                        </div>
                                     </td>
+                                    
                                 </tr>
                             </table>
                         </td>
                     </tr>
-                    <!-- Heading & Details -->
-                    <tr>
-                        <td valign="top" style="text-align: center; font-size: 13px; width: 70%; font-weight:600;">
-                            <h4 style="margin:10px 0px 3px 0px;font-size:17px">{#=GetITIStudent_Marksheet_SingleDetails.Heading1=#}</h4>
-                            <p style="margin:0px 0px 3px 0px;">{#=GetITIStudent_Marksheet_SingleDetails.Heading2=#}</p>
-                            <p style="margin:0px 0px 3px 0px;">{#=GetITIStudent_Marksheet_SingleDetails.Heading3=#}</p>
-                            <p style="margin:0px 0px 3px 0px;">{#=GetITIStudent_Marksheet_SingleDetails.Heading4=#}</p>
-                            <p style="margin:0px 0px 3px 0px;">{#=GetITIStudent_Marksheet_SingleDetails.Heading5=#}</p>
-                        </td>
-                    </tr>
+                  
                 </table>
+
+
+
+                
+
             </td>
         </tr>
         <tr>
