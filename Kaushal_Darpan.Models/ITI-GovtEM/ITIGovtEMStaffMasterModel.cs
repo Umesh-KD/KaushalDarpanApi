@@ -766,8 +766,10 @@
         public int ModifyBy { get; set; }
         public string? ModifyDate { get; set; }
         public string? IPAddress { get; set; }
+        public string? PostSanctionDate { get; set; }
         public int PostedSeat { get; set; }
         public int TradeID { get; set; }
+        public int? PostSanctionedID { get; set; }
     }
 
 
