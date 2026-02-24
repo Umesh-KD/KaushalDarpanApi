@@ -8454,7 +8454,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("StatisticsInformationReportPdf")]
         public async Task<ApiResult<string>> StatisticsInformationReportPdf([FromBody] GroupCenterMappingModel body)
         {
-            ActionName = "StatisticsInformationReportPdf()";
+            ActionName = "StatisticsInformationReportPdf([FromBody] GroupCenterMappingModel body)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
