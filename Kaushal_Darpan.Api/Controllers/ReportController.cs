@@ -8469,7 +8469,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         var fileName = $"StatisticsReport.pdf";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
                         string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/Statistical_Information.rdlc";
-                        //
+                        
 
                         string singimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[1].Rows[0]["SignPhoto"]}";
                         data.Tables[1].Rows[0]["SignImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(singimgFilepath));

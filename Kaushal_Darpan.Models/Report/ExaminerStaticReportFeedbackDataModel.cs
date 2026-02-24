@@ -14,11 +14,11 @@ namespace Kaushal_Darpan.Models.Report
         public int GroupCodeID { get; set; }
         public int SubjectID { get; set; }
         public string? CommonRemarkForQueAns { get; set; }
-        public string? IsMassCoping { get; set; }
-        public string? Syllabus { get; set; }
-        public string? InstituteLevel { get; set; }
-        public string? TeachingByTeacher { get; set; }
-        public string? StudyOfStudent { get; set; }
+        public bool? IsMassCoping { get; set; }
+        public int? Syllabus { get; set; }
+        public int? InstituteLevel { get; set; }
+        public int? TeachingByTeacher { get; set; }
+        public int? StudyOfStudent { get; set; }
         public string? SuggestionForImprovement { get; set; }
         public string? Date { get; set; }
         public string? SignPhoto { get; set; }
