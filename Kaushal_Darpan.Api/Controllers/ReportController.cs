@@ -49,6 +49,13 @@ using System.Text;
 
 
 
+using QRCoder;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+
+
+
 namespace Kaushal_Darpan.Api.Controllers
 {
     [ApiController]
@@ -8447,7 +8454,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("StatisticsInformationReportPdf")]
         public async Task<ApiResult<string>> StatisticsInformationReportPdf([FromBody] GroupCenterMappingModel body)
         {
-            ActionName = "StatisticsInformationReportPdf()";
+            ActionName = "StatisticsInformationReportPdf([FromBody] GroupCenterMappingModel body)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
@@ -8694,100 +8701,97 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<string>> TheorymarksReportPdf_BTER(TheorySearchModel filterModel)
         {
             ActionName = "TheorymarksReportPdf_BTER(TheorySearchModel filterModel)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<string>();
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                var data = await _unitOfWork.ReportRepository.TheorymarksReportPdf_BTER(filterModel);
+
+                if (data != null)
                 {
-                    var data = await _unitOfWork.ReportRepository.TheorymarksReportPdf_BTER(filterModel);
+                    var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
 
-                    if (data != null)
+                    if (!System.IO.Directory.Exists(folderPath))
                     {
-                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        Directory.CreateDirectory(folderPath);
+                    }
 
-                        if (!System.IO.Directory.Exists(folderPath))
+                    // Group data by GroupCode, Branch, and SubjectCode
+                    var groupedData = data.Tables[0].AsEnumerable()
+                        .GroupBy(row => new
                         {
-                            Directory.CreateDirectory(folderPath);
-                        }
+                            GroupCode = row["GroupCode"],
+                            Branch = row["BranchName"],
+                            SubjectCode = row["SubjectCode"]
+                        });
 
-                        // Group data by GroupCode, Branch, and SubjectCode
-                        var groupedData = data.Tables[0].AsEnumerable()
-                            .GroupBy(row => new
-                            {
-                                GroupCode = row["GroupCode"],
-                                Branch = row["BranchName"],
-                                SubjectCode = row["SubjectCode"]
-                            });
+                    // Initialize a list to store the individual PDF file paths
+                    List<string> pdfFiles = new List<string>();
+                    string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                    foreach (var group in groupedData)
+                    {
+                        // Get data for this specific group
+                        var groupData = group.CopyToDataTable();
 
-                        // Initialize a list to store the individual PDF file paths
-                        List<string> pdfFiles = new List<string>();
-                        string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                        foreach (var group in groupedData)
-                        {
-                            // Get data for this specific group
-                            var groupData = group.CopyToDataTable();
+                        var fileName = $"{group.Key.GroupCode}_{group.Key.Branch}_{group.Key.SubjectCode}_TheoryReport_{timestamp}.pdf";
+                        string filepath = $"{folderPath}/{fileName}";
 
-                            var fileName = $"{group.Key.GroupCode}_{group.Key.Branch}_{group.Key.SubjectCode}_TheoryReport_{timestamp}.pdf";
-                            string filepath = $"{folderPath}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/Theory_Marks_Report.rdlc";
 
-                            string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/Theory_Marks_Report.rdlc";
+                        var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
 
-                            var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+                        localReport.AddDataSource("TheoryMarksReport", groupData);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
 
-                            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                            LocalReport localReport = new LocalReport(rdlcpath);
-                            localReport.AddDataSource("TheoryMarksReport", groupData);
-                            var reportResult = localReport.Execute(RenderType.Pdf);
+                        // Save the report for this group
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
 
-                            // Save the report for this group
-                            System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        // Add this PDF file to the list of PDFs to merge
+                        pdfFiles.Add(filepath);
+                    }
 
-                            // Add this PDF file to the list of PDFs to merge
-                            pdfFiles.Add(filepath);
-                        }
+                    // Now merge all individual PDFs into a single PDF
+                    string mergedFilePath = $"Merged_TheoryMarksReport_{timestamp}.pdf";
+                    string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{mergedFilePath}";
 
-                        // Now merge all individual PDFs into a single PDF
-                        string mergedFilePath = $"Merged_TheoryMarksReport_{timestamp}.pdf";
-                        string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{mergedFilePath}";
-
-                        bool mergeSuccess = await MergePdfFilesAsync(pdfFiles, outputPath);
-                        if (mergeSuccess)
-                        {
-                            result.Data = mergedFilePath;
-                            result.State = EnumStatus.Success;
-                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                        }
-                        else
-                        {
-                            result.State = EnumStatus.Error;
-                            result.ErrorMessage = "Something went wrong while merging the PDFs.";
-                        }
-
+                    bool mergeSuccess = await MergePdfFilesAsync(pdfFiles, outputPath);
+                    if (mergeSuccess)
+                    {
+                        result.Data = mergedFilePath;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                     }
                     else
                     {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Something went wrong while merging the PDFs.";
                     }
+
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = "something went wrong please try again";
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
 
-                return result;
-            });
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = "something went wrong please try again";
+            }
+
+            return result;
         }
         #endregion
 
@@ -9921,89 +9925,212 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
         #region ITI GetITIStudent_Marksheet
+        //[HttpPost("GetITIStudent_Marksheet")]
+        //public async Task<ApiResult<string>> GetITIStudent_Marksheet(StudentMarksheetSearchModel model)
+        //{
+        //    ActionName = "GetITIStudent_Marksheet(StudentMarksheetSearchModel model)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        var result = new ApiResult<string>();
+        //        try
+        //        {
+
+        //            var data = await _unitOfWork.ReportRepository.GetITIStudent_Marksheet(model);
+        //            if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+        //            {
+        //                //var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+        //                ////report
+        //                //var fileName = $"JoiningLetter_{model.UserID}_{model.StaffID}.pdf";
+        //                //string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+        //                //string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/ApplicationFormPreview.rdlc";
+
+        //                //provider                      
+        //                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+        //                //images
+        //                data.Tables[0].TableName = "GetITIStudent_Marksheet_SingleDetails";
+
+        //                data.Tables[0].Rows[0]["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
+        //                data.Tables[0].Rows[0]["HeadLogo"] = $"{ConfigurationHelper.StaticFileRootPath + "/" + data.Tables[0].Rows[0]["HeadLogo"]}";
+
+        //                data.Tables[0].Rows[0]["NE100"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
+        //                data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
+        //                /*define table name for read and replace column from table*/
+        //                //DataTable marksheetTable = data.Tables[0];
+        //                //marksheetTable.TableName = "GetITIStudent_Marksheet_SingleDetails";
+
+        //                //if (marksheetTable.Rows.Count > 0)
+        //                //{
+        //                //    DataRow row = marksheetTable.Rows[0];
+
+        //                //    // Make sure the columns exist before assigning values
+        //                //    if (marksheetTable.Columns.Contains("logobg"))
+        //                //        row["logobg"] = $"{ConfigurationHelper.StaticFileRootPath}/logobg.png";
+
+        //                //    if (marksheetTable.Columns.Contains("ITILogo"))
+        //                //        row["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
+
+        //                //    if (marksheetTable.Columns.Contains("NE100"))
+        //                //        row["NE100"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
+
+        //                //    if (marksheetTable.Columns.Contains("NE"))
+        //                //        row["NE"] = $"{ConfigurationHelper.StaticFileRootPath}/NE.png";
+        //                //}
+
+
+        //                data.Tables[1].TableName = "GetITIStudent_Marksheet_Details";
+
+        //                string devFontSize = "15px";
+        //                /*default font size for kruti dev*/
+        //                //string fontSize = "font-size: 10px;";
+        //                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+
+        //                string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.GetITIStudent_MarksheetReport}/ITIMarksheet.html";
+
+        //                string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+
+        //                System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+        //                html = Utility.PDFWorks.ReplaceCustomTag(html);
+
+        //                html = html.Replace("class=\"IsRowBold_2\"", "style=\"font-weight:bold\"");
+        //                //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+        //                sb1.Append(html);
+
+
+        //                var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogoWaterMark.png";
+
+        //                byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", watermarkImagePath);
+
+        //                // Example: Send in API
+        //                //return File(pdfBytes, "application/pdf", "Generated.pdf");
+
+
+        //                ///string dataUri = "data:application/pdf;base64," + base64String;
+        //                result.Data = Convert.ToBase64String(pdfBytes); ;
+        //                result.State = EnumStatus.Success;
+        //                result.Message = "Success";
+        //            }
+        //            else
+        //            {
+        //                result.State = EnumStatus.Warning;
+        //                result.Message = Constants.MSG_DATA_NOT_FOUND;
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            await _unitOfWork.DisposeAsync();
+        //            // Write error log
+        //            var nex = new NewException
+        //            {
+        //                PageName = PageName,
+        //                ActionName = ActionName,
+        //                Ex = ex,
+        //            };
+        //            await CreateErrorLog(nex, _unitOfWork);
+        //            //
+        //            result.State = EnumStatus.Error;
+        //            result.ErrorMessage = ex.Message;
+        //        }
+        //        return result;
+        //    });
+        //}
+
         [HttpPost("GetITIStudent_Marksheet")]
         public async Task<ApiResult<string>> GetITIStudent_Marksheet(StudentMarksheetSearchModel model)
         {
             ActionName = "GetITIStudent_Marksheet(StudentMarksheetSearchModel model)";
+
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
+
                 try
                 {
-
                     var data = await _unitOfWork.ReportRepository.GetITIStudent_Marksheet(model);
+
                     if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
                     {
-                        //var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-                        ////report
-                        //var fileName = $"JoiningLetter_{model.UserID}_{model.StaffID}.pdf";
-                        //string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        //string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/ApplicationFormPreview.rdlc";
-
-                        //provider                      
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        //images
+
                         data.Tables[0].TableName = "GetITIStudent_Marksheet_SingleDetails";
-
-                        data.Tables[0].Rows[0]["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
-                        data.Tables[0].Rows[0]["HeadLogo"] = $"{ConfigurationHelper.StaticFileRootPath + "/" + data.Tables[0].Rows[0]["HeadLogo"]}";
-
-                        data.Tables[0].Rows[0]["NE100"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
-                        data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
-                        /*define table name for read and replace column from table*/
-                        //DataTable marksheetTable = data.Tables[0];
-                        //marksheetTable.TableName = "GetITIStudent_Marksheet_SingleDetails";
-
-                        //if (marksheetTable.Rows.Count > 0)
-                        //{
-                        //    DataRow row = marksheetTable.Rows[0];
-
-                        //    // Make sure the columns exist before assigning values
-                        //    if (marksheetTable.Columns.Contains("logobg"))
-                        //        row["logobg"] = $"{ConfigurationHelper.StaticFileRootPath}/logobg.png";
-
-                        //    if (marksheetTable.Columns.Contains("ITILogo"))
-                        //        row["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
-
-                        //    if (marksheetTable.Columns.Contains("NE100"))
-                        //        row["NE100"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
-
-                        //    if (marksheetTable.Columns.Contains("NE"))
-                        //        row["NE"] = $"{ConfigurationHelper.StaticFileRootPath}/NE.png";
-                        //}
-
-
                         data.Tables[1].TableName = "GetITIStudent_Marksheet_Details";
 
-                        string devFontSize = "15px";
-                        /*default font size for kruti dev*/
-                        //string fontSize = "font-size: 10px;";
-                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                        data.Tables[0].Rows[0]["ITILogo"] =
+                            $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
+
+                        data.Tables[0].Rows[0]["HeadLogo"] =
+                            $"{ConfigurationHelper.StaticFileRootPath}/" +
+                            data.Tables[0].Rows[0]["HeadLogo"];
+
+                        data.Tables[0].Rows[0]["NE100"] =
+                            $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
+
+                        data.Tables[0].Rows[0]["signlogo"] =
+                            $"{ConfigurationHelper.StaticFileRootPath}/" +
+                            data.Tables[0].Rows[0]["signlogo"];
+
+                        string rollNo = data.Tables[0].Rows[0]["RollNo"].ToString();
+
+                        //string dob = data.Tables[0].Rows[0]["DOB"].ToString();
+                        //string sessionId = Convert.ToString(data.Tables[0].Rows[0]["EndTermId"]);
+                        //string QRScanerURL = Convert.ToString(data.Tables[0].Rows[0]["QRScanerURL"]);
 
 
-                        string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.GetITIStudent_MarksheetReport}/ITIMarksheet.html";
+                        //string qrData = "http://localhost:4200/iti-Examination-public-info?rollNo="+ rollNo + "&dob=" + dob + "&sessionId=" + sessionId;
+
+
+                        // string dob = Convert.ToString(data.Tables[0].Rows[0]["DOB"]);
+                        string dob = "";
+                        if (data.Tables[0].Rows[0]["QRDOB"] != DBNull.Value)
+                        {
+                            DateTime dobDate = Convert.ToDateTime(data.Tables[0].Rows[0]["QRDOB"]);
+                            dob = dobDate.ToString("yyyy-MM-dd");
+                        }
+                        string sessionId = Convert.ToString(data.Tables[0].Rows[0]["EndTermId"]);
+                        string QRScanerURL = Convert.ToString(data.Tables[0].Rows[0]["QRScanerURL"]);
+                        string qrData = $"{QRScanerURL}?rollNo={rollNo}&dob={dob}&sessionId={sessionId}";
+
+                        QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                        QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrData, QRCodeGenerator.ECCLevel.Q);
+                        QRCode qrCode = new QRCode(qrCodeData);
+                        string qrFolder = Path.Combine(ConfigurationHelper.StaticFileRootPath, "TempQR");
+                        if (!Directory.Exists(qrFolder))
+                            Directory.CreateDirectory(qrFolder);
+
+                        string qrFileName = "QR_" + rollNo + ".png";
+                        string qrFullPath = Path.Combine(qrFolder, qrFileName);
+
+                        using (Bitmap qrBitmap = qrCode.GetGraphic(5))
+                        {
+                            qrBitmap.Save(qrFullPath, System.Drawing.Imaging.ImageFormat.Png);
+                        }
+
+                        if (!data.Tables[0].Columns.Contains("QRCode"))
+                            data.Tables[0].Columns.Add("QRCode");
+
+                        data.Tables[0].Rows[0]["QRCode"] =
+                            ConfigurationHelper.StaticFileRootPath + "/TempQR/" + qrFileName;
+
+                        string htmlTemplatePath =
+                            $"{ConfigurationHelper.RootPath}{Constants.GetITIStudent_MarksheetReport}/ITIMarksheet.html";
 
                         string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
-
-                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
 
                         html = Utility.PDFWorks.ReplaceCustomTag(html);
 
                         html = html.Replace("class=\"IsRowBold_2\"", "style=\"font-weight:bold\"");
-                        //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+
+                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
                         sb1.Append(html);
 
+                        var watermarkImagePath =
+                            $"{ConfigurationHelper.StaticFileRootPath}/ITILogoWaterMark.png";
 
-                        var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogoWaterMark.png";
+                        byte[] pdfBytes =
+                            Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", watermarkImagePath);
 
-                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", watermarkImagePath);
-
-                        // Example: Send in API
-                        //return File(pdfBytes, "application/pdf", "Generated.pdf");
-
-
-                        ///string dataUri = "data:application/pdf;base64," + base64String;
-                        result.Data = Convert.ToBase64String(pdfBytes); ;
+                        result.Data = Convert.ToBase64String(pdfBytes);
                         result.State = EnumStatus.Success;
                         result.Message = "Success";
                     }
@@ -10016,18 +10143,20 @@ namespace Kaushal_Darpan.Api.Controllers
                 catch (Exception ex)
                 {
                     await _unitOfWork.DisposeAsync();
-                    // Write error log
+
                     var nex = new NewException
                     {
                         PageName = PageName,
                         ActionName = ActionName,
                         Ex = ex,
                     };
+
                     await CreateErrorLog(nex, _unitOfWork);
-                    //
+
                     result.State = EnumStatus.Error;
                     result.ErrorMessage = ex.Message;
                 }
+
                 return result;
             });
         }
@@ -10065,11 +10194,11 @@ namespace Kaushal_Darpan.Api.Controllers
                         string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
                         System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
                         html = Utility.PDFWorks.ReplaceCustomTag(html);
-                 
+
                         sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
 
                         var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogoWaterMark.png";
-             
+
 
                         byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "", watermarkImagePath);
 
@@ -10101,6 +10230,8 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
 
 
         #region ITI GetITIStudent_MarksheetList
@@ -15562,7 +15693,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 sb.Append("<td></td>");
                 sb.Append("</tr>");
             }
-           
+
 
             return sb.ToString();
         }
@@ -15938,7 +16069,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
 
                         //
-                        var _sb = _printHtmlFile.InternalAssessmentStudent_GetHtml(dataSet,model.TypeID);
+                        var _sb = _printHtmlFile.InternalAssessmentStudent_GetHtml(dataSet, model.TypeID);
                         sb.Append(_sb);
 
                     }

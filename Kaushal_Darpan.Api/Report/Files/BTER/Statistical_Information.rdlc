@@ -973,7 +973,7 @@ email: conf.bter@gmail.com</Value>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!Below15to17MarksStudent.Value, "Statistical_Information")</Value>
+                              <Value>=Sum(Fields!Below18to54MarksStudent.Value, "Statistical_Information")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>

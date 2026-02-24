@@ -33,10 +33,10 @@ namespace Kaushal_Darpan.Models.DTEApplicationDashboardModel
         public int Eng_NonEng { get; set; }
         public int RoleID { get; set; }
         public int CCCode { get; set; }
-        public int CenterCode { get; set; }
+        public string? CenterCode { get; set; }
         public string? SubjectCode { get; set; }
         public string? SSOID { get; set; }
-        public int GroupCode { get; set; }
+        public string? GroupCode { get; set; }
         public int SemesterID { get; set; }
         public int StreamID { get; set; }
         public int CenterID { get; set; }
@@ -46,10 +46,6 @@ namespace Kaushal_Darpan.Models.DTEApplicationDashboardModel
 
         public string? Action { get; set; }
         public string? Type { get; set; }
-
-
-
-
 
     }
 
