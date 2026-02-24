@@ -2337,11 +2337,6 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
 
 
-
-
-
-
-
                         //sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
 
                         var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
