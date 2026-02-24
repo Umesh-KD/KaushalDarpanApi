@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ApplicationData;
+using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.BterApplication;
 using Kaushal_Darpan.Models.BterCertificateReport;
 using Kaushal_Darpan.Models.CenterObserver;
@@ -16,6 +17,7 @@ using Kaushal_Darpan.Models.GenerateAdmitCard;
 using Kaushal_Darpan.Models.GenerateEnroll;
 using Kaushal_Darpan.Models.GroupCodeAllocation;
 using Kaushal_Darpan.Models.ITIApplication;
+using Kaushal_Darpan.Models.ITIIIPManageDataModel;
 using Kaushal_Darpan.Models.ItiInvigilator;
 using Kaushal_Darpan.Models.ItiStudentActivities;
 using Kaushal_Darpan.Models.ITITheoryMarks;
@@ -1311,6 +1313,101 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
         #endregion
+
+
+        #region Get Examiner with group code list
+        public async Task<DataTable> GetExaminerWithGroupCodeList(MiscellaneousModel model)
+        {
+            string GetAction = "";
+            _actionName = "GetExaminerWithGroupCodeList()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetExaminersWithGroupCodeAndMarkingList";
+                        command.Parameters.AddWithValue("@action", "_Examiners_With_Group_Code_And_Marking_report");
+                        command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
+                        command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                        command.Parameters.AddWithValue("@GroupCode", model.GroupCode);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
+                        command.Parameters.AddWithValue("@Type", model.Type);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+
+        }
+
+        public async Task<bool> UnlockExaminerWithGroupCode(MiscellaneousModel request)
+        {
+            _actionName = "UnlockExaminerWithGroupCode(MiscellaneousModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_GetExaminersWithGroupCodeAndMarkingList";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@action", "_UnlockExamierWithGroupCode");
+                        command.Parameters.AddWithValue("@GroupCode", request.GroupCode);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        #endregion
+
 
         #region Get Online Marking Report Provide By Examiner
         public async Task<DataTable> GetOnlineReportProvideByExaminer(OnlineMarkingSearchModel filterModel)
