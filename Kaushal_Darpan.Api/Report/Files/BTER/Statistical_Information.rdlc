@@ -59,7 +59,7 @@
 संयुक्त निदेशक (गोपनीय)
 प्राविधिक शिक्षा मण्डल,
 राजस्थान, जोधपुर।
-email: cont.bter@gmail.com</Value>
+email: conf.bter@gmail.com</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -180,7 +180,8 @@ email: cont.bter@gmail.com</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>-</Value>
+                <Label>RemarkQueAns</Label>
+                <Value>=First(Fields!CommonRemarkForQueAns.Value, "Statistical_report_Information")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -189,13 +190,54 @@ email: cont.bter@gmail.com</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>2. नकला/सामूहिक नकल (Mass Copying) यदि हो तो के संबंध में विस्तृत ठोस सूचना निम्न प्रपत्र में विस्तृत ब्यौरा लिखे ।
-No
+                <Value>2. नकल/सामूहिक नकल (Mass Copying) यदि हो तो के संबंध में विस्तृत ठोस सूचना निम्न प्रपत्र में विस्तृत ब्यौरा लिखे ।
+</Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Label>MassCopy</Label>
+                <Value>=First(Fields!IsMassCopy.Value, "Statistical_report_Information")</Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>
 3. आवश्यक सूचनाएं
-(अ) पाठ्यक्रम अच्छा
-(ब) संस्थान स्तर - अच्छा
-(स) शिक्षक द्वारा शिक्षण - अच्छा
-(द) विध्यार्थियों के अध्ययन अच्छा</Value>
+(अ) पाठ्यक्रम - </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Label>Syllabus</Label>
+                <Value>=First(Fields!Syllabus.Value, "Statistical_report_Information")</Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>
+(ब) संस्थान स्तर - </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Label>ins</Label>
+                <Value>=First(Fields!InstituteLevel.Value, "Statistical_report_Information")</Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>
+(स) शिक्षक द्वारा शिक्षण - </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Label>te</Label>
+                <Value>=First(Fields!TeachingByTeacher.Value, "Statistical_report_Information")</Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Value>
+(द) विध्यार्थियों के अध्ययन - </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Label>stu</Label>
+                <Value>=First(Fields!StudyOfStudent.Value, "Statistical_report_Information")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1112,7 +1154,7 @@ No
         <rd:DefaultName>Textbox1</rd:DefaultName>
         <Top>14.88432cm</Top>
         <Left>0.508cm</Left>
-        <Height>6.12576cm</Height>
+        <Height>5.49076cm</Height>
         <Width>30.3624cm</Width>
         <ZIndex>6</ZIndex>
         <Style>
@@ -1214,9 +1256,9 @@ No
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox34</rd:DefaultName>
-        <Top>18.89186cm</Top>
+        <Top>18.60611cm</Top>
         <Left>15.47638cm</Left>
-        <Height>2.02297cm</Height>
+        <Height>1.76897cm</Height>
         <Width>15.39402cm</Width>
         <ZIndex>8</ZIndex>
         <Style>
@@ -1230,7 +1272,7 @@ No
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>8.32463in</Height>
+    <Height>8.14754in</Height>
     <Style>
       <Border>
         <Style>Solid</Style>
@@ -1239,7 +1281,7 @@ No
   </Body>
   <Width>12.34345in</Width>
   <Page>
-    <PageHeight>21cm</PageHeight>
+    <PageHeight>23cm</PageHeight>
     <PageWidth>34cm</PageWidth>
     <LeftMargin>0.5cm</LeftMargin>
     <RightMargin>0.5cm</RightMargin>
@@ -1334,6 +1376,58 @@ No
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
         <rd:SchemaPath>D:\Kausal_Darpan\API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
         <rd:TableName>Statistical_Information</rd:TableName>
+        <rd:TableAdapterFillMethod />
+        <rd:TableAdapterGetDataMethod />
+        <rd:TableAdapterName />
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="Statistical_report_Information">
+      <Query>
+        <DataSourceName>KD_DBScript</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="IsMassCopy">
+          <DataField>IsMassCopy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Syllabus">
+          <DataField>Syllabus</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="InstituteLevel">
+          <DataField>InstituteLevel</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TeachingByTeacher">
+          <DataField>TeachingByTeacher</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="StudyOfStudent">
+          <DataField>StudyOfStudent</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CommonRemarkForQueAns">
+          <DataField>CommonRemarkForQueAns</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SuggestionForImprovement">
+          <DataField>SuggestionForImprovement</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SignPhoto">
+          <DataField>SignPhoto</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MassCopyDocument">
+          <DataField>MassCopyDocument</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>KD_DBScript</rd:DataSetName>
+        <rd:SchemaPath>D:\Kausal_Darpan\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:TableName>Statistical_report_Information</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
         <rd:TableAdapterName />

@@ -145,6 +145,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SSOID", body.SSOID);
                         command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        command.Parameters.AddWithValue("@CenterCode", body.CenterCode);
                         //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query

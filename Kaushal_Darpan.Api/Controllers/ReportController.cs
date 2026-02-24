@@ -8463,11 +8463,18 @@ namespace Kaushal_Darpan.Api.Controllers
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
                         string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/Statistical_Information.rdlc";
                         //
+
+                        string singimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[1].Rows[0]["SignPhoto"]}";
+                        data.Tables[1].Rows[0]["SignImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(singimgFilepath));
+
+                        string masscopyimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[1].Rows[0]["MassCopyDocument"]}";
+                        data.Tables[1].Rows[0]["MassCopyImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(masscopyimgFilepath));
+
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         LocalReport localReport = new LocalReport(rdlcpath);
                         localReport.AddDataSource("Statistical_Information", data.Tables[0]);
+                        localReport.AddDataSource("Statistical_report_Information", data.Tables[1]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
-
 
                         //check file exists
                         if (!System.IO.Directory.Exists(folderPath))
@@ -8686,7 +8693,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("TheorymarksReportPdf_BTER")]
         public async Task<ApiResult<string>> TheorymarksReportPdf_BTER(TheorySearchModel filterModel)
         {
-            ActionName = "TheorymarksReportPdf()";
+            ActionName = "TheorymarksReportPdf_BTER(TheorySearchModel filterModel)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
@@ -16184,7 +16191,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #region Provisional Certificate Report
         [HttpPost("GetProvisionalCertificateReport")]
-        public async Task<ApiResult<string>> GetProvisionalCertificateReport(CertificateSearchModel model)
+        public async Task<ApiResult<string>> GetProvisionalCertificateReport(ProvisionalCertificateModel model)
         {
             ActionName = "GetProvisionalCertificateReport()";
             return await Task.Run(async () =>
@@ -16239,7 +16246,49 @@ namespace Kaushal_Darpan.Api.Controllers
         }
         #endregion
 
+        #region Examiner Static Report Feedback form
 
+        [HttpPost("SaveExaminerStaticReportFeedbackForm")]
+        public async Task<ApiResult<int>> SaveExaminerStaticReportFeedbackForm([FromBody] ExaminerStaticReportFeedbackDataModel request)
+        {
+            ActionName = " SaveExaminerStaticReportFeedbackForm([FromBody] ExaminerStaticReportFeedbackDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.ReportRepository.SaveExaminerStaticReportFeedbackForm(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        #endregion
 
     }
 }

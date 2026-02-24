@@ -2,7 +2,10 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CompanyMaster;
+using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.ItiCompanyMaster;
+using Kaushal_Darpan.Models.ITIHrMaster;
+using Newtonsoft.Json;
 using System.Data;
 
 namespace Kaushal_Darpan.Infra.Repositories
@@ -77,7 +80,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_PlacementItiCompanyMaster_IU";
 
-
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@ID", request.ID);
                         command.Parameters.AddWithValue("@Name", request.Name ?? (object)DBNull.Value);
@@ -94,16 +96,21 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@HrList", JsonConvert.SerializeObject(request.ListCompanyHRDetails));
 
-                        command.Parameters.AddWithValue("@HRName", request.HRName);
-                        command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
-                        command.Parameters.AddWithValue("@EmailId", request.EmailId);
+                        //command.Parameters.AddWithValue("@HRName", request.HRName);
+                        //command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
+                        //command.Parameters.AddWithValue("@EmailId", request.EmailId);
 
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
                         result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
                     }
                     if (result > 0)
                         return true;
@@ -124,14 +131,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<ItiCompanyMasterResponsiveModel> GetById(int PK_ID)
+        public async Task<ItiCompanyMasterModels> GetById(ItiCompanyMasterSearchModel request)
         {
             _actionName = "GetById(int PK_ID)";
             return await Task.Run(async () =>
             {
                 try
                 {
-                    DataTable dataTable = new DataTable();
+                    DataSet ds = new DataSet();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         //command.CommandText = " select pcm.*, hr.Name As HRName, hr.EmailId,hr.MobileNo from M_ITIPlacementCompanyMaster pcm left join M_ITIHRManagerMaster hr on pcm.ID=hr.PlacementCompanyID Where ID='" + PK_ID + "' ";
@@ -139,16 +146,24 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITIPlacement_Action";
 
                         // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@Action", "_GetCompanyByID");
-                        command.Parameters.AddWithValue("@PK_ID", PK_ID);
+                        command.Parameters.AddWithValue("@Action", "_GetDataById");
+                        command.Parameters.AddWithValue("@PK_ID", request.ID);
                         
                         _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
+                        ds = await command.FillAsync();
                     }
-                    var data = new ItiCompanyMasterResponsiveModel();
-                    if (dataTable != null)
+                    var data = new ItiCompanyMasterModels();
+                    if (ds != null)
                     {
-                        data = CommonFuncationHelper.ConvertDataTable<ItiCompanyMasterResponsiveModel>(dataTable);
+                        //data = CommonFuncationHelper.ConvertDataTable<ItiCompanyMasterResponsiveModel>(dataTable);
+                        if (ds.Tables.Count > 0)
+                        {
+                            data = CommonFuncationHelper.ConvertDataTable<ItiCompanyMasterModels>(ds.Tables[0]);
+                            if (ds.Tables[1].Rows.Count > 0)
+                            {
+                                data.ListCompanyHRDetails = CommonFuncationHelper.ConvertDataTable<List<ItiHrMaster>>(ds.Tables[1]);
+                            }
+                        }
                     }
                     return data;
                 }

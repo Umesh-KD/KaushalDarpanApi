@@ -113,7 +113,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetTheoryMarksRptData")]
         public async Task<ApiResult<DataTable>> GetTheoryMarksRptData([FromBody] TheorySearchModel body)
         {
-            ActionName = "GetTheoryMarksDetailList([FromBody] TheorySearchModel body)";
+            ActionName = "GetTheoryMarksRptData([FromBody] TheorySearchModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
