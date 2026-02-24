@@ -1381,6 +1381,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@action", "_UnlockExamierWithGroupCode");
                         command.Parameters.AddWithValue("@GroupCode", request.GroupCode);
+                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", request.Eng_NonEng);
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
