@@ -153,6 +153,7 @@ namespace Kaushal_Darpan.Models.ItiCompanyMaster
         public List<FinancialSanctionList>? FinancialSanctionList { get; set; }
         public List<BasicDetailsList>? BasicDetailsList { get; set; }
         public List<OrderDetailsList>? OrderDetailsList { get; set; }
+        public List<OrderDetailsList>? OtherDocument { get; set; }
         public List<UpdateWorkList>? UpdateWorkList { get; set; }
         public int RoleID { get; set; }
         public int DISCOM { get; set; }
@@ -161,6 +162,8 @@ namespace Kaushal_Darpan.Models.ItiCompanyMaster
         public string? SanctionLoad { get; set; }
         public string? ContractDemand { get; set; }
         public string? SubDivOffice { get; set; }
+        public string? PlanDocument { get; set; }
+        public int PlanDocID { get; set; }
 
     }
 

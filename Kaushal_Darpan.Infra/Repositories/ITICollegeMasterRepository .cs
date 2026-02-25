@@ -730,6 +730,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@rowjson2", JsonConvert.SerializeObject(request.BasicDetailsList));
                         command.Parameters.AddWithValue("@rowjson3", JsonConvert.SerializeObject(request.OrderDetailsList));
                         command.Parameters.AddWithValue("@rowjsonWork", JsonConvert.SerializeObject(request.UpdateWorkList));
+                        command.Parameters.AddWithValue("@OtherDocument", JsonConvert.SerializeObject(request.OtherDocument));
                         command.Parameters.AddWithValue("@IsNewCollege", request.IsNewCollege);
                         command.Parameters.AddWithValue("@LandTypeID", request.LandTypeID);
                         command.Parameters.AddWithValue("@PanchayatId", request.PanchayatId);
@@ -839,7 +840,12 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
                         }
+                        if (dataSet.Tables[3].Rows.Count > 0)
+                        {
+                            data.OtherDocument = CommonFuncationHelper.ConvertDataTable<List<OrderDetailsList>>(dataSet.Tables[3]);
 
+
+                        }
 
                     }
                     return data;
