@@ -863,22 +863,22 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                                         .ThenBy(g => g.Key.SessionName)
                                         .ToList();
 
-                int sno = 1; // by group code
-                int _groupCodeDiff = 0;
-                int _groupCodeOrg = 0;
+                int sno = 1; // by group code and cccode
+                string _snoKeyCodeDiff = "";
+                string _snoKeyCodeOrg = "";
 
                 // grouped data loop
                 foreach (var group in groupedData)
                 {
                     var header = group.Key;
 
-                    _groupCodeOrg = Convert.ToInt32(header.GroupCode ?? 0);
+                    _snoKeyCodeOrg = $"{header.GroupCode}-{header.CenterCode}";
                     // group code different then reset
-                    if (_groupCodeOrg != _groupCodeDiff)
+                    if (_snoKeyCodeOrg != _snoKeyCodeDiff)
                     {
                         sno = 1;
                     }
-                    _groupCodeDiff = _groupCodeOrg;
+                    _snoKeyCodeDiff = _snoKeyCodeOrg;
 
                     // pagging
                     int pageSize = 20;
