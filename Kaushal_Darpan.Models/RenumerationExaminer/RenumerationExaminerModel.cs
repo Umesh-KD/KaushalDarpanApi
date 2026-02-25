@@ -21,6 +21,7 @@
         public int Status { get; set; }
         public string StatusName { get; set; }
         public string FileName { get; set; }
+        public int? isShowAction { get; set; }
     }
 
 
