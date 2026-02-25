@@ -18,6 +18,7 @@ namespace Kaushal_Darpan.Models.Examiners
         public int CommonSubjectID { get; set; }
         public int IsYearly { get; set; }
         public bool? IsReval { get; set; }
+        public string? Name { get; set; }
     }
 
     
