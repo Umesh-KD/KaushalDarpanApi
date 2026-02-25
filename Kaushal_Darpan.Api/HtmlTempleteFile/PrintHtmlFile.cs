@@ -1,7 +1,10 @@
 ﻿
+using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.EMMA;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Models.CommonModel;
+using Kaushal_Darpan.Models.PreExamStudent;
 using Org.BouncyCastle.Utilities;
 using System.Data;
 using System.Text;
@@ -819,6 +822,185 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             {
                 throw new Exception("Error generating HTML", ex);
             }
+        }
+        #endregion
+
+        #region Theory Marks Reports
+        public async Task<StringBuilder> TheoryMarksReports_GetHtml(DataSet ds)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                DataTable dt = ds.Tables[0];
+
+                // GROUPING (Better than Distinct + Where)
+                var groupedData = dt.AsEnumerable()
+                                        .GroupBy(row => new
+                                        {
+                                            ExaminerCode = row["ExaminerCode"],
+                                            GroupCode = row["GroupCode"],
+                                            CenterCode = row["CenterCode"],
+                                            BranchName = row["BranchName"],
+                                            SubjectName = row["SubjectName"],
+                                            SubjectCode = row["SubjectCode"],
+                                            MaximumMarks = row["MAXIMUM_MARKS"], // FIXED
+                                            ExaminerName = row["ExaminerName"],
+                                            MobileNo = row["MobileNo"],
+                                            Designation = row["Designation"],
+                                            SessionName = row["SessionName"]
+                                        })
+                                        .OrderBy(g => g.Key.ExaminerCode)
+                                        .ThenBy(g => g.Key.GroupCode)
+                                        .ThenBy(g => g.Key.CenterCode)
+                                        .ThenBy(g => g.Key.BranchName)
+                                        .ThenBy(g => g.Key.SubjectName)
+                                        .ThenBy(g => g.Key.SubjectCode)
+                                        .ThenBy(g => g.Key.MaximumMarks)
+                                        .ThenBy(g => g.Key.ExaminerName)
+                                        .ThenBy(g => g.Key.MobileNo)
+                                        .ThenBy(g => g.Key.Designation)
+                                        .ThenBy(g => g.Key.SessionName)
+                                        .ToList();
+
+                int sno = 1; // by group code
+                int _groupCodeDiff = 0;
+                int _groupCodeOrg = 0;
+
+                // grouped data loop
+                foreach (var group in groupedData)
+                {
+                    var header = group.Key;
+
+                    _groupCodeOrg = Convert.ToInt32(header.GroupCode ?? 0);
+                    // group code different then reset
+                    if (_groupCodeOrg != _groupCodeDiff)
+                    {
+                        sno = 1;
+                    }
+                    _groupCodeDiff = _groupCodeOrg;
+
+                    // pagging
+                    int pageSize = 20;
+                    int totalRecords = group.Count();
+                    int pageCount = (int)Math.Ceiling((double)totalRecords / pageSize);
+
+                    var orderedData = group
+                        .OrderBy(x => x["RollNo"])
+                        .ToList();
+
+                    // pagged data loop 
+                    for (int page = 0; page < pageCount; page++)
+                    {
+                        var pageData = orderedData
+                            .Skip(page * pageSize)
+                            .Take(pageSize);
+
+                        sb.Append(@"<!DOCTYPE html>
+                        <html lang='en'>
+                        <head>
+                        <meta charset='UTF-8'>
+                        <title>Theory Marks Report</title>
+                        <style>
+                        .page-break { page-break-after: always; }
+                        </style>
+                        </head>
+                        <body style='font-family: Arial, sans-serif; margin: 20px; color: #000; line-height: 1.0;'>");
+
+                        // repeat header every page
+                        sb.Append($"<div style='width: 100%; max-width: 90%; margin: 0 auto; border: 1px solid #000; padding: 20px;'>");
+
+                        // Header
+                        sb.Append($"<div style='text-align:center; font-weight:bold; font-size:18px; margin-bottom:20px;'>THEORY MARKS {header.SessionName}</div>");
+
+                        sb.Append($@"<table style='width: 100%; border-collapse: collapse; font-size: 15px;'>
+                            <tr>
+                            <td style='display: flex; justify-content: space-between; margin-bottom: 10px;>
+                            <div style='width: 45%;'>                           
+                            <div style='text-decoration: underline; font-weight: bold; font-size: 16px; margin-bottom: 5px;'>Theory Exam Reports</div>
+                            <div>Branch : <b>{header.BranchName}</b></div>
+                            <div>Examiner Code : <b>{header.ExaminerCode}</b></div>
+                            <div>Group Code : <b>{header.GroupCode}</b></div>
+                            </div>
+                            </td>
+                            <td style='display: flex; justify-content: space-between; margin-bottom: 10px;>
+                            <div style='width: 45%; float: right;'>
+                            <div>CC Code : <b>{header.CenterCode}</b></div>
+                            <div>Subject : <b>{header.SubjectName}</b></div>
+                            <div>Subject Code : <b>{header.SubjectCode}</b></div>
+                            <div>Maximum Marks : <b>{header.MaximumMarks}</b></div>
+                            </div>
+                            </td>
+                            </tr>
+                            </table>");
+
+                        // TABLE START (Only once per group)
+                        sb.Append(@"
+                            <table style='width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 50px; text-align: center; font-size: 14px;'>
+                            <thead>
+                            <tr>
+                            <th style='border: 1px solid #ccc; padding: 5px; width: 40px;'>S.No</th>
+                            <th style='border: 1px solid #ccc; padding: 5px; width: 150px;'>Roll No</th>
+                            <th colspan='2' style='border: 1px solid #ccc; padding: 5px;'>MARKS OBTAINED</th>
+                            </tr>
+                            <tr>
+                            <th style='border: 1px solid #ccc; padding: 5px;'></th>
+                            <th style='border: 1px solid #ccc; padding: 5px;'></th>
+                            <th style='border: 1px solid #ccc; padding: 5px; width: 50%;'>In Words</th>
+                            <th style='border: 1px solid #ccc; padding: 5px;'>In Fig.</th>
+                            </tr>
+                            </thead>
+                            <tbody>");
+
+                        // table data loop
+                        foreach (var row in pageData)
+                        {
+                            sb.Append($@"
+                                    <tr>
+                                        <td style='border:1px solid #ccc; padding:8px;'>{sno++}</td>
+                                        <td style='border:1px solid #ccc; padding:8px;'>{row["RollNo"]}</td>
+                                        <td style='border:1px solid #ccc; padding:8px;'>{row["ObtainedTheoryInword"]}</td>
+                                        <td style='border:1px solid #ccc; padding:8px;'>{row["ObtainedTheory"]}</td>
+                                    </tr>");
+                        }
+
+                        sb.Append("</tbody></table>");
+
+                        // Footer
+                        sb.Append($@"
+                            <div style='border: 1px solid #ccc; padding: 10px; font-size: 13px;'>
+                             <p style='margin: 0 0 10px 0;'>
+                                I have gone through all the examiner instructions & I certify that I have followed them. Also, the
+                                answer books are accessed by me as per direction of BTER, Jodhpur.
+                            </p>
+                            <div style='display:flex; justify-content:space-between;'>
+                            <div>
+                            <div>Name: {header.ExaminerName}</div>
+                            <div>Post: {header.Designation}</div>
+                            <div>Mobile No: {header.MobileNo}</div>
+                            </div>
+                            <div style='width: 300px; padding-top: 20px;'>
+                            <div style='margin-bottom: 15px;'>Date: _____________</div>
+                            <div>Signature: _____________</div>
+                            </div>
+                            </div>
+                            </div>");
+
+                        sb.Append("<div class='page-break'></div>");
+
+                        sb.Append("</div>");
+
+                        sb.Append("</body></html>");
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating HTML", ex);
+            }
+
+            return sb;
         }
         #endregion
 
