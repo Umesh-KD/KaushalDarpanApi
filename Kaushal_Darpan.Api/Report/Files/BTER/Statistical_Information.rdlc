@@ -263,31 +263,31 @@ email: conf.bter@gmail.com</Value>
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.08451cm</Width>
+              <Width>1.0267cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.51326cm</Width>
+              <Width>2.45545cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.09852cm</Width>
+              <Width>3.0407cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.41284cm</Width>
+              <Width>3.35503cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.28056cm</Width>
+              <Width>3.86303cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>4.30044cm</Width>
+              <Width>4.05212cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>4.2066cm</Width>
+              <Width>4.14879cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>4.28597cm</Width>
+              <Width>4.22816cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>4.25025cm</Width>
+              <Width>4.19244cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -711,21 +711,21 @@ email: conf.bter@gmail.com</Value>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Below15to17MarksStudent">
+                    <Textbox Name="Below15to16MarksStudent">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Below15to17MarksStudent.Value</Value>
+                              <Value>=Fields!Below15to16MarksStudent.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Below15to17MarksStudent</rd:DefaultName>
+                      <rd:DefaultName>Below15to16MarksStudent</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -741,21 +741,22 @@ email: conf.bter@gmail.com</Value>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox12">
+                    <Textbox Name="ID_17MarksStudent">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Label>_17MarksStudent</Label>
+                              <Value>=Fields!_17MarksStudent.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox12</rd:DefaultName>
+                      <rd:DefaultName>ID_17MarksStudent</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -973,7 +974,7 @@ email: conf.bter@gmail.com</Value>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!Below15to17MarksStudent.Value, "Statistical_Information")</Value>
+                              <Value>=Sum(Fields!Below15to16MarksStudent.Value, "Statistical_Information")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -1005,7 +1006,7 @@ email: conf.bter@gmail.com</Value>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(Fields!_17MarksStudent.Value, "Statistical_Information")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -1161,7 +1162,7 @@ email: conf.bter@gmail.com</Value>
         <Top>9.24918cm</Top>
         <Left>0.508cm</Left>
         <Height>3.33459cm</Height>
-        <Width>30.43296cm</Width>
+        <Width>30.3624cm</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
@@ -1517,8 +1518,8 @@ email: conf.bter@gmail.com</Value>
           <DataField>Below14MarksStudent</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Below15to17MarksStudent">
-          <DataField>Below15to17MarksStudent</DataField>
+        <Field Name="Below15to16MarksStudent">
+          <DataField>Below15to16MarksStudent</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Below18to54MarksStudent">
@@ -1549,10 +1550,14 @@ email: conf.bter@gmail.com</Value>
           <DataField>GeneratedDate</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="_17MarksStudent">
+          <DataField>_17MarksStudent</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Kausal_Darpan\API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Kausal_Darpan\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
         <rd:TableName>Statistical_Information</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
