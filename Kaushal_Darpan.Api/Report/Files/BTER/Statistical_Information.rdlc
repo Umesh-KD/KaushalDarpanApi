@@ -2,52 +2,6 @@
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
-      <Textbox Name="Textbox1">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>राजस्थान सरकार
-प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर
-</Value>
-                <Style />
-              </TextRun>
-              <TextRun>
-                <Value>परीक्षा प्रतिवेदन </Value>
-                <Style>
-                  <TextDecoration>Underline</TextDecoration>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Label>Exam Name</Label>
-                <Value>=First(Fields!ExamName.Value, "Statistical_Information")</Value>
-                <Style>
-                  <TextDecoration>Underline</TextDecoration>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Top>0.3175cm</Top>
-        <Left>0.508cm</Left>
-        <Height>1.92292cm</Height>
-        <Width>30.3624cm</Width>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
       <Textbox Name="Textbox2">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
@@ -67,11 +21,10 @@ email: conf.bter@gmail.com</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>2.24042cm</Top>
+        <Top>0.08142cm</Top>
         <Left>0.508cm</Left>
         <Height>3.06062cm</Height>
         <Width>14.89782cm</Width>
-        <ZIndex>1</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -149,11 +102,11 @@ email: conf.bter@gmail.com</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>2.34625cm</Top>
+        <Top>0.092cm</Top>
         <Left>15.47638cm</Left>
         <Height>3.06063cm</Height>
         <Width>15.46458cm</Width>
-        <ZIndex>2</ZIndex>
+        <ZIndex>1</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -190,6 +143,15 @@ email: conf.bter@gmail.com</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
+                <Value />
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
                 <Value>2. नकल/सामूहिक नकल (Mass Copying) यदि हो तो के संबंध में विस्तृत ठोस सूचना निम्न प्रपत्र में विस्तृत ब्यौरा लिखे ।
 </Value>
                 <Style />
@@ -199,6 +161,11 @@ email: conf.bter@gmail.com</Value>
                 <Value>=First(Fields!IsMassCopy.Value, "Statistical_report_Information")</Value>
                 <Style />
               </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
               <TextRun>
                 <Value>
 3. आवश्यक सूचनाएं
@@ -245,11 +212,11 @@ email: conf.bter@gmail.com</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>5.33632cm</Top>
+        <Top>3.14557cm</Top>
         <Left>0.508cm</Left>
         <Height>5.28312cm</Height>
         <Width>30.3624cm</Width>
-        <ZIndex>3</ZIndex>
+        <ZIndex>2</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -277,11 +244,11 @@ email: conf.bter@gmail.com</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Top>10.58416cm</Top>
+        <Top>8.39341cm</Top>
         <Left>0.508cm</Left>
         <Height>0.67938cm</Height>
         <Width>30.3624cm</Width>
-        <ZIndex>4</ZIndex>
+        <ZIndex>3</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1093,11 +1060,11 @@ email: conf.bter@gmail.com</Value>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Statistical_Information</DataSetName>
-        <Top>11.43993cm</Top>
+        <Top>9.24918cm</Top>
         <Left>0.508cm</Left>
         <Height>3.12292cm</Height>
         <Width>30.3624cm</Width>
-        <ZIndex>5</ZIndex>
+        <ZIndex>4</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1137,12 +1104,7 @@ email: conf.bter@gmail.com</Value>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>दिनांक: </Value>
-                <Style />
-              </TextRun>
-              <TextRun>
-                <Label>Date</Label>
-                <Value>=First(Fields!GeneratedDate.Value, "Statistical_Information")</Value>
+                <Value />
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1152,11 +1114,11 @@ email: conf.bter@gmail.com</Value>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Top>14.88432cm</Top>
+        <Top>12.59832cm</Top>
         <Left>0.508cm</Left>
-        <Height>6.68139cm</Height>
+        <Height>3.08306cm</Height>
         <Width>30.3624cm</Width>
-        <ZIndex>6</ZIndex>
+        <ZIndex>5</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1167,136 +1129,238 @@ email: conf.bter@gmail.com</Value>
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Textbox Name="Textbox35">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>परिशिष्ठ: गोप. 14 (प)
-14(T)</Value>
-                <Style>
-                  <FontWeight>Normal</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Right</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox35</rd:DefaultName>
-        <Top>0.3175cm</Top>
-        <Left>26.15188cm</Left>
-        <Height>0.64447cm</Height>
-        <Width>4.52802cm</Width>
-        <ZIndex>7</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox34">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>परीक्षक का नाम : </Value>
-                <Style />
-              </TextRun>
-              <TextRun>
-                <Label>Examiner Name</Label>
-                <Value>=First(Fields!ExaminerName.Value, "Statistical_Information")</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Right</TextAlign>
-            </Style>
-          </Paragraph>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>संस्थान का नाम : </Value>
-                <Style />
-              </TextRun>
-              <TextRun>
-                <Label>Center Name</Label>
-                <Value>=First(Fields!CenterName.Value, "Statistical_Information")</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Right</TextAlign>
-            </Style>
-          </Paragraph>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>परीक्षक कोड संख्या : </Value>
-                <Style />
-              </TextRun>
-              <TextRun>
-                <Label>Examiner Code</Label>
-                <Value>=First(Fields!ExaminerCode.Value, "Statistical_Information")</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Right</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox34</rd:DefaultName>
-        <Top>19.80556cm</Top>
-        <Left>15.47638cm</Left>
-        <Height>1.76015cm</Height>
-        <Width>15.39402cm</Width>
-        <ZIndex>8</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Image Name="Image1">
-        <Source>Database</Source>
-        <Value>=First(Fields!SignImg.Value, "Statistical_report_Information")</Value>
-        <MIMEType>image/jpeg</MIMEType>
-        <Sizing>FitProportional</Sizing>
-        <Top>18.44667cm</Top>
-        <Left>26.34237cm</Left>
-        <Height>1.28833cm</Height>
-        <Width>4.33753cm</Width>
-        <ZIndex>9</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-        </Style>
-      </Image>
     </ReportItems>
-    <Height>8.53705in</Height>
+    <Height>6.21214in</Height>
     <Style>
       <Border>
-        <Style>Solid</Style>
+        <Style>None</Style>
       </Border>
     </Style>
   </Body>
   <Width>12.81847in</Width>
   <Page>
+    <PageHeader>
+      <Height>2.03729cm</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="Textbox1">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>राजस्थान सरकार
+प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर
+</Value>
+                  <Style />
+                </TextRun>
+                <TextRun>
+                  <Value>परीक्षा प्रतिवेदन </Value>
+                  <Style>
+                    <TextDecoration>Underline</TextDecoration>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Label>Exam Name</Label>
+                  <Value>=First(Fields!ExamName.Value, "Statistical_Information")</Value>
+                  <Style>
+                    <TextDecoration>Underline</TextDecoration>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox1</rd:DefaultName>
+          <Left>0.508cm</Left>
+          <Height>1.92292cm</Height>
+          <Width>30.3624cm</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox35">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>परिशिष्ठ: गोप. 14 (प)
+14(T)</Value>
+                  <Style>
+                    <FontWeight>Normal</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox35</rd:DefaultName>
+          <Left>26.15188cm</Left>
+          <Height>0.64447cm</Height>
+          <Width>4.52802cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style>
+        <Border>
+          <Style>None</Style>
+        </Border>
+      </Style>
+    </PageHeader>
+    <PageFooter>
+      <Height>3.14855cm</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="Textbox34">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>परीक्षक का नाम : </Value>
+                  <Style />
+                </TextRun>
+                <TextRun>
+                  <Label>Examiner Name</Label>
+                  <Value>=First(Fields!ExaminerName.Value, "Statistical_Information")</Value>
+                  <Style />
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>संस्थान का नाम : </Value>
+                  <Style />
+                </TextRun>
+                <TextRun>
+                  <Label>Center Name</Label>
+                  <Value>=First(Fields!CenterName.Value, "Statistical_Information")</Value>
+                  <Style />
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>परीक्षक कोड संख्या : </Value>
+                  <Style />
+                </TextRun>
+                <TextRun>
+                  <Label>Examiner Code</Label>
+                  <Value>=First(Fields!ExaminerCode.Value, "Statistical_Information")</Value>
+                  <Style />
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox34</rd:DefaultName>
+          <Top>1.29849cm</Top>
+          <Left>15.54694cm</Left>
+          <Height>1.76015cm</Height>
+          <Width>15.39402cm</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Image Name="Image1">
+          <Source>Database</Source>
+          <Value>=First(Fields!SignImg.Value, "Statistical_report_Information")</Value>
+          <MIMEType>image/jpeg</MIMEType>
+          <Sizing>FitProportional</Sizing>
+          <Top>0.01016cm</Top>
+          <Left>26.60343cm</Left>
+          <Height>1.28833cm</Height>
+          <Width>4.33753cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </Image>
+        <Textbox Name="Textbox8">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>दिनांक: </Value>
+                  <Style />
+                </TextRun>
+                <TextRun>
+                  <Label>Date</Label>
+                  <Value>=First(Fields!GeneratedDate.Value, "Statistical_Information")</Value>
+                  <Style />
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox8</rd:DefaultName>
+          <Top>0.07056cm</Top>
+          <Left>0.508cm</Left>
+          <Height>0.6cm</Height>
+          <Width>3.55833cm</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style>
+        <Border>
+          <Style>None</Style>
+        </Border>
+      </Style>
+    </PageFooter>
     <PageHeight>23cm</PageHeight>
     <PageWidth>34cm</PageWidth>
     <LeftMargin>0.5cm</LeftMargin>
