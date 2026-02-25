@@ -1281,7 +1281,7 @@
               <xs:element name="ExaminerName" msprop:Generator_ColumnPropNameInTable="ExaminerNameColumn" msprop:Generator_ColumnPropNameInRow="ExaminerName" msprop:Generator_UserColumnName="ExaminerName" msprop:Generator_ColumnVarNameInTable="columnExaminerName" type="xs:string" minOccurs="0" />
               <xs:element name="CenterName" msprop:Generator_ColumnPropNameInTable="CenterNameColumn" msprop:Generator_ColumnPropNameInRow="CenterName" msprop:Generator_UserColumnName="CenterName" msprop:Generator_ColumnVarNameInTable="columnCenterName" type="xs:string" minOccurs="0" />
               <xs:element name="GeneratedDate" msprop:Generator_ColumnPropNameInTable="GeneratedDateColumn" msprop:Generator_ColumnPropNameInRow="GeneratedDate" msprop:Generator_UserColumnName="GeneratedDate" msprop:Generator_ColumnVarNameInTable="columnGeneratedDate" type="xs:string" minOccurs="0" />
-              <xs:element name="_17MarksStudent" msprop:Generator_ColumnPropNameInRow="_17MarksStudent" msprop:Generator_ColumnPropNameInTable="_17MarksStudentColumn" msprop:Generator_ColumnVarNameInTable="column_17MarksStudent" msprop:Generator_UserColumnName="_17MarksStudent" type="xs:string" minOccurs="0" />
+              <xs:element name="Marks17Student" msprop:Generator_UserColumnName="Marks17Student" msprop:Generator_ColumnPropNameInTable="Marks17StudentColumn" msprop:Generator_ColumnPropNameInRow="Marks17Student" msprop:Generator_ColumnVarNameInTable="columnMarks17Student" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -2184,8 +2184,8 @@
               <xs:element name="SuggestionForImprovement" msprop:Generator_ColumnPropNameInTable="SuggestionForImprovementColumn" msprop:Generator_ColumnPropNameInRow="SuggestionForImprovement" msprop:Generator_UserColumnName="SuggestionForImprovement" msprop:Generator_ColumnVarNameInTable="columnSuggestionForImprovement" type="xs:string" minOccurs="0" />
               <xs:element name="SignPhoto" msprop:Generator_ColumnPropNameInTable="SignPhotoColumn" msprop:Generator_ColumnPropNameInRow="SignPhoto" msprop:Generator_UserColumnName="SignPhoto" msprop:Generator_ColumnVarNameInTable="columnSignPhoto" type="xs:string" minOccurs="0" />
               <xs:element name="MassCopyDocument" msprop:Generator_ColumnPropNameInTable="MassCopyDocumentColumn" msprop:Generator_ColumnPropNameInRow="MassCopyDocument" msprop:Generator_UserColumnName="MassCopyDocument" msprop:Generator_ColumnVarNameInTable="columnMassCopyDocument" type="xs:string" minOccurs="0" />
-              <xs:element name="SignImg" msprop:Generator_UserColumnName="SignImg" msprop:Generator_ColumnPropNameInTable="SignImgColumn" msprop:Generator_ColumnPropNameInRow="SignImg" msprop:Generator_ColumnVarNameInTable="columnSignImg" type="xs:string" minOccurs="0" />
-              <xs:element name="MassCopyImg" msprop:Generator_UserColumnName="MassCopyImg" msprop:Generator_ColumnPropNameInTable="MassCopyImgColumn" msprop:Generator_ColumnPropNameInRow="MassCopyImg" msprop:Generator_ColumnVarNameInTable="columnMassCopyImg" type="xs:string" minOccurs="0" />
+              <xs:element name="SignImg" msprop:Generator_ColumnPropNameInTable="SignImgColumn" msprop:Generator_ColumnPropNameInRow="SignImg" msprop:Generator_UserColumnName="SignImg" msprop:Generator_ColumnVarNameInTable="columnSignImg" type="xs:string" minOccurs="0" />
+              <xs:element name="MassCopyImg" msprop:Generator_ColumnPropNameInTable="MassCopyImgColumn" msprop:Generator_ColumnPropNameInRow="MassCopyImg" msprop:Generator_UserColumnName="MassCopyImg" msprop:Generator_ColumnVarNameInTable="columnMassCopyImg" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

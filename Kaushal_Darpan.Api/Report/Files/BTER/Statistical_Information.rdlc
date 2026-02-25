@@ -741,22 +741,22 @@ email: conf.bter@gmail.com</Value>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="ID_17MarksStudent">
+                    <Textbox Name="Marks17Student">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Label>_17MarksStudent</Label>
-                              <Value>=Fields!_17MarksStudent.Value</Value>
+                              <Label>Marks17Student</Label>
+                              <Value>=Fields!Marks17Student.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>ID_17MarksStudent</rd:DefaultName>
+                      <rd:DefaultName>Marks17Student</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1006,7 +1006,7 @@ email: conf.bter@gmail.com</Value>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!_17MarksStudent.Value, "Statistical_Information")</Value>
+                              <Value>=Sum(Fields!Marks17Student.Value, "Statistical_Information")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -1162,7 +1162,7 @@ email: conf.bter@gmail.com</Value>
         <Top>9.24918cm</Top>
         <Left>0.508cm</Left>
         <Height>3.33459cm</Height>
-        <Width>30.3624cm</Width>
+        <Width>30.36242cm</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
@@ -1236,7 +1236,7 @@ email: conf.bter@gmail.com</Value>
       </Border>
     </Style>
   </Body>
-  <Width>12.35856in</Width>
+  <Width>12.31689in</Width>
   <Page>
     <PageHeader>
       <Height>2.03729cm</Height>
@@ -1550,8 +1550,8 @@ email: conf.bter@gmail.com</Value>
           <DataField>GeneratedDate</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="_17MarksStudent">
-          <DataField>_17MarksStudent</DataField>
+        <Field Name="Marks17Student">
+          <DataField>Marks17Student</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

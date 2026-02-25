@@ -32829,7 +32829,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnGeneratedDate;
             
-            private global::System.Data.DataColumn column_17MarksStudent;
+            private global::System.Data.DataColumn columnMarks17Student;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -32994,9 +32994,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn _17MarksStudentColumn {
+            public global::System.Data.DataColumn Marks17StudentColumn {
                 get {
-                    return this.column_17MarksStudent;
+                    return this.columnMarks17Student;
                 }
             }
             
@@ -33054,7 +33054,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         string ExaminerName, 
                         string CenterName, 
                         string GeneratedDate, 
-                        string _17MarksStudent) {
+                        string Marks17Student) {
                 Statistical_InformationRow rowStatistical_InformationRow = ((Statistical_InformationRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ExamName,
@@ -33073,7 +33073,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         ExaminerName,
                         CenterName,
                         GeneratedDate,
-                        _17MarksStudent};
+                        Marks17Student};
                 rowStatistical_InformationRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStatistical_InformationRow);
                 return rowStatistical_InformationRow;
@@ -33112,7 +33112,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnExaminerName = base.Columns["ExaminerName"];
                 this.columnCenterName = base.Columns["CenterName"];
                 this.columnGeneratedDate = base.Columns["GeneratedDate"];
-                this.column_17MarksStudent = base.Columns["_17MarksStudent"];
+                this.columnMarks17Student = base.Columns["Marks17Student"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -33150,8 +33150,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnCenterName);
                 this.columnGeneratedDate = new global::System.Data.DataColumn("GeneratedDate", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGeneratedDate);
-                this.column_17MarksStudent = new global::System.Data.DataColumn("_17MarksStudent", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.column_17MarksStudent);
+                this.columnMarks17Student = new global::System.Data.DataColumn("Marks17Student", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMarks17Student);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -79851,18 +79851,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string _17MarksStudent {
+            public string Marks17Student {
                 get {
                     try {
-                        return ((string)(this[this.tableStatistical_Information._17MarksStudentColumn]));
+                        return ((string)(this[this.tableStatistical_Information.Marks17StudentColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'_17MarksStudent\' in table \'Statistical_Information\' is DBNu" +
-                                "ll.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Marks17Student\' in table \'Statistical_Information\' is DBNul" +
+                                "l.", e);
                     }
                 }
                 set {
-                    this[this.tableStatistical_Information._17MarksStudentColumn] = value;
+                    this[this.tableStatistical_Information.Marks17StudentColumn] = value;
                 }
             }
             
@@ -80060,14 +80060,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool Is_17MarksStudentNull() {
-                return this.IsNull(this.tableStatistical_Information._17MarksStudentColumn);
+            public bool IsMarks17StudentNull() {
+                return this.IsNull(this.tableStatistical_Information.Marks17StudentColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void Set_17MarksStudentNull() {
-                this[this.tableStatistical_Information._17MarksStudentColumn] = global::System.Convert.DBNull;
+            public void SetMarks17StudentNull() {
+                this[this.tableStatistical_Information.Marks17StudentColumn] = global::System.Convert.DBNull;
             }
         }
         
