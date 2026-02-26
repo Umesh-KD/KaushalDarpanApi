@@ -13,7 +13,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetAllData(ItiCompanyMasterSearchModel filterModel);
         Task<ItiCompanyMasterModels> GetById(ItiCompanyMasterSearchModel req);
-        Task<bool> SaveData(ItiCompanyMasterModels productDetails);
+        Task<int> SaveData(ItiCompanyMasterModels productDetails);
         Task<bool> Save_CompanyValidation_NodalAction(ItiCompanyMaster_Action model);
         Task<bool> DeleteDataByID(ItiCompanyMasterModels productDetails);
 
