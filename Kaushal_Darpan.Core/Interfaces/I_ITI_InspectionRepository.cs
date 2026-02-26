@@ -23,6 +23,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<Boolean> check_Engagement(InspectionMemberDetailsDataModel model);
         Task<int> SaveInspectionDeploymentData(List<InspectionDeploymentDataModel> request);
         Task<ITI_InspectionDataModel> GetById_Team(int ID);
+        Task<DataTable> GetHistoryDataById_Team(int ID);
         Task<DataTable> GetById_Deployment(int ID);
         Task<int> UpdateDeployment(int ID);
         Task<DataTable> GetInspectionDataByID_Status(ITI_InspectionSearchModel body);

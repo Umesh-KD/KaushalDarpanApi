@@ -306,6 +306,44 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<DataTable> GetHistoryDataById_Team(int ID)
+        {
+            _actionName = "GetById(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_M_ITI_ConsentData";
+                        command.Parameters.AddWithValue("@InspectionConsentID", ID);
+                        command.Parameters.AddWithValue("@Action", "GetHistory_consent");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
         public async Task<DataTable> GetById_Deployment(int ID)
         {
             _actionName = "GetById(int PK_ID)";
@@ -1296,6 +1334,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Remark", request.Remark);
                         command.Parameters.AddWithValue("@TentativeDate", request.TentativeDate);
                         command.Parameters.AddWithValue("@InspectionConsentID", request.InspectionConsentID);
+                        command.Parameters.AddWithValue("@Status", request.Status);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;
