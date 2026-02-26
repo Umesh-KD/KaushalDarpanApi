@@ -5876,7 +5876,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetExaminerReportAndMarksTracking")]
         public async Task<ApiResult<DataTable>> GetExaminerReportAndMarksTracking([FromBody] GroupCenterMappingModel body)
         {
-            ActionName = "GetExaminerReportAndMarksTracking()";
+            ActionName = "GetExaminerReportAndMarksTracking([FromBody] GroupCenterMappingModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -5917,7 +5917,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetExaminerReportAndMarksTrackingStudent")]
         public async Task<ApiResult<DataTable>> GetExaminerReportAndMarksTrackingStudent([FromBody] GroupCenterMappingModel body)
         {
-            ActionName = "GetExaminerReportAndMarksTrackingStudent()";
+            ActionName = "GetExaminerReportAndMarksTrackingStudent([FromBody] GroupCenterMappingModel body)";
             var result = new ApiResult<DataTable>();
             try
             {

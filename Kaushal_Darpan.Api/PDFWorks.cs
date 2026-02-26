@@ -1150,50 +1150,84 @@ public class PdfPageNumberEvent : PdfPageEventHelper
     }
 
     // Called on EVERY page
+    //public override void OnEndPage(PdfWriter writer, Document document)
+    //{
+    //    PdfContentByte cb = writer.DirectContent;
+
+    //    int pageNumber = writer.PageNumber;
+
+    //    float left = document.LeftMargin;
+    //    float right = document.PageSize.Width - document.RightMargin;
+    //    float bottom = footerY;
+
+    //    // -------- LEFT SIDE : PRINT DATE ----------
+    //    string printedDate = "Printed on : " + DateTime.Now.ToString("dd-MM-yyyy hh:mm tt");
+
+    //    cb.BeginText();
+    //    cb.SetFontAndSize(baseFont, 9);
+    //    cb.ShowTextAligned(
+    //        Element.ALIGN_LEFT,
+    //        printedDate,
+    //        left,
+    //        bottom,
+    //        0
+    //    );
+    //    cb.EndText();
+
+    //    // -------- RIGHT SIDE : PAGE NUMBER ----------
+    //    string pageText = "Page " + pageNumber + " of ";
+
+    //    float textSize = baseFont.GetWidthPoint(pageText, 9);
+    //    float textX = right - textSize;
+
+    //    cb.BeginText();
+    //    cb.SetFontAndSize(baseFont, 9);
+    //    cb.ShowTextAligned(
+    //        Element.ALIGN_LEFT,
+    //        pageText,
+    //        textX,
+    //        bottom,
+    //        0
+    //    );
+    //    cb.EndText();
+
+    //    // placeholder for total pages
+    //    cb.AddTemplate(totalPages, textX + textSize, bottom);
+    //}
+
     public override void OnEndPage(PdfWriter writer, Document document)
     {
         PdfContentByte cb = writer.DirectContent;
 
         int pageNumber = writer.PageNumber;
-
-        float left = document.LeftMargin;
-        float right = document.PageSize.Width - document.RightMargin;
         float bottom = footerY;
 
-        // -------- LEFT SIDE : PRINT DATE ----------
-        string printedDate = "Printed on : " + DateTime.Now.ToString("dd-MM-yyyy hh:mm tt");
-
-        cb.BeginText();
-        cb.SetFontAndSize(baseFont, 9);
-        cb.ShowTextAligned(
-            Element.ALIGN_LEFT,
-            printedDate,
-            left,
-            bottom,
-            0
-        );
-        cb.EndText();
-
-        // -------- RIGHT SIDE : PAGE NUMBER ----------
         string pageText = "Page " + pageNumber + " of ";
 
-        float textSize = baseFont.GetWidthPoint(pageText, 9);
-        float textX = right - textSize;
-
         cb.BeginText();
         cb.SetFontAndSize(baseFont, 9);
+
+        // Calculate text width
+        float textSize = baseFont.GetWidthPoint(pageText, 9);
+
+        // Calculate center of page
+        float centerX = (document.PageSize.Width - textSize) / 2;
+
+        // Draw page text
         cb.ShowTextAligned(
             Element.ALIGN_LEFT,
             pageText,
-            textX,
+            centerX,
             bottom,
             0
         );
+
         cb.EndText();
 
-        // placeholder for total pages
-        cb.AddTemplate(totalPages, textX + textSize, bottom);
+        // Add total page placeholder (after "of")
+        cb.AddTemplate(totalPages, centerX + textSize, bottom);
     }
+
 
     // Called once when document closes
     public override void OnCloseDocument(PdfWriter writer, Document document)
