@@ -1261,6 +1261,54 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         }
 
+
+        public async Task<int> SetCalendarEventModelITI(List<CalendarEventModel> model)
+        {
+            _actionName = "SetCalendarEventModel(List<CalendarEventModel> model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+
+                        command.CommandText = "USP_GetEventsITI";
+
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@Action", "GetEvents_IU");
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                        // Add the return parameter
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errorDetails, ex);
+                }
+            });
+
+        }
+
         public async Task<DataTable> getCalendarEventModel(CalendarEventModel model)
         {
             _actionName = "ITIGetDataStudentBySSOId()";
@@ -1299,6 +1347,48 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+
+        public async Task<DataTable> getCalendarEventModelITI(CalendarEventModel model)
+        {
+            _actionName = "ITIGetDataStudentBySSOId()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetEventsListITI";
+
+                        // Add parameters to the stored procedure from the model
+                        command.Parameters.AddWithValue("@Action", "View");
+                        command.Parameters.AddWithValue("@CurrentMonth", model.CurrentMonth);
+                        command.Parameters.AddWithValue("@CurrentYear", model.CurrentYear);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
 
         public async Task<DataTable> getdublicateCheckSection(SectionDataModel model)
         {

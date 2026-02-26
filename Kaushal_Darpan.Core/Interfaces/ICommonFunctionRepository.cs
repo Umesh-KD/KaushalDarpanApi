@@ -290,6 +290,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetEmitraCollegeTransactionDetails(string PRN);
         Task<List<CommonDDLModel>> GovtITICollege_DistrictWise(int DistrictID, int EndTermId);
         Task<DataTable> ITIGetStaff_InstituteWise(StaffMasterDDLDataModel body);
+        Task<DataTable> ITIInstructor_InstituteWise(StaffMasterDDLDataModel body);
         Task<DataTable> GetBTEROriginalDocument(GetBTEROriginalListModel body);
         Task<DataTable> UploadBTEROriginalDocument(UploadOriginalFileWithPathDataModel Model);
         Task<List<CommonDDLModel>> GetCommonMasterDDLStatusByType(string type);

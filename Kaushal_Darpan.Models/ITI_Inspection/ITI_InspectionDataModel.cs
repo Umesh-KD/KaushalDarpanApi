@@ -171,6 +171,7 @@ namespace Kaushal_Darpan.Models.ITI_Inspection
         public string? DocConsent { get; set; }  
         public string? Remark { get; set; }  
         public int consentTypeID { get; set; }  
+        public int? Status { get; set; }  
 
     }
     public class ITI_ConsentSearchModel
