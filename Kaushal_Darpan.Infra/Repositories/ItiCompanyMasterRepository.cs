@@ -66,7 +66,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<bool> SaveData(ItiCompanyMasterModels request)
+        public async Task<int> SaveData(ItiCompanyMasterModels request)
         {
             _actionName = "SaveData(ItiCompanyMasterModels request)";
             return await Task.Run(async () =>
@@ -112,10 +112,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         result = await command.ExecuteNonQueryAsync();
                         result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
                     }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    //if (result > 0)
+                    //    return true;
+                    //else
+                    //    return false;
+                    return result;
                 }
                 catch (Exception ex)
                 {
