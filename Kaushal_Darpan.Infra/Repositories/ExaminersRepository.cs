@@ -166,6 +166,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CommonSubjectID", body.CommonSubjectID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@IsYearly", body.IsYearly);
+                        command.Parameters.AddWithValue("@Name", body.Name);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();

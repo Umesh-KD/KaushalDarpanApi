@@ -152,12 +152,12 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("SaveData")]
-        public async Task<ApiResult<bool>> SaveData([FromBody] ItiCompanyMasterModels request)
+        public async Task<ApiResult<int>> SaveData([FromBody] ItiCompanyMasterModels request)
         {
             ActionName = "SaveData([FromBody] ItiCompanyMasterModels request)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<bool>();
+                var result = new ApiResult<int>();
                 try
                 {
 
@@ -171,7 +171,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     result.Data = await _unitOfWork.i_ITICompanyMasterRepository.SaveData(request);
                     await _unitOfWork.SaveChangesAsync();
-                    if (result.Data)
+                    if (result.Data>0)
                     {
                         result.State = EnumStatus.Success;
                         if (request.ID == 0)
@@ -182,6 +182,10 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             result.Message = Constants.MSG_UPDATE_SUCCESS;
                         }
+                    }
+                    if (result.Data==3)
+                    {
+                        result.Message = "Company With Same Name or Regiatration no. Alredy Exist";
                     }
                     else
                     {

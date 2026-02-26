@@ -493,7 +493,15 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>EXAMINATION PROGRAMME OF DIPLOMA IN ENGINEERING</Value>
+                  <Value>EXAMINATION PROGRAMME OF DIPLOMA IN </Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>12pt</FontSize>
+                    <TextDecoration>None</TextDecoration>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Fields!CourseTypeFullName.Value</Value>
                   <Style>
                     <FontFamily>Times New Roman</FontFamily>
                     <FontSize>12pt</FontSize>
@@ -508,25 +516,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Label>SemYear</Label>
-                  <Value>=First(Fields!SemesterName.Value, "ExaminerPresentAndMarks")</Value>
-                  <Style>
-                    <FontFamily>Times New Roman</FontFamily>
-                    <FontSize>12pt</FontSize>
-                    <TextDecoration>None</TextDecoration>
-                  </Style>
-                </TextRun>
-                <TextRun>
-                  <Value xml:space="preserve">  </Value>
-                  <Style>
-                    <FontFamily>Times New Roman</FontFamily>
-                    <FontSize>12pt</FontSize>
-                    <TextDecoration>None</TextDecoration>
-                  </Style>
-                </TextRun>
-                <TextRun>
-                  <Label>EndTerm</Label>
-                  <Value>=First(Fields!EndTermName.Value, "ExaminerPresentAndMarks")</Value>
+                  <Value>=Fields!SemesterName.Value</Value>
                   <Style>
                     <FontFamily>Times New Roman</FontFamily>
                     <FontSize>12pt</FontSize>
@@ -541,6 +531,22 @@
                     <TextDecoration>None</TextDecoration>
                   </Style>
                 </TextRun>
+                <TextRun>
+                  <Value>=Fields!EndTermName.Value</Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>12pt</FontSize>
+                    <TextDecoration>None</TextDecoration>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value xml:space="preserve">  </Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>12pt</FontSize>
+                    <TextDecoration>None</TextDecoration>
+                  </Style>
+                </TextRun>
               </TextRuns>
               <Style>
                 <TextAlign>Center</TextAlign>
@@ -549,9 +555,49 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>(Common for all Engineering Branches) 
-SEMESTER SCHEME 
-Theory Report </Value>
+                  <Value>(Common for all </Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>12pt</FontSize>
+                    <TextDecoration>None</TextDecoration>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Fields!CourseTypeFullName.Value</Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>12pt</FontSize>
+                    <TextDecoration>None</TextDecoration>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value> Branches) 
+</Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>12pt</FontSize>
+                    <TextDecoration>None</TextDecoration>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Fields!SchemeTypeName.Value</Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>12pt</FontSize>
+                    <TextDecoration>None</TextDecoration>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value> SCHEME 
+</Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>12pt</FontSize>
+                    <TextDecoration>None</TextDecoration>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Fields!ReportTypeName.Value</Value>
                   <Style>
                     <FontFamily>Times New Roman</FontFamily>
                     <FontSize>12pt</FontSize>
@@ -700,6 +746,14 @@ Theory Report </Value>
           <DataField>Status</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="ReportTypeName">
+          <DataField>ReportTypeName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CourseTypeFullName">
+          <DataField>CourseTypeFullName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="SemesterName">
           <DataField>SemesterName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -708,10 +762,14 @@ Theory Report </Value>
           <DataField>EndTermName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="SchemeTypeName">
+          <DataField>SchemeTypeName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\kaushal-darpan\kaushaldarpan_bter_api\Kaushal_Darpan_Bter.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Projects\doitoffice\KD-Api\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
         <rd:TableName>ExaminerPresentAndMarks</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />

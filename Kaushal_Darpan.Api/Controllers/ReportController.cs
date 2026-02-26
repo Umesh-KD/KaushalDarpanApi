@@ -5876,7 +5876,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetExaminerReportAndMarksTracking")]
         public async Task<ApiResult<DataTable>> GetExaminerReportAndMarksTracking([FromBody] GroupCenterMappingModel body)
         {
-            ActionName = "GetExaminerReportAndMarksTracking()";
+            ActionName = "GetExaminerReportAndMarksTracking([FromBody] GroupCenterMappingModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -5917,7 +5917,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetExaminerReportAndMarksTrackingStudent")]
         public async Task<ApiResult<DataTable>> GetExaminerReportAndMarksTrackingStudent([FromBody] GroupCenterMappingModel body)
         {
-            ActionName = "GetExaminerReportAndMarksTrackingStudent()";
+            ActionName = "GetExaminerReportAndMarksTrackingStudent([FromBody] GroupCenterMappingModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -8805,74 +8805,69 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 var data = await _unitOfWork.ReportRepository.TheorymarksReportPdf_BTER(filterModel);
 
-                if (data != null)
-                {
-                    var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-
-                    if (!System.IO.Directory.Exists(folderPath))
-                    {
-                        Directory.CreateDirectory(folderPath);
-                    }
-
-                    // Group data by GroupCode, Branch, and SubjectCode
-                    var groupedData = data.Tables[0].AsEnumerable()
-                        .GroupBy(row => new
-                        {
-                            GroupCode = row["GroupCode"],
-                            Branch = row["BranchName"],
-                            SubjectCode = row["SubjectCode"]
-                        });
-
-                    // Initialize a list to store the individual PDF file paths
-                    List<string> pdfFiles = new List<string>();
-                    string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                    foreach (var group in groupedData)
-                    {
-                        // Get data for this specific group
-                        var groupData = group.CopyToDataTable();
-
-                        var fileName = $"{group.Key.GroupCode}_{group.Key.Branch}_{group.Key.SubjectCode}_TheoryReport_{timestamp}.pdf";
-                        string filepath = $"{folderPath}/{fileName}";
-
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/Theory_Marks_Report.rdlc";
-
-                        var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
-
-                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("TheoryMarksReport", groupData);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
-
-                        // Save the report for this group
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-
-                        // Add this PDF file to the list of PDFs to merge
-                        pdfFiles.Add(filepath);
-                    }
-
-                    // Now merge all individual PDFs into a single PDF
-                    string mergedFilePath = $"Merged_TheoryMarksReport_{timestamp}.pdf";
-                    string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{mergedFilePath}";
-
-                    bool mergeSuccess = await MergePdfFilesAsync(pdfFiles, outputPath);
-                    if (mergeSuccess)
-                    {
-                        result.Data = mergedFilePath;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = "Something went wrong while merging the PDFs.";
-                    }
-
-                }
-                else
+                if (data == null || data.Tables.Count == 0 || data.Tables[0].Rows.Count == 0)
                 {
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
                 }
+
+                var sb = await _printHtmlFile.TheoryMarksReports_GetHtml(data);
+                var _html = sb.ToString();
+
+                // remove last blank page
+                string endTag = "<div class='page-break'></div></body></html>";
+                if (_html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    _html = _html.Substring(0, _html.Length - endTag.Length)
+                                 + "</body></html>";
+                }
+
+                // pdf document setting
+                var doc = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+                    {
+                        PaperSize = PaperKind.A4,
+                        Orientation = Orientation.Portrait,
+                        Margins = new MarginSettings
+                        {
+                            Top = 10,
+                            Bottom = 10,
+                            Left = 5,
+                            Right = 5
+                        }
+                    },
+                    Objects =
+                    {
+                        new ObjectSettings
+                        {
+                            HtmlContent = _html,
+                            WebSettings = { DefaultEncoding = "utf-8" },
+
+                            //HeaderSettings = new HeaderSettings
+                            //{
+                            //    HtmUrl = headerFilePath,
+                            //    Spacing = 3
+                            //},
+
+                            FooterSettings = new FooterSettings
+                            {
+                                FontName = "Arial",
+                                FontSize = 7,
+                                Center = "Page [page] of [toPage]",
+                                Line = true
+                            }
+                        }
+                    }
+                };
+
+                // return
+                byte[] pdfBytes = await Task.Run(() => _converter.Convert(doc));
+
+                result.Data = Convert.ToBase64String(pdfBytes);
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
             }
             catch (Exception ex)
             {
@@ -8887,9 +8882,9 @@ namespace Kaushal_Darpan.Api.Controllers
                 await CreateErrorLog(nex, _unitOfWork);
 
                 result.State = EnumStatus.Error;
-                result.ErrorMessage = "something went wrong please try again";
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
             }
-
             return result;
         }
         #endregion
