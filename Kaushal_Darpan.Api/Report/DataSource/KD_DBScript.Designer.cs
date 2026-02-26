@@ -4711,6 +4711,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnEndTermName;
             
+            private global::System.Data.DataColumn columnSchemeTypeName;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ExaminerPresentAndMarksDataTable() {
@@ -4828,6 +4830,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn SchemeTypeNameColumn {
+                get {
+                    return this.columnSchemeTypeName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -4863,7 +4873,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ExaminerPresentAndMarksRow AddExaminerPresentAndMarksRow(string SNo, string CenterCCode, string GroupCode, string SubjectCode, string RollNo, string Status, string ReportTypeName, string CourseTypeFullName, string SemesterName, string EndTermName) {
+            public ExaminerPresentAndMarksRow AddExaminerPresentAndMarksRow(string SNo, string CenterCCode, string GroupCode, string SubjectCode, string RollNo, string Status, string ReportTypeName, string CourseTypeFullName, string SemesterName, string EndTermName, string SchemeTypeName) {
                 ExaminerPresentAndMarksRow rowExaminerPresentAndMarksRow = ((ExaminerPresentAndMarksRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         SNo,
@@ -4875,7 +4885,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         ReportTypeName,
                         CourseTypeFullName,
                         SemesterName,
-                        EndTermName};
+                        EndTermName,
+                        SchemeTypeName};
                 rowExaminerPresentAndMarksRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowExaminerPresentAndMarksRow);
                 return rowExaminerPresentAndMarksRow;
@@ -4908,6 +4919,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnCourseTypeFullName = base.Columns["CourseTypeFullName"];
                 this.columnSemesterName = base.Columns["SemesterName"];
                 this.columnEndTermName = base.Columns["EndTermName"];
+                this.columnSchemeTypeName = base.Columns["SchemeTypeName"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4933,6 +4945,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnSemesterName);
                 this.columnEndTermName = new global::System.Data.DataColumn("EndTermName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEndTermName);
+                this.columnSchemeTypeName = new global::System.Data.DataColumn("SchemeTypeName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSchemeTypeName);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -55240,6 +55254,23 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string SchemeTypeName {
+                get {
+                    try {
+                        return ((string)(this[this.tableExaminerPresentAndMarks.SchemeTypeNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SchemeTypeName\' in table \'ExaminerPresentAndMarks\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableExaminerPresentAndMarks.SchemeTypeNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsSNoNull() {
                 return this.IsNull(this.tableExaminerPresentAndMarks.SNoColumn);
             }
@@ -55356,6 +55387,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetEndTermNameNull() {
                 this[this.tableExaminerPresentAndMarks.EndTermNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsSchemeTypeNameNull() {
+                return this.IsNull(this.tableExaminerPresentAndMarks.SchemeTypeNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetSchemeTypeNameNull() {
+                this[this.tableExaminerPresentAndMarks.SchemeTypeNameColumn] = global::System.Convert.DBNull;
             }
         }
         

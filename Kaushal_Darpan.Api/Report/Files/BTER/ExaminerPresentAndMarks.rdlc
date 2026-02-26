@@ -572,7 +572,23 @@
                 </TextRun>
                 <TextRun>
                   <Value> Branches) 
-SEMESTER SCHEME 
+</Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>12pt</FontSize>
+                    <TextDecoration>None</TextDecoration>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Fields!SchemeTypeName.Value</Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>12pt</FontSize>
+                    <TextDecoration>None</TextDecoration>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value> SCHEME 
 </Value>
                   <Style>
                     <FontFamily>Times New Roman</FontFamily>
@@ -744,6 +760,10 @@ SEMESTER SCHEME
         </Field>
         <Field Name="EndTermName">
           <DataField>EndTermName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SchemeTypeName">
+          <DataField>SchemeTypeName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
