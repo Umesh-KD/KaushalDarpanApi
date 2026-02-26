@@ -555,7 +555,23 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>(Common for all Engineering Branches) 
+                  <Value>(Common for all </Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>12pt</FontSize>
+                    <TextDecoration>None</TextDecoration>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Fields!CourseTypeFullName.Value</Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>12pt</FontSize>
+                    <TextDecoration>None</TextDecoration>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value> Branches) 
 SEMESTER SCHEME 
 </Value>
                   <Style>
