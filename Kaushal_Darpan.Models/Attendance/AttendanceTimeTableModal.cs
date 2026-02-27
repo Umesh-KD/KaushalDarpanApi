@@ -51,12 +51,16 @@ namespace Kaushal_Darpan.Models.Attendance
         public List<Attendances> Attendance { get; set; }
 
         public int StaffID { get; set; }
+
+        public int? IsFinalSubmit { get; set; }
     }
 
     public class Attendances
     {
         public string? Date { get; set; }
         public string? Status { get; set; }
+
+        public int? IsFinalSubmit { get; set; }
     }
 
     public class PostAttendanceTimeTable

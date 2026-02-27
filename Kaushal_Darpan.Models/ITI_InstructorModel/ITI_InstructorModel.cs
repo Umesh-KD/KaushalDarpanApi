@@ -293,16 +293,16 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public int OptionID { get; set; } = 0;
         public int InstructorID { get; set; } = 0;
         public int ManagementTypeID { get; set; } = 0;
-        public string ManagementTypeName { get; set; } = string.Empty;
+        public string? ManagementTypeName { get; set; } = string.Empty;
 
         public int DistrictID { get; set; } = 0;
         public string DistrictName { get; set; } = string.Empty;
 
         public int InstituteID { get; set; } = 0;
-        public string InstituteName { get; set; } = string.Empty;
+        public string? InstituteName { get; set; } = string.Empty;
 
         public int TradeID { get; set; } = 0;
-        public string TradeName { get; set; } = string.Empty;
+        public string? TradeName { get; set; } = string.Empty;
 
         public int Priority { get; set; } = 0;
         public int TradeLevel { get; set; } = 0;
@@ -316,8 +316,8 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public string SSOID { get; set; } = string.Empty;
         public int AcademicYear { get; set; } = 0;
 
-        public string MinPercentageInScience { get; set; } = string.Empty;
-        public string MinPercentageInMath { get; set; } = string.Empty;
+        public string? MinPercentageInScience { get; set; } = string.Empty;
+        public string? MinPercentageInMath { get; set; } = string.Empty;
     }
 
 }
