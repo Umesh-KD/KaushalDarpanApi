@@ -209,7 +209,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 // table -1
                 sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;\">");
                 sb.AppendLine("            <tr style=\"border-bottom: 1px solid #000;\">");
-                sb.AppendLine("                <td colspan=\"14\" style=\"padding-left: 0;\"><strong>Govt. Polytechnic College, Ajmer(001)</strong></td>");
+                sb.AppendLine($"                <td colspan=\"14\" style=\"padding-left: 0;\"><strong>{heading_dt.Rows[0]["Institute"]}</strong></td>");
                 sb.AppendLine($"                <td colspan=\"10\"><strong>PROGRAMME : ({streams_dr["Code"]}){streams_dr["Name"]}</strong></td>");
                 sb.AppendLine("            </tr>");
 
