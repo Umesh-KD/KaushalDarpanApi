@@ -14741,6 +14741,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 foreach (DataRow dr in streams_data.Rows)
                 {
+                    // set streamid
+                    body.StreamID = Convert.ToInt32(dr["StreamID"] ?? 0);
+
                     // get main heading of report
                     var heading_data = await _unitOfWork.ReportRepository.GetHeadingResultRptTabulation(body);
                     if (heading_data?.Rows.Count == 0)
