@@ -201,7 +201,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("                </td>");
                 sb.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
                 sb.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
-                sb.AppendLine("                    <strong>09/08/2024</strong>");
+                sb.AppendLine("                    <strong></strong>");
                 sb.AppendLine("                </td>");
                 sb.AppendLine("            </tr>");
                 sb.AppendLine("        </table>");
