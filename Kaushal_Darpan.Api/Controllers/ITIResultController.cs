@@ -2,6 +2,7 @@
 using AutoMapper;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.EMMA;
+using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Vml;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
@@ -227,8 +228,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         sb1.Append("<tr><td style='text-align: center; padding: 10px; font-weight: bold; font-size: 11px;'>" + data.Tables[0].Rows[0]["ExamName"] + "</td></tr>");
                         sb1.Append("</table>");
-
-
 
                         var list = new List<TradeSubjectModel>();
                         if (data.Tables[0] != null)
@@ -823,18 +822,22 @@ namespace Kaushal_Darpan.Api.Controllers
                 .Select(row => new
                 {
                     InstituteID = row.Field<int>("InstituteID"),
-                    InstituteName = row.Field<string>("InstituteName")
+                    InstituteName = row.Field<string>("InstituteName"),
+                    Code = row.Field<string>("Code")
+
                 })
-                .Distinct();
+                .Distinct()
+                .OrderBy(x => x.Code);   // <-- Order by Code
 
             // Create the result table manually
             DataTable result = new DataTable();
             result.Columns.Add("InstituteID", typeof(int));
             result.Columns.Add("InstituteName", typeof(string));
+            result.Columns.Add("code", typeof(string));
 
             foreach (var item in distinctInstitutes)
             {
-                result.Rows.Add(item.InstituteID, item.InstituteName);
+                result.Rows.Add(item.InstituteID, item.InstituteName, item.Code);
             }
 
             return result;
@@ -842,55 +845,54 @@ namespace Kaushal_Darpan.Api.Controllers
 
         private DataTable GetInstitutesByTradeConsolidated(int tradeId, DataTable reportData)
         {
-       //     var distinctInstitutes = reportData.AsEnumerable()
-       //.Where(row => row.Field<int>("TradeId") == tradeId)
-       //.GroupBy(row => new
-       //{
-       //    InstituteID = row.Field<int>("InstituteID"),
-       //    InstituteName = row.Field<string>("InstituteName")?
-       //                        .Trim()
-       //                        .ToUpper()
-       //})
-       //.Select(g => new
-       //{
-       //    InstituteID = g.Key.InstituteID,
-       //    InstituteName = g.First().Field<string>("InstituteName").Trim()
-       //});
+            //     var distinctInstitutes = reportData.AsEnumerable()
+            //.Where(row => row.Field<int>("TradeId") == tradeId)
+            //.GroupBy(row => new
+            //{
+            //    InstituteID = row.Field<int>("InstituteID"),
+            //    InstituteName = row.Field<string>("InstituteName")?
+            //                        .Trim()
+            //                        .ToUpper()
+            //})
+            //.Select(g => new
+            //{
+            //    InstituteID = g.Key.InstituteID,
+            //    InstituteName = g.First().Field<string>("InstituteName").Trim()
+            //});
 
 
 
 
-       //     // Create the result table manually
-       //     DataTable result = new DataTable();
-       //     result.Columns.Add("InstituteID", typeof(int));
-       //     result.Columns.Add("InstituteName", typeof(string));
+            //     // Create the result table manually
+            //     DataTable result = new DataTable();
+            //     result.Columns.Add("InstituteID", typeof(int));
+            //     result.Columns.Add("InstituteName", typeof(string));
 
-       //     foreach (var item in distinctInstitutes)
-       //     {
-       //         result.Rows.Add(item.InstituteID, item.InstituteName);
-       //     }
-
-
+            //     foreach (var item in distinctInstitutes)
+            //     {
+            //         result.Rows.Add(item.InstituteID, item.InstituteName);
+            //     }
             var distinctInstitutes = reportData.AsEnumerable()
-                .Where(row => row.Field<int>("TradeId") == tradeId)
-                .GroupBy(row => row.Field<int>("InstituteID"))
-                .Select(g => new
-                {
-                    InstituteID = g.Key,
-                    InstituteName = g.First().Field<string>("InstituteName")?.Trim()
-                });
+              .Where(row => row.Field<int>("TradeId") == tradeId)
+              .GroupBy(row => row.Field<int>("InstituteID"))
+              .Select(g => new
+              {
+                  InstituteID = g.Key,
+                  InstituteName = g.First().Field<string>("InstituteName")?.Trim(),
+                  Code = g.First().Field<string>("Code")?.Trim(),
+              })
+              .OrderBy(x => x.Code ?? "")          // Primary sort
+              .ThenBy(x => x.InstituteName ?? ""); // Secondary sort
 
             DataTable result = new DataTable();
             result.Columns.Add("InstituteID", typeof(int));
             result.Columns.Add("InstituteName", typeof(string));
+            result.Columns.Add("Code", typeof(string));
 
             foreach (var item in distinctInstitutes)
             {
-                result.Rows.Add(item.InstituteID, item.InstituteName);
+                result.Rows.Add(item.InstituteID, item.InstituteName, item.Code);
             }
-
-
-
 
             return result;
         }
