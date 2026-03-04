@@ -14741,7 +14741,10 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 foreach (DataRow dr in streams_data.Rows)
                 {
-                    // get heading
+                    // set streamid
+                    body.StreamID = Convert.ToInt32(dr["StreamID"] ?? 0);
+
+                    // get main heading of report
                     var heading_data = await _unitOfWork.ReportRepository.GetHeadingResultRptTabulation(body);
                     if (heading_data?.Rows.Count == 0)
                     {
@@ -14759,7 +14762,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     sb.AppendJoin("</br>", _sb);
                 }
 
-                // get consolidate summary
+                // get consolidate summary of tabular details
                 var consolidate_data = await _unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body);
                 if (consolidate_data?.Rows.Count > 0)
                 {
