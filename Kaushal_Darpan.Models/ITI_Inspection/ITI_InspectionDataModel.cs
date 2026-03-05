@@ -59,6 +59,13 @@ namespace Kaushal_Darpan.Models.ITI_Inspection
 
         public string? DeploymentDateFrom { get; set; }
         public string? DeploymentDateTo { get; set; }
+
+        public string? MobileNo { get; set; }
+        public string? DepartmentName { get; set; }
+        public string? Email { get; set; }
+        public string? Designation { get; set; }
+        public string? Address { get; set; }
+        public string? EmployeeID { get; set; }
     }
 
     public class ITI_InspectionSearchModel : RequestBaseModel
