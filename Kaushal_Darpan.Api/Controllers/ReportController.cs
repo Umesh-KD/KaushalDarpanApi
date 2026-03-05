@@ -8568,7 +8568,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         var fileName = $"StatisticsReport.pdf";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
                         string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/Statistical_Information.rdlc";
-                        
+
 
                         string singimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[1].Rows[0]["SignPhoto"]}";
                         data.Tables[1].Rows[0]["SignImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(singimgFilepath));
@@ -14741,7 +14741,10 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 foreach (DataRow dr in streams_data.Rows)
                 {
-                    // get heading
+                    // set streamid
+                    body.StreamID = Convert.ToInt32(dr["StreamID"] ?? 0);
+
+                    // get main heading of report
                     var heading_data = await _unitOfWork.ReportRepository.GetHeadingResultRptTabulation(body);
                     if (heading_data?.Rows.Count == 0)
                     {
@@ -14759,7 +14762,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     sb.AppendJoin("</br>", _sb);
                 }
 
-                // get consolidate summary
+                // get consolidate summary of tabular details
                 var consolidate_data = await _unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body);
                 if (consolidate_data?.Rows.Count > 0)
                 {
@@ -16553,6 +16556,217 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        #endregion
+
+
+
+        #region
+
+        [HttpPost("DiplomaTest")]
+        public async Task<IActionResult> DiplomaTest()
+        {
+            try
+            {
+                var sb = new StringBuilder();
+
+                sb.Append(@"
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='UTF-8'>
+            <style>
+                body {
+                    margin: 0;
+                    padding: 0;
+                    font-family: 'Segoe UI', Arial, sans-serif;
+                }
+
+                .page {
+                    width: 210mm;
+                    min-height: 297mm;
+                    padding: 20mm;
+                    box-sizing: border-box;
+                    background: #ffffff;
+                    position: relative;
+                    color: #000;
+                }
+
+                .top-number {
+                    text-align: right;
+                    font-weight: bold;
+                    font-style: italic;
+                    font-size: 14px;
+                    margin-bottom: 90mm;
+                }
+
+                .center-content {
+                    text-align: center;
+                }
+
+                .name {
+                    font-size: 20px;
+                    font-weight: 900;
+                    text-transform: uppercase;
+                    margin-bottom: 5px;
+                }
+
+                .father {
+                    font-size: 16px;
+                    font-weight: 900;
+                    text-transform: uppercase;
+                    margin-bottom: 35px;
+                }
+
+                .course {
+                    font-size: 18px;
+                    font-weight: 900;
+                    font-style: italic;
+                    text-transform: uppercase;
+                    margin-bottom: 40px;
+                }
+
+                .result-row {
+                    width: 80%;
+                    margin: 0 auto 30px auto;
+                    font-weight: 900;
+                    text-transform: uppercase;
+                    display: flex;
+                    justify-content: space-between;
+                }
+
+                .number {
+                    font-size: 18px;
+                    font-weight: 900;
+                    margin-bottom: 25px;
+                }
+
+                .completion {
+                    font-size: 18px;
+                    font-weight: 900;
+                    font-style: italic;
+                }
+
+                .signatures {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-end;
+                    margin-top: 60px;
+                    padding: 0 40px;
+                }
+
+                .date {
+                    text-align: center;
+                    font-weight: bold;
+                    margin-top: 40px;
+                }
+            </style>
+        </head>
+
+        <body>
+            <div class='page'>
+
+                <div class='top-number'>
+                    CE20210003/001
+                </div>
+
+                <div class='center-content'>
+
+                    <div class='name'>
+                        ANJALI KANWAR
+                    </div>
+
+                    <div class='father'>
+                        D/O LAXMAN SINGH
+                    </div>
+
+                    <div class='course'>
+                        DIPLOMA IN CIVIL ENGINEERING
+                    </div>
+
+                    <div class='result-row'>
+                        <span>MAY 2024</span>
+                        <span>FIRST (HONOURS)</span>
+                    </div>
+
+                    <div class='number'>
+                        3
+                    </div>
+
+                    <div class='completion'>
+                        Diploma Completion Date : 13-08-2024
+                    </div>
+
+                </div>
+
+                <div class='signatures'>
+                    <div>
+                        <svg width='100' height='60'>
+                            <path d='M10,40 Q30,10 50,40 T90,30' 
+                                  fill='none' stroke='black' stroke-width='2'/>
+                        </svg>
+                    </div>
+
+                    <div>
+                        <svg width='100' height='60'>
+                            <path d='M20,30 C40,10 60,50 80,30' 
+                                  fill='none' stroke='black' stroke-width='2'/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class='date'>
+                    04-08-2025
+                </div>
+
+            </div>
+        </body>
+        </html>
+        ");
+
+                var doc = new HtmlToPdfDocument
+                {
+                    GlobalSettings = new GlobalSettings
+                    {
+                        PaperSize = PaperKind.A4,
+                        Orientation = Orientation.Portrait,
+                        Margins = new MarginSettings
+                        {
+                            Top = 0,
+                            Bottom = 0,
+                            Left = 0,
+                            Right = 0
+                        }
+                    },
+                    Objects =
+            {
+                new ObjectSettings
+                {
+                    HtmlContent = sb.ToString(),
+                    WebSettings = { DefaultEncoding = "utf-8" },
+                    FooterSettings = new FooterSettings
+                    {
+                        FontName = "Arial",
+                        FontSize = 9,
+                        Right = "Page [page] of [toPage]",
+                        Left = "Printed on: [date]",
+                        Line = true
+                    }
+                }
+            }
+                };
+
+                byte[] pdfBytes = _converter.Convert(doc);
+
+                return File(pdfBytes, "application/pdf", "Diploma.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
 
         #endregion
 

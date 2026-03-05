@@ -2962,6 +2962,49 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+        [HttpGet("GetAssignedSubject/{SSOID}/{EndTermID}/{SemesterID}/{Eng_NonEng}/{StreamID}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> GetAssignedSubject(string SSOID, int EndTermID, int SemesterID, int Eng_NonEng, int StreamID)
+        {
+            ActionName = "SubjectMaster_StreamIDWise(int StreamID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<CommonDDLModel>>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.GetAssignedSubject(SSOID, EndTermID, SemesterID, Eng_NonEng, StreamID);
+                    if (data != null)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
         [HttpGet("Examiner_SSOID/{DepartmentID:int}")]
         public async Task<ApiResult<List<CommonDDLModel>>> GetExamerSSoidDDL(int DepartmentID)
         {

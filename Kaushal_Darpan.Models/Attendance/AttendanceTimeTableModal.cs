@@ -51,12 +51,16 @@ namespace Kaushal_Darpan.Models.Attendance
         public List<Attendances> Attendance { get; set; }
 
         public int StaffID { get; set; }
+
+        public int? IsFinalSubmit { get; set; }
     }
 
     public class Attendances
     {
         public string? Date { get; set; }
         public string? Status { get; set; }
+
+        public int? IsFinalSubmit { get; set; }
     }
 
     public class PostAttendanceTimeTable
@@ -103,7 +107,34 @@ namespace Kaushal_Darpan.Models.Attendance
         public int? CurrentMonth { get; set; }
         public int? CurrentYear { get; set; }
         public int? InstituteID { get; set; }
+        public bool? IsFinalSubmit{ get; set; }
+        public int? SubjectID { get; set; } = 0;
+        public string? SSOID { get; set; }
     }
+
+
+    public class CalendarEventModelITI
+    {
+        public int EventId { get; set; }
+        public int Day { get; set; }
+        public DateTime EventDate { get; set; }
+        public string? EventType { get; set; }
+        public string? Remark { get; set; }
+        public string? SSOID{ get; set; }
+        public DateTime CreatedAt { get; set; }
+        public int DepartmentID { get; set; }
+        public int EndTermID { get; set; }
+        public int AcademicYearID { get; set; }
+        public int CourseTypeID { get; set; }
+        public int SubjectID { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDelete { get; set; }
+
+        public int? CurrentMonth { get; set; }
+        public int? CurrentYear { get; set; }
+        public int? InstituteID { get; set; }
+    }
+
 
     public class AttendanceTimeTableTLCModal
     {
