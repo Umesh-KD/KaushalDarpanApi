@@ -175,17 +175,18 @@ namespace Kaushal_Darpan.Api.Controllers
                 //    Ex = new Exception(isOtpBypassed ? "OTP bypass requested" : "")
                 //}, _unitOfWork);
 
-
                 if (isOtpBypassed && sType == "ValidateOTP_FetchRequestedData")
                 {
+                    Random rnd = new Random();
+                    long srdrMid = rnd.NextInt64(100000000000, 999999999999);
                     var dummyUser = new JanAadharVerifyMemberDetails
                     {
                         NAME_EN = "OTP BYPASSED USER",
                         GENDER = "MALE",
                         DOB = "01/01/1990",
-                        ADDRESS = "Test Address"
+                        ADDRESS = "Test Address",
+                        SRDR_MID= srdrMid
                     };
-
 
                     var responseObj = new JObject
                     {
