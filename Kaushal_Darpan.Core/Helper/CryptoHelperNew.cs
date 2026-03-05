@@ -136,7 +136,7 @@ namespace Kaushal_Darpan.Core.Helper
         //		}
         //	}
         //}
-        public static Aes DecryptAESKeyWithRSA(string encryptedAESKey)
+        public static Aes DecryptAESKeyWithRSA(string encryptedAESKey,string Password)
         {
             if (string.IsNullOrWhiteSpace(encryptedAESKey))
                 throw new ArgumentNullException(nameof(encryptedAESKey));
@@ -146,7 +146,7 @@ namespace Kaushal_Darpan.Core.Helper
             if (!File.Exists(certPath))
                 throw new FileNotFoundException($"Certificate not found: {certPath}");
 
-            var cert = new X509Certificate2(certPath, "EEMS@123",
+            var cert = new X509Certificate2(certPath, Password,
                 X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.Exportable);
 
             using (RSA rsa = cert.GetRSAPrivateKey())
@@ -254,7 +254,7 @@ namespace Kaushal_Darpan.Core.Helper
 			byte[] encryptedDataBytes =
 			Convert.FromBase64String(encryptedDataBase64);
 			// Decrypt the AES key using RSA
-			using (var aesKey = DecryptAESKeyWithRSA(encryptedAESKey))
+			using (var aesKey = DecryptAESKeyWithRSA(encryptedAESKey, ConfigurationHelper.PrivateCertPassword))
 			{
 				// Decrypt the data with AES
 				using (var cipher = Aes.Create())
@@ -290,7 +290,7 @@ namespace Kaushal_Darpan.Core.Helper
 			byte[] encryptedDataBytes = Convert.FromBase64String(encryptedDataBase64);
 
 			// Decrypt the AES key first using your RSA private key method
-			using (var aes = DecryptAESKeyWithRSA(encryptedAESKeyBase64))
+			using (var aes = DecryptAESKeyWithRSA(encryptedAESKeyBase64, ConfigurationHelper.PrivateCertPassword))
 			{
 				// Setup AES decryptor
 				using (var aesAlg = Aes.Create())

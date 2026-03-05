@@ -187,16 +187,20 @@ namespace Kaushal_Darpan.Infra
                 string apiUrl = string.Empty;
                 if (endpoint == "member-list")
                 {
-                    apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/member-list?client_id=254eced2ee1bfc019d3a09dc4ef8e8ac";             
+
+                  //  apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/member-list?client_id=254eced2ee1bfc019d3a09dc4ef8e8ac";             
+                    apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/member-list?client_id=0df7e4099e5fad031ff871400dc07152";             
 
                 }
                 else if (endpoint == "generate-otp")
                 {
-                    apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/generate-otp?client_id=254eced2ee1bfc019d3a09dc4ef8e8ac";
+                    //apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/generate-otp?client_id=254eced2ee1bfc019d3a09dc4ef8e8ac";
+                    apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/generate-otp?client_id=0df7e4099e5fad031ff871400dc07152";
                 }
                 else if (endpoint == "validate-otp")
                 {
-                    apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/validate-otp?client_id=254eced2ee1bfc019d3a09dc4ef8e8ac";
+                    //apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/validate-otp?client_id=254eced2ee1bfc019d3a09dc4ef8e8ac";
+                    apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/validate-otp?client_id=0df7e4099e5fad031ff871400dc07152";
                 }
                 
                 //string apiUrl = $"{JanAadhaarConfig.BaseUrl}{endpoint}?client_id={JanAadhaarConfig.ClientId}";
