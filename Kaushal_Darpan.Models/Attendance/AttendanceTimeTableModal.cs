@@ -19,16 +19,16 @@ namespace Kaushal_Darpan.Models.Attendance
         public int SemesterID { get; set; }
         public int UnitID { get; set; }
         public int ShiftID { get; set; }
-        public string SSOID { get; set; }
+        public string? SSOID { get; set; }
         public int StaffID { get; set; }
         public int TimeDDLID { get; set; }
         public int RoleID { get; set; }
         public DateTime? AttendanceStartDate { get; set; }
         public DateTime? AttendanceEndDate { get; set; }
-        public string EnrollmentNo { get; set; } 
+        public string? EnrollmentNo { get; set; } 
         public int StudentId{ get; set; }
 
-        public string ActionName {  get; set; }
+        public string? ActionName {  get; set; }
     }
 
     public class PostAttendanceTimeTableModal
@@ -86,6 +86,36 @@ namespace Kaushal_Darpan.Models.Attendance
         public int RoleID { get; set; }
         public int StaffID { get; set; }
         public string SectionIDs { get; set; }
+
+    }
+
+
+
+    public class PostAttendanceTimeTableITI
+    {
+        public int ID { get; set; }
+        public int EndTermID { get; set; }
+        public int FinancialYearID { get; set; }
+        public int CourseTypeID { get; set; }
+        public int StreamID { get; set; }
+        public int SectionID { get; set; }
+        public int DepartmentID { get; set; }
+        public int SubjectID { get; set; }
+        public int SemesterID { get; set; }
+        public int AssignToRoleID { get; set; }
+        public int AssignByRoleID { get; set; }
+        public int AssignbyStaffID { get; set; }
+        public int DeleteStatus { get; set; }
+        public int ActiveStatus { get; set; }
+        public int ShiftId { get; set; }
+        public string? AssignBySSOID { get; set; }
+        public string? AssignToSSOID { get; set; }
+        public int InstituteID { get; set; }
+        public int RoleID { get; set; }
+        public int StaffID { get; set; }
+         public string? AssignFromSSOID { get; set; }
+         public string? AttendanceEndDate { get; set; }
+         public string? AttendanceStartDate { get; set; }
 
     }
 
