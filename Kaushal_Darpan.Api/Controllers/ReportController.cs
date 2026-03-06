@@ -12677,7 +12677,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("DownloadResultStatisticsReport")]
         public async Task<ApiResult<string>> DownloadResultStatisticsReport(StatisticsBridgeCourseModel model)
         {
-            ActionName = "DownloadAppearedPassed(string EnrollmentNo)";
+            ActionName = "DownloadResultStatisticsReport(StatisticsBridgeCourseModel model)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
