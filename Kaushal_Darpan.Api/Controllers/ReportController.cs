@@ -3704,6 +3704,10 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationDirectAdmission.rdlc";
                         }
+                        else if (admissionType == 9)// for direct admission private 
+                        {
+                            rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationDirectAdmissionPrivate.rdlc";
+                        }
                         else
                         {
                             rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationForm.rdlc";
@@ -12677,7 +12681,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("DownloadResultStatisticsReport")]
         public async Task<ApiResult<string>> DownloadResultStatisticsReport(StatisticsBridgeCourseModel model)
         {
-            ActionName = "DownloadAppearedPassed(string EnrollmentNo)";
+            ActionName = "DownloadResultStatisticsReport(StatisticsBridgeCourseModel model)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
