@@ -27,6 +27,7 @@ namespace Kaushal_Darpan.Models.Attendance
         public DateTime? AttendanceEndDate { get; set; }
         public string? EnrollmentNo { get; set; } 
         public int StudentId{ get; set; }
+        public int? Seatintake { get; set; }
 
         public string? ActionName {  get; set; }
     }

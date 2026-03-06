@@ -2052,6 +2052,90 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> SectorWiseTradeCode()
+        {
+            _actionName = "SectorWiseTradeCode()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_SectorWiseTradeCode";
+                        //command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        //command.Parameters.AddWithValue("@CreatedBy", CreatedBy);
+
+                        command.Parameters.AddWithValue("@action", "_getSectorDDL");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    //var data = new List<CommonDDLModel>();
+                    //if (dataTable != null)
+                    //{
+                    //    data = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    //}
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> SectorWiseTrades(int DepartmentID,int SectorID)
+        {
+            _actionName = "SectorWiseTrades()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_SectorWiseTradeCode";
+                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@SectorID", SectorID);
+
+                        command.Parameters.AddWithValue("@action", "_getSectorWiseTrades");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    //var data = new List<CommonDDLModel>();
+                    //if (dataTable != null)
+                    //{
+                    //    data = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    //}
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
 
         public async Task<List<CommonDDLModel>> GetCategoryDMasterDDL(int MeritalStatus)
         {

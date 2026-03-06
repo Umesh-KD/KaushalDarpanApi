@@ -2199,6 +2199,15 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        private IMassCopyReportRepository _MassCopyReportRepository;
+        public IMassCopyReportRepository MassCopyReportRepository
+        {
+            get
+            {
+                return _MassCopyReportRepository ??= new MassCopyReportRepository(_dbContext);
+            }
+        }
+
         #endregion
     }
 }

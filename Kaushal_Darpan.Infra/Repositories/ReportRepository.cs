@@ -7503,39 +7503,38 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> DownloadResultStatisticsReport(StatisticsBridgeCourseModel model)
         {
             _actionName = "GetStudentRollNoList(DownloadnRollNoModel model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                var dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var dt = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ResultStatisticsReport";
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@ResultType", model.ResultType);
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dt = await command.FillAsync_DataTable();
-                    }
-                    return dt;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ResultStatisticsReport";
+
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@ResultType", model.ResultType);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@StreamID", model.StreamID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dt = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         public async Task<DataTable> DownloadResultStatisticsBridgeCourseStreamWiseReport(StatisticsBridgeCourseModel model)
         {
