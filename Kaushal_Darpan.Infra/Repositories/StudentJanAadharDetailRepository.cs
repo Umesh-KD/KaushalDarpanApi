@@ -47,8 +47,18 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ApplicationID", request.ApplicationID);
                         command.Parameters.AddWithValue("@SSOID", request.SSOID);
                         command.Parameters.AddWithValue("@StudentName", request.StudentName);
+                        command.Parameters.AddWithValue("@StudentNameHindi", request.StudentNameHindi);
+
                         command.Parameters.AddWithValue("@FatherName", request.FatherName);
+                        command.Parameters.AddWithValue("@FatherNameHindi", request.FatherNameHindi);
+
+
                         command.Parameters.AddWithValue("@MotherName", request.MotherName);
+                        command.Parameters.AddWithValue("@MotherNameHindi", request.MotherNameHindi);
+
+
+
+
                         command.Parameters.AddWithValue("@Email", request.Email);
                         command.Parameters.AddWithValue("@DOB", request.DOB);
                         command.Parameters.AddWithValue("@CertificateGeneratDate", request.CertificateGeneratDate);
