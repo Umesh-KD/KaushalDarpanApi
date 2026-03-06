@@ -282,7 +282,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetAllCategoryMaster()
         {
-            _actionName = "GetAllData()";
+            _actionName = "GetAllCategoryMaster()";
             return await Task.Run(async () =>
             {
                 try
@@ -292,6 +292,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_GetAllItemCategory";
+                        command.Parameters.AddWithValue("@action", "GetAllData");
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -770,8 +772,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
-                        command.CommandText = "select * from M_ITI_ItemCategoryMaster Where ItemCategoryID ='" + PK_ID + "' ";
 
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_GetAllItemCategory";
+                        command.Parameters.AddWithValue("@action", "GetByID");
+
+                        command.Parameters.AddWithValue("@ItemCategoryID", PK_ID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1142,6 +1148,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@ModifyDate", request.ModifyDate ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@TradeId", request.TradeId);
+                        command.Parameters.AddWithValue("@CategoryFor", request.CategoryFor);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
@@ -1390,6 +1398,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@IsConsumable", request.IsConsumable);
                         command.Parameters.AddWithValue("@IsSerialNo", request.IsSerialNo);
+                        command.Parameters.AddWithValue("@EquipmentFor", request.EquipmentFor);
+                        command.Parameters.AddWithValue("@TradeId", request.TradeId);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
@@ -1980,6 +1990,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
                         command.Parameters.AddWithValue("@TypeName", SearchReq.TypeName);
                         command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
+                        command.Parameters.AddWithValue("@CategoryFor", SearchReq.CategoryFor);
                         //command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
