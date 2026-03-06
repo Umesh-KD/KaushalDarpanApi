@@ -19,5 +19,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public string? IPAddress { get; set; }
         public int DepartmentID { get; set; }
         public int InstituteID { get; set; }
+        public int? CategoryFor { get; set; }
+        public int? TradeId { get; set; }
     }
 }

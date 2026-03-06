@@ -150,6 +150,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? ReturnStatus { get; set; }
         public int? IssueStatus { get; set; }
         public string? actionName { get; set; }
+        public int? CategoryFor { get; set; }
 
     }
     public class itemReturnModel
