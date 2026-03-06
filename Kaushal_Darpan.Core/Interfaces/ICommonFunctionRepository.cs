@@ -84,7 +84,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<CommonDDLModel>> GetSubjectMasterDDL(int DepartmentID);
         Task<List<CommonDDLModel>> GetCommonMasterDDLByType(string type);
         Task<List<CommonDDLModel>> GetCampusPostMasterDDL(int DepartmentID,int CreatedBy);
-
+        Task<DataTable> SectorWiseTradeCode();
+        Task<DataTable> SectorWiseTrades(int DepartmentID, int SectorID);
         Task<List<CommonDDLModel>> GetCategoryDMasterDDL(int MeritalStatus);
         Task<List<CommonDDLModel>> GetCampusWiseHiringRoleDDL(int campusPostId, int DepartmentID);
 
