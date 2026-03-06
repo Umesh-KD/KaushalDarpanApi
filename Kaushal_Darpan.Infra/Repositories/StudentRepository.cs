@@ -617,6 +617,9 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+
         public async Task<DataTable> GetStudentAttendance(AttendanceTimeTableModal model)
         {
             _actionName = "GetStudentAttendance()";
@@ -666,6 +669,59 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+
+        public async Task<DataTable> ITIGetStudentAttendanceTimeTable(AttendanceTimeTableModal model)
+        {
+            _actionName = "GetStudentAttendance()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_Get_StudentAttandance";
+
+                        // Add parameters to the stored procedure from the model
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@SectionID", model.SectionID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@ShiftNo", model.ShiftID);
+                        command.Parameters.AddWithValue("@UnitNo", model.UnitID);
+                        command.Parameters.AddWithValue("@StaffID", model.StaffID);
+                        command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);
+                        command.Parameters.AddWithValue("@AttendanceStartDate", model.AttendanceStartDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
+                        command.Parameters.AddWithValue("@AttendanceEndDate", model.AttendanceEndDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<DataTable> GetStudentAttendanceSubjectwise(AttendanceTimeTableModal model)
         {
             _actionName = "GetStudentAttendanceSubjectwise()";
@@ -850,6 +906,57 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
           
         }
+
+
+
+        public async Task<int> RePostAttendanceTimeTable(PostAttendanceTimeTableITI model)
+        {
+            _actionName = "PostAttendanceTimeTable()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                       
+                            command.CommandText = "USP_AddEdit_ReAssignTeacherForSubjectITI";
+                   
+                        
+
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                        // Add the return parameter
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errorDetails, ex);
+                }
+            });
+
+        }
+
 
         public async Task<StudentMeritInfoModel> GetStudentMeritinfo(StudentSearchModel body)
         {
@@ -1166,6 +1273,50 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        public async Task<DataTable> ITIReAttendanceTimeTable(AttendanceTimeTableModal model)
+        {
+            _actionName = "ITIGetDataStudentBySSOId()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_ReAssignTeacherForSubject";
+
+                        // Add parameters to the stored procedure from the model
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
         public async Task<int> PostAttendanceTimeTableList(List<PostAttendanceTimeTable> model)
         {
             _actionName = "PostAttendanceTimeTable()";
@@ -1305,7 +1456,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errorDetails, ex);
                 }
-            });
+            }); 
 
         }
 

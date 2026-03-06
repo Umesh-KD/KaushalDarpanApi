@@ -23,5 +23,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int ItemCategoryId { get; set; }
         public int IsConsumable { get; set; }
         public int IsSerialNo { get; set; }
+        public int? TradeId { get; set; }
+        public int? EquipmentFor { get; set; }
     }
 }

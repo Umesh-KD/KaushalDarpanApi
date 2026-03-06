@@ -76,6 +76,7 @@ namespace Kaushal_Darpan.Models.GenerateEnroll
     {
         public int ResultType { get; set; }
         public int SemesterID { get; set; }
+        public int StreamID { get; set; }
     }
 
     public class StatisticsBridgeCourseModel : RequestBaseModel

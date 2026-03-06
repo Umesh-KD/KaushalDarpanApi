@@ -717,6 +717,87 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+
+        [HttpPost("ITIGetStudentAttendance")]
+        public async Task<ApiResult<DataTable>> ITIGetStudentAttendance([FromBody] AttendanceTimeTableModal request)
+        {
+            ActionName = "GetStudentAttendance()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    result.Data = await _unitOfWork.StudentRepository.ITIGetStudentAttendanceTimeTable(request);
+                    //var holidayData = await _unitOfWork.StudentRepository.GetHolidaysmaster(request.AttendanceStartDate, request.AttendanceEndDate);
+
+                    // if (result.Data.Rows.Count > 0)
+                    // {
+                    //     // Iterate through each student attendance row
+                    //     foreach (DataRow studentRow in result.Data.Rows)
+                    //     {
+
+                    //         // Check each holiday data to update attendance status
+                    //         foreach (DataRow holidayRow in holidayData.Rows)
+                    //         {
+                    //             var holidayDate = Convert.ToDateTime(holidayRow.ItemArray[0]).ToString("yyyy-MM-dd");
+
+                    //             if (!result.Data.Columns.Contains(holidayDate))
+                    //             {
+                    //                 result.Data.Columns.Add(holidayDate, typeof(string)); // Add new column to store holiday data
+                    //                                                                       // Get the first item in the holidayRow
+                    //                 string holidayValue = "A";
+                    //                 // Example: Add the holidayValue to the studentRow's new column
+                    //                 studentRow[holidayDate] = holidayValue;
+                    //             }
+                    //             else
+                    //             {
+                    //                 // Get the first item in the holidayRow
+                    //                 string holidayValue = "P";
+                    //                 // Example: Add the holidayValue to the studentRow's new column
+                    //                 studentRow[holidayDate] = holidayValue;
+                    //             }
+
+
+
+
+
+                    //         }
+                    //     }
+                    // }
+
+
+
+
+                    if (result.Data.Rows.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    await _unitOfWork.DisposeAsync();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
         [HttpPost("GetStudentAttendanceSubjectWise")]
         public async Task<ApiResult<DataTable>> GetStudentAttendanceSubjectWise([FromBody] AttendanceTimeTableModal request)
         {
@@ -842,6 +923,52 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+
+        [HttpPost("RePostAttendanceTimeTable")]
+        public async Task<ApiResult<int>> RePostAttendanceTimeTable([FromBody] PostAttendanceTimeTableITI model)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    var data = await _unitOfWork.StudentRepository.RePostAttendanceTimeTable(model);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Data = data;
+                        result.Message = "Student Mapped Successfully";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Something went wrong";
+                        result.Data = data;
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    await _unitOfWork.DisposeAsync();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
 
         [HttpPost("GetITIStudentMeritinfo")]
         public async Task<ApiResult<System.Data.DataSet>> GetITIStudentMeritinfo([FromBody] StudentSearchModel body)
@@ -1015,6 +1142,48 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.StudentRepository.ITIGetAttendanceTimeTable(request);
+                    if (result.Data.Rows.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    await _unitOfWork.DisposeAsync();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
+
+
+        [HttpPost("ITIReAttendanceTimeTable")]
+        public async Task<ApiResult<DataTable>> ITIReAttendanceTimeTable([FromBody] AttendanceTimeTableModal request)
+        {
+            ActionName = "ITI_GetAttendanceTimeTable()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    result.Data = await _unitOfWork.StudentRepository.ITIReAttendanceTimeTable(request);
                     if (result.Data.Rows.Count > 0)
                     {
                         result.State = EnumStatus.Success;

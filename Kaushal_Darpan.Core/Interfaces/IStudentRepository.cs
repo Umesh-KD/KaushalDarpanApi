@@ -33,11 +33,13 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetDataStudentBySSOId(string ssoid, int DepartmentID);
         Task<int> AddStudentData(VerifierDataModel productDetails);
         Task<DataTable> GetAttendanceTimeTable(AttendanceTimeTableModal model);
+        Task<DataTable> ITIGetStudentAttendanceTimeTable(AttendanceTimeTableModal model);
         Task<DataTable> GetStudentAttendance(AttendanceTimeTableModal model);
         Task<DataTable> GetStudentAttendanceSubjectwise(AttendanceTimeTableModal model);
         Task<DataTable> GetHolidaysmaster(DateTime? start, DateTime? end);
         Task<int> AddStudentAttendance(List<PostAttendanceTimeTableModal> model);
         Task<int> PostAttendanceTimeTable(PostAttendanceTimeTable model);
+        Task<int> RePostAttendanceTimeTable(PostAttendanceTimeTableITI model);
         Task<int> SaveRecheckData(List<RecheckDocumentModel> productDetails);
 
         Task<DataTable> GetStudentApplication(StudentSearchModel body);
@@ -45,6 +47,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<int> ITIAddStudentAttendance(List<PostAttendanceTimeTableModal> model);
         Task<DataTable> ITIGetAttendanceTimeTable(AttendanceTimeTableModal model);
+        Task<DataTable> ITIReAttendanceTimeTable(AttendanceTimeTableModal model);
         Task<int> PostAttendanceTimeTableList(List<PostAttendanceTimeTable> model);
 
 
