@@ -54,7 +54,6 @@ namespace Kaushal_Darpan.Api.Controllers
             return Ok(new
             {
 
-
                 PrivateCertPath = ConfigurationHelper.PrivateCertPath,
                 ExistsPrivate = System.IO.File.Exists(ConfigurationHelper.PrivateCertPath),
                 PublicCertPath = ConfigurationHelper.PublicCertPath,
@@ -63,10 +62,13 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("JanAdharDataNew")]
-        public async Task<ApiResult<object>> JanAdharDataNew(string SchemeName = "EEMS", string sType = "", string JanaadhaarNo = "", string memberId = "", string tid = "", string otp = "")
+        public async Task<ApiResult<object>> JanAdharDataNew(string SchemeName = "KD", string sType = "", string JanaadhaarNo = "", string memberId = "", string tid = "", string otp = "")
         {
-            string schemShortCode = "EEMS";
-            string appCode = "JAN4601237";
+            //string schemShortCode = "EEMS";
+            //string appCode = "JAN4601237";
+
+            string schemShortCode = "KOUSHAL_DARPAN";
+            string appCode = "JAN8751273";
             string transactionId = $"{SchemeName}{DateTime.Now:yyyyMMdd}{new Random().Next(100000, 999999)}";
             string ActionName = "JanAdharDataNew";
             var resultData = new ApiResult<object>();
@@ -173,17 +175,18 @@ namespace Kaushal_Darpan.Api.Controllers
                 //    Ex = new Exception(isOtpBypassed ? "OTP bypass requested" : "")
                 //}, _unitOfWork);
 
-
                 if (isOtpBypassed && sType == "ValidateOTP_FetchRequestedData")
                 {
+                    Random rnd = new Random();
+                    long srdrMid = rnd.NextInt64(100000000000, 999999999999);
                     var dummyUser = new JanAadharVerifyMemberDetails
                     {
                         NAME_EN = "OTP BYPASSED USER",
-                        GENDER  = "MALE",
+                        GENDER = "MALE",
                         DOB = "01/01/1990",
-                        ADDRESS = "Test Address"
+                        ADDRESS = "Test Address",
+                        SRDR_MID= srdrMid
                     };
-
 
                     var responseObj = new JObject
                     {
@@ -308,7 +311,7 @@ namespace Kaushal_Darpan.Api.Controllers
         public string DOB { get; set; }
         public string ADDRESS { get; set; }
     }
- 
+
 
 
     public class JanAadharVerifyMemberDetails
