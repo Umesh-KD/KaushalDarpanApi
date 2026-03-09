@@ -405,4 +405,15 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int BranchID { get; set; } = 0;
         public int StaffID { get; set; } = 0;
     }
+
+    public class EM_BudgetHeadMasterDataModel
+    {
+        public int? HeadId { get; set; }
+        public string? HeadName { get; set; }
+        public string? HeadCode { get; set; }
+        public string? HeadDescription { get; set; }
+        public string? IPAddress { get; set; }
+        public int? UserID { get; set; }
+        public string? Action { get; set; }
+    }
 }
