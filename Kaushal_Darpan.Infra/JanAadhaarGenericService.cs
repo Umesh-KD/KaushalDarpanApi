@@ -155,7 +155,7 @@ namespace Kaushal_Darpan.Infra
 
             }
             catch (Exception ex)
-            {               
+            {
                 string logFile = Path.Combine(AppContext.BaseDirectory, "cert_load_error.log");
                 File.AppendAllText(logFile, $"[{DateTime.Now}] Certificate load error: {ex}\n");
                 throw;
@@ -166,52 +166,52 @@ namespace Kaushal_Darpan.Infra
             if (dataPayload == null)
                 throw new ArgumentNullException(nameof(dataPayload));
             try
-            {             
+            {
                 var payload = new { data = dataPayload };
-                string jsonPayload = JsonConvert.SerializeObject(payload);               
+                string jsonPayload = JsonConvert.SerializeObject(payload);
                 string signature = _crypto.SignData(jsonPayload);
                 if (string.IsNullOrEmpty(signature))
-                    throw new InvalidOperationException("Signature could not be generated.");                
+                    throw new InvalidOperationException("Signature could not be generated.");
                 var finalPayload = new
                 {
                     data = dataPayload,
                     signature = signature
-                };                
+                };
                 string encryptedData = _crypto.EncryptDataWithAES(JsonConvert.SerializeObject(finalPayload));
 
                 var request = new { data = encryptedData };
-                string requestBody = JsonConvert.SerializeObject(request);                
+                string requestBody = JsonConvert.SerializeObject(request);
                 string fingerprint = CryptoHelperNew.GetSha256Fingerprint(ConfigurationHelper.PublicCertPath);
                 _httpClient.DefaultRequestHeaders.Clear();
                 _httpClient.DefaultRequestHeaders.Add("X-Cert-Fingerprint", fingerprint);
+
+                string clientId = ConfigurationHelper.IsLocal ? ConfigurationHelper.ClientId : ConfigurationHelper.ClientId_live;
+
+                string baseUrl = ConfigurationHelper.IsLocal? 
+                    "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/": 
+                    "https://api.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/";
+
+
                 string apiUrl = string.Empty;
                 if (endpoint == "member-list")
                 {
-
-                  //  apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/member-list?client_id=254eced2ee1bfc019d3a09dc4ef8e8ac";             
-                    apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/member-list?client_id=0df7e4099e5fad031ff871400dc07152";             
+                    apiUrl = $"{baseUrl}member-list?client_id={clientId}";
 
                 }
                 else if (endpoint == "generate-otp")
                 {
-                    //apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/generate-otp?client_id=254eced2ee1bfc019d3a09dc4ef8e8ac";
-                    apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/generate-otp?client_id=0df7e4099e5fad031ff871400dc07152";
+                    apiUrl = $"{baseUrl}generate-otp?client_id={clientId}";
                 }
                 else if (endpoint == "validate-otp")
                 {
-                    //apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/validate-otp?client_id=254eced2ee1bfc019d3a09dc4ef8e8ac";
-                    apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/validate-otp?client_id=0df7e4099e5fad031ff871400dc07152";
+                    apiUrl = $"{baseUrl}validate-otp?client_id={clientId}";
                 }
-                
-                //string apiUrl = $"{JanAadhaarConfig.BaseUrl}{endpoint}?client_id={JanAadhaarConfig.ClientId}";
-                //apiUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/validate-otp?client_id=254eced2ee1bfc019d3a09dc4ef8e8ac";
-                var response = await _httpClient.PostAsync(apiUrl, new StringContent(requestBody, Encoding.UTF8, "application/json"));               
-
+                var response = await _httpClient.PostAsync(apiUrl, new StringContent(requestBody, Encoding.UTF8, "application/json"));
                 if (!response.IsSuccessStatusCode)
                 {
                     var errorBody = await response.Content.ReadAsStringAsync();
                     throw new HttpRequestException($"API Error {(int)response.StatusCode}: {errorBody}");
-                }               
+                }
                 string encryptedResponse = await response.Content.ReadAsStringAsync();
                 string encryptedRespData = JObject.Parse(encryptedResponse)["data"]?.ToString();
                 if (string.IsNullOrEmpty(encryptedRespData))
