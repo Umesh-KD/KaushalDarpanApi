@@ -226,8 +226,11 @@
         public int ApplicationID { get; set; }
         public string SSOID { get; set; }
         public string StudentName { get; set; }
+        public string? StudentNameHindi { get; set; }
         public string FatherName { get; set; }
+        public string? FatherNameHindi { get; set; }
         public string MotherName { get; set; }
+        public string? MotherNameHindi { get; set; }
         public string Email { get; set; }
         public string DOB { get; set; }
         public string CertificateGeneratDate { get; set; }

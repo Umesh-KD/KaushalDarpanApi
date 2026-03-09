@@ -3704,6 +3704,10 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationDirectAdmission.rdlc";
                         }
+                        else if (admissionType == 9)// for direct admission private 
+                        {
+                            rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationDirectAdmissionPrivate.rdlc";
+                        }
                         else
                         {
                             rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIApplicationForm.rdlc";
