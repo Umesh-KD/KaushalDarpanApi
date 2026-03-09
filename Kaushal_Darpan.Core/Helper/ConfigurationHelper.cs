@@ -82,7 +82,6 @@ namespace Kaushal_Darpan.Core.Helper
         #endregion                                                                                                             //public static readonly string AadharAuthLicenseKey = "MJSazxO49Eh5vQ2BlcbUG--uNQ4tCpqKPF-OoFa0BZo0CE4CDBBtXVA";//"MKmyGwbThaYG35Ahinwx35nLtBYXrNMP4ejWD7A9-x6InP7y4xLROXU";
 
 
-
         #region "Jana Settings"
         //public static readonly string PrivateCertPassword = "EEMS@123";
         public static readonly string PrivateCertPassword = "123456";
