@@ -64,6 +64,11 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("JanAdharDataNew")]
         public async Task<ApiResult<object>> JanAdharDataNew(string SchemeName = "KD", string sType = "", string JanaadhaarNo = "", string memberId = "", string tid = "", string otp = "")
         {
+
+            // Log request
+            CommonFuncationHelper.WriteTextLog($"public async Task<ApiResult<object>> JanAdharDataNew =>STEP 1 SchemeName= {SchemeName},JanaadhaarNo={JanaadhaarNo} ", "JanAdharDataNew");
+
+
             //string schemShortCode = "EEMS";
             //string appCode = "JAN4601237";
             string schemShortCode = "KOUSHAL_DARPAN";
@@ -80,13 +85,11 @@ namespace Kaushal_Darpan.Api.Controllers
                 bool isOtpBypassed = false;
                 string decryptedResponse = string.Empty;
 
+
                 // Log request
-                await CreateErrorLog(new NewException
-                {
-                    PageName = "JanAdharDataNew-step1",
-                    ActionName = JsonConvert.SerializeObject(requestObj),
-                    Ex = new Exception(isOtpBypassed ? sType : "")
-                }, _unitOfWork);
+                CommonFuncationHelper.WriteTextLog($"public async Task<ApiResult<object>> JanAdharDataNew =>STEP 2 SchemeName= {SchemeName},requestObj={JsonConvert.SerializeObject(requestObj)} ", "JanAdharDataNew");
+
+          
                 // Prepare request body
                 switch (sType)
                 {
@@ -100,12 +103,12 @@ namespace Kaushal_Darpan.Api.Controllers
                             janId = JanaadhaarNo?.Trim()
                         };
                         UrlDataType = "member-list";
-                        await CreateErrorLog(new NewException
-                        {
-                            PageName = "JanAdharDataNew-step2",
-                            ActionName = JsonConvert.SerializeObject(requestObj),
-                            Ex = new Exception(isOtpBypassed ? UrlDataType : "")
-                        }, _unitOfWork);
+                  
+
+                        // Log request
+                        CommonFuncationHelper.WriteTextLog($"public async Task<ApiResult<object>> JanAdharDataNew =>STEP 3  FetchMemberList SchemeName= {SchemeName},requestObj={JsonConvert.SerializeObject(requestObj)} ", "JanAdharDataNew");
+
+
                         break;
 
                     // Prepare request body
@@ -121,12 +124,12 @@ namespace Kaushal_Darpan.Api.Controllers
                             memberId = memberId.Trim()
                         };
                         UrlDataType = "generate-otp";
-                        await CreateErrorLog(new NewException
-                        {
-                            PageName = "JanAdharDataNew-step3",
-                            ActionName = JsonConvert.SerializeObject(requestObj),
-                            Ex = new Exception(isOtpBypassed ? UrlDataType : "")
-                        }, _unitOfWork);
+
+
+
+                        // Log request
+                        CommonFuncationHelper.WriteTextLog($"public async Task<ApiResult<object>> JanAdharDataNew =>STEP 4  generate-otp SchemeName= {SchemeName},requestObj={JsonConvert.SerializeObject(requestObj)} ", "JanAdharDataNew");
+
                         break;
 
                     case "ValidateOTP_FetchRequestedData":
@@ -150,43 +153,35 @@ namespace Kaushal_Darpan.Api.Controllers
                             otp = (otp ?? string.Empty).Trim()
                         };
                         UrlDataType = "validate-otp";
-                        await CreateErrorLog(new NewException
-                        {
-                            PageName = "JanAdharDataNew-step4",
-                            ActionName = JsonConvert.SerializeObject(requestObj),
-                            Ex = new Exception(isOtpBypassed ? UrlDataType : "")
-                        }, _unitOfWork);
+
+                        // Log request
+                        CommonFuncationHelper.WriteTextLog($"public async Task<ApiResult<object>> JanAdharDataNew =>STEP 5 ValidateOTP_FetchRequestedData SchemeName= {SchemeName},requestObj={JsonConvert.SerializeObject(requestObj)} ", "JanAdharDataNew");
+
                         break;
 
                     default:
-                        await CreateErrorLog(new NewException
-                        {
-                            PageName = "JanAdharDataNew-step5",
-                            ActionName = JsonConvert.SerializeObject(requestObj),
-                            Ex = new Exception(isOtpBypassed ? "no any action hit" : "")
-                        }, _unitOfWork);
-                        throw new Exception("Invalid sType");
-                }
+                
 
-                // Log request
-                //await CreateErrorLog(new NewException
-                //{
-                //    PageName = "JanAdharDataNew-step1",
-                //    ActionName = JsonConvert.SerializeObject(requestObj),
-                //    Ex = new Exception(isOtpBypassed ? "OTP bypass requested" : "")
-                //}, _unitOfWork);
+                        // Log request
+                        CommonFuncationHelper.WriteTextLog($"public async Task<ApiResult<object>> JanAdharDataNew =>STEP 6 DEFAULT SchemeName= {SchemeName},requestObj={JsonConvert.SerializeObject(requestObj)} ", "JanAdharDataNew");
+
+
+                        throw new Exception("Invalid sType");
+
+                }
 
                 if (isOtpBypassed && sType == "ValidateOTP_FetchRequestedData")
                 {
                     Random rnd = new Random();
                     long srdrMid = rnd.NextInt64(100000000000, 999999999999);
+
                     var dummyUser = new JanAadharVerifyMemberDetails
                     {
-                        NAME_EN = "OTP BYPASSED USER",
+                        NAME_EN = "",
                         GENDER = "MALE",
                         DOB = "01/01/1990",
                         ADDRESS = "Test Address",
-                        SRDR_MID= srdrMid
+                        SRDR_MID = Convert.ToInt64(memberId)
                     };
 
                     var responseObj = new JObject
@@ -216,12 +211,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     Ex = new Exception(isOtpBypassed ? UrlDataType : "")
                 }, _unitOfWork);
                 decryptedResponse = await _service.CallApiAsync(UrlDataType, requestObj);
-                //await CreateErrorLog(new NewException
-                //{
-                //    PageName = "JanAdharDataNew-step2",
-                //    ActionName = decryptedResponse,
-                //    Ex = new Exception()
-                //}, _unitOfWork);
 
                 var jRoot = JObject.Parse(decryptedResponse);
                 var respToken = jRoot.SelectToken("response");
@@ -270,9 +259,10 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-                _unitOfWork.DisposeAsync();
+              await  _unitOfWork.DisposeAsync();
                 resultData.State = EnumStatus.Error;
                 resultData.ErrorMessage = ex.Message;
+
                 await CreateErrorLog(new NewException
                 {
                     PageName = "JanAdharDataNew",
@@ -282,20 +272,6 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return resultData;
         }
-        //public class MemberDto
-        //{
-        //    public string? MEMBER_ID { get; set; }
-        //    public string? NAME_EN { get; set; }
-        //    public string? MEMBER_TYPE { get; set; }
-        //}
-
-        [HttpGet("Hello")]
-        public string Hello()
-        {
-            return "HELLO EEMS2.0";
-        }
-
-
     }
 
     internal class NewJanAadharDetailsEntity
