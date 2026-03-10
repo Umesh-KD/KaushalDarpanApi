@@ -177,7 +177,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     var dummyUser = new JanAadharVerifyMemberDetails
                     {
-                        NAME_EN = "OTP BYPASSED USER",
+                        NAME_EN = "",
                         GENDER = "MALE",
                         DOB = "01/01/1990",
                         ADDRESS = "Test Address",
