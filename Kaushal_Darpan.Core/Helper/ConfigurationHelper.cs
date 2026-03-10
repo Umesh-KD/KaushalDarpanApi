@@ -82,15 +82,20 @@ namespace Kaushal_Darpan.Core.Helper
         #endregion                                                                                                             //public static readonly string AadharAuthLicenseKey = "MJSazxO49Eh5vQ2BlcbUG--uNQ4tCpqKPF-OoFa0BZo0CE4CDBBtXVA";//"MKmyGwbThaYG35Ahinwx35nLtBYXrNMP4ejWD7A9-x6InP7y4xLROXU";
 
 
-
         #region "Jana Settings"
         //public static readonly string PrivateCertPassword = "EEMS@123";
-       public static readonly string PrivateCertPassword = "123456";
-
-        public static readonly string ClientId = "254eced2ee1bfc019d3a09dc4ef8e8ac";
-
+        public static readonly string PrivateCertPassword = "123456";
+        public static readonly string ClientId = "0df7e4099e5fad031ff871400dc07152";
+        public static readonly string ClientId_live = "4b555247b9579ec01679d8b73abe7021";
         public static string PrivateCertPath => Path.Combine(StaticFileRootPath, "Keys", "Publickey", "server.pfx");
-        public static string PublicCertPath =>Path.Combine(StaticFileRootPath, "Keys", "Publickey", "RJAAPublicKey.cer");
+        public static string PublicCertPath =>ConfigurationHelper.IsLocal
+            ? 
+            Path.Combine(StaticFileRootPath, "Keys", "Publickey", "RJAAPublicKey.cer") :
+             Path.Combine(StaticFileRootPath, "Keys", "Publickey", "RJAAPublicKey_LIVE.cer")
+            ;
+ 
+
+
         public static string BaseUrl
         {
             get
@@ -100,6 +105,8 @@ namespace Kaushal_Darpan.Core.Helper
                 return isLocal
                     ? "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/"
                     : "https://api.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/";
+
+
             }
         }
 

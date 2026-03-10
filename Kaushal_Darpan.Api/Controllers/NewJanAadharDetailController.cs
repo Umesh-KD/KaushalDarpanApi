@@ -66,9 +66,10 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             //string schemShortCode = "EEMS";
             //string appCode = "JAN4601237";
-
             string schemShortCode = "KOUSHAL_DARPAN";
-            string appCode = "JAN8751273";
+            bool IsLocal = ConfigurationHelper.IsLocal;
+            string appCode = IsLocal? "JAN8751273": "PJAN8751273";
+
             string transactionId = $"{SchemeName}{DateTime.Now:yyyyMMdd}{new Random().Next(100000, 999999)}";
             string ActionName = "JanAdharDataNew";
             var resultData = new ApiResult<object>();
