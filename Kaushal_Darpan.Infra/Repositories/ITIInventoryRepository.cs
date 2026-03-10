@@ -2850,6 +2850,43 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> GetConsumableItemAuctionData(DTEItemsSearchModel SearchReq)
+        {
+            _actionName = "GetConsumableItemAuctionData(DTEItemsSearchModel SearchReq)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_INV_ConsumableItemAuctionData";
+                    command.Parameters.AddWithValue("@EquipmentsId", SearchReq.EquipmentsId);
+                    command.Parameters.AddWithValue("@InstituteID", SearchReq.CollegeId);
+                    command.Parameters.AddWithValue("@OfficeID", SearchReq.OfficeID);
+                    command.Parameters.AddWithValue("@OfficeID", SearchReq.OfficeID);
+                    command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
+                    command.Parameters.AddWithValue("@DepartmentID", SearchReq.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", SearchReq.Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermID", SearchReq.EndTermID);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
 
