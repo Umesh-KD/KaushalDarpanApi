@@ -55159,6 +55159,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnTotalWorkExp;
             
+            private global::System.Data.DataColumn columnSrNo;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public Student_ExpDetailsDataTable() {
@@ -55244,6 +55246,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn SrNoColumn {
+                get {
+                    return this.columnSrNo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -55279,7 +55289,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Student_ExpDetailsRow AddStudent_ExpDetailsRow(string Year, string Month, string NameOfIndustry, string TypeOfWork, string ExperienceDetailDescription, string TotalWorkExp) {
+            public Student_ExpDetailsRow AddStudent_ExpDetailsRow(string Year, string Month, string NameOfIndustry, string TypeOfWork, string ExperienceDetailDescription, string TotalWorkExp, string SrNo) {
                 Student_ExpDetailsRow rowStudent_ExpDetailsRow = ((Student_ExpDetailsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Year,
@@ -55287,7 +55297,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         NameOfIndustry,
                         TypeOfWork,
                         ExperienceDetailDescription,
-                        TotalWorkExp};
+                        TotalWorkExp,
+                        SrNo};
                 rowStudent_ExpDetailsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStudent_ExpDetailsRow);
                 return rowStudent_ExpDetailsRow;
@@ -55316,6 +55327,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnTypeOfWork = base.Columns["TypeOfWork"];
                 this.columnExperienceDetailDescription = base.Columns["ExperienceDetailDescription"];
                 this.columnTotalWorkExp = base.Columns["TotalWorkExp"];
+                this.columnSrNo = base.Columns["SrNo"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -55333,6 +55345,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnExperienceDetailDescription);
                 this.columnTotalWorkExp = new global::System.Data.DataColumn("TotalWorkExp", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTotalWorkExp);
+                this.columnSrNo = new global::System.Data.DataColumn("SrNo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSrNo);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -97797,6 +97811,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string SrNo {
+                get {
+                    try {
+                        return ((string)(this[this.tableStudent_ExpDetails.SrNoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SrNo\' in table \'Student_ExpDetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStudent_ExpDetails.SrNoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsYearNull() {
                 return this.IsNull(this.tableStudent_ExpDetails.YearColumn);
             }
@@ -97865,6 +97895,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetTotalWorkExpNull() {
                 this[this.tableStudent_ExpDetails.TotalWorkExpColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsSrNoNull() {
+                return this.IsNull(this.tableStudent_ExpDetails.SrNoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetSrNoNull() {
+                this[this.tableStudent_ExpDetails.SrNoColumn] = global::System.Convert.DBNull;
             }
         }
         
