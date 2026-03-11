@@ -544,6 +544,50 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+        [HttpPost("GetDirectPrivatePreview")]
+        public async Task<ApiResult<ItiDirectApplicationPreviewModel>> GetDirectPrivatePreview(ItiApplicationSearchModel searchRequest)
+        {
+            ActionName = "GetByID(int AppointExaminerID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<ItiDirectApplicationPreviewModel>();
+                try
+                {
+                    var data = await _unitOfWork.ItiApplicationFormRepository.GetDirectPrivatePreview(searchRequest);
+                    if (data != null)
+                    {
+                        var mappedData = _mapper.Map<ItiDirectApplicationPreviewModel>(data);
+                        result.Data = mappedData;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+
         [HttpPost("GetDocumentDatabyID")]
         public async Task<ApiResult<DocumentDetailsDataModel>> GetDocumentDatabyID(ItiApplicationSearchModel searchRequest)
         {
@@ -948,6 +992,96 @@ namespace Kaushal_Darpan.Api.Controllers
                         Ex = ex,
                     };
                     await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+        [HttpPost("SaveExperienceDetails")]
+        public async Task<ApiResult<bool>> SaveExperienceDetails([FromBody] List<ExperienceDetailsDataModel> request)
+        {
+            ActionName = "SaveOptionDetailsData([FromBody] List<OptionDetailsDataModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    var isSave = await _unitOfWork.ItiApplicationFormRepository.SaveExperienceDetails(request);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    if (isSave == -1)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_NO_DATA_SAVE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetExpereinceDetailsbyID")]
+        public async Task<ApiResult<List<ExperienceDetailsDataModel>>> GetExpereinceDetailsbyID(ItiApplicationSearchModel request)
+        {
+            ActionName = "GetOptionDetailsbyID(int ID, int DepartmentID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<ExperienceDetailsDataModel>>();
+                try
+                {
+                    var data = await _unitOfWork.ItiApplicationFormRepository.GetExpereinceDetailsbyID(request);
+                    if (data != null)
+                    {
+                        var mappedData = _mapper.Map<List<ExperienceDetailsDataModel>>(data);
+                        result.Data = mappedData;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
                 }
                 return result;
             });
