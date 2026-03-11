@@ -1946,7 +1946,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        [HttpDelete("DeleteBudgetHeadById_EM/{HeadId}/{UserID}")]
+        [HttpPost("DeleteBudgetHeadById_EM/{HeadId}/{UserID}")]
         public async Task<ApiResult<int>> DeleteBudgetHeadById_EM(int HeadId, int UserID)
         {
             var result = new ApiResult<int>();
@@ -1988,7 +1988,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        [HttpGet("GetBudgetHeadById_EM/{id}")]
+        [HttpPost("GetBudgetHeadById_EM/{id}")]
         public async Task<ApiResult<DataTable>> GetBudgetHeadById_EM(int id)
         {
             var result = new ApiResult<DataTable>();
