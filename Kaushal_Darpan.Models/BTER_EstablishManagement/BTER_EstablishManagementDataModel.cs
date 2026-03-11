@@ -409,6 +409,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
     public class EM_BudgetHeadMasterDataModel
     {
         public int? HeadId { get; set; }
+        public int? BudgetTypeID { get; set; }
         public string? HeadName { get; set; }
         public string? HeadCode { get; set; }
         public string? HeadDescription { get; set; }

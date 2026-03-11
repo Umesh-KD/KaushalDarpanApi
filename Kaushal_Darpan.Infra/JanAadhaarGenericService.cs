@@ -204,6 +204,14 @@ namespace Kaushal_Darpan.Infra
                 }
                 else if (endpoint == "validate-otp")
                 {
+                    if (ConfigurationHelper.IsLocal)
+                    {
+                        baseUrl = "https://apitest.sewadwaar.rajasthan.gov.in/app/live/apiservice/janAadhaar/v1/";
+                    }
+                    else
+                    {
+                        baseUrl = "https://api.sewadwaar.rajasthan.gov.in/app/live/janAadhaar/v1/";
+                    }
                     apiUrl = $"{baseUrl}validate-otp?client_id={clientId}";
                 }
                 var response = await _httpClient.PostAsync(apiUrl, new StringContent(requestBody, Encoding.UTF8, "application/json"));
