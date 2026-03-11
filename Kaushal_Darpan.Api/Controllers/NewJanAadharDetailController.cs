@@ -73,7 +73,7 @@ namespace Kaushal_Darpan.Api.Controllers
             //string appCode = "JAN4601237";
             string schemShortCode = "KOUSHAL_DARPAN";
             bool IsLocal = ConfigurationHelper.IsLocal;
-            string appCode = IsLocal? "JAN8751273": "PJAN8751273";
+            string appCode = IsLocal ? "JAN8751273" : "PJAN8751273";
 
             string transactionId = $"{SchemeName}{DateTime.Now:yyyyMMdd}{new Random().Next(100000, 999999)}";
             string ActionName = "JanAdharDataNew";
@@ -89,7 +89,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 // Log request
                 CommonFuncationHelper.WriteTextLog($"public async Task<ApiResult<object>> JanAdharDataNew =>STEP 2 SchemeName= {SchemeName},requestObj={JsonConvert.SerializeObject(requestObj)} ", "JanAdharDataNew");
 
-          
+
                 // Prepare request body
                 switch (sType)
                 {
@@ -103,7 +103,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             janId = JanaadhaarNo?.Trim()
                         };
                         UrlDataType = "member-list";
-                  
+
 
                         // Log request
                         CommonFuncationHelper.WriteTextLog($"public async Task<ApiResult<object>> JanAdharDataNew =>STEP 3  FetchMemberList SchemeName= {SchemeName},requestObj={JsonConvert.SerializeObject(requestObj)} ", "JanAdharDataNew");
@@ -156,16 +156,11 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         // Log request
                         CommonFuncationHelper.WriteTextLog($"public async Task<ApiResult<object>> JanAdharDataNew =>STEP 5 ValidateOTP_FetchRequestedData SchemeName= {SchemeName},requestObj={JsonConvert.SerializeObject(requestObj)} ", "JanAdharDataNew");
-
                         break;
 
                     default:
-                
-
                         // Log request
                         CommonFuncationHelper.WriteTextLog($"public async Task<ApiResult<object>> JanAdharDataNew =>STEP 6 DEFAULT SchemeName= {SchemeName},requestObj={JsonConvert.SerializeObject(requestObj)} ", "JanAdharDataNew");
-
-
                         throw new Exception("Invalid sType");
 
                 }
@@ -259,7 +254,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             catch (Exception ex)
             {
-              await  _unitOfWork.DisposeAsync();
+                await _unitOfWork.DisposeAsync();
                 resultData.State = EnumStatus.Error;
                 resultData.ErrorMessage = ex.Message;
 
