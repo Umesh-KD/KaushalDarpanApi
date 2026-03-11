@@ -3612,6 +3612,7 @@
                                 <TextRun>
                                   <Value>Sr No</Value>
                                   <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3644,6 +3645,7 @@
                                 <TextRun>
                                   <Value>Year</Value>
                                   <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3676,6 +3678,7 @@
                                 <TextRun>
                                   <Value>Month</Value>
                                   <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3710,6 +3713,7 @@
                                 <TextRun>
                                   <Value>Name Of Industry</Value>
                                   <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3742,6 +3746,7 @@
                                 <TextRun>
                                   <Value>Type Of Work</Value>
                                   <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3774,6 +3779,7 @@
                                 <TextRun>
                                   <Value>Experience Details</Value>
                                   <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3810,7 +3816,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!SrNo.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
@@ -3842,7 +3850,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!Year.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
@@ -3874,7 +3884,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!Month.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
@@ -3906,7 +3918,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!NameOfIndustry.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -3936,7 +3950,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!TypeOfWork.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -3966,7 +3982,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!ExperienceDetailDescription.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
