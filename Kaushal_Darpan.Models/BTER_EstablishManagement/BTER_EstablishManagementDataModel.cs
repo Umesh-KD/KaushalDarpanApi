@@ -11,6 +11,12 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
     {
     }
 
+    public class BTER_EM_StaffHostelListModel
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+    }
+
     public class BTER_EM_AddStaffInitialDetailsDataModel: RequestBaseModel
     {
         public int? ID { get; set; }
@@ -31,6 +37,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? ModifyBy { get; set; }
         public int? GuestHouseID { get; set; }
         public int? BugetHeadID { get; set; }
+        public string? MultiGuestHouseIDs { get; set; }
+        public List<BTER_EM_StaffHostelListModel>? GuestHouseIDs { get; set; }
     }
 
     public class BTER_EM_GetStaffListDataModel
@@ -506,6 +514,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
     public class EM_BudgetHeadMasterDataModel
     {
         public int? HeadId { get; set; }
+        public int? BudgetTypeID { get; set; }
         public string? HeadName { get; set; }
         public string? HeadCode { get; set; }
         public string? HeadDescription { get; set; }

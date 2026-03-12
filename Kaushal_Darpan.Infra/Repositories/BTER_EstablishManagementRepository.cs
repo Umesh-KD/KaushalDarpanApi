@@ -65,9 +65,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@MobileNo", request.MobileNo ?? "");
                         command.Parameters.AddWithValue("@EmailID", request.EmailID ?? "");
                         command.Parameters.AddWithValue("@DistrictID", request.DistrictID ?? 0);
-                        command.Parameters.AddWithValue("@GuestHouseID", request.GuestHouseID ?? 0);
+                        command.Parameters.AddWithValue("@GuestHouseID", request.GuestHouseID);
                         command.Parameters.AddWithValue("@EndtermID", request.EndTermID);
                         command.Parameters.AddWithValue("@BugetHeadID", request.BugetHeadID);
+                        command.Parameters.AddWithValue("@multiGuestHouseIDs", request.MultiGuestHouseIDs);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -2012,159 +2013,147 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> EM_BudgetHeadMaster_Save(EM_BudgetHeadMasterDataModel request)
         {
             _actionName = "EM_BudgetHeadMaster_Save(EM_BudgetHeadMasterDataModel request)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_EM_BudgetHeadMaster_IU";
-                        command.Parameters.AddWithValue("@HeadId", request.HeadId);
-                        command.Parameters.AddWithValue("@HeadName", request.HeadName);
-                        command.Parameters.AddWithValue("@HeadDescription", request.HeadDescription);
-                        command.Parameters.AddWithValue("@UserID", request.UserID);
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    // Set the stored procedure name and type
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_EM_BudgetHeadMaster_IU";
+                    command.Parameters.AddWithValue("@HeadId", request.HeadId);
+                    command.Parameters.AddWithValue("@HeadName", request.HeadName);
+                    command.Parameters.AddWithValue("@HeadDescription", request.HeadDescription);
+                    command.Parameters.AddWithValue("@UserID", request.UserID);
+                    command.Parameters.AddWithValue("@BudgetTypeID", request.BudgetTypeID);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
-                        command.Parameters.Add("@Return", SqlDbType.Int);
-                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        // Execute the command
-                        result = await command.ExecuteNonQueryAsync();
-                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
-                    }
-                    return result;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
                 }
-                catch (Exception ex)
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetBudgetHeadMasterData_EM(EM_BudgetHeadMasterDataModel body)
         {
             _actionName = "GetBudgetHeadMasterData_EM(EM_BudgetHeadMasterDataModel body)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_EM_BudgetHeadMaster_GetData";
-                        command.Parameters.AddWithValue("@Action", body.Action);
-                        command.Parameters.AddWithValue("@UserID", body.UserID);
-                        command.Parameters.AddWithValue("@HeadName", body.HeadName);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_EM_BudgetHeadMaster_GetData";
+                    command.Parameters.AddWithValue("@Action", body.Action);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@HeadName", body.HeadName);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
 
-                    return dataTable;
-                }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<int> DeleteBudgetHeadById_EM(int HeadId, int UserID)
         {
             _actionName = " DeleteBudgetHeadById_EM(int HeadId, int UserID)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_EM_BudgetHeadMaster_GetData";
-                        command.Parameters.AddWithValue("@Action", "deleteById");
-                        command.Parameters.AddWithValue("@HeadId", HeadId);
-                        command.Parameters.AddWithValue("@CreatedBy", UserID);
+                    // Set the stored procedure name and type
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_EM_BudgetHeadMaster_GetData";
+                    command.Parameters.AddWithValue("@Action", "deleteById");
+                    command.Parameters.AddWithValue("@HeadId", HeadId);
+                    command.Parameters.AddWithValue("@CreatedBy", UserID);
 
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
-                    }
-                    return result;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
                 }
-                catch (Exception ex)
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetBudgetHeadById_EM(int id)
         {
             _actionName = "GetBudgetHeadById_EM(int id)";
-
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_EM_BudgetHeadMaster_GetData";
+                    command.Parameters.AddWithValue("@Action", "GetByID");
+                    command.Parameters.AddWithValue("@HeadId", id);
 
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_EM_BudgetHeadMaster_GetData";
-                        command.Parameters.AddWithValue("@Action", "GetByID");
-                        command.Parameters.AddWithValue("@HeadId", id);
+                    _sqlQuery = command.GetSqlExecutableQuery();
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-
-                    return dataTable;
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
 
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
     }
 }

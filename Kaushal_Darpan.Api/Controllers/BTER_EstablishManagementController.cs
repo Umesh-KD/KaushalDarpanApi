@@ -1945,51 +1945,48 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("EM_BudgetHeadMaster_Save")]
         public async Task<ApiResult<int>> EM_BudgetHeadMaster_Save([FromBody] EM_BudgetHeadMasterDataModel request)
         {
-            return await Task.Run(async () =>
+            var result = new ApiResult<int>();
+            try
             {
-                var result = new ApiResult<int>();
-                try
+                result.Data = await _unitOfWork.BTER_EstablishManagementRepository.EM_BudgetHeadMaster_Save(request);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
                 {
-                    result.Data = await _unitOfWork.BTER_EstablishManagementRepository.EM_BudgetHeadMaster_Save(request);
-                    await _unitOfWork.SaveChangesAsync();
-                    if (result.Data > 0)
-                    {
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
 
-                    }
-                    else if (result.Data == 2)
-                    {
-                        result.State = EnumStatus.Success;
-                        result.ErrorMessage = Constants.MSG_UPDATE_SUCCESS;
-                    }
-                    else if (result.Data == -2)
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                    }
                 }
-                catch (Exception ex)
+                else if (result.Data == 2)
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Success;
+                    result.ErrorMessage = Constants.MSG_UPDATE_SUCCESS;
                 }
-                return result;
-            });
+                else if (result.Data == -2)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
         [HttpPost("GetBudgetHeadMasterData_EM")]
@@ -2033,52 +2030,49 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        [HttpDelete("DeleteBudgetHeadById_EM/{HeadId}/{UserID}")]
+        [HttpPost("DeleteBudgetHeadById_EM/{HeadId}/{UserID}")]
         public async Task<ApiResult<int>> DeleteBudgetHeadById_EM(int HeadId, int UserID)
         {
-            return await Task.Run(async () =>
+            var result = new ApiResult<int>();
+            try
             {
-                var result = new ApiResult<int>();
-                try
-                {
-                    result.Data = await _unitOfWork.BTER_EstablishManagementRepository.DeleteBudgetHeadById_EM(HeadId, UserID);
+                result.Data = await _unitOfWork.BTER_EstablishManagementRepository.DeleteBudgetHeadById_EM(HeadId, UserID);
 
-                    await _unitOfWork.SaveChangesAsync();
-                    if (result.Data > 0)
-                    {
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_SAVE_SUCCESS;
-                    }
-                    else if (result.Data == -2)
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                    }
-                }
-                catch (Exception ex)
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
                 }
-                return result;
-            });
+                else if (result.Data == -2)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
-        [HttpGet("GetBudgetHeadById_EM/{id}")]
+        [HttpPost("GetBudgetHeadById_EM/{id}")]
         public async Task<ApiResult<DataTable>> GetBudgetHeadById_EM(int id)
         {
             var result = new ApiResult<DataTable>();

@@ -83,5 +83,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetMinRequiredItem_ITI_INV(MinRequiredItemSearchModel SearchReq);
         Task<bool> DeleteMinRequiredItem_ITI_INV(AddMinRequiredItemDataModel request);
         Task<DataTable> GetConsumableItemAuctionData(DTEItemsSearchModel SearchReq);
+        Task<DataTable> GetConsumableAuctionedItemsData(DTEItemsSearchModel SearchReq);
     }
 }

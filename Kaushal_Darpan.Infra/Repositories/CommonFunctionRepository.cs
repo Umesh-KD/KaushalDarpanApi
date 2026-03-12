@@ -3712,7 +3712,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", Model.DepartmentID);
                         command.Parameters.AddWithValue("@ExamStudentStatus", Model.ExamStudentStatus);
                         command.Parameters.AddWithValue("@action", "_GetServiceDetails");
-
                         _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
                         dt = await command.FillAsync_DataTable();
                     }

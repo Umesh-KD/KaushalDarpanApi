@@ -279,8 +279,8 @@ namespace Kaushal_Darpan.Models.ApplicationData
         public int ModifyBy { get; set; }
         public int DepartmentID { get; set; }
         public int IsFinalSubmit { get; set; }
-        public string NonRajasthanBlockName { get; set; }
-        public string CorsNonRajasthanBlockName { get; set; }
+        public string? NonRajasthanBlockName { get; set; }
+        public string? CorsNonRajasthanBlockName { get; set; }
     }
 
     public class BterOtherDetailsModel
