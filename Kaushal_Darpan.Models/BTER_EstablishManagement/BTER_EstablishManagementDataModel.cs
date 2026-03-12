@@ -168,9 +168,106 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? DepartmentID { get; set; }
         public int? Eng_NonEng { get; set; }
         public List<BterStaffSubjectListModel>? bterStaffSubjectListModel { get; set; }
+        public List<BTER_EM_AddServiceHistoryDataModel>? BterServiceHistoryListModel { get; set; }
+ 
+    }
+    public class BTER_EM_AddServiceHistoryDataModel
+    {
+        public int ServiceHistoryID { get; set; }
+        public string SSOID { get; set; }
+        public int UserID { get; set; }
+
+        public string JoiningDate { get; set; }
+        public int OfficeID { get; set; }
+        public string? OfficeName { get; set; }
+
+        public int InstituteID { get; set; }
+        public string? InstituteName { get; set; }
+
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+
+        public int DesignationID { get; set; }
+        public string? DesignationName { get; set; }
+
+        public string Qualification { get; set; }
+
+        // Single document for Service History
+        public string? DisUploadDoc { get; set; }
+        public string? UploadDoc { get; set; }
+
+        // Transfer
+        public bool IsTransfer { get; set; }
+        public int TransferToInstituteID { get; set; }
+        public int TransferFromInstituteID { get; set; }
+
+        public string? TransferFromInstituteName { get; set; }
+        public string? TransferToInstituteName { get; set; }
+
+        public int TransferFromOfficeID { get; set; }
+        public int TransferToOfficeID { get; set; }
+
+        public string? TransferToOfficeName { get; set; }
+        public string? DateOfTransfer { get; set; }
+
+        // Promotion
+        public bool IsPromotion { get; set; }
+
+        public int ToDesignationIDPromotion { get; set; }
+        public string? ToDesignationName { get; set; }
+
+        public string? DateOfpromotion { get; set; }
+
+        // Multiple Documents
+        public List<BTER_EM_DocumentServiceHistoryDataModel> TransferDocuments { get; set; } = new List<BTER_EM_DocumentServiceHistoryDataModel>();
+
+        public List<BTER_EM_DocumentServiceHistoryDataModel> PromotionDocuments { get; set; } = new List<BTER_EM_DocumentServiceHistoryDataModel>();
     }
 
+    public class StaffDetailsPreviewDataModel_ServiceHistory
+    {
+        public string? SSOID { get; set; }
+        public string? Office { get; set; }
+        public string? ServiceBookDesignation { get; set; }
+        public string? ServiceBookBranch { get; set; }
+        public string? Name { get; set; }
+        public string? Gender { get; set; }
+        public string? DateofBirth { get; set; }
+        public string? DateOfFirstAppointment { get; set; }
+        public string? DepartmentJoiningDate { get; set; }
+        public string? DateOfJoining { get; set; }
+        public string? DateOfAppointment { get; set; }
+        public string? MobileNumber { get; set; }
+        public string? EmployeeID { get; set; }
+        public string? CurrentDesignation { get; set; }
+        public string? CurrentBranch { get; set; }
+        public string? Experience { get; set; }
+        public string? QualificationAtJoining { get; set; }
+        public string? QualificationAfterJoining { get; set; }
+        public string? DateOfRetirement { get; set; }
 
+        public int StaffID { get; set; }
+        public int StaffUserID { get; set; }
+        public int UserID { get; set; }
+        public int RoleID { get; set; }
+        public int DepartmentID { get; set; }
+
+        // Service History
+        public List<BTER_EM_AddServiceHistoryDataModel> ServiceHistoryList { get; set; }
+            = new List<BTER_EM_AddServiceHistoryDataModel>();
+
+    }
+
+    public class BTER_EM_DocumentServiceHistoryDataModel
+    {
+        public int? ServiceHistoryID { get; set; }
+
+        public string DocumentType { get; set; }   // Transfer / Promotion
+
+        public string? DisUploadDoc { get; set; }
+
+        public string? UploadDoc { get; set; }
+    }
 
     public class BterStaffSubjectListModel
     {

@@ -5,6 +5,7 @@ using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.ITI_InstructorModel;
 using Kaushal_Darpan.Models.StaffDashboard;
 using Kaushal_Darpan.Models.StaffMaster;
+using Kaushal_Darpan.Models.Test;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -84,6 +85,11 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.State = EnumStatus.Warning;
                     result.Message = "USER WITH  ROLE Already Exists in system";
                 }
+                //else if (result.Data == -4)
+                //{
+                //    result.State = EnumStatus.Warning;
+                //    result.Message = "USER IS OF ANOTHER OFFICE ";
+                //}
 
             }
             catch (Exception ex)
@@ -1027,6 +1033,84 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [HttpGet("BterServiceListModel/{PK_ID}/{DepartmentID}")]
+        public async Task<ApiResult<List<BTER_EM_AddServiceHistoryDataModel>>> BterServiceListModel(int PK_ID, int DepartmentID)
+        {
+            ActionName = "GetByID(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<BTER_EM_AddServiceHistoryDataModel>>();
+                try
+                {
+                    var data = await _unitOfWork.BTER_EstablishManagementRepository.BTER_EM_GetBterServiceListData(PK_ID, DepartmentID);
+                    result.Data = data;
+                    if (data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+        [HttpPost("StaffDetailsPreview_ServiceHistory")]
+        public async Task<ApiResult<StaffDetailsPreviewDataModel_ServiceHistory>> StaffDetailsPreview_ServiceHistory(StaffDetailsPreviewDataModel_ServiceHistory model)
+        {
+            ActionName = "StaffDetailsPreview_ServiceHistory(StaffDetailsPreviewDataModel model)";
+            var result = new ApiResult<StaffDetailsPreviewDataModel_ServiceHistory>();
+            try
+            {
+                result.Data = await _unitOfWork.BTER_EstablishManagementRepository.StaffDetailsPreview_ServiceHistory(model);
+                result.State = EnumStatus.Success;
+                if (result.Data == null || result.Data.ServiceHistoryList.Count==0)
+                {
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+                else
+                {
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
 
         [HttpPost("GetHODDash")]
         public async Task<ApiResult<DataTable>> GetHODDash([FromBody] HODDashboardSearchModel model)

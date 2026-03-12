@@ -5,6 +5,7 @@ using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.ITI_InstructorModel;
 using Kaushal_Darpan.Models.StaffDashboard;
 using Kaushal_Darpan.Models.StaffMaster;
+using Kaushal_Darpan.Models.Test;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -362,7 +363,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@QualificationAfterJoining", request.QualificationAfterJoining ?? ""); 
                         command.Parameters.AddWithValue("@DateOfRetirement", request.DateOfRetirement ?? "");  // Add missing DateOfRetirement
                         command.Parameters.AddWithValue("@StaffSubjectListModel", JsonConvert.SerializeObject(request.bterStaffSubjectListModel));
-
+                        command.Parameters.AddWithValue("@ServiceHistoryListModel", JsonConvert.SerializeObject(request.BterServiceHistoryListModel));
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
 
@@ -1118,6 +1119,178 @@ namespace Kaushal_Darpan.Infra.Repositories
                     SqlExecutableQuery = _sqlQuery
                 };
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<List<BTER_EM_AddServiceHistoryDataModel>?> BTER_EM_GetBterServiceListData(int PK_ID, int DepartmentID)
+        {
+            _actionName = "GetById(int PK_ID)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataSet dataSet = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BTER_EM_GetServiceHistoryDetailByUserID";
+                        command.Parameters.AddWithValue("@UserID", PK_ID);
+                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@Action", "_getServiceDetails");
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataSet = await command.FillAsync();
+                    }
+
+                    List<BTER_EM_AddServiceHistoryDataModel> serviceList = new List<BTER_EM_AddServiceHistoryDataModel>();
+
+                    if (dataSet != null && dataSet.Tables.Count > 0)
+                    {
+                        // Service History
+                        serviceList = CommonFuncationHelper
+                            .ConvertDataTable<List<BTER_EM_AddServiceHistoryDataModel>>(dataSet.Tables[0]);
+
+                        // Documents
+                        if (dataSet.Tables.Count > 1 && dataSet.Tables[1].Rows.Count > 0)
+                        {
+                            var docs = CommonFuncationHelper
+                                .ConvertDataTable<List<BTER_EM_DocumentServiceHistoryDataModel>>(dataSet.Tables[1]);
+
+                            foreach (var service in serviceList)
+                            {
+                                var serviceDocs = docs
+                                    .Where(x => x.ServiceHistoryID == service.ServiceHistoryID)
+                                    .ToList();
+
+                                service.TransferDocuments = serviceDocs
+                                    .Where(x => x.DocumentType == "Transfer")
+                                    .ToList();
+
+                                service.PromotionDocuments = serviceDocs
+                                    .Where(x => x.DocumentType == "Promotion")
+                                    .ToList();
+                            }
+                        }
+                    }
+
+                    return serviceList;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<StaffDetailsPreviewDataModel_ServiceHistory?> StaffDetailsPreview_ServiceHistory(StaffDetailsPreviewDataModel_ServiceHistory model)
+        {
+            _actionName = "StaffDetailsPreview_ServiceHistory(StaffDetailsPreviewDataModel model)";
+
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataSet dataSet = new DataSet();
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetStaffDetailsPreview_ServiceHistory";
+
+                        command.Parameters.AddWithValue("@StaffID", model.StaffID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@StaffUserID", model.StaffUserID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        dataSet = await command.FillAsync();
+                    }
+
+                    StaffDetailsPreviewDataModel_ServiceHistory preview = new StaffDetailsPreviewDataModel_ServiceHistory();
+                    List<BTER_EM_AddServiceHistoryDataModel> serviceList = new List<BTER_EM_AddServiceHistoryDataModel>();
+
+
+                    if (dataSet != null && dataSet.Tables.Count > 0)
+                    {
+
+                        //---------------------------------------------------
+                        // 1️⃣ Personal Details
+                        //---------------------------------------------------
+                        if (dataSet.Tables[0].Rows.Count > 0)
+                        {
+                            preview = CommonFuncationHelper
+                                .ConvertDataTable<List<StaffDetailsPreviewDataModel_ServiceHistory>>(dataSet.Tables[0])
+                                .FirstOrDefault() ?? new StaffDetailsPreviewDataModel_ServiceHistory();
+                        }
+
+
+                        //---------------------------------------------------
+                        // 2️⃣ Service History
+                        //---------------------------------------------------
+                        if (dataSet.Tables.Count > 1 && dataSet.Tables[1].Rows.Count > 0)
+                        {
+                            serviceList = CommonFuncationHelper
+                                .ConvertDataTable<List<BTER_EM_AddServiceHistoryDataModel>>(dataSet.Tables[1]);
+                        }
+
+
+                        //---------------------------------------------------
+                        // 3️⃣ Documents
+                        //---------------------------------------------------
+                        if (dataSet.Tables.Count > 2 && dataSet.Tables[2].Rows.Count > 0)
+                        {
+                            var docs = CommonFuncationHelper
+                                .ConvertDataTable<List<BTER_EM_DocumentServiceHistoryDataModel>>(dataSet.Tables[2]);
+
+                            foreach (var service in serviceList)
+                            {
+                                var serviceDocs = docs
+                                    .Where(x => x.ServiceHistoryID == service.ServiceHistoryID)
+                                    .ToList();
+
+                                service.TransferDocuments = serviceDocs
+                                    .Where(x => x.DocumentType == "Transfer")
+                                    .ToList();
+
+                                service.PromotionDocuments = serviceDocs
+                                    .Where(x => x.DocumentType == "Promotion")
+                                    .ToList();
+                            }
+                        }
+
+
+                        //---------------------------------------------------
+                        // Attach Service History List to Preview Model
+                        //---------------------------------------------------
+                        preview.ServiceHistoryList = serviceList;
+                    }
+
+                    return preview;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+
                 throw new Exception(errordetails, ex);
             }
         }
