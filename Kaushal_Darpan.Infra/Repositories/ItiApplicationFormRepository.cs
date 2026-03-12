@@ -96,6 +96,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TSPTehsilID", request.TSPTehsilID);
                         command.Parameters.AddWithValue("@PH8thTradeList", request.PH8thTradeList);
                         command.Parameters.AddWithValue("@PH10thTradeList", request.PH10thTradeList);
+                        command.Parameters.AddWithValue("@FatherOccupation", request.FatherOccupation);
+                        command.Parameters.AddWithValue("@OfficeAddress", request.OfficeAddress);
 
 
                         // Add IP Address parameter
@@ -224,6 +226,54 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<int> SaveExperienceDetails(List<ExperienceDetailsDataModel> request)
+        {
+            _actionName = "ExperienceDetailsDataModel(List<QualificationDetailsDataModel> request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "usp_SaveApplicationExperience";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@JsonData", JsonConvert.SerializeObject(request));
+
+                        // Add IP Address parameter
+             
+
+                        // Add the return parameter
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int); // out
+                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output; // out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value); // out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errorDetails, ex);
+                }
+            });
+        }
 
         public async Task<int> SaveOptionDetailsData(List<OptionDetailsDataModel> request)
         {
@@ -615,6 +665,44 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<List<ExperienceDetailsDataModel>> GetExpereinceDetailsbyID(ItiApplicationSearchModel request)
+        {
+            _actionName = "GetOptionDetailsbyID(int PK_ID, int DepartmentID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "usp_GetApplicationExperience";
+                        command.Parameters.AddWithValue("@ApplicationID", request.ApplicationID);
+                   
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    var data = new List<ExperienceDetailsDataModel>();
+                    if (dataTable != null)
+                    {
+                        data = CommonFuncationHelper.ConvertDataTable<List<ExperienceDetailsDataModel>>(dataTable);
+                    }
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
         public async Task<ItiApplicationPreviewModel> GetApplicationPreviewbyID(ItiApplicationSearchModel searchRequest)
         {
             _actionName = "GetApplicationPreviewbyID(ItiApplicationSearchModel searchRequest)";
@@ -664,6 +752,88 @@ namespace Kaushal_Darpan.Infra.Repositories
                                     data.EmitraTransactionsModelList = dataSet.Tables[5];
                                 }
                             }
+                            //data.QualificationViewDetails = CommonFuncationHelper.ConvertDataTable<List<ItiQualificationViewDetails>>(dataSet.Tables[1]);
+                            //data.OptionsViewData = CommonFuncationHelper.ConvertDataTable<List<ItiOptionsviewData>>(dataSet.Tables[2]);
+                        }
+                    }
+                    return data;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+
+        public async Task<ItiDirectApplicationPreviewModel> GetDirectPrivatePreview(ItiApplicationSearchModel searchRequest)
+        {
+            _actionName = "GetApplicationPreviewbyID(ItiApplicationSearchModel searchRequest)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataSet dataSet = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIDirectApplication_GetPreview_ByID";
+                        command.Parameters.AddWithValue("@SSOID", searchRequest.SSOID);
+                        command.Parameters.AddWithValue("@DepartmentID", searchRequest.DepartmentID);
+                        command.Parameters.AddWithValue("@ApplicationID", searchRequest.ApplicationID);
+                        command.Parameters.AddWithValue("@RoleID", searchRequest.RoleID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataSet = await command.FillAsync();
+                    }
+                    var data = new ItiDirectApplicationPreviewModel();
+                    if (dataSet != null)
+                    {
+                        if (dataSet.Tables.Count > 0)
+                        {
+                            data = CommonFuncationHelper.ConvertDataTable<ItiDirectApplicationPreviewModel>(dataSet.Tables[0]);
+                            if (dataSet.Tables[1].Rows.Count > 0)
+                            {
+                                data.QualificationViewDetails = CommonFuncationHelper.ConvertDataTable<List<ItiQualificationViewDetails>>(dataSet.Tables[1]);
+                            }
+                            if (dataSet.Tables[2].Rows.Count > 0)
+                            {
+                                data.OptionsViewData = CommonFuncationHelper.ConvertDataTable<List<ItiOptionsviewData>>(dataSet.Tables[2]);
+                            }
+                            if (dataSet.Tables[3].Rows.Count > 0)
+                            {
+                                data.PendingDataModel = CommonFuncationHelper.ConvertDataTable<List<ItiPendingDataModel>>(dataSet.Tables[3]);
+                            }
+                            if (dataSet.Tables[4].Rows.Count > 0)
+                            {
+                                data.DocumentDetailList = CommonFuncationHelper.ConvertDataTable<List<DocumentDetailsModel>>(dataSet.Tables[4]);
+
+                            }
+                            if (dataSet.Tables.Count > 5)
+                            {
+                                if (dataSet.Tables[5].Rows.Count > 0)
+                                {
+                                    data.EmitraTransactionsModelList = dataSet.Tables[5];
+                                }
+                            }
+
+                            if (dataSet.Tables.Count > 6)
+                            {
+                                if (dataSet.Tables[6].Rows.Count > 0)
+                                {
+                                    data.ExperienceDetailsDataModel = CommonFuncationHelper.ConvertDataTable<List<ExperienceDetailsDataModel>>(dataSet.Tables[6]);
+
+                                }
+                            }
+
                             //data.QualificationViewDetails = CommonFuncationHelper.ConvertDataTable<List<ItiQualificationViewDetails>>(dataSet.Tables[1]);
                             //data.OptionsViewData = CommonFuncationHelper.ConvertDataTable<List<ItiOptionsviewData>>(dataSet.Tables[2]);
                         }

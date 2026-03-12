@@ -67,6 +67,8 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public string? PH8thTradeList { get; set; }
         public string? PH10thTradeList { get; set; }
         public string? Apaarid { get; set; }
+        public string? FatherOccupation { get; set; }
+        public string? OfficeAddress { get; set; }
         public int Age { get; set; }
         public int IsFinalSubmit { get; set; }
         public bool IsPaymentSuccess { get; set; }
@@ -282,4 +284,26 @@ namespace Kaushal_Darpan.Models.ITIApplication
     {
         public int? ApplicationID { get; set; }
     }
+
+
+    public class ExperienceDetailsDataModel
+    {
+        public int ExperienceID { get; set; }
+        public int ApplicationID { get; set; }
+
+        public int Year { get; set; }
+        public int Month { get; set; }
+
+        public string NameOfIndustry { get; set; } = string.Empty;
+        public string TypeOfWork { get; set; } = string.Empty;
+        public string ExperienceDetailDescription { get; set; } = string.Empty;
+
+        public int ActiveStatus { get; set; } = 1;
+
+        public int ModifyBy { get; set; }
+        public int DepartmentID { get; set; } = 2;
+        public string SSOID { get; set; } = string.Empty;
+        public int AcademicYear { get; set; }
+    }
+
 }

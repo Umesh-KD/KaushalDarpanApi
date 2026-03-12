@@ -2205,6 +2205,7 @@
               <xs:element name="TypeOfWork" msprop:Generator_ColumnPropNameInRow="TypeOfWork" msprop:Generator_ColumnPropNameInTable="TypeOfWorkColumn" msprop:Generator_ColumnVarNameInTable="columnTypeOfWork" msprop:Generator_UserColumnName="TypeOfWork" type="xs:string" minOccurs="0" />
               <xs:element name="ExperienceDetailDescription" msprop:Generator_ColumnPropNameInRow="ExperienceDetailDescription" msprop:Generator_ColumnPropNameInTable="ExperienceDetailDescriptionColumn" msprop:Generator_ColumnVarNameInTable="columnExperienceDetailDescription" msprop:Generator_UserColumnName="ExperienceDetailDescription" type="xs:string" minOccurs="0" />
               <xs:element name="TotalWorkExp" msprop:Generator_ColumnPropNameInRow="TotalWorkExp" msprop:Generator_ColumnPropNameInTable="TotalWorkExpColumn" msprop:Generator_ColumnVarNameInTable="columnTotalWorkExp" msprop:Generator_UserColumnName="TotalWorkExp" type="xs:string" minOccurs="0" />
+              <xs:element name="SrNo" msprop:Generator_ColumnPropNameInRow="SrNo" msprop:Generator_ColumnPropNameInTable="SrNoColumn" msprop:Generator_ColumnVarNameInTable="columnSrNo" msprop:Generator_UserColumnName="SrNo" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

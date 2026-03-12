@@ -561,6 +561,10 @@
           <DataField>TotalWorkExp</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="SrNo">
+          <DataField>SrNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
@@ -3471,24 +3475,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>18. प्रिंट </Value>
-                    <Style>
-                      <FontStyle>Normal</FontStyle>
-                      <FontFamily>Times New Roman</FontFamily>
-                      <FontWeight>Bold</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                      <Color>#000000</Color>
-                    </Style>
-                  </TextRun>
-                  <TextRun>
-                    <Value>तिथि</Value>
-                    <Style>
-                      <FontFamily>Times New Roman</FontFamily>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                  <TextRun>
-                    <Value xml:space="preserve"> </Value>
+                    <Value>18. आयु </Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Times New Roman</FontFamily>
@@ -3505,7 +3492,7 @@
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value>Print Date)</Value>
+                    <Value>Age)</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Times New Roman</FontFamily>
@@ -3541,7 +3528,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=First(Fields!PrintDate.Value, "Student_Personal_Details")</Value>
+                    <Value>=First(Fields!Age.Value, "Student_Personal_Details")</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Times New Roman</FontFamily>
@@ -3578,7 +3565,7 @@
               <BreakLocation>Start</BreakLocation>
             </PageBreak>
             <KeepTogether>true</KeepTogether>
-            <Top>24.97667cm</Top>
+            <Top>24.02417cm</Top>
             <Height>0.3175cm</Height>
             <Width>20.9949cm</Width>
             <ZIndex>49</ZIndex>
@@ -3592,7 +3579,13 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>4.09988cm</Width>
+                  <Width>2.5cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>2.91217cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>2.74087cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>4.09988cm</Width>
@@ -3601,16 +3594,46 @@
                   <Width>4.09988cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>4.09988cm</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>4.09988cm</Width>
+                  <Width>4.14661cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
                   <Height>0.6cm</Height>
                   <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox29">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Sr No</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox29</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox7">
@@ -3622,6 +3645,7 @@
                                 <TextRun>
                                   <Value>Year</Value>
                                   <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3654,11 +3678,14 @@
                                 <TextRun>
                                   <Value>Month</Value>
                                   <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox20</rd:DefaultName>
@@ -3686,6 +3713,7 @@
                                 <TextRun>
                                   <Value>Name Of Industry</Value>
                                   <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3718,6 +3746,7 @@
                                 <TextRun>
                                   <Value>Type Of Work</Value>
                                   <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3748,8 +3777,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Experience Detail Description</Value>
+                                  <Value>Experience Details</Value>
                                   <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3778,6 +3808,40 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="SrNo">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!SrNo.Value</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>SrNo</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Year">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -3786,10 +3850,14 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!Year.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Year</rd:DefaultName>
@@ -3816,10 +3884,14 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!Month.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Month</rd:DefaultName>
@@ -3846,7 +3918,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!NameOfIndustry.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -3876,7 +3950,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!TypeOfWork.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -3906,7 +3982,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!ExperienceDetailDescription.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -3937,6 +4015,7 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -3950,7 +4029,7 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>Student_ExpDetails</DataSetName>
-            <Top>27.01396cm</Top>
+            <Top>25.42646cm</Top>
             <Left>0.49549cm</Left>
             <Height>1.2cm</Height>
             <Width>20.49941cm</Width>
@@ -3961,6 +4040,43 @@
               </Border>
             </Style>
           </Tablix>
+          <Textbox Name="Textbox26">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Experience Details</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>11pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                      <TextDecoration>Underline</TextDecoration>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox26</rd:DefaultName>
+            <Top>24.54804cm</Top>
+            <Left>0.49549cm</Left>
+            <Height>0.6cm</Height>
+            <Width>8.19976cm</Width>
+            <ZIndex>51</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
         </ReportItems>
         <Height>12.06759in</Height>
         <Style>
@@ -3969,7 +4085,7 @@
           </Border>
         </Style>
       </Body>
-      <Width>8.39813in</Width>
+      <Width>8.40621in</Width>
       <Page>
         <PageHeader>
           <Height>3.5687cm</Height>

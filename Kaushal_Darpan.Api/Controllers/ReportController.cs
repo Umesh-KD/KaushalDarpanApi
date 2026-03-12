@@ -3691,7 +3691,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     //});
 
                     var data = await _unitOfWork.ReportRepository.GetITIApplicationForm(Model);
-                    if (data?.Tables?.Count == 5)
+                    if (data?.Tables?.Count > 0)
                     {
                         var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
                         //report
@@ -3730,6 +3730,12 @@ namespace Kaushal_Darpan.Api.Controllers
                         localReport.AddDataSource("Student_Qualification_Details", data.Tables[1]);
                         localReport.AddDataSource("Student_Option_Details", data.Tables[2]);
                         localReport.AddDataSource("Student_Uploaded_Documents", data.Tables[4]);
+
+                        if (admissionType == 9)
+                        {
+                            localReport.AddDataSource("Student_ExpDetails", data.Tables[5]);
+                        }
+
                         var reportResult = localReport.Execute(RenderType.Pdf);
 
                         //check file exists
