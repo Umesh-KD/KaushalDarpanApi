@@ -5111,9 +5111,16 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         //report
                         var fileName = $"StudentMarksheet_{student.StudentID}.pdf";
+                        string strmName = data.Tables[0].Rows[0]["StreamName"].ToString();
+                        string rdlcpath = "";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
-
+                        if (strmName.Length>37) {
+                          rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheetOther.rdlc";
+                        }
+                        else
+                        {
+                            rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
+                        }
                         student.MarksheetPath = filepath;
                         student.Marksheet = fileName;
                         //provider                      
