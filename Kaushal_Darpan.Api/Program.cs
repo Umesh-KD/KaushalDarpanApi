@@ -6,6 +6,7 @@ using FluentValidation.AspNetCore;
 using Hangfire;
 using Kaushal_Darpan.Api.Email;
 using Kaushal_Darpan.Api.HtmlTempleteFile;
+using Kaushal_Darpan.Api.Middlewares;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra;
@@ -326,6 +327,7 @@ app.UseStaticFiles(new StaticFileOptions
 });
 
 //app.UseMiddleware<RestrictUrlFactory>();
+app.UseMiddleware<PGMKMiddleware>();
 
 app.UseCookiePolicy();
 

@@ -2208,6 +2208,15 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        private IFileUploadMasterRepository _FileUploadMasterRepository;
+        public IFileUploadMasterRepository FileUploadMasterRepository
+        {
+            get
+            {
+                return _FileUploadMasterRepository ??= new FileUploadMasterRepository(_dbContext);
+            }
+        }
+
         #endregion
     }
 }
