@@ -2725,50 +2725,49 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> SaveMinRequiredItems_ITI_INV(AddMinRequiredItemDataModel request)
         {
             _actionName = "SaveMinRequiredItems_ITI_INV(AddMinRequiredItemDataModel request)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_ITI_INV_MinRequiredItems_IU";
-                        command.CommandType = CommandType.StoredProcedure;
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@RequiredItemId", request.RequiredItemId);
-                        command.Parameters.AddWithValue("@TradeId", request.TradeId);
-                        command.Parameters.AddWithValue("@ItemCategoryId", request.ItemCategoryId);
-                        command.Parameters.AddWithValue("@EquipmentsId", request.EquipmentsId);
-                        command.Parameters.AddWithValue("@RequiredQuantity", request.RequiredQuantity);
-                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_ITI_INV_MinRequiredItems_IU";
+                    command.CommandType = CommandType.StoredProcedure;
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@RequiredItemId", request.RequiredItemId);
+                    command.Parameters.AddWithValue("@TradeId", request.TradeId);
+                    command.Parameters.AddWithValue("@ItemCategoryId", request.ItemCategoryId);
+                    command.Parameters.AddWithValue("@EquipmentsId", request.EquipmentsId);
+                    command.Parameters.AddWithValue("@RequiredQuantity", request.RequiredQuantity);
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@DGTSNo", request.DGTSNo);
+                    command.Parameters.AddWithValue("@DGT_SyllabusYear", request.DGT_SyllabusYear);
 
-                        command.Parameters.Add("@Return", SqlDbType.Int); // out
-                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+                    command.Parameters.Add("@Return", SqlDbType.Int); // out
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
+                    _sqlQuery = command.GetSqlExecutableQuery();
 
-                        // Execute the command
-                        result = await command.ExecuteNonQueryAsync();
-                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
-                    }
-
-                    return result;
-
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
                 }
-                catch (Exception ex)
+
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetMinRequiredItem_ITI_INV(MinRequiredItemSearchModel SearchReq)
@@ -2935,6 +2934,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandText = "USP_ITI_INV_GetItemsForHandover";
                     command.Parameters.AddWithValue("@Action", SearchReq.Action);
                     command.Parameters.AddWithValue("@HandoverFrom", SearchReq.HandoverFrom);
+                    command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
@@ -2969,6 +2969,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@HandoverFrom", request.HandoverFrom);
                     command.Parameters.AddWithValue("@HandoverTo", request.HandoverTo);
                     command.Parameters.AddWithValue("@UserID", request.UserID);
+                    command.Parameters.AddWithValue("@TradeId", request.TradeId);
                     command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(request.ItemList));
 
                     command.Parameters.Add("@Return", SqlDbType.Int); // out

@@ -3047,8 +3047,6 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-
-        //Task<int> HandoverInventoryItems_ITI_INV(HandoverInventoryItemsDataModel request)
         [HttpPost("HandoverInventoryItems_ITI_INV")]
         public async Task<ApiResult<int>> HandoverInventoryItems_ITI_INV([FromBody] HandoverInventoryItemsDataModel request)
         {
