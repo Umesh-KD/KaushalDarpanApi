@@ -2923,6 +2923,80 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataTable> GetItemsForHandover_ITI_INV(HandoverItemSearchModel SearchReq)
+        {
+            _actionName = "GetItemsForHandover_ITI_INV(HandoverItemSearchModel SearchReq)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_INV_GetItemsForHandover";
+                    command.Parameters.AddWithValue("@Action", SearchReq.Action);
+                    command.Parameters.AddWithValue("@HandoverFrom", SearchReq.HandoverFrom);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> HandoverInventoryItems_ITI_INV(HandoverInventoryItemsDataModel request)
+        {
+            _actionName = "HandoverInventoryItems_ITI_INV(HandoverInventoryItemsDataModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_INV_HandoverInventoryItems";
+
+                    command.Parameters.AddWithValue("@HandoverFrom", request.HandoverFrom);
+                    command.Parameters.AddWithValue("@HandoverTo", request.HandoverTo);
+                    command.Parameters.AddWithValue("@UserID", request.UserID);
+                    command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(request.ItemList));
+
+                    command.Parameters.Add("@Return", SqlDbType.Int); // out
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
 

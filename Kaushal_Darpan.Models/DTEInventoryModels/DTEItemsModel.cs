@@ -230,5 +230,24 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? ApproveIssueQuantity { get; set; }
         public int? IssueStatus { get; set; }
     }
+
+    public class HandoverItemSearchModel
+    {
+        public int? HandoverFrom { get; set; }
+        public string? Action { get; set; }
+    }
+
+    public class HandoverInventoryItemsDataModel
+    {
+        public int? HandoverFrom { get; set; }
+        public int? HandoverTo { get; set; }
+        public int? UserID { get; set; }
+        public List<ItemListModel>? ItemList { get; set; }
+    }
+
+    public class ItemListModel
+    {
+        public int? IssuedId { get; set; }
+    }
 }
 
