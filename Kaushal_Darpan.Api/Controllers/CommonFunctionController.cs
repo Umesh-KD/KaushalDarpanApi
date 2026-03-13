@@ -7156,8 +7156,8 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpGet("BTER_BGT_BudgetType/{DepartmentID}/{LevelID}")]
-        public async Task<ApiResult<DataTable>> BTER_BGT_BudgetType(int DepartmentID, int LevelID)
+        [HttpGet("BTER_BGT_BudgetType/{DepartmentID}/{LevelID}/{BGTType?}")]
+        public async Task<ApiResult<DataTable>> BTER_BGT_BudgetType(int DepartmentID, int LevelID,int BGTType=0)
         {
             ActionName = "BTER_BGT_BudgetType()";
             return await Task.Run(async () =>
@@ -7165,7 +7165,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.BTER_BGT_BudgetType(DepartmentID, LevelID);
+                    var data = await _unitOfWork.CommonFunctionRepository.BTER_BGT_BudgetType(DepartmentID, LevelID, BGTType);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;

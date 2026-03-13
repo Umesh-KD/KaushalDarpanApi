@@ -260,7 +260,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<List<CommonDDLModel>> DDL_OfficeMaster(int DepartmentID, int LevelID);
         Task<List<CommonDDLModel>> DDL_RoleWiseOffice(int DepartmentID, int RoleID);
-        Task<DataTable> BTER_BGT_BudgetType(int DepartmentID, int LevelID);
+        Task<DataTable> BTER_BGT_BudgetType(int DepartmentID, int LevelID , int BGTType=0);
         Task<List<CommonDDLModel>> DDL_PostMaster();
 
         Task<List<CommonDDLModel>> AllDDlManageByTypeCommanMaster(string type);

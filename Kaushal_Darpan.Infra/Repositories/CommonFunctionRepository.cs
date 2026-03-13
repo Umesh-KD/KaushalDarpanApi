@@ -7950,7 +7950,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> BTER_BGT_BudgetType(int DepartmentID, int LevelID)
+        public async Task<DataTable> BTER_BGT_BudgetType(int DepartmentID, int LevelID, int BGTType=0)
         {
             _actionName = "BTER_BGT_BudgetType()";
             return await Task.Run(async () =>
@@ -7961,9 +7961,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ESM_BTER_BudgetType";
+                        command.CommandText = "USP_EM_BTER_BudgetType";
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
                         command.Parameters.AddWithValue("@LevelID", LevelID);
+                        command.Parameters.AddWithValue("@BGTType", BGTType);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
