@@ -56,6 +56,8 @@ namespace Kaushal_Darpan.Core.Helper
         public const string MSG_INVALID_SSOID_PASSWORD = "Invalid SSOID or Password.!";
         public const string MSG_DO_NOT_ENOUGH_LEAVE_BALANCE = "You Do not have Enough Leave Balance.!";
         public const string MSG_DATE_RANGE_ALREDY_EXIST = "You cannot applied in same date range.!";
+        public const string MSG_FILE_UPLOAD_SUCCESS = "File Uploaded successfully.";
+        public const string MSG_FILE_DELETE_SUCCESS = "File deleted successfully.";        
 
 
         public const string Login_DefaultPassword = "KD@1230";
@@ -350,6 +352,19 @@ namespace Kaushal_Darpan.Core.Helper
         public int DocumentMasterID { get; set; }
     }
 
+    public class UploadFileMasterModel
+    {
+        public string? FolderName { get; set; }
+        public IFormFile? file { get; set; }
+        public bool? ForPGMK { get; set; }
+        public string? key { get; set; }
+    }
+    public class DeleteFileMasterModel
+    {
+        public string? FolderName { get; set; }
+        public string? FileName { get; set; }
+        public bool? ForPGMK { get; set; }
+    }
 
     #endregion
 

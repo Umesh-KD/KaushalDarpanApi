@@ -297,5 +297,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         I_ITIBudgetCreateRepository ITIBudgetCreateRepository { get; }
         IBhandarFormMasterRepository BhandarFormMasterRepository { get; }
         IMassCopyReportRepository MassCopyReportRepository { get; }
+        IFileUploadMasterRepository FileUploadMasterRepository { get; }
     }
 }
