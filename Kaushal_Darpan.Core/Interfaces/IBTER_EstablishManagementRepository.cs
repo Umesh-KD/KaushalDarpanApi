@@ -1,6 +1,7 @@
 ﻿using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.StaffDashboard;
 using Kaushal_Darpan.Models.StaffMaster;
+using Kaushal_Darpan.Models.Test;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,6 +32,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetBter_Govt_EM_UserProfileStatusHt(Bter_Govt_EM_UserRequestHistoryListSearchDataModel Model);
         Task<bool> Bter_GOVT_EM_ApproveRejectStaff(RequestUpdateStatus productDetails);
         Task<BTER_EM_AddStaffDetailsDataModel> BTER_EM_GetBterStaffSubjectListModelStaffID(int PK_ID, int DepartmentID);
+        Task<List<BTER_EM_AddServiceHistoryDataModel>> BTER_EM_GetBterServiceListData(int PK_ID, int DepartmentID);
+        Task<StaffDetailsPreviewDataModel_ServiceHistory> StaffDetailsPreview_ServiceHistory(StaffDetailsPreviewDataModel_ServiceHistory model);
         Task<DataTable> GetStaff_HostelIDs(StaffHostelSearchModel body);
         Task<bool> SaveStaff_HostelIDs(StaffHostelSearchModel body);
 

@@ -48,6 +48,7 @@
   <ItemGroup>
     <Folder Include="HelpFiles\DatabaseObjects\" />
     <Folder Include="StaticFiles\Log\" />
+    <Folder Include="StaticFiles\PGMK\" />
     <Folder Include="StaticFiles\Reports\" />
     <Folder Include="StaticFiles\StaffDetails\" />
   </ItemGroup>

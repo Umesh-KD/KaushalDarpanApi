@@ -210,6 +210,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_GuestRoomSeatMaster";
 
                         command.Parameters.AddWithValue("@action", "_GetGuestHouseNameList");
+                        command.Parameters.AddWithValue("@GuestHouseIDs", body.GuestHouseIDs);
+                        command.Parameters.AddWithValue("@guestHouseForApply", body.guestHouseForApply);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -250,6 +252,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoomType", body.RoomType);
                         command.Parameters.AddWithValue("@SeatCapacity", body.SeatCapacity);
                         command.Parameters.AddWithValue("@RoomQuantity", body.RoomQuantity);
+                        command.Parameters.AddWithValue("@GuestHouseIDs", body.GuestHouseIDs);
                         command.Parameters.AddWithValue("@action", "List");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -840,6 +843,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Status", body.Status);
                         command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         command.Parameters.AddWithValue("@UserID", body.UserID);
+                        command.Parameters.AddWithValue("@GuestHouseID", body.GuestHouseID);
+                        command.Parameters.AddWithValue("@GuestHouseIDs", body.GuestHouseIDs); // for multiple guest house assigned
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -965,6 +970,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_GuestRequestList";
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@Status", body.Status);
+                        command.Parameters.AddWithValue("@GuestHouseIDs", body.GuestHouseIDs);
                         command.Parameters.AddWithValue("@action", "_GuestRequestReportList");
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -1140,6 +1146,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@AttachedBathFacilities", request.AttachedBathFacilities);
                         command.Parameters.AddWithValue("@FanFacilities", request.FanFacilities);
                         command.Parameters.AddWithValue("@CoolingFacilities", request.CoolingFacilities);
+                        command.Parameters.AddWithValue("@GuestHouseIDs", request.GuestHouseIDs);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
                         command.Parameters.AddWithValue("@action", "List");
@@ -1376,6 +1383,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandText = "USP_GuestHouseRoomAvailabilityGet";
 
                     command.Parameters.AddWithValue("@GuestHouseID", body.GuestHouseID);
+                    command.Parameters.AddWithValue("@GuestHouseIDs", body.GuestHouseIDs);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();

@@ -76,9 +76,11 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
     {
         public int? DepartmentID { get; set; }
         public int GuestHouseID { get; set; }
+        public string? GuestHouseIDs { get; set; }
         public int RoomType { get; set; }
         public int? SeatCapacity { get; set; }
         public int? RoomQuantity { get; set; }
+        public bool? guestHouseForApply { get; set; }
     }
     public class GuestRoomFacilitiesDataModel
     {
@@ -195,6 +197,7 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public int DepartmentID { get; set; }
         public string? GuestHouseName { get; set; }
         public string? FacilitiesName { get; set; }
+        public string? GuestHouseIDs { get; set; }
         public bool IsFacilities { get; set; }
         public int RoleID { get; set; }
         public int ModifyBy { get; set; }
@@ -251,7 +254,7 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public bool DeleteStatus { get; set; }
         public int CreatedBy { get; set; }
         public int ModifyBy { get; set; }
-
+        public string? GuestHouseIDs { get; set; }
     }
 
     public class StatusChangeGuestModel

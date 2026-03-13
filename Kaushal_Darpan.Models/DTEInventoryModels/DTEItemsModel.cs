@@ -210,6 +210,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? UnitId { get; set; }
         public int? RequiredQuantity { get; set; }
         public int? ModifyBy { get; set; }
+        public string? DGTSNo { get; set; }
+        public string? DGT_SyllabusYear { get; set; }
     }
 
     public class MinRequiredItemSearchModel
@@ -229,6 +231,27 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? UserID { get; set; }
         public int? ApproveIssueQuantity { get; set; }
         public int? IssueStatus { get; set; }
+    }
+
+    public class HandoverItemSearchModel
+    {
+        public int? HandoverFrom { get; set; }
+        public int? TradeId { get; set; }
+        public string? Action { get; set; }
+    }
+
+    public class HandoverInventoryItemsDataModel
+    {
+        public int? HandoverFrom { get; set; }
+        public int? HandoverTo { get; set; }
+        public int? UserID { get; set; }
+        public int? TradeId { get; set; }
+        public List<ItemListModel>? ItemList { get; set; }
+    }
+
+    public class ItemListModel
+    {
+        public int? IssuedId { get; set; }
     }
 }
 
