@@ -57,12 +57,12 @@ namespace Kaushal_Darpan.Api.Middlewares
                 else
                 {
                     bool isKeyExists = false;
-                    if (requestedUrl.Contains("/api/rolemaster"))
+                    if (requestedUrl.Contains("/api/rolemaster/getalldata"))
                     {
                         // check key
                         isKeyExists = GetKeyOfOpenPage("krma");
                     }
-                    else if (requestedUrl.Contains("/api/menumaster"))
+                    else if (requestedUrl.Contains("/api/menumaster/getalldata"))
                     {
                         // check key
                         isKeyExists = GetKeyOfOpenPage("kmma");

@@ -138,4 +138,50 @@ namespace Kaushal_Darpan.Models.CommonModel
 
 
 
+    public class ExamResultStudentStaticsModel
+    {
+        public int SemesterID { get; set; }
+        public int DepartmentID { get; set; }
+        public int EndTermID { get; set; }
+        public int streamID { get; set; }
+        public int Eng_NonEng { get; set; }
+    }
+
+
+    public class ResultAppearedPassedStatisticsReportModel
+    {
+        public int EndTermID { get; set; }
+        public int Eng_NonEng { get; set; }
+        public int DepartmentID { get; set; }
+        public int SemesterID { get; set; }
+        public int ResultType { get; set; }
+
+        public string? StreamName { get; set; }
+        public int TotalAppeared  { get; set; }
+        public int FailStudent { get; set; }
+        public int PassStudent { get; set; }
+        public int TotalDetain { get; set; }
+        public int TotalUFM { get; set; }
+        public int TotalRWH { get; set; }
+        public int TotalRWHPrevSemNotCleared { get; set; }
+        public string? Division { get; set; }
+        public string? RollNos { get; set; }
+
+
+    }
+
+    public class ExamWiseStreamPapersReportModel
+    {
+        public int EndTermID { get; set; }
+        public int DepartmentID { get; set; }
+        public int CourseTypeID { get; set; }
+        public int StreamID { get; set; }
+        public int SemesterId { get; set; }
+        public int SchemeID { get; set; }
+    }
+
+
+
+
+
 }
