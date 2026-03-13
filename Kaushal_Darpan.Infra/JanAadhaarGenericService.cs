@@ -211,8 +211,11 @@ namespace Kaushal_Darpan.Infra
                     else
                     {
                         baseUrl = "https://api.sewadwaar.rajasthan.gov.in/app/live/janAadhaar/v1/";
+                          
                     }
                     apiUrl = $"{baseUrl}validate-otp?client_id={clientId}";
+                    CommonFuncationHelper.WriteTextLog($"public async Task<ApiResult<object>> JanAdharDataNew =>STEP 1 validate-otp= {apiUrl}");
+
                 }
                 var response = await _httpClient.PostAsync(apiUrl, new StringContent(requestBody, Encoding.UTF8, "application/json"));
                 if (!response.IsSuccessStatusCode)
@@ -220,8 +223,13 @@ namespace Kaushal_Darpan.Infra
                     var errorBody = await response.Content.ReadAsStringAsync();
                     throw new HttpRequestException($"API Error {(int)response.StatusCode}: {errorBody}");
                 }
+
                 string encryptedResponse = await response.Content.ReadAsStringAsync();
+                CommonFuncationHelper.WriteTextLog($"public async Task<ApiResult<object>> JanAdharDataNew =>STEP 1encryptedResponse= {encryptedResponse}");
+                CommonFuncationHelper.WriteTextLog($"public async Task<ApiResult<object>> JanAdharDataNew =>STEP response= {response}");
+
                 string encryptedRespData = JObject.Parse(encryptedResponse)["data"]?.ToString();
+                CommonFuncationHelper.WriteTextLog($"public async Task<ApiResult<object>> JanAdharDataNew =>STEP response= {encryptedRespData}");
                 if (string.IsNullOrEmpty(encryptedRespData))
                     throw new Exception("API returned no 'data' field.");
                 string decryptedResponse = CryptoHelperNew.DecryptDataWithAES(encryptedRespData);

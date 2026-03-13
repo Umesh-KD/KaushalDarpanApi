@@ -146,6 +146,7 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public DateTime? ModifyDate { get; set; }
         public string? IPAddress { get; set; }
         public int AcademicYear { get; set; }
+        public int TradeCategory { get; set; }
         public string? MinPercentageInMath {get; set;}
         public string? MinPercentageInScience { get; set;}
     }

@@ -10192,7 +10192,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_DeirectAdmissionOption";
-
                         command.Parameters.AddWithValue("@Action", request.action);
                         command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
                         command.Parameters.AddWithValue("@TradeLevel", request.TradeLevel);
