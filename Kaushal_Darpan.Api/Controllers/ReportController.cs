@@ -43,17 +43,16 @@ using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.TheoryMarks;
 using Kaushal_Darpan.Models.TimeTable;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Org.BouncyCastle.Asn1.Pkcs;
+using QRCoder;
 using System;
 using System.Data;
-using System.Net;
-using System.Text;
-
-
-
-using QRCoder;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Net;
+using System.Text;
 
 
 
@@ -16779,6 +16778,313 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         #endregion
+
+
+
+        [HttpPost("GetExamResultStudentStaticsReport")]
+        public async Task<ApiResult<DataTable>> GetExamResultStudentStaticsReport(ExamResultStudentStaticsModel model)
+        {
+            ActionName = "GetExamResultStudentStaticsReport()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetExamResultStudentStaticsReport(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("GetSubjectTheoryParcticalMarkStaticsReport")]
+        public async Task<ApiResult<DataTable>> GetSubjectTheoryParcticalMarkStaticsReport(ExamResultStudentStaticsModel model)
+        {
+            ActionName = "GetExamResultStudentStaticsReport()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetSubjectTheoryParcticalMarkStaticsReport(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+
+
+        #region downloadResultAppearedPassedStatisticsReport
+        
+        [HttpPost("getResultAppearedPassedStatisticsReport")]
+        public async Task<IActionResult> getResultAppearedPassedStatisticsReport([FromBody] ResultAppearedPassedStatisticsReportModel data)
+        {
+            try
+            {
+                var main_data = await _unitOfWork.ReportRepository.downloadResultAppearedPassedStatisticsReport(data);
+                var dataList = CommonFuncationHelper.ConvertDataTable<List<ResultAppearedPassedStatisticsReportModel>>(main_data);
+                if (dataList == null) dataList = new List<ResultAppearedPassedStatisticsReportModel>();
+
+                var streamHtml = string.Join("", dataList
+                .GroupBy(x => x.StreamName)
+                .Select(stream => $@"
+                     <div class='stream-section'>
+                    <div style='border-top:1px solid #000;border-bottom:1px solid #000;padding:5px;font-weight:bold;text-transform:uppercase;'>
+                    {stream.Key}
+                    </div>
+
+                {string.Join("", stream
+                        .GroupBy(x => x.Division)
+                        .Select(div => $@"
+
+                    <div style='padding:5px;'>
+
+                        <div style='font-weight:bold;margin-top:10px;'>
+                            {div.Key} 
+                        </div>
+                        <div>
+                            {string.Join(", ", div.Select(x => x.RollNos).OrderBy(x => x))}
+                        </div>
+                    </div>
+                "))}
+
+                    <table style='width:100%;border-collapse:collapse;border:1px solid #000;margin-top:10px;'>
+                        <tr>
+                            <td style='border:1px solid #000;padding:4px;'>
+                                <b>Total Appeared</b> : {stream.First().TotalAppeared}
+                            </td>
+                            <td style='border:1px solid #000;padding:4px;'>
+                                <b>Total Passed</b> : {stream.First().PassStudent}
+                            </td>
+                            <td style='border:1px solid #000;padding:4px;'>
+                                <b>Total Failed</b> : {stream.First().FailStudent}
+                            </td>
+                            <td style='border:1px solid #000;padding:4px;'>
+                                <b>Total UFM</b> : {stream.First().TotalUFM}
+                            </td>
+                            <td style='border:1px solid #000;padding:4px;'>
+                                <b>Total RWH</b> : {stream.First().TotalRWH}
+                            </td>
+                            <td style='border:1px solid #000;padding:4px;'>
+                                <b>Total RWH(Prev. Sem. Not Cleared)</b> : {stream.First().TotalRWHPrevSemNotCleared}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                "));
+                var sb = new StringBuilder();
+
+                sb.Append($@"
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+
+                    <style>
+
+                    body {{
+                    font-family: Arial;
+                    font-size: 11px;
+                    }}
+
+                    .main-border {{
+                    border:1px solid #000;
+                    padding:10px;
+                    }}
+
+                    .stream-section {{
+                    margin-bottom:15px;
+                    }}
+
+                    </style>
+
+                    </head>
+
+                    <body>
+
+                    <div class='main-border'>
+
+                    <table style='width:100%; border-collapse:collapse; border:1px solid #000;'>
+
+                    <tr>
+                    <td style='width:20%; padding:5px; border-bottom:1px solid #000;'>
+                    N O.:1555
+                    </td>
+
+                    <td style='width:60%; text-align:center; font-weight:bold; border-bottom:1px solid #000;'>
+                    Government of Rajasthan
+                    </td>
+
+                    <td style='width:20%; text-align:right; padding:5px; border-bottom:1px solid #000;'>
+                    Date: {DateTime.Now:dd MMMM yyyy}
+                    </td>
+                    </tr>
+
+                    <tr>
+                    <td colspan='3' style='text-align:center; font-weight:bold; padding:5px; border-bottom:1px solid #000;'>
+                    Board of Technical Education Rajasthan (BTER), Jodhpur
+                    </td>
+                    </tr>
+
+                    <tr>
+                    <td colspan='3' style='text-align:center; padding:5px; border-bottom:1px solid #000;'>
+                    List of Passed Candidates - Sixth Semester (SPECIAL) - Third Year - Diploma Engineering Exam End Term May,2024 Session 2023-24 (HELD IN END TERM NOV-2024)
+                    </td>
+                    </tr>
+
+                    <tr>
+                    <td colspan='3' style='text-align:center; padding:5px;'>
+                    Result Sheet (Passed Students Roll No.)
+                    </td>
+                    </tr>
+
+                    </table>
+
+                    {streamHtml}
+
+                    <div style='margin-top:10px;padding:5px;'>
+                    <p>Copy for information and necessary action to:</p>
+                    1. Jt.Director confidential Board of Technical Education, Rajasthan, Jodhpur<br>
+                    2. Incharge, Computer section for upload result<br>
+                    3. Examination section Board of Technical Education, Rajasthan, Jodhpur 
+                    <div style='margin-top:20px;'>
+                    <span style='float:left;font-weight:bold;'>
+                    Date of Declaration : {DateTime.Now:dd MMMM yyyy}
+                    </span>
+
+                    <span style='float:right;font-weight:bold;'>
+                    REGISTRAR
+                    </span>
+                    </div>
+                    </div>
+                    </div>
+                    </body>
+                    </html>
+                    ");
+
+                var doc = new HtmlToPdfDocument
+                {
+                    GlobalSettings = new GlobalSettings
+                    {
+                        PaperSize = PaperKind.A4,
+                        Orientation = Orientation.Portrait,
+                        Margins = new MarginSettings
+                        {
+                            Top = 5,
+                            Bottom = 5,
+                            Left = 5,
+                            Right = 5
+                        }
+                    },
+                    Objects ={
+                        new ObjectSettings
+                        {
+                            HtmlContent = sb.ToString(),
+                            WebSettings = { DefaultEncoding = "utf-8" },
+                            FooterSettings = new FooterSettings
+                            {
+                                FontName = "Arial",
+                                FontSize = 9,
+                                Right = "Page [page] of [toPage]",
+                                Left = "Printed on: [date]",
+                                Line = true
+                            }
+                        }
+                    }
+                };
+
+                byte[] pdfBytes = _converter.Convert(doc);
+
+                return File(pdfBytes, "application/pdf", "Result_Statistics_Report.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+        #endregion
+
+
+
+
+        [HttpPost("GetExamWiseStreamPapersreport")]
+        public async Task<ApiResult<DataTable>> GetExamWiseStreamPapersreport(ExamWiseStreamPapersReportModel model)
+        {
+            ActionName = "GetExamWiseStreamPapersreport()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetExamWiseStreamPapersreport(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
 
     }
 }

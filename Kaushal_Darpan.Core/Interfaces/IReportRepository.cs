@@ -309,5 +309,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveExaminerStaticReportFeedbackForm(ExaminerStaticReportFeedbackDataModel request);
         Task<DataSet> GetProvisionalCertificateReport(ProvisionalCertificateModel model);
         Task<DataTable> GetStaticsReportExaminerMarksData(GroupCenterMappingModel filterModel);
+        Task<DataTable> GetExamResultStudentStaticsReport(ExamResultStudentStaticsModel model);
+        Task<DataTable> GetSubjectTheoryParcticalMarkStaticsReport(ExamResultStudentStaticsModel model);
+        Task<DataTable> downloadResultAppearedPassedStatisticsReport(ResultAppearedPassedStatisticsReportModel model);
+        Task<DataTable> GetExamWiseStreamPapersreport(ExamWiseStreamPapersReportModel model);
     }
 }
