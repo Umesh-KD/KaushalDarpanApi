@@ -16568,8 +16568,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #endregion
 
-
-
         #region
 
         [HttpPost("DiplomaTest")]
@@ -16780,7 +16778,6 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
 
-
         [HttpPost("GetExamResultStudentStaticsReport")]
         public async Task<ApiResult<DataTable>> GetExamResultStudentStaticsReport(ExamResultStudentStaticsModel model)
         {
@@ -16850,10 +16847,6 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
-
-
-
-
 
         #region downloadResultAppearedPassedStatisticsReport
         
@@ -17045,8 +17038,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         #endregion
-
-
 
 
         [HttpPost("GetExamWiseStreamPapersreport")]

@@ -9616,7 +9616,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SemesterId", model.SemesterId);
                         command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
                         command.Parameters.AddWithValue("@Action", "_getExamWiseStream_Papers_Avmax");
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
