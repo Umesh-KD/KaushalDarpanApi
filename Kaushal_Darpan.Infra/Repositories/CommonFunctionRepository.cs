@@ -3695,8 +3695,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         #region Emitra Payment
         public async Task<EmitraRequstParametersModel> GetEmitraServiceDetails(EmitraRequestDetailsModel Model)
         {
-            return await Task.Run(async () =>
-            {
+          
                 _actionName = "GetEmitraServiceDetails(EmitraRequestDetailsModel Model)";
                 try
                 {
@@ -3733,12 +3732,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+          
         }
         public async Task<EmitraTransactionsModel> CreateEmitraTransation(EmitraTransactionsModel Model)
         {
-            return await Task.Run(async () =>
-            {
+           
                 _actionName = "CreateAddEmitraTransation(EmitraTransactionsModel Model)";
                 try
                 {
@@ -3804,14 +3802,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+      
         }
 
 
         public async Task<EmitraTransactionsModel> CreateEmitraTransationITI(EmitraTransactionsModel Model)
         {
-            return await Task.Run(async () =>
-            {
+          
                 _actionName = "CreateEmitraTransationITI(EmitraTransactionsModel Model)";
                 try
                 {
@@ -3880,7 +3877,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+         
         }
 
 

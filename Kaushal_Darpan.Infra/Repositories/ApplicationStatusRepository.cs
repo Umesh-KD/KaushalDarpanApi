@@ -43,10 +43,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GeTApplicationStatus";
-
-
                         // Add parameters to the stored procedure from the model
-
                         command.Parameters.AddWithValue("@ApplicationNo", searchModel.ApplicationNo);
                         command.Parameters.AddWithValue("@MobileNumber", searchModel.MobileNumber);
                         command.Parameters.AddWithValue("@DOB", searchModel.DOB);
@@ -64,8 +61,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StudentExamID", searchModel.StudentExamID);
                         command.Parameters.AddWithValue("@Receipt_Number", searchModel.Receipt_Number);
                         command.Parameters.AddWithValue("@action", searchModel.Action);
-                        
-                        
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
