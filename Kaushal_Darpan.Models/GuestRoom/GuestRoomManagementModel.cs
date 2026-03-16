@@ -81,6 +81,7 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public int? SeatCapacity { get; set; }
         public int? RoomQuantity { get; set; }
         public bool? guestHouseForApply { get; set; }
+        public bool? isEstablishment { get; set; }
     }
     public class GuestRoomFacilitiesDataModel
     {

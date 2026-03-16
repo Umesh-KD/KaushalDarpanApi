@@ -2970,6 +2970,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@HandoverTo", request.HandoverTo);
                     command.Parameters.AddWithValue("@UserID", request.UserID);
                     command.Parameters.AddWithValue("@TradeId", request.TradeId);
+                    command.Parameters.AddWithValue("@HandoverDocument", request.HandoverDocument);
+                    command.Parameters.AddWithValue("@Dis_HandoverDocument", request.Dis_HandoverDocument);
                     command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(request.ItemList));
 
                     command.Parameters.Add("@Return", SqlDbType.Int); // out

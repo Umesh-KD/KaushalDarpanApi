@@ -32,31 +32,28 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetStudents(MarksheetDownloadSearchModel body)
         {
-            _actionName = "GetTeacherForExaminer()";
+            _actionName = "GetStudents(MarksheetDownloadSearchModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_StudentListForMarksheet";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StudentListForMarksheet";
 
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
-                        command.Parameters.AddWithValue("@IsBridge", body.IsBridge);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@ResultTypeID", body.ResultTypeID);
-                        command.Parameters.AddWithValue("@RollNo", body.RollNo);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEngID);
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@IsBridge", body.IsBridge);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@ResultTypeID", body.ResultTypeID);
+                    command.Parameters.AddWithValue("@RollNo", body.RollNo);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEngID);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
@@ -93,7 +90,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SubjectID", request.SubjectID);
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
                         command.Parameters.AddWithValue("@StaffID", request.StaffID);
-                    
+
                         command.Parameters.AddWithValue("@DesignationID", request.DesignationID);
                         command.Parameters.AddWithValue("@ExamID", request.ExamID);
                         command.Parameters.AddWithValue("@GroupID", request.GroupID);

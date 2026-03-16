@@ -3029,42 +3029,40 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataSet> GetStudentMarksheet(MarksheetDownloadSearchModel model)
         {
             _actionName = "GetStudentMarksheet(MarksheetDownloadSearchModel model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var ds = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_Rpt_GetStudentMarksheet";
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@StudentID", model.StudentID);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEngID);
-                        command.Parameters.AddWithValue("@IsRevised", model.IsRevised);
-                        command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);
-                        command.Parameters.AddWithValue("@IsReval", model.IsReval);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Rpt_GetStudentMarksheet";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        ds = await command.FillAsync();
-                    }
-                    return ds;
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@StudentID", model.StudentID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEngID);
+                    command.Parameters.AddWithValue("@IsRevised", model.IsRevised);
+                    command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);
+                    command.Parameters.AddWithValue("@IsReval", model.IsReval);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
                 }
-                catch (Exception ex)
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         #endregion
 
@@ -9577,7 +9575,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ResultType", model.ResultType);
                         command.Parameters.AddWithValue("@Action", "Passed-StudentResultsheet");
 
-                         _sqlQuery = command.GetSqlExecutableQuery();
+                        _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
                     return dataTable;
@@ -9599,30 +9597,26 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetExamWiseStreamPapersreport(ExamWiseStreamPapersReportModel model)
         {
-            _actionName = "GetExamWiseStreamPapersreport(InstituteStudentReport model)";
+            _actionName = "GetExamWiseStreamPapersreport(ExamWiseStreamPapersReportModel model)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetExamWiseStream_Papers_RPT  ";
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
-                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
-                        command.Parameters.AddWithValue("@SemesterId", model.SemesterId);
-                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
-                        command.Parameters.AddWithValue("@Action", "_getExamWiseStream_Papers_Avmax");
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetExamWiseStream_Papers_RPT";
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                    command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                    command.Parameters.AddWithValue("@SemesterId", model.SemesterId);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                    command.Parameters.AddWithValue("@Action", "_getExamWiseStream_Papers_Avmax");
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
