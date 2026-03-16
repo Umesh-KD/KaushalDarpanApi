@@ -212,6 +212,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@action", "_GetGuestHouseNameList");
                         command.Parameters.AddWithValue("@GuestHouseIDs", body.GuestHouseIDs);
                         command.Parameters.AddWithValue("@guestHouseForApply", body.guestHouseForApply);
+                        command.Parameters.AddWithValue("@isEstablishment", body.isEstablishment);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

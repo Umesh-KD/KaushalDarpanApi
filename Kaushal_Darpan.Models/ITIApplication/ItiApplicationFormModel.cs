@@ -310,6 +310,8 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public int DepartmentID { get; set; } = 2;
         public string SSOID { get; set; } = string.Empty;
         public int AcademicYear { get; set; }
+        public string? dateFrom { get; set; }
+        public string? dateTo { get; set; }
     }
 
 }
