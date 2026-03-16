@@ -358,5 +358,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetEmployeeQualificationDDL();
 
         Task<DataTable> GetCalenderYearList();
+
+        Task<DataTable> ITI_DeirectAdmissionOptionFormData_Private(ItiTradeSearch_PrivateModel request);
     }
 }

@@ -11062,6 +11062,48 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        //For Private
+        public async Task<DataTable> ITI_DeirectAdmissionOptionFormData_Private(ItiTradeSearch_PrivateModel request)
+        {
+            _actionName = "ITI_DeirectAdmissionOptionFormData_Private(ItiTradeSearch_PrivateModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_DeirectAdmissionOption_Private";
+
+                        command.Parameters.AddWithValue("@Action", request.action);
+                        command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
+                        command.Parameters.AddWithValue("@TradeLevel", request.TradeLevel);
+                        command.Parameters.AddWithValue("@Gender", request.Gender);
+                        command.Parameters.AddWithValue("@FinancialYear", request.FinancialYear);
+                        command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+                        command.Parameters.AddWithValue("@ManagementTypeID", request.ManagementTypeID);
+                        command.Parameters.AddWithValue("@Age", request.Age);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
 
     }
 }
