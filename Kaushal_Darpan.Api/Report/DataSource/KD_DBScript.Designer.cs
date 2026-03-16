@@ -12270,6 +12270,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnPriority;
             
+            private global::System.Data.DataColumn columnTradeCategoryName;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public Student_Option_DetailsDataTable() {
@@ -12371,6 +12373,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TradeCategoryNameColumn {
+                get {
+                    return this.columnTradeCategoryName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -12406,7 +12416,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Student_Option_DetailsRow AddStudent_Option_DetailsRow(string College_TypeName, string DistrictName, string InstituteName, string BranchID, string BranchName, string TradeName, string ManagementTypeName, string Priority) {
+            public Student_Option_DetailsRow AddStudent_Option_DetailsRow(string College_TypeName, string DistrictName, string InstituteName, string BranchID, string BranchName, string TradeName, string ManagementTypeName, string Priority, string TradeCategoryName) {
                 Student_Option_DetailsRow rowStudent_Option_DetailsRow = ((Student_Option_DetailsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         College_TypeName,
@@ -12416,7 +12426,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         BranchName,
                         TradeName,
                         ManagementTypeName,
-                        Priority};
+                        Priority,
+                        TradeCategoryName};
                 rowStudent_Option_DetailsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStudent_Option_DetailsRow);
                 return rowStudent_Option_DetailsRow;
@@ -12447,6 +12458,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnTradeName = base.Columns["TradeName"];
                 this.columnManagementTypeName = base.Columns["ManagementTypeName"];
                 this.columnPriority = base.Columns["Priority"];
+                this.columnTradeCategoryName = base.Columns["TradeCategoryName"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -12468,6 +12480,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnManagementTypeName);
                 this.columnPriority = new global::System.Data.DataColumn("Priority", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPriority);
+                this.columnTradeCategoryName = new global::System.Data.DataColumn("TradeCategoryName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTradeCategoryName);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -63533,6 +63547,23 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string TradeCategoryName {
+                get {
+                    try {
+                        return ((string)(this[this.tableStudent_Option_Details.TradeCategoryNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TradeCategoryName\' in table \'Student_Option_Details\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStudent_Option_Details.TradeCategoryNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsCollege_TypeNameNull() {
                 return this.IsNull(this.tableStudent_Option_Details.College_TypeNameColumn);
             }
@@ -63625,6 +63656,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetPriorityNull() {
                 this[this.tableStudent_Option_Details.PriorityColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTradeCategoryNameNull() {
+                return this.IsNull(this.tableStudent_Option_Details.TradeCategoryNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTradeCategoryNameNull() {
+                this[this.tableStudent_Option_Details.TradeCategoryNameColumn] = global::System.Convert.DBNull;
             }
         }
         
