@@ -98,6 +98,8 @@ namespace Kaushal_Darpan.Models.ITIApplication
             public string? QualificationLevel { get; set; }
             public string? ExaminationPassed { get; set; }
             public string? StreamName { get; set; }
+            public string? TechDocument { get; set; }
+            public string? Dis_TechDocument { get; set; }
             public string StateName { get; set; }
             public string BoardName { get; set; }
             public string SchoolCollegeName { get; set; }

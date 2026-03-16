@@ -183,7 +183,13 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public string? IPAddress { get; set; }
         public string? FileName { get; set; }
         public string? DisFileName { get; set; }
+        public string? StateName { get; set; }
+        public string? ExamPassedName { get; set; }
         public string? QualificationLevel { get; set; }
+        public string? StreamName { get; set; }
+        public string? MarktypeName { get; set; }
+        public string? Dis_TechDocument { get; set; } 
+        public string? TechDocument { get; set; }
         public int? TechExamID { get; set; }
         public int? StreamID{ get; set; }
     }
