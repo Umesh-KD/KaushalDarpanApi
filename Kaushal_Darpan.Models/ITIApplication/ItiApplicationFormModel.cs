@@ -138,7 +138,6 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public int TradeLevel { get; set; }
         public int TradeTypeId { get; set; }
         public string? Type { get; set; }
-
         public bool ActiveStatus { get; set; }
         public bool DeleteStatus { get; set; }
         public DateTime? RTS { get; set; }
