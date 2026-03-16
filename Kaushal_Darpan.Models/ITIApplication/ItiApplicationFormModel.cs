@@ -183,6 +183,9 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public string? IPAddress { get; set; }
         public string? FileName { get; set; }
         public string? DisFileName { get; set; }
+        public string? QualificationLevel { get; set; }
+        public int? TechExamID { get; set; }
+        public int? StreamID{ get; set; }
     }
 
     public class HighestQualificationDetailsDataModel
@@ -298,6 +301,8 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public string NameOfIndustry { get; set; } = string.Empty;
         public string TypeOfWork { get; set; } = string.Empty;
         public string ExperienceDetailDescription { get; set; } = string.Empty;
+        public string EstablishmentIndustryRegistrationdetails { get; set; } = string.Empty;
+        public string ExperienceCertificateFromEmployer { get; set; } = string.Empty;
 
         public int ActiveStatus { get; set; } = 1;
 
