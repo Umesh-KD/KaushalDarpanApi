@@ -5092,7 +5092,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetStudentMarksheet")]
         public async Task<ApiResult<string>> GetStudentMarksheet([FromBody] MarksheetDownloadSearchModel student)
         {
-            ActionName = "GetStudentMarksheet(string EnrollmentNo)";
+            ActionName = "GetStudentMarksheet([FromBody] MarksheetDownloadSearchModel student)";
             var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
             return await Task.Run(async () =>
             {
