@@ -7156,8 +7156,8 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpGet("BTER_BGT_BudgetType/{DepartmentID}/{LevelID}")]
-        public async Task<ApiResult<DataTable>> BTER_BGT_BudgetType(int DepartmentID, int LevelID)
+        [HttpGet("BTER_BGT_BudgetType/{DepartmentID}/{LevelID}/{BGTType?}")]
+        public async Task<ApiResult<DataTable>> BTER_BGT_BudgetType(int DepartmentID, int LevelID,int BGTType=0)
         {
             ActionName = "BTER_BGT_BudgetType()";
             return await Task.Run(async () =>
@@ -7165,7 +7165,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.BTER_BGT_BudgetType(DepartmentID, LevelID);
+                    var data = await _unitOfWork.CommonFunctionRepository.BTER_BGT_BudgetType(DepartmentID, LevelID, BGTType);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
@@ -9929,6 +9929,43 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        //For Private
+        [HttpPost("ITI_DeirectAdmissionOptionFormData_Private")]
+        public async Task<ApiResult<DataTable>> ITI_DeirectAdmissionOptionFormData_Private([FromBody] ItiTradeSearch_PrivateModel body)
+        {
+            ActionName = "ITI_DeirectAdmissionOptionFormData_Private([FromBody] ItiTradeSearch_PrivateModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.ITI_DeirectAdmissionOptionFormData_Private(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
     }
 }
 

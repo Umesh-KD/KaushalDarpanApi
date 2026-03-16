@@ -3695,8 +3695,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         #region Emitra Payment
         public async Task<EmitraRequstParametersModel> GetEmitraServiceDetails(EmitraRequestDetailsModel Model)
         {
-            return await Task.Run(async () =>
-            {
+          
                 _actionName = "GetEmitraServiceDetails(EmitraRequestDetailsModel Model)";
                 try
                 {
@@ -3733,12 +3732,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+          
         }
         public async Task<EmitraTransactionsModel> CreateEmitraTransation(EmitraTransactionsModel Model)
         {
-            return await Task.Run(async () =>
-            {
+           
                 _actionName = "CreateAddEmitraTransation(EmitraTransactionsModel Model)";
                 try
                 {
@@ -3804,14 +3802,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+      
         }
 
 
         public async Task<EmitraTransactionsModel> CreateEmitraTransationITI(EmitraTransactionsModel Model)
         {
-            return await Task.Run(async () =>
-            {
+          
                 _actionName = "CreateEmitraTransationITI(EmitraTransactionsModel Model)";
                 try
                 {
@@ -3880,7 +3877,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+         
         }
 
 
@@ -7953,7 +7950,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> BTER_BGT_BudgetType(int DepartmentID, int LevelID)
+        public async Task<DataTable> BTER_BGT_BudgetType(int DepartmentID, int LevelID, int BGTType=0)
         {
             _actionName = "BTER_BGT_BudgetType()";
             return await Task.Run(async () =>
@@ -7964,9 +7961,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ESM_BTER_BudgetType";
+                        command.CommandText = "USP_EM_BTER_BudgetType";
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
                         command.Parameters.AddWithValue("@LevelID", LevelID);
+                        command.Parameters.AddWithValue("@BGTType", BGTType);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -10195,7 +10193,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_DeirectAdmissionOption";
-
                         command.Parameters.AddWithValue("@Action", request.action);
                         command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
                         command.Parameters.AddWithValue("@TradeLevel", request.TradeLevel);
@@ -11048,6 +11045,48 @@ namespace Kaushal_Darpan.Infra.Repositories
                     //{
                     //    dataModels = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
                     //}
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        //For Private
+        public async Task<DataTable> ITI_DeirectAdmissionOptionFormData_Private(ItiTradeSearch_PrivateModel request)
+        {
+            _actionName = "ITI_DeirectAdmissionOptionFormData_Private(ItiTradeSearch_PrivateModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_DeirectAdmissionOption_Private";
+
+                        command.Parameters.AddWithValue("@Action", request.action);
+                        command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
+                        command.Parameters.AddWithValue("@TradeLevel", request.TradeLevel);
+                        command.Parameters.AddWithValue("@Gender", request.Gender);
+                        command.Parameters.AddWithValue("@FinancialYear", request.FinancialYear);
+                        command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+                        command.Parameters.AddWithValue("@ManagementTypeID", request.ManagementTypeID);
+                        command.Parameters.AddWithValue("@Age", request.Age);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
                     return dataTable;
                 }
                 catch (Exception ex)

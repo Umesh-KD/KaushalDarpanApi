@@ -68,7 +68,6 @@ namespace Kaushal_Darpan.Api.Controllers
             // Log request
             CommonFuncationHelper.WriteTextLog($"public async Task<ApiResult<object>> JanAdharDataNew =>STEP 1 SchemeName= {SchemeName},JanaadhaarNo={JanaadhaarNo} ", "JanAdharDataNew");
 
-
             //string schemShortCode = "EEMS";
             //string appCode = "JAN4601237";
             string schemShortCode = "KOUSHAL_DARPAN";

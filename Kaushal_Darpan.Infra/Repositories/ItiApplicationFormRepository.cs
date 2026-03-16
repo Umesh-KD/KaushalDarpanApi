@@ -308,9 +308,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Priority", request[0].Priority);
                         command.Parameters.AddWithValue("@TradeLevel", request[0].TradeLevel);
                         command.Parameters.AddWithValue("@AcademicYear", request[0].AcademicYear);
+                        command.Parameters.AddWithValue("@TradeCategory", request[0].TradeCategory);
                         // Add IP Address parameter
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-
                         // Add the return parameter
                         command.Parameters.Add("@retval_ID", SqlDbType.Int); // out
                         command.Parameters["@retval_ID"].Direction = ParameterDirection.Output; // out

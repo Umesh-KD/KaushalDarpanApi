@@ -138,7 +138,6 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public int TradeLevel { get; set; }
         public int TradeTypeId { get; set; }
         public string? Type { get; set; }
-
         public bool ActiveStatus { get; set; }
         public bool DeleteStatus { get; set; }
         public DateTime? RTS { get; set; }
@@ -146,6 +145,8 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public DateTime? ModifyDate { get; set; }
         public string? IPAddress { get; set; }
         public int AcademicYear { get; set; }
+        public int TradeCategory { get; set; }
+        public string? TradeCategoryName { get; set; }
         public string? MinPercentageInMath {get; set;}
         public string? MinPercentageInScience { get; set;}
     }
@@ -300,6 +301,8 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public string NameOfIndustry { get; set; } = string.Empty;
         public string TypeOfWork { get; set; } = string.Empty;
         public string ExperienceDetailDescription { get; set; } = string.Empty;
+        public string EstablishmentIndustryRegistrationdetails { get; set; } = string.Empty;
+        public string ExperienceCertificateFromEmployer { get; set; } = string.Empty;
 
         public int ActiveStatus { get; set; } = 1;
 
