@@ -182,6 +182,9 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public string? IPAddress { get; set; }
         public string? FileName { get; set; }
         public string? DisFileName { get; set; }
+        public string? QualificationLevel { get; set; }
+        public int? TechExamID { get; set; }
+        public int? StreamID{ get; set; }
     }
 
     public class HighestQualificationDetailsDataModel
