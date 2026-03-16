@@ -55175,6 +55175,12 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnSrNo;
             
+            private global::System.Data.DataColumn columnRegistrationdetails;
+            
+            private global::System.Data.DataColumn columnDateFrom;
+            
+            private global::System.Data.DataColumn columnDateTo;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public Student_ExpDetailsDataTable() {
@@ -55268,6 +55274,30 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RegistrationdetailsColumn {
+                get {
+                    return this.columnRegistrationdetails;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DateFromColumn {
+                get {
+                    return this.columnDateFrom;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DateToColumn {
+                get {
+                    return this.columnDateTo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -55303,7 +55333,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public Student_ExpDetailsRow AddStudent_ExpDetailsRow(string Year, string Month, string NameOfIndustry, string TypeOfWork, string ExperienceDetailDescription, string TotalWorkExp, string SrNo) {
+            public Student_ExpDetailsRow AddStudent_ExpDetailsRow(string Year, string Month, string NameOfIndustry, string TypeOfWork, string ExperienceDetailDescription, string TotalWorkExp, string SrNo, string Registrationdetails, string DateFrom, string DateTo) {
                 Student_ExpDetailsRow rowStudent_ExpDetailsRow = ((Student_ExpDetailsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Year,
@@ -55312,7 +55342,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         TypeOfWork,
                         ExperienceDetailDescription,
                         TotalWorkExp,
-                        SrNo};
+                        SrNo,
+                        Registrationdetails,
+                        DateFrom,
+                        DateTo};
                 rowStudent_ExpDetailsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStudent_ExpDetailsRow);
                 return rowStudent_ExpDetailsRow;
@@ -55342,6 +55375,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnExperienceDetailDescription = base.Columns["ExperienceDetailDescription"];
                 this.columnTotalWorkExp = base.Columns["TotalWorkExp"];
                 this.columnSrNo = base.Columns["SrNo"];
+                this.columnRegistrationdetails = base.Columns["Registrationdetails"];
+                this.columnDateFrom = base.Columns["DateFrom"];
+                this.columnDateTo = base.Columns["DateTo"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -55361,6 +55397,12 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnTotalWorkExp);
                 this.columnSrNo = new global::System.Data.DataColumn("SrNo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSrNo);
+                this.columnRegistrationdetails = new global::System.Data.DataColumn("Registrationdetails", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRegistrationdetails);
+                this.columnDateFrom = new global::System.Data.DataColumn("DateFrom", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDateFrom);
+                this.columnDateTo = new global::System.Data.DataColumn("DateTo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDateTo);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -97870,6 +97912,55 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Registrationdetails {
+                get {
+                    try {
+                        return ((string)(this[this.tableStudent_ExpDetails.RegistrationdetailsColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Registrationdetails\' in table \'Student_ExpDetails\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableStudent_ExpDetails.RegistrationdetailsColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string DateFrom {
+                get {
+                    try {
+                        return ((string)(this[this.tableStudent_ExpDetails.DateFromColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DateFrom\' in table \'Student_ExpDetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStudent_ExpDetails.DateFromColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string DateTo {
+                get {
+                    try {
+                        return ((string)(this[this.tableStudent_ExpDetails.DateToColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DateTo\' in table \'Student_ExpDetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStudent_ExpDetails.DateToColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsYearNull() {
                 return this.IsNull(this.tableStudent_ExpDetails.YearColumn);
             }
@@ -97950,6 +98041,42 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetSrNoNull() {
                 this[this.tableStudent_ExpDetails.SrNoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRegistrationdetailsNull() {
+                return this.IsNull(this.tableStudent_ExpDetails.RegistrationdetailsColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRegistrationdetailsNull() {
+                this[this.tableStudent_ExpDetails.RegistrationdetailsColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDateFromNull() {
+                return this.IsNull(this.tableStudent_ExpDetails.DateFromColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDateFromNull() {
+                this[this.tableStudent_ExpDetails.DateFromColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDateToNull() {
+                return this.IsNull(this.tableStudent_ExpDetails.DateToColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDateToNull() {
+                this[this.tableStudent_ExpDetails.DateToColumn] = global::System.Convert.DBNull;
             }
         }
         

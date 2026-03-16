@@ -383,43 +383,41 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetGuestRoomDashboard(DTEApplicationDashboardModel filterModel)
         {
-            _actionName = "GetGuestRoomDashboard()";
-            return await Task.Run(async () =>
+            _actionName = "GetGuestRoomDashboard(DTEApplicationDashboardModel filterModel)";
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_AdminGuestRoomDashboard";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_AdminGuestRoomDashboard";
 
-                        // Add parameters to the stored procedure from the model
-                        command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
-                        command.Parameters.AddWithValue("@ModifyBy", filterModel.ModifyBy);
-                        command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
-                        command.Parameters.AddWithValue("@GuestHouseID", filterModel.GuestHouseID);
-                        command.Parameters.AddWithValue("@RoleID", filterModel.RoleID);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-
-                    return dataTable;
+                    // Add parameters to the stored procedure from the model
+                    command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                    command.Parameters.AddWithValue("@ModifyBy", filterModel.ModifyBy);
+                    command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                    command.Parameters.AddWithValue("@GuestHouseID", filterModel.GuestHouseID);
+                    command.Parameters.AddWithValue("@RoleID", filterModel.RoleID);
+                    command.Parameters.AddWithValue("@GuestHouseIDs", filterModel.GuestHouseIDs);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 

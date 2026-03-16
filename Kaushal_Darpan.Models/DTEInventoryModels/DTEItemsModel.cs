@@ -246,6 +246,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? HandoverTo { get; set; }
         public int? UserID { get; set; }
         public int? TradeId { get; set; }
+        public string? HandoverDocument { get; set; }
+        public string? Dis_HandoverDocument { get; set; }
         public List<ItemListModel>? ItemList { get; set; }
     }
 

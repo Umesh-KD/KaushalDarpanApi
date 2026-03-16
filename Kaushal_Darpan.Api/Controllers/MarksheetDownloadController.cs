@@ -33,7 +33,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetStudents")]
         public async Task<ApiResult<DataTable>> GetStudents([FromBody] MarksheetDownloadSearchModel body)
         {
-            ActionName = "GetTeacherForExaminer()";
+            ActionName = "GetStudents([FromBody] MarksheetDownloadSearchModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
