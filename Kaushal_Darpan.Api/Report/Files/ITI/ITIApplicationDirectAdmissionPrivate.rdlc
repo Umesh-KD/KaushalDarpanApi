@@ -2743,7 +2743,7 @@
             <Top>6.88374cm</Top>
             <Left>7.4343cm</Left>
             <Height>0.75875cm</Height>
-            <Width>12.46847cm</Width>
+            <Width>13.06649cm</Width>
             <ZIndex>25</ZIndex>
             <Style>
               <Border>
@@ -3730,7 +3730,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Registrationdetails</Value>
+                                  <Value>Registration Details</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
