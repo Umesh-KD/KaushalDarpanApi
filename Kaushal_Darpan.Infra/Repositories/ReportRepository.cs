@@ -9556,43 +9556,43 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> downloadResultAppearedPassedStatisticsReport(ResultAppearedPassedStatisticsReportModel model)
+        public async Task<DataSet> downloadResultAppearedPassedStatisticsReport(ResultAppearedPassedStatisticsReportModel model)
         {
-            _actionName = "downloadResultAppearedPassedStatisticsReport(AnnextureModel model)";
-            return await Task.Run(async () =>
+            _actionName = "downloadResultAppearedPassedStatisticsReport(ResultAppearedPassedStatisticsReportModel model)";
+            try
             {
-                try
+                DataSet ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ResultRpt_AppearedPassedStatistics ";
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@ResultType", model.ResultType);
-                        command.Parameters.AddWithValue("@Action", "Passed-StudentResultsheet");
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ResultRpt_AppearedPassedStatistics";
+                    //command.CommandText = "USP_Dummy_Test";
+                    //command.Parameters.AddWithValue("@action", "TheorymarksReportPdf");
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@ResultType", model.ResultType);
+                    command.Parameters.AddWithValue("@Action", "Passed-StudentResultsheet");
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
                 }
-                catch (Exception ex)
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetExamWiseStreamPapersreport(ExamWiseStreamPapersReportModel model)
