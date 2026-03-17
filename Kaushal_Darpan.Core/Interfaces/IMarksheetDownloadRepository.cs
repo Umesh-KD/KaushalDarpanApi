@@ -16,5 +16,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStudents(MarksheetDownloadSearchModel filterModel);
         Task<DataSet> MarksheetLetterDownload(MarksheetDownloadSearchModel model);
         Task<DataTable> Get5thSemBackPaperReport(BackPaperReportDataModel body);
+        Task<DataSet> GetStudentResult_public(StudentResultSearchModel model);
+        Task<DataTable> GetResultEndTermDDLList();
     }
 }
