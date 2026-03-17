@@ -12831,11 +12831,12 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.ReportRepository.GetBterBranchWiseStatisticalReport(model);
-                    if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+                    if (data?.Tables?.Count > 1 && data.Tables[0].Rows.Count > 0)
                     {
 
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         data.Tables[0].TableName = "BranchWiseStatistical";
+                        data.Tables[1].TableName = "BranchWiseStatisticalHeading";
 
 
 

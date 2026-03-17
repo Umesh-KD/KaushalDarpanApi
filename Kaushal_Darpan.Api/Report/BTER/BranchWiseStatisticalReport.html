@@ -1,15 +1,18 @@
 <table style="border-collapse: collapse; width: 100%; font-size: 12px; border-bottom: 1px solid #acacac;" cellpadding="4">
     <thead>
         <tr>
-            <th style="border: 1px solid #acacac; border-bottom: 0; padding: 6px; text-align: center;" colspan="13">Government of Rajasthan</th>
+            <th style="border: 1px solid #acacac; border-bottom: 0; padding: 6px; text-align: center;" colspan="13">
+                {#=BranchWiseStatisticalHeading.Heading_1=#}
+            </th>
         </tr>
         <tr>
-            <th style="border: 1px solid #acacac; border-bottom: 0; padding: 6px; text-align: center;" colspan="13">Board of Technical Education, Rajasthan(BTER)</th>
+            <th style="border: 1px solid #acacac; border-bottom: 0; padding: 6px; text-align: center;" colspan="13">
+                {#=BranchWiseStatisticalHeading.Heading_2=#}
+            </th>
         </tr>
         <tr>
             <th style="border: 1px solid #acacac; border-bottom: 0; text-align: center; padding: 6px;" colspan="13">
-                BRANCH WISE STATISTICAL REPORT FOR Diploma Engineering Exam End Term
-                {#=BranchWiseStatistical.EndTermName=#} Session {#=BranchWiseStatistical.SessionYear=#}
+                {#=BranchWiseStatisticalHeading.Heading_3=#}
             </th>
         </tr>
         <tr>
@@ -19,8 +22,12 @@
             <th style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; white-space: nowrap; padding: 6px;">LEFT</th>
             <th style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; white-space: nowrap; padding: 6px;">APPR.</th>
             <th style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; white-space: nowrap; padding: 6px; width: 80px;">PASSED</th>
+
+            {#IF.BranchWiseStatistical.IsSpecial=0#}
             <th style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; white-space: nowrap; padding: 6px;">REGULATION</th>
             <th style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; white-space: nowrap; padding: 6px;">Not Promoted</th>
+            {#ENDIF.BranchWiseStatistical.IsSpecial=0#}
+
             <th style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; white-space: nowrap; padding: 6px;">FAILED</th>
             <th style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; white-space: nowrap; padding: 6px;">FAILED IN SESS</th>
             <th style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; white-space: nowrap; padding: 6px;">UFM</th>
@@ -40,8 +47,12 @@
             <td style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; padding: 6px;">{#=BranchWiseStatistical.LEFT_=#}</td>
             <td style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; padding: 6px;">{#=BranchWiseStatistical.APPR=#}</td>
             <td style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; padding: 6px; width: 80px;">{#=BranchWiseStatistical.PASSED=#} ({#=BranchWiseStatistical.PassedPercentage=#})%</td>
+
+            {#IF.BranchWiseStatistical.IsSpecial=0#}
             <td style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; padding: 6px;">{#=BranchWiseStatistical.REGULATION=#}</td>
             <td style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; padding: 6px;">{#=BranchWiseStatistical.NotPromoted=#}</td>
+            {#ENDIF.BranchWiseStatistical.IsSpecial=0#}
+
             <td style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; padding: 6px;">{#=BranchWiseStatistical.FAILED=#}</td>
             <td style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; padding: 6px;">{#=BranchWiseStatistical.FAILEDINSESS=#}</td>
             <td style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; padding: 6px;">{#=BranchWiseStatistical.UFM=#}</td>

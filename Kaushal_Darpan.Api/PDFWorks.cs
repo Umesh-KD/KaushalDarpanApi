@@ -554,61 +554,6 @@ namespace Utility
             html = Regex.Replace(html, @"</tr>\s*<tr>", "</tr><tr>", RegexOptions.IgnoreCase);
             return html;
 
-            /*
-            <!--{#IF.Student.Gender=Female#}
-            <p>Welcome, Ma'am</p>
-            {#ELSE.Student.Gender=Female#}
-            <p>Welcome, Sir</p>
-            {#ENDIF.Student.Gender=Female#}-->
-
-
-            <!--{#LOOP.Marks#}
-            <tr>
-                <td>{#=Marks.Subject=#}</td>
-                <td>{#=Marks.Score=#}</td>
-            </tr>
-            {#ENDLOOP.Marks#}-->
-            <!--{#IF.Student.Name#}
-            <p>Student Name: {#=Student.Name=#}</p>
-            {#ENDIF.Student.Name#}-->
-
-
-            <!--{#LOOP.Class#}
-            <h4>Class: {#=Class.Name=#}</h4>
-            <table>
-            {#LOOP.ClassStudents#}
-            <tr><td>{#=ClassStudents.Name=#}</td></tr>
-            {#ENDLOOP.ClassStudents#}
-            </table>
-            {#ENDLOOP.Class#}-->
-
-
-
-            <!--{#IF.Student.Gender=Female#}
-            <p>Welcome, Ma'am</p>
-            {#ELSE.Student.Gender=Female#}
-            <p>Welcome, Sir</p>
-            {#ENDIF.Student.Gender=Female#}
-
-            {#LOOP.Subjects#}
-            <p>Subject: {#=Subjects.Name=#} - Marks: {#=Subjects.Marks=#}</p>
-            {#ENDLOOP.Subjects#}-->
-
-
-
-            <!--{#IF.Student.Gender=Female#}
-            <p>Welcome, Ma'am</p>
-            {#ELSE.Student.Gender=Female#}
-            <p>Welcome, Sir</p>
-            {#ENDIF.Student.Gender=Female#}
-
-            <table>
-            {#LOOP.Subjects#}
-            <tr><td>{#=Subjects.Name=#}</td><td>{#=Subjects.Score=#}</td></tr>
-            {#ENDLOOP.Subjects#}
-            </table>-->
-            */
-
 
         }
 

@@ -7423,39 +7423,38 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         public async Task<DataSet> GetBterBranchWiseStatisticalReport(BterStatisticsReportDataModel filterModel)
         {
-            return await Task.Run(async () =>
+            try
             {
-                try
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var ds = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "Usp_Bter_BranchWiseStatisticalReport";
-                        command.Parameters.AddWithValue("@FinancialYearID", filterModel.AcademicYearID);
-                        command.Parameters.AddWithValue("@CourseType", filterModel.Eng_NonEng);
-                        command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterID);
-                        command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        ds = await command.FillAsync();
-                    }
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "Usp_Bter_BranchWiseStatisticalReport";
 
-                    return ds;
+                    command.Parameters.AddWithValue("@FinancialYearID", filterModel.AcademicYearID);
+                    command.Parameters.AddWithValue("@CourseType", filterModel.Eng_NonEng);
+                    command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterID);
+                    command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
                 }
-                catch (Exception ex)
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
 
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
