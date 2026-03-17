@@ -171,7 +171,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             result.State = EnumStatus.Success;
                             result.Message = Constants.MSG_SAVE_SUCCESS;
                         }
-                        if (result.Data == 3)
+                        else if (result.Data == 3)
                         {
                             result.State = EnumStatus.Warning;
                             result.Message = "This office has already reached its post limit.";
@@ -184,7 +184,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     else if (result.Data == -2)
                     {
                         result.State = EnumStatus.Warning;
-                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                        result.Message = Constants.MSG_SAVE_Duplicate;
                     }
                     else
                     {
