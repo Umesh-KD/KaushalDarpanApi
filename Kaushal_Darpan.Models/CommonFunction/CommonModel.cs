@@ -166,8 +166,9 @@ namespace Kaushal_Darpan.Models.CommonModel
         public int TotalRWHPrevSemNotCleared { get; set; }
         public string? Division { get; set; }
         public string? RollNos { get; set; }
-
-
+        public string? FileNo1 { get; set; }
+        public string? FileNo2 { get; set; }
+        public DateOnly? FileDate { get; set; }
     }
 
     public class ExamWiseStreamPapersReportModel
