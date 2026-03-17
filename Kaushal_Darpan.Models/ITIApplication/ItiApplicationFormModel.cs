@@ -190,8 +190,10 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public string? MarktypeName { get; set; }
         public string? Dis_TechDocument { get; set; } 
         public string? TechDocument { get; set; }
+        public string? ExamName { get; set; }
         public int? TechExamID { get; set; }
         public int? StreamID{ get; set; }
+        public int? TradeScheme{ get; set; }
     }
 
     public class HighestQualificationDetailsDataModel
