@@ -318,6 +318,9 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public int AcademicYear { get; set; }
         public string? dateFrom { get; set; }
         public string? dateTo { get; set; }
+
+        public string? dateFrom_display { get; set; }
+        public string? dateTo_display { get; set; }
     }
 
 }
