@@ -12702,7 +12702,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.ReportRepository.DownloadResultStatisticsReport(model);
-                    if (data.Rows?.Count > 0)
+                    if (data.Tables.Count > 1 && data.Tables[0].Rows?.Count > 0)
                     {
                         //report
                         var fileName = $"ResultStatisticsReports.pdf";
@@ -12711,7 +12711,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/ResultStatisticsReports.rdlc";
 
                         LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("ResultStatisticsReports", data);
+                        localReport.AddDataSource("ResultStatisticsReports", data.Tables[0]);
+                        localReport.AddDataSource("ResultStatisticsReportsTotal", data.Tables[1]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
 
                         //check file exists

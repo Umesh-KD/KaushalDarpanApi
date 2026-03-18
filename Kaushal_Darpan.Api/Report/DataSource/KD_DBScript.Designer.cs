@@ -280,6 +280,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         private Student_ExpDetailsDataTable tableStudent_ExpDetails;
         
+        private ResultStatisticsReportsTotalDataTable tableResultStatisticsReportsTotal;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -693,6 +695,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 }
                 if ((ds.Tables["Student_ExpDetails"] != null)) {
                     base.Tables.Add(new Student_ExpDetailsDataTable(ds.Tables["Student_ExpDetails"]));
+                }
+                if ((ds.Tables["ResultStatisticsReportsTotal"] != null)) {
+                    base.Tables.Add(new ResultStatisticsReportsTotalDataTable(ds.Tables["ResultStatisticsReportsTotal"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -1994,6 +1999,16 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ResultStatisticsReportsTotalDataTable ResultStatisticsReportsTotal {
+            get {
+                return this.tableResultStatisticsReportsTotal;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -2442,6 +2457,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 }
                 if ((ds.Tables["Student_ExpDetails"] != null)) {
                     base.Tables.Add(new Student_ExpDetailsDataTable(ds.Tables["Student_ExpDetails"]));
+                }
+                if ((ds.Tables["ResultStatisticsReportsTotal"] != null)) {
+                    base.Tables.Add(new ResultStatisticsReportsTotalDataTable(ds.Tables["ResultStatisticsReportsTotal"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -3244,6 +3262,12 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                     this.tableStudent_ExpDetails.InitVars();
                 }
             }
+            this.tableResultStatisticsReportsTotal = ((ResultStatisticsReportsTotalDataTable)(base.Tables["ResultStatisticsReportsTotal"]));
+            if ((initTable == true)) {
+                if ((this.tableResultStatisticsReportsTotal != null)) {
+                    this.tableResultStatisticsReportsTotal.InitVars();
+                }
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3510,6 +3534,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             base.Tables.Add(this.tableStatistical_report_Information);
             this.tableStudent_ExpDetails = new Student_ExpDetailsDataTable();
             base.Tables.Add(this.tableStudent_ExpDetails);
+            this.tableResultStatisticsReportsTotal = new ResultStatisticsReportsTotalDataTable();
+            base.Tables.Add(this.tableResultStatisticsReportsTotal);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4282,6 +4308,12 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeResultStatisticsReportsTotal() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e) {
             if ((e.Action == global::System.ComponentModel.CollectionChangeAction.Remove)) {
                 this.InitVars();
@@ -4718,6 +4750,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public delegate void Student_ExpDetailsRowChangeEventHandler(object sender, Student_ExpDetailsRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void ResultStatisticsReportsTotalRowChangeEventHandler(object sender, ResultStatisticsReportsTotalRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -46372,6 +46407,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnRWHCat2;
             
+            private global::System.Data.DataColumn columnRegulationTotal;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ResultStatisticsReportsDataTable() {
@@ -46793,6 +46830,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RegulationTotalColumn {
+                get {
+                    return this.columnRegulationTotal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -46876,7 +46921,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         string Heading_1, 
                         string Heading_2, 
                         string Heading_3, 
-                        string RWHCat2) {
+                        string RWHCat2, 
+                        string RegulationTotal) {
                 ResultStatisticsReportsRow rowResultStatisticsReportsRow = ((ResultStatisticsReportsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Class,
@@ -46926,7 +46972,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         Heading_1,
                         Heading_2,
                         Heading_3,
-                        RWHCat2};
+                        RWHCat2,
+                        RegulationTotal};
                 rowResultStatisticsReportsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowResultStatisticsReportsRow);
                 return rowResultStatisticsReportsRow;
@@ -46997,6 +47044,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnHeading_2 = base.Columns["Heading_2"];
                 this.columnHeading_3 = base.Columns["Heading_3"];
                 this.columnRWHCat2 = base.Columns["RWHCat2"];
+                this.columnRegulationTotal = base.Columns["RegulationTotal"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -47098,6 +47146,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnHeading_3);
                 this.columnRWHCat2 = new global::System.Data.DataColumn("RWHCat2", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRWHCat2);
+                this.columnRegulationTotal = new global::System.Data.DataColumn("RegulationTotal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRegulationTotal);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -55549,6 +55599,811 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "Student_ExpDetailsDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ResultStatisticsReportsTotalDataTable : global::System.Data.TypedTableBase<ResultStatisticsReportsTotalRow> {
+            
+            private global::System.Data.DataColumn columnTotal;
+            
+            private global::System.Data.DataColumn columnTotalStudent;
+            
+            private global::System.Data.DataColumn columnDetain;
+            
+            private global::System.Data.DataColumn columnDropped;
+            
+            private global::System.Data.DataColumn columnAppearedTotal;
+            
+            private global::System.Data.DataColumn columnAppearedMaleR;
+            
+            private global::System.Data.DataColumn columnAppearedMaleEx;
+            
+            private global::System.Data.DataColumn columnAppearedFemaleR;
+            
+            private global::System.Data.DataColumn columnAppearedFemaleEx;
+            
+            private global::System.Data.DataColumn columnRegulationTotal;
+            
+            private global::System.Data.DataColumn columnPercentageRegulation;
+            
+            private global::System.Data.DataColumn columnRegulationMaleR;
+            
+            private global::System.Data.DataColumn columnRegulationMaleEx;
+            
+            private global::System.Data.DataColumn columnRegulationFemaleEx;
+            
+            private global::System.Data.DataColumn columnRegulationFemaleR;
+            
+            private global::System.Data.DataColumn columnPassTotal;
+            
+            private global::System.Data.DataColumn columnPercentageTotal;
+            
+            private global::System.Data.DataColumn columnPassMaleR;
+            
+            private global::System.Data.DataColumn columnPassMaleEx;
+            
+            private global::System.Data.DataColumn columnPassFemaleR;
+            
+            private global::System.Data.DataColumn columnPassFemaleEx;
+            
+            private global::System.Data.DataColumn columnFailTotal;
+            
+            private global::System.Data.DataColumn columnPercentageFail;
+            
+            private global::System.Data.DataColumn columnFailMaleR;
+            
+            private global::System.Data.DataColumn columnFailMaleEx;
+            
+            private global::System.Data.DataColumn columnFailFemaleR;
+            
+            private global::System.Data.DataColumn columnFailFemaleEx;
+            
+            private global::System.Data.DataColumn columnPercentagePassOut;
+            
+            private global::System.Data.DataColumn columnPassOutMaleR;
+            
+            private global::System.Data.DataColumn columnPassOutMaleEx;
+            
+            private global::System.Data.DataColumn columnPassOutFemaleEx;
+            
+            private global::System.Data.DataColumn columnPassOutFemaleR;
+            
+            private global::System.Data.DataColumn columnNotPromoted;
+            
+            private global::System.Data.DataColumn columnUFM;
+            
+            private global::System.Data.DataColumn columnPercentageUFM;
+            
+            private global::System.Data.DataColumn columnRWHCat2;
+            
+            private global::System.Data.DataColumn columnRWH;
+            
+            private global::System.Data.DataColumn columnPassOutTotal;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ResultStatisticsReportsTotalDataTable() {
+                this.TableName = "ResultStatisticsReportsTotal";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ResultStatisticsReportsTotalDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
+            protected ResultStatisticsReportsTotalDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TotalColumn {
+                get {
+                    return this.columnTotal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TotalStudentColumn {
+                get {
+                    return this.columnTotalStudent;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DetainColumn {
+                get {
+                    return this.columnDetain;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DroppedColumn {
+                get {
+                    return this.columnDropped;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AppearedTotalColumn {
+                get {
+                    return this.columnAppearedTotal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AppearedMaleRColumn {
+                get {
+                    return this.columnAppearedMaleR;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AppearedMaleExColumn {
+                get {
+                    return this.columnAppearedMaleEx;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AppearedFemaleRColumn {
+                get {
+                    return this.columnAppearedFemaleR;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AppearedFemaleExColumn {
+                get {
+                    return this.columnAppearedFemaleEx;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RegulationTotalColumn {
+                get {
+                    return this.columnRegulationTotal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PercentageRegulationColumn {
+                get {
+                    return this.columnPercentageRegulation;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RegulationMaleRColumn {
+                get {
+                    return this.columnRegulationMaleR;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RegulationMaleExColumn {
+                get {
+                    return this.columnRegulationMaleEx;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RegulationFemaleExColumn {
+                get {
+                    return this.columnRegulationFemaleEx;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RegulationFemaleRColumn {
+                get {
+                    return this.columnRegulationFemaleR;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PassTotalColumn {
+                get {
+                    return this.columnPassTotal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PercentageTotalColumn {
+                get {
+                    return this.columnPercentageTotal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PassMaleRColumn {
+                get {
+                    return this.columnPassMaleR;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PassMaleExColumn {
+                get {
+                    return this.columnPassMaleEx;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PassFemaleRColumn {
+                get {
+                    return this.columnPassFemaleR;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PassFemaleExColumn {
+                get {
+                    return this.columnPassFemaleEx;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn FailTotalColumn {
+                get {
+                    return this.columnFailTotal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PercentageFailColumn {
+                get {
+                    return this.columnPercentageFail;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn FailMaleRColumn {
+                get {
+                    return this.columnFailMaleR;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn FailMaleExColumn {
+                get {
+                    return this.columnFailMaleEx;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn FailFemaleRColumn {
+                get {
+                    return this.columnFailFemaleR;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn FailFemaleExColumn {
+                get {
+                    return this.columnFailFemaleEx;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PercentagePassOutColumn {
+                get {
+                    return this.columnPercentagePassOut;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PassOutMaleRColumn {
+                get {
+                    return this.columnPassOutMaleR;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PassOutMaleExColumn {
+                get {
+                    return this.columnPassOutMaleEx;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PassOutFemaleExColumn {
+                get {
+                    return this.columnPassOutFemaleEx;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PassOutFemaleRColumn {
+                get {
+                    return this.columnPassOutFemaleR;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn NotPromotedColumn {
+                get {
+                    return this.columnNotPromoted;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn UFMColumn {
+                get {
+                    return this.columnUFM;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PercentageUFMColumn {
+                get {
+                    return this.columnPercentageUFM;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RWHCat2Column {
+                get {
+                    return this.columnRWHCat2;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RWHColumn {
+                get {
+                    return this.columnRWH;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PassOutTotalColumn {
+                get {
+                    return this.columnPassOutTotal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ResultStatisticsReportsTotalRow this[int index] {
+                get {
+                    return ((ResultStatisticsReportsTotalRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ResultStatisticsReportsTotalRowChangeEventHandler ResultStatisticsReportsTotalRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ResultStatisticsReportsTotalRowChangeEventHandler ResultStatisticsReportsTotalRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ResultStatisticsReportsTotalRowChangeEventHandler ResultStatisticsReportsTotalRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ResultStatisticsReportsTotalRowChangeEventHandler ResultStatisticsReportsTotalRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddResultStatisticsReportsTotalRow(ResultStatisticsReportsTotalRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ResultStatisticsReportsTotalRow AddResultStatisticsReportsTotalRow(
+                        string Total, 
+                        string TotalStudent, 
+                        string Detain, 
+                        string Dropped, 
+                        string AppearedTotal, 
+                        string AppearedMaleR, 
+                        string AppearedMaleEx, 
+                        string AppearedFemaleR, 
+                        string AppearedFemaleEx, 
+                        string RegulationTotal, 
+                        string PercentageRegulation, 
+                        string RegulationMaleR, 
+                        string RegulationMaleEx, 
+                        string RegulationFemaleEx, 
+                        string RegulationFemaleR, 
+                        string PassTotal, 
+                        string PercentageTotal, 
+                        string PassMaleR, 
+                        string PassMaleEx, 
+                        string PassFemaleR, 
+                        string PassFemaleEx, 
+                        string FailTotal, 
+                        string PercentageFail, 
+                        string FailMaleR, 
+                        string FailMaleEx, 
+                        string FailFemaleR, 
+                        string FailFemaleEx, 
+                        string PercentagePassOut, 
+                        string PassOutMaleR, 
+                        string PassOutMaleEx, 
+                        string PassOutFemaleEx, 
+                        string PassOutFemaleR, 
+                        string NotPromoted, 
+                        string UFM, 
+                        string PercentageUFM, 
+                        string RWHCat2, 
+                        string RWH, 
+                        string PassOutTotal) {
+                ResultStatisticsReportsTotalRow rowResultStatisticsReportsTotalRow = ((ResultStatisticsReportsTotalRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        Total,
+                        TotalStudent,
+                        Detain,
+                        Dropped,
+                        AppearedTotal,
+                        AppearedMaleR,
+                        AppearedMaleEx,
+                        AppearedFemaleR,
+                        AppearedFemaleEx,
+                        RegulationTotal,
+                        PercentageRegulation,
+                        RegulationMaleR,
+                        RegulationMaleEx,
+                        RegulationFemaleEx,
+                        RegulationFemaleR,
+                        PassTotal,
+                        PercentageTotal,
+                        PassMaleR,
+                        PassMaleEx,
+                        PassFemaleR,
+                        PassFemaleEx,
+                        FailTotal,
+                        PercentageFail,
+                        FailMaleR,
+                        FailMaleEx,
+                        FailFemaleR,
+                        FailFemaleEx,
+                        PercentagePassOut,
+                        PassOutMaleR,
+                        PassOutMaleEx,
+                        PassOutFemaleEx,
+                        PassOutFemaleR,
+                        NotPromoted,
+                        UFM,
+                        PercentageUFM,
+                        RWHCat2,
+                        RWH,
+                        PassOutTotal};
+                rowResultStatisticsReportsTotalRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowResultStatisticsReportsTotalRow);
+                return rowResultStatisticsReportsTotalRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                ResultStatisticsReportsTotalDataTable cln = ((ResultStatisticsReportsTotalDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new ResultStatisticsReportsTotalDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnTotal = base.Columns["Total"];
+                this.columnTotalStudent = base.Columns["TotalStudent"];
+                this.columnDetain = base.Columns["Detain"];
+                this.columnDropped = base.Columns["Dropped"];
+                this.columnAppearedTotal = base.Columns["AppearedTotal"];
+                this.columnAppearedMaleR = base.Columns["AppearedMaleR"];
+                this.columnAppearedMaleEx = base.Columns["AppearedMaleEx"];
+                this.columnAppearedFemaleR = base.Columns["AppearedFemaleR"];
+                this.columnAppearedFemaleEx = base.Columns["AppearedFemaleEx"];
+                this.columnRegulationTotal = base.Columns["RegulationTotal"];
+                this.columnPercentageRegulation = base.Columns["PercentageRegulation"];
+                this.columnRegulationMaleR = base.Columns["RegulationMaleR"];
+                this.columnRegulationMaleEx = base.Columns["RegulationMaleEx"];
+                this.columnRegulationFemaleEx = base.Columns["RegulationFemaleEx"];
+                this.columnRegulationFemaleR = base.Columns["RegulationFemaleR"];
+                this.columnPassTotal = base.Columns["PassTotal"];
+                this.columnPercentageTotal = base.Columns["PercentageTotal"];
+                this.columnPassMaleR = base.Columns["PassMaleR"];
+                this.columnPassMaleEx = base.Columns["PassMaleEx"];
+                this.columnPassFemaleR = base.Columns["PassFemaleR"];
+                this.columnPassFemaleEx = base.Columns["PassFemaleEx"];
+                this.columnFailTotal = base.Columns["FailTotal"];
+                this.columnPercentageFail = base.Columns["PercentageFail"];
+                this.columnFailMaleR = base.Columns["FailMaleR"];
+                this.columnFailMaleEx = base.Columns["FailMaleEx"];
+                this.columnFailFemaleR = base.Columns["FailFemaleR"];
+                this.columnFailFemaleEx = base.Columns["FailFemaleEx"];
+                this.columnPercentagePassOut = base.Columns["PercentagePassOut"];
+                this.columnPassOutMaleR = base.Columns["PassOutMaleR"];
+                this.columnPassOutMaleEx = base.Columns["PassOutMaleEx"];
+                this.columnPassOutFemaleEx = base.Columns["PassOutFemaleEx"];
+                this.columnPassOutFemaleR = base.Columns["PassOutFemaleR"];
+                this.columnNotPromoted = base.Columns["NotPromoted"];
+                this.columnUFM = base.Columns["UFM"];
+                this.columnPercentageUFM = base.Columns["PercentageUFM"];
+                this.columnRWHCat2 = base.Columns["RWHCat2"];
+                this.columnRWH = base.Columns["RWH"];
+                this.columnPassOutTotal = base.Columns["PassOutTotal"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnTotal = new global::System.Data.DataColumn("Total", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotal);
+                this.columnTotalStudent = new global::System.Data.DataColumn("TotalStudent", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalStudent);
+                this.columnDetain = new global::System.Data.DataColumn("Detain", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDetain);
+                this.columnDropped = new global::System.Data.DataColumn("Dropped", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDropped);
+                this.columnAppearedTotal = new global::System.Data.DataColumn("AppearedTotal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAppearedTotal);
+                this.columnAppearedMaleR = new global::System.Data.DataColumn("AppearedMaleR", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAppearedMaleR);
+                this.columnAppearedMaleEx = new global::System.Data.DataColumn("AppearedMaleEx", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAppearedMaleEx);
+                this.columnAppearedFemaleR = new global::System.Data.DataColumn("AppearedFemaleR", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAppearedFemaleR);
+                this.columnAppearedFemaleEx = new global::System.Data.DataColumn("AppearedFemaleEx", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAppearedFemaleEx);
+                this.columnRegulationTotal = new global::System.Data.DataColumn("RegulationTotal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRegulationTotal);
+                this.columnPercentageRegulation = new global::System.Data.DataColumn("PercentageRegulation", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPercentageRegulation);
+                this.columnRegulationMaleR = new global::System.Data.DataColumn("RegulationMaleR", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRegulationMaleR);
+                this.columnRegulationMaleEx = new global::System.Data.DataColumn("RegulationMaleEx", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRegulationMaleEx);
+                this.columnRegulationFemaleEx = new global::System.Data.DataColumn("RegulationFemaleEx", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRegulationFemaleEx);
+                this.columnRegulationFemaleR = new global::System.Data.DataColumn("RegulationFemaleR", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRegulationFemaleR);
+                this.columnPassTotal = new global::System.Data.DataColumn("PassTotal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPassTotal);
+                this.columnPercentageTotal = new global::System.Data.DataColumn("PercentageTotal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPercentageTotal);
+                this.columnPassMaleR = new global::System.Data.DataColumn("PassMaleR", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPassMaleR);
+                this.columnPassMaleEx = new global::System.Data.DataColumn("PassMaleEx", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPassMaleEx);
+                this.columnPassFemaleR = new global::System.Data.DataColumn("PassFemaleR", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPassFemaleR);
+                this.columnPassFemaleEx = new global::System.Data.DataColumn("PassFemaleEx", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPassFemaleEx);
+                this.columnFailTotal = new global::System.Data.DataColumn("FailTotal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFailTotal);
+                this.columnPercentageFail = new global::System.Data.DataColumn("PercentageFail", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPercentageFail);
+                this.columnFailMaleR = new global::System.Data.DataColumn("FailMaleR", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFailMaleR);
+                this.columnFailMaleEx = new global::System.Data.DataColumn("FailMaleEx", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFailMaleEx);
+                this.columnFailFemaleR = new global::System.Data.DataColumn("FailFemaleR", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFailFemaleR);
+                this.columnFailFemaleEx = new global::System.Data.DataColumn("FailFemaleEx", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFailFemaleEx);
+                this.columnPercentagePassOut = new global::System.Data.DataColumn("PercentagePassOut", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPercentagePassOut);
+                this.columnPassOutMaleR = new global::System.Data.DataColumn("PassOutMaleR", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPassOutMaleR);
+                this.columnPassOutMaleEx = new global::System.Data.DataColumn("PassOutMaleEx", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPassOutMaleEx);
+                this.columnPassOutFemaleEx = new global::System.Data.DataColumn("PassOutFemaleEx", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPassOutFemaleEx);
+                this.columnPassOutFemaleR = new global::System.Data.DataColumn("PassOutFemaleR", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPassOutFemaleR);
+                this.columnNotPromoted = new global::System.Data.DataColumn("NotPromoted", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNotPromoted);
+                this.columnUFM = new global::System.Data.DataColumn("UFM", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUFM);
+                this.columnPercentageUFM = new global::System.Data.DataColumn("PercentageUFM", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPercentageUFM);
+                this.columnRWHCat2 = new global::System.Data.DataColumn("RWHCat2", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRWHCat2);
+                this.columnRWH = new global::System.Data.DataColumn("RWH", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRWH);
+                this.columnPassOutTotal = new global::System.Data.DataColumn("PassOutTotal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPassOutTotal);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ResultStatisticsReportsTotalRow NewResultStatisticsReportsTotalRow() {
+                return ((ResultStatisticsReportsTotalRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new ResultStatisticsReportsTotalRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(ResultStatisticsReportsTotalRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ResultStatisticsReportsTotalRowChanged != null)) {
+                    this.ResultStatisticsReportsTotalRowChanged(this, new ResultStatisticsReportsTotalRowChangeEvent(((ResultStatisticsReportsTotalRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ResultStatisticsReportsTotalRowChanging != null)) {
+                    this.ResultStatisticsReportsTotalRowChanging(this, new ResultStatisticsReportsTotalRowChangeEvent(((ResultStatisticsReportsTotalRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ResultStatisticsReportsTotalRowDeleted != null)) {
+                    this.ResultStatisticsReportsTotalRowDeleted(this, new ResultStatisticsReportsTotalRowChangeEvent(((ResultStatisticsReportsTotalRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ResultStatisticsReportsTotalRowDeleting != null)) {
+                    this.ResultStatisticsReportsTotalRowDeleting(this, new ResultStatisticsReportsTotalRowChangeEvent(((ResultStatisticsReportsTotalRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveResultStatisticsReportsTotalRow(ResultStatisticsReportsTotalRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                KD_DBScript ds = new KD_DBScript();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ResultStatisticsReportsTotalDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -91355,6 +92210,23 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RegulationTotal {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReports.RegulationTotalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RegulationTotal\' in table \'ResultStatisticsReports\' is DBNu" +
+                                "ll.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReports.RegulationTotalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsClassNull() {
                 return this.IsNull(this.tableResultStatisticsReports.ClassColumn);
             }
@@ -91927,6 +92799,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetRWHCat2Null() {
                 this[this.tableResultStatisticsReports.RWHCat2Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRegulationTotalNull() {
+                return this.IsNull(this.tableResultStatisticsReports.RegulationTotalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRegulationTotalNull() {
+                this[this.tableResultStatisticsReports.RegulationTotalColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -98253,6 +99137,1119 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         }
         
         /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class ResultStatisticsReportsTotalRow : global::System.Data.DataRow {
+            
+            private ResultStatisticsReportsTotalDataTable tableResultStatisticsReportsTotal;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ResultStatisticsReportsTotalRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableResultStatisticsReportsTotal = ((ResultStatisticsReportsTotalDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Total {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.TotalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Total\' in table \'ResultStatisticsReportsTotal\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.TotalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string TotalStudent {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.TotalStudentColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalStudent\' in table \'ResultStatisticsReportsTotal\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.TotalStudentColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Detain {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.DetainColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Detain\' in table \'ResultStatisticsReportsTotal\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.DetainColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Dropped {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.DroppedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Dropped\' in table \'ResultStatisticsReportsTotal\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.DroppedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string AppearedTotal {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.AppearedTotalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AppearedTotal\' in table \'ResultStatisticsReportsTotal\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.AppearedTotalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string AppearedMaleR {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.AppearedMaleRColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AppearedMaleR\' in table \'ResultStatisticsReportsTotal\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.AppearedMaleRColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string AppearedMaleEx {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.AppearedMaleExColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AppearedMaleEx\' in table \'ResultStatisticsReportsTotal\' is " +
+                                "DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.AppearedMaleExColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string AppearedFemaleR {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.AppearedFemaleRColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AppearedFemaleR\' in table \'ResultStatisticsReportsTotal\' is" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.AppearedFemaleRColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string AppearedFemaleEx {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.AppearedFemaleExColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AppearedFemaleEx\' in table \'ResultStatisticsReportsTotal\' i" +
+                                "s DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.AppearedFemaleExColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RegulationTotal {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.RegulationTotalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RegulationTotal\' in table \'ResultStatisticsReportsTotal\' is" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.RegulationTotalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PercentageRegulation {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.PercentageRegulationColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PercentageRegulation\' in table \'ResultStatisticsReportsTota" +
+                                "l\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.PercentageRegulationColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RegulationMaleR {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.RegulationMaleRColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RegulationMaleR\' in table \'ResultStatisticsReportsTotal\' is" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.RegulationMaleRColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RegulationMaleEx {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.RegulationMaleExColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RegulationMaleEx\' in table \'ResultStatisticsReportsTotal\' i" +
+                                "s DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.RegulationMaleExColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RegulationFemaleEx {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.RegulationFemaleExColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RegulationFemaleEx\' in table \'ResultStatisticsReportsTotal\'" +
+                                " is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.RegulationFemaleExColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RegulationFemaleR {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.RegulationFemaleRColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RegulationFemaleR\' in table \'ResultStatisticsReportsTotal\' " +
+                                "is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.RegulationFemaleRColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PassTotal {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.PassTotalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PassTotal\' in table \'ResultStatisticsReportsTotal\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.PassTotalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PercentageTotal {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.PercentageTotalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PercentageTotal\' in table \'ResultStatisticsReportsTotal\' is" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.PercentageTotalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PassMaleR {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.PassMaleRColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PassMaleR\' in table \'ResultStatisticsReportsTotal\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.PassMaleRColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PassMaleEx {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.PassMaleExColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PassMaleEx\' in table \'ResultStatisticsReportsTotal\' is DBNu" +
+                                "ll.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.PassMaleExColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PassFemaleR {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.PassFemaleRColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PassFemaleR\' in table \'ResultStatisticsReportsTotal\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.PassFemaleRColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PassFemaleEx {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.PassFemaleExColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PassFemaleEx\' in table \'ResultStatisticsReportsTotal\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.PassFemaleExColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string FailTotal {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.FailTotalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FailTotal\' in table \'ResultStatisticsReportsTotal\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.FailTotalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PercentageFail {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.PercentageFailColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PercentageFail\' in table \'ResultStatisticsReportsTotal\' is " +
+                                "DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.PercentageFailColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string FailMaleR {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.FailMaleRColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FailMaleR\' in table \'ResultStatisticsReportsTotal\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.FailMaleRColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string FailMaleEx {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.FailMaleExColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FailMaleEx\' in table \'ResultStatisticsReportsTotal\' is DBNu" +
+                                "ll.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.FailMaleExColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string FailFemaleR {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.FailFemaleRColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FailFemaleR\' in table \'ResultStatisticsReportsTotal\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.FailFemaleRColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string FailFemaleEx {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.FailFemaleExColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FailFemaleEx\' in table \'ResultStatisticsReportsTotal\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.FailFemaleExColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PercentagePassOut {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.PercentagePassOutColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PercentagePassOut\' in table \'ResultStatisticsReportsTotal\' " +
+                                "is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.PercentagePassOutColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PassOutMaleR {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.PassOutMaleRColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PassOutMaleR\' in table \'ResultStatisticsReportsTotal\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.PassOutMaleRColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PassOutMaleEx {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.PassOutMaleExColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PassOutMaleEx\' in table \'ResultStatisticsReportsTotal\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.PassOutMaleExColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PassOutFemaleEx {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.PassOutFemaleExColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PassOutFemaleEx\' in table \'ResultStatisticsReportsTotal\' is" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.PassOutFemaleExColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PassOutFemaleR {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.PassOutFemaleRColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PassOutFemaleR\' in table \'ResultStatisticsReportsTotal\' is " +
+                                "DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.PassOutFemaleRColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string NotPromoted {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.NotPromotedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NotPromoted\' in table \'ResultStatisticsReportsTotal\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.NotPromotedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string UFM {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.UFMColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UFM\' in table \'ResultStatisticsReportsTotal\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.UFMColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PercentageUFM {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.PercentageUFMColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PercentageUFM\' in table \'ResultStatisticsReportsTotal\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.PercentageUFMColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RWHCat2 {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.RWHCat2Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RWHCat2\' in table \'ResultStatisticsReportsTotal\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.RWHCat2Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RWH {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.RWHColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RWH\' in table \'ResultStatisticsReportsTotal\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.RWHColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PassOutTotal {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReportsTotal.PassOutTotalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PassOutTotal\' in table \'ResultStatisticsReportsTotal\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReportsTotal.PassOutTotalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTotalNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.TotalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTotalNull() {
+                this[this.tableResultStatisticsReportsTotal.TotalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTotalStudentNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.TotalStudentColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTotalStudentNull() {
+                this[this.tableResultStatisticsReportsTotal.TotalStudentColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDetainNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.DetainColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDetainNull() {
+                this[this.tableResultStatisticsReportsTotal.DetainColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDroppedNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.DroppedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDroppedNull() {
+                this[this.tableResultStatisticsReportsTotal.DroppedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAppearedTotalNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.AppearedTotalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAppearedTotalNull() {
+                this[this.tableResultStatisticsReportsTotal.AppearedTotalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAppearedMaleRNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.AppearedMaleRColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAppearedMaleRNull() {
+                this[this.tableResultStatisticsReportsTotal.AppearedMaleRColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAppearedMaleExNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.AppearedMaleExColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAppearedMaleExNull() {
+                this[this.tableResultStatisticsReportsTotal.AppearedMaleExColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAppearedFemaleRNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.AppearedFemaleRColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAppearedFemaleRNull() {
+                this[this.tableResultStatisticsReportsTotal.AppearedFemaleRColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAppearedFemaleExNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.AppearedFemaleExColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAppearedFemaleExNull() {
+                this[this.tableResultStatisticsReportsTotal.AppearedFemaleExColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRegulationTotalNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.RegulationTotalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRegulationTotalNull() {
+                this[this.tableResultStatisticsReportsTotal.RegulationTotalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPercentageRegulationNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.PercentageRegulationColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPercentageRegulationNull() {
+                this[this.tableResultStatisticsReportsTotal.PercentageRegulationColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRegulationMaleRNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.RegulationMaleRColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRegulationMaleRNull() {
+                this[this.tableResultStatisticsReportsTotal.RegulationMaleRColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRegulationMaleExNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.RegulationMaleExColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRegulationMaleExNull() {
+                this[this.tableResultStatisticsReportsTotal.RegulationMaleExColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRegulationFemaleExNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.RegulationFemaleExColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRegulationFemaleExNull() {
+                this[this.tableResultStatisticsReportsTotal.RegulationFemaleExColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRegulationFemaleRNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.RegulationFemaleRColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRegulationFemaleRNull() {
+                this[this.tableResultStatisticsReportsTotal.RegulationFemaleRColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPassTotalNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.PassTotalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPassTotalNull() {
+                this[this.tableResultStatisticsReportsTotal.PassTotalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPercentageTotalNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.PercentageTotalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPercentageTotalNull() {
+                this[this.tableResultStatisticsReportsTotal.PercentageTotalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPassMaleRNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.PassMaleRColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPassMaleRNull() {
+                this[this.tableResultStatisticsReportsTotal.PassMaleRColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPassMaleExNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.PassMaleExColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPassMaleExNull() {
+                this[this.tableResultStatisticsReportsTotal.PassMaleExColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPassFemaleRNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.PassFemaleRColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPassFemaleRNull() {
+                this[this.tableResultStatisticsReportsTotal.PassFemaleRColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPassFemaleExNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.PassFemaleExColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPassFemaleExNull() {
+                this[this.tableResultStatisticsReportsTotal.PassFemaleExColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsFailTotalNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.FailTotalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetFailTotalNull() {
+                this[this.tableResultStatisticsReportsTotal.FailTotalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPercentageFailNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.PercentageFailColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPercentageFailNull() {
+                this[this.tableResultStatisticsReportsTotal.PercentageFailColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsFailMaleRNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.FailMaleRColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetFailMaleRNull() {
+                this[this.tableResultStatisticsReportsTotal.FailMaleRColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsFailMaleExNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.FailMaleExColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetFailMaleExNull() {
+                this[this.tableResultStatisticsReportsTotal.FailMaleExColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsFailFemaleRNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.FailFemaleRColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetFailFemaleRNull() {
+                this[this.tableResultStatisticsReportsTotal.FailFemaleRColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsFailFemaleExNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.FailFemaleExColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetFailFemaleExNull() {
+                this[this.tableResultStatisticsReportsTotal.FailFemaleExColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPercentagePassOutNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.PercentagePassOutColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPercentagePassOutNull() {
+                this[this.tableResultStatisticsReportsTotal.PercentagePassOutColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPassOutMaleRNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.PassOutMaleRColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPassOutMaleRNull() {
+                this[this.tableResultStatisticsReportsTotal.PassOutMaleRColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPassOutMaleExNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.PassOutMaleExColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPassOutMaleExNull() {
+                this[this.tableResultStatisticsReportsTotal.PassOutMaleExColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPassOutFemaleExNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.PassOutFemaleExColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPassOutFemaleExNull() {
+                this[this.tableResultStatisticsReportsTotal.PassOutFemaleExColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPassOutFemaleRNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.PassOutFemaleRColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPassOutFemaleRNull() {
+                this[this.tableResultStatisticsReportsTotal.PassOutFemaleRColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsNotPromotedNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.NotPromotedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetNotPromotedNull() {
+                this[this.tableResultStatisticsReportsTotal.NotPromotedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsUFMNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.UFMColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetUFMNull() {
+                this[this.tableResultStatisticsReportsTotal.UFMColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPercentageUFMNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.PercentageUFMColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPercentageUFMNull() {
+                this[this.tableResultStatisticsReportsTotal.PercentageUFMColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRWHCat2Null() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.RWHCat2Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRWHCat2Null() {
+                this[this.tableResultStatisticsReportsTotal.RWHCat2Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRWHNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.RWHColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRWHNull() {
+                this[this.tableResultStatisticsReportsTotal.RWHColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPassOutTotalNull() {
+                return this.IsNull(this.tableResultStatisticsReportsTotal.PassOutTotalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPassOutTotalNull() {
+                this[this.tableResultStatisticsReportsTotal.PassOutTotalColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -102590,6 +104587,40 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public Student_ExpDetailsRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class ResultStatisticsReportsTotalRowChangeEvent : global::System.EventArgs {
+            
+            private ResultStatisticsReportsTotalRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ResultStatisticsReportsTotalRowChangeEvent(ResultStatisticsReportsTotalRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ResultStatisticsReportsTotalRow Row {
                 get {
                     return this.eventRow;
                 }

@@ -67,6 +67,31 @@ namespace Kaushal_Darpan.Api.Code.Helper
             }
         }
 
+        public static decimal SafeToDecimal(this object value)
+        {
+            try
+            {
+                if (value == null)
+                    return 0;
+
+                string str = value.ToString().Trim();
+
+                if (string.IsNullOrEmpty(str) || str == "--" || str == "N/A")
+                    return 0;
+
+                str = str.Replace("%", "");
+
+                if (decimal.TryParse(str, out decimal result))
+                    return result;
+
+                return 0;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
     }
 
     public static class WordHelper

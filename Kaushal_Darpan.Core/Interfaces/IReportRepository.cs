@@ -243,7 +243,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetBterBridgeCourseReport(BterStatisticsReportDataModel filterModel);
 
         Task<DataTable> ResultStatisticsBridgeCourseReport(StatisticsBridgeCourseModel model);
-        Task<DataTable> DownloadResultStatisticsReport(StatisticsBridgeCourseModel model);
+        Task<DataSet> DownloadResultStatisticsReport(StatisticsBridgeCourseModel model);
         Task<DataTable> DownloadResultStatisticsBridgeCourseStreamWiseReport(StatisticsBridgeCourseModel model);
         Task<DataSet> GetBterBranchWiseStatisticalReport(BterStatisticsReportDataModel filterModel);
 
