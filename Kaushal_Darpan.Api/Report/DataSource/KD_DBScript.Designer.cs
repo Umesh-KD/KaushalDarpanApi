@@ -46364,6 +46364,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnPercentageUFM;
             
+            private global::System.Data.DataColumn columnHeading_1;
+            
+            private global::System.Data.DataColumn columnHeading_2;
+            
+            private global::System.Data.DataColumn columnHeading_3;
+            
+            private global::System.Data.DataColumn columnRWHCat2;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ResultStatisticsReportsDataTable() {
@@ -46753,6 +46761,38 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Heading_1Column {
+                get {
+                    return this.columnHeading_1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Heading_2Column {
+                get {
+                    return this.columnHeading_2;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Heading_3Column {
+                get {
+                    return this.columnHeading_3;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RWHCat2Column {
+                get {
+                    return this.columnRWHCat2;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -46832,7 +46872,11 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         string PercentageRegulation, 
                         string PercentageFail, 
                         string PercentagePassOut, 
-                        string PercentageUFM) {
+                        string PercentageUFM, 
+                        string Heading_1, 
+                        string Heading_2, 
+                        string Heading_3, 
+                        string RWHCat2) {
                 ResultStatisticsReportsRow rowResultStatisticsReportsRow = ((ResultStatisticsReportsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Class,
@@ -46878,7 +46922,11 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         PercentageRegulation,
                         PercentageFail,
                         PercentagePassOut,
-                        PercentageUFM};
+                        PercentageUFM,
+                        Heading_1,
+                        Heading_2,
+                        Heading_3,
+                        RWHCat2};
                 rowResultStatisticsReportsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowResultStatisticsReportsRow);
                 return rowResultStatisticsReportsRow;
@@ -46945,6 +46993,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnPercentageFail = base.Columns["PercentageFail"];
                 this.columnPercentagePassOut = base.Columns["PercentagePassOut"];
                 this.columnPercentageUFM = base.Columns["PercentageUFM"];
+                this.columnHeading_1 = base.Columns["Heading_1"];
+                this.columnHeading_2 = base.Columns["Heading_2"];
+                this.columnHeading_3 = base.Columns["Heading_3"];
+                this.columnRWHCat2 = base.Columns["RWHCat2"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -47038,6 +47090,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnPercentagePassOut);
                 this.columnPercentageUFM = new global::System.Data.DataColumn("PercentageUFM", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPercentageUFM);
+                this.columnHeading_1 = new global::System.Data.DataColumn("Heading_1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnHeading_1);
+                this.columnHeading_2 = new global::System.Data.DataColumn("Heading_2", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnHeading_2);
+                this.columnHeading_3 = new global::System.Data.DataColumn("Heading_3", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnHeading_3);
+                this.columnRWHCat2 = new global::System.Data.DataColumn("RWHCat2", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRWHCat2);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -91231,6 +91291,70 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Heading_1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReports.Heading_1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Heading_1\' in table \'ResultStatisticsReports\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReports.Heading_1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Heading_2 {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReports.Heading_2Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Heading_2\' in table \'ResultStatisticsReports\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReports.Heading_2Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Heading_3 {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReports.Heading_3Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Heading_3\' in table \'ResultStatisticsReports\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReports.Heading_3Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RWHCat2 {
+                get {
+                    try {
+                        return ((string)(this[this.tableResultStatisticsReports.RWHCat2Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RWHCat2\' in table \'ResultStatisticsReports\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResultStatisticsReports.RWHCat2Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsClassNull() {
                 return this.IsNull(this.tableResultStatisticsReports.ClassColumn);
             }
@@ -91755,6 +91879,54 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetPercentageUFMNull() {
                 this[this.tableResultStatisticsReports.PercentageUFMColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsHeading_1Null() {
+                return this.IsNull(this.tableResultStatisticsReports.Heading_1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetHeading_1Null() {
+                this[this.tableResultStatisticsReports.Heading_1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsHeading_2Null() {
+                return this.IsNull(this.tableResultStatisticsReports.Heading_2Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetHeading_2Null() {
+                this[this.tableResultStatisticsReports.Heading_2Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsHeading_3Null() {
+                return this.IsNull(this.tableResultStatisticsReports.Heading_3Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetHeading_3Null() {
+                this[this.tableResultStatisticsReports.Heading_3Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRWHCat2Null() {
+                return this.IsNull(this.tableResultStatisticsReports.RWHCat2Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRWHCat2Null() {
+                this[this.tableResultStatisticsReports.RWHCat2Column] = global::System.Convert.DBNull;
             }
         }
         
