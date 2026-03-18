@@ -1269,6 +1269,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Status", model.Status);
                         command.Parameters.AddWithValue("@Remarks", model.Remarks);
                         command.Parameters.AddWithValue("@FinYearId", model.FinYearId);
+                        command.Parameters.AddWithValue("@BankID", model.BankID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

@@ -113,6 +113,7 @@ public class ITIPlanningBankGuaranteeModel
     public int? Status { get; set; } 
     public string? Remarks { get; set; } 
     public int? FinYearId { get; set; } 
+    public int? BankID { get; set; } 
     
 }
 
