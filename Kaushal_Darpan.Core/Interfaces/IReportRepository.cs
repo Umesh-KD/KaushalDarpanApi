@@ -311,7 +311,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStaticsReportExaminerMarksData(GroupCenterMappingModel filterModel);
         Task<DataTable> GetExamResultStudentStaticsReport(ExamResultStudentStaticsModel model);
         Task<DataTable> GetSubjectTheoryParcticalMarkStaticsReport(ExamResultStudentStaticsModel model);
-        Task<DataTable> downloadResultAppearedPassedStatisticsReport(ResultAppearedPassedStatisticsReportModel model);
+        Task<DataSet> downloadResultAppearedPassedStatisticsReport(ResultAppearedPassedStatisticsReportModel model);
         Task<DataTable> GetExamWiseStreamPapersreport(ExamWiseStreamPapersReportModel model);
+        Task<DataTable> GetStudentAllMarksReport(StudentAllMarksReportModel model);
     }
 }

@@ -4038,8 +4038,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         public async Task<Int64> UpdateEmitraApplicationPaymentStatus(EmitraResponseParametersModel request)
         {
-            return await Task.Run(async () =>
-            {
+           
                 _actionName = "UpdateEmitraPaymentStatus(EmitraResponseParametersModel request)";
                 try
                 {
@@ -4088,7 +4087,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+        
         }
         public async Task<DataTable> GetEmitraTransactionDetails(string PRN)
         {

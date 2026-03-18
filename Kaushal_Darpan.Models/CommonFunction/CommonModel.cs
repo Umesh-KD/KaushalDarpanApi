@@ -166,8 +166,9 @@ namespace Kaushal_Darpan.Models.CommonModel
         public int TotalRWHPrevSemNotCleared { get; set; }
         public string? Division { get; set; }
         public string? RollNos { get; set; }
-
-
+        public string? FileNo1 { get; set; }
+        public string? FileNo2 { get; set; }
+        public DateOnly? FileDate { get; set; }
     }
 
     public class ExamWiseStreamPapersReportModel
@@ -177,6 +178,15 @@ namespace Kaushal_Darpan.Models.CommonModel
         public int CourseTypeID { get; set; }
         public int StreamID { get; set; }
         public int SemesterId { get; set; }
+        public int SchemeID { get; set; }
+    }
+
+    public class StudentAllMarksReportModel
+    {
+        public int DepartmentID { get; set; }
+        public int Eng_NonEng { get; set; }
+        public int EndTermID { get; set; }
+        public int SemesterID { get; set; }
         public int SchemeID { get; set; }
     }
 

@@ -5114,8 +5114,9 @@ namespace Kaushal_Darpan.Api.Controllers
                         string strmName = data.Tables[0].Rows[0]["StreamName"].ToString();
                         string rdlcpath = "";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        if (strmName.Length>37) {
-                          rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheetOther.rdlc";
+                        if (strmName.Length > 37)
+                        {
+                            rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheetOther.rdlc";
                         }
                         else
                         {
@@ -12830,11 +12831,12 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.ReportRepository.GetBterBranchWiseStatisticalReport(model);
-                    if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+                    if (data?.Tables?.Count > 1 && data.Tables[0].Rows.Count > 0)
                     {
 
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         data.Tables[0].TableName = "BranchWiseStatistical";
+                        data.Tables[1].TableName = "BranchWiseStatisticalHeading";
 
 
 
@@ -16857,14 +16859,22 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         #region downloadResultAppearedPassedStatisticsReport
-        
+
         [HttpPost("getResultAppearedPassedStatisticsReport")]
         public async Task<IActionResult> getResultAppearedPassedStatisticsReport([FromBody] ResultAppearedPassedStatisticsReportModel data)
         {
             try
             {
                 var main_data = await _unitOfWork.ReportRepository.downloadResultAppearedPassedStatisticsReport(data);
-                var dataList = CommonFuncationHelper.ConvertDataTable<List<ResultAppearedPassedStatisticsReportModel>>(main_data);
+                if (main_data == null || main_data.Tables.Count < 2)
+                {
+                    throw new Exception("Data not found for the given parameters.");
+                }
+
+                //heading
+                var dt_heading = main_data.Tables[1].Rows[0];
+
+                var dataList = CommonFuncationHelper.ConvertDataTable<List<ResultAppearedPassedStatisticsReportModel>>(main_data.Tables[0]);
                 if (dataList == null) dataList = new List<ResultAppearedPassedStatisticsReportModel>();
 
                 var streamHtml = string.Join("", dataList
@@ -16949,27 +16959,27 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     <tr>
                     <td style='width:20%; padding:5px; border-bottom:1px solid #000;'>
-                    N O.:1555
+                    NO. : {data.FileNo1}
                     </td>
 
                     <td style='width:60%; text-align:center; font-weight:bold; border-bottom:1px solid #000;'>
-                    Government of Rajasthan
+                    {dt_heading["Heading_1"]}
                     </td>
 
                     <td style='width:20%; text-align:right; padding:5px; border-bottom:1px solid #000;'>
-                    Date: {DateTime.Now:dd MMMM yyyy}
+                    Date : {data.FileDate:dd MMMM yyyy}
                     </td>
                     </tr>
 
                     <tr>
                     <td colspan='3' style='text-align:center; font-weight:bold; padding:5px; border-bottom:1px solid #000;'>
-                    Board of Technical Education Rajasthan (BTER), Jodhpur
+                    {dt_heading["Heading_2"]}
                     </td>
                     </tr>
 
                     <tr>
                     <td colspan='3' style='text-align:center; padding:5px; border-bottom:1px solid #000;'>
-                    List of Passed Candidates - Sixth Semester (SPECIAL) - Third Year - Diploma Engineering Exam End Term May,2024 Session 2023-24 (HELD IN END TERM NOV-2024)
+                    {dt_heading["Heading_3"]}
                     </td>
                     </tr>
 
@@ -16982,17 +16992,24 @@ namespace Kaushal_Darpan.Api.Controllers
                     </table>
 
                     {streamHtml}
-
                     <div style='margin-top:10px;padding:5px;'>
+                    <p>                    
+                    NO. : {data.FileNo2}
+                    <span style='float:right;'>
+                    Date : {data.FileDate:dd MMMM yyyy}
+                    </span>
+                    </p>
                     <p>Copy for information and necessary action to:</p>
                     1. Jt.Director confidential Board of Technical Education, Rajasthan, Jodhpur<br>
                     2. Incharge, Computer section for upload result<br>
                     3. Examination section Board of Technical Education, Rajasthan, Jodhpur 
                     <div style='margin-top:20px;'>
                     <span style='float:left;font-weight:bold;'>
-                    Date of Declaration : {DateTime.Now:dd MMMM yyyy}
+                    Date of Declaration : {data.FileDate:dd MMMM yyyy}
                     </span>
-
+                    <br/>
+                    <br/>
+                    <br/>                    
                     <span style='float:right;font-weight:bold;'>
                     REGISTRAR
                     </span>
@@ -17025,7 +17042,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             FooterSettings = new FooterSettings
                             {
                                 FontName = "Arial",
-                                FontSize = 9,
+                                FontSize = 7,
                                 Right = "Page [page] of [toPage]",
                                 Left = "Printed on: [date]",
                                 Line = true
@@ -17056,6 +17073,41 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetExamWiseStreamPapersreport(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("GetStudentAllMarksReport")]
+        public async Task<ApiResult<DataTable>> GetStudentAllMarksReport(StudentAllMarksReportModel model)
+        {
+            ActionName = "GetStudentAllMarksReport()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetStudentAllMarksReport(model));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {

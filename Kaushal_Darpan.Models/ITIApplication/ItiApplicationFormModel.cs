@@ -183,9 +183,17 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public string? IPAddress { get; set; }
         public string? FileName { get; set; }
         public string? DisFileName { get; set; }
+        public string? StateName { get; set; }
+        public string? ExamPassedName { get; set; }
         public string? QualificationLevel { get; set; }
+        public string? StreamName { get; set; }
+        public string? MarktypeName { get; set; }
+        public string? Dis_TechDocument { get; set; } 
+        public string? TechDocument { get; set; }
+        public string? ExamName { get; set; }
         public int? TechExamID { get; set; }
         public int? StreamID{ get; set; }
+        public int? TradeScheme{ get; set; }
     }
 
     public class HighestQualificationDetailsDataModel
@@ -310,6 +318,11 @@ namespace Kaushal_Darpan.Models.ITIApplication
         public int DepartmentID { get; set; } = 2;
         public string SSOID { get; set; } = string.Empty;
         public int AcademicYear { get; set; }
+        public string? dateFrom { get; set; }
+        public string? dateTo { get; set; }
+
+        public string? dateFrom_display { get; set; }
+        public string? dateTo_display { get; set; }
     }
 
 }

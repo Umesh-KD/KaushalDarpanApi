@@ -44,4 +44,12 @@
         public int? StudentID { get; set; }
         public int? SemesterID { get; set; }
     }
+
+    public class StudentResultSearchModel
+    {
+        public int? EndTermID { get; set; }
+        public int? SemesterID { get; set; }
+        public string? RollNo { get; set; }
+        public string? DOB { get; set; }
+    }
 }
