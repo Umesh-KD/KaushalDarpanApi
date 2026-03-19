@@ -628,14 +628,14 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("GetPlanningList/{CollegeID}/{Status}/{ITItypeID?}")]
-        public async Task<ApiResult<DataTable>> GetPlanningList(int CollegeID, int Status, int? ITItypeID = null)
+        [HttpGet("GetPlanningList/{CollegeID}/{Status}/{ITItypeID?}/{DistrictID}")]
+        public async Task<ApiResult<DataTable>> GetPlanningList(int CollegeID, int Status, int? ITItypeID = null,int? DistrictID=0)
         {
             ActionName = "GetExamStudentData()";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.ITICollegeMasterRepository.GetPlanningList(CollegeID,  Status,  ITItypeID ?? 0));
+                result.Data = await Task.Run(() => _unitOfWork.ITICollegeMasterRepository.GetPlanningList(CollegeID,  Status,  ITItypeID ?? 0,DistrictID));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {

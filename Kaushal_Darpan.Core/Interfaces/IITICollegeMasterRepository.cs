@@ -10,7 +10,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetAllData(ITIsSearchModel model);
         Task<DataTable> GetAllEstablishmentIti(ItiEstablishmentSearchModel model);
-        Task<DataTable> GetPlanningList(int CollegeID , int? ITItypeID, int Status);
+        Task<DataTable> GetPlanningList(int CollegeID , int? ITItypeID, int Status,int? DistrictID);
         Task<DataTable> ViewWorkflow(int CollegeID);
         Task<ITICollegeMasterModel> Get_ITIsData_ByID(int Id);
         Task<ITI_PlanningColleges> Get_ITIsPlanningData_ByID(int Id);

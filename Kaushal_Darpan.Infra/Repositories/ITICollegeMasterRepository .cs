@@ -544,6 +544,19 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Bill_DisFilename", request.Bill_DisFilename);
                         command.Parameters.AddWithValue("@Bill_Filename", request.Bill_Filename);
                         command.Parameters.AddWithValue("@KNo", request.KNo);
+                        command.Parameters.AddWithValue("@ContactName", request.ContactName);
+                        command.Parameters.AddWithValue("@ContactDesignation", request.ContactDesignation);
+                        command.Parameters.AddWithValue("@LandlineNo", request.LandlineNo);
+                        command.Parameters.AddWithValue("@KNo", request.KNo);
+                        command.Parameters.AddWithValue("@AmountAvailable", request.AmountAvailable);
+                        command.Parameters.AddWithValue("@AmountRequired", request.AmountRequired);
+                        command.Parameters.AddWithValue("@AmountDifference", request.AmountDifference);
+                        command.Parameters.AddWithValue("@IsCourt", request.IsCourt);
+                        command.Parameters.AddWithValue("@HighCourt", request.HighCourt);
+                        command.Parameters.AddWithValue("@WritNo", request.WritNo);
+                        command.Parameters.AddWithValue("@CourtDocumernt", request.CourtDocumernt);
+                        command.Parameters.AddWithValue("@DisCourtDocumernt", request.DisCourtDocumernt);
+                        command.Parameters.AddWithValue("@CourtDate", request.CourtDate);
                         command.Parameters.AddWithValue("@ItiAffiliationList", JsonConvert.SerializeObject(request.ItiAffiliationList));
                         command.Parameters.AddWithValue("@ItiMembers", JsonConvert.SerializeObject(request.ItiMembersModel));
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
@@ -602,6 +615,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@AffilationRemark", request.AffilationRemark);
                         command.Parameters.AddWithValue("@TrustMemberStatus", request.TrustMemberStatus);
                         command.Parameters.AddWithValue("@TrustMemberRemark", request.TrustMemberRemark);
+                        command.Parameters.AddWithValue("@BankRemark", request.BankRemark);
+                        command.Parameters.AddWithValue("@BankStatus", request.BankStatus);
                         command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
     
 
@@ -904,7 +919,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> GetPlanningList(int CollegeID,int? ITItypeID,int Status)
+        public async Task<DataTable> GetPlanningList(int CollegeID,int? ITItypeID,int Status,int? DistrictID)
         {
             _actionName = "GetPlanningList()";
             return await Task.Run(async () =>
@@ -920,6 +935,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CollegeID", CollegeID);
                         command.Parameters.AddWithValue("@ManagementTypeId", ITItypeID);
                         command.Parameters.AddWithValue("@Status", Status);
+                        command.Parameters.AddWithValue("@DistrictID", DistrictID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

@@ -41,6 +41,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@MobileNo", body.MobileNo);
                         command.Parameters.AddWithValue("@Email", body.Email);
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -127,6 +128,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@RoleID", request.RoleID);
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", request.Eng_NonEng);
                    
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.Add("@Return", SqlDbType.Int); // out

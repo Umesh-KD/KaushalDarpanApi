@@ -118,7 +118,20 @@ namespace Kaushal_Darpan.Models.ITIPlanning
 
         public string? AffilationStatus { get; set; }
         public string? AffilationRemark { get; set; }
-
+        public string? ContactName { get; set; }
+        public string? ContactDesignation { get; set; }
+        public string? LandlineNo { get; set; }
+        public string? BankStatus { get; set; }
+        public string? BankRemark { get; set; }
+        public string? CourtDate { get; set; }
+        public string? DisCourtDocumernt { get; set; }
+        public string? CourtDocumernt { get; set; }
+        public string? WritNo { get; set; }
+        public string? HighCourt { get; set; }
+        public bool? IsCourt { get; set; }
+        public bool? AmountDifference { get; set; }
+        public bool? AmountRequired { get; set; }
+        public bool? AmountAvailable { get; set; }
     }
 
         public class ItiAffiliationList
