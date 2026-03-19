@@ -1,17 +1,17 @@
 <table style="border-collapse: collapse; width: 100%; font-size: 12px; border-bottom: 1px solid #acacac;" cellpadding="4">
     <thead>
         <tr>
-            <th style="border: 1px solid #acacac; border-bottom: 0; padding: 6px; text-align: center;" colspan="13">
+            <th style="border: 1px solid #acacac; border-bottom: 0; padding: 6px; text-align: center;" colspan="{#=BranchWiseStatistical.ColSpan=#}">
                 {#=BranchWiseStatisticalHeading.Heading_1=#}
             </th>
         </tr>
         <tr>
-            <th style="border: 1px solid #acacac; border-bottom: 0; padding: 6px; text-align: center;" colspan="13">
+            <th style="border: 1px solid #acacac; border-bottom: 0; padding: 6px; text-align: center;" colspan="{#=BranchWiseStatistical.ColSpan=#}">
                 {#=BranchWiseStatisticalHeading.Heading_2=#}
             </th>
         </tr>
         <tr>
-            <th style="border: 1px solid #acacac; border-bottom: 0; text-align: center; padding: 6px;" colspan="13">
+            <th style="border: 1px solid #acacac; border-bottom: 0; text-align: center; padding: 6px;" colspan="{#=BranchWiseStatistical.ColSpan=#}">
                 {#=BranchWiseStatisticalHeading.Heading_3=#}
             </th>
         </tr>
@@ -38,7 +38,7 @@
     <tbody>
         {#LOOP.BranchWiseStatistical#}
         <tr>
-            <td colspan="13" style="border: 1px solid #acacac; border-bottom: 0; padding: 6px;">{#=BranchWiseStatistical.BranchName=#}</td>
+            <td colspan="{#=BranchWiseStatistical.ColSpan=#}" style="border: 1px solid #acacac; border-bottom: 0; padding: 6px;">{#=BranchWiseStatistical.BranchName=#}</td>
         </tr>
         <tr>
             <td style="border: 1px solid #acacac; border-bottom: 0; border-right: 0; white-space: nowrap; padding: 6px;">{#=BranchWiseStatistical.InstituteName=#}</td>

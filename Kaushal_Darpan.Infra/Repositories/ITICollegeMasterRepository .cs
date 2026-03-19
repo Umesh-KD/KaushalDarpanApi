@@ -1288,6 +1288,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Remarks", model.Remarks);
                         command.Parameters.AddWithValue("@FinYearId", model.FinYearId);
                         command.Parameters.AddWithValue("@BankID", model.BankID);
+                        command.Parameters.AddWithValue("@Action", model.ActionType);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -1450,6 +1451,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+
+        public async Task<DataTable> statusUpdateById(ITIPlanningStatusUpdateByIdModel body)
+        {
+            _actionName = "statusUpdateById()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetITIPlanningStatusUpdateById";
+                        command.Parameters.AddWithValue("@BankGuaranteeID", body.BankGuaranteeID);
+                        command.Parameters.AddWithValue("@Status", body.Status);
+                        command.Parameters.AddWithValue("@Remarks", body.Remarks);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 

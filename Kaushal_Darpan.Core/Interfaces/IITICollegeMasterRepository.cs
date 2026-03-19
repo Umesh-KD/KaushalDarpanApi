@@ -35,5 +35,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> ITIPlanningBankGuaranteeReport(ITIPlanningBankGuaranteeSearch filterModel);
         Task<DataTable> ITIPlanningBankGuaranteeReturn(ITIPlanningBankGuaranteeReturn filterModel);
         Task<DataTable> ITIPlanningBankGuaranteeGetByID(int BankGuaranteeID);
+        Task<DataTable> statusUpdateById(ITIPlanningStatusUpdateByIdModel model);
     }
 }
