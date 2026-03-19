@@ -129,9 +129,11 @@ namespace Kaushal_Darpan.Models.ITIPlanning
         public string? WritNo { get; set; }
         public string? HighCourt { get; set; }
         public bool? IsCourt { get; set; }
-        public bool? AmountDifference { get; set; }
-        public bool? AmountRequired { get; set; }
-        public bool? AmountAvailable { get; set; }
+        public string? AmountDifference { get; set; }
+        public string? AmountRequired { get; set; }
+        public string? AmountAvailable { get; set; }
+        public string? BuildingPlan { get; set; }
+        public string? DisBuildingPlan { get; set; }
     }
 
         public class ItiAffiliationList

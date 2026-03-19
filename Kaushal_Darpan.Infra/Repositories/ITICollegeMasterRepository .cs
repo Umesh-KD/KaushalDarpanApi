@@ -557,6 +557,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CourtDocumernt", request.CourtDocumernt);
                         command.Parameters.AddWithValue("@DisCourtDocumernt", request.DisCourtDocumernt);
                         command.Parameters.AddWithValue("@CourtDate", request.CourtDate);
+                        command.Parameters.AddWithValue("@BuildingPlan", request.BuildingPlan);
+                        command.Parameters.AddWithValue("@DisBuildingPlan", request.DisBuildingPlan);
                         command.Parameters.AddWithValue("@ItiAffiliationList", JsonConvert.SerializeObject(request.ItiAffiliationList));
                         command.Parameters.AddWithValue("@ItiMembers", JsonConvert.SerializeObject(request.ItiMembersModel));
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
