@@ -7423,39 +7423,38 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         public async Task<DataSet> GetBterBranchWiseStatisticalReport(BterStatisticsReportDataModel filterModel)
         {
-            return await Task.Run(async () =>
+            try
             {
-                try
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var ds = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "Usp_Bter_BranchWiseStatisticalReport";
-                        command.Parameters.AddWithValue("@FinancialYearID", filterModel.AcademicYearID);
-                        command.Parameters.AddWithValue("@CourseType", filterModel.Eng_NonEng);
-                        command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterID);
-                        command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        ds = await command.FillAsync();
-                    }
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "Usp_Bter_BranchWiseStatisticalReport";
 
-                    return ds;
+                    command.Parameters.AddWithValue("@FinancialYearID", filterModel.AcademicYearID);
+                    command.Parameters.AddWithValue("@CourseType", filterModel.Eng_NonEng);
+                    command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterID);
+                    command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
                 }
-                catch (Exception ex)
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
 
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
@@ -7498,12 +7497,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<DataTable> DownloadResultStatisticsReport(StatisticsBridgeCourseModel model)
+        public async Task<DataSet> DownloadResultStatisticsReport(StatisticsBridgeCourseModel model)
         {
             _actionName = "GetStudentRollNoList(DownloadnRollNoModel model)";
             try
             {
-                var dt = new DataTable();
+                var ds = new DataSet();
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
@@ -7517,9 +7516,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@StreamID", model.StreamID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
-                    dt = await command.FillAsync_DataTable();
+                    ds = await command.FillAsync();
                 }
-                return dt;
+                return ds;
             }
             catch (Exception ex)
             {
@@ -9612,6 +9611,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@SemesterId", model.SemesterId);
                     command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
                     command.Parameters.AddWithValue("@Action", "_getExamWiseStream_Papers_Avmax");
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetStudentAllMarksReport(StudentAllMarksReportModel model)
+        {
+            _actionName = "GetStudentAllMarksReport(StudentAllMarksReportModel model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StudentAllMarksReport";
+                  
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();

@@ -12702,7 +12702,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.ReportRepository.DownloadResultStatisticsReport(model);
-                    if (data.Rows?.Count > 0)
+                    if (data.Tables.Count > 1 && data.Tables[0].Rows?.Count > 0)
                     {
                         //report
                         var fileName = $"ResultStatisticsReports.pdf";
@@ -12711,7 +12711,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/ResultStatisticsReports.rdlc";
 
                         LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("ResultStatisticsReports", data);
+                        localReport.AddDataSource("ResultStatisticsReports", data.Tables[0]);
+                        localReport.AddDataSource("ResultStatisticsReportsTotal", data.Tables[1]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
 
                         //check file exists
@@ -12831,11 +12832,12 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.ReportRepository.GetBterBranchWiseStatisticalReport(model);
-                    if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+                    if (data?.Tables?.Count > 1 && data.Tables[0].Rows.Count > 0)
                     {
 
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         data.Tables[0].TableName = "BranchWiseStatistical";
+                        data.Tables[1].TableName = "BranchWiseStatisticalHeading";
 
 
 
@@ -17072,6 +17074,41 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetExamWiseStreamPapersreport(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("GetStudentAllMarksReport")]
+        public async Task<ApiResult<DataTable>> GetStudentAllMarksReport(StudentAllMarksReportModel model)
+        {
+            ActionName = "GetStudentAllMarksReport()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetStudentAllMarksReport(model));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {

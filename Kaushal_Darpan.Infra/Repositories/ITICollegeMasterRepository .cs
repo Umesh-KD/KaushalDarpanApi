@@ -1285,6 +1285,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Status", model.Status);
                         command.Parameters.AddWithValue("@Remarks", model.Remarks);
                         command.Parameters.AddWithValue("@FinYearId", model.FinYearId);
+                        command.Parameters.AddWithValue("@BankID", model.BankID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -1323,7 +1324,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@status", body.status);
                         command.Parameters.AddWithValue("@CollageId", body.CollageId);
                         command.Parameters.AddWithValue("@dayWise", body.dayWise);
-                        
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

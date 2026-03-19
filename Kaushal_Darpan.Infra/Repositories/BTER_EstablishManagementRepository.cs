@@ -108,7 +108,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         
-                        command.CommandText = "USP_BTER_EM_GetStaffList";
+                        //command.CommandText = "USP_BTER_EM_GetStaffList";
+                        command.CommandText = "USP_BTER_EM_GetStaffList_Report";
                         command.Parameters.AddWithValue("@action", "GetData");
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
