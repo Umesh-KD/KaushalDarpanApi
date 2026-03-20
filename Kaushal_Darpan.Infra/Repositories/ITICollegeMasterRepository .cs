@@ -647,6 +647,55 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+        public async Task<bool> SaveItiworkdocument(ItiVerificationModel request)
+        {
+            _actionName = "SaveDataPlanning(ITI_PlanningColleges request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int returnValue = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandText = "USP_ITIPlanningUploadDocument"; // Your stored procedure
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@CollegeId", request.InstituteID);
+                
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@FileName", request.FileName);
+                        command.Parameters.AddWithValue("@DisFileName", request.DisFileName);
+               
+
+
+                        var returnParam = new SqlParameter("@Return", SqlDbType.Int) { Direction = ParameterDirection.Output };
+                        command.Parameters.Add(returnParam);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        await command.ExecuteNonQueryAsync();
+                        returnValue = (int)returnParam.Value;
+
+                        return returnValue > 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
         public async Task<bool> SaveDataReport(ItiReportDataModel request)
         {
             _actionName = "SaveData(ItiReportDataModel request)";

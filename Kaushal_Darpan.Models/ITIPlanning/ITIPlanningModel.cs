@@ -134,6 +134,9 @@ namespace Kaushal_Darpan.Models.ITIPlanning
         public string? AmountAvailable { get; set; }
         public string? BuildingPlan { get; set; }
         public string? DisBuildingPlan { get; set; }
+
+
+
     }
 
         public class ItiAffiliationList
@@ -170,6 +173,9 @@ namespace Kaushal_Darpan.Models.ITIPlanning
             public int Status { get; set; }
             public int UserID { get; set; }
             public string? Remarks { get; set; }
-        }
+
+        public string? FileName { get; set; }
+        public string? DisFileName { get; set; }
+    }
     
 }

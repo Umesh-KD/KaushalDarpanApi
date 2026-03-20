@@ -20,6 +20,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> SaveDataReport(ItiReportDataModel productDetails);
         Task<bool> SaveDataPlanning(ITI_PlanningColleges productDetails);
         Task<bool> SaveItiworkflow(ITI_PlanningColleges productDetails);
+        Task<bool> SaveItiworkdocument(ItiVerificationModel productDetails);
         Task<bool> UpdateActiveStatusByID(ITICollegeMasterModel productDetails);
         Task<bool> ResetSSOID(int id, int ModifyBy,string remarks,string ssoid);
         Task<bool> unlockfee(int id, int ModifyBy,string remarks);
