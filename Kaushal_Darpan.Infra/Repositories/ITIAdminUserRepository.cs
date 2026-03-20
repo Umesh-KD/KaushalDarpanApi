@@ -326,5 +326,100 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+
+
+        public async Task<int> SaveNodalUserdata(ITIAdminUserDetailModel request)
+        {
+            _actionName = "SaveNodalUserdata(AdminUserDetailModel entity)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITINodalUserdata_IU";
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@UserAdditionID", request.UserAdditionID);
+                        command.Parameters.AddWithValue("@ProfileID", request.ProfileID);
+                        command.Parameters.AddWithValue("@Name", request.Name);
+                        command.Parameters.AddWithValue("@SSOID", request.SSOID);
+                        command.Parameters.AddWithValue("@Email", request.Email);
+                        command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        command.Parameters.AddWithValue("@OrderDocument", request.OrderDocument);
+                        command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> getAllNodalUserdata(ITIAdminUserDetailModel body)
+        {
+            _actionName = "getAllNodalUserdata()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_get_ITINodalUserdata_IU";
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@SSOID", body.Name);
+                        command.Parameters.AddWithValue("@MobileNo", body.MobileNo);
+                        command.Parameters.AddWithValue("@Email", body.Email);
+                        command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
     }
 }
