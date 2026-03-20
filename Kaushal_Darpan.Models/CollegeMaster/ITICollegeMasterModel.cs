@@ -153,6 +153,8 @@ public class ITIPlanningStatusUpdateByIdModel
     public int? BankGuaranteeID { get; set; }
     public int? Status { get; set; }
     public string? Remarks { get; set; }
+    public int OrderNo { get; set; }
+    public string Orderdate { get; set; }
 }
 
 public class ITIPlanningBankGuaranteeSearchList

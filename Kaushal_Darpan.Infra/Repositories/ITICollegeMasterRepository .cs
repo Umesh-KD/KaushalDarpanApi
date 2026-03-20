@@ -1322,7 +1322,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetITIPlanningBankGuarantee";
+                        command.CommandText = "USP_GetITIPlanningBankGuarantee";   // 81 78 08 08 55
                       
                         command.Parameters.AddWithValue("@status", body.status);
                         command.Parameters.AddWithValue("@CollageId", body.CollageId);
@@ -1469,6 +1469,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BankGuaranteeID", body.BankGuaranteeID);
                         command.Parameters.AddWithValue("@Status", body.Status);
                         command.Parameters.AddWithValue("@Remarks", body.Remarks);
+                        command.Parameters.AddWithValue("@OrderNo", body.OrderNo);
+                        command.Parameters.AddWithValue("@Orderdate", body.Orderdate);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
