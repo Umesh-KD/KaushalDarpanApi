@@ -32,6 +32,7 @@
 
         public int DepartmentID { get; set; }
         public int Eng_NonEng { get; set; }
+        public string? OrderDocument { get; set; }
     }
     public class ITIAdminUserSearchModel
     {
