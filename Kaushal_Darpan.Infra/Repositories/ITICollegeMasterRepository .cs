@@ -547,7 +547,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ContactName", request.ContactName);
                         command.Parameters.AddWithValue("@ContactDesignation", request.ContactDesignation);
                         command.Parameters.AddWithValue("@LandlineNo", request.LandlineNo);
-                        command.Parameters.AddWithValue("@KNo", request.KNo);
+                     
                         command.Parameters.AddWithValue("@AmountAvailable", request.AmountAvailable);
                         command.Parameters.AddWithValue("@AmountRequired", request.AmountRequired);
                         command.Parameters.AddWithValue("@AmountDifference", request.AmountDifference);

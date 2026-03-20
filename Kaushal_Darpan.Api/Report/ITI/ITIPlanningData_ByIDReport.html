@@ -1,4 +1,24 @@
-﻿<div style="padding:24px 28px; font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#222; line-height:1.35;">
+﻿<style>
+    table {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11.5px;
+        border-collapse: collapse;
+    }
+
+    th {
+        font-weight: 600;
+    }
+
+    td 
+    {
+        vertical-align: top;
+    }
+    body {
+        -webkit-font-smoothing: antialiased;
+    }
+</style>
+
+<div style="padding:24px 28px; font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#222; line-height:1.35;">
 
     <!-- Header -->
     <table style="width:100%; border-collapse:collapse; margin-bottom:18px;">
@@ -7,13 +27,13 @@
                 <img src="{#=Institute_Details.NE100=#}" style="width:68px; height:auto;" />
             </td>
             <td style="width:64%; text-align:center; vertical-align:top;">
-        
+
                 <div style="font-size:16px; font-weight:bold;">
-               Annexture 1
+                    Annexture 1
                 </div>
             </td>
             <td style="width:18%; text-align:right; vertical-align:top;">
-                <img src="{#=Institute_Details.ITILogo=#}" style="width:68px; height:auto;" />
+                <!--<img src="{#=Institute_Details.ITILogo=#}" style="width:68px; height:auto;" />-->
             </td>
         </tr>
     </table>
@@ -23,6 +43,7 @@
         1. Institute Details
     </div>
 
+    
     <table style="width:100%; border-collapse:collapse; margin-bottom:14px;" cellpadding="4">
         <tr>
             <td style="width:18%; font-weight:bold;">ITI Name</td>
@@ -76,10 +97,7 @@
             <td style="font-weight:bold;">District</td>
             <td>{#=Institute_Details.DistrictName=#}</td>
         </tr>
-        <tr>
-            <td style="font-weight:bold;">Registration Document</td>
-            <td colspan="3">{#=Institute_Details.RegDisFileName=#}</td>
-        </tr>
+       
         {#ENDIF.Institute_Details.InstituteManagementId=5#}
     </table>
 
@@ -132,13 +150,13 @@
 
     <table style="width:100%; border-collapse:collapse; margin-bottom:14px;" cellpadding="4">
         <tr>
-            <td style="width:18%; font-weight:bold;">Ownership</td>
-            <td style="width:32%;">
+            <td style="width:22%; font-weight:bold;">Ownership</td>
+            <td style="width:28%;">
                 {#IF.Institute_Details.OwnerShipID=1#}Rented{#ENDIF.Institute_Details.OwnerShipID=1#}
                 {#IF.Institute_Details.OwnerShipID!=1#}Own{#ENDIF.Institute_Details.OwnerShipID!=1#}
             </td>
-            <td style="width:18%; font-weight:bold;">Plot/House/Building No</td>
-            <td style="width:32%;">{#=Institute_Details.PlotHouseBuildingNo=#}</td>
+            <td style="width:22%; font-weight:bold;">Plot/House/Building No</td>
+            <td style="width:28%;">{#=Institute_Details.PlotHouseBuildingNo=#}</td>
         </tr>
         <tr>
             <td style="font-weight:bold;">Street/Road/Lane</td>
@@ -201,9 +219,9 @@
             <td>{#=Institute_Details.ValidUpToLeaseDate=#}</td>
         </tr>
         <tr>
-            <td style="font-weight:bold;">Property Registration Office</td>
+            <td style="font-weight:bold;">Property Reg Office</td>
             <td>{#=Institute_Details.InstituteRegOffice=#}</td>
-            <td style="font-weight:bold;">Registration State / District</td>
+            <td style="font-weight:bold;">Reg State / District</td>
             <td>{#=Institute_Details.InstituteStateName=#} / {#=Institute_Details.PropDistrictName=#}</td>
         </tr>
         <tr>
@@ -212,10 +230,7 @@
             <td style="font-weight:bold;">Lat/Long Document</td>
             <td>{#=Institute_Details.LatLongDisFileName=#}</td>
         </tr>
-        <tr>
-            <td style="font-weight:bold;">Building Plan Document</td>
-            <td colspan="3">{#=Institute_Details.DisBuildingPlan=#}</td>
-        </tr>
+        
     </table>
 
     <!-- 5. Contact Details -->
@@ -225,10 +240,10 @@
 
     <table style="width:100%; border-collapse:collapse; margin-bottom:14px;" cellpadding="4">
         <tr>
-            <td style="width:18%; font-weight:bold;">Contact Person Name</td>
-            <td style="width:32%;">{#=Institute_Details.ContactName=#}</td>
-            <td style="width:18%; font-weight:bold;">Designation</td>
-            <td style="width:32%;">{#=Institute_Details.ContactDesignation=#}</td>
+            <td style="width:20%; font-weight:bold;">Contact Person Name</td>
+            <td style="width:30%;">{#=Institute_Details.ContactName=#}</td>
+            <td style="width:20%; font-weight:bold;">Designation</td>
+            <td style="width:30%;">{#=Institute_Details.ContactDesignation=#}</td>
         </tr>
         <tr>
             <td style="font-weight:bold;">Contact No</td>
@@ -307,8 +322,7 @@
         <tr>
             <td style="font-weight:bold;">Sub-Division Office</td>
             <td>{#=Institute_Details.SubDivOffice=#}</td>
-            <td style="font-weight:bold;">Last Month Bill</td>
-            <td>{#=Institute_Details.Bill_DisFilename=#}</td>
+     
         </tr>
     </table>
 
@@ -344,7 +358,7 @@
     </table>
 
     <!-- 9. ITI Planning Details -->
-    <div style="background:#eef1f4; padding:7px 10px; font-size:13px; font-weight:bold; margin-bottom:8px;">
+    <!--<div style="background:#eef1f4; padding:7px 10px; font-size:13px; font-weight:bold; margin-bottom:8px;">
         9. ITI Planning Details
     </div>
 
@@ -359,6 +373,6 @@
             <td style="font-weight:bold;">Remark</td>
             <td colspan="3">{#=Institute_Details.Remark=#}</td>
         </tr>
-    </table>
+    </table>-->
 
 </div>
