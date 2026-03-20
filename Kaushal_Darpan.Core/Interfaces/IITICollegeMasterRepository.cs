@@ -10,7 +10,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetAllData(ITIsSearchModel model);
         Task<DataTable> GetAllEstablishmentIti(ItiEstablishmentSearchModel model);
-        Task<DataTable> GetPlanningList(int CollegeID , int? ITItypeID, int Status);
+        Task<DataTable> GetPlanningList(int CollegeID , int? ITItypeID, int Status,int? DistrictID);
         Task<DataTable> ViewWorkflow(int CollegeID);
         Task<ITICollegeMasterModel> Get_ITIsData_ByID(int Id);
         Task<ITI_PlanningColleges> Get_ITIsPlanningData_ByID(int Id);
@@ -20,6 +20,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> SaveDataReport(ItiReportDataModel productDetails);
         Task<bool> SaveDataPlanning(ITI_PlanningColleges productDetails);
         Task<bool> SaveItiworkflow(ITI_PlanningColleges productDetails);
+        Task<bool> SaveItiworkdocument(ItiVerificationModel productDetails);
         Task<bool> UpdateActiveStatusByID(ITICollegeMasterModel productDetails);
         Task<bool> ResetSSOID(int id, int ModifyBy,string remarks,string ssoid);
         Task<bool> unlockfee(int id, int ModifyBy,string remarks);
@@ -35,5 +36,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> ITIPlanningBankGuaranteeReport(ITIPlanningBankGuaranteeSearch filterModel);
         Task<DataTable> ITIPlanningBankGuaranteeReturn(ITIPlanningBankGuaranteeReturn filterModel);
         Task<DataTable> ITIPlanningBankGuaranteeGetByID(int BankGuaranteeID);
+        Task<DataTable> statusUpdateById(ITIPlanningStatusUpdateByIdModel model);
     }
 }
