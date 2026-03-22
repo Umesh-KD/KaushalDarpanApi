@@ -112,6 +112,8 @@
         public string? CollegeCode { get; set; }
 
         public int? DepartmentID { get; set; }
+        public int? InstituteID { get; set; }
+        public string? COURSEID { get; set; }
 
         public int? AcademicYear { get; set; }
     }
