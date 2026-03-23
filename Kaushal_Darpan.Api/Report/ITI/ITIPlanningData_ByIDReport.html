@@ -55,7 +55,7 @@
             <td style="font-weight:bold;">MIS Code</td>
             <td>{#=Institute_Details.MISC=#}</td>
             <td style="font-weight:bold;">Category</td>
-            <td>{#=Institute_Details.InstitutionCategoryname=#}</td>
+            <td>{#=Institute_Details.CategoryName=#}</td>
         </tr>
     </table>
 
@@ -67,7 +67,7 @@
     <table style="width:100%; border-collapse:collapse; margin-bottom:14px;" cellpadding="4">
         <tr>
             <td style="width:18%; font-weight:bold;">Management Type</td>
-            <td style="width:32%;">{#=Institute_Details.InstituteManagementName=#}</td>
+            <td style="width:32%;">{#=Institute_Details.ManagementTypeName=#}</td>
             <td style="width:18%; font-weight:bold;">Trust/Society</td>
             <td style="width:32%;">
                 {#IF.Institute_Details.TrustSociety=1#}Trust{#ENDIF.Institute_Details.TrustSociety=1#}
@@ -174,7 +174,7 @@
             <td style="font-weight:bold;">District</td>
             <td>{#=Institute_Details.InsDistrictName=#}</td>
             <td style="font-weight:bold;">Sub Division</td>
-            <td>{#=Institute_Details.InstituteSubDivisionName=#}</td>
+            <td>{#=Institute_Details.InstituteSubDivisionID=#}</td>
         </tr>
         <tr>
             <td style="font-weight:bold;">Tehsil</td>
@@ -190,14 +190,14 @@
         </tr>
         <tr>
             <td style="font-weight:bold;">Panchayat Samiti</td>
-            <td>{#=Institute_Details.PanchayatSamiti ?? ''=#}</td>
+            <td>{#=Institute_Details.PanchayatName=#}</td>
 
             <td style="font-weight:bold;">Gram Panchayat</td>
-            <td>{#=Institute_Details.GramPanchayatSamiti ?? ''=#}</td>
+            <td>{#=Institute_Details.GramPanchayatname=#}</td>
         </tr>
         <tr>
             <td style="font-weight:bold;">Village</td>
-            <td>{#=Institute_Details.VillageID=#}</td>
+            <td>{#=Institute_Details.VillageName=#}</td>
             <td style="font-weight:bold;">Ward Number</td>
             <td>{#=Institute_Details.WardNo=#}</td>
         </tr>
@@ -223,7 +223,7 @@
             <td style="font-weight:bold;">Property Reg Office</td>
             <td>{#=Institute_Details.InstituteRegOffice=#}</td>
             <td style="font-weight:bold;">Reg State / District</td>
-            <td>{#=Institute_Details.InstituteStateName=#} / {#=Institute_Details.PropDistrictName=#}</td>
+            <td>{#=Institute_Details.InstituteStateID=#} / {#=Institute_Details.PropDistrictID=#}</td>
         </tr>
         <!--<tr>
             <td style="font-weight:bold;">Lease Deed Document</td>
