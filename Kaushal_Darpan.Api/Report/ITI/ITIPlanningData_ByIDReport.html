@@ -43,7 +43,7 @@
         1. Institute Details
     </div>
 
-    
+
     <table style="width:100%; border-collapse:collapse; margin-bottom:14px;" cellpadding="4">
         <tr>
             <td style="width:18%; font-weight:bold;">ITI Name</td>
@@ -97,7 +97,7 @@
             <td style="font-weight:bold;">District</td>
             <td>{#=Institute_Details.DistrictName=#}</td>
         </tr>
-       
+
         {#ENDIF.Institute_Details.InstituteManagementId=5#}
     </table>
 
@@ -120,24 +120,45 @@
     </table>
 
     <!-- Only table -->
-    <table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5px;" border="0.5" cellpadding="6" cellspacing="0">
+    <!--<table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5px; border:0.5px;" cellpadding="6" cellspacing="0">
         <thead>
-            <tr style="background:#f5f6f7;">
+               <tr style="background:#f5f6f7;">
                 <th style="text-align:left; width:8%;">S.No</th>
                 <th style="text-align:left; width:36%;">Member Name</th>
                 <th style="text-align:left; width:20%;">Post</th>
-                <th style="text-align:left; width:18%;">Contact No</th>
-                <!--<th style="text-align:left; width:18%;">ID Proof File</th>-->
+                <th style="text-align:left; width:18%;">Contact No</th>-->
+    <!--<th style="text-align:left; width:18%;">ID Proof File</th>-->
+    <!--</tr>
+    </thead>
+    <tbody>
+        {#LOOP.ITI_Members#}
+        <tr>
+            <td>{#=ITI_Members.SrNo=#}</td>
+            <td>{#=ITI_Members.MemberName=#}</td>
+            <td>{#=ITI_Members.PostName=#}</td>
+            <td>{#=ITI_Members.ContactNo=#}</td>-->
+    <!--<td>{#=ITI_Members.IDdis_Filename=#}</td>-->
+    <!--</tr>
+            {#ENDLOOP.ITI_Members#}
+        </tbody>
+    </table>-->
+
+    <table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5px; border:1px solid #444;" cellpadding="6">
+        <thead>
+            <tr style="background:#f2f2f2;">
+                <th style="text-align:left; width:8%; border:1px solid #aaa;">S.No</th>
+                <th style="text-align:left; width:36%; border:1px solid #aaa;">Member Name</th>
+                <th style="text-align:left; width:20%; border:1px solid #aaa;">Post</th>
+                <th style="text-align:left; width:18%; border:1px solid #aaa;">Contact No</th>
             </tr>
         </thead>
         <tbody>
             {#LOOP.ITI_Members#}
             <tr>
-                <td>{#=ITI_Members.SrNo=#}</td>
-                <td>{#=ITI_Members.MemberName=#}</td>
-                <td>{#=ITI_Members.PostName=#}</td>
-                <td>{#=ITI_Members.ContactNo=#}</td>
-                <!--<td>{#=ITI_Members.IDdis_Filename=#}</td>-->
+                <td style="border:1px solid #aaa;">{#=ITI_Members.SrNo=#}</td>
+                <td style="border:1px solid #aaa;">{#=ITI_Members.MemberName=#}</td>
+                <td style="border:1px solid #aaa;">{#=ITI_Members.PostName=#}</td>
+                <td style="border:1px solid #aaa;">{#=ITI_Members.ContactNo=#}</td>
             </tr>
             {#ENDLOOP.ITI_Members#}
         </tbody>
@@ -231,7 +252,7 @@
             <td style="font-weight:bold;">Lat/Long Document</td>
             <td>{#=Institute_Details.LatLongDisFileName=#}</td>
         </tr>-->
-        
+
     </table>
 
     <!-- 5. Contact Details -->
@@ -323,7 +344,7 @@
         <tr>
             <td style="font-weight:bold;">Sub-Division Office</td>
             <td>{#=Institute_Details.SubDivOffice=#}</td>
-     
+
         </tr>
     </table>
 
@@ -333,26 +354,26 @@
     </div>
 
     <!-- Only table -->
-    <table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5px;" border="1" cellpadding="6" cellspacing="0">
+    <table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5px; border:1px solid #aaa;" cellpadding="6">
         <thead>
             <tr style="background:#f5f6f7;">
-                <th style="text-align:left; width:8%;">S.No</th>
-                <th style="text-align:left; width:28%;">Order No</th>
-                <th style="text-align:left; width:18%;">Order Date</th>
-                <th style="text-align:left; width:18%;">Effect From</th>
-                <th style="text-align:left; width:14%;">Page No</th>
-                <th style="text-align:left; width:14%;">Serial No</th>
+                <th style="border:0.6px solid #bbb; text-align:left; width:8%;">S.No</th>
+                <th style="border:0.6px solid #bbb; text-align:left; width:28%;">Order No</th>
+                <th style="border:0.6px solid #bbb; text-align:left; width:18%;">Order Date</th>
+                <th style="border:0.6px solid #bbb; text-align:left; width:18%;">Effect From</th>
+                <th style="border:0.6px solid #bbb; text-align:left; width:14%;">Page No</th>
+                <th style="border:0.6px solid #bbb; text-align:left; width:14%;">Serial No</th>
             </tr>
         </thead>
         <tbody>
             {#LOOP.ITI_Affiliations#}
             <tr>
-                <td>{#=ITI_Affiliations.SrNo=#}</td>
-                <td>{#=ITI_Affiliations.OrderNo=#}</td>
-                <td>{#=ITI_Affiliations.OrderDate=#}</td>
-                <td>{#=ITI_Affiliations.EffectFrom=#}</td>
-                <td>{#=ITI_Affiliations.PageNo=#}</td>
-                <td>{#=ITI_Affiliations.SerialNo=#}</td>
+                <td style="border:0.6px solid #bbb; text-align:center;">{#=ITI_Affiliations.SrNo=#}</td>
+                <td style="border:0.6px solid #bbb;">{#=ITI_Affiliations.OrderNo=#}</td>
+                <td style="border:0.6px solid #bbb;">{#=ITI_Affiliations.OrderDate=#}</td>
+                <td style="border:0.6px solid #bbb;">{#=ITI_Affiliations.EffectFrom=#}</td>
+                <td style="border:0.6px solid #bbb;">{#=ITI_Affiliations.PageNo=#}</td>
+                <td style="border:0.6px solid #bbb;">{#=ITI_Affiliations.SerialNo=#}</td>
             </tr>
             {#ENDLOOP.ITI_Affiliations#}
         </tbody>
