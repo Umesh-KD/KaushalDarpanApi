@@ -26,5 +26,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAcedmicYearListbyTypeID(RequestBaseModel model);
         Task<UserLoginExtraInfoResponseModel> CheckMultiDepartUser(UserLoginExtraInfoRequestModel model);
         Task<UserLoginExtraInfoResponseModel> CheckMultiDepartUserBySearchRecordID(string SearchRecordID);
+        Task<DataTable> CheckMultiInsituteUser(UserLoginExtraInfoRequestModel model);
+       
+
     }
 }
