@@ -1372,7 +1372,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetITIPlanningBankGuarantee";   // 81 78 08 08 55
-                      
                         command.Parameters.AddWithValue("@status", body.status);
                         command.Parameters.AddWithValue("@CollageId", body.CollageId);
                         command.Parameters.AddWithValue("@dayWise", body.dayWise);
