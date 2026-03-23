@@ -113,21 +113,21 @@
             <td style="width:18%; font-weight:bold;">Valid Upto</td>
             <td style="width:32%;">{#=Institute_Details.LastElectionValidUpTo=#}</td>
         </tr>
-        <tr>
+        <!--<tr>
             <td style="font-weight:bold;">Upload Document</td>
             <td colspan="3">{#=Institute_Details.MemberIdDisProofName=#}</td>
-        </tr>
+        </tr>-->
     </table>
 
     <!-- Only table -->
-    <table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5px;" border="1" cellpadding="6" cellspacing="0">
+    <table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5px;" border="0.5" cellpadding="6" cellspacing="0">
         <thead>
             <tr style="background:#f5f6f7;">
                 <th style="text-align:left; width:8%;">S.No</th>
                 <th style="text-align:left; width:36%;">Member Name</th>
                 <th style="text-align:left; width:20%;">Post</th>
                 <th style="text-align:left; width:18%;">Contact No</th>
-                <th style="text-align:left; width:18%;">ID Proof File</th>
+                <!--<th style="text-align:left; width:18%;">ID Proof File</th>-->
             </tr>
         </thead>
         <tbody>
@@ -137,7 +137,7 @@
                 <td>{#=ITI_Members.MemberName=#}</td>
                 <td>{#=ITI_Members.PostName=#}</td>
                 <td>{#=ITI_Members.ContactNo=#}</td>
-                <td>{#=ITI_Members.IDdis_Filename=#}</td>
+                <!--<td>{#=ITI_Members.IDdis_Filename=#}</td>-->
             </tr>
             {#ENDLOOP.ITI_Members#}
         </tbody>
@@ -190,13 +190,14 @@
         </tr>
         <tr>
             <td style="font-weight:bold;">Panchayat Samiti</td>
-            <td>{#=Institute_Details.PanchayatSamitiName=#}</td>
+            <td>{#=Institute_Details.PanchayatSamiti ?? ''=#}</td>
+
             <td style="font-weight:bold;">Gram Panchayat</td>
-            <td>{#=Institute_Details.GramPanchayatName=#}</td>
+            <td>{#=Institute_Details.GramPanchayatSamiti ?? ''=#}</td>
         </tr>
         <tr>
             <td style="font-weight:bold;">Village</td>
-            <td>{#=Institute_Details.VillageName=#}</td>
+            <td>{#=Institute_Details.VillageID=#}</td>
             <td style="font-weight:bold;">Ward Number</td>
             <td>{#=Institute_Details.WardNo=#}</td>
         </tr>
@@ -224,12 +225,12 @@
             <td style="font-weight:bold;">Reg State / District</td>
             <td>{#=Institute_Details.InstituteStateName=#} / {#=Institute_Details.PropDistrictName=#}</td>
         </tr>
-        <tr>
+        <!--<tr>
             <td style="font-weight:bold;">Lease Deed Document</td>
             <td>{#=Institute_Details.AgreementDisFileName=#}</td>
             <td style="font-weight:bold;">Lat/Long Document</td>
             <td>{#=Institute_Details.LatLongDisFileName=#}</td>
-        </tr>
+        </tr>-->
         
     </table>
 
@@ -249,7 +250,7 @@
             <td style="font-weight:bold;">Contact No</td>
             <td>{#=Institute_Details.ContactNo=#}</td>
             <td style="font-weight:bold;">Landline No</td>
-            <td>{#=Institute_Details.LandlineNo=#}</td>
+            <td>{#=Institute_Details.ContactNo=#}</td>
         </tr>
         <tr>
             <td style="font-weight:bold;">Email</td>
@@ -290,8 +291,8 @@
         <tr>
             <td style="font-weight:bold;">High Court Bench</td>
             <td>{#=Institute_Details.HighCourtName=#}</td>
-            <td style="font-weight:bold;">Court Document</td>
-            <td>{#=Institute_Details.DisCourtDocumernt=#}</td>
+            <!--<td style="font-weight:bold;">Court Document</td>
+            <td>{#=Institute_Details.DisCourtDocumernt=#}</td>-->
         </tr>
     </table>
 
@@ -309,7 +310,7 @@
         </tr>
         <tr>
             <td style="font-weight:bold;">Connection Type</td>
-            <td>{#=Institute_Details.ConnectionTypeName=#}</td>
+            <td>{#=Institute_Details.ConnectionType=#}</td>
             <td style="font-weight:bold;">Sanction Load (KW)</td>
             <td>{#=Institute_Details.SanctionLoad=#}</td>
         </tr>
@@ -317,7 +318,7 @@
             <td style="font-weight:bold;">Contract Demand</td>
             <td>{#=Institute_Details.ContractDemand=#}</td>
             <td style="font-weight:bold;">DISCOM</td>
-            <td>{#=Institute_Details.DISCOMName=#}</td>
+            <td>{#=Institute_Details.DISCOM=#}</td>
         </tr>
         <tr>
             <td style="font-weight:bold;">Sub-Division Office</td>
