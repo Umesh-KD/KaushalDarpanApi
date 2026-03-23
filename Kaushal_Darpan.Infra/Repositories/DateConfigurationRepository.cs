@@ -31,57 +31,55 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> SaveData(DateConfigurationModel request)
         {
             _actionName = "SaveData(CollegeMasterModel request)";
-            return await Task.Run(async () =>
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                try
-                {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_DateConfiguration_IU";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_DateConfiguration_IU";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@Action", "Upsert");
-                        command.Parameters.AddWithValue("@DateConfigID", request.DateConfigID);
-                        command.Parameters.AddWithValue("@TypeID", request.TypeID);                        
-                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
-                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
-                        command.Parameters.AddWithValue("@CourseTypeID", request.CourseTypeID);
-                        command.Parameters.AddWithValue("@CourseSubTypeID", request.CourseSubTypeID);
-                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
-                        command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
-                        command.Parameters.AddWithValue("@From_Date", Convert.ToDateTime(request.From_Date));
-                        command.Parameters.AddWithValue("@To_Date", Convert.ToDateTime(request.To_Date));
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@Action", "Upsert");
+                    command.Parameters.AddWithValue("@DateConfigID", request.DateConfigID);
+                    command.Parameters.AddWithValue("@TypeID", request.TypeID);
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                    command.Parameters.AddWithValue("@CourseTypeID", request.CourseTypeID);
+                    command.Parameters.AddWithValue("@CourseSubTypeID", request.CourseSubTypeID);
+                    command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                    command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
+                    command.Parameters.AddWithValue("@From_Date", Convert.ToDateTime(request.From_Date));
+                    command.Parameters.AddWithValue("@To_Date", Convert.ToDateTime(request.To_Date));
+                    command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
 
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-                        command.Parameters.Add("@Return", SqlDbType.Int);// out
-                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.Add("@Return", SqlDbType.Int);// out
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        // Execute the command
-                        result = await command.ExecuteNonQueryAsync();
-                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
-                    }
-
-                    return result;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
                 }
 
-                catch (Exception ex)
+                return result;
+            }
+
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         public async Task<DataTable> GetAllData(DateConfigurationModel request)
         {
