@@ -43,7 +43,7 @@
         1. Institute Details
     </div>
 
-    
+
     <table style="width:100%; border-collapse:collapse; margin-bottom:14px;" cellpadding="4">
         <tr>
             <td style="width:18%; font-weight:bold;">ITI Name</td>
@@ -87,7 +87,7 @@
         </tr>
         <tr>
             <td style="font-weight:bold;">Registration Date</td>
-            <td>{#=Institute_Details.RegDate=#}</td>
+            <td>{#=Institute_Details.DisRegDate=#}</td>
             <td style="font-weight:bold;">Registration Office</td>
             <td>{#=Institute_Details.ManageRegOffice=#}</td>
         </tr>
@@ -97,10 +97,12 @@
             <td style="font-weight:bold;">District</td>
             <td>{#=Institute_Details.DistrictName=#}</td>
         </tr>
-       
+
         {#ENDIF.Institute_Details.InstituteManagementId=5#}
     </table>
 
+
+    {#IF.Institute_Details.InstituteManagementId=5#}
     <!-- 3. Member Of Trust/Society -->
     <div style="background:#eef1f4; padding:7px 10px; font-size:13px; font-weight:bold; margin-bottom:8px;">
         3. Member Of Trust/Society
@@ -109,9 +111,9 @@
     <table style="width:100%; border-collapse:collapse; margin-bottom:10px;" cellpadding="4">
         <tr>
             <td style="width:18%; font-weight:bold;">Date of Last Election</td>
-            <td style="width:32%;">{#=Institute_Details.LastElectionDate=#}</td>
+            <td style="width:32%;">{#=Institute_Details.DisLastElectionDate=#}</td>
             <td style="width:18%; font-weight:bold;">Valid Upto</td>
-            <td style="width:32%;">{#=Institute_Details.LastElectionValidUpTo=#}</td>
+            <td style="width:32%;">{#=Institute_Details.DisLastElectionValidUpTo=#}</td>
         </tr>
         <!--<tr>
             <td style="font-weight:bold;">Upload Document</td>
@@ -143,6 +145,7 @@
         </tbody>
     </table>
 
+    {#ENDIF.Institute_Details.InstituteManagementId=5#}
     <!-- 4. Institute Address -->
     <div style="background:#eef1f4; padding:7px 10px; font-size:13px; font-weight:bold; margin-bottom:8px;">
         4. Institute Building Details
@@ -155,83 +158,92 @@
                 {#IF.Institute_Details.OwnerShipID=1#}Rented{#ENDIF.Institute_Details.OwnerShipID=1#}
                 {#IF.Institute_Details.OwnerShipID!=1#}Own{#ENDIF.Institute_Details.OwnerShipID!=1#}
             </td>
-            <td style="width:22%; font-weight:bold;">Plot/House/Building No</td>
-            <td style="width:28%;">{#=Institute_Details.PlotHouseBuildingNo=#}</td>
-        </tr>
-        <tr>
-            <td style="font-weight:bold;">Street/Road/Lane</td>
-            <td>{#=Institute_Details.StreetRoadLane=#}</td>
-            <td style="font-weight:bold;">Area/Locality/Sector</td>
-            <td>{#=Institute_Details.AreaLocalitySector=#}</td>
-        </tr>
-        <tr>
-            <td style="font-weight:bold;">LandMark</td>
-            <td>{#=Institute_Details.LandMark=#}</td>
-            <td style="font-weight:bold;">Division</td>
-            <td>{#=Institute_Details.InsDivisionName=#}</td>
-        </tr>
-        <tr>
-            <td style="font-weight:bold;">District</td>
-            <td>{#=Institute_Details.InsDistrictName=#}</td>
-            <td style="font-weight:bold;">Sub Division</td>
-            <td>{#=Institute_Details.InstituteSubDivisionID=#}</td>
-        </tr>
-        <tr>
-            <td style="font-weight:bold;">Tehsil</td>
-            <td>{#=Institute_Details.InsTehsil=#}</td>
-            <td style="font-weight:bold;">Urban/Rural</td>
-            <td>{#=Institute_Details.InsUrbanName=#}</td>
-        </tr>
-        <tr>
-            <td style="font-weight:bold;">City</td>
-            <td>{#=Institute_Details.InsCityName=#}</td>
-            <td style="font-weight:bold;">Administrative Body</td>
-            <td>{#=Institute_Details.AdministrativeBodyName=#}</td>
-        </tr>
-        <tr>
-            <td style="font-weight:bold;">Panchayat Samiti</td>
-            <td>{#=Institute_Details.PanchayatName=#}</td>
 
-            <td style="font-weight:bold;">Gram Panchayat</td>
-            <td>{#=Institute_Details.GramPanchayatname=#}</td>
+            {#IF.Institute_Details.OwnerShipID=1#}
+            <td style="width:22%; font-weight:bold;">Date of Agreement</td>
+            <td style="width:28%;">{#=Institute_Details.DisAgreementLeaseDate=#}</td>
+            {#ENDIF.Institute_Details.OwnerShipID=1#}
         </tr>
+
+        {#IF.Institute_Details.OwnerShipID=1#}
         <tr>
-            <td style="font-weight:bold;">Village</td>
-            <td>{#=Institute_Details.VillageName=#}</td>
-            <td style="font-weight:bold;">Ward Number</td>
-            <td>{#=Institute_Details.WardNo=#}</td>
-        </tr>
-        <tr>
-            <td style="font-weight:bold;">Khasra No / Khata No</td>
-            <td>{#=Institute_Details.KhasraKhataNo=#}</td>
-            <td style="font-weight:bold;">Rakba (Bigha/Yard)</td>
-            <td>{#=Institute_Details.BighaYard=#}</td>
-        </tr>
-        <tr>
-            <td style="font-weight:bold;">Latitude</td>
-            <td>{#=Institute_Details.Latitude=#}</td>
-            <td style="font-weight:bold;">Longitude</td>
-            <td>{#=Institute_Details.Longitude=#}</td>
-        </tr>
-        <tr>
-            <td style="font-weight:bold;">Lease Date</td>
-            <td>{#=Institute_Details.AgreementLeaseDate=#}</td>
             <td style="font-weight:bold;">Lease Valid Upto</td>
-            <td>{#=Institute_Details.ValidUpToLeaseDate=#}</td>
+            <td>{#=Institute_Details.DisValidUpToLeaseDate=#}</td>
+            <td style="font-weight:bold;">Registration Office</td>
+            <td>{#=Institute_Details.InstituteRegOffice=#}</td>
         </tr>
         <tr>
-            <td style="font-weight:bold;">Property Reg Office</td>
-            <td>{#=Institute_Details.InstituteRegOffice=#}</td>
-            <td style="font-weight:bold;">Reg State / District</td>
-            <td>{#=Institute_Details.InstituteStateID=#} / {#=Institute_Details.PropDistrictID=#}</td>
+            <td style="font-weight:bold;">Registration State</td>
+            <td>{#=Institute_Details.RegistrationStateName=#}</td>
+            <td style="font-weight:bold;">Registration District</td>
+            <td>{#=Institute_Details.RegistrationDistirctName=#}</td>
         </tr>
         <!--<tr>
-            <td style="font-weight:bold;">Lease Deed Document</td>
-            <td>{#=Institute_Details.AgreementDisFileName=#}</td>
-            <td style="font-weight:bold;">Lat/Long Document</td>
-            <td>{#=Institute_Details.LatLongDisFileName=#}</td>
-        </tr>-->
-        
+        <td style="font-weight:bold;">Lease/Rent Agreement Document</td>
+        <td colspan="3">{#=Institute_Details.AgreementDisFileName=#}</td>
+    </tr>-->
+        {#ENDIF.Institute_Details.OwnerShipID=1#}
+
+        <tr>
+            <td style="font-weight:bold;">Plot/House/Building No</td>
+            <td>{#=Institute_Details.PlotHouseBuildingNo=#}</td>
+            <td style="font-weight:bold;">Street/Road/Lane</td>
+            <td>{#=Institute_Details.StreetRoadLane=#}</td>
+        </tr>
+        <tr>
+            <td style="font-weight:bold;">Area/Locality/Sector</td>
+            <td>{#=Institute_Details.AreaLocalitySector=#}</td>
+            <td style="font-weight:bold;">LandMark</td>
+            <td>{#=Institute_Details.LandMark=#}</td>
+        </tr>
+        <tr>
+            <td style="font-weight:bold;">Division</td>
+            <td>{#=Institute_Details.InsDivisionName=#}</td>
+            <td style="font-weight:bold;">District</td>
+            <td>{#=Institute_Details.InsDistrictName=#}</td>
+        </tr>
+        <tr>
+            <td style="font-weight:bold;">Sub Division</td>
+            <td>{#=Institute_Details.SubDivisionName=#}</td>
+            <td style="font-weight:bold;">Tehsil</td>
+            <td>{#=Institute_Details.InsTehsil=#}</td>
+        </tr>
+        <tr>
+            <td style="font-weight:bold;">Urban/Rural</td>
+            <td>{#=Institute_Details.InsUrbanName=#}</td>
+            <td style="font-weight:bold;">City</td>
+            <td>{#=Institute_Details.InsCityName=#}</td>
+        </tr>
+        <tr>
+            <td style="font-weight:bold;">Administrative Body</td>
+            <td>{#=Institute_Details.AdministrativeBodyName=#}</td>
+            <td style="font-weight:bold;">Panchayat Samiti</td>
+            <td>{#=Institute_Details.PanchayatName=#}</td>
+        </tr>
+        <tr>
+            <td style="font-weight:bold;">Gram Panchayat</td>
+            <td>{#=Institute_Details.GramPanchayatname=#}</td>
+            <td style="font-weight:bold;">Village</td>
+            <td>{#=Institute_Details.VillageName=#}</td>
+        </tr>
+        <tr>
+            <td style="font-weight:bold;">Ward Number</td>
+            <td>{#=Institute_Details.WardNo=#}</td>
+            <td style="font-weight:bold;">Khasra No / Khata No</td>
+            <td>{#=Institute_Details.KhasraKhataNo=#}</td>
+        </tr>
+        <tr>
+            <td style="font-weight:bold;">Rakba (Bigha/Yard)</td>
+            <td>{#=Institute_Details.BighaYard=#}</td>
+            <td style="font-weight:bold;">Latitude</td>
+            <td>{#=Institute_Details.Latitude=#}</td>
+        </tr>
+        <tr>
+            <td style="font-weight:bold;">Longitude</td>
+            <td>{#=Institute_Details.Longitude=#}</td>
+            <td></td>
+            <td></td>
+        </tr>
     </table>
 
     <!-- 5. Contact Details -->
@@ -250,7 +262,7 @@
             <td style="font-weight:bold;">Contact No</td>
             <td>{#=Institute_Details.ContactNo=#}</td>
             <td style="font-weight:bold;">Landline No</td>
-            <td>{#=Institute_Details.ContactNo=#}</td>
+            <td>{#=Institute_Details.LandlineNo=#}</td>
         </tr>
         <tr>
             <td style="font-weight:bold;">Email</td>
@@ -282,6 +294,8 @@
             <td style="font-weight:bold;">Court Case</td>
             <td>{#=Institute_Details.IsCourt=#}</td>
         </tr>
+
+        {#IF.Institute_Details.IsCourt=1#}
         <tr>
             <td style="font-weight:bold;">Writ No</td>
             <td>{#=Institute_Details.WritNo=#}</td>
@@ -292,8 +306,11 @@
             <td style="font-weight:bold;">High Court Bench</td>
             <td>{#=Institute_Details.HighCourtName=#}</td>
             <!--<td style="font-weight:bold;">Court Document</td>
-            <td>{#=Institute_Details.DisCourtDocumernt=#}</td>-->
+        <td>{#=Institute_Details.DisCourtDocumernt=#}</td>-->
         </tr>
+
+        {#ENDIF.Institute_Details.IsCourt=1#}
+
     </table>
 
     <!-- 7. Electrical Load Details -->
@@ -310,7 +327,7 @@
         </tr>
         <tr>
             <td style="font-weight:bold;">Connection Type</td>
-            <td>{#=Institute_Details.ConnectionType=#}</td>
+            <td>{#=Institute_Details.ConnectionTypeName=#}</td>
             <td style="font-weight:bold;">Sanction Load (KW)</td>
             <td>{#=Institute_Details.SanctionLoad=#}</td>
         </tr>
@@ -318,12 +335,12 @@
             <td style="font-weight:bold;">Contract Demand</td>
             <td>{#=Institute_Details.ContractDemand=#}</td>
             <td style="font-weight:bold;">DISCOM</td>
-            <td>{#=Institute_Details.DISCOM=#}</td>
+            <td>{#=Institute_Details.DISCOMName=#}</td>
         </tr>
         <tr>
             <td style="font-weight:bold;">Sub-Division Office</td>
             <td>{#=Institute_Details.SubDivOffice=#}</td>
-     
+
         </tr>
     </table>
 
