@@ -2847,14 +2847,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="PercentageTotal4">
+                        <Textbox Name="AppearedFemaleEx">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!AppearedFemaleEx.Value, "ResultStatisticsReports")</Value>
+                                  <Value>=First(Fields!AppearedFemaleEx.Value, "ResultStatisticsReportsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -2865,7 +2865,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>PercentageTotal4</rd:DefaultName>
+                          <rd:DefaultName>AppearedFemaleEx</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -3178,7 +3178,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!PassMaleEx.Value, "ResultStatisticsReportsTotal")</Value>
+                                  <Value>=First(Fields!PassFemaleR.Value, "ResultStatisticsReports")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
