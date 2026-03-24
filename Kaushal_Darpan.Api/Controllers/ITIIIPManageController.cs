@@ -29,6 +29,7 @@ namespace Kaushal_Darpan.Api.Controllers
         public override string PageName => "ITI_InspectionController";
         public override string ActionName { get; set; }
 
+
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork; 
         private readonly IConverter _converter;

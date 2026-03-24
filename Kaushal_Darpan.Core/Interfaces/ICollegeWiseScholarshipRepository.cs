@@ -32,6 +32,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
 
         Task<string> GetScholarship1(ScholarshipRequest filterModel);
+        Task<DataTable> GetScholarship1InstituteData(ScholarshipApiSearchDataModel filterModel);
 
         Task<int> UpdateSaveData(ScholarshipApiResponse productDetails);
         Task<DataTable> GetAllData(ScholarshipApiSearchDataModel model);

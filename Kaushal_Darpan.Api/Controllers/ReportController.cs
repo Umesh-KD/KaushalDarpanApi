@@ -12696,62 +12696,60 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<string>> DownloadResultStatisticsReport(StatisticsBridgeCourseModel model)
         {
             ActionName = "DownloadResultStatisticsReport(StatisticsBridgeCourseModel model)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<string>();
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                var data = await _unitOfWork.ReportRepository.DownloadResultStatisticsReport(model);
+                if (data.Tables.Count > 1 && data.Tables[0].Rows?.Count > 0)
                 {
-                    var data = await _unitOfWork.ReportRepository.DownloadResultStatisticsReport(model);
-                    if (data.Rows?.Count > 0)
+                    //report
+                    var fileName = $"ResultStatisticsReports.pdf";
+                    var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                    string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                    string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/ResultStatisticsReports.rdlc";
+
+                    LocalReport localReport = new LocalReport(rdlcpath);
+                    localReport.AddDataSource("ResultStatisticsReports", data.Tables[0]);
+                    localReport.AddDataSource("ResultStatisticsReportsTotal", data.Tables[1]);
+                    var reportResult = localReport.Execute(RenderType.Pdf);
+
+                    //check file exists
+                    if (!System.IO.Directory.Exists(folderPath))
                     {
-                        //report
-                        var fileName = $"ResultStatisticsReports.pdf";
-                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/ResultStatisticsReports.rdlc";
-
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("ResultStatisticsReports", data);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
-
-                        //check file exists
-                        if (!System.IO.Directory.Exists(folderPath))
-                        {
-                            Directory.CreateDirectory(folderPath);
-                        }
-                        //save
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        //end report
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-
+                        Directory.CreateDirectory(folderPath);
                     }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.ErrorMessage = Constants.MSG_DATA_NOT_FOUND;
-                    }
-
+                    //save
+                    System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                    //end report
+                    result.Data = fileName;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
 
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+
+
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
 
         [HttpPost("ResultStatisticsBridgeCourseStreamWiseReport")]
@@ -16909,7 +16907,8 @@ namespace Kaushal_Darpan.Api.Controllers
                                 <b>Total Passed</b> : {stream.First().PassStudent}
                             </td>
                             <td style='border:1px solid #000;padding:4px;'>
-                                <b>Total Failed</b> : {stream.First().FailStudent}
+                                <b>{(stream.First().SemesterID == 6 ||
+                                    (stream.First().SemesterID == 4 && stream.First().StreamName == "Beauty Culture") ? "Total Failed" : "Total Regulation")}</b> : {stream.First().FailStudent}
                             </td>
                             <td style='border:1px solid #000;padding:4px;'>
                                 <b>Total UFM</b> : {stream.First().TotalUFM}
@@ -17134,6 +17133,217 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
+
+        [HttpPost("DiplomaTest2")]
+        public async Task<IActionResult> DiplomaTest2()
+        {
+            try
+            {
+                var sb = new StringBuilder();
+
+                sb.Append(@"
+
+<!DOCTYPE html>
+<html lang=""en"">
+<head>
+    <meta charset=""UTF-8"">
+    <title>Transport Bill</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .bill-container {
+            width: 800px;
+            margin: auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            background: #ddd;
+            padding: 10px;
+            font-weight: bold;
+        }
+        .sub-header {
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .box {
+            width: 48%;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .section-title {
+            font-weight: bold;
+            margin: 15px 0 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        .total {
+            text-align: right;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .signature {
+            width: 45%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class=""bill-container"">
+
+    <div class=""header"">TRANSPORT BILL</div>
+    <div class=""sub-header"">Baba Motors Transport Services</div>
+
+    <div class=""row"">
+        <div>Date: 27/02/2026</div>
+        <div>Bill No: 001</div>
+    </div>
+
+    <div class=""section-title"">DELIVERY DETAILS</div>
+    <div class=""row"">
+        <div class=""box"">
+            <b>FROM:</b><br>
+            Fortis Escorts Hospital Jaipur<br>
+            to Professional Health Care
+        </div>
+        <div class=""box"">
+            <b>DELIVERY ADDRESS:</b><br>
+            Plot No. 37, Bank Colony Rd, Ext. B,<br>
+            Krishna Vihar, Mahesh Nagar,<br>
+            Gopal Pura Mode, Jaipur,<br>
+            Rajasthan - 302015
+        </div>
+    </div>
+
+    <div class=""section-title"">VEHICLE & DRIVER DETAILS</div>
+    <div class=""row"">
+        <div class=""box"">
+            <b>Vehicle Type:</b> Pick Up<br>
+            <b>Driver Name:</b> Jitendra Dhawan<br>
+            <b>Service:</b> Transport of Items
+        </div>
+        <div class=""box"">
+            <b>Vehicle No:</b> RJ-14 GU-2587<br>
+            <b>Mobile No:</b> 9079028486
+        </div>
+    </div>
+
+    <div class=""section-title"">FARE DETAILS</div>
+    <table>
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Amount (Rs.)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Transport Charges - Pick Up Vehicle (RJ-14 GU-2587)</td>
+                <td>1</td>
+                <td>2800.00</td>
+            </tr>
+            <tr>
+                <td colspan=""3"" class=""total"">TOTAL</td>
+                <td><b>Rs. 2,800/-</b></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><b>Amount in Words:</b> Rupees Two Thousand Eight Hundred Only</p>
+
+    <div class=""footer"">
+        <div class=""signature"">
+            Receiver's Signature<br><br>
+            __________________
+        </div>
+        <div class=""signature"">
+            For Baba Motors Transport<br><br>
+            Authorized Signatory
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
+       
+
+
+        ");
+
+                var doc = new HtmlToPdfDocument
+                {
+                    GlobalSettings = new GlobalSettings
+                    {
+                        PaperSize = PaperKind.A4,
+                        Orientation = Orientation.Portrait,
+                        Margins = new MarginSettings
+                        {
+                            Top = 0,
+                            Bottom = 0,
+                            Left = 0,
+                            Right = 0
+                        }
+                    },
+                    Objects =
+            {
+                new ObjectSettings
+                {
+                    HtmlContent = sb.ToString(),
+                    WebSettings = { DefaultEncoding = "utf-8" },
+                    FooterSettings = new FooterSettings
+                    {
+                        FontName = "Arial",
+                        FontSize = 9,
+                        Right = "Page [page] of [toPage]",
+                        Left = "Printed on: [date]",
+                        Line = true
+                    }
+                }
+            }
+                };
+
+                byte[] pdfBytes = _converter.Convert(doc);
+
+                return File(pdfBytes, "application/pdf", "Diploma.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+
+
 
 
 

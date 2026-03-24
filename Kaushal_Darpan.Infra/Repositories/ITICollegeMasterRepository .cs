@@ -544,6 +544,21 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Bill_DisFilename", request.Bill_DisFilename);
                         command.Parameters.AddWithValue("@Bill_Filename", request.Bill_Filename);
                         command.Parameters.AddWithValue("@KNo", request.KNo);
+                        command.Parameters.AddWithValue("@ContactName", request.ContactName);
+                        command.Parameters.AddWithValue("@ContactDesignation", request.ContactDesignation);
+                        command.Parameters.AddWithValue("@LandlineNo", request.LandlineNo);
+                     
+                        command.Parameters.AddWithValue("@AmountAvailable", request.AmountAvailable);
+                        command.Parameters.AddWithValue("@AmountRequired", request.AmountRequired);
+                        command.Parameters.AddWithValue("@AmountDifference", request.AmountDifference);
+                        command.Parameters.AddWithValue("@IsCourt", request.IsCourt);
+                        command.Parameters.AddWithValue("@HighCourt", request.HighCourt);
+                        command.Parameters.AddWithValue("@WritNo", request.WritNo);
+                        command.Parameters.AddWithValue("@CourtDocumernt", request.CourtDocumernt);
+                        command.Parameters.AddWithValue("@DisCourtDocumernt", request.DisCourtDocumernt);
+                        command.Parameters.AddWithValue("@CourtDate", request.CourtDate);
+                        command.Parameters.AddWithValue("@BuildingPlan", request.BuildingPlan);
+                        command.Parameters.AddWithValue("@DisBuildingPlan", request.DisBuildingPlan);
                         command.Parameters.AddWithValue("@ItiAffiliationList", JsonConvert.SerializeObject(request.ItiAffiliationList));
                         command.Parameters.AddWithValue("@ItiMembers", JsonConvert.SerializeObject(request.ItiMembersModel));
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
@@ -602,6 +617,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@AffilationRemark", request.AffilationRemark);
                         command.Parameters.AddWithValue("@TrustMemberStatus", request.TrustMemberStatus);
                         command.Parameters.AddWithValue("@TrustMemberRemark", request.TrustMemberRemark);
+                        command.Parameters.AddWithValue("@BankRemark", request.BankRemark);
+                        command.Parameters.AddWithValue("@BankStatus", request.BankStatus);
                         command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
     
 
@@ -629,6 +646,55 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+
+        public async Task<bool> SaveItiworkdocument(ItiVerificationModel request)
+        {
+            _actionName = "SaveDataPlanning(ITI_PlanningColleges request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int returnValue = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandText = "USP_ITIPlanningUploadDocument"; // Your stored procedure
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@CollegeId", request.InstituteID);
+                
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@FileName", request.FileName);
+                        command.Parameters.AddWithValue("@DisFileName", request.DisFileName);
+               
+
+
+                        var returnParam = new SqlParameter("@Return", SqlDbType.Int) { Direction = ParameterDirection.Output };
+                        command.Parameters.Add(returnParam);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        await command.ExecuteNonQueryAsync();
+                        returnValue = (int)returnParam.Value;
+
+                        return returnValue > 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
 
         public async Task<bool> SaveDataReport(ItiReportDataModel request)
         {
@@ -904,7 +970,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> GetPlanningList(int CollegeID,int? ITItypeID,int Status)
+        public async Task<DataTable> GetPlanningList(int CollegeID,int? ITItypeID,int Status,int? DistrictID)
         {
             _actionName = "GetPlanningList()";
             return await Task.Run(async () =>
@@ -920,6 +986,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CollegeID", CollegeID);
                         command.Parameters.AddWithValue("@ManagementTypeId", ITItypeID);
                         command.Parameters.AddWithValue("@Status", Status);
+                        command.Parameters.AddWithValue("@DistrictID", DistrictID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -1066,7 +1133,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITICollegePlanningGetByIdReport";
+                        command.CommandText = "USP_ITICollegePlanningGetById";
                         command.Parameters.AddWithValue("@action", "_getAllData");
                         command.Parameters.AddWithValue("@Id", Id);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
@@ -1269,6 +1336,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Status", model.Status);
                         command.Parameters.AddWithValue("@Remarks", model.Remarks);
                         command.Parameters.AddWithValue("@FinYearId", model.FinYearId);
+                        command.Parameters.AddWithValue("@BankID", model.BankID);
+                        command.Parameters.AddWithValue("@Action", model.ActionType);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -1302,12 +1371,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetITIPlanningBankGuarantee";
-                      
+                        command.CommandText = "USP_GetITIPlanningBankGuarantee";   // 81 78 08 08 55
                         command.Parameters.AddWithValue("@status", body.status);
                         command.Parameters.AddWithValue("@CollageId", body.CollageId);
                         command.Parameters.AddWithValue("@dayWise", body.dayWise);
-                        
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1432,6 +1499,44 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+
+        public async Task<DataTable> statusUpdateById(ITIPlanningStatusUpdateByIdModel body)
+        {
+            _actionName = "statusUpdateById()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetITIPlanningStatusUpdateById";
+                        command.Parameters.AddWithValue("@BankGuaranteeID", body.BankGuaranteeID);
+                        command.Parameters.AddWithValue("@Status", body.Status);
+                        command.Parameters.AddWithValue("@Remarks", body.Remarks);
+                        command.Parameters.AddWithValue("@OrderNo", body.OrderNo);
+                        command.Parameters.AddWithValue("@Orderdate", body.Orderdate);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 

@@ -114,7 +114,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("SaveData")]
         public async Task<ApiResult<int>> SaveData([FromBody] DateConfigurationModel request)
         {
-            ActionName = "SaveData([FromBody] HRMaster request)";
+            ActionName = "SaveData([FromBody] DateConfigurationModel request)";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<int>();

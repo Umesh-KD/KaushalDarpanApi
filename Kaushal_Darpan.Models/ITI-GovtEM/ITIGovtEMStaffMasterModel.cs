@@ -540,6 +540,7 @@
     {    
         public int DepartmentID { get; set; }
         public int? RoleID { get; set; }
+        public int? OfficeID { get; set; }
        
     }
 

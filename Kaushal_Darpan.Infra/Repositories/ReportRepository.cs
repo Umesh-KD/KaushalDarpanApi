@@ -7497,12 +7497,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<DataTable> DownloadResultStatisticsReport(StatisticsBridgeCourseModel model)
+        public async Task<DataSet> DownloadResultStatisticsReport(StatisticsBridgeCourseModel model)
         {
             _actionName = "GetStudentRollNoList(DownloadnRollNoModel model)";
             try
             {
-                var dt = new DataTable();
+                var ds = new DataSet();
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
@@ -7516,9 +7516,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@StreamID", model.StreamID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
-                    dt = await command.FillAsync_DataTable();
+                    ds = await command.FillAsync();
                 }
-                return dt;
+                return ds;
             }
             catch (Exception ex)
             {

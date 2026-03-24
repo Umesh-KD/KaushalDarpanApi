@@ -628,14 +628,14 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("GetPlanningList/{CollegeID}/{Status}/{ITItypeID?}")]
-        public async Task<ApiResult<DataTable>> GetPlanningList(int CollegeID, int Status, int? ITItypeID = null)
+        [HttpGet("GetPlanningList/{CollegeID}/{Status}/{ITItypeID?}/{DistrictID}")]
+        public async Task<ApiResult<DataTable>> GetPlanningList(int CollegeID, int Status, int? ITItypeID = null,int? DistrictID=0)
         {
             ActionName = "GetExamStudentData()";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.ITICollegeMasterRepository.GetPlanningList(CollegeID,  Status,  ITItypeID ?? 0));
+                result.Data = await Task.Run(() => _unitOfWork.ITICollegeMasterRepository.GetPlanningList(CollegeID,  Status,  ITItypeID ?? 0,DistrictID));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
@@ -764,6 +764,74 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+
+
+        [HttpPost("SaveItiworkdocument")]
+        public async Task<ApiResult<bool>> SaveItiworkdocument([FromBody] ItiVerificationModel request)
+        {
+            ActionName = "SaveItiworkdocument([FromBody] ItiReportDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    //if (!ModelState.IsValid)
+                    //{
+                    //    result.State = EnumStatus.Error;
+                    //    result.ErrorMessage = "Validation failed!";
+                    //    return result;
+                    //}
+
+
+                    result.Data = await _unitOfWork.ITICollegeMasterRepository.SaveItiworkdocument(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (request.InstituteID == 0)
+
+                        {
+                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (request.InstituteID == 0)
+                        {
+                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        }
+                        else
+                        {
+                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
 
         [HttpGet("DownloadITIPlanning/{Id}")]
         public async Task<ApiResult<string>> DownloadITIPlanning(int Id)
@@ -937,13 +1005,39 @@ namespace Kaushal_Darpan.Api.Controllers
                      
                         data.Tables[0].TableName = "Institute_Details";
 
-                        data.Tables[0].Rows[0]["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
-                        data.Tables[0].Rows[0]["NE100"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
-                        data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
-                  
+
 
                         data.Tables[1].TableName = "ITI_Members";
                         data.Tables[2].TableName = "ITI_Affiliations";
+
+                        if (data.Tables[1] != null && data.Tables[1].Rows.Count > 0)
+                        {
+                            if (!data.Tables[1].Columns.Contains("SrNo"))
+                            {
+                                data.Tables[1].Columns.Add("SrNo", typeof(int));
+                            }
+
+                            int i = 1;
+                            foreach (DataRow row in data.Tables[1].Rows)
+                            {
+                                row["SrNo"] = i++;
+                            }
+                        }
+
+                        if (data.Tables[2] != null && data.Tables[1].Rows.Count > 0)
+                        {
+                            if (!data.Tables[2].Columns.Contains("SrNo"))
+                            {
+                                data.Tables[2].Columns.Add("SrNo", typeof(int));
+                            }
+
+                            int i = 1;
+                            foreach (DataRow row in data.Tables[2].Rows)
+                            {
+                                row["SrNo"] = i++;
+                            }
+                        }
+
 
                         string devFontSize = "12px";
                         System.Text.StringBuilder sb = new System.Text.StringBuilder();
@@ -1291,6 +1385,41 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+        [HttpPost("statusUpdateById")]
+        public async Task<ApiResult<DataTable>> statusUpdateById([FromBody] ITIPlanningStatusUpdateByIdModel body)
+        {
+            ActionName = "statusUpdateById()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITICollegeMasterRepository.statusUpdateById(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
 
 
     }

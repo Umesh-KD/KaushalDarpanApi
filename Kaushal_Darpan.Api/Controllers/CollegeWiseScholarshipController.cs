@@ -176,7 +176,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //}
 
         //[HttpPost("DeleteByID/{ID:int}/{ModifyBy:int}")]
-      
+
         //public async Task<ApiResult<bool>> DeleteByID(int ID, int ModifyBy)
         //{
         //    ActionName = "DeleteByID(int ID, int ModifyBy)";
@@ -711,8 +711,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     var client = new HttpClient();
                     //var request = new HttpRequestMessage(HttpMethod.Post, "https://sjmsnew.rajasthan.gov.in/ScholarShipApi/api/Scholarship?RequestId=60787706086");
-                    var request = new HttpRequestMessage(HttpMethod.Post, "https://sjmsnew.rajasthan.gov.in/ScholarShipApi/api/Scholarship?RequestId="+body.RequestId);
-                    var content = new StringContent("{\"RequestType\": \""+body.RequestType+"\",\"CollegeType\": \""+body.CollegeType+"\"}", null, "application/json");
+                    var request = new HttpRequestMessage(HttpMethod.Post, "https://sjmsnew.rajasthan.gov.in/ScholarShipApi/api/Scholarship?RequestId=" + body.RequestId);
+                    var content = new StringContent("{\"RequestType\": \"" + body.RequestType + "\",\"CollegeType\": \"" + body.CollegeType + "\"}", null, "application/json");
                     //var content = new StringContent("{\"RequestType\": \"Janaadhaar_Aadhaar\",\"CollegeType\": \"ITI\"}", null, "application/json");
                     request.Content = content;
                     var response = await client.SendAsync(request);
@@ -721,7 +721,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     ScholarshipApiResponse deseraliseObj = JsonSerializer.Deserialize<ScholarshipApiResponse>(responseString);
                     result.Data = deseraliseObj;
                     await _unitOfWork.SaveChangesAsync();
-                    if (result.Data.isSuccess )
+                    if (result.Data.isSuccess)
                     {
                         result.State = EnumStatus.Success;
                         result.Message = "Data fetch successfully";
@@ -781,10 +781,10 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.Message = "Data fetch successfully";
                         ScholarshipApiResponse entity = new ScholarshipApiResponse();
 
-                        entity.JsonData= Newtonsoft.Json.JsonConvert.SerializeObject(result.Data.data);
+                        entity.JsonData = Newtonsoft.Json.JsonConvert.SerializeObject(result.Data.data);
 
-                        entity.Department=body.CollegeType;
-                        
+                        entity.Department = body.CollegeType;
+
                         var responseString1 = await _unitOfWork.CollegeWiseScholarshipRepository.UpdateSaveData(entity);
                         await _unitOfWork.SaveChangesAsync();
                     }
@@ -796,7 +796,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
 
 
-                   
+
                 }
                 catch (System.Exception ex)
                 {
@@ -815,6 +815,50 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+
+
+
+        [HttpPost("GetScholarship1InstituteData")]
+        public async Task<ApiResult<DataTable>> GetScholarship1InstituteData([FromBody] ScholarshipApiSearchDataModel model)
+        {
+            ActionName = "GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.CollegeWiseScholarshipRepository.GetScholarship1InstituteData(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+    
+
+
 
         [HttpPost("GetAllData")]
         public async Task<ApiResult<DataTable>> GetAllData([FromBody] ScholarshipApiSearchDataModel model)
