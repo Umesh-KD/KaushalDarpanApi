@@ -165,6 +165,10 @@
           <DataField>EndTermName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="StreamName">
+          <DataField>StreamName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
@@ -1374,21 +1378,21 @@
                       <TablixHeader>
                         <Size>0.77085in</Size>
                         <CellContents>
-                          <Textbox Name="Textbox48">
+                          <Textbox Name="StreamName">
                             <CanGrow>true</CanGrow>
                             <KeepTogether>true</KeepTogether>
                             <Paragraphs>
                               <Paragraph>
                                 <TextRuns>
                                   <TextRun>
-                                    <Value>=First(Fields!StreamName.Value, "AppearedPassedStatistics")</Value>
+                                    <Value>=Fields!StreamName.Value</Value>
                                     <Style />
                                   </TextRun>
                                 </TextRuns>
                                 <Style />
                               </Paragraph>
                             </Paragraphs>
-                            <rd:DefaultName>Textbox48</rd:DefaultName>
+                            <rd:DefaultName>StreamName</rd:DefaultName>
                             <Style>
                               <Border>
                                 <Style>Solid</Style>
