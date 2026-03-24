@@ -1023,7 +1023,21 @@ namespace Kaushal_Darpan.Api.Controllers
                                 row["SrNo"] = i++;
                             }
                         }
-                       
+
+                        if (data.Tables[2] != null && data.Tables[1].Rows.Count > 0)
+                        {
+                            if (!data.Tables[2].Columns.Contains("SrNo"))
+                            {
+                                data.Tables[2].Columns.Add("SrNo", typeof(int));
+                            }
+
+                            int i = 1;
+                            foreach (DataRow row in data.Tables[2].Rows)
+                            {
+                                row["SrNo"] = i++;
+                            }
+                        }
+
 
                         string devFontSize = "12px";
                         System.Text.StringBuilder sb = new System.Text.StringBuilder();

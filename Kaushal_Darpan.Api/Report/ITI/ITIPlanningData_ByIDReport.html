@@ -200,9 +200,9 @@
             <td>{#=Institute_Details.RegistrationDistirctName=#}</td>
         </tr>
         <!--<tr>
-        <td style="font-weight:bold;">Lease/Rent Agreement Document</td>
-        <td colspan="3">{#=Institute_Details.AgreementDisFileName=#}</td>
-    </tr>-->
+            <td style="font-weight:bold;">Lease/Rent Agreement Document</td>
+            <td colspan="3">{#=Institute_Details.AgreementDisFileName=#}</td>
+        </tr>-->
         {#ENDIF.Institute_Details.OwnerShipID=1#}
 
         <tr>
@@ -327,7 +327,7 @@
             <td style="font-weight:bold;">High Court Bench</td>
             <td>{#=Institute_Details.HighCourtName=#}</td>
             <!--<td style="font-weight:bold;">Court Document</td>
-        <td>{#=Institute_Details.DisCourtDocumernt=#}</td>-->
+            <td>{#=Institute_Details.DisCourtDocumernt=#}</td>-->
         </tr>
 
         {#ENDIF.Institute_Details.IsCourt=1#}
@@ -371,7 +371,7 @@
     </div>
 
     <!-- Only table -->
-    <table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5px; border:1px solid #aaa;" cellpadding="6">
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 10.5px; top: 8px; border: 1px solid #aaa;" cellpadding="6">
         <thead>
             <tr style="background:#f5f6f7;">
                 <th style="border:0.6px solid #bbb; text-align:left; width:8%;">S.No</th>
@@ -413,5 +413,40 @@
             <td colspan="3">{#=Institute_Details.Remark=#}</td>
         </tr>
     </table>-->
+   
+
+    <style>
+        .table-layout {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .left-col {
+            width: 50%;
+            font-weight: bold;
+        }
+
+        .right-col {
+            width: 50%;
+            text-align: right;
+            padding-left: 60px;
+            font-weight: bold;
+        }
+    </style>
+
+    <table class="table-layout" cellpadding="6">
+        <tr>
+            <td class="left-col">Institute Member</td>
+            <td class="right-col">Committee Member</td>
+        </tr>
+        <tr>
+            <td class="left-col">Institute Name</td>
+            <td class="right-col">Committee Name</td>
+        </tr>
+        <tr>
+            <td class="left-col">Institute Designation</td>
+            <td class="right-col">Committee Signature</td>
+        </tr>
+    </table>
 
 </div>
