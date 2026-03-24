@@ -27,183 +27,171 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<List<GroupCodeAllocationAddEditModel_Reval>> GetAllData(GroupCodeAllocationSearchModel filterModel)
         {
             _actionName = "GetAllData(GroupCodeAllocationSearchModel filterModel)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                List<GroupCodeAllocationAddEditModel_Reval> groupCode = new List<GroupCodeAllocationAddEditModel_Reval>();
+                DataTable dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    List<GroupCodeAllocationAddEditModel_Reval> groupCode = new List<GroupCodeAllocationAddEditModel_Reval>();
-                    DataTable dt = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetGroupCodeMaster_Reval";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetGroupCodeMaster_Reval";
 
-                        // Add parameters to the stored procedure from the model
-                        command.Parameters.AddWithValue("@action", "_getAllData");
-                        command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterId);
-                        command.Parameters.AddWithValue("@CommonSubjectYesNo", filterModel.CommonSubjectYesNo);
-                        command.Parameters.AddWithValue("@PartitionSize", filterModel.PartitionSize);
-                        command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
-                        command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                    // Add parameters to the stored procedure from the model
+                    command.Parameters.AddWithValue("@action", "_getAllData");
+                    command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterId);
+                    command.Parameters.AddWithValue("@CommonSubjectYesNo", filterModel.CommonSubjectYesNo);
+                    command.Parameters.AddWithValue("@PartitionSize", filterModel.PartitionSize);
+                    command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dt = await command.FillAsync_DataTable();
-                    }
-                    if (dt != null)
-                    {
-                        groupCode = CommonFuncationHelper.ConvertDataTable<List<GroupCodeAllocationAddEditModel_Reval>>(dt);
-                    }
-
-                    return groupCode;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dt = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                if (dt != null)
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
+                    groupCode = CommonFuncationHelper.ConvertDataTable<List<GroupCodeAllocationAddEditModel_Reval>>(dt);
                 }
-            });
+
+                return groupCode;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<int> SaveData(List<GroupCodeAllocationAddEditModel_Reval> request, int StartValue)
         {
             _actionName = "SaveData(List<GroupCodeAllocationAddEditModel_Reval> request, int StartValue)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_AddEditGroupCodeAllocation_Reval";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_AddEditGroupCodeAllocation_Reval";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_addEditData");
-                        command.Parameters.AddWithValue("@StartValue", StartValue);
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_addEditData");
+                    command.Parameters.AddWithValue("@StartValue", StartValue);
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
 
-                        command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
-                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
+                    command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
-                    }
-                    return result;
+                    result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
                 }
-                catch (Exception ex)
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<List<GroupCodeAddEditModel>> GetPartitionData(GroupCodeAllocationSearchModel filterModel)
         {
             _actionName = "GetPartitionData(GroupCodeAllocationSearchModel filterModel)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                List<GroupCodeAddEditModel> groupCode = new List<GroupCodeAddEditModel>();
+                DataTable dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    List<GroupCodeAddEditModel> groupCode = new List<GroupCodeAddEditModel>();
-                    DataTable dt = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetGroupCodeMaster_Reval";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetGroupCodeMaster_Reval";
 
-                        // Add parameters to the stored procedure from the model
-                        command.Parameters.AddWithValue("@action", "_getPartiotionData");
-                        command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterId);
-                        command.Parameters.AddWithValue("@CommonSubjectYesNo", filterModel.CommonSubjectYesNo);
-                        command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
-                        command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
-                        command.Parameters.AddWithValue("@PartitionSize", filterModel.PartitionSize);
+                    // Add parameters to the stored procedure from the model
+                    command.Parameters.AddWithValue("@action", "_getPartiotionData");
+                    command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterId);
+                    command.Parameters.AddWithValue("@CommonSubjectYesNo", filterModel.CommonSubjectYesNo);
+                    command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                    command.Parameters.AddWithValue("@PartitionSize", filterModel.PartitionSize);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dt = await command.FillAsync_DataTable();
-                    }
-                    if (dt != null)
-                    {
-                        groupCode = CommonFuncationHelper.ConvertDataTable<List<GroupCodeAddEditModel>>(dt);
-                    }
-                    return groupCode;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dt = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                if (dt != null)
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
+                    groupCode = CommonFuncationHelper.ConvertDataTable<List<GroupCodeAddEditModel>>(dt);
                 }
-            });
+                return groupCode;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<int> SavePartitionData(List<GroupCodeAddEditModel> request)
         {
             _actionName = "SavePartitionData(List<GroupCodeAddEditModel> request)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_AddEditGroupCodeMaster_Reval";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_AddEditGroupCodeMaster_Reval";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_addEditPartiotionData");
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_addEditPartiotionData");
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
 
-                        command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
-                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
+                    command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
-                    }
-                    return result;
+                    result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
                 }
-                catch (Exception ex)
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 

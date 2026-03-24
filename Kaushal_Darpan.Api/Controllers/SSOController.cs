@@ -1206,6 +1206,8 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+
         [HttpGet("CheckMultiDepartUserBySearchRecordID/{SearchRecordID}")]
         public async Task<ApiResult<UserLoginExtraInfoResponseModel>> CheckMultiDepartUserBySearchRecordID(string SearchRecordID)
         {
@@ -1244,6 +1246,42 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
-    }
 
+        [HttpPost("CheckMultiInsituteUser")]
+        public async Task<ApiResult<DataTable>> CheckMultiInsituteUser([FromBody] UserLoginExtraInfoRequestModel model)
+        {
+            ActionName = "CheckMultiInsituteUser(FromBody] UserLoginExtraInfoRequestModel model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.SSORepository.CheckMultiInsituteUser(model);
+                if (result.Data != null)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_INVALID_SSOID_PASSWORD;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+    }
 }

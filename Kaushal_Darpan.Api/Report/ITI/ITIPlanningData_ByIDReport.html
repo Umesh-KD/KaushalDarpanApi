@@ -43,7 +43,7 @@
         1. Institute Details
     </div>
 
-    
+
     <table style="width:100%; border-collapse:collapse; margin-bottom:14px;" cellpadding="4">
         <tr>
             <td style="width:18%; font-weight:bold;">ITI Name</td>
@@ -55,7 +55,7 @@
             <td style="font-weight:bold;">MIS Code</td>
             <td>{#=Institute_Details.MISC=#}</td>
             <td style="font-weight:bold;">Category</td>
-            <td>{#=Institute_Details.InstitutionCategoryname=#}</td>
+            <td>{#=Institute_Details.CategoryName=#}</td>
         </tr>
     </table>
 
@@ -67,7 +67,7 @@
     <table style="width:100%; border-collapse:collapse; margin-bottom:14px;" cellpadding="4">
         <tr>
             <td style="width:18%; font-weight:bold;">Management Type</td>
-            <td style="width:32%;">{#=Institute_Details.InstituteManagementName=#}</td>
+            <td style="width:32%;">{#=Institute_Details.ManagementTypeName=#}</td>
             <td style="width:18%; font-weight:bold;">Trust/Society</td>
             <td style="width:32%;">
                 {#IF.Institute_Details.TrustSociety=1#}Trust{#ENDIF.Institute_Details.TrustSociety=1#}
@@ -87,7 +87,7 @@
         </tr>
         <tr>
             <td style="font-weight:bold;">Registration Date</td>
-            <td>{#=Institute_Details.RegDate=#}</td>
+            <td>{#=Institute_Details.DisRegDate=#}</td>
             <td style="font-weight:bold;">Registration Office</td>
             <td>{#=Institute_Details.ManageRegOffice=#}</td>
         </tr>
@@ -97,10 +97,12 @@
             <td style="font-weight:bold;">District</td>
             <td>{#=Institute_Details.DistrictName=#}</td>
         </tr>
-       
+
         {#ENDIF.Institute_Details.InstituteManagementId=5#}
     </table>
 
+
+    {#IF.Institute_Details.InstituteManagementId=5#}
     <!-- 3. Member Of Trust/Society -->
     <div style="background:#eef1f4; padding:7px 10px; font-size:13px; font-weight:bold; margin-bottom:8px;">
         3. Member Of Trust/Society
@@ -109,43 +111,65 @@
     <table style="width:100%; border-collapse:collapse; margin-bottom:10px;" cellpadding="4">
         <tr>
             <td style="width:18%; font-weight:bold;">Date of Last Election</td>
-            <td style="width:32%;">{#=Institute_Details.LastElectionDate=#}</td>
+            <td style="width:32%;">{#=Institute_Details.DisLastElectionDate=#}</td>
             <td style="width:18%; font-weight:bold;">Valid Upto</td>
-            <td style="width:32%;">{#=Institute_Details.LastElectionValidUpTo=#}</td>
+            <td style="width:32%;">{#=Institute_Details.DisLastElectionValidUpTo=#}</td>
         </tr>
-        <tr>
+        <!--<tr>
             <td style="font-weight:bold;">Upload Document</td>
             <td colspan="3">{#=Institute_Details.MemberIdDisProofName=#}</td>
-        </tr>
+        </tr>-->
     </table>
 
     <!-- Only table -->
-    <table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5px;" border="1" cellpadding="6" cellspacing="0">
+    <!--<table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5px; border:0.5px;" cellpadding="6" cellspacing="0">
         <thead>
-            <tr style="background:#f5f6f7;">
+               <tr style="background:#f5f6f7;">
                 <th style="text-align:left; width:8%;">S.No</th>
                 <th style="text-align:left; width:36%;">Member Name</th>
                 <th style="text-align:left; width:20%;">Post</th>
-                <th style="text-align:left; width:18%;">Contact No</th>
-                <th style="text-align:left; width:18%;">ID Proof File</th>
+                <th style="text-align:left; width:18%;">Contact No</th>-->
+    <!--<th style="text-align:left; width:18%;">ID Proof File</th>-->
+    <!--</tr>
+    </thead>
+    <tbody>
+        {#LOOP.ITI_Members#}
+        <tr>
+            <td>{#=ITI_Members.SrNo=#}</td>
+            <td>{#=ITI_Members.MemberName=#}</td>
+            <td>{#=ITI_Members.PostName=#}</td>
+            <td>{#=ITI_Members.ContactNo=#}</td>-->
+    <!--<td>{#=ITI_Members.IDdis_Filename=#}</td>-->
+    <!--</tr>
+            {#ENDLOOP.ITI_Members#}
+        </tbody>
+    </table>-->
+
+    <table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5px; border:1px solid #444;" cellpadding="6">
+        <thead>
+            <tr style="background:#f2f2f2;">
+                <th style="text-align:left; width:8%; border:1px solid #aaa;">S.No</th>
+                <th style="text-align:left; width:36%; border:1px solid #aaa;">Member Name</th>
+                <th style="text-align:left; width:20%; border:1px solid #aaa;">Post</th>
+                <th style="text-align:left; width:18%; border:1px solid #aaa;">Contact No</th>
             </tr>
         </thead>
         <tbody>
             {#LOOP.ITI_Members#}
             <tr>
-                <td>{#=ITI_Members.SrNo=#}</td>
-                <td>{#=ITI_Members.MemberName=#}</td>
-                <td>{#=ITI_Members.PostName=#}</td>
-                <td>{#=ITI_Members.ContactNo=#}</td>
-                <td>{#=ITI_Members.IDdis_Filename=#}</td>
+                <td style="border:1px solid #aaa;">{#=ITI_Members.SrNo=#}</td>
+                <td style="border:1px solid #aaa;">{#=ITI_Members.MemberName=#}</td>
+                <td style="border:1px solid #aaa;">{#=ITI_Members.PostName=#}</td>
+                <td style="border:1px solid #aaa;">{#=ITI_Members.ContactNo=#}</td>
             </tr>
             {#ENDLOOP.ITI_Members#}
         </tbody>
     </table>
 
+    {#ENDIF.Institute_Details.InstituteManagementId=5#}
     <!-- 4. Institute Address -->
     <div style="background:#eef1f4; padding:7px 10px; font-size:13px; font-weight:bold; margin-bottom:8px;">
-        4. Institute Address
+        4. Institute Building Details
     </div>
 
     <table style="width:100%; border-collapse:collapse; margin-bottom:14px;" cellpadding="4">
@@ -155,82 +179,92 @@
                 {#IF.Institute_Details.OwnerShipID=1#}Rented{#ENDIF.Institute_Details.OwnerShipID=1#}
                 {#IF.Institute_Details.OwnerShipID!=1#}Own{#ENDIF.Institute_Details.OwnerShipID!=1#}
             </td>
-            <td style="width:22%; font-weight:bold;">Plot/House/Building No</td>
-            <td style="width:28%;">{#=Institute_Details.PlotHouseBuildingNo=#}</td>
+
+            {#IF.Institute_Details.OwnerShipID=1#}
+            <td style="width:22%; font-weight:bold;">Date of Agreement</td>
+            <td style="width:28%;">{#=Institute_Details.DisAgreementLeaseDate=#}</td>
+            {#ENDIF.Institute_Details.OwnerShipID=1#}
+        </tr>
+
+        {#IF.Institute_Details.OwnerShipID=1#}
+        <tr>
+            <td style="font-weight:bold;">Lease Valid Upto</td>
+            <td>{#=Institute_Details.DisValidUpToLeaseDate=#}</td>
+            <td style="font-weight:bold;">Registration Office</td>
+            <td>{#=Institute_Details.InstituteRegOffice=#}</td>
         </tr>
         <tr>
+            <td style="font-weight:bold;">Registration State</td>
+            <td>{#=Institute_Details.RegistrationStateName=#}</td>
+            <td style="font-weight:bold;">Registration District</td>
+            <td>{#=Institute_Details.RegistrationDistirctName=#}</td>
+        </tr>
+        <!--<tr>
+            <td style="font-weight:bold;">Lease/Rent Agreement Document</td>
+            <td colspan="3">{#=Institute_Details.AgreementDisFileName=#}</td>
+        </tr>-->
+        {#ENDIF.Institute_Details.OwnerShipID=1#}
+
+        <tr>
+            <td style="font-weight:bold;">Plot/House/Building No</td>
+            <td>{#=Institute_Details.PlotHouseBuildingNo=#}</td>
             <td style="font-weight:bold;">Street/Road/Lane</td>
             <td>{#=Institute_Details.StreetRoadLane=#}</td>
+        </tr>
+        <tr>
             <td style="font-weight:bold;">Area/Locality/Sector</td>
             <td>{#=Institute_Details.AreaLocalitySector=#}</td>
-        </tr>
-        <tr>
             <td style="font-weight:bold;">LandMark</td>
             <td>{#=Institute_Details.LandMark=#}</td>
+        </tr>
+        <tr>
             <td style="font-weight:bold;">Division</td>
             <td>{#=Institute_Details.InsDivisionName=#}</td>
-        </tr>
-        <tr>
             <td style="font-weight:bold;">District</td>
             <td>{#=Institute_Details.InsDistrictName=#}</td>
-            <td style="font-weight:bold;">Sub Division</td>
-            <td>{#=Institute_Details.InstituteSubDivisionName=#}</td>
         </tr>
         <tr>
+            <td style="font-weight:bold;">Sub Division</td>
+            <td>{#=Institute_Details.SubDivisionName=#}</td>
             <td style="font-weight:bold;">Tehsil</td>
             <td>{#=Institute_Details.InsTehsil=#}</td>
+        </tr>
+        <tr>
             <td style="font-weight:bold;">Urban/Rural</td>
             <td>{#=Institute_Details.InsUrbanName=#}</td>
-        </tr>
-        <tr>
             <td style="font-weight:bold;">City</td>
             <td>{#=Institute_Details.InsCityName=#}</td>
+        </tr>
+        <tr>
             <td style="font-weight:bold;">Administrative Body</td>
             <td>{#=Institute_Details.AdministrativeBodyName=#}</td>
-        </tr>
-        <tr>
             <td style="font-weight:bold;">Panchayat Samiti</td>
-            <td>{#=Institute_Details.PanchayatSamitiName=#}</td>
-            <td style="font-weight:bold;">Gram Panchayat</td>
-            <td>{#=Institute_Details.GramPanchayatName=#}</td>
+            <td>{#=Institute_Details.PanchayatName=#}</td>
         </tr>
         <tr>
+            <td style="font-weight:bold;">Gram Panchayat</td>
+            <td>{#=Institute_Details.GramPanchayatname=#}</td>
             <td style="font-weight:bold;">Village</td>
             <td>{#=Institute_Details.VillageName=#}</td>
+        </tr>
+        <tr>
             <td style="font-weight:bold;">Ward Number</td>
             <td>{#=Institute_Details.WardNo=#}</td>
-        </tr>
-        <tr>
             <td style="font-weight:bold;">Khasra No / Khata No</td>
             <td>{#=Institute_Details.KhasraKhataNo=#}</td>
+        </tr>
+        <tr>
             <td style="font-weight:bold;">Rakba (Bigha/Yard)</td>
             <td>{#=Institute_Details.BighaYard=#}</td>
-        </tr>
-        <tr>
             <td style="font-weight:bold;">Latitude</td>
             <td>{#=Institute_Details.Latitude=#}</td>
+        </tr>
+        <tr>
             <td style="font-weight:bold;">Longitude</td>
             <td>{#=Institute_Details.Longitude=#}</td>
+            <td></td>
+            <td></td>
         </tr>
-        <tr>
-            <td style="font-weight:bold;">Lease Date</td>
-            <td>{#=Institute_Details.AgreementLeaseDate=#}</td>
-            <td style="font-weight:bold;">Lease Valid Upto</td>
-            <td>{#=Institute_Details.ValidUpToLeaseDate=#}</td>
-        </tr>
-        <tr>
-            <td style="font-weight:bold;">Property Reg Office</td>
-            <td>{#=Institute_Details.InstituteRegOffice=#}</td>
-            <td style="font-weight:bold;">Reg State / District</td>
-            <td>{#=Institute_Details.InstituteStateName=#} / {#=Institute_Details.PropDistrictName=#}</td>
-        </tr>
-        <tr>
-            <td style="font-weight:bold;">Lease Deed Document</td>
-            <td>{#=Institute_Details.AgreementDisFileName=#}</td>
-            <td style="font-weight:bold;">Lat/Long Document</td>
-            <td>{#=Institute_Details.LatLongDisFileName=#}</td>
-        </tr>
-        
     </table>
 
     <!-- 5. Contact Details -->
@@ -281,6 +315,8 @@
             <td style="font-weight:bold;">Court Case</td>
             <td>{#=Institute_Details.IsCourt=#}</td>
         </tr>
+
+        {#IF.Institute_Details.IsCourt=1#}
         <tr>
             <td style="font-weight:bold;">Writ No</td>
             <td>{#=Institute_Details.WritNo=#}</td>
@@ -290,9 +326,12 @@
         <tr>
             <td style="font-weight:bold;">High Court Bench</td>
             <td>{#=Institute_Details.HighCourtName=#}</td>
-            <td style="font-weight:bold;">Court Document</td>
-            <td>{#=Institute_Details.DisCourtDocumernt=#}</td>
+            <!--<td style="font-weight:bold;">Court Document</td>
+            <td>{#=Institute_Details.DisCourtDocumernt=#}</td>-->
         </tr>
+
+        {#ENDIF.Institute_Details.IsCourt=1#}
+
     </table>
 
     <!-- 7. Electrical Load Details -->
@@ -322,7 +361,7 @@
         <tr>
             <td style="font-weight:bold;">Sub-Division Office</td>
             <td>{#=Institute_Details.SubDivOffice=#}</td>
-     
+
         </tr>
     </table>
 
@@ -332,26 +371,26 @@
     </div>
 
     <!-- Only table -->
-    <table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5px;" border="1" cellpadding="6" cellspacing="0">
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 10.5px; top: 8px; border: 1px solid #aaa;" cellpadding="6">
         <thead>
             <tr style="background:#f5f6f7;">
-                <th style="text-align:left; width:8%;">S.No</th>
-                <th style="text-align:left; width:28%;">Order No</th>
-                <th style="text-align:left; width:18%;">Order Date</th>
-                <th style="text-align:left; width:18%;">Effect From</th>
-                <th style="text-align:left; width:14%;">Page No</th>
-                <th style="text-align:left; width:14%;">Serial No</th>
+                <th style="border:0.6px solid #bbb; text-align:left; width:8%;">S.No</th>
+                <th style="border:0.6px solid #bbb; text-align:left; width:28%;">Order No</th>
+                <th style="border:0.6px solid #bbb; text-align:left; width:18%;">Order Date</th>
+                <th style="border:0.6px solid #bbb; text-align:left; width:18%;">Effect From</th>
+                <th style="border:0.6px solid #bbb; text-align:left; width:14%;">Page No</th>
+                <th style="border:0.6px solid #bbb; text-align:left; width:14%;">Serial No</th>
             </tr>
         </thead>
         <tbody>
             {#LOOP.ITI_Affiliations#}
             <tr>
-                <td>{#=ITI_Affiliations.SrNo=#}</td>
-                <td>{#=ITI_Affiliations.OrderNo=#}</td>
-                <td>{#=ITI_Affiliations.OrderDate=#}</td>
-                <td>{#=ITI_Affiliations.EffectFrom=#}</td>
-                <td>{#=ITI_Affiliations.PageNo=#}</td>
-                <td>{#=ITI_Affiliations.SerialNo=#}</td>
+                <td style="border:0.6px solid #bbb; text-align:center;">{#=ITI_Affiliations.SrNo=#}</td>
+                <td style="border:0.6px solid #bbb;">{#=ITI_Affiliations.OrderNo=#}</td>
+                <td style="border:0.6px solid #bbb;">{#=ITI_Affiliations.OrderDate=#}</td>
+                <td style="border:0.6px solid #bbb;">{#=ITI_Affiliations.EffectFrom=#}</td>
+                <td style="border:0.6px solid #bbb;">{#=ITI_Affiliations.PageNo=#}</td>
+                <td style="border:0.6px solid #bbb;">{#=ITI_Affiliations.SerialNo=#}</td>
             </tr>
             {#ENDLOOP.ITI_Affiliations#}
         </tbody>
@@ -374,5 +413,40 @@
             <td colspan="3">{#=Institute_Details.Remark=#}</td>
         </tr>
     </table>-->
+   
+
+    <style>
+        .table-layout {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .left-col {
+            width: 50%;
+            font-weight: bold;
+        }
+
+        .right-col {
+            width: 50%;
+            text-align: right;
+            padding-left: 60px;
+            font-weight: bold;
+        }
+    </style>
+
+    <table class="table-layout" cellpadding="6">
+        <tr>
+            <td class="left-col">Institute Member</td>
+            <td class="right-col">Committee Member</td>
+        </tr>
+        <tr>
+            <td class="left-col">Institute Name</td>
+            <td class="right-col">Committee Name</td>
+        </tr>
+        <tr>
+            <td class="left-col">Institute Designation</td>
+            <td class="right-col">Committee Signature</td>
+        </tr>
+    </table>
 
 </div>

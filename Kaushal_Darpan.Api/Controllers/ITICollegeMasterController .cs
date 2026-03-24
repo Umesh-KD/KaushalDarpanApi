@@ -1005,13 +1005,39 @@ namespace Kaushal_Darpan.Api.Controllers
                      
                         data.Tables[0].TableName = "Institute_Details";
 
-                        data.Tables[0].Rows[0]["ITILogo"] = $"{ConfigurationHelper.StaticFileRootPath}/ITILogo.jpg";
-                        data.Tables[0].Rows[0]["NE100"] = $"{ConfigurationHelper.StaticFileRootPath}/NE-100.png";
-                        data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
-                  
+
 
                         data.Tables[1].TableName = "ITI_Members";
                         data.Tables[2].TableName = "ITI_Affiliations";
+
+                        if (data.Tables[1] != null && data.Tables[1].Rows.Count > 0)
+                        {
+                            if (!data.Tables[1].Columns.Contains("SrNo"))
+                            {
+                                data.Tables[1].Columns.Add("SrNo", typeof(int));
+                            }
+
+                            int i = 1;
+                            foreach (DataRow row in data.Tables[1].Rows)
+                            {
+                                row["SrNo"] = i++;
+                            }
+                        }
+
+                        if (data.Tables[2] != null && data.Tables[1].Rows.Count > 0)
+                        {
+                            if (!data.Tables[2].Columns.Contains("SrNo"))
+                            {
+                                data.Tables[2].Columns.Add("SrNo", typeof(int));
+                            }
+
+                            int i = 1;
+                            foreach (DataRow row in data.Tables[2].Rows)
+                            {
+                                row["SrNo"] = i++;
+                            }
+                        }
+
 
                         string devFontSize = "12px";
                         System.Text.StringBuilder sb = new System.Text.StringBuilder();

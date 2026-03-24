@@ -1133,7 +1133,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITICollegePlanningGetByIdReport";
+                        command.CommandText = "USP_ITICollegePlanningGetById";
                         command.Parameters.AddWithValue("@action", "_getAllData");
                         command.Parameters.AddWithValue("@Id", Id);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
