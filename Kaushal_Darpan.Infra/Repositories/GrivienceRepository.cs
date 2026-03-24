@@ -22,43 +22,40 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetAllData(GrivienceSearchModel body)
         {
-            _actionName = "GetAllData()";
-            return await Task.Run(async () =>
+            _actionName = "GetAllData(GrivienceSearchModel body)";
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_M_GrivienceUI";
-                        command.Parameters.AddWithValue("@Action", "List");
-                        command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
-                        command.Parameters.AddWithValue("@StatusID", body.StatusID);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@CategoryID", body.CategoryID);
-                        command.Parameters.AddWithValue("@ModuleID", body.ModuleID);
-                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_M_GrivienceUI";
+                    command.Parameters.AddWithValue("@Action", "List");
+                    command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                    command.Parameters.AddWithValue("@StatusID", body.StatusID);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@CategoryID", body.CategoryID);
+                    command.Parameters.AddWithValue("@ModuleID", body.ModuleID);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-
-                    return dataTable;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         
         public async Task<DataTable> GetResponseData(GrivienceSearchModel body)
