@@ -19405,6 +19405,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnEndTermName;
             
+            private global::System.Data.DataColumn columnStreamName;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public AppearedPassedDetailsDataTable() {
@@ -19650,6 +19652,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn StreamNameColumn {
+                get {
+                    return this.columnStreamName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -19711,7 +19721,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         string Detain, 
                         string FinancialYearName, 
                         string YearName, 
-                        string EndTermName) {
+                        string EndTermName, 
+                        string StreamName) {
                 AppearedPassedDetailsRow rowAppearedPassedDetailsRow = ((AppearedPassedDetailsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         AppearedMale,
@@ -19739,7 +19750,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         Detain,
                         FinancialYearName,
                         YearName,
-                        EndTermName};
+                        EndTermName,
+                        StreamName};
                 rowAppearedPassedDetailsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowAppearedPassedDetailsRow);
                 return rowAppearedPassedDetailsRow;
@@ -19788,6 +19800,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnFinancialYearName = base.Columns["FinancialYearName"];
                 this.columnYearName = base.Columns["YearName"];
                 this.columnEndTermName = base.Columns["EndTermName"];
+                this.columnStreamName = base.Columns["StreamName"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -19845,6 +19858,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnYearName);
                 this.columnEndTermName = new global::System.Data.DataColumn("EndTermName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEndTermName);
+                this.columnStreamName = new global::System.Data.DataColumn("StreamName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnStreamName);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -71069,6 +71084,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string StreamName {
+                get {
+                    try {
+                        return ((string)(this[this.tableAppearedPassedDetails.StreamNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'StreamName\' in table \'AppearedPassedDetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAppearedPassedDetails.StreamNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsAppearedMaleNull() {
                 return this.IsNull(this.tableAppearedPassedDetails.AppearedMaleColumn);
             }
@@ -71377,6 +71408,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetEndTermNameNull() {
                 this[this.tableAppearedPassedDetails.EndTermNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsStreamNameNull() {
+                return this.IsNull(this.tableAppearedPassedDetails.StreamNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetStreamNameNull() {
+                this[this.tableAppearedPassedDetails.StreamNameColumn] = global::System.Convert.DBNull;
             }
         }
         
