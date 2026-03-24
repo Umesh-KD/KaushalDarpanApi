@@ -222,7 +222,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StudentID", model.StudentID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
-                        command.Parameters.AddWithValue("@Action","GetAllData");
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        string actionVal = string.IsNullOrWhiteSpace(model.Action) ? "GetAllData" : model.Action;
+                        //command.Parameters.AddWithValue("@Action",model.Action "GetAllData");
+                        command.Parameters.AddWithValue("@Action", actionVal);
                         //command.Parameters.Add("@Return", SqlDbType.Int); // out
                         //command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
                         // Output parameter

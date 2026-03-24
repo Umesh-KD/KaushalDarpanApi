@@ -20,10 +20,13 @@ namespace Kaushal_Darpan.Models.ITICampusDetailsWeb
         public string Key { get; set; }
     }
 
-    public class ITIAllPostSearchModel
+    public class ITIAllPostSearchModel : RequestBaseModel
     {
         public string BranchId { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
+        public string AppointmentLocation { get; set; }
+        public string CampusLocation { get; set; }
+        public int DistrictID { get; set; }
     }
 }
