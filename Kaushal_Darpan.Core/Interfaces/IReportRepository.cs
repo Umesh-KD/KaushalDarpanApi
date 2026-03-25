@@ -107,7 +107,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveRollNumbePDFData(DownloadnRollNoModel request);
         Task<int> ITISaveRollNumbePDFData(DownloadnRollNoModel request);
         Task<DataTable> DownloadAppearedPassed(DownloadAppearedPassed model);
-        Task<DataTable> DownloadAppearedPassedInstitutewise(DownloadAppearedPassed model);
+        Task<DataSet> DownloadAppearedPassedInstitutewise(DownloadAppearedPassed model);
         Task<DataTable> DownloadBranchWiseStatistics(DownloadAppearedPassed model);
         Task<DataTable> DownloadInstituteBranchWiseStatisticsReport(DownloadAppearedPassed model);
         Task<DataTable> GetITIStudentRollNoList(DownloadnRollNoModel model);

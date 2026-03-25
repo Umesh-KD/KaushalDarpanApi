@@ -169,11 +169,99 @@
           <DataField>StreamName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Heading_1">
+          <DataField>Heading_1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Heading_2">
+          <DataField>Heading_2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Heading_3">
+          <DataField>Heading_3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Kaushal_Darpan\API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Projects\doitoffice\KD-Api\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
         <rd:TableName>AppearedPassedDetails</rd:TableName>
+        <rd:TableAdapterFillMethod />
+        <rd:TableAdapterGetDataMethod />
+        <rd:TableAdapterName />
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="AppearedPassedDetailsTotal">
+      <Query>
+        <DataSourceName>KD_DBScript</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="txtTotal">
+          <DataField>txtTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AppearedMaleTotal">
+          <DataField>AppearedMaleTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AppearedFemaleTotal">
+          <DataField>AppearedFemaleTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AppearedTotal">
+          <DataField>AppearedTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PassMaleTotal">
+          <DataField>PassMaleTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PassFemaleTotal">
+          <DataField>PassFemaleTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PassTotal">
+          <DataField>PassTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PercentageMaleTotal">
+          <DataField>PercentageMaleTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PercentageFemaleTotal">
+          <DataField>PercentageFemaleTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PercentageTotal">
+          <DataField>PercentageTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RegulationTotal">
+          <DataField>RegulationTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RegulationPercentageTotal">
+          <DataField>RegulationPercentageTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NotPromotedTotal">
+          <DataField>NotPromotedTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="UFMTotal">
+          <DataField>UFMTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RWHTotal">
+          <DataField>RWHTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>KD_DBScript</rd:DataSetName>
+        <rd:SchemaPath>D:\Projects\doitoffice\KD-Api\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:TableName>AppearedPassedDetailsTotal</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
         <rd:TableAdapterName />
@@ -749,7 +837,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!AppearedMale.Value)</Value>
+                                  <Value>=First(Fields!AppearedMaleTotal.Value, "AppearedPassedDetailsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -780,7 +868,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!AppearedFemale.Value)</Value>
+                                  <Value>=First(Fields!AppearedFemaleTotal.Value, "AppearedPassedDetailsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -811,7 +899,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!AppearedTotal.Value)</Value>
+                                  <Value>=First(Fields!AppearedTotal.Value, "AppearedPassedDetailsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -842,7 +930,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!PassMale.Value)</Value>
+                                  <Value>=First(Fields!PassMaleTotal.Value, "AppearedPassedDetailsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -873,7 +961,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!PassFemale.Value)</Value>
+                                  <Value>=First(Fields!PassFemaleTotal.Value, "AppearedPassedDetailsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -904,7 +992,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!PassTotal.Value)</Value>
+                                  <Value>=First(Fields!PassTotal.Value, "AppearedPassedDetailsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -935,7 +1023,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!PercentageMale.Value)</Value>
+                                  <Value>=First(Fields!PercentageMaleTotal.Value, "AppearedPassedDetailsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -966,7 +1054,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!PercentageFemale.Value)</Value>
+                                  <Value>=First(Fields!PercentageFemaleTotal.Value, "AppearedPassedDetailsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -997,7 +1085,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!PercentageTotal.Value)</Value>
+                                  <Value>=First(Fields!PercentageTotal.Value, "AppearedPassedDetailsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1028,7 +1116,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!RegulationTotal.Value)</Value>
+                                  <Value>=First(Fields!RegulationTotal.Value, "AppearedPassedDetailsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1059,7 +1147,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Avg(Fields!RegulationPercentage.Value)</Value>
+                                  <Value>=First(Fields!RegulationPercentageTotal.Value, "AppearedPassedDetailsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1090,7 +1178,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!NotPromoted.Value)</Value>
+                                  <Value>=First(Fields!NotPromotedTotal.Value, "AppearedPassedDetailsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1121,7 +1209,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!UFM.Value)</Value>
+                                  <Value>=First(Fields!UFMTotal.Value, "AppearedPassedDetailsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1152,7 +1240,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!RWH.Value)</Value>
+                                  <Value>=First(Fields!RWHTotal.Value, "AppearedPassedDetailsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1375,7 +1463,7 @@
       <Width>11.46351in</Width>
       <Page>
         <PageHeader>
-          <Height>2.0244in</Height>
+          <Height>1.79107in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -1386,7 +1474,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>BOARD OF TECHNICAL EDUCATION, RAJASTHAN</Value>
+                      <Value>=First(Fields!Heading_2.Value, "AppearedPassedDetails")</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontSize>12pt</FontSize>
@@ -1423,37 +1511,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Appeared / Passed Statistics for the Diploma Engineering Exam End Term </Value>
-                      <Style>
-                        <FontStyle>Normal</FontStyle>
-                        <FontFamily>arial</FontFamily>
-                        <FontWeight>Bold</FontWeight>
-                        <TextDecoration>None</TextDecoration>
-                        <Color>#000000</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=First(Fields!EndTermName.Value, "AppearedPassedDetails")</Value>
-                      <Style>
-                        <FontStyle>Normal</FontStyle>
-                        <FontFamily>arial</FontFamily>
-                        <FontWeight>Bold</FontWeight>
-                        <TextDecoration>None</TextDecoration>
-                        <Color>#000000</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> Session </Value>
-                      <Style>
-                        <FontStyle>Normal</FontStyle>
-                        <FontFamily>arial</FontFamily>
-                        <FontWeight>Bold</FontWeight>
-                        <TextDecoration>None</TextDecoration>
-                        <Color>#000000</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=First(Fields!FinancialYearName.Value, "AppearedPassedDetails")</Value>
+                      <Value>=First(Fields!Heading_3.Value, "AppearedPassedDetails")</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>arial</FontFamily>
@@ -1508,8 +1566,8 @@
               </Paragraphs>
               <rd:DefaultName>Textbox2</rd:DefaultName>
               <Top>0.9316in</Top>
-              <Left>0.32577cm</Left>
-              <Height>0.54046in</Height>
+              <Left>0.33251cm</Left>
+              <Height>0.28766in</Height>
               <Width>11.25969in</Width>
               <ZIndex>2</ZIndex>
               <Style>
@@ -1601,7 +1659,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox5</rd:DefaultName>
-              <Top>1.47206in</Top>
+              <Top>1.25956in</Top>
               <Left>0.32572cm</Left>
               <Height>0.49998in</Height>
               <Width>3.05998in</Width>
@@ -1634,7 +1692,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox7</rd:DefaultName>
-              <Top>1.47219in</Top>
+              <Top>1.25969in</Top>
               <Left>3.95905in</Left>
               <Height>0.25in</Height>
               <Width>1.47601in</Width>
@@ -1676,7 +1734,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox8</rd:DefaultName>
-              <Top>1.47224in</Top>
+              <Top>1.25974in</Top>
               <Left>5.43505in</Left>
               <Height>0.25in</Height>
               <Width>1.57449in</Width>
@@ -1718,7 +1776,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox9</rd:DefaultName>
-              <Top>1.47234in</Top>
+              <Top>1.25984in</Top>
               <Left>8.6263in</Left>
               <Height>0.24985in</Height>
               <Width>0.89188in</Width>
@@ -1760,7 +1818,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox10</rd:DefaultName>
-              <Top>1.47234in</Top>
+              <Top>1.25984in</Top>
               <Left>7.00955in</Left>
               <Height>0.25in</Height>
               <Width>1.61676in</Width>
@@ -1802,7 +1860,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox6</rd:DefaultName>
-              <Top>1.72219in</Top>
+              <Top>1.50969in</Top>
               <Left>3.95905in</Left>
               <Height>0.25in</Height>
               <Width>0.45466in</Width>
@@ -1835,7 +1893,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox6</rd:DefaultName>
-              <Top>1.72218in</Top>
+              <Top>1.50968in</Top>
               <Left>4.41371in</Left>
               <Height>0.25in</Height>
               <Width>0.55712in</Width>
@@ -1868,7 +1926,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox6</rd:DefaultName>
-              <Top>1.72219in</Top>
+              <Top>1.50969in</Top>
               <Left>4.97084in</Left>
               <Height>0.25in</Height>
               <Width>0.46422in</Width>
@@ -1901,7 +1959,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox6</rd:DefaultName>
-              <Top>1.72223in</Top>
+              <Top>1.50973in</Top>
               <Left>5.43505in</Left>
               <Height>0.25in</Height>
               <Width>0.45341in</Width>
@@ -1934,7 +1992,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox6</rd:DefaultName>
-              <Top>1.72224in</Top>
+              <Top>1.50974in</Top>
               <Left>5.88847in</Left>
               <Height>0.25in</Height>
               <Width>0.58367in</Width>
@@ -1967,7 +2025,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox6</rd:DefaultName>
-              <Top>1.72216in</Top>
+              <Top>1.50966in</Top>
               <Left>6.47213in</Left>
               <Height>0.25in</Height>
               <Width>0.53741in</Width>
@@ -2000,7 +2058,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox6</rd:DefaultName>
-              <Top>1.72232in</Top>
+              <Top>1.50982in</Top>
               <Left>7.00955in</Left>
               <Height>0.25in</Height>
               <Width>0.55064in</Width>
@@ -2033,7 +2091,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox6</rd:DefaultName>
-              <Top>1.72224in</Top>
+              <Top>1.50974in</Top>
               <Left>7.56019in</Left>
               <Height>0.25in</Height>
               <Width>0.56469in</Width>
@@ -2066,7 +2124,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox6</rd:DefaultName>
-              <Top>1.72224in</Top>
+              <Top>1.50974in</Top>
               <Left>8.12488in</Left>
               <Height>0.25in</Height>
               <Width>0.50142in</Width>
@@ -2113,40 +2171,6 @@
                 <PaddingBottom>2pt</PaddingBottom>
               </Style>
             </Textbox>
-            <Textbox Name="Textbox23">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=First(Fields!InstituteType.Value, "AppearedPassedDetails")</Value>
-                      <Style>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox4</rd:DefaultName>
-              <Top>1.2094in</Top>
-              <Left>8.89843in</Left>
-              <Height>0.26266in</Height>
-              <Width>2.44912in</Width>
-              <ZIndex>19</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
             <Textbox Name="Textbox11">
               <CanGrow>true</CanGrow>
               <KeepTogether>true</KeepTogether>
@@ -2177,11 +2201,11 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox9</rd:DefaultName>
-              <Top>1.47219in</Top>
+              <Top>1.25969in</Top>
               <Left>9.51819in</Left>
               <Height>0.50013in</Height>
               <Width>0.68969in</Width>
-              <ZIndex>20</ZIndex>
+              <ZIndex>19</ZIndex>
               <Style>
                 <Border>
                   <Style>Solid</Style>
@@ -2222,11 +2246,11 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox9</rd:DefaultName>
-              <Top>1.47234in</Top>
+              <Top>1.25984in</Top>
               <Left>10.20788in</Left>
               <Height>0.49998in</Height>
               <Width>0.35269in</Width>
-              <ZIndex>21</ZIndex>
+              <ZIndex>20</ZIndex>
               <Style>
                 <Border>
                   <Style>Solid</Style>
@@ -2267,11 +2291,11 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox9</rd:DefaultName>
-              <Top>1.47234in</Top>
+              <Top>1.25984in</Top>
               <Left>10.56057in</Left>
               <Height>0.49998in</Height>
               <Width>0.41501in</Width>
-              <ZIndex>22</ZIndex>
+              <ZIndex>21</ZIndex>
               <Style>
                 <Border>
                   <Style>Solid</Style>
@@ -2312,11 +2336,11 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox9</rd:DefaultName>
-              <Top>1.47206in</Top>
+              <Top>1.25956in</Top>
               <Left>10.97557in</Left>
               <Height>0.49998in</Height>
               <Width>0.41501in</Width>
-              <ZIndex>23</ZIndex>
+              <ZIndex>22</ZIndex>
               <Style>
                 <Border>
                   <Style>Solid</Style>
@@ -2334,7 +2358,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Government Of Rajasthan</Value>
+                      <Value>=First(Fields!Heading_1.Value, "AppearedPassedDetails")</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontSize>12pt</FontSize>
@@ -2354,7 +2378,7 @@
               <Left>0.33247cm</Left>
               <Height>0.25in</Height>
               <Width>11.25969in</Width>
-              <ZIndex>24</ZIndex>
+              <ZIndex>23</ZIndex>
               <Style>
                 <Border>
                   <Style>Solid</Style>
@@ -2383,11 +2407,11 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox6</rd:DefaultName>
-              <Top>1.72232in</Top>
+              <Top>1.50982in</Top>
               <Left>8.6263in</Left>
               <Height>0.24972in</Height>
               <Width>0.3467in</Width>
-              <ZIndex>25</ZIndex>
+              <ZIndex>24</ZIndex>
               <Style>
                 <Border>
                   <Style>Solid</Style>
@@ -2418,11 +2442,11 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox6</rd:DefaultName>
-              <Top>1.72232in</Top>
+              <Top>1.50982in</Top>
               <Left>8.973in</Left>
               <Height>0.24972in</Height>
               <Width>0.54518in</Width>
-              <ZIndex>26</ZIndex>
+              <ZIndex>25</ZIndex>
               <Style>
                 <Border>
                   <Style>Solid</Style>
@@ -2450,11 +2474,11 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox51</rd:DefaultName>
-              <Top>1.47234in</Top>
+              <Top>1.25984in</Top>
               <Left>3.19099in</Left>
               <Height>0.49998in</Height>
               <Width>0.75417in</Width>
-              <ZIndex>27</ZIndex>
+              <ZIndex>26</ZIndex>
               <Style>
                 <Border>
                   <Style>Solid</Style>

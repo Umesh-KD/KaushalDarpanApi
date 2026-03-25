@@ -14,12 +14,9 @@
         public int? ServiceID { get; set; } = 0;
         public int? UserID { get; set; } = 0;
         public string? ExamDate { get; set; }
-
         public int? CollageID { get; set; } = 0;
-
         public int? SessionTypeID { get; set; } = 0;
+        public int SelectedInsituteID { get; set; } = 0;
 
-
-        
     }
 }
