@@ -21,7 +21,8 @@ namespace Kaushal_Darpan.Models.ITIPlacementShortListStudentMaster
         public string InstitutionManagementType { get; set; }
         public string InstituteName { get; set; }
         public string IPAddress { get; set; }
-        public string ModifyBy { get; set; }
+        public string ModifyBy { get; set; } 
+        public string? DistrictName { get; set; }
 
 
 
