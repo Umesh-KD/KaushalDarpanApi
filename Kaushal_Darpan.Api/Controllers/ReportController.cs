@@ -5377,7 +5377,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 var data = await _unitOfWork.ReportRepository.DownloadAppearedPassedInstitutewise(model);
-                if (data.Rows?.Count > 1)
+                if (data.Tables.Count > 1 && data.Tables[0].Rows?.Count > 1)
                 {
                     //report
                     var fileName = $"AppearedPassedInstituteWise.pdf";
@@ -5386,8 +5386,9 @@ namespace Kaushal_Darpan.Api.Controllers
                     string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/AppearedPassedStatisticsInstituteWise.rdlc";
 
                     LocalReport localReport = new LocalReport(rdlcpath);
-                    localReport.AddDataSource("AppearedPassedStatistics", data);
-                    localReport.AddDataSource("AppearedPassedDetails", data);
+                    localReport.AddDataSource("AppearedPassedStatistics", data.Tables[0]);
+                    localReport.AddDataSource("AppearedPassedDetails", data.Tables[0]);
+                    localReport.AddDataSource("AppearedPassedDetailsTotal", data.Tables[1]);// total
                     var reportResult = localReport.Execute(RenderType.Pdf);
 
                     //check file exists
@@ -12820,77 +12821,74 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             ActionName = "GetBterBranchWiseStatisticalReport(BterStatisticsReportDataModel)";
 
-            return await Task.Run(async () =>
+            var result = new ApiResult<string>();
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                var data = await Task.Run(() => _unitOfWork.ReportRepository.GetBterBranchWiseStatisticalReport(model));
+                if (data?.Tables?.Count > 1 && data.Tables[0].Rows.Count > 0)
                 {
-                    var data = await _unitOfWork.ReportRepository.GetBterBranchWiseStatisticalReport(model);
-                    if (data?.Tables?.Count > 1 && data.Tables[0].Rows.Count > 0)
+
+                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                    data.Tables[0].TableName = "BranchWiseStatistical";
+                    data.Tables[1].TableName = "BranchWiseStatisticalHeading";
+
+
+
+                    string lastBranchName = null;
+                    foreach (DataRow row in data.Tables[0].Rows)
                     {
+                        string currentBranch = row["BranchName"]?.ToString();
 
-                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        data.Tables[0].TableName = "BranchWiseStatistical";
-                        data.Tables[1].TableName = "BranchWiseStatisticalHeading";
-
-
-
-                        string lastBranchName = null;
-                        foreach (DataRow row in data.Tables[0].Rows)
+                        if (currentBranch == lastBranchName || currentBranch == "Grand Total")
                         {
-                            string currentBranch = row["BranchName"]?.ToString();
-
-                            if (currentBranch == lastBranchName || currentBranch == "Grand Total")
-                            {
-                                row["BranchName"] = ""; // Hide duplicate
-                            }
-                            else
-                            {
-                                lastBranchName = currentBranch;
-                            }
+                            row["BranchName"] = ""; // Hide duplicate
                         }
-
-                        string devFontSize = "15px";
-                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                        string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderBTER}/BranchWiseStatisticalReport.html";
-
-                        string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
-
-                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
-
-                        html = Utility.PDFWorks.ReplaceCustomTag(html);
-
-                        sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
-
-                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", " ");
-
-                        result.Data = Convert.ToBase64String(pdfBytes);
-                        result.State = EnumStatus.Success;
-                        result.Message = "Success";
+                        else
+                        {
+                            lastBranchName = currentBranch;
+                        }
                     }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
+
+                    string devFontSize = "15px";
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderBTER}/BranchWiseStatisticalReport.html";
+
+                    string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+
+                    System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+                    html = Utility.PDFWorks.ReplaceCustomTag(html);
+
+                    sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+
+                    byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", " ");
+
+                    result.Data = Convert.ToBase64String(pdfBytes);
+                    result.State = EnumStatus.Success;
+                    result.Message = "Success";
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
 
         #region College Information Report
@@ -17338,7 +17336,74 @@ namespace Kaushal_Darpan.Api.Controllers
             }
         }
 
+        #region Student reval Fee payment Receipt
+        [HttpGet("GetStudentRevalFeePaymentReceipt/{TransactionId}/{StudentExamID}")]
+        public async Task<ApiResult<string>> GetStudentRevalFeePaymentReceipt(string TransactionId, int StudentExamID)
+        {
+            ActionName = "GetStudentRevalFeePaymentReceipt(string EnrollmentNo, int StudentExamID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.ReportRepository.GetStudentRevalFeePaymentReceipt(TransactionId, StudentExamID);
+                    if (data != null)
+                    {
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        //report
+                        var fileName = $"RevalFeeReceipt_{TransactionId}.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/RevalFeeReceipt.rdlc";
+                        //
+                        // var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                        //
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+                        localReport.AddDataSource("StudentRevalFeePaymentReceipt", data.Tables[0]);
+                        localReport.AddDataSource("StudentRevalFeePaymentReceipt_SubDetails", data.Tables[1]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
 
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        //save
+
+
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        //end report
+
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+        #endregion
 
 
 

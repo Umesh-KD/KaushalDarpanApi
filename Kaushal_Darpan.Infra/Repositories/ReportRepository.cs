@@ -3148,13 +3148,13 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         #endregion
 
-        #region "Donwload Appeared Passed Institute Wise"
-        public async Task<DataTable> DownloadAppearedPassedInstitutewise(DownloadAppearedPassed model)
+        #region "Download Appeared Passed Institute Wise"
+        public async Task<DataSet> DownloadAppearedPassedInstitutewise(DownloadAppearedPassed model)
         {
             _actionName = "DownloadAppearedPassedInstitutewise(DownloadAppearedPassed model)";
             try
             {
-                var dt = new DataTable();
+                var ds = new DataSet();
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
@@ -3168,9 +3168,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Action", "Appeared-Passed-Statistics-Institute-wise");
 
                     _sqlQuery = command.GetSqlExecutableQuery();
-                    dt = await command.FillAsync_DataTable();
+                    ds = await command.FillAsync();
                 }
-                return dt;
+                return ds;
             }
             catch (Exception ex)
             {
@@ -9665,6 +9665,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        #region Student reval Fee payment Receipt
+        public async Task<DataSet> GetStudentRevalFeePaymentReceipt(string TransactionId, int StudentExamID)
+        {
+            _actionName = "GetStudentFeeReceipt(string EnrollmentNo, int StudentExamID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Rpt_GetRevelFeeReceipt";
+                        command.Parameters.AddWithValue("@TransactionId", TransactionId);
+                        command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
 
     }
 }
