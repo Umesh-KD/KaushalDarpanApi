@@ -68,11 +68,15 @@
         <tr>
             <td style="width:18%; font-weight:bold;">Management Type</td>
             <td style="width:32%;">{#=Institute_Details.ManagementTypeName=#}</td>
+            {#IF.Institute_Details.InstituteManagementId=5#}
             <td style="width:18%; font-weight:bold;">Trust/Society</td>
             <td style="width:32%;">
                 {#IF.Institute_Details.TrustSociety=1#}Trust{#ENDIF.Institute_Details.TrustSociety=1#}
                 {#IF.Institute_Details.TrustSociety=2#}Society{#ENDIF.Institute_Details.TrustSociety=2#}
             </td>
+
+            {#ENDIF.Institute_Details.InstituteManagementId=5#}
+
         </tr>
 
         {#IF.Institute_Details.InstituteManagementId=5#}
@@ -298,6 +302,7 @@
     </table>
 
     <!-- 6. Bank Guarantee Details -->
+    {#IF.Institute_Details.InstituteManagementId=5#}
     <div style="background:#eef1f4; padding:7px 10px; font-size:13px; font-weight:bold; margin-bottom:8px;">
         6. Bank Guarantee Details
     </div>
@@ -334,6 +339,8 @@
 
     </table>
 
+
+    {#ENDIF.Institute_Details.InstituteManagementId=5#}
     <!-- 7. Electrical Load Details -->
     <div style="background:#eef1f4; padding:7px 10px; font-size:13px; font-weight:bold; margin-bottom:8px;">
         7. Electrical Load Details
