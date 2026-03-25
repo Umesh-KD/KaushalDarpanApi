@@ -1179,7 +1179,6 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-
         // new changes  
         [HttpPost("GetCurrentPassFailResultStatus")]
         public async Task<ApiResult<DataTable>> GetCurrentPassFailResultStatus([FromBody] ITIResultsModel request)
