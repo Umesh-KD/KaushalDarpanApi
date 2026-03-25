@@ -3138,6 +3138,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     data.UDF2 = Model.SsoID;
                     data.USEREMAIL = Model.USEREMAIL;
                     data.SSOTOKEN = Model.SSoToken;
+                    //data.SSOTOKEN = "0";
                     data.SSOID = Model.SsoID;
 
                     // create checksum
