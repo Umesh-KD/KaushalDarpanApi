@@ -164,6 +164,7 @@ namespace Kaushal_Darpan.Models.ItiCompanyMaster
         public string? SubDivOffice { get; set; }
         public string? PlanDocument { get; set; }
         public int PlanDocID { get; set; }
+        public int StatusID { get; set; }
 
     }
 

@@ -67,6 +67,7 @@ namespace Kaushal_Darpan.Models.SSOUserDetails
         public DataTable SSOMenu { get; set; }
         public int DistrictID { get; set; }
         public int? StaffTypeID { get; set; }
+        public int? ManagementTypeId { get; set; }
         public string? OfficeName { get; set; }
         public string? GuestHouseID { get; set; }
     }
