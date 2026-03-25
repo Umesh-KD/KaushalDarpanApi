@@ -5377,7 +5377,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 var data = await _unitOfWork.ReportRepository.DownloadAppearedPassedInstitutewise(model);
-                if (data.Rows?.Count > 1)
+                if (data.Tables.Count > 1 && data.Tables[0].Rows?.Count > 1)
                 {
                     //report
                     var fileName = $"AppearedPassedInstituteWise.pdf";
@@ -5386,8 +5386,9 @@ namespace Kaushal_Darpan.Api.Controllers
                     string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/AppearedPassedStatisticsInstituteWise.rdlc";
 
                     LocalReport localReport = new LocalReport(rdlcpath);
-                    localReport.AddDataSource("AppearedPassedStatistics", data);
-                    localReport.AddDataSource("AppearedPassedDetails", data);
+                    localReport.AddDataSource("AppearedPassedStatistics", data.Tables[0]);
+                    localReport.AddDataSource("AppearedPassedDetails", data.Tables[0]);
+                    localReport.AddDataSource("AppearedPassedDetailsTotal", data.Tables[1]);// total
                     var reportResult = localReport.Execute(RenderType.Pdf);
 
                     //check file exists

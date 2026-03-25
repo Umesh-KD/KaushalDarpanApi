@@ -3148,13 +3148,13 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         #endregion
 
-        #region "Donwload Appeared Passed Institute Wise"
-        public async Task<DataTable> DownloadAppearedPassedInstitutewise(DownloadAppearedPassed model)
+        #region "Download Appeared Passed Institute Wise"
+        public async Task<DataSet> DownloadAppearedPassedInstitutewise(DownloadAppearedPassed model)
         {
             _actionName = "DownloadAppearedPassedInstitutewise(DownloadAppearedPassed model)";
             try
             {
-                var dt = new DataTable();
+                var ds = new DataSet();
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
@@ -3168,9 +3168,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Action", "Appeared-Passed-Statistics-Institute-wise");
 
                     _sqlQuery = command.GetSqlExecutableQuery();
-                    dt = await command.FillAsync_DataTable();
+                    ds = await command.FillAsync();
                 }
-                return dt;
+                return ds;
             }
             catch (Exception ex)
             {
