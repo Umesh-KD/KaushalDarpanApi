@@ -59,10 +59,10 @@ namespace Kaushal_Darpan.Api.Controllers
             var dRequestChecksum = new VerifyCheckSumEmitra
             {
                 MERCHANTCODE = data.MERCHANTCODE,
-                REQUESTID =  data.REQUESTID,
+                REQUESTID = data.REQUESTID,
                 SSOTOKEN = "0",
             };
-             data.CHECKSUM = CommonFuncationHelper.CreateMD5(JsonConvert.SerializeObject(dRequestChecksum));
+            data.CHECKSUM = CommonFuncationHelper.CreateMD5(JsonConvert.SerializeObject(dRequestChecksum));
             string retVal = await ThirdPartyServiceHelper.EmitraBackToBackVerifyData("https://emitraapp.rajasthan.gov.in/webServicesRepository/getTokenVerifyNewProcessByRequestIdWithEncryption", JsonConvert.SerializeObject(data), "E-m!@2016");
             string decVal = EmitraHelper.Decrypt(retVal, "E-m!tr@2016");
             return requestDetailsModel;
@@ -124,11 +124,11 @@ namespace Kaushal_Darpan.Api.Controllers
                     data.COMMTYPE = EmitraServiceDetail.COMMTYPE;
                     data.OFFICECODE = EmitraServiceDetail.OFFICECODE;
 
-                   // data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
+                    // data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
                     data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("{exam_fee}", data.AMOUNT.ToString())
-                        .Replace("{exam_commission}", Convert.ToString(Model.FormCommision)).Replace("##", Model.Amount.ToString());;
+                        .Replace("{exam_commission}", Convert.ToString(Model.FormCommision)).Replace("##", Model.Amount.ToString()); ;
 
-                 
+
 
 
                     data.SERVICEID = EmitraServiceDetail.SERVICEID;
@@ -248,7 +248,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     data.CONSUMERNAME = Model.UserName;
 
 
-                   // data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
+                    // data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
 
                     data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("{exam_fee}", Model.Amount.ToString())
                   .Replace("{exam_commission}", Convert.ToString(Model.FormCommision));
@@ -1052,7 +1052,7 @@ namespace Kaushal_Darpan.Api.Controllers
             var RetrunUrL = "";
             try
             {
-                
+
                 UniquerequestId = UniquerequestId.Replace(' ', '+');
                 UniquerequestId = UniquerequestId.Replace(' ', '+');
                 UniquerequestId = UniquerequestId.Replace(' ', '+');
@@ -1085,9 +1085,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient emitraencsev = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient(endpointConfiguration, EmitraServiceDetail.WebServiceURL);
                 EmitraDecriptStringResponse response = await emitraencsev.EmitraDecriptStringAsync(EmitraServiceDetail.EncryptionKey, data);
-               //var EmitraResponseData = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(response.Body.EmitraDecriptStringResult);
+                //var EmitraResponseData = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(response.Body.EmitraDecriptStringResult);
 
-              
+
 
 
                 string raw = response.Body.EmitraDecriptStringResult;
@@ -1656,8 +1656,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 if (dataModel.IsKiosk)
                 {
-                     data.EncryptionKey = "E-m!@2016";
-                     EmitraVerifyModel VerifyModel = new EmitraVerifyModel();
+                    data.EncryptionKey = "E-m!@2016";
+                    EmitraVerifyModel VerifyModel = new EmitraVerifyModel();
                     VerifyModel.MERCHANTCODE = data.MERCHANTCODE;
                     VerifyModel.SERVICEID = Model.ServiceID;
                     VerifyModel.REQUESTID = Model.TransactionID;
@@ -1670,9 +1670,9 @@ namespace Kaushal_Darpan.Api.Controllers
                     };
                     VerifyModel.CHECKSUM = CommonFuncationHelper.CreateMD5(JsonConvert.SerializeObject(dRequestChecksum));
                     string retVal = await ThirdPartyServiceHelper.EmitraBackToBackVerifyData("https://emitraapp.rajasthan.gov.in/webServicesRepository/getTokenVerifyNewProcessByRequestIdWithEncryption", JsonConvert.SerializeObject(VerifyModel), "E-m!@2016");
-                     //RESPONSEJSON = EmitraHelper.Decrypt(retVal, data.EncryptionKey);
+                    //RESPONSEJSON = EmitraHelper.Decrypt(retVal, data.EncryptionKey);
 
-                    RESPONSEJSON= await ThirdPartyServiceHelper.GetDecryptedStringAsync(retVal);
+                    RESPONSEJSON = await ThirdPartyServiceHelper.GetDecryptedStringAsync(retVal);
 
                     EmitraResponseParametersModel RESPONSEPARAMS = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(RESPONSEJSON);
                     dynamic stuff = JsonConvert.DeserializeObject(RESPONSEJSON);
@@ -1715,18 +1715,18 @@ namespace Kaushal_Darpan.Api.Controllers
                         await _unitOfWork.SaveChangesAsync();
                     }
                 }
-                else 
-                { 
-                var d = data.VerifyURL + "?MERCHANTCODE=" + data.MERCHANTCODE + "&SERVICEID=" + data.SERVICEID + "&PRN=" + Model.PRN + "";
-                HttpWebRequest webrequest = (HttpWebRequest)WebRequest.Create(d);
-                webrequest.Method = "POST";
-                webrequest.ContentType = "application/x-www-form-urlencoded";
-                webrequest.ContentLength = 0;
-                Stream stream = webrequest.GetRequestStream();
-                stream.Close();
-             
-                using (WebResponse response = webrequest.GetResponse())
+                else
                 {
+                    var d = data.VerifyURL + "?MERCHANTCODE=" + data.MERCHANTCODE + "&SERVICEID=" + data.SERVICEID + "&PRN=" + Model.PRN + "";
+                    HttpWebRequest webrequest = (HttpWebRequest)WebRequest.Create(d);
+                    webrequest.Method = "POST";
+                    webrequest.ContentType = "application/x-www-form-urlencoded";
+                    webrequest.ContentLength = 0;
+                    Stream stream = webrequest.GetRequestStream();
+                    stream.Close();
+
+                    using (WebResponse response = webrequest.GetResponse())
+                    {
                         using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                         {
 
@@ -3167,11 +3167,11 @@ namespace Kaushal_Darpan.Api.Controllers
                             //        "TRANSACTIONSTATUS":"SUCCESS","MSG":"Transaction Successfully Done",
                             //        "RECEIPT_URL":"https://emitraapp.rajasthan.gov.in/emitrashared1/document/RECEIPT_ONLY/13-05-2025/RECEIPTNO_25677939790.pdf",
                             //        "CHECKSUM":"6c139b18094fa60b84bc28be31cc627b"}
-
+                            int.TryParse(resp.REQUESTID, out int r);
                             objEmitra.key = "_UpdateEmitraPaymentStatus";
                             objEmitra.ResponseString = JsonConvert.SerializeObject(resp);
                             objEmitra.RequestString = JsonConvert.SerializeObject(data);
-                            objEmitra.TransactionId = Convert.ToInt32(resp.REQUESTID);
+                            objEmitra.TransactionId = r;
                             objEmitra.ServiceID = EmitraServiceDetail.SERVICEID;
                             objEmitra.PRN = data.PRN;
                             objEmitra.TransactionNo = Convert.ToString(resp.TRANSACTIONID);
