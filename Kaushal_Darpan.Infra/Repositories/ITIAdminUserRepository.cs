@@ -306,6 +306,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SSOID", body.Name);
                         command.Parameters.AddWithValue("@MobileNo", body.MobileNo);
                         command.Parameters.AddWithValue("@Email", body.Email);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
