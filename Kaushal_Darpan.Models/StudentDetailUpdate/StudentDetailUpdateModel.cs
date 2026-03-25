@@ -26,12 +26,14 @@ namespace Kaushal_Darpan.Models.StudentDetailUpdate
         public int AID { get; set; }
         public int StudentID { get; set; }
         public int InstituteID { get; set; }
+        public int RoleID { get; set; }
         public string? EnrollmentNo { get; set; }
 
         public string CompanyType { get; set; }           // Self / Firm
         public string CompanyName { get; set; }
         public int StateID { get; set; }
         public int DistrictID { get; set; }
+        public int TradeID { get; set; }
         public string CompanyAddress { get; set; }
 
         public string JobType { get; set; }               // FullTime / PartTime
@@ -57,6 +59,8 @@ namespace Kaushal_Darpan.Models.StudentDetailUpdate
         public string StudentName { get; set; }
         public string StudFatherName { get; set; }
         public List<StudentEmploymentDetailsModel> ListEmployementDetails { get; set; }
+
+        public string? Action { get; set; }
     }
 
     //public class StudentEmploymentDetailsModelList
