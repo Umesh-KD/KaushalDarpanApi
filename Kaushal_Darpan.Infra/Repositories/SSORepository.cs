@@ -325,6 +325,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
                         command.Parameters.AddWithValue("@CourseType", request.Eng_NonEng);
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteId);
+                        command.Parameters.AddWithValue("@SelectedInstituteId", request.SelectedInsituteID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }

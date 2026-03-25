@@ -71,62 +71,60 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<bool>> SaveData([FromBody] List<GroupCodeAllocationAddEditModel_Reval> request, int StartValue)
         {
             ActionName = "SaveData([FromBody] List<GroupCodeAllocationAddEditModel_Reval> request, int StartValue)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<bool>();
+            try
             {
-                var result = new ApiResult<bool>();
-                try
+                if (request?.Count == 0)
                 {
-                    if (request?.Count == 0)
-                    {
-                        result.State = EnumStatus.Error;
-                        result.Message = Constants.MSG_VALIDATION_FAILED;
-                        return result;
-                    }
-
-                    request.ForEach(x =>
-                    {
-                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
-                    });
-                    // Pass the list to the repository for batch update
-                    var isSave = await _unitOfWork.GroupCodeAllocationRevalRepository.SaveData(request, StartValue);
-                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
-
-                    if (isSave > 0)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_SAVE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.Message = Constants.MSG_UPDATE_ERROR;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
-                    result.Message = Constants.MSG_ERROR_OCCURRED;
-                    result.ErrorMessage = ex.Message;
-
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.Message = Constants.MSG_VALIDATION_FAILED;
+                    return result;
                 }
-                return result;
-            });
+
+                request.ForEach(x =>
+                {
+                    x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                });
+                // Pass the list to the repository for batch update
+                var isSave = await Task.Run(() => _unitOfWork.GroupCodeAllocationRevalRepository.SaveData(request, StartValue));
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                if (isSave > 0)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_UPDATE_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
         [HttpPost("GetPartitionData")]
         public async Task<ApiResult<List<GroupCodeAddEditModel>>> GetPartitionData([FromBody] GroupCodeAllocationSearchModel filterModel)
         {
-            ActionName = "GetAllData([FromBody] GroupCodeAllocationSearchModel filterModel)";
+            ActionName = "GetPartitionData([FromBody] GroupCodeAllocationSearchModel filterModel)";
             var result = new ApiResult<List<GroupCodeAddEditModel>>();
             try
             {
@@ -155,6 +153,7 @@ namespace Kaushal_Darpan.Api.Controllers
             catch (Exception ex)
             {
                 result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
@@ -174,68 +173,66 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<bool>> SavePartitionData([FromBody] List<GroupCodeAddEditModel> request)
         {
             ActionName = "SavePartitionData([FromBody] List<GroupCodeAddEditModel> request)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<bool>();
+            try
             {
-                var result = new ApiResult<bool>();
-                try
+                if (request == null)
                 {
-                    if (request == null)
-                    {
-                        result.State = EnumStatus.Error;
-                        result.Message = Constants.MSG_VALIDATION_FAILED;
-                        return result;
-                    }
-
-                    request.ForEach(x =>
-                    {
-                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
-                    });
-                    // Pass the list to the repository for batch update
-                    var isSave = await _unitOfWork.GroupCodeAllocationRevalRepository.SavePartitionData(request);
-                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
-
-                    if (isSave == -1)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
-                    else if (isSave == 0)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_RECORD_ALREADY_EXISTS;
-                    }
-                    else if (isSave > 0)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_SAVE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.Message = Constants.MSG_UPDATE_ERROR;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
-                    result.Message = Constants.MSG_ERROR_OCCURRED;
-                    result.ErrorMessage = ex.Message;
-
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.Message = Constants.MSG_VALIDATION_FAILED;
+                    return result;
                 }
-                return result;
-            });
+
+                request.ForEach(x =>
+                {
+                    x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                });
+                // Pass the list to the repository for batch update
+                var isSave = await Task.Run(() => _unitOfWork.GroupCodeAllocationRevalRepository.SavePartitionData(request));
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                if (isSave == -1)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+                else if (isSave == 0)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_RECORD_ALREADY_EXISTS;
+                }
+                else if (isSave > 0)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_UPDATE_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
         #region private function if need

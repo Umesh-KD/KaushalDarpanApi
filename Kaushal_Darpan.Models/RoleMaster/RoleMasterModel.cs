@@ -30,5 +30,7 @@
     {
         public string SSOID { get; set; }
         public bool IsWeb { get; set; } = false;
+
+        
     }
 }

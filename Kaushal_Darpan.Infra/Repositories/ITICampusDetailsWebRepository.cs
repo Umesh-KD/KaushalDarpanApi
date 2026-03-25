@@ -76,6 +76,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BranchId", model.BranchId);
                         command.Parameters.AddWithValue("@StartDate", model.StartDate);
                         command.Parameters.AddWithValue("@EndDate", model.EndDate);
+                        command.Parameters.AddWithValue("@AppointmentLocation", model.AppointmentLocation);
+                        command.Parameters.AddWithValue("@CampusLocation", model.CampusLocation);
+                        command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();

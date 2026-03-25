@@ -3148,43 +3148,42 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         #endregion
 
-        #region "Donwload Appeared Passed Institute Wise"
-        public async Task<DataTable> DownloadAppearedPassedInstitutewise(DownloadAppearedPassed model)
+        #region "Download Appeared Passed Institute Wise"
+        public async Task<DataSet> DownloadAppearedPassedInstitutewise(DownloadAppearedPassed model)
         {
-            _actionName = "GetStudentRollNoList(DownloadnRollNoModel model)";
-            return await Task.Run(async () =>
+            _actionName = "DownloadAppearedPassedInstitutewise(DownloadAppearedPassed model)";
+            try
             {
-                try
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var dt = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ResultRpt_AppearedPassedStatistics_InstituteWise";
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@ResultType", model.ResultType);
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@Action", "Appeared-Passed-Statistics-Institute-wise");
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dt = await command.FillAsync_DataTable();
-                    }
-                    return dt;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ResultRpt_AppearedPassedStatistics_InstituteWise";
+
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@ResultType", model.ResultType);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@Action", "Appeared-Passed-Statistics-Institute-wise");
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
                 }
-                catch (Exception ex)
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
@@ -9641,7 +9640,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_StudentAllMarksReport";
-                  
+
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
@@ -9666,6 +9665,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        #region Student reval Fee payment Receipt
+        public async Task<DataSet> GetStudentRevalFeePaymentReceipt(string TransactionId, int StudentExamID)
+        {
+            _actionName = "GetStudentFeeReceipt(string EnrollmentNo, int StudentExamID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Rpt_GetRevelFeeReceipt";
+                        command.Parameters.AddWithValue("@TransactionId", TransactionId);
+                        command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
 
     }
 }

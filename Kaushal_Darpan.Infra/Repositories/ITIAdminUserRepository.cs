@@ -306,6 +306,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SSOID", body.Name);
                         command.Parameters.AddWithValue("@MobileNo", body.MobileNo);
                         command.Parameters.AddWithValue("@Email", body.Email);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -419,6 +420,81 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+        public async Task<DataTable> NodalUserdataDelete(ITIAdminUserDetailModel body)
+        {
+            _actionName = "NodalUserdataDelete()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITINodalUserdataDelete";
+                        command.Parameters.AddWithValue("@ActiveStatus", body.ActiveStatus);
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
+                        
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> adminUserDataDelete(ITIAdminUserDetailModel body)
+        {
+            _actionName = "NodalUserdataDelete()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIadminUserDataDelete";
+                        command.Parameters.AddWithValue("@ActiveStatus", body.ActiveStatus);
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
+                        
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
 
 
     }
