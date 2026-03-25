@@ -12821,77 +12821,74 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             ActionName = "GetBterBranchWiseStatisticalReport(BterStatisticsReportDataModel)";
 
-            return await Task.Run(async () =>
+            var result = new ApiResult<string>();
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                var data = await Task.Run(() => _unitOfWork.ReportRepository.GetBterBranchWiseStatisticalReport(model));
+                if (data?.Tables?.Count > 1 && data.Tables[0].Rows.Count > 0)
                 {
-                    var data = await _unitOfWork.ReportRepository.GetBterBranchWiseStatisticalReport(model);
-                    if (data?.Tables?.Count > 1 && data.Tables[0].Rows.Count > 0)
+
+                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                    data.Tables[0].TableName = "BranchWiseStatistical";
+                    data.Tables[1].TableName = "BranchWiseStatisticalHeading";
+
+
+
+                    string lastBranchName = null;
+                    foreach (DataRow row in data.Tables[0].Rows)
                     {
+                        string currentBranch = row["BranchName"]?.ToString();
 
-                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        data.Tables[0].TableName = "BranchWiseStatistical";
-                        data.Tables[1].TableName = "BranchWiseStatisticalHeading";
-
-
-
-                        string lastBranchName = null;
-                        foreach (DataRow row in data.Tables[0].Rows)
+                        if (currentBranch == lastBranchName || currentBranch == "Grand Total")
                         {
-                            string currentBranch = row["BranchName"]?.ToString();
-
-                            if (currentBranch == lastBranchName || currentBranch == "Grand Total")
-                            {
-                                row["BranchName"] = ""; // Hide duplicate
-                            }
-                            else
-                            {
-                                lastBranchName = currentBranch;
-                            }
+                            row["BranchName"] = ""; // Hide duplicate
                         }
-
-                        string devFontSize = "15px";
-                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                        string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderBTER}/BranchWiseStatisticalReport.html";
-
-                        string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
-
-                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
-
-                        html = Utility.PDFWorks.ReplaceCustomTag(html);
-
-                        sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
-
-                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", " ");
-
-                        result.Data = Convert.ToBase64String(pdfBytes);
-                        result.State = EnumStatus.Success;
-                        result.Message = "Success";
+                        else
+                        {
+                            lastBranchName = currentBranch;
+                        }
                     }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
+
+                    string devFontSize = "15px";
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderBTER}/BranchWiseStatisticalReport.html";
+
+                    string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+
+                    System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+                    html = Utility.PDFWorks.ReplaceCustomTag(html);
+
+                    sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+
+                    byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "landsacp", " ");
+
+                    result.Data = Convert.ToBase64String(pdfBytes);
+                    result.State = EnumStatus.Success;
+                    result.Message = "Success";
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
 
         #region College Information Report
