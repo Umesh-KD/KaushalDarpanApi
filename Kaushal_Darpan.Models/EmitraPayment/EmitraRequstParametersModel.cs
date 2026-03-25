@@ -47,7 +47,7 @@ namespace Kaushal_Darpan.Models.RPPPayment
         public string VerifyURL { get; set; } = string.Empty;
 
         public int DepartmentID { get; set; } = 0;
-
+        public int ExamStudentStatus { get; set; } = 0;
         public string ClientSecret { get; set; } = string.Empty;
         public string CleintID { get; set; } = string.Empty;
         public string TokenURL { get; set; } = string.Empty;

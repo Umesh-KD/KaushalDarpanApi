@@ -21,5 +21,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveNodalUserdata(ITIAdminUserDetailModel productDetails);
         Task<DataTable> getAllNodalUserdata(ITIAdminUserDetailModel body);
         Task<DataTable> NodalUserdataDelete(ITIAdminUserDetailModel body);
+        Task<DataTable> adminUserDataDelete(ITIAdminUserDetailModel body);
     }
 }

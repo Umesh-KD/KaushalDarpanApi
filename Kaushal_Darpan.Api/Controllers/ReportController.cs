@@ -5372,64 +5372,61 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("DownloadAppearedPassedInstitutewise")]
         public async Task<ApiResult<string>> DownloadAppearedPassedInstitutewise(DownloadAppearedPassed model)
         {
-            ActionName = "DownloadAppearedPassed(string EnrollmentNo)";
-            return await Task.Run(async () =>
+            ActionName = "DownloadAppearedPassedInstitutewise(DownloadAppearedPassed model)";
+            var result = new ApiResult<string>();
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                var data = await _unitOfWork.ReportRepository.DownloadAppearedPassedInstitutewise(model);
+                if (data.Rows?.Count > 1)
                 {
-                    var data = await _unitOfWork.ReportRepository.DownloadAppearedPassedInstitutewise(model);
-                    if (data.Rows?.Count > 1)
+                    //report
+                    var fileName = $"AppearedPassedInstituteWise.pdf";
+                    var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                    string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                    string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/AppearedPassedStatisticsInstituteWise.rdlc";
+
+                    LocalReport localReport = new LocalReport(rdlcpath);
+                    localReport.AddDataSource("AppearedPassedStatistics", data);
+                    localReport.AddDataSource("AppearedPassedDetails", data);
+                    var reportResult = localReport.Execute(RenderType.Pdf);
+
+                    //check file exists
+                    if (!System.IO.Directory.Exists(folderPath))
                     {
-                        //report
-                        var fileName = $"AppearedPassedInstituteWise.pdf";
-                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/AppearedPassedStatisticsInstituteWise.rdlc";
-
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("AppearedPassedStatistics", data);
-                        localReport.AddDataSource("AppearedPassedDetails", data);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
-
-                        //check file exists
-                        if (!System.IO.Directory.Exists(folderPath))
-                        {
-                            Directory.CreateDirectory(folderPath);
-                        }
-                        //save
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        //end report
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-
+                        Directory.CreateDirectory(folderPath);
                     }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.ErrorMessage = Constants.MSG_DATA_NOT_FOUND;
-                    }
-
+                    //save
+                    System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                    //end report
+                    result.Data = fileName;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
 
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+
+
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
         #endregion
 
@@ -12696,63 +12693,60 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<string>> DownloadResultStatisticsReport(StatisticsBridgeCourseModel model)
         {
             ActionName = "DownloadResultStatisticsReport(StatisticsBridgeCourseModel model)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<string>();
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                var data = await _unitOfWork.ReportRepository.DownloadResultStatisticsReport(model);
+                if (data.Tables.Count > 1 && data.Tables[0].Rows?.Count > 0)
                 {
-                    var data = await _unitOfWork.ReportRepository.DownloadResultStatisticsReport(model);
-                    if (data.Tables.Count > 1 && data.Tables[0].Rows?.Count > 0)
+                    //report
+                    var fileName = $"ResultStatisticsReports.pdf";
+                    var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                    string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                    string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/ResultStatisticsReports.rdlc";
+
+                    LocalReport localReport = new LocalReport(rdlcpath);
+                    localReport.AddDataSource("ResultStatisticsReports", data.Tables[0]);
+                    localReport.AddDataSource("ResultStatisticsReportsTotal", data.Tables[1]);
+                    var reportResult = localReport.Execute(RenderType.Pdf);
+
+                    //check file exists
+                    if (!System.IO.Directory.Exists(folderPath))
                     {
-                        //report
-                        var fileName = $"ResultStatisticsReports.pdf";
-                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/ResultStatisticsReports.rdlc";
-
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("ResultStatisticsReports", data.Tables[0]);
-                        localReport.AddDataSource("ResultStatisticsReportsTotal", data.Tables[1]);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
-
-                        //check file exists
-                        if (!System.IO.Directory.Exists(folderPath))
-                        {
-                            Directory.CreateDirectory(folderPath);
-                        }
-                        //save
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        //end report
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-
+                        Directory.CreateDirectory(folderPath);
                     }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.ErrorMessage = Constants.MSG_DATA_NOT_FOUND;
-                    }
-
+                    //save
+                    System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                    //end report
+                    result.Data = fileName;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
 
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+
+
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
 
         [HttpPost("ResultStatisticsBridgeCourseStreamWiseReport")]
