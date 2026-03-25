@@ -34,6 +34,7 @@ namespace Kaushal_Darpan.Models.RevaluationDataModel
         public int DepartmentID { get; set; }
         public int CourseTypeID { get; set; }
         public bool IsSelected { get; set; }
+        public bool? IsKiosk { get; set; }
     }
 
     public class RVLStudentDetailsModel

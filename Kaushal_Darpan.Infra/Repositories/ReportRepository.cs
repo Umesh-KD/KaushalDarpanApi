@@ -9666,5 +9666,41 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        #region Student reval Fee payment Receipt
+        public async Task<DataSet> GetStudentRevalFeePaymentReceipt(string TransactionId, int StudentExamID)
+        {
+            _actionName = "GetStudentFeeReceipt(string EnrollmentNo, int StudentExamID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Rpt_GetRevelFeeReceipt";
+                        command.Parameters.AddWithValue("@TransactionId", TransactionId);
+                        command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
+
     }
 }

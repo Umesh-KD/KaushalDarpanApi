@@ -83,6 +83,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StudentExamID", body.StudentExamID);
                         command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
                         command.Parameters.AddWithValue("@CourseType", body.CourseTypeID);
+                        command.Parameters.AddWithValue("@IsKiosk", body.IsKiosk);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();

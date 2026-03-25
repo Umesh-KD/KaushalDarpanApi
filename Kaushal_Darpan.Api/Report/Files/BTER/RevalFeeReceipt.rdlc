@@ -9,7 +9,8 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Government Of Rajasthan</Value>
+                <Label>HeaderLine1</Label>
+                <Value>=First(Fields!HeaderLine1.Value, "StudentRevalFeePaymentReceipt")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -36,7 +37,22 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>                  BOARD OF TECHNICAL EDUCATION, RAJASTHAN, JODHPUR</Value>
+                <Value xml:space="preserve">                 </Value>
+                <Style>
+                  <FontSize>14pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Label>HeaderLine2</Label>
+                <Value>=First(Fields!HeaderLine2.Value, "StudentRevalFeePaymentReceipt")</Value>
+                <Style>
+                  <FontSize>14pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value xml:space="preserve"> </Value>
                 <Style>
                   <FontSize>14pt</FontSize>
                   <FontWeight>Bold</FontWeight>
@@ -50,25 +66,8 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>E-Receipt - </Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>=First(Fields!FeeFor.Value, "StudentFeeReceipt")</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value xml:space="preserve"> </Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>=First(Fields!FinYear.Value, "StudentFeeReceipt")</Value>
+                <Label>HeaderLine3</Label>
+                <Value>=First(Fields!HeaderLine3.Value, "StudentRevalFeePaymentReceipt")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -132,7 +131,8 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!FatherName.Value, "StudentFeeReceipt")</Value>
+                <Label>FatherName</Label>
+                <Value>=First(Fields!FatherName.Value, "StudentRevalFeePaymentReceipt")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -194,7 +194,8 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!DOB.Value, "StudentFeeReceipt")</Value>
+                <Label>DOB</Label>
+                <Value>=First(Fields!DOB.Value, "StudentRevalFeePaymentReceipt")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -256,7 +257,8 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!InsitituteName.Value, "StudentFeeReceipt")</Value>
+                <Label>CollegeName</Label>
+                <Value>=First(Fields!CollegeName.Value, "StudentRevalFeePaymentReceipt")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -318,7 +320,8 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!StreamName.Value, "StudentFeeReceipt")</Value>
+                <Label>BranchName</Label>
+                <Value>=First(Fields!BranchName.Value, "StudentRevalFeePaymentReceipt")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -380,10 +383,9 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!Fee.Value, "StudentFeeReceipt")</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
+                <Label>TransactionAmount</Label>
+                <Value>=First(Fields!TransactionAmount.Value, "StudentRevalFeePaymentReceipt")</Value>
+                <Style />
               </TextRun>
             </TextRuns>
             <Style />
@@ -444,10 +446,9 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!ReceiptNo.Value, "StudentFeeReceipt")</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
+                <Label>ChallanTID</Label>
+                <Value>=First(Fields!ChallanTID.Value, "StudentRevalFeePaymentReceipt")</Value>
+                <Style />
               </TextRun>
             </TextRuns>
             <Style />
@@ -508,10 +509,9 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!TransactionDate.Value, "StudentFeeReceipt")</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
+                <Label>TransactionDate</Label>
+                <Value>=First(Fields!TransactionDate.Value, "StudentRevalFeePaymentReceipt")</Value>
+                <Style />
               </TextRun>
             </TextRuns>
             <Style />
@@ -565,70 +565,6 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Textbox Name="Textbox20">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Transaction Status</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>17.72455cm</Top>
-        <Left>0.25723cm</Left>
-        <Height>0.73065cm</Height>
-        <Width>3.64243cm</Width>
-        <ZIndex>16</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox21">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>=First(Fields!TransctionStatus.Value, "StudentFeeReceipt")</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>17.72455cm</Top>
-        <Left>4.35827cm</Left>
-        <Height>0.73065cm</Height>
-        <Width>11.76301cm</Width>
-        <ZIndex>17</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
       <Textbox Name="Textbox22">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
@@ -636,7 +572,8 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!StudentName.Value, "StudentFeeReceipt")</Value>
+                <Label>StudentName</Label>
+                <Value>=First(Fields!StudentName.Value, "StudentRevalFeePaymentReceipt")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -648,7 +585,7 @@
         <Left>4.35827cm</Left>
         <Height>0.75655cm</Height>
         <Width>11.76301cm</Width>
-        <ZIndex>18</ZIndex>
+        <ZIndex>16</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -667,7 +604,7 @@
         <Left>0.53284cm</Left>
         <Height>2.03933cm</Height>
         <Width>2.36426cm</Width>
-        <ZIndex>19</ZIndex>
+        <ZIndex>17</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -678,7 +615,7 @@
         <Top>2.71871cm</Top>
         <Height>0cm</Height>
         <Width>18.99568cm</Width>
-        <ZIndex>20</ZIndex>
+        <ZIndex>18</ZIndex>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -706,7 +643,7 @@
         <Left>0.25723cm</Left>
         <Height>0.66121cm</Height>
         <Width>3.64243cm</Width>
-        <ZIndex>21</ZIndex>
+        <ZIndex>19</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -724,7 +661,8 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!SemesterName.Value, "StudentFeeReceipt")</Value>
+                <Label>MobileNo</Label>
+                <Value>=First(Fields!MobileNo.Value, "StudentRevalFeePaymentReceipt")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -736,7 +674,7 @@
         <Left>4.35827cm</Left>
         <Height>0.66121cm</Height>
         <Width>11.76301cm</Width>
-        <ZIndex>22</ZIndex>
+        <ZIndex>20</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -768,7 +706,7 @@
         <Left>0.25723cm</Left>
         <Height>0.73229cm</Height>
         <Width>3.64243cm</Width>
-        <ZIndex>23</ZIndex>
+        <ZIndex>21</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -800,7 +738,7 @@
         <Left>0.25723cm</Left>
         <Height>0.70583cm</Height>
         <Width>3.64243cm</Width>
-        <ZIndex>24</ZIndex>
+        <ZIndex>22</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -818,11 +756,9 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Label>enroll fee</Label>
-                <Value>=First(Fields!EnrollFeeAmount.Value, "StudentFeeReceipt")</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
+                <Label>Year</Label>
+                <Value>=First(Fields!Year.Value, "StudentRevalFeePaymentReceipt")</Value>
+                <Style />
               </TextRun>
             </TextRuns>
             <Style />
@@ -833,7 +769,7 @@
         <Left>4.35827cm</Left>
         <Height>0.73065cm</Height>
         <Width>11.76301cm</Width>
-        <ZIndex>25</ZIndex>
+        <ZIndex>23</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -851,11 +787,9 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Label>exam fee</Label>
-                <Value>=First(Fields!ExamFeeAmount.Value, "StudentFeeReceipt")</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
+                <Label>TransactionNo</Label>
+                <Value>=First(Fields!TransactionNo.Value, "StudentRevalFeePaymentReceipt")</Value>
+                <Style />
               </TextRun>
             </TextRuns>
             <Style />
@@ -866,7 +800,7 @@
         <Left>4.35827cm</Left>
         <Height>0.73065cm</Height>
         <Width>11.76301cm</Width>
-        <ZIndex>26</ZIndex>
+        <ZIndex>24</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -898,7 +832,7 @@
         <Left>0.25723cm</Left>
         <Height>0.79183cm</Height>
         <Width>3.64243cm</Width>
-        <ZIndex>27</ZIndex>
+        <ZIndex>25</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -916,7 +850,8 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!StudentName.Value, "StudentFeeReceipt")</Value>
+                <Label>RegistrationNo</Label>
+                <Value>=First(Fields!RegistrationNo.Value, "StudentRevalFeePaymentReceipt")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -928,7 +863,7 @@
         <Left>4.35827cm</Left>
         <Height>0.75655cm</Height>
         <Width>11.76301cm</Width>
-        <ZIndex>28</ZIndex>
+        <ZIndex>26</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -960,7 +895,7 @@
         <Left>0.25723cm</Left>
         <Height>0.66121cm</Height>
         <Width>3.64243cm</Width>
-        <ZIndex>29</ZIndex>
+        <ZIndex>27</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -978,7 +913,8 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!SemesterName.Value, "StudentFeeReceipt")</Value>
+                <Label>EnrollmentNo</Label>
+                <Value>=First(Fields!EnrollmentNo.Value, "StudentRevalFeePaymentReceipt")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -990,7 +926,7 @@
         <Left>4.35827cm</Left>
         <Height>0.66121cm</Height>
         <Width>11.76301cm</Width>
-        <ZIndex>30</ZIndex>
+        <ZIndex>28</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1022,7 +958,7 @@
         <Left>0.25723cm</Left>
         <Height>0.66121cm</Height>
         <Width>3.64243cm</Width>
-        <ZIndex>31</ZIndex>
+        <ZIndex>29</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1040,7 +976,8 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!SemesterName.Value, "StudentFeeReceipt")</Value>
+                <Label>RollNo</Label>
+                <Value>=First(Fields!RollNo.Value, "StudentRevalFeePaymentReceipt")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1052,7 +989,7 @@
         <Left>4.35827cm</Left>
         <Height>0.66121cm</Height>
         <Width>11.76301cm</Width>
-        <ZIndex>32</ZIndex>
+        <ZIndex>30</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1098,7 +1035,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox33</rd:DefaultName>
@@ -1130,7 +1069,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox35</rd:DefaultName>
@@ -1162,7 +1103,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox37</rd:DefaultName>
@@ -1194,7 +1137,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox39</rd:DefaultName>
@@ -1218,21 +1163,23 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox34">
+                    <Textbox Name="SNO">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!SNO.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox34</rd:DefaultName>
+                      <rd:DefaultName>SNO</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1248,21 +1195,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox36">
+                    <Textbox Name="SubjectName">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!SubjectName.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox36</rd:DefaultName>
+                      <rd:DefaultName>SubjectName</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1278,21 +1227,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox38">
+                    <Textbox Name="SubjectCode">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!SubjectCode.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox38</rd:DefaultName>
+                      <rd:DefaultName>SubjectCode</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1308,21 +1259,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox40">
+                    <Textbox Name="ObtainedTheory">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!ObtainedTheory.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox40</rd:DefaultName>
+                      <rd:DefaultName>ObtainedTheory</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1358,11 +1311,12 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <Top>19.07328cm</Top>
+        <DataSetName>StudentRevalFeePaymentReceipt_SubDetails</DataSetName>
+        <Top>17.90912cm</Top>
         <Left>0.25723cm</Left>
         <Height>1.2cm</Height>
         <Width>15.86405cm</Width>
-        <ZIndex>33</ZIndex>
+        <ZIndex>31</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1370,7 +1324,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>8.71979in</Height>
+    <Height>7.93854in</Height>
     <Style>
       <Border>
         <Style>Solid</Style>
@@ -1399,12 +1353,16 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="StudentFeeReceipt">
+    <DataSet Name="StudentRevalFeePaymentReceipt">
       <Query>
         <DataSourceName>KD_DBScript</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
+        <Field Name="RegistrationNo">
+          <DataField>RegistrationNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="StudentName">
           <DataField>StudentName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -1417,147 +1375,99 @@
           <DataField>DOB</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="InsitituteName">
-          <DataField>InsitituteName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="StreamName">
-          <DataField>StreamName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Fee">
-          <DataField>Fee</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ReceiptNo">
-          <DataField>ReceiptNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Transactionld">
-          <DataField>Transactionld</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TransactionDate">
-          <DataField>TransactionDate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="FinYear">
-          <DataField>FinYear</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TransctionStatus">
-          <DataField>TransctionStatus</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TransctionMSG">
-          <DataField>TransctionMSG</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="FeeFor">
-          <DataField>FeeFor</DataField>
+        <Field Name="MobileNo">
+          <DataField>MobileNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="EnrollmentNo">
           <DataField>EnrollmentNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ITI">
-          <DataField>ITI</DataField>
+        <Field Name="RollNo">
+          <DataField>RollNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Trade">
-          <DataField>Trade</DataField>
+        <Field Name="CollegeName">
+          <DataField>CollegeName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ExaminationName">
-          <DataField>ExaminationName</DataField>
+        <Field Name="BranchName">
+          <DataField>BranchName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="SemesterName">
-          <DataField>SemesterName</DataField>
+        <Field Name="Year">
+          <DataField>Year</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ApplicationEnrollText">
-          <DataField>ApplicationEnrollText</DataField>
+        <Field Name="TransactionNo">
+          <DataField>TransactionNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="PRN">
-          <DataField>PRN</DataField>
+        <Field Name="TransactionAmount">
+          <DataField>TransactionAmount</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ChallanNo">
-          <DataField>ChallanNo</DataField>
+        <Field Name="ChallanTID">
+          <DataField>ChallanTID</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="MotherName">
-          <DataField>MotherName</DataField>
+        <Field Name="TransactionDate">
+          <DataField>TransactionDate</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Gender">
-          <DataField>Gender</DataField>
+        <Field Name="TransactionStatus">
+          <DataField>TransactionStatus</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CasteCategoryName">
-          <DataField>CasteCategoryName</DataField>
+        <Field Name="HeaderLine1">
+          <DataField>HeaderLine1</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="MobileNo">
-          <DataField>MobileNo</DataField>
+        <Field Name="HeaderLine2">
+          <DataField>HeaderLine2</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CourseType">
-          <DataField>CourseType</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="AllotmentId">
-          <DataField>AllotmentId</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ApplicationNo">
-          <DataField>ApplicationNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="PrefrencialCategory">
-          <DataField>PrefrencialCategory</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="AllotedCategory">
-          <DataField>AllotedCategory</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="AllotmentType">
-          <DataField>AllotmentType</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="URL">
-          <DataField>URL</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ReportingDate">
-          <DataField>ReportingDate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ReportingStatus">
-          <DataField>ReportingStatus</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Convener">
-          <DataField>Convener</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="EnrollFeeAmount">
-          <DataField>EnrollFeeAmount</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ExamFeeAmount">
-          <DataField>ExamFeeAmount</DataField>
+        <Field Name="HeaderLine3">
+          <DataField>HeaderLine3</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
         <rd:SchemaPath>D:\Kausal_Darpan\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
-        <rd:TableName>StudentFeeReceipt</rd:TableName>
+        <rd:TableName>StudentRevalFeePaymentReceipt</rd:TableName>
+        <rd:TableAdapterFillMethod />
+        <rd:TableAdapterGetDataMethod />
+        <rd:TableAdapterName />
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="StudentRevalFeePaymentReceipt_SubDetails">
+      <Query>
+        <DataSourceName>KD_DBScript</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="SNO">
+          <DataField>SNO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SubjectName">
+          <DataField>SubjectName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SubjectCode">
+          <DataField>SubjectCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ObtainedTheory">
+          <DataField>ObtainedTheory</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>KD_DBScript</rd:DataSetName>
+        <rd:SchemaPath>D:\Kausal_Darpan\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:TableName>StudentRevalFeePaymentReceipt_SubDetails</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
         <rd:TableAdapterName />
