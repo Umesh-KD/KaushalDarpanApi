@@ -652,48 +652,45 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("Stream_InstituteIdWise/{DepartmetnID}/{StreamType}/{EndTermId}/{InstituteID}/{AcademicYearID}")]
-        public async Task<ApiResult<DataTable>> StreamMaster(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0,int InstituteID=0,int AcademicYearID=0)
+        public async Task<ApiResult<DataTable>> StreamMaster(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int AcademicYearID = 0)
         {
-            return await Task.Run(async () =>
+            var result = new ApiResult<DataTable>();
+            try
             {
-                var result = new ApiResult<DataTable>();
-                try
+                var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.Stream_InstituteIdWise(DepartmetnID, StreamType, EndTermId, InstituteID, AcademicYearID));
+                if (data.Rows.Count > 0)
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.Stream_InstituteIdWise(DepartmetnID, StreamType, EndTermId, InstituteID, AcademicYearID);
-                    if (data.Rows.Count > 0)
-                    {
-                        result.Data = data;
-                        result.State = EnumStatus.Success;
-                        result.Message = "Data load successfully .!";
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
 
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = "No record found.!";
-                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found.!";
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
 
         [HttpGet("StreamMasterwithcount/{DepartmetnID}/{StreamType}/{EndTermId}/{SemesterID}/{InstituteId}")]
-        public async Task<ApiResult<DataTable>> StreamMasterwithcount(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0,int SemesterID =0,int InstituteId=0)
+        public async Task<ApiResult<DataTable>> StreamMasterwithcount(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0)
         {
             return await Task.Run(async () =>
             {
@@ -1584,7 +1581,7 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
         [HttpGet("CommonMasterDataByCode/{MasterCode}/{DepartmentID}/{CourseTypeID?}/{StaffTypeID?}")]
-        public async Task<ApiResult<DataTable>> CommonMasterDataByCode(string MasterCode, int DepartmentID, int CourseTypeID = 0,int StaffTypeID=0)
+        public async Task<ApiResult<DataTable>> CommonMasterDataByCode(string MasterCode, int DepartmentID, int CourseTypeID = 0, int StaffTypeID = 0)
 
         {
             return await Task.Run(async () =>
@@ -1907,7 +1904,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpGet("GetCampusPostMasterDDL/{DepartmentID}/{CreatedBy}")]
-        public async Task<ApiResult<List<CommonDDLModel>>> GetCampusPostMasterDDL(int DepartmentID,int CreatedBy)
+        public async Task<ApiResult<List<CommonDDLModel>>> GetCampusPostMasterDDL(int DepartmentID, int CreatedBy)
         {
             ActionName = "GetCampusPostMasterDDL()";
             return await Task.Run(async () =>
@@ -7157,7 +7154,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("BTER_BGT_BudgetType/{DepartmentID}/{LevelID}/{BGTType?}")]
-        public async Task<ApiResult<DataTable>> BTER_BGT_BudgetType(int DepartmentID, int LevelID,int BGTType=0)
+        public async Task<ApiResult<DataTable>> BTER_BGT_BudgetType(int DepartmentID, int LevelID, int BGTType = 0)
         {
             ActionName = "BTER_BGT_BudgetType()";
             return await Task.Run(async () =>
@@ -7316,7 +7313,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("GetDesignationAndPostMaster/{id}")]
-        public async Task<ApiResult<List<CommonDDLModel>>> GetDesignationAndPostMaster(int id=0)
+        public async Task<ApiResult<List<CommonDDLModel>>> GetDesignationAndPostMaster(int id = 0)
         {
             return await Task.Run(async () =>
             {
@@ -8082,9 +8079,9 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-     
+
         [HttpGet("ItiTrade/{DepartmetnID?}/{StreamType?}/{EndTermId?}/{InstituiteID?}/{DivisionId?}/{SemesterID?}")]
-        public async Task<ApiResult<DataTable>> ItiTrade(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0, int InstituiteID = 0, int DivisionId = 0,int SemesterID=0)
+        public async Task<ApiResult<DataTable>> ItiTrade(int DepartmetnID = 0, int StreamType = 0, int EndTermId = 0, int InstituiteID = 0, int DivisionId = 0, int SemesterID = 0)
         {
             return await Task.Run(async () =>
             {
@@ -8125,7 +8122,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("ItiTradecouncelling/{DesignationID}")]
-        public async Task<ApiResult<DataTable>> ItiTradecouncelling(string DesignationID )
+        public async Task<ApiResult<DataTable>> ItiTradecouncelling(string DesignationID)
         {
             return await Task.Run(async () =>
             {
@@ -9617,7 +9614,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-       
+
 
         [HttpGet("DDL_CounsellingTradelist/{designationId}")]
         public async Task<ApiResult<DataTable>> DDL_Counselling_Trade(int designationId)
@@ -9784,7 +9781,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("getStudBasicDetailsEnrollmentWise/{EnrollNo}/{DepartmentID}")]
-        public async Task<ApiResult<DataTable>> getStudBasicDetailsEnrollmentWise( string EnrollNo,int DepartmentID)
+        public async Task<ApiResult<DataTable>> getStudBasicDetailsEnrollmentWise(string EnrollNo, int DepartmentID)
         {
             ActionName = "getStudBasicDetailsEnrollmentWise(int EnrollNo)";
             return await Task.Run(async () =>
