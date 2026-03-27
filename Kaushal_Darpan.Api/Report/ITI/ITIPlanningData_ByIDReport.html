@@ -420,107 +420,13 @@
             <td colspan="3">{#=Institute_Details.Remark=#}</td>
         </tr>
     </table>-->
-    <!--<style>
-        .table-layout th {
-            text-align: left;
-            padding: 10px 8px;
-            font-weight: bold;
-            border: none; /* ✅ removed underline */
-        }
 
-        .table-layout td {
-            padding: 10px 8px;
-            vertical-align: middle;
-        }
-
-        .sr-no {
-            width: 2%;
-        }
-
-        .col {
-            width: 30%;
-            margin-bottom: 50px;
-        }
-
-        .line {
-            border-bottom: 1px solid #000000;
-            height: 20px;
-            display: block;
-            margin-bottom: 30px;
-        }
-
-        .table-layout {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-        }
-    </style>
-
-
-    <table style="margin-bottom: 30px;">
-        <thead>
-            <tr>
-                <th class="sr-no"></th>
-                <th class="col">Institute Member</th>
-                <th class="col">Member Designation</th>
-                <th class="col">Member Signature</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1:</td>
-                <td><span class="line"></span>-------------------------</td>
-                <td><span class="line"></span>-------------------------</td>
-                <td><span class="line"></span>-------------------------</td>
-            </tr>
-            <tr>
-                <td>2:</td>
-                <td><span class="line"></span>-------------------------</td>
-                <td><span class="line"></span>-------------------------</td>
-                <td><span class="line"></span>-------------------------</td>
-            </tr>
-        </tbody>
-    </table>
-
-
-    <table>
-        <thead>
-            <tr>
-                <th class="sr-no"></th>
-                <th class="col">Committee Member</th>
-                <th class="col">Member Mobile</th>
-                <th class="col">Member Signature</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1:</td>
-
-                <td><span class="line"></span>-------------------------</td>
-                <td><span class="line"></span>-------------------------</td>
-                <td><span class="line"></span>-------------------------</td>
-            </tr>
-            <tr>
-                <td>2:</td>
-                <td><span class="line"></span>-------------------------</td>
-                <td><span class="line"></span>-------------------------</td>
-                <td><span class="line"></span>-------------------------</td>
-            </tr>
-            <tr>
-                <td>3:</td>
-                <td><span class="line"></span>-------------------------</td>
-                <td><span class="line"></span>-------------------------</td>
-                <td><span class="line"></span>-------------------------</td>
-            </tr>
-        </tbody>
-    </table>-->
 
 
     <style>
         .section-title {
             font-weight: bold;
-            margin: 10px 10px 5px 0;
+            margin: 15px 15px 17px 0; /* added bottom space */
         }
 
         .table-layout {
@@ -529,15 +435,19 @@
             margin-bottom: 25px;
         }
 
-            .table-layout th {
-                text-align: left;
-                padding: 6px 8px;
-                font-weight: bold;
-            }
+        .table-layout thead {
+            height: 35px; /* pushes header row down */
+        }
 
-            .table-layout td {
-                padding: 8px;
-            }
+        .table-layout th {
+            text-align: left;
+            padding: 10px 8px 6px 8px; /* increased top padding */
+            font-weight: bold;
+        }
+
+        .table-layout td {
+            padding: 8px;
+        }
 
         .sr-no {
             width: 5%;
@@ -554,22 +464,25 @@
         }
     </style>
 
-    <!-- ✅ Section Title -->
-    <div class="section-title">9: Institute</div>
+   
 
-    <!-- ✅ Institute Table -->
+
+    <div style="padding:7px 10px; font-size:13px; font-weight:bold; margin-bottom:8px;">9: Institute Member</div>
+
     <table class="table-layout">
         <thead>
             <tr>
                 <th class="sr-no"></th>
-                <th class="col">Member</th>
                 <th class="col">Name</th>
+                <th class="col">Mobile No</th>
                 <th class="col">Designation</th>
+                <th class="col">Signature</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>1:</td>
+                <td><span class="line"></span>-------------------------</td>
                 <td><span class="line"></span>-------------------------</td>
                 <td><span class="line"></span>-------------------------</td>
                 <td><span class="line"></span>-------------------------</td>
@@ -579,20 +492,21 @@
                 <td><span class="line"></span>-------------------------</td>
                 <td><span class="line"></span>-------------------------</td>
                 <td><span class="line"></span>-------------------------</td>
+                <td><span class="line"></span>-------------------------</td>
             </tr>
         </tbody>
     </table>
 
-    <!-- ✅ Committee Section -->
-    <div class="section-title">10: Committee</div>
+    <div style="padding:7px 10px; font-size:13px; font-weight:bold; margin-bottom:8px;">10: Committee Member</div>
 
 
     <table class="table-layout">
         <thead>
             <tr>
                 <th class="sr-no"></th>
-                <th class="col"> Member</th>
                 <th class="col"> Name</th>
+                <th class="col"> Mobile No.</th>
+                <th class="col"> Designation</th>
                 <th class="col"> Signature</th>
             </tr>
         </thead>
@@ -602,15 +516,18 @@
                 <td><span class="line"></span>-------------------------</td>
                 <td><span class="line"></span>-------------------------</td>
                 <td><span class="line"></span>-------------------------</td>
+                <td><span class="line"></span>-------------------------</td>
             </tr>
             <tr>
                 <td>2:</td>
                 <td><span class="line"></span>-------------------------</td>
                 <td><span class="line"></span>-------------------------</td>
                 <td><span class="line"></span>-------------------------</td>
+                <td><span class="line"></span>-------------------------</td>
             </tr>
             <tr>
                 <td>3:</td>
+                <td><span class="line"></span>-------------------------</td>
                 <td><span class="line"></span>-------------------------</td>
                 <td><span class="line"></span>-------------------------</td>
                 <td><span class="line"></span>-------------------------</td>
