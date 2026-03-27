@@ -44,6 +44,9 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         command.Parameters.AddWithValue("@RollNo", body.RollNo);
                         command.Parameters.AddWithValue("@DOB", body.DOB);
+                        command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
+                        command.Parameters.AddWithValue("@StudentID", body.StudentID);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();

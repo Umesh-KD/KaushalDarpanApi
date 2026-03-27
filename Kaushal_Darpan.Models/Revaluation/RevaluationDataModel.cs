@@ -9,6 +9,9 @@ namespace Kaushal_Darpan.Models.RevaluationDataModel
         public int? RollNo { get; set; }
         public int DepartmentID { get; set; }
         public int CourseTypeIDs { get; set; }
+        public int StudentID { get; set; }
+        public int RoleID { get; set; }
+        public string EnrollmentNo { get; set; }
         
     }
     
