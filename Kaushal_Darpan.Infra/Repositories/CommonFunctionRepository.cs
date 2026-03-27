@@ -4587,6 +4587,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ItiCollegesList_DistrictWise";
                         command.Parameters.AddWithValue("@action", request.action);
                         command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+                        command.Parameters.AddWithValue("@TradeID", request.TradeID);
                         command.Parameters.AddWithValue("@ManagementType", request.ManagementType);
                         command.Parameters.AddWithValue("@ManagementTypeID", request.ManagementTypeID);
 

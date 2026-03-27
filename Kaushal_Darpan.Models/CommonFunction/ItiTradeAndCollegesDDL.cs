@@ -30,6 +30,7 @@ namespace Kaushal_Darpan.Models.CommonFunction
         public class ItiCollegesSearchModel
         {
             public int DistrictID { get; set; }
+            public int TradeID { get; set; }
             public string? action {  set; get; }
             public string? ManagementType {  set; get; }
             public int? ManagementTypeID { set; get; }

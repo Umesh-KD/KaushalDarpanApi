@@ -177,6 +177,7 @@ namespace Kaushal_Darpan.Models.ITI_InstructorModel
         public int? QualificationID { get; set; }
         public string? QualificationLevel { get; set; }
         public string? Tech_MarksTypeID { get; set; }
+        public string? Tech_CITSTrade { get; set; }
         public int? Tech_CGPA { get; set; }
 
 
