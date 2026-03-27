@@ -8,6 +8,7 @@ using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.RevaluationDataModel;
 using Kaushal_Darpan.Models.SetExamAttendanceMaster;
+using Kaushal_Darpan.Models.UserMaster;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -74,6 +75,43 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.RevaluationRepository.GetAllRevalation(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+        [HttpPost("GetAllRevalationReportList")]
+        public async Task<ApiResult<DataTable>> GetAllRevalationReportList([FromBody] RevalationReportsearchModel body)
+        {
+            ActionName = "GetAllRevalationReportList()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.RevaluationRepository.GetAllRevalationReportList(body));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
