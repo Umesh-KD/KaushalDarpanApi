@@ -129,6 +129,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RevaluationTxnNo", body.RevaluationTxnNo);
                         command.Parameters.AddWithValue("@RevaluationChallan", body.RevaluationChallan);
                         command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
