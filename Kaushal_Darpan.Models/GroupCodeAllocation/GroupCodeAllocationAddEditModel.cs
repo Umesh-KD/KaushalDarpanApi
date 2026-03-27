@@ -14,7 +14,7 @@ namespace Kaushal_Darpan.Models.GroupCodeAllocation
         public string SubjectCode { get; set; }
         public string? SubjectName { get; set; }
 
-        //vivek
+        
         public string? action { get; set; }
         public int schemeid { get; set; }
         public int IsPresentTotal { get; set; }

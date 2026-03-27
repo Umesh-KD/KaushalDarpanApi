@@ -6,6 +6,7 @@ using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.RevaluationDataModel;
 using Kaushal_Darpan.Models.SetExamAttendanceMaster;
+using Kaushal_Darpan.Models.UserMaster;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -107,5 +108,50 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+        public async Task<DataTable> GetAllRevalationReportList(RevalationReportsearchModel body)
+        {
+            _actionName = "getAllNodalUserdata()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Reval_ReportDetails";
+                        command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
+                        command.Parameters.AddWithValue("@ResultDate", body.ResultDate);
+                        command.Parameters.AddWithValue("@RollNo", body.RollNumber);
+                        command.Parameters.AddWithValue("@SubjectCode", body.SubjectCode);
+                        command.Parameters.AddWithValue("@RevaluationTxnNo", body.RevaluationTxnNo);
+                        command.Parameters.AddWithValue("@RevaluationChallan", body.RevaluationChallan);
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+
+
     }
 }

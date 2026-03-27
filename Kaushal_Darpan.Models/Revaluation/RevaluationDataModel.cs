@@ -92,5 +92,16 @@ namespace Kaushal_Darpan.Models.RevaluationDataModel
         public int StudentExamID { get; set; }
     }
 
+    public class RevalationReportsearchModel
+    {
+        public string? EnrollmentNo { get; set; } 
+        public DateTime? ResultDate { get; set; }
+        public string? RollNumber { get; set; } 
+        public string? SubjectCode { get; set; } 
+        public string? RevaluationTxnNo { get; set; } 
+        public string? RevaluationChallan { get; set; }
+        public int SemesterID { get; set; }
+    }
+
 
 }
