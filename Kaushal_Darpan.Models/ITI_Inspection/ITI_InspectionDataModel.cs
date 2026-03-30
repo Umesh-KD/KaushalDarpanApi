@@ -179,7 +179,15 @@ namespace Kaushal_Darpan.Models.ITI_Inspection
         public string? Remark { get; set; }  
         public int consentTypeID { get; set; }  
         public int? Status { get; set; }  
-        public int? Amount { get; set; }  
+        public int? Amount { get; set; }
+
+        public bool IsAnyCourtCase { get; set; }
+        public string CourtName { get; set; }
+        public string CourtDate { get; set; }
+        public string CaseNo { get; set; }
+        public string DisCourtDocFileName { get; set; }
+        public string CourtDocFileName { get; set; }
+
 
     }
     public class ITI_ConsentSearchModel
