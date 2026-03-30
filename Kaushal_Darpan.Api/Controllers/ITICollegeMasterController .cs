@@ -1422,6 +1422,51 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+
+        [HttpPost("DeleteGuarantee")]
+        public async Task<ApiResult<bool>> DeleteGuarantee(ITIPlanningBankGuarantee model)
+        {
+            ActionName = "DeleteDataById(int id, int ModifyBy)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    result.Data = await _unitOfWork.ITICollegeMasterRepository.DeleteGuarantee(model);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
+
     }
 }
 

@@ -14729,7 +14729,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 // get all streams
-                var streams_data = await _unitOfWork.ReportRepository.GetStreamResultRptTabulation(body);
+                var streams_data = await Task.Run(() => _unitOfWork.ReportRepository.GetStreamResultRptTabulation(body));
 
                 if (streams_data?.Rows?.Count == 0)
                 {
@@ -14757,14 +14757,14 @@ namespace Kaushal_Darpan.Api.Controllers
                     body.StreamID = Convert.ToInt32(dr["StreamID"] ?? 0);
 
                     // get main heading of report
-                    var heading_data = await _unitOfWork.ReportRepository.GetHeadingResultRptTabulation(body);
+                    var heading_data = await Task.Run(() => _unitOfWork.ReportRepository.GetHeadingResultRptTabulation(body));
                     if (heading_data?.Rows.Count == 0)
                     {
                         continue;
                     }
 
                     // get tabular details
-                    var tabular_data = await _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body);
+                    var tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body));
                     if (tabular_data.Tables?.Count < 2)
                     {
                         continue;
@@ -14775,7 +14775,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
 
                 // get consolidate summary of tabular details
-                var consolidate_data = await _unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body);
+                var consolidate_data = await Task.Run(() =>_unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body));
                 if (consolidate_data?.Rows.Count > 0)
                 {
                     //get html
