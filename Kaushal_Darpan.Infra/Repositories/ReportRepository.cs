@@ -143,27 +143,24 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetStreamResultRptTabulation(TabluationDataModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dt = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetStream_ResultRpt_Tabulation";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetStream_ResultRpt_Tabulation";
 
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
-                        command.Parameters.AddWithValue("@CourseType", body.CourseType);
-                        command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
-                        //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
+                    command.Parameters.AddWithValue("@CourseType", body.CourseType);
+                    command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
+                    //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dt = await command.FillAsync_DataTable();
-                    }
-                    return dt;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dt = await command.FillAsync_DataTable();
+                }
+                return dt;
             }
             catch (Exception ex)
             {
@@ -183,27 +180,24 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetHeadingResultRptTabulation(TabluationDataModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dt = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetHeading_ResultRpt_Tabulation";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetHeading_ResultRpt_Tabulation";
 
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
-                        command.Parameters.AddWithValue("@CourseType", body.CourseType);
-                        command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
-                        //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
+                    command.Parameters.AddWithValue("@CourseType", body.CourseType);
+                    command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
+                    //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dt = await command.FillAsync_DataTable();
-                    }
-                    return dt;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dt = await command.FillAsync_DataTable();
+                }
+                return dt;
             }
             catch (Exception ex)
             {
@@ -223,27 +217,25 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetTabularDetailsResultRptTabulation(TabluationDataModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataSet ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataSet ds = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetTabularDetails_ResultRpt_Tabulation";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
+                    command.CommandText = "USP_GetTabularDetails_ResultRpt_Tabulation";
 
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
-                        command.Parameters.AddWithValue("@CourseType", body.CourseType);
-                        command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
-                        //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
+                    command.Parameters.AddWithValue("@CourseType", body.CourseType);
+                    command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
+                    //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        ds = await command.FillAsync();
-                    }
-                    return ds;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    ds = await command.FillAsync();
+                }
+                return ds;
             }
             catch (Exception ex)
             {
@@ -263,26 +255,23 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetConsolidatedDetailsResultRptTabulation(TabluationDataModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dt = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetConsolidatedDetails_ResultRpt_Tabulation";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetConsolidatedDetails_ResultRpt_Tabulation";
 
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
-                        command.Parameters.AddWithValue("@CourseType", body.CourseType);
-                        command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
-                        //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
+                    command.Parameters.AddWithValue("@CourseType", body.CourseType);
+                    command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
+                    //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dt = await command.FillAsync_DataTable();
-                    }
-                    return dt;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dt = await command.FillAsync_DataTable();
+                }
+                return dt;
             }
             catch (Exception ex)
             {
