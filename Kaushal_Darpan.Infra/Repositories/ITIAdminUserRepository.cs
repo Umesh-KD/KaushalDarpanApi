@@ -243,7 +243,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<int> adminUserDataSave(ITIAdminUserDetailModel request)
         {
-            _actionName = "SaveAllData(AdminUserDetailModel entity)";
+            _actionName = "adminUserDataSave(AdminUserDetailModel entity)";
             return await Task.Run(async () =>
             {
                 try

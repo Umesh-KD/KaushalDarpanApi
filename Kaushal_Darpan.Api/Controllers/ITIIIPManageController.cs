@@ -15,7 +15,7 @@ using Kaushal_Darpan.Models.SurveyPerformModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Text;
-//vivek 
+
 using WorkerDesignationTradeModel = Kaushal_Darpan.Models.SurveyPerformModel.WorkerDesignationTradeModel;
 using WorkerDetailsOfExistingApprenticeshipModel = Kaushal_Darpan.Models.SurveyPerformModel.WorkerDetailsOfExistingApprenticeshipModel;
 using WorkerDetalisOffacilitiesModel = Kaushal_Darpan.Models.SurveyPerformModel.WorkerDetalisOffacilitiesModel;

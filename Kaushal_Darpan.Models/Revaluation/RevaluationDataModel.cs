@@ -9,6 +9,9 @@ namespace Kaushal_Darpan.Models.RevaluationDataModel
         public int? RollNo { get; set; }
         public int DepartmentID { get; set; }
         public int CourseTypeIDs { get; set; }
+        public int StudentID { get; set; }
+        public int RoleID { get; set; }
+        public string EnrollmentNo { get; set; }
         
     }
     
@@ -87,6 +90,21 @@ namespace Kaushal_Darpan.Models.RevaluationDataModel
         public string? ApplicationNo { get; set; }
         public int ActionID { get; set; }
         public int StudentExamID { get; set; }
+    }
+
+    public class RevalationReportsearchModel
+    {
+        public string? EnrollmentNo { get; set; } 
+        public DateTime? ResultDate { get; set; }
+        public string? RollNumber { get; set; } 
+        public string? SubjectCode { get; set; } 
+        public string? RevaluationTxnNo { get; set; } 
+        public string? RevaluationChallan { get; set; }
+        public int SemesterID { get; set; }
+        public int DepartmentID { get; set; }
+        public int Eng_NonEng { get; set; }
+        public int EndTermID { get; set; }
+        public int RoleID { get; set; }
     }
 
 

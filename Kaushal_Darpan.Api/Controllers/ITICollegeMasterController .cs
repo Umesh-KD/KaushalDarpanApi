@@ -1024,7 +1024,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             }
                         }
 
-                        if (data.Tables[2] != null && data.Tables[1].Rows.Count > 0)
+                        if (data.Tables[2] != null && data.Tables[2].Rows.Count > 0)
                         {
                             if (!data.Tables[2].Columns.Contains("SrNo"))
                             {

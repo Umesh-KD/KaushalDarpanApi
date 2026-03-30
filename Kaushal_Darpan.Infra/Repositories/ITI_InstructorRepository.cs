@@ -843,6 +843,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TradeID", model.TradeID);
                         command.Parameters.AddWithValue("@Seatintake", model.Seatintake);
                         command.Parameters.AddWithValue("@ModifyBy", model.ModifyBy);
+                        command.Parameters.AddWithValue("@Remark", model.Remark);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

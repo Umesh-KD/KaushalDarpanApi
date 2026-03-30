@@ -1366,7 +1366,6 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        // vivek singh 
         [HttpPost("SaveGuestRoomPayment")]
         public async Task<ApiResult<bool>> SaveGuestRoomPayment([FromBody] GuestHousePaymentDataModel request)
         {
