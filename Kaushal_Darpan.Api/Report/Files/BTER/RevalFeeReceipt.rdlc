@@ -459,7 +459,9 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
@@ -522,7 +524,9 @@
                 <Style />
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
@@ -700,7 +704,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Year</Value>
+                <Value>Semester</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
