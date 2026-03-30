@@ -69,9 +69,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@AdminSanctionedID", request.AdminSanctionedID);
                         command.Parameters.AddWithValue("@FinancialSanctionID", request.FinancialSanctionID);
                         command.Parameters.AddWithValue("@weDate", request.weDate);
-
-
-
                         // Add IP Address parameter
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 

@@ -1479,14 +1479,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetITIPlanningBankGuaranteeGetById";
-
                         command.Parameters.AddWithValue("@BankGuaranteeID", BankGuaranteeID);
-
-
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
-
                     return dataTable;
                 }
                 catch (Exception ex)
@@ -1542,6 +1538,43 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+
+
+        public async Task<bool> DeleteGuarantee(ITIPlanningBankGuarantee model)
+        {
+            _actionName = "DeleteGuarantee(int id, int ModifyBy)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandText = "USP_DeleteBankGuarantee";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@BankGuaranteeID", model.BankGuaranteeID);
+                    command.Parameters.AddWithValue("@UserID", model.UserID);
+                    command.Parameters.AddWithValue("@Remark", model.Remarks);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                }
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errorDetails, ex);
+            }
+        }
 
 
 
