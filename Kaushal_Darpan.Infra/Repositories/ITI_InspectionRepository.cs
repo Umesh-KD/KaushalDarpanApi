@@ -823,8 +823,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> SaveInspectionAnswersByInstitute(ITI_InspectionAnswerModel request)
         {
             _actionName = "SaveChecklistAnswers(ChecklistAnswerRequest request)";
-            return await Task.Run(async () =>
-            {
+         
                 var jsonData = JsonConvert.SerializeObject(request);
                 try
                 {
@@ -837,7 +836,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.Add("@JsonData", SqlDbType.NVarChar).Value = jsonData;
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
-                    }
+
+              
+                }
                     return result;
                 }
                 catch (Exception ex)
@@ -852,7 +853,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+         
         }
 
 

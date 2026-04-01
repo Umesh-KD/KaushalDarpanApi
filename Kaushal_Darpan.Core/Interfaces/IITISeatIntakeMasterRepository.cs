@@ -15,8 +15,12 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IITISeatIntakeMasterRepository
     {
         Task<int> SaveSeatIntakeData(BTERSeatIntakeDataModel productDetails);
+        Task<int> SaveSeatIntakeDataMaster(BTERSeatIntakeDataModel productDetails);
         Task<int> CollegeTradeMasterData(BTERSeatIntakeDataModel productDetails);
         Task<List<BTERSeatIntakeDataModel>> GetAllData(BTERSeatIntakeSearchModel request);
+
+        Task<List<BTERSeatIntakeDataModel>> GetAllDataMasterList(BTERSeatIntakeSearchModel request);
+
         Task<DataTable> GetAllDataPlanning(BTERSeatIntakeSearchModel request);
         Task<DataTable> GetTradeAndColleges(ITICollegeTradeSearchModel request);
         Task<DataTable> GetTradeCollegesMaster(ITICollegeTradeSearchModel request);
