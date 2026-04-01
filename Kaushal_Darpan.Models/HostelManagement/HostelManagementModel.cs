@@ -1,4 +1,6 @@
 ﻿
+using Kaushal_Darpan.Models.CenterObserver;
+
 namespace Kaushal_Darpan.Models.HostelManagementModel
 {
     public class HostelManagementDataModel
@@ -94,26 +96,26 @@ namespace Kaushal_Darpan.Models.HostelManagementModel
     }
     public class StudentApplyHostelData
     {
-        public int? ReqId { get; set; } 
-        public int? StudentID { get; set; } 
+        public int? ReqId { get; set; }
+        public int? StudentID { get; set; }
         public int? PartnerApplicationID { get; set; }
         public string? FatherContactNo { get; set; }
-        public string? LocalGuardianName { get; set; } 
+        public string? LocalGuardianName { get; set; }
         public string? LocalGuardianContactNo { get; set; }
         public int? AllotedHostelLastEndTerm { get; set; }
-        public int? AllotedHostelInLastSessionRoomNo { get; set; } 
-        public int? AllotedHostelInLastSessionFeeDetails { get; set; } 
+        public int? AllotedHostelInLastSessionRoomNo { get; set; }
+        public int? AllotedHostelInLastSessionFeeDetails { get; set; }
         public int? AnyWorningForShortOfAttendance { get; set; }
         public int? AnyWarningForInvovementAgainstDiscipline { get; set; }
         public string? RoomPartnerName { get; set; }
         public string? RoomPartnerYear { get; set; }
         public string? RoomPartnerBranch { get; set; }
         public string? RoomPartnerSFS { get; set; }
-        public string? RoomPartnerRegular { get; set; } 
-        public int? EndTermId { get; set; } 
-        public int? HostelID { get; set; } 
-        public int? DepartmentID { get; set; } 
-        public string? AffidavitDocument { get; set; } 
+        public string? RoomPartnerRegular { get; set; }
+        public int? EndTermId { get; set; }
+        public int? HostelID { get; set; }
+        public int? DepartmentID { get; set; }
+        public string? AffidavitDocument { get; set; }
         public string? dis_AffidavitDocument { get; set; }
         public string? SupportingDocument { get; set; }
         public string? dis_SupportingDocument { get; set; }
@@ -156,7 +158,7 @@ namespace Kaushal_Darpan.Models.HostelManagementModel
         public int? DepartmentID { get; set; }
         public int? InstituteID { get; set; }
         public int HostelID { get; set; }
-       // public int HFID { get; set; }
+        // public int HFID { get; set; }
         public int WaterCooler { get; set; }
         public int RoWater { get; set; }
         public int NearbyMarket { get; set; }
@@ -229,6 +231,33 @@ namespace Kaushal_Darpan.Models.HostelManagementModel
         public int ID { get; set; }
         public string Name { get; set; }
     }
+
+
+    public class HostelInstituteMappingModel
+    {
+        public int HIMappingID { get; set; }
+        public int EndTermID { get; set; }
+        public int DepartmentID { get; set; }
+        public int CourseTypeID { get; set; }
+        public string? InstituteID { get; set; }
+        public int HostelID { get; set; }
+        public string? IPAddress { get; set; }
+
+        public List<InstituteMappingListModel>? SelectedinstituteList { get; set; }
+    }
+    public class InstituteMappingListModel
+    {
+        public int EndTermID { get; set; }
+        public int DepartmentID { get; set; }
+        public int CourseTypeID { get; set; }
+        public int InstituteID { get; set; }
+        public string? Institutename { get; set; }
+        public int HostelID { get; set; }
+        public string HostelName { get; set; } = string.Empty;
+        public string Selected { get; set; } = string.Empty;
+        public bool isParent { get; set; } = false;
+    }
+
 
 }
 
