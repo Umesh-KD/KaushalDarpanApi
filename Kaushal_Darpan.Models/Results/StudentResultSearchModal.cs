@@ -18,5 +18,6 @@ namespace Kaushal_Darpan.Models.Results
 
         public string? IPAddress { get; set; }
         public string? ResultType { get; set; }
+        public int? SchemeID { get; set; }
     }
 }

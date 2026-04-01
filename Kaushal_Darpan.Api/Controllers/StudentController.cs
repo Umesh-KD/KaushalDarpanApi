@@ -34,7 +34,7 @@ namespace Kaushal_Darpan.Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     //[CustomeAuthorize]
-    //[ValidationActionFilter]
+    [ValidationActionFilter]
     public class StudentController : BaseController
     {
         public override string PageName => "StudentController";

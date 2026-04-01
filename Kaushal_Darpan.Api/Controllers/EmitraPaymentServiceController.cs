@@ -2865,16 +2865,6 @@ namespace Kaushal_Darpan.Api.Controllers
                 data.REQTIMESTAMP = DateTime.Now.ToString("yyyyMMddHHmmssfff");
                 data.AMOUNT = Convert.ToString(objEmitra.Amount);
 
-                if (Model.FeeFor == "EnrollmentFee")
-                {
-                    data.ExamFeeAmount = Convert.ToString(Model.Amount);
-                    data.EnrollFeeAmount = Convert.ToString(Model.EnrollFeeAmount);
-                    decimal totalAmount = (decimal)(Model.Amount) + (decimal)(Model.EnrollFeeAmount ?? 0);
-
-                    data.AMOUNT = totalAmount.ToString();
-
-                }
-
                 objEmitra.Amount = Convert.ToDecimal(data?.AMOUNT);
                 //
                 var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransation(objEmitra);
@@ -3138,7 +3128,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     data.UDF2 = Model.SsoID;
                     data.USEREMAIL = Model.USEREMAIL;
                     data.SSOTOKEN = Model.SSoToken;
-                    //data.SSOTOKEN = "0";
+                    // data.SSOTOKEN = "0";
                     data.SSOID = Model.SsoID;
 
                     // create checksum

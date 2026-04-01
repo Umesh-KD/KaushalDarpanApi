@@ -699,6 +699,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UnitNo", model.UnitID);
                         command.Parameters.AddWithValue("@StaffID", model.StaffID);
                         command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);
+                        command.Parameters.AddWithValue("@TodayDate", model.TodayDate);
+                        command.Parameters.AddWithValue("@SSOID", model.SSOID);
                         command.Parameters.AddWithValue("@AttendanceStartDate", model.AttendanceStartDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
                         command.Parameters.AddWithValue("@AttendanceEndDate", model.AttendanceEndDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -1717,6 +1719,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CurrentYear", model.CurrentYear);
                         command.Parameters.AddWithValue("@SSOID", model.SSOID);
                         command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

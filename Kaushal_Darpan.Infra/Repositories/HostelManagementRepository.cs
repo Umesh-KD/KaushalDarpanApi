@@ -1,6 +1,7 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.HostelManagementModel;
 using Kaushal_Darpan.Models.StudentApplyForHostel;
@@ -66,6 +67,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         }
 
+       
 
 
 
@@ -1120,6 +1122,218 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
         }
+
+        // work
+
+
+
+
+        public async Task<int> HostelInstituteMapping(HostelInstituteMappingModel request)
+        {
+
+
+            return await Task.Run(async () =>
+            {
+                _actionName = "HostelInstituteMapping(HostelInstituteMappingModel request)";
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_save_HostelInstituteMapping";
+                        command.Parameters.AddWithValue("@HIMappingID", request.HIMappingID);
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        command.Parameters.AddWithValue("@HostelID", request.HostelID);
+                        command.Parameters.AddWithValue("@CourseTypeID", request.CourseTypeID);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                        
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetAllddlHostelList(HostelManagementSearchModel body)
+        {
+
+            _actionName = "GetAllddlHostelList()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "usp_get_HostelList";
+                        
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+
+        }
+
+        public async Task<DataTable> GetAllHostelInstituteMappingList(HostelInstituteMappingModel body)
+        {
+
+            _actionName = "GetAllHostelInstituteMappingList()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Get_HostelInstituteMapping";
+                        
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+
+        }
+
+        public async Task<HostelInstituteMappingModel> GetHostelInstituteMappingByID(int PK_ID)
+        {
+            _actionName = "GetHostelInstituteMappingByID(int PK_ID)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetByID_HostelInstituteMapping";
+                        command.Parameters.AddWithValue("@HIMappingID", PK_ID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    var data = new HostelInstituteMappingModel();
+                    if (dataTable != null)
+                    {
+                        if (dataTable.Rows.Count > 0)
+                        {
+                            data = CommonFuncationHelper.ConvertDataTable<HostelInstituteMappingModel>(dataTable);
+                        }
+                    }
+                    return data;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        public async Task<int> HostelInstituteMappingSaveData(List<InstituteMappingListModel> request)
+        {
+            _actionName = "SaveAllData(AdminUserDetailModel entity)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandText = "USP_Save_HostelInstituteMapping_Data";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@action", "_saveData");
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        await command.ExecuteNonQueryAsync();
+
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
 
     }
 }

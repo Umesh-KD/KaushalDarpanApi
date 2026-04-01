@@ -13,10 +13,12 @@ namespace Kaushal_Darpan.Infra.Repositories
         private readonly string _pageName;
         private string _actionName;
         private string _sqlQuery;
+        private string _IPAddress;
         public ResultRepository(DBContext dbContext)
         {
             _dbContext = dbContext;
             _pageName = "ResultRepository";
+            _IPAddress = CommonFuncationHelper.GetIpAddress();
         }
 
         #region Result
@@ -61,7 +63,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@ModifyBy", model.UserID);
-                        command.Parameters.AddWithValue("@IPAddress", model.IPAddress);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@SchemeID_f", model.SchemeID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

@@ -157,6 +157,14 @@ namespace Kaushal_Darpan.Models.ITI_Inspection
         public string IPAddress { get; set; } = string.Empty;
         public int InspectionTeamID { get; set; }
         public int DeploymentID { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
+        public int PendingStatus { get; set; }
+        public int TeamID { get; set; }
+        public int AnsMaxLength { get; set; }
+        public int ParentQuestionID { get; set; }
+        public string AnsRemarks { get; set; }
+
 
     }
     public class ConsentModel
@@ -179,7 +187,15 @@ namespace Kaushal_Darpan.Models.ITI_Inspection
         public string? Remark { get; set; }  
         public int consentTypeID { get; set; }  
         public int? Status { get; set; }  
-        public int? Amount { get; set; }  
+        public int? Amount { get; set; }
+
+        public bool IsAnyCourtCase { get; set; }
+        public string CourtName { get; set; }
+        public string CourtDate { get; set; }
+        public string CaseNo { get; set; }
+        public string DisCourtDocFileName { get; set; }
+        public string CourtDocFileName { get; set; }
+
 
     }
     public class ITI_ConsentSearchModel
