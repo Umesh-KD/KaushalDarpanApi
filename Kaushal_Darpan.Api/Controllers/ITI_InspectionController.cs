@@ -1,5 +1,6 @@
 ﻿using AspNetCore.Reporting;
 using AutoMapper;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Kaushal_Darpan.Api.Code.Helper;
@@ -12,6 +13,7 @@ using Kaushal_Darpan.Models.ITI_Inspection;
 using Kaushal_Darpan.Models.ITIAllotment;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.IO.Compression;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -933,8 +935,9 @@ namespace Kaushal_Darpan.Api.Controllers
                     else if (result.Data == -2)
                     {
                         result.State = EnumStatus.Warning;
-                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
-                    }
+                        result.ErrorMessage = "Inspection Already Completed";
+                        //result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }                    
                     else
                     {
                         result.State = EnumStatus.Error;
@@ -1044,6 +1047,130 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 return result;
             });
+        }
+
+        //DownloadZipDocumentModel request
+        [HttpPost("Consolidate-Zip/{id}")]
+        public async Task<IActionResult> DownloadConsolidate(int id)
+        {
+            try
+            {
+
+                //string rootPath = ConfigurationHelper.StaticFileRootPath
+                //.Replace("/", "\\")
+                //.TrimEnd('\\');
+
+                string targetFolder = Path.Combine(ConfigurationHelper.StaticFileRootPath, "ITI/InspectionManagerITI");
+
+                //string targetFolder = Path.Combine(ConfigurationHelper.StaticFileRootPath, "Students", "BTER", request.FinancialYearID.ToString(), request.Eng_NonEng.ToString());
+                string rootStartPath = Path.Combine(ConfigurationHelper.StaticFileRootPath, "ITI/InspectionManagerITI");
+                //string zipFileName = "Students.zip";
+                //string targetFolder = Path.Combine(
+                //    ConfigurationHelper.StaticFileRootPath,
+                //    "InspectionManagerITI"
+                //);
+                string zipFileName = "Consolidated.zip";
+
+                Console.WriteLine("ROOT: " + ConfigurationHelper.StaticFileRootPath);
+                Console.WriteLine("TARGET: " + targetFolder);
+                Console.WriteLine("EXISTS: " + Directory.Exists(targetFolder));
+
+                //if (!Directory.Exists(targetFolder))
+                //{
+                //     return Content("Folder not found!");
+                //}
+
+                var data = await _unitOfWork.ITI_InspectionRepository.GenerateCOAnsweredReport(id);
+                if (data != null)
+                {
+
+                    //var fileList = await _repository.GetStudentFiles(request);
+                    //List<string> files = data.Tables[1].AsEnumerable().Select(x => Path.Combine($"{ConfigurationHelper.StaticFileRootPath}/InspectionManagerITI", x["Answer"].ToString())).ToList();
+                    List<string> files = data.Tables[1].AsEnumerable()
+                     .Select(x => Path.Combine(
+                         ConfigurationHelper.StaticFileRootPath,
+                         "ITI/InspectionManagerITI",
+                         x["Answer"].ToString()
+                     ))
+                     .ToList();
+
+                    //if (files.length == 0)
+                    //{
+                    //    return Content("File not found!");
+                    //}
+
+                    var imageFiles = files
+                        .Where(f => f.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
+                                 || f.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
+                                 || f.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+
+                    foreach (var f in imageFiles)
+                    {
+                        Console.WriteLine(f);
+                        Console.WriteLine(System.IO.File.Exists(f)); // ✅ debug
+                    }
+
+                    //using (MemoryStream zipStream = new MemoryStream())
+                    //{
+                    //    using (ZipArchive zip = new ZipArchive(zipStream, ZipArchiveMode.Create, true))
+                    //    {
+                    //        foreach (var filePath in imageFiles)
+                    //        {
+                    //            if (System.IO.File.Exists(filePath)) // ✅ safe check
+                    //            {
+                    //                string fileName = Path.GetFileName(filePath);
+                    //                zip.CreateEntryFromFile(filePath, fileName);
+                    //            }
+                    //        }
+                    //    }
+
+                    //    zipStream.Position = 0;
+                    //    return File(zipStream.ToArray(), "application/zip", zipFileName);
+                    //}
+
+                    using (MemoryStream zipStream = new MemoryStream())
+                    {
+                        using (ZipArchive zip = new ZipArchive(zipStream, ZipArchiveMode.Create, true))
+                        {
+                            foreach (var filePath in imageFiles)
+                            {
+                                if (System.IO.File.Exists(filePath))
+                                {
+                                    string fileName = Path.GetFileName(filePath);
+                                    zip.CreateEntryFromFile(filePath, fileName);
+                                }
+                            }
+                        }
+
+                        zipStream.Position = 0;
+
+                        HttpContext.Response.Clear();
+                        HttpContext.Response.ContentType = "application/zip";
+                        HttpContext.Response.Headers.Add("Content-Disposition", $"attachment; filename=\"{zipFileName}\"");
+
+                        await zipStream.CopyToAsync(HttpContext.Response.Body);
+
+                        return new EmptyResult(); // Response is already written
+                    }
+                }
+
+                return Content("No Data Found !");
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+
+                return Content("Error while downloading ZIP");
+            }
         }
 
         [HttpPost("UpdateAttendance")]
