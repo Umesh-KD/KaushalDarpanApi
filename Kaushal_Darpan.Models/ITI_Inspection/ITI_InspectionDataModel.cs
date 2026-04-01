@@ -157,6 +157,14 @@ namespace Kaushal_Darpan.Models.ITI_Inspection
         public string IPAddress { get; set; } = string.Empty;
         public int InspectionTeamID { get; set; }
         public int DeploymentID { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
+        public int PendingStatus { get; set; }
+        public int TeamID { get; set; }
+        public int AnsMaxLength { get; set; }
+        public int ParentQuestionID { get; set; }
+        public string AnsRemarks { get; set; }
+
 
     }
     public class ConsentModel

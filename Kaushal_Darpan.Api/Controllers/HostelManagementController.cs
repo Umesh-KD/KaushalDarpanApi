@@ -3,6 +3,7 @@ using Azure;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.HostelManagementModel;
 
@@ -1148,6 +1149,209 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        // work
+
+        [HttpPost("HostelInstituteMapping")]
+        public async Task<ApiResult<int>> HostelInstituteMapping([FromBody] HostelInstituteMappingModel request)
+        {
+            ActionName = "HostelInstituteMapping([FromBody] HostelInstituteMappingModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.HostelManagementRepository.HostelInstituteMapping(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                    }
+                   
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("GetAllddlHostelList")]
+        public async Task<ApiResult<DataTable>> GetAllddlHostelList([FromBody] HostelManagementSearchModel body)
+        {
+            ActionName = "GetAllHostelList()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.HostelManagementRepository.GetAllddlHostelList(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("GetAllHostelInstituteMappingList")]
+        public async Task<ApiResult<DataTable>> GetAllHostelInstituteMappingList([FromBody] HostelInstituteMappingModel body)
+        {
+            ActionName = "GetAllHostelList()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.HostelManagementRepository.GetAllHostelInstituteMappingList(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+        [HttpGet("GetHostelInstituteMappingByID/{PK_ID:int}")]
+        public async Task<ApiResult<HostelInstituteMappingModel>> GetHostelInstituteMappingByID(int PK_ID)
+        {
+            ActionName = "GetHostelInstituteMappingByID(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<HostelInstituteMappingModel>();
+                try
+                {
+                    var data = await _unitOfWork.HostelManagementRepository.GetHostelInstituteMappingByID(PK_ID);
+                    if (data != null)
+                    {
+                        var mappedData = _mapper.Map<HostelInstituteMappingModel>(data);
+                        result.Data = mappedData;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        
+        [HttpPost("HostelInstituteMappingSaveData")]
+        public async Task<ApiResult<int>> HostelInstituteMappingSaveData([FromBody] List<InstituteMappingListModel> request)
+        {
+            ActionName = " HostelInstituteMappingSaveData([FromBody] HostelInstituteMappingModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    //request.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    result.Data = await _unitOfWork.HostelManagementRepository.HostelInstituteMappingSaveData(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                       
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
 
     }
 }
