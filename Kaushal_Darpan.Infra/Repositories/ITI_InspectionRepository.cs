@@ -758,8 +758,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserID", model.UserID);
                         command.Parameters.AddWithValue("@Action", "GetITIInspectionInstituteList");
                         command.Parameters.AddWithValue("@AnswerStatus", model.AnswerStatus);
-
-
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -829,16 +827,22 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
+                    int retval = 0;
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandText = "trn_SaveInspection_Answers";
                         command.CommandType = CommandType.StoredProcedure;
                         //command.Parameters.AddWithValue("@JsonData", jsonData);
                         command.Parameters.Add("@JsonData", SqlDbType.NVarChar).Value = jsonData;
+                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
+
+                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+
                     }
-                    return result;
+                    return retval;
                 }
                 catch (Exception ex)
                 {

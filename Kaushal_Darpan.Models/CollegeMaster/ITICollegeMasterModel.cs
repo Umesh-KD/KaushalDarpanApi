@@ -123,17 +123,18 @@ public class ITIPlanningBankGuaranteeModel
 public class ITIPlanningBankGuarantee
 {
     public int BankGuaranteeID { get; set; }
-    public int CollageId { get; set; }
+    public int ?CollageId { get; set; }
     public string? BankGuaranteeNumber { get; set; }
     public string? BankName { get; set; }
-    public DateTime DateOfIssue { get; set; }
-    public DateTime Maturitydate { get; set; }
+    public DateTime? DateOfIssue { get; set; }
+    public DateTime? Maturitydate { get; set; }
     public string? Duration { get; set; }
     public decimal Amount { get; set; }
     public string? BankAgreementDocument { get; set; }
-    public int Status { get; set; }
+    public int? Status { get; set; }
     public string? Remarks { get; set; }
     public int? FinYearId { get; set; }
+    public int? UserID { get; set; }
 
 }
 public class ITIPlanningBankGuaranteeSearch
