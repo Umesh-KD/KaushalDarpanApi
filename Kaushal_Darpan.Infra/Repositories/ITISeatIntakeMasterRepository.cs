@@ -228,8 +228,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetAllDataMasterList(BTERSeatIntakeSearchModel request)
         {
             _actionName = "GetAllData(SeatIntakeSearchModel request)";
-            return await Task.Run(async () =>
-            {
+        
                 try
                 {
                     DataTable dataTable = new DataTable();
@@ -271,7 +270,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+        
         }
 
 
