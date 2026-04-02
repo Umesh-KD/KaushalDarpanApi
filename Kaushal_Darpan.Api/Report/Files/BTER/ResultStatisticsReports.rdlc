@@ -3610,7 +3610,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!FailMaleR.Value, "ResultStatisticsReportsTotal")</Value>
+                                  <Value>=First(Fields!PassOutMaleR.Value, "ResultStatisticsReportsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -3927,14 +3927,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="PercentageTotal11">
+                        <Textbox Name="PercentageTotal4">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!RegulationMaleEx.Value, "ResultStatisticsReportsTotal")</Value>
+                                  <Value>=First(Fields!RegulationMaleR.Value, "ResultStatisticsReportsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -3945,7 +3945,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>PercentageTotal11</rd:DefaultName>
+                          <rd:DefaultName>PercentageTotal4</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
