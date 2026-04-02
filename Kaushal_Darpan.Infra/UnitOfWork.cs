@@ -2217,6 +2217,15 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        private IBTER_EM_StaffServiceDetailsRepository _BTER_EM_StaffServiceDetailsRepository;
+        public IBTER_EM_StaffServiceDetailsRepository BTER_EM_StaffServiceDetailsRepository
+        {
+            get
+            {
+                return _BTER_EM_StaffServiceDetailsRepository ??= new BTER_EM_StaffServiceDetailsRepository(_dbContext);
+            }
+        }
+
         #endregion
     }
 }
