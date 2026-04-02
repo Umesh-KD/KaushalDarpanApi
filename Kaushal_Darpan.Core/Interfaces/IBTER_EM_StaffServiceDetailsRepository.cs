@@ -12,5 +12,6 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<int> Save_StaffTrainingDetails(StaffTrainingDetailDataModel body);
         Task<DataTable> StaffTrainingDetails_GetData(StaffTrainingDetailSearchData body);
+        Task<bool> StaffTrainingDetails_DeleteById(StaffTrainingDetailSearchData request);
     }
 }
