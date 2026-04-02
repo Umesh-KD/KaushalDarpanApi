@@ -134,19 +134,18 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("GetAllDataMasterList")]
-        public async Task<ApiResult<List<BTERSeatIntakeDataModel>>> GetAllDataMasterList(BTERSeatIntakeSearchModel request)
+        public async Task<ApiResult<DataTable>> GetAllDataMasterList(BTERSeatIntakeSearchModel request)
         {
             ActionName = "GetAllData(SeatIntakeSearchModel request)";
-            return await Task.Run(async () =>
-            {
-                var result = new ApiResult<List<BTERSeatIntakeDataModel>>();
+        
+                var result = new ApiResult<DataTable>();
                 try
                 {
                     var data = await _unitOfWork.ITISeatIntakeMasterRepository.GetAllDataMasterList(request);
                     if (data != null)
                     {
-                        var mappedData = _mapper.Map<List<BTERSeatIntakeDataModel>>(data);
-                        result.Data = mappedData;
+                       
+                        result.Data = data;
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                     }
@@ -171,9 +170,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
                 }
                 return result;
-            });
         }
-
 
 
         [HttpPost("GetAllDataPlanning")]

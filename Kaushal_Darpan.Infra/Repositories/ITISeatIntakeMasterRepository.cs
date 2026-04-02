@@ -225,7 +225,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<List<BTERSeatIntakeDataModel>> GetAllDataMasterList(BTERSeatIntakeSearchModel request)
+        public async Task<DataTable> GetAllDataMasterList(BTERSeatIntakeSearchModel request)
         {
             _actionName = "GetAllData(SeatIntakeSearchModel request)";
             return await Task.Run(async () =>
@@ -256,12 +256,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
-                    var data = new List<BTERSeatIntakeDataModel>();
-                    if (dataTable != null)
-                    {
-                        data = CommonFuncationHelper.ConvertDataTable<List<BTERSeatIntakeDataModel>>(dataTable);
-                    }
-                    return data;
+                
+                    return dataTable;
                 }
                 catch (Exception ex)
                 {

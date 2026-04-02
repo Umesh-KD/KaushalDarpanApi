@@ -53,10 +53,15 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
         public string? MinPercentageInScience { get; set; }
         public string? DurationYear { get; set; }
         public string? weDate { get; set; }
+        public string? key { get; set; }
+        public string? TradeCode { get; set; }
+        public string? CollegeCode { get; set; }
         public int NoOfSanctionedSeats { get; set; }
 
         public int? FinancialSanctionID { get; set; }
         public int? AdminSanctionedID { get; set; }
+
+
     }
 
 
