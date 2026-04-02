@@ -55,7 +55,7 @@ namespace Kaushal_Darpan.Models.Student
         public int? StudentExamID { get; set; }
         public string? Subjects { get; set; }
         public int TransactionID { get; set; }
-        public string PRN { get; set; } = string.Empty;
+        public string? PRN { get; set; } = string.Empty;
         public bool IsShowAdmitCard { get; set; }
         public bool DownloadExaminationForm { get; set; }
 

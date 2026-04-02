@@ -1,0 +1,112 @@
+﻿using Kaushal_Darpan.Core.Helper;
+using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models.BTER_EstablishManagement;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Kaushal_Darpan.Infra.Repositories
+{
+    public class BTER_EM_StaffServiceDetailsRepository: IBTER_EM_StaffServiceDetailsRepository
+    {
+        private readonly DBContext _dbContext;
+        private readonly string _pageName;
+        private string _actionName;
+        private string _sqlQuery;
+        private string _IPAddress;
+        public BTER_EM_StaffServiceDetailsRepository(DBContext dbContext)
+        {
+            _dbContext = dbContext;
+            _pageName = "BTER_EM_StaffServiceDetailsRepository";
+            _IPAddress = CommonFuncationHelper.GetIpAddress();
+        }
+
+        public async Task<int> Save_StaffTrainingDetails(StaffTrainingDetailDataModel body)
+        {
+            _actionName = "Save_StaffTrainingDetails(StaffTrainingDetailDataModel body)";
+            try
+            {
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_BTER_EM_StaffTrainingDetails_IU";
+
+                    command.Parameters.AddWithValue("@StaffTrainingDetailID", body.StaffTrainingDetailID);
+                    command.Parameters.AddWithValue("@OrganizinglnstituteName", body.OrganizinglnstituteName);
+                    command.Parameters.AddWithValue("@CourseType", body.CourseType);
+                    command.Parameters.AddWithValue("@CourseName", body.CourseName);
+                    command.Parameters.AddWithValue("@DurationUnit", body.DurationUnit);
+                    command.Parameters.AddWithValue("@Duration", body.Duration);
+                    command.Parameters.AddWithValue("@StartDate", body.StartDate);
+                    command.Parameters.AddWithValue("@EndDate", body.EndDate);
+                    command.Parameters.AddWithValue("@ModeOfTraining", body.ModeOfTraining);
+                    command.Parameters.AddWithValue("@Venue", body.Venue);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@StaffID", body.StaffID);
+
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> StaffTrainingDetails_GetData(StaffTrainingDetailSearchData body)
+        {
+            _actionName = "GetBudgetHeadMasterData_EM(EM_BudgetHeadMasterDataModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_BTER_EM_StaffTrainingDetails_GetData";
+
+                    command.Parameters.AddWithValue("@Action", body.Action);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                    command.Parameters.AddWithValue("@StaffTrainingDetailID", body.StaffTrainingDetailID);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+    }
+}
