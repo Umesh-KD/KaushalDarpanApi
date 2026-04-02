@@ -2156,5 +2156,53 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<int> Save_StaffTrainingDetails(StaffTrainingDetailDataModel body)
+        {
+            _actionName = "Save_StaffTrainingDetails(StaffTrainingDetailDataModel body)";
+            try
+            {
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_BTER_EM_StaffTrainingDetails_IU";
+
+                    command.Parameters.AddWithValue("@OrganizinglnstituteName", body.OrganizinglnstituteName);
+                    command.Parameters.AddWithValue("@CourseType", body.CourseType);
+                    command.Parameters.AddWithValue("@CourseName", body.CourseName);
+                    command.Parameters.AddWithValue("@DurationUnit", body.DurationUnit);
+                    command.Parameters.AddWithValue("@Duration", body.Duration);
+                    command.Parameters.AddWithValue("@StartDate", body.StartDate);
+                    command.Parameters.AddWithValue("@EndDate", body.EndDate);
+                    command.Parameters.AddWithValue("@ModeOfTraining", body.ModeOfTraining);
+                    command.Parameters.AddWithValue("@Venue", body.Venue);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@StaffID", body.StaffID);
+
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }

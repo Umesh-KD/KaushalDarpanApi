@@ -824,4 +824,19 @@
         public int? ModifyBy { get; set; }
         public int? StatusIDs { get; set; }
     }
+
+    public class StaffTrainingDetailDataModel
+    {
+        public string? OrganizinglnstituteName { get; set; }
+        public int? CourseType { get; set; }
+        public string? CourseName { get; set; }
+        public int? DurationUnit { get; set; }
+        public int? Duration { get; set; }
+        public string? StartDate { get; set; }
+        public string? EndDate { get; set; }
+        public int? ModeOfTraining { get; set; }
+        public string? Venue { get; set; }
+        public string? UserID { get; set; }
+        public string? StaffID { get; set; }
+    }
 }
