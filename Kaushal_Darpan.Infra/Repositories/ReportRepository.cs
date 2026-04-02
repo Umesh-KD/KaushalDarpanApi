@@ -7487,7 +7487,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         public async Task<DataSet> DownloadResultStatisticsReport(StatisticsBridgeCourseModel model)
         {
-            _actionName = "GetStudentRollNoList(DownloadnRollNoModel model)";
+            _actionName = "DownloadResultStatisticsReport(StatisticsBridgeCourseModel model)";
             try
             {
                 var ds = new DataSet();
@@ -7502,6 +7502,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ResultType", model.ResultType);
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                     command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();

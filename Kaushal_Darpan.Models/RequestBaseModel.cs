@@ -17,6 +17,7 @@
         public int? CollageID { get; set; } = 0;
         public int? SessionTypeID { get; set; } = 0;
         public int SelectedInsituteID { get; set; } = 0;
+        public int? SchemeID { get; set; } = 0;
 
     }
 }

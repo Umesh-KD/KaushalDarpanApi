@@ -30,6 +30,7 @@ namespace Kaushal_Darpan.Models.Attendance
         public int? Seatintake { get; set; }
 
         public string? ActionName {  get; set; }
+        public string? TodayDate {  get; set; }
     }
 
     public class PostAttendanceTimeTableModal
@@ -54,6 +55,8 @@ namespace Kaushal_Darpan.Models.Attendance
         public int StaffID { get; set; }
 
         public int? IsFinalSubmit { get; set; }
+        public string? Latitude { get; set; }
+        public string? Longitude { get; set; }
     }
 
     public class Attendances
@@ -86,7 +89,8 @@ namespace Kaushal_Darpan.Models.Attendance
         public int InstituteID { get; set; }
         public int RoleID { get; set; }
         public int StaffID { get; set; }
-        public string SectionIDs { get; set; }
+        public string? SectionIDs { get; set; }
+        public string? SubjectIDs { get; set; }
 
     }
 

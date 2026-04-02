@@ -19,6 +19,7 @@ namespace Kaushal_Darpan.Api.Controllers
     [Route("api/[controller]")]
     //[CustomeAuthorize]
     //[CustomeAuthorize(EnumRole.Admin,EnumRole.Guest)]
+    //[CustomeAuthorize(EnumRole.Admin,EnumRole.Guest)]
     [ValidationActionFilter]
     public class ITINodalOfficerExminerReportController : BaseController
     {

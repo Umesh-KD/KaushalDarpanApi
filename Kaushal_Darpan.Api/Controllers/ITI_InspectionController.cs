@@ -920,8 +920,7 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<int>> SaveInspectionAnswersByInstitute([FromBody] ITI_InspectionAnswerModel request)
         {
             ActionName = " SaveAllData([FromBody] AdminUserDetailModel request)";
-            return await Task.Run(async () =>
-            {
+         
                 var result = new ApiResult<int>();
                 try
                 {
@@ -959,7 +958,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     await CreateErrorLog(nex, _unitOfWork);
                 }
                 return result;
-            });
+         
         }
 
     

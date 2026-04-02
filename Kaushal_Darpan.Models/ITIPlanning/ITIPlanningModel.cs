@@ -151,6 +151,8 @@ namespace Kaushal_Darpan.Models.ITIPlanning
             public string? FileName { get; set; }
             public string? Dis_Filename { get; set; }
 
+    public int OrderID { get; set; } 
+
 
         }
 
