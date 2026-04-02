@@ -84,7 +84,7 @@ namespace Kaushal_Darpan.Models.Student
         public string Action { get; set; }
         public int SemesterID { get; set; }
         public int StreamID { get; set; }
-        public string PrnNo { get; set; }
+        public string? PrnNo { get; set; }
         public string ApplicationNo { get; set; }
         public string EnrollmentNo { get; set; }
         public string DOB { get; set; }
