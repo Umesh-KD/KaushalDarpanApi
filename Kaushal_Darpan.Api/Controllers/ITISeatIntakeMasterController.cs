@@ -137,7 +137,8 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<DataTable>> GetAllDataMasterList(BTERSeatIntakeSearchModel request)
         {
             ActionName = "GetAllData(SeatIntakeSearchModel request)";
-        
+            return await Task.Run(async () =>
+            {
                 var result = new ApiResult<DataTable>();
                 try
                 {
@@ -170,6 +171,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = ex.Message;
                 }
                 return result;
+            });
         }
 
 
