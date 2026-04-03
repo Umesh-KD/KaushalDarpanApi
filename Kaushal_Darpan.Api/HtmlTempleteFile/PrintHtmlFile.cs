@@ -214,7 +214,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("            </tr>");
 
                 //column
-                // table -2
+                // table -2 (heading)
                 sb.AppendLine("            <tr>");
                 foreach (DataColumn dc in tabular_ds.Tables[0].Columns)
                 {
@@ -259,7 +259,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 // table -3
                 sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;\">");
 
-                //column
+                //column table-3
                 // Main Header Row
                 sb.AppendLine("            <tr>");
                 foreach (DataColumn dc in tabular_ds.Tables[1].Columns)
