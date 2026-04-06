@@ -298,5 +298,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         IBhandarFormMasterRepository BhandarFormMasterRepository { get; }
         IMassCopyReportRepository MassCopyReportRepository { get; }
         IFileUploadMasterRepository FileUploadMasterRepository { get; }
+        IBTER_EM_StaffServiceDetailsRepository BTER_EM_StaffServiceDetailsRepository { get; }
+        IQualificationMasterRepository QualificationMasterRepository { get; }
     }
 }

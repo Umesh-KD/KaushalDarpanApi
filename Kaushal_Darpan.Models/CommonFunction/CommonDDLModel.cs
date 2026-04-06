@@ -204,6 +204,16 @@ namespace Kaushal_Darpan.Models.CommonFunction
 
     }
 
+    public class CommonMasterModel
+    {
+
+        public int DepartmentID { get; set; }
+        public string? MasterCode { get; set; }
+        public string? FilterBy { get; set; }
+        public string? CollegeID { get; set; }
+
+    }
+
 
 
 

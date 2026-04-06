@@ -55,7 +55,7 @@ namespace Kaushal_Darpan.Models.Student
         public int? StudentExamID { get; set; }
         public string? Subjects { get; set; }
         public int TransactionID { get; set; }
-        public string PRN { get; set; } = string.Empty;
+        public string? PRN { get; set; } = string.Empty;
         public bool IsShowAdmitCard { get; set; }
         public bool DownloadExaminationForm { get; set; }
 
@@ -76,28 +76,28 @@ namespace Kaushal_Darpan.Models.Student
 
     public class StudentSearchModel : RequestBaseModel
     {
-        public int StudentID { get; set; }
-        public int RoleId { get; set; }
-        public int Status { get; set; }
-        public string SsoID { get; set; }
+        public int? StudentID { get; set; }
+        public int? RoleId { get; set; }
+        public int? Status { get; set; }
+        public string? SsoID { get; set; }
 
-        public string Action { get; set; }
-        public int SemesterID { get; set; }
-        public int StreamID { get; set; }
-        public string PrnNo { get; set; }
-        public string ApplicationNo { get; set; }
-        public string EnrollmentNo { get; set; }
-        public string DOB { get; set; }
-        public string MobileNumber { get; set; }
-        public string CreateDate { get; set; }
-        public int EndTermID { get; set; }
-        public int DepartmentID { get; set; }
-        public int Eng_NonEng { get; set; }
-        public int DocumentMasterID { get; set; }
-        public int ChallanNo { get; set; }
-        public int FinancialYearID { get; set; }
-        public int InstituteID { get; set; }
-        public int TrasactionStatus { get; set; }
+        public string? Action { get; set; }
+        public int? SemesterID { get; set; }
+        public int? StreamID { get; set; }
+        public string? PrnNo { get; set; }
+        public string? ApplicationNo { get; set; }
+        public string? EnrollmentNo { get; set; }
+        public string? DOB { get; set; }
+        public string? MobileNumber { get; set; }
+        public string? CreateDate { get; set; }
+        public int? EndTermID { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? Eng_NonEng { get; set; }
+        public int? DocumentMasterID { get; set; }
+        public int? ChallanNo { get; set; }
+        public int? FinancialYearID { get; set; }
+        public int? InstituteID { get; set; }
+        public int? TrasactionStatus { get; set; }
         public int? StudentExamID { get; set; }
 
         public string? Receipt_Number { get; set; }

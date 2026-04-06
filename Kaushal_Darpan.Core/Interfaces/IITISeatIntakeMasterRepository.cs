@@ -15,8 +15,14 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IITISeatIntakeMasterRepository
     {
         Task<int> SaveSeatIntakeData(BTERSeatIntakeDataModel productDetails);
+        Task<int> SaveSeatIntakeDataMaster(BTERSeatIntakeDataModel productDetails);
         Task<int> CollegeTradeMasterData(BTERSeatIntakeDataModel productDetails);
         Task<List<BTERSeatIntakeDataModel>> GetAllData(BTERSeatIntakeSearchModel request);
+        Task<DataTable> GetAllDataMasterList(BTERSeatIntakeSearchModel request);
+        Task<DataTable> GetAllDataAdmissionList(BTERSeatIntakeSearchModel request);
+
+
+
         Task<DataTable> GetAllDataPlanning(BTERSeatIntakeSearchModel request);
         Task<DataTable> GetTradeAndColleges(ITICollegeTradeSearchModel request);
         Task<DataTable> GetTradeCollegesMaster(ITICollegeTradeSearchModel request);
@@ -48,6 +54,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetOrderDetailsList();
 
         Task<DataTable> GetPlanningDashboardData(ITIAdminDashboardSearchModel model);
+
+
+        Task<int> ChangeStatusSeatIntake(SeatIntakeChangeStatusModel request);
 
     }
 }

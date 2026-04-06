@@ -957,8 +957,7 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<int>> SaveInspectionAnswersByInstitute([FromBody] ITI_InspectionAnswerModel request)
         {
             ActionName = " SaveAllData([FromBody] AdminUserDetailModel request)";
-            return await Task.Run(async () =>
-            {
+         
                 var result = new ApiResult<int>();
                 try
                 {
@@ -996,7 +995,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     await CreateErrorLog(nex, _unitOfWork);
                 }
                 return result;
-            });
+         
         }
 
     
@@ -1108,10 +1107,6 @@ namespace Kaushal_Darpan.Api.Controllers
                 //);
                 string zipFileName = "Consolidated.zip";
 
-                Console.WriteLine("ROOT: " + ConfigurationHelper.StaticFileRootPath);
-                Console.WriteLine("TARGET: " + targetFolder);
-                Console.WriteLine("EXISTS: " + Directory.Exists(targetFolder));
-
                 //if (!Directory.Exists(targetFolder))
                 //{
                 //     return Content("Folder not found!");
@@ -1141,12 +1136,6 @@ namespace Kaushal_Darpan.Api.Controllers
                                  || f.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
                                  || f.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase))
                         .ToList();
-
-                    foreach (var f in imageFiles)
-                    {
-                        Console.WriteLine(f);
-                        Console.WriteLine(System.IO.File.Exists(f)); // ✅ debug
-                    }
 
                     //using (MemoryStream zipStream = new MemoryStream())
                     //{

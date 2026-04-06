@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
-    public class ITI_InspectionRepository: I_ITI_InspectionRepository
+    public class ITI_InspectionRepository : I_ITI_InspectionRepository
     {
         private readonly DBContext _dbContext;
         private readonly string _pageName;
@@ -228,7 +228,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
-                                                  
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
                         result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
@@ -556,7 +556,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DeploymentDateFrom", request.DeploymentDateFrom);
                         command.Parameters.AddWithValue("@DeploymentDateTo", request.DeploymentDateTo);
 
-                        
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();// out
@@ -653,7 +653,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_Inspection";
                         command.Parameters.AddWithValue("@InspectionTeamID", id);
                         command.Parameters.AddWithValue("@Action", "UpdateDeployment");
-                
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         result = await command.ExecuteNonQueryAsync();
@@ -689,12 +689,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_Inspection";
                         command.Parameters.AddWithValue("@Action", "GetInspectionDeployment");
                         command.Parameters.AddWithValue("@InspectionTeamId", id);
-         
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataset = await command.FillAsync();
                     }
-                   
+
                     return dataset;
                 });
             }
@@ -911,36 +911,35 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataSet> GenerateCOAnsweredReport(int id)
         {
             _actionName = "GenerateCOAnsweredReport(GenerateDutyOrder model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var ds = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITI_InspectionReport";
-                        command.Parameters.AddWithValue("@action", "_GetCheckList_AnswerCO");
-                        command.Parameters.AddWithValue("@DeploymentID", id);
-                        //command.Parameters.AddWithValue("@TypeID", 4);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        ds = await command.FillAsync();
-                    }
-                    return ds;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_InspectionReport";
+
+                    command.Parameters.AddWithValue("@action", "_GetCheckList_AnswerCO");
+                    command.Parameters.AddWithValue("@DeploymentID", id);
+                    //command.Parameters.AddWithValue("@TypeID", 4);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
                 }
-                catch (Exception ex)
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
@@ -1033,7 +1032,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-       
+
 
         public async Task<int> IsRequestInspection(PostIsRequestCenterObserver model)
         {
@@ -1302,7 +1301,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_Inspection";
-                        command.Parameters.AddWithValue("@Action", "GetDistrictMaster");  
+                        command.Parameters.AddWithValue("@Action", "GetDistrictMaster");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

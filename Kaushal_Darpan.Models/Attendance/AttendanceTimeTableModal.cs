@@ -55,6 +55,8 @@ namespace Kaushal_Darpan.Models.Attendance
         public int StaffID { get; set; }
 
         public int? IsFinalSubmit { get; set; }
+        public string? Latitude { get; set; }
+        public string? Longitude { get; set; }
     }
 
     public class Attendances
@@ -119,6 +121,7 @@ namespace Kaushal_Darpan.Models.Attendance
          public string? AssignFromSSOID { get; set; }
          public string? AttendanceEndDate { get; set; }
          public string? AttendanceStartDate { get; set; }
+        public string? SubjectIDs { get; set; }
 
     }
 
