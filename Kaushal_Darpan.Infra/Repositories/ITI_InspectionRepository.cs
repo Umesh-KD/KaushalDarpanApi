@@ -9,6 +9,7 @@ using Kaushal_Darpan.Models.ITIAdminDashboard;
 using Kaushal_Darpan.Models.ITIAllotment;
 using Kaushal_Darpan.Models.ITICenterObserver;
 using Kaushal_Darpan.Models.ITIFlyingSquad;
+using Kaushal_Darpan.Models.PlacementDashboard;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using System;
@@ -48,6 +49,48 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_Inspection";
                         command.Parameters.AddWithValue("@Action", "GetAllData");
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@DeploymentStatus", body.DeploymentStatus);
+                        command.Parameters.AddWithValue("@DeploymentDate", body.DeploymentDate);
+                        command.Parameters.AddWithValue("@InspectionTeamName", body.InspectionTeamName);
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
+                        command.Parameters.AddWithValue("@LevelId", body.LevelId);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetAllData_members(ITI_InspectionSearchModel body)
+        {
+            _actionName = "GetAllData_members()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_Inspection";
+                        command.Parameters.AddWithValue("@Action", "GetAllData_Members");
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
@@ -286,6 +329,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                             if (dataSet.Tables[2].Rows.Count > 0)
                             {
                                 data.InspectionDeploymentDetails = CommonFuncationHelper.ConvertDataTable<List<InspectionDeploymentDataModel>>(dataSet.Tables[2]);
+                            }
+                            if (dataSet.Tables[3].Rows.Count > 0)
+                            {
+                                data.InspectionInstituteDetails = dataSet.Tables[3];
                             }
                         }
                     }
@@ -1402,6 +1449,48 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+
+
+        #region ITI Inspection Dashboard
+        public async Task<DataTable> GetITIInspectionAllData(ITIInspectionDashboardModel model)
+        {
+            _actionName = "GetITIInspectionAllData(ITIInspectionDashboardModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_InspectionDashboard";
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@CollegeID", model.CollegeID);
+                        command.Parameters.AddWithValue("@UserId", model.UserId);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        #endregion
 
     }
 }

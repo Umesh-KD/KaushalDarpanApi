@@ -3,6 +3,7 @@ using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.ITI_Inspection;
 using Kaushal_Darpan.Models.ITIAllotment;
 using Kaushal_Darpan.Models.ITICenterObserver;
+using Kaushal_Darpan.Models.PlacementDashboard;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,6 +16,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface I_ITI_InspectionRepository
     {
         Task<DataTable> GetAllData(ITI_InspectionSearchModel body);
+        Task<DataTable> GetAllData_members(ITI_InspectionSearchModel body);
         Task<DataTable> GetAllInspectedData(ITI_InspectionSearchModel body);
         Task<DataTable> GetAllData_GenerateOrder(ITI_InspectionSearchModel body);
         Task<DataTable> GetITIInspectionDropdown(ITI_InspectionDropdownModel body);
@@ -52,5 +54,12 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> updateConsent(ConsentModel request);
 
         Task<DataTable> GetAllConsentbyPrincipal(ConsentModel body);
+
+        //-------------------ITI Imspection Dashboard-----------------------------
+
+        #region  ITI Inspection Dashboard
+        Task<DataTable> GetITIInspectionAllData(ITIInspectionDashboardModel model);
+
+        #endregion
     }
 }
