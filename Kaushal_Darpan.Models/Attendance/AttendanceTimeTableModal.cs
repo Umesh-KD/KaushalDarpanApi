@@ -121,6 +121,7 @@ namespace Kaushal_Darpan.Models.Attendance
          public string? AssignFromSSOID { get; set; }
          public string? AttendanceEndDate { get; set; }
          public string? AttendanceStartDate { get; set; }
+        public string? SubjectIDs { get; set; }
 
     }
 
