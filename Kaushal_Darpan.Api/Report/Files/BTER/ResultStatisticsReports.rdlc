@@ -3333,14 +3333,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox362">
+                        <Textbox Name="Detain3">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=First(Fields!PercentageTotal.Value, "ResultStatisticsReportsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -3351,7 +3351,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox362</rd:DefaultName>
+                          <rd:DefaultName>Detain3</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -3657,14 +3657,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox368">
+                        <Textbox Name="Detain4">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=First(Fields!PercentagePassOut.Value, "ResultStatisticsReportsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -3675,7 +3675,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox368</rd:DefaultName>
+                          <rd:DefaultName>Detain4</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -3988,7 +3988,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!RegulationMaleR.Value, "ResultStatisticsReportsTotal")</Value>
+                                  <Value>=First(Fields!PercentageRegulation.Value, "ResultStatisticsReportsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -4305,14 +4305,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox380">
+                        <Textbox Name="Detain5">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=First(Fields!PercentageFail.Value, "ResultStatisticsReportsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -4323,7 +4323,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox380</rd:DefaultName>
+                          <rd:DefaultName>Detain5</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -4413,14 +4413,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox382">
+                        <Textbox Name="Detain6">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=First(Fields!PercentageUFM.Value, "ResultStatisticsReportsTotal")</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -4431,7 +4431,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox382</rd:DefaultName>
+                          <rd:DefaultName>Detain6</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
