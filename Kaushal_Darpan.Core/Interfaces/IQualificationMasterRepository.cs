@@ -11,5 +11,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IQualificationMasterRepository
     {
         Task<DataTable> QualificationMaster_GetData(QualificationMasterSearchModel body);
+        Task<int> Save_QualificationMasterData(QualificationMasterDataModel body);
+        Task<bool> Qualification_DeleteById(QualificationMasterSearchModel request);
     }
 }
