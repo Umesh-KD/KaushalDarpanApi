@@ -1707,6 +1707,45 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+        [HttpPost("ApproveSR5Items")]
+        public async Task<ApiResult<int>> ApproveSR5Items([FromBody] List<ApproveIssuedItemsDataModel> request)
+        {
+            ActionName = "ApproveSR5Items([FromBody] ApproveIssuedItemsDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.iDTEItemsMasterRepository.ApproveSR5Items(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }
 
