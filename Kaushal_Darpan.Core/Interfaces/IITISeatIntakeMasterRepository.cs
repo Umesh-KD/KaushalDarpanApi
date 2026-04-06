@@ -19,6 +19,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> CollegeTradeMasterData(BTERSeatIntakeDataModel productDetails);
         Task<List<BTERSeatIntakeDataModel>> GetAllData(BTERSeatIntakeSearchModel request);
         Task<DataTable> GetAllDataMasterList(BTERSeatIntakeSearchModel request);
+        Task<DataTable> GetAllDataAdmissionList(BTERSeatIntakeSearchModel request);
+
+
 
         Task<DataTable> GetAllDataPlanning(BTERSeatIntakeSearchModel request);
         Task<DataTable> GetTradeAndColleges(ITICollegeTradeSearchModel request);
@@ -51,6 +54,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetOrderDetailsList();
 
         Task<DataTable> GetPlanningDashboardData(ITIAdminDashboardSearchModel model);
+
+
+        Task<int> ChangeStatusSeatIntake(SeatIntakeChangeStatusModel request);
 
     }
 }
