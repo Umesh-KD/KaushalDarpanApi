@@ -211,7 +211,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Item Name</Value>
+                              <Value>Particulars of stores</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -271,7 +271,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Item Code/Equipment Code (as mentioned in Return Item)</Value>
+                              <Value>Reference of stock register</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>

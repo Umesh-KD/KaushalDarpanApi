@@ -1062,17 +1062,12 @@ namespace Kaushal_Darpan.Api.Controllers
                 string targetFolder = Path.Combine(ConfigurationHelper.StaticFileRootPath, "ITI/InspectionManagerITI");
 
                 //string targetFolder = Path.Combine(ConfigurationHelper.StaticFileRootPath, "Students", "BTER", request.FinancialYearID.ToString(), request.Eng_NonEng.ToString());
-                string rootStartPath = Path.Combine(ConfigurationHelper.StaticFileRootPath, "ITI/InspectionManagerITI");
                 //string zipFileName = "Students.zip";
                 //string targetFolder = Path.Combine(
                 //    ConfigurationHelper.StaticFileRootPath,
                 //    "InspectionManagerITI"
                 //);
                 string zipFileName = "Consolidated.zip";
-
-                Console.WriteLine("ROOT: " + ConfigurationHelper.StaticFileRootPath);
-                Console.WriteLine("TARGET: " + targetFolder);
-                Console.WriteLine("EXISTS: " + Directory.Exists(targetFolder));
 
                 //if (!Directory.Exists(targetFolder))
                 //{
@@ -1103,12 +1098,6 @@ namespace Kaushal_Darpan.Api.Controllers
                                  || f.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
                                  || f.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase))
                         .ToList();
-
-                    foreach (var f in imageFiles)
-                    {
-                        Console.WriteLine(f);
-                        Console.WriteLine(System.IO.File.Exists(f)); // ✅ debug
-                    }
 
                     //using (MemoryStream zipStream = new MemoryStream())
                     //{

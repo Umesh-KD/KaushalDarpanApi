@@ -872,7 +872,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpPost("LandingPage")]
+        [HttpPost("LandingPage")]// emirta fee payment landing url 
         public async Task<IActionResult> LandingPage()
         {
             ActionName = "LandingPage()";
