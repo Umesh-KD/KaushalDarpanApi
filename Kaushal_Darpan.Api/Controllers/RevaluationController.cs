@@ -107,7 +107,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetAllRevalationReportList")]
         public async Task<ApiResult<DataTable>> GetAllRevalationReportList([FromBody] RevalationReportsearchModel body)
         {
-            ActionName = "GetAllRevalationReportList()";
+            ActionName = "GetAllRevalationReportList([FromBody] RevalationReportsearchModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
