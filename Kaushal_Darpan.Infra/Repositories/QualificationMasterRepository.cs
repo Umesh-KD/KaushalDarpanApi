@@ -11,23 +11,57 @@ using System.Threading.Tasks;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
-    public class BTER_EM_StaffServiceDetailsRepository: IBTER_EM_StaffServiceDetailsRepository
+    public class QualificationMasterRepository : IQualificationMasterRepository
     {
         private readonly DBContext _dbContext;
         private readonly string _pageName;
         private string _actionName;
         private string _sqlQuery;
         private string _IPAddress;
-        public BTER_EM_StaffServiceDetailsRepository(DBContext dbContext)
+        public QualificationMasterRepository(DBContext dbContext)
         {
             _dbContext = dbContext;
-            _pageName = "BTER_EM_StaffServiceDetailsRepository";
+            _pageName = "QualificationMasterRepository";
             _IPAddress = CommonFuncationHelper.GetIpAddress();
         }
 
-        public async Task<int> Save_StaffTrainingDetails(StaffTrainingDetailDataModel body)
+        public async Task<DataTable> QualificationMaster_GetData(QualificationMasterSearchModel body)
         {
-            _actionName = "Save_StaffTrainingDetails(StaffTrainingDetailDataModel body)";
+            _actionName = "GetBudgetHeadMasterData_EM(EM_BudgetHeadMasterDataModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_QualificationMaster_GetData";
+
+                    command.Parameters.AddWithValue("@Action", body.Action);
+                    command.Parameters.AddWithValue("@QualificationID", body.QualificationID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> Save_QualificationMasterData(QualificationMasterDataModel body)
+        {
+            _actionName = "Save_QualificationMasterData(StaffTrainingDetailDataModel body)";
             try
             {
                 int result = 0;
@@ -35,22 +69,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_BTER_EM_StaffTrainingDetails_IU";
+                    command.CommandText = "USP_QualificationMaster_IU";
 
-                    command.Parameters.AddWithValue("@StaffTrainingDetailID", body.StaffTrainingDetailID);
-                    command.Parameters.AddWithValue("@OrganizinglnstituteName", body.OrganizinglnstituteName);
-                    command.Parameters.AddWithValue("@CourseType", body.CourseType);
-                    command.Parameters.AddWithValue("@CourseName", body.CourseName);
-                    command.Parameters.AddWithValue("@DurationUnit", body.DurationUnit);
-                    command.Parameters.AddWithValue("@Duration", body.Duration);
-                    command.Parameters.AddWithValue("@StartDate", body.StartDate);
-                    command.Parameters.AddWithValue("@EndDate", body.EndDate);
-                    command.Parameters.AddWithValue("@ModeOfTraining", body.ModeOfTraining);
-                    command.Parameters.AddWithValue("@Venue", body.Venue);
+                    command.Parameters.AddWithValue("@Action", body.Action);
+                    command.Parameters.AddWithValue("@QualificationID", body.QualificationID);
+                    command.Parameters.AddWithValue("@QualificationLevel", body.QualificationLevel);
+                    command.Parameters.AddWithValue("@QualificationName", body.QualificationName);
+                    command.Parameters.AddWithValue("@Remark", body.Remarks);
                     command.Parameters.AddWithValue("@UserID", body.UserID);
-                    command.Parameters.AddWithValue("@StaffID", body.StaffID);
-                    command.Parameters.AddWithValue("@TrainingDoc", body.TrainingDoc);
-                    command.Parameters.AddWithValue("@Dis_TrainingDoc", body.Dis_TrainingDoc);
+                    command.Parameters.AddWithValue("@DeparmentID", body.DepartmentID);
 
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                     command.Parameters.Add("@Return", SqlDbType.Int);
@@ -76,42 +103,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<DataTable> StaffTrainingDetails_GetData(StaffTrainingDetailSearchData body)
-        {
-            _actionName = "GetBudgetHeadMasterData_EM(EM_BudgetHeadMasterDataModel body)";
-            try
-            {
-                DataTable dataTable = new DataTable();
-                using (var command = await _dbContext.CreateCommandAsync())
-                {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_BTER_EM_StaffTrainingDetails_GetData";
-
-                    command.Parameters.AddWithValue("@Action", body.Action);
-                    command.Parameters.AddWithValue("@UserID", body.UserID);
-                    command.Parameters.AddWithValue("@StaffID", body.StaffID);
-                    command.Parameters.AddWithValue("@StaffTrainingDetailID", body.StaffTrainingDetailID);
-                    _sqlQuery = command.GetSqlExecutableQuery();
-                    dataTable = await command.FillAsync_DataTable();
-                }
-
-                return dataTable;
-            }
-            catch (Exception ex)
-            {
-                var errorDesc = new ErrorDescription
-                {
-                    Message = ex.Message,
-                    PageName = _pageName,
-                    ActionName = _actionName,
-                    SqlExecutableQuery = _sqlQuery
-                };
-                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                throw new Exception(errordetails, ex);
-            }
-        }
-
-        public async Task<bool> StaffTrainingDetails_DeleteById(StaffTrainingDetailSearchData request)
+        public async Task<bool> Qualification_DeleteById(QualificationMasterSearchModel request)
         {
             _actionName = "BTER_EM_UnlockProfile(BTER_EM_UnlockProfileDataModel request)";
             try
@@ -120,12 +112,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync(true))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_BTER_EM_StaffTrainingDetails_GetData";
+                    command.CommandText = "USP_QualificationMaster_GetData";
 
                     command.Parameters.AddWithValue("@Action", request.Action);
                     command.Parameters.AddWithValue("@UserID", request.UserID);
-                    command.Parameters.AddWithValue("@StaffID", request.StaffID);
-                    command.Parameters.AddWithValue("@StaffTrainingDetailID", request.StaffTrainingDetailID);
+                    command.Parameters.AddWithValue("@QualificationID", request.QualificationID);
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
                     _sqlQuery = command.GetSqlExecutableQuery();

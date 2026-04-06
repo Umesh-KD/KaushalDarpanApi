@@ -2225,6 +2225,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return _BTER_EM_StaffServiceDetailsRepository ??= new BTER_EM_StaffServiceDetailsRepository(_dbContext);
             }
         }
+        
+        private IQualificationMasterRepository _QualificationMasterRepository;
+        public IQualificationMasterRepository QualificationMasterRepository
+        {
+            get
+            {
+                return _QualificationMasterRepository ??= new QualificationMasterRepository(_dbContext);
+            }
+        }
 
         #endregion
     }

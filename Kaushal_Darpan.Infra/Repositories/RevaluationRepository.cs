@@ -115,30 +115,28 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "getAllNodalUserdata()";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_Reval_ReportDetails";
-                        command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
-                        command.Parameters.AddWithValue("@ResultDate", body.ResultDate);
-                        command.Parameters.AddWithValue("@RollNo", body.RollNumber);
-                        command.Parameters.AddWithValue("@SubjectCode", body.SubjectCode);
-                        command.Parameters.AddWithValue("@RevaluationTxnNo", body.RevaluationTxnNo);
-                        command.Parameters.AddWithValue("@RevaluationChallan", body.RevaluationChallan);
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Reval_ReportDetails";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    command.Parameters.AddWithValue("@EnrollmentNo", body.EnrollmentNo);
+                    command.Parameters.AddWithValue("@ResultDate", body.ResultDate);
+                    command.Parameters.AddWithValue("@RollNo", body.RollNumber);
+                    command.Parameters.AddWithValue("@SubjectCode", body.SubjectCode);
+                    command.Parameters.AddWithValue("@RevaluationTxnNo", body.RevaluationTxnNo);
+                    command.Parameters.AddWithValue("@RevaluationChallan", body.RevaluationChallan);
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
@@ -153,9 +151,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-
-
-
 
     }
 }
