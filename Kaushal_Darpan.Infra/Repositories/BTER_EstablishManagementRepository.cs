@@ -1725,8 +1725,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         
                         command.CommandText = "USP_Delete_OfficeVacancy";
-                        command.Parameters.AddWithValue("@ID", body.ID);
                         command.Parameters.AddWithValue("@Action", "Delete");
+
+                        command.Parameters.AddWithValue("@ID", body.ID);
+                        command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
                         command.Parameters.Add("@Return", SqlDbType.Int);
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -1859,6 +1863,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_OfficeVacancyActiveDeActive";
                         command.Parameters.AddWithValue("@ID", body.ID);
                         command.Parameters.AddWithValue("@IsActive", body.ActiveStatus);
+                        command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
                         command.Parameters.Add("@Return", SqlDbType.Int);
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;
                         _sqlQuery = command.GetSqlExecutableQuery();

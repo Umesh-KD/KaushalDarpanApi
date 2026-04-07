@@ -231,6 +231,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CourseType", body.CourseType);
                     command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
                     //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+                    command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     ds = await command.FillAsync();
@@ -9557,12 +9558,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                     //command.CommandText = "USP_Dummy_Test";
                     //command.Parameters.AddWithValue("@action", "TheorymarksReportPdf");
 
+                    command.Parameters.AddWithValue("@Action", "Passed-StudentResultsheet");
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                     command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                     command.Parameters.AddWithValue("@ResultType", model.ResultType);
-                    command.Parameters.AddWithValue("@Action", "Passed-StudentResultsheet");
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();

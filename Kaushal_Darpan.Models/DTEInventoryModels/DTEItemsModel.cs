@@ -255,5 +255,23 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
     {
         public int? IssuedId { get; set; }
     }
+    public class DTEItemsSearchModel4Lab
+    {
+        public int DepartmentID { get; set; }
+        public int EndTermID { get; set; }
+        public int Eng_NonEng { get; set; }
+        public int OfficeID { get; set; }
+        public int EquipmentsId { get; set; }
+        public int CollegeId { get; set; }
+        public int RoleID { get; set; }
+        public int StatusID { get; set; }
+        public int ItemId { get; set; }
+        public int ActionType { get; set; }
+        public int ItemType { get; set; }
+        public int IsConsumable { get; set; }
+        public int? TradeId { get; set; }
+        public int? ItemFor { get; set; }
+        public int? UserId { get; set; }
+    }
 }
 

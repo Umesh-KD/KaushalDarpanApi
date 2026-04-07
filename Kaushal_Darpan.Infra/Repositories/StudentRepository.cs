@@ -805,6 +805,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffID", model.StaffID);
                         command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);
                         command.Parameters.AddWithValue("@Seatintake", model.Seatintake);
+                        command.Parameters.AddWithValue("@Percent", model.Percent);
                     command.Parameters.AddWithValue("@AttendanceStartDate",
                   model.AttendanceStartDate ?? (object)DBNull.Value);
 
