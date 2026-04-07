@@ -1255,6 +1255,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
                         command.Parameters.AddWithValue("@AcademicYearID", request.AcademicYearID);
 
+                        command.Parameters.AddWithValue("@TradeId", request.TradeId);
+                        command.Parameters.AddWithValue("@TradeSchemeId", request.TradeSchemeId);
+
                         // Add IP Address parameter
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 

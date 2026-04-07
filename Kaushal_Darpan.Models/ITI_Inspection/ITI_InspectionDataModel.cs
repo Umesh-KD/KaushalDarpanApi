@@ -17,6 +17,7 @@ namespace Kaushal_Darpan.Models.ITI_Inspection
         public string? IPAddress { get; set; }
         public List<InspectionMemberDetailsDataModel>? InspectionMemberDetails { get; set; }
         public List<InspectionDeploymentDataModel>? InspectionDeploymentDetails { get; set; }
+        public object? InspectionInstituteDetails { get; set; }
         public int? TeamTypeID { get; set; }
         public string? TeamTypeName { get; set; }
         public string? DeploymentDateFrom { get; set; }
@@ -215,7 +216,15 @@ namespace Kaushal_Darpan.Models.ITI_Inspection
     }
 
 
-    
+    public class ITIInspectionDashboardModel
+    {
+        public int DepartmentID { get; set; }
+        public int CollegeID { get; set; }
+        public int EndTermID { get; set; }
+        public int UserId { get; set; }
+        public int RoleID { get; set; }
+    }
+
 
 
 }

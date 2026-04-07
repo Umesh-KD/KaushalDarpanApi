@@ -11,6 +11,7 @@ using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.ITI_Inspection;
 using Kaushal_Darpan.Models.ITIAllotment;
+using Kaushal_Darpan.Models.PlacementDashboard;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.IO.Compression;
@@ -67,6 +68,42 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        [HttpPost("GetAllData_members")]
+        public async Task<ApiResult<DataTable>> GetAllData_members([FromBody] ITI_InspectionSearchModel body)
+        {
+            ActionName = "GetAllData_members()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITI_InspectionRepository.GetAllData_members(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
 
         [HttpPost("GetAllInspectedData")]
         public async Task<ApiResult<DataTable>> GetAllInspectedData([FromBody] ITI_InspectionSearchModel body)
@@ -1059,9 +1096,10 @@ namespace Kaushal_Darpan.Api.Controllers
                 //.Replace("/", "\\")
                 //.TrimEnd('\\');
 
-                string targetFolder = Path.Combine(ConfigurationHelper.StaticFileRootPath, "ITI/InspectionManagerITI");
+                string targetFolder = Path.Combine(ConfigurationHelper.StaticFileRootPath, "InspectionManagerITI");
 
                 //string targetFolder = Path.Combine(ConfigurationHelper.StaticFileRootPath, "Students", "BTER", request.FinancialYearID.ToString(), request.Eng_NonEng.ToString());
+                string rootStartPath = Path.Combine(ConfigurationHelper.StaticFileRootPath, "InspectionManagerITI");
                 //string zipFileName = "Students.zip";
                 //string targetFolder = Path.Combine(
                 //    ConfigurationHelper.StaticFileRootPath,
@@ -1083,7 +1121,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     List<string> files = data.Tables[1].AsEnumerable()
                      .Select(x => Path.Combine(
                          ConfigurationHelper.StaticFileRootPath,
-                         "ITI/InspectionManagerITI",
+                         "InspectionManagerITI",
                          x["Answer"].ToString()
                      ))
                      .ToList();
@@ -1612,7 +1650,48 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        #region ITI Inspection Dashboard
 
+        [HttpPost("GetITIInspectionAllData")]
+        public async Task<ApiResult<DataTable>> GetITIInspectionAllData([FromBody] ITIInspectionDashboardModel model)
+
+        {
+            ActionName = "GetITIAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.ITI_InspectionRepository.GetITIInspectionAllData(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+        #endregion
 
     }
 }

@@ -102,18 +102,16 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
     public class SeatIntakeChangeStatusModel
     {
         public int SeatIntakeID { get; set; } = 0;
-
         public int CollegeID { get; set; } = 0;
-
         public int ModifyBy { get; set; } = 0;
-
         public string IPAddress { get; set; } = string.Empty;
-
         public bool ActiveStatus { get; set; } = false;
-
         public int AcademicYearID { get; set; } = 0;
-
+        public int TradeSchemeId { get; set; } = 0;
+        public int TradeId { get; set; } = 0;
         public string Action { get; set; } = string.Empty;
+
+
     }
 
 }

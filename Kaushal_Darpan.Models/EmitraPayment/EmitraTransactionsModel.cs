@@ -48,6 +48,8 @@
 
 
         public int? RevalRequestID { get; set; }
+        public int? InstituteID { get; set; }
+        public int? InspectionConsentID { get; set; }
     }
 
     public class EmitraCollegeTransactionsModel : RequestBaseModel

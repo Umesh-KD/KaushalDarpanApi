@@ -1,5 +1,6 @@
 ﻿using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CollegeMaster;
+using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.HostelManagementModel;
 using System.Data;
 
@@ -33,26 +34,24 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> StudentApplyHostel(StudentApplyHostelData hostelManagement);
         Task<int> EditStudentApplyHostel(StudentApplyHostelData hostelManagement);
         Task<int> HostelWardenupdateData(StudentApplyHostelData hostelManagement);
-
-
         Task<int> SaveFacilities(HostelFacilitiesDataModel hostelManagement);
         Task<DataTable> HostelFacilityList(HostelFacilitiesSearchModel filterModel);
         Task<DataTable> GetByHFID(int PK_ID);
         Task<bool> DeleteDataByHFID(StatusChangeModel request);
-
         Task<DataSet> CollegeHostelDetailsList(CollegeHostelDetailsSearchModel filterModel);
-
         Task<bool> IsFacilitiesStatusByID(StatusChangeModel request);
-
         Task<DataSet> GetLastFYEndTerm(HostelStudentSearchModel request);
         Task<DataTable> GetAllotedHostelDetails(HostelStudentSearchModel filterModel);
         Task<DataTable> GetStudentDetailsForHostel_Principle(HostelStudentSearchModel body);
         Task<int> HostelInstituteMapping(HostelInstituteMappingModel hostelManagement);
         Task<DataTable> GetAllddlHostelList(HostelManagementSearchModel filterModel);
         Task<DataTable> GetAllHostelInstituteMappingList(HostelInstituteMappingModel filterModel);
-
         Task<HostelInstituteMappingModel> GetHostelInstituteMappingByID(int PK_ID);
-
         Task<int> HostelInstituteMappingSaveData(List<InstituteMappingListModel> productDetails);
+        Task<bool> SaveHostelFee(HostelFeeModel request);
+        Task<DataTable> getHostelFeeList();
+        Task<DataTable> getHostelFeeByID(int id);
+
+
     }
 }

@@ -258,6 +258,19 @@ namespace Kaushal_Darpan.Models.HostelManagementModel
         public bool isParent { get; set; } = false;
     }
 
+    public class HostelFeeModel
+    {
+        public int HostelFeeId { get; set; }
+        public int InstituteID { get; set; }
+        public int HostelId { get; set; }
+        public int Cautionfee { get; set; }
+        public int HostelFee { get; set; }
+        public int CourseTypeID { get; set; }
+        public int DepartmentID { get; set; }
+        public int EndTermID { get; set; } 
+    }
+
+
 
 }
 

@@ -59,5 +59,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetIssueItemsForApprove(inventoryIssueHistorySearchModel SearchReq);
         Task<int> ApproveIssuedItems(List<ApproveIssuedItemsDataModel> request);
         Task<int> ApproveSR5Items(List<ApproveIssuedItemsDataModel> request);
+        Task<DataTable> GetAllData4LabIncharge(DTEItemsSearchModel4Lab SearchReq);
     }
 }
