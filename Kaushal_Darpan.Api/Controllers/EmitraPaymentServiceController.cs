@@ -3233,6 +3233,274 @@ namespace Kaushal_Darpan.Api.Controllers
         }
         #endregion
 
+        #region Inspection Fee Payment via Principle
+        [HttpPost("InspectionFeePayment_Principle")]
+        public async Task<ApiResult<EmitraRequestDetailsModel>> InspectionFeePayment_Principle(EmitraRequestDetailsModel Model)
+        {
+            ActionName = "InspectionFeePayment_Principle(EmitraRequestDetailsModel Model)";
+            var requestDetailsModel = new ApiResult<EmitraRequestDetailsModel>();
+            try
+            {
+
+                var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(Model);
+                if (EmitraServiceDetail == null)
+                {
+                    requestDetailsModel.Data = Model;
+                    requestDetailsModel.State = EnumStatus.Error;
+                    requestDetailsModel.ErrorMessage = "Service Id Not Mapped";
+                    return requestDetailsModel;
+                }
+
+                EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
+                objEmitra.key = "_InsertDetails";
+                objEmitra.ApplicationIdEnc = Model.ApplicationIdEnc;
+                objEmitra.Amount = Model.Amount; //exam fees
+                objEmitra.EnrollFeeAmount = (Model.EnrollFeeAmount ?? 0);//enroll fees
+                objEmitra.StudentID = Model.StudentID;
+                objEmitra.SemesterID = Model.SemesterID;
+                objEmitra.ExamStudentStatus = Model.ExamStudentStatus;
+                objEmitra.StudentFeesTransactionItems = Model.StudentFeesTransactionItems;
+                objEmitra.SSOID = Model.SsoID;
+                objEmitra.IsEmitra = Model.IsKiosk;
+                objEmitra.DepartmentID = Model.DepartmentID;
+                objEmitra.UniqueServiceID = Model.ID;
+                objEmitra.FeeFor = Model.FeeFor;
+                objEmitra.InstituteID = Model.InstituteID;
+                objEmitra.SSOID = Model.SsoID;
+                objEmitra.InspectionConsentID = Model.InspectionConsentID;
+                if (Model.TransactionApplicationIDs != null)
+                {
+                    if (Model.TransactionApplicationIDs.Length > 0)
+                    {
+                        objEmitra.TransactionApplicationID = string.Join(',', Model.TransactionApplicationIDs);
+                    }
+                }
+
+                //
+                PGRequestModel data = new PGRequestModel();
+                data.MERCHANTCODE = EmitraServiceDetail.MERCHANTCODE;
+                Random rnd = new Random();
+                data.PRN = "KD" + rnd.Next(100000, 999999) + rnd.Next(100000, 999999);
+                data.REQTIMESTAMP = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                data.AMOUNT = Convert.ToString(objEmitra.Amount);
+
+                objEmitra.Amount = Convert.ToDecimal(data?.AMOUNT);
+                //
+                var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationITI_Inspection(objEmitra);
+                await _unitOfWork.SaveChangesAsync();
+
+                if (result.TransactionId > 0)
+                {
+                    data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", data.AMOUNT.ToString());
+                    data.CHECKSUM = CommonFuncationHelper.CreateMD5(data.PRN + "|" + data.AMOUNT.ToString() + "|" + EmitraServiceDetail.CHECKSUMKEY);
+
+                    data.SUCCESSURL = EmitraServiceDetail.REDIRECTURL + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(result.TransactionId)) + "&ApplicationIdEnc=" + CommonFuncationHelper.EmitraEncrypt(Model.ApplicationIdEnc) + "&ServiceID=" + Model.ServiceID.ToString() + "&IsFailed=" + CommonFuncationHelper.EmitraEncrypt("NO") + "&UniqueServiceID=" + Model.ID.ToString();
+                    data.FAILUREURL = EmitraServiceDetail.REDIRECTURL + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(result.TransactionId)) + "&ApplicationIdEnc=" + CommonFuncationHelper.EmitraEncrypt(Model.ApplicationIdEnc) + "&ServiceID=" + Model.ServiceID.ToString() + "&IsFailed=" + CommonFuncationHelper.EmitraEncrypt("YES") + "&UniqueServiceID=" + Model.ID.ToString();
+
+                    data.USERNAME = Model.UserName.Trim();
+                    data.USERMOBILE = Model.MobileNo;
+                    data.COMMTYPE = EmitraServiceDetail.COMMTYPE;
+                    data.OFFICECODE = EmitraServiceDetail.OFFICECODE;
+
+
+                    data.SERVICEID = EmitraServiceDetail.SERVICEID;
+                    data.UDF1 = Convert.ToString(result.TransactionId);
+                    data.UDF2 = Convert.ToString(Model.DirectAdmission);
+                    data.USEREMAIL = Model.USEREMAIL.Trim();
+                    data.CONSUMERKEY = data.PRN + "-" + Model.ApplicationIdEnc;
+                    data.CHANNEL = "ONLINE";
+                    data.LOOKUPID = "";
+                    data.SSOTOKEN = Model.SSoToken;
+
+                    // Create checksum input string
+                    string checksumRaw = data.MERCHANTCODE + data.SERVICEID + data.PRN + "ONLINE" +
+                    data.REQTIMESTAMP + data.AMOUNT + data.SUCCESSURL +
+                    data.FAILUREURL + data.USERNAME + data.USERMOBILE +
+                    data.USEREMAIL + data.CONSUMERKEY + data.OFFICECODE +
+                    data.REVENUEHEAD + data.UDF1 + data.UDF2 + data.LOOKUPID +
+                    data.COMMTYPE + EmitraServiceDetail.CHECKSUMKEY + data.SSOTOKEN;
+                    // Generate base64 SHA256 checksum
+                    data.CHECKSUM = EmitraHelper.GenerateSha256HashNew(checksumRaw);
+                    // Prepare encryption string with correct URLs
+                    string dataStart = "PRN=" + data.PRN +
+                                       "::CHANNEL=ONLINE" +
+                                       "::REQTIMESTAMP=" + data.REQTIMESTAMP +
+                                       "::AMOUNT=" + data.AMOUNT +
+                                       "::SUCCESSURL=" + data.SUCCESSURL +
+                                       "::FAILUREURL=" + data.FAILUREURL +
+                                       "::USERNAME=" + data.USERNAME +
+                                       "::USERMOBILE=" + data.USERMOBILE +
+                                       "::USEREMAIL=" + data.USEREMAIL +
+                                       "::CONSUMERKEY=" + data.CONSUMERKEY +
+                                       "::OFFICECODE=" + data.OFFICECODE +
+                                       "::REVENUEHEAD=" + data.REVENUEHEAD +
+                                       "::UDF1=" + data.UDF1 +
+                                       "::UDF2=" + data.UDF2 +
+                                       "::LOOKUPID=" + data.LOOKUPID +
+                                       "::COMMTYPE=" + data.COMMTYPE +
+                                       "::CHECKSUM=" + data.CHECKSUM +
+                                       "::SSOTOKEN=" + data.SSOTOKEN +
+                                       "::SERVICEID=" + data.SERVICEID
+
+                                       ;
+
+                    string ENC = EmitraHelper.AESEncrypt(dataStart, EmitraServiceDetail.EncryptionKey);
+                    if (data != null)
+                    {
+                        try
+                        {
+                            objEmitra.key = "_UpdateDetails";
+                            objEmitra.RequestString = JsonConvert.SerializeObject(data);
+                            objEmitra.TransactionId = result.TransactionId;
+                            objEmitra.ServiceID = EmitraServiceDetail.SERVICEID;
+                            objEmitra.PRN = data.PRN;
+                            var UpdateStatus = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationITI_Inspection(objEmitra);
+                            await _unitOfWork.SaveChangesAsync();
+                        }
+                        catch (System.Exception ex)
+                        {
+                            throw ex;
+                        }
+                    }
+                    Model.ENCDATA = ENC;
+                    Model.MERCHANTCODE = EmitraServiceDetail.MERCHANTCODE;
+                    Model.PaymentRequestURL = EmitraServiceDetail.ServiceURL;
+                    Model.ServiceID = EmitraServiceDetail.SERVICEID;
+                    Model.IsSucccess = true;
+                    requestDetailsModel.Data = Model;
+                    requestDetailsModel.State = EnumStatus.Success;
+                    requestDetailsModel.Message = "successfully .!";
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                requestDetailsModel.State = EnumStatus.Error;
+                requestDetailsModel.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return requestDetailsModel;
+        }
+
+        [HttpPost("InspectionFeePayment_PrincipleResponse")] //IActionResult
+        public async Task<IActionResult> InspectionFeePayment_PrincipleResponse(string UniquerequestId = "", string ApplicationIdEnc = "", string ServiceID = "", string IsFailed = "", string UniqueServiceID = "")
+        {
+            var RetrunUrL = "";
+            try
+            {
+                Int64 applicationNo = 0;
+                UniquerequestId = UniquerequestId.Replace(' ', '+');
+                UniquerequestId = UniquerequestId.Replace(' ', '+');
+                UniquerequestId = UniquerequestId.Replace(' ', '+');
+
+                ApplicationIdEnc = ApplicationIdEnc.Replace(' ', '+');
+                ApplicationIdEnc = ApplicationIdEnc.Replace(' ', '+');
+                ApplicationIdEnc = ApplicationIdEnc.Replace(' ', '+');
+
+                IsFailed = IsFailed.Replace(' ', '+');
+                IsFailed = IsFailed.Replace(' ', '+');
+                IsFailed = IsFailed.Replace(' ', '+');
+
+                ServiceID = ServiceID.Replace(' ', '+');
+                ServiceID = ServiceID.Replace(' ', '+');
+                ServiceID = ServiceID.Replace(' ', '+');
+
+                UniqueServiceID = UniqueServiceID.Replace(' ', '+');
+                UniqueServiceID = UniqueServiceID.Replace(' ', '+');
+                UniqueServiceID = UniqueServiceID.Replace(' ', '+');
+
+                EmitraRequestDetailsModel Model = new EmitraRequestDetailsModel();
+                Model.ServiceID = ServiceID;
+                Model.ID = string.IsNullOrEmpty(UniqueServiceID) == true ? 0 : Convert.ToInt32(UniqueServiceID);
+                var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(Model);
+
+                string PRN = Convert.ToString(Request.Form["PRN"]);
+                string STATUS = Convert.ToString(Request.Form["STATUS"]);
+                var data = Convert.ToString(Request.Form["ENCDATA"]);
+
+                string DNC2 = EmitraHelper.AESDecrypt(data, EmitraServiceDetail.EncryptionKey);
+
+                var dict = DNC2.Split(new[] { "::" }, StringSplitOptions.None)
+                .Select(part => part.Split(new[] { '=' }, 2))
+                .ToDictionary(pair => pair[0], pair => pair.Length > 1 ? pair[1] : "");
+                string json = JsonConvert.SerializeObject(dict);
+                EmitraResponseParametersModel EmitraResponseData = new EmitraResponseParametersModel();
+                EmitraResponseData = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(json);
+
+                EmitraResponseData.STATUS = STATUS;
+                var vIsFailed = CommonFuncationHelper.EmitraDecrypt(IsFailed);
+                if (EmitraResponseData != null)
+                {
+                    EmitraResponseData.ApplicationIdEnc = CommonFuncationHelper.EmitraDecrypt(ApplicationIdEnc);
+                    EmitraResponseData.TRANSACTIONID = CommonFuncationHelper.EmitraDecrypt(UniquerequestId);
+                    await _unitOfWork.CommonFunctionRepository.UpdateEmitraPaymentStatus_Inspection(EmitraResponseData);
+                    await _unitOfWork.SaveChangesAsync();
+                }
+                //
+                RetrunUrL = string.Format("{0}?TransID={1}", EmitraServiceDetail.SuccessFailedURL, EmitraResponseData.PRN);
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            //return response;
+            return new RedirectResult(RetrunUrL);
+        }
+
+        [HttpGet("GetEmitraTransactionDetails_Inspection/{TransID}")]
+        public async Task<ApiResult<DataTable>> GetEmitraTransactionDetails_Inspection(string TransID)
+        {
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetEmitraTransactionDetails_Inspection(TransID));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found.!";
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        #endregion
 
         #region Private
 

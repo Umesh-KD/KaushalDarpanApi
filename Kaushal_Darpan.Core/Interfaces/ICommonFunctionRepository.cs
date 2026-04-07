@@ -115,6 +115,14 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<EmitraTransactionsModel> CreateEmitraTransation(EmitraTransactionsModel Model);
         Task<EmitraTransactionsModel> CreateEmitraTransationITI(EmitraTransactionsModel Model);
         Task<EmitraTransactionsModel> CreateEmitraApplicationTransation(EmitraTransactionsModel Model);
+
+        #region Inspection Fee payment via principle
+
+        Task<EmitraTransactionsModel> CreateEmitraTransationITI_Inspection(EmitraTransactionsModel Model);
+        Task<bool> UpdateEmitraPaymentStatus_Inspection(EmitraResponseParametersModel request);
+        Task<DataTable> GetEmitraTransactionDetails_Inspection(string PRN);
+
+        #endregion
         Task<List<RPPResponseParametersModel>> GetPreviewPaymentDetails(int CollegeID);
         Task<DataTable> GetTransactionDetailsActionWise(StudentSearchModel model);
 

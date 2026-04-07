@@ -31,6 +31,7 @@ namespace Kaushal_Darpan.Models.Attendance
 
         public string? ActionName {  get; set; }
         public string? TodayDate {  get; set; }
+        public int?     Percent {  get; set; }
     }
 
     public class PostAttendanceTimeTableModal
@@ -121,6 +122,7 @@ namespace Kaushal_Darpan.Models.Attendance
          public string? AssignFromSSOID { get; set; }
          public string? AttendanceEndDate { get; set; }
          public string? AttendanceStartDate { get; set; }
+        public string? SubjectIDs { get; set; }
 
     }
 

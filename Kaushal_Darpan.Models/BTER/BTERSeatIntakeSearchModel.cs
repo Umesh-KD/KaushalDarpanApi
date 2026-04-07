@@ -16,15 +16,17 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
         public int TradeSchemeID { get; set; }
         public int AcademicYearID { get; set; }
         public int RemarkID { get; set; }
-        public string Shift {  get; set; }
-        public string UnitNo { get; set; }
+        public string ?Shift {  get; set; }
+        public string? UnitNo { get; set; }
         public int SanctionedID { get; set; }
         public int StatusID { get; set; }
         public int EndTermId { get; set; } = 0;
-        public string MinPercentageInMath { get; set; }
-        public string MinPercentageInScience { get; set; }
-        public string CollegeCode { get; set; }
-        public string TradeCode { get; set; }
+        public string ?MinPercentageInMath { get; set; }
+        public string ?MinPercentageInScience { get; set; }
+        public string? CollegeCode { get; set; }
+        public string? TradeCode { get; set; }
+
+
     }
     public class BTERCollegeTradeSearchModel
     {

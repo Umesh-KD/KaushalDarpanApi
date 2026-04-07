@@ -3918,7 +3918,6 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         }
 
-
         public async Task<EmitraTransactionsModel> CreateEmitraApplicationTransation(EmitraTransactionsModel Model)
         {
             return await Task.Run(async () =>
@@ -3988,6 +3987,170 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        #region Inspection Fees Payment via Principle
+
+        public async Task<EmitraTransactionsModel> CreateEmitraTransationITI_Inspection(EmitraTransactionsModel Model)
+        {
+
+            _actionName = "CreateEmitraTransationITI_Inspection(EmitraTransactionsModel Model)";
+            try
+            {
+                var result = 0;
+                var retval_TransactionId = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))// true to control transaction
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_InsertEmitraTransactions_Inspection";
+
+                    command.Parameters.AddWithValue("@ApplicationIdEnc", Model.ApplicationIdEnc);
+                    command.Parameters.AddWithValue("@ApplicationNo", Model.ApplicationNo);
+                    command.Parameters.AddWithValue("@KioskID", Model.KioskID);
+                    command.Parameters.AddWithValue("@ReceiptNo", Model.ReceiptNo);
+                    command.Parameters.AddWithValue("@TokenNo", Model.TokenNo);
+                    command.Parameters.AddWithValue("@RequestStatus", Model.RequestStatus);
+                    command.Parameters.AddWithValue("@StatusMsg", Model.StatusMsg);
+                    command.Parameters.AddWithValue("@RequestString", Model.RequestString);
+                    command.Parameters.AddWithValue("@ResponseString", Model.ResponseString);
+                    command.Parameters.AddWithValue("@ActId", Model.ActId);
+                    command.Parameters.AddWithValue("@TransactionId", Model.TransactionId);
+                    command.Parameters.AddWithValue("@PRN", Model.PRN);
+                    command.Parameters.AddWithValue("@SSOID", Model.SSOID);
+                    command.Parameters.AddWithValue("@CreatedIP", Model.CreatedIP);
+                    command.Parameters.AddWithValue("@ServiceID", Model.ServiceID);
+                    command.Parameters.AddWithValue("@Amount", Model.Amount);
+                    command.Parameters.AddWithValue("@StudentID", Model.StudentID);
+                    command.Parameters.AddWithValue("@SemesterID", Model.SemesterID);
+                    command.Parameters.AddWithValue("@action", Model.key);
+                    command.Parameters.AddWithValue("@ExamStudentStatus", Model.ExamStudentStatus);
+                    command.Parameters.AddWithValue("@TransactionApplicationID", Model.TransactionApplicationID);
+                    command.Parameters.AddWithValue("@StudentFeesTransactionItems", JsonConvert.SerializeObject(Model.StudentFeesTransactionItems));
+                    command.Parameters.AddWithValue("@IsEmitra", Model.IsEmitra);
+                    command.Parameters.AddWithValue("@DepartmentID", Model.DepartmentID);
+                    command.Parameters.AddWithValue("@UniqueServiceID", Model.UniqueServiceID);
+                    command.Parameters.AddWithValue("@FeeFor", Model.FeeFor);
+                    command.Parameters.AddWithValue("@PaidAmount", Model.PaidAmount);
+                    command.Parameters.AddWithValue("@InstituteID", Model.InstituteID);
+                    command.Parameters.AddWithValue("@InspectionConsentID", Model.InspectionConsentID);
+
+                    command.Parameters.AddWithValue("@RevalRequestID", Model.RevalRequestID);
+
+                    command.Parameters.Add("@retval_TransactionId", SqlDbType.Int);// out
+                    command.Parameters["@retval_TransactionId"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
+                    result = await command.ExecuteNonQueryAsync();
+
+                    retval_TransactionId = Convert.ToInt32(command.Parameters["@retval_TransactionId"].Value);// out
+                }
+
+                // class
+                if (result > 0)
+                    Model.TransactionId = retval_TransactionId;
+                else
+                    Model.TransactionId = 0;
+                return Model;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+        }
+
+        public async Task<bool> UpdateEmitraPaymentStatus_Inspection(EmitraResponseParametersModel request)
+        {
+            return await Task.Run(async () =>
+            {
+                _actionName = "UpdateEmitraPaymentStatus_Inspection(EmitraResponseParametersModel request)";
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_InsertEmitraTransactions_Inspection";
+                        command.Parameters.AddWithValue("@ApplicationIdEnc", request.ApplicationIdEnc);
+                        command.Parameters.AddWithValue("@TransactionId", request.TRANSACTIONID);
+                        command.Parameters.AddWithValue("@PRN", request.PRN);
+                        command.Parameters.AddWithValue("@PaidAmount", request.PAIDAMOUNT);
+                        command.Parameters.AddWithValue("@TokenNo", request.RECEIPTNO);
+                        command.Parameters.AddWithValue("@StatusMsg", request.RESPONSEMESSAGE);
+                        command.Parameters.AddWithValue("@ResponseString", JsonConvert.SerializeObject(request));
+                        command.Parameters.AddWithValue("@ReceiptNo", request.RECEIPTNO);
+                        command.Parameters.AddWithValue("@RequestStatus", request.STATUS);
+                        command.Parameters.AddWithValue("@TransactionNo", request.TransactionNo);
+                        command.Parameters.AddWithValue("@ExamStudentStatus", request.ExamStudentStatus);
+                        command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus");
+                        _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetEmitraTransactionDetails_Inspection(string PRN)
+        {
+            return await Task.Run(async () =>
+            {
+                _actionName = "GetEmitraTransactionDetails_Inspection(string PRN)";
+                try
+                {
+                    DataTable dt = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_InsertEmitraTransactions_Inspection";
+
+                        command.Parameters.AddWithValue("@PRN", PRN);
+                        command.Parameters.AddWithValue("@action", "_GetTransactionDetails");
+                        _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
+                        dt = await command.FillAsync_DataTable();
+                    }
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        #endregion
         public async Task<List<RPPResponseParametersModel>> GetPreviewPaymentDetails(int CollegeID)
         {
             return await Task.Run(async () =>
@@ -4074,6 +4237,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        
+        
         public async Task<Int64> UpdateEmitraApplicationPaymentStatus(EmitraResponseParametersModel request)
         {
 

@@ -13,11 +13,11 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
         public int SeatIntakeID { get; set; }
         public int CollegeID { get; set; }
         public int TradeID { get; set; }
-        public string Shift {  get; set; }
+        public string? Shift {  get; set; }
         public int LastSession { get; set; }
         public int RemarkID { get; set; }
         public int TradeSchemeID { get; set; }
-        public string UnitNo { get; set; }
+        public string ?UnitNo { get; set; }
         public int SanctionedID { get; set; }
         public int DepartmentID { get; set; }
         public int TradeLevel { get; set; }
@@ -60,6 +60,7 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
 
         public int? FinancialSanctionID { get; set; }
         public int? AdminSanctionedID { get; set; }
+        public string? Action { get; set; }
 
 
     }
@@ -95,6 +96,22 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
         public int ModifyBy { get; set; }
         public bool ActiveStatus { get; set; }
         public bool DeleteStatus { get; set; }
+    }
+
+
+    public class SeatIntakeChangeStatusModel
+    {
+        public int SeatIntakeID { get; set; } = 0;
+        public int CollegeID { get; set; } = 0;
+        public int ModifyBy { get; set; } = 0;
+        public string IPAddress { get; set; } = string.Empty;
+        public bool ActiveStatus { get; set; } = false;
+        public int AcademicYearID { get; set; } = 0;
+        public int TradeSchemeId { get; set; } = 0;
+        public int TradeId { get; set; } = 0;
+        public string Action { get; set; } = string.Empty;
+
+
     }
 
 }
