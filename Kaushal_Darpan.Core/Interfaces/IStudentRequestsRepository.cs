@@ -1,4 +1,5 @@
 ﻿using Kaushal_Darpan.Models.DTEApplicationDashboardModel;
+using Kaushal_Darpan.Models.HostelManagementModel;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.StudentApplyForHostel;
 using Kaushal_Darpan.Models.StudentRequestsModel;
@@ -44,5 +45,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetRoomPreference(GetMeritDataModel_Hostel SearchReq);
         Task<bool> WithdrawHostelRequest(DeallocateRoomDataModel request);
         Task<DataTable> HostelStudentMeritListWardenView(SearchStudentApplyForHostel SearchReq);
+        Task<DataTable> GetRoomFee(HostelFeeModel SearchReq);
     }
 }
