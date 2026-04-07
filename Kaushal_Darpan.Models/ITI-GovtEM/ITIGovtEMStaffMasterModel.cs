@@ -741,7 +741,13 @@
         public int PostedSeat { get; set; }
         public string Dis_UploadedDocument { get; set; }
         public string UploadedDocument { get; set; }
+        public string orderDoc { get; set; }
+        public string Dis_orderDoc { get; set; }
+        public string OrderNumber { get; set; }
+        public string OrderDate { get; set; }
         public string? Name { get; set; }
+        public int? BranchID { get; set; }
+        public int? BugetHeadTypeID { get; set; }
     }
 
 
