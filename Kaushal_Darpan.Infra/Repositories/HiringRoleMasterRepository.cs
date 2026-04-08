@@ -512,6 +512,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_SanctionOrderList";
                          command.Parameters.AddWithValue("@OrderType", body.OrderType);
                         command.Parameters.AddWithValue("@OrderNo", body.OrderNo);
+                        command.Parameters.AddWithValue("@OrderDate", body.OrderDate);
                         command.Parameters.AddWithValue("@action", "GetNotAssign");
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();

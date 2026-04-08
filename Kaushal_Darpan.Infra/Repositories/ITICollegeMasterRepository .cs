@@ -821,6 +821,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ConsumerName", request.ConsumerName);
                         command.Parameters.AddWithValue("@ContractDemand", request.ContractDemand);
                         command.Parameters.AddWithValue("@SubDivOffice", request.SubDivOffice);
+                        command.Parameters.AddWithValue("@PrincipleUserID", request.PrincipleUserID);
+                        command.Parameters.AddWithValue("@PrincipalOrderCopy", request.PrincipalOrderCopy);
+                        command.Parameters.AddWithValue("@WorkOrderCopy", request.WorkOrderCopy);
 
                         // Output parameter
                         var returnParam = new SqlParameter("@Return", SqlDbType.Int) { Direction = ParameterDirection.Output };
@@ -1288,6 +1291,8 @@ namespace Kaushal_Darpan.Infra.Repositories
            
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@Name", model.CollegeName ?? (object)DBNull.Value);
              
                         _sqlQuery = command.GetSqlExecutableQuery();
