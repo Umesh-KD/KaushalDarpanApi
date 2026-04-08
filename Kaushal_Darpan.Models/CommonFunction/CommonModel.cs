@@ -148,16 +148,13 @@ namespace Kaushal_Darpan.Models.CommonModel
     }
 
 
-    public class ResultAppearedPassedStatisticsReportModel
+    public class ResultAppearedPassedStatisticsReportModel : RequestBaseModel
     {
-        public int EndTermID { get; set; }
-        public int Eng_NonEng { get; set; }
-        public int DepartmentID { get; set; }
         public int SemesterID { get; set; }
         public int ResultType { get; set; }
 
         public string? StreamName { get; set; }
-        public int TotalAppeared  { get; set; }
+        public int TotalAppeared { get; set; }
         public int FailStudent { get; set; }
         public int PassStudent { get; set; }
         public int TotalDetain { get; set; }

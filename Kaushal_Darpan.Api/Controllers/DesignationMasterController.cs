@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.DesignationMaster;
+using Kaushal_Darpan.Models.StaffMaster;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -24,13 +25,13 @@ namespace Kaushal_Darpan.Api.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet("GetAllDesignations")]
-        public async Task<ApiResult<DataTable>> GetAllData()
+        [HttpPost("GetAllDesignations")]
+        public async Task<ApiResult<DataTable>> GetAllData([FromBody] DesignationMasterSearchModel request)
         {
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.DesignationMasterRepository.GetAllData());
+                result.Data = await Task.Run(() => _unitOfWork.DesignationMasterRepository.GetAllData(request));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count > 0)
                 {
@@ -226,6 +227,55 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 return result;
             });
+        }
+
+        [HttpPost("DesignationActiveDeActive")]
+        public async Task<ApiResult<int>> DesignationActiveDeActive([FromBody] DesignationMasterSearchModel body)
+        {
+
+            ActionName = "DesignationActiveDeActive([FromBody] OfficeVacancyModel body)";
+            var result = new ApiResult<int>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.DesignationMasterRepository.DesignationActiveDeActive(body);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+
+
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_UPDATE_SUCCESS;
+                }
+                else if (result.Data == -1)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
         }
     }
 }
