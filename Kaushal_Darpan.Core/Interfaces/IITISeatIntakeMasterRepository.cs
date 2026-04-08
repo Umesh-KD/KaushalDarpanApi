@@ -54,9 +54,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetOrderDetailsList();
 
         Task<DataTable> GetPlanningDashboardData(ITIAdminDashboardSearchModel model);
-
-
         Task<int> ChangeStatusSeatIntake(SeatIntakeChangeStatusModel request);
+        Task<DataTable> GetActiveSeatIntakeAdmission(BTERSeatIntakeSearchModel request);
 
     }
 }

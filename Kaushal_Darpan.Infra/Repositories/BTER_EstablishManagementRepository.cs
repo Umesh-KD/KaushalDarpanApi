@@ -482,6 +482,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@WorkOfficeID", request.WorkOfficeID ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@BugetHeadID", request.BugetHeadID ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@PhysicalDisability", request.PhysicalDisability ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@SportsQuota", request.SportsQuota ?? (object)DBNull.Value);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -1276,6 +1278,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Attach Service History List to Preview Model
                         //---------------------------------------------------
                         preview.ServiceHistoryList = serviceList;
+
+                        //---------------------------------------------------
+                        // Service History
+                        //---------------------------------------------------
+
+                        if (dataSet.Tables.Count > 3)
+                        {
+                            preview.TrainingDetailsList = CommonFuncationHelper
+                                .ConvertDataTable<List<StaffTrainingDetailDataModel>>(dataSet.Tables[3]);
+                        }
                     }
 
                     return preview;
@@ -1725,8 +1737,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         
                         command.CommandText = "USP_Delete_OfficeVacancy";
-                        command.Parameters.AddWithValue("@ID", body.ID);
                         command.Parameters.AddWithValue("@Action", "Delete");
+
+                        command.Parameters.AddWithValue("@ID", body.ID);
+                        command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
                         command.Parameters.Add("@Return", SqlDbType.Int);
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -1859,6 +1875,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_OfficeVacancyActiveDeActive";
                         command.Parameters.AddWithValue("@ID", body.ID);
                         command.Parameters.AddWithValue("@IsActive", body.ActiveStatus);
+                        command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
                         command.Parameters.Add("@Return", SqlDbType.Int);
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;
                         _sqlQuery = command.GetSqlExecutableQuery();

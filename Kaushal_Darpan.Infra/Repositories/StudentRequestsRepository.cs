@@ -83,6 +83,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
+                        command.CommandTimeout = 999999999;
+
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetAllHostelRoomAllotment";
                         command.Parameters.AddWithValue("@ApplicationId", SearchReq.ApplicationId);

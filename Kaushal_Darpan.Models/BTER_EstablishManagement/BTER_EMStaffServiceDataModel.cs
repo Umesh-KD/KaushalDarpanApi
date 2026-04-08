@@ -26,6 +26,10 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? StaffID { get; set; }
         public string? TrainingDoc { get; set; }
         public string? Dis_TrainingDoc { get; set; }
+
+        public string? TrainingCourseType_str { get; set; }
+        public string? DurationUnit_str { get; set; }
+        public string? ModeOfTraining_str { get; set; }
     }
 
     public class StaffTrainingDetailSearchData
