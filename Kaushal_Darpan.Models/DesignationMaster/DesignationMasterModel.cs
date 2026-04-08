@@ -15,6 +15,17 @@
         public int? ModifyBy { get; set; }
         public DateTime ModifyDate { get; set; }
         public string? IPAddress { get; set; }
+        public bool? IsActive { get; set; }
+        public int? StaffTypeID { get; set; }
+    }
+
+    public class DesignationMasterSearchModel
+    {
+        public int DesignationID { get; set; }
+        public int StaffTypeID { get; set; }
+        public int UserID { get; set; }
+        public string? DesignationNameEnglish { get; set;}
+        public bool? IsActive { get; set;}
     }
 }
 
