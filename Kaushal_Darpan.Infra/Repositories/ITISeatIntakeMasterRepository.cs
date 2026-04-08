@@ -1313,7 +1313,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UnitNo", request.UnitNo);
                         command.Parameters.AddWithValue("@SanctionedID", request.SanctionedID);
                         command.Parameters.AddWithValue("@StatusID", request.StatusID);
-                        command.Parameters.AddWithValue("@action", "_getActiveSeatIntake");
+                        command.Parameters.AddWithValue("@action", request.Action);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
