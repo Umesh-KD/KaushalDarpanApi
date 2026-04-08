@@ -253,6 +253,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? QualificationAtJoining { get; set; }
         public string? QualificationAfterJoining { get; set; }
         public string? DateOfRetirement { get; set; }
+        public string? PhysicalDisability_str { get; set; }
+        public string? SportsQuota_str { get; set; }
 
         public int StaffID { get; set; }
         public int StaffUserID { get; set; }
@@ -263,6 +265,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         // Service History
         public List<BTER_EM_AddServiceHistoryDataModel> ServiceHistoryList { get; set; }
             = new List<BTER_EM_AddServiceHistoryDataModel>();
+
+        public List<StaffTrainingDetailDataModel>? TrainingDetailsList { get; set; }
 
     }
 
@@ -341,6 +345,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? WorkOfficeID { get; set; }
         public int? ModifyBy { get; set; }
         public int? BugetHeadID { get; set; }
+        public bool? SportsQuota { get; set; }
+        public bool? PhysicalDisability { get; set; }
     }
 
     public class BTER_EM_UnlockProfileDataModel
