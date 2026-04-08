@@ -58,5 +58,8 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<int> ChangeStatusSeatIntake(SeatIntakeChangeStatusModel request);
 
+
+        Task<DataTable> GetActiveSeatIntakeAdmission(BTERSeatIntakeSearchModel request);
+
     }
 }
