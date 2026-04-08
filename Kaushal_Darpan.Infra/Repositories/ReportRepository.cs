@@ -156,6 +156,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CourseType", body.CourseType);
                     command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
                     //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+                    command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dt = await command.FillAsync_DataTable();
@@ -193,6 +194,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CourseType", body.CourseType);
                     command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
                     //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+                    command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
+
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dt = await command.FillAsync_DataTable();
@@ -268,6 +271,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CourseType", body.CourseType);
                     command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
                     //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+                    command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dt = await command.FillAsync_DataTable();
