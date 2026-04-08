@@ -508,8 +508,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetTradeAndColleges(ITICollegeTradeSearchModel request)
         {
             _actionName = "GetTradeAndColleges(ITICollegeTradeSearchModel request)";
-            return await Task.Run(async () =>
-            {
+           
                 try
                 {
                     DataTable dataTable = new DataTable();
@@ -553,7 +552,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
         }
 
         public async Task<DataTable> ITIManagementType()
