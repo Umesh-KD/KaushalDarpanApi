@@ -25,6 +25,7 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
         public string ?MinPercentageInScience { get; set; }
         public string? CollegeCode { get; set; }
         public string? TradeCode { get; set; }
+        public string? Action { get; set; }
 
 
     }
