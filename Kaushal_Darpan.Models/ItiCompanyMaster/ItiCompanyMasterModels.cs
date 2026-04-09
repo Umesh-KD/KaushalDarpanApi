@@ -146,6 +146,7 @@ namespace Kaushal_Darpan.Models.ItiCompanyMaster
         public string? AreaLocalitySector { get; set; }
         public string? LandMark { get; set; }
         public string? PlotHouseBuildingNo { get; set; }
+        public string? PrincipleUserID { get; set; }
         public int IsNewCollege { get; set; }
         public int Ownership { get; set; }
         public int ModifyBy { get; set; }
@@ -163,6 +164,8 @@ namespace Kaushal_Darpan.Models.ItiCompanyMaster
         public string? ContractDemand { get; set; }
         public string? SubDivOffice { get; set; }
         public string? PlanDocument { get; set; }
+        public string? PrincipalOrderCopy { get; set; }
+        public string? WorkOrderCopy { get; set; }
         public int PlanDocID { get; set; }
         public int StatusID { get; set; }
 
@@ -216,6 +219,7 @@ namespace Kaushal_Darpan.Models.ItiCompanyMaster
         public string? OrderDate { get; set; }
         public string? OrderNo { get; set; }
         public string? OrderTypeName { get; set; }
+        public string? DisOrderDate { get; set; }
         public int OrderType { get; set; }
     }
 

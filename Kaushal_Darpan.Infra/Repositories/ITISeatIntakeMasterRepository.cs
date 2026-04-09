@@ -508,8 +508,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetTradeAndColleges(ITICollegeTradeSearchModel request)
         {
             _actionName = "GetTradeAndColleges(ITICollegeTradeSearchModel request)";
-            return await Task.Run(async () =>
-            {
+           
                 try
                 {
                     DataTable dataTable = new DataTable();
@@ -553,7 +552,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
         }
 
         public async Task<DataTable> ITIManagementType()
@@ -1289,6 +1287,56 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+
+        public async Task<DataTable> GetActiveSeatIntakeAdmission(BTERSeatIntakeSearchModel request)
+        {
+            _actionName = "GetActiveSeatIntakeAdmission(SeatIntakeSearchModel request)";
+          
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_GetSeatIntakeDataAdmission";
+                        command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+                        command.Parameters.AddWithValue("@CollegeTypeID", request.CollegeTypeID);
+                        command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
+                        command.Parameters.AddWithValue("@InstituteCategoryID", request.InstituteCategoryID);
+                        command.Parameters.AddWithValue("@TradeID", request.TradeID);
+                        command.Parameters.AddWithValue("@TradeSchemeID", request.TradeSchemeID);
+                        command.Parameters.AddWithValue("@AcademicYearID", request.AcademicYearID);
+                        command.Parameters.AddWithValue("@RemarkID", request.RemarkID);
+                        command.Parameters.AddWithValue("@Shift", request.Shift);
+                        command.Parameters.AddWithValue("@UnitNo", request.UnitNo);
+                        command.Parameters.AddWithValue("@SanctionedID", request.SanctionedID);
+                        command.Parameters.AddWithValue("@StatusID", request.StatusID);
+                        command.Parameters.AddWithValue("@action", request.Action);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    //var data = new List<BTERSeatIntakeDataModel>();
+                    //if (dataTable != null)
+                    //{
+                    //    data = CommonFuncationHelper.ConvertDataTable<List<BTERSeatIntakeDataModel>>(dataTable);
+                    //}
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+           
+        }
 
 
     }
