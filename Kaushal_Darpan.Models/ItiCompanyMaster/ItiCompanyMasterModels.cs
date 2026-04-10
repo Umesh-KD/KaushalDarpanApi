@@ -219,6 +219,7 @@ namespace Kaushal_Darpan.Models.ItiCompanyMaster
         public string? OrderDate { get; set; }
         public string? OrderNo { get; set; }
         public string? OrderTypeName { get; set; }
+        public string? DisOrderDate { get; set; }
         public int OrderType { get; set; }
     }
 

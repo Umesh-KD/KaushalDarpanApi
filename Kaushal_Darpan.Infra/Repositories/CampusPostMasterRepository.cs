@@ -344,7 +344,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> CampusValidationList(int CompanyID, int CollegeID, string Status, int DepartmentID, string Flag = "")
+        public async Task<DataTable> CampusValidationList(int CompanyID, int CollegeID, string Status, int DepartmentID, int CompanyTypeID = 0, string Flag = "")
         {
             _actionName = "CampusValidationList(int CollegeID, string Status)";
             try
@@ -361,6 +361,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Status", Status);
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
                         command.Parameters.AddWithValue("@Flag", Flag);
+                        command.Parameters.AddWithValue("@CompanyTypeID", CompanyTypeID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
