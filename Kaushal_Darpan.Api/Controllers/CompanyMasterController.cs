@@ -149,6 +149,46 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("GetCampusHr_Trail/{CompanyID:int}")]
+        public async Task<ApiResult<DataSet>> GetCampusHr_Trail(int CompanyID)
+        {
+            ActionName = "GetCampusHr_Trail(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataSet>();
+                try
+                {
+                    var data = await _unitOfWork.CompanyMasterRepository.GetCampusHr_Trail(CompanyID);
+                    result.Data = data;
+
+                    if (data != null && data.Tables.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
 
 
 
@@ -351,6 +391,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+     
 
 
         [HttpPost("CompanyMasterReport")]

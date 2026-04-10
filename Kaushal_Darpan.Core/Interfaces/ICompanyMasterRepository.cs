@@ -14,6 +14,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> Save_CompanyValidation_NodalAction(CompanyMaster_Action model);
         Task<bool> DeleteDataByID(CompanyMasterModels productDetails);
         Task<DataTable> CompanyValidationList(CompanyMasterSearchModel filterModel);
+        Task<DataSet> GetCampusHr_Trail(int CompanyID);
 
         Task<DataTable> CompanyMasterReport(CompanyMasterSearchModel filterModel);
 

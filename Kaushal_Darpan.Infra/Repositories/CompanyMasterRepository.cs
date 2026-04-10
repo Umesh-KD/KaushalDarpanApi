@@ -4,6 +4,7 @@ using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.HrMaster;
 using Newtonsoft.Json;
+using System.ComponentModel.Design;
 using System.Data;
 
 namespace Kaushal_Darpan.Infra.Repositories
@@ -389,6 +390,56 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataSet> GetCampusHr_Trail(int CompanyID)
+        {
+            _actionName = "GetCampusHr_Trail(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    //DataTable dataTable = new DataTable();
+                    DataSet ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CompanyUpdateAction";
+                        command.Parameters.AddWithValue("@Action", "_GetCompanyHrTrailById");
+
+                        command.Parameters.AddWithValue("@PK_ID", CompanyID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    //var data = new CompanyMasterModels();
+                    //if (ds != null)
+                    //{
+                    //    if (ds.Tables.Count > 0)
+                    //    {
+                    //        data = CommonFuncationHelper.ConvertDataTable<CompanyMasterModels>(ds.Tables[0]);
+                    //        if (ds.Tables[1].Rows.Count > 0)
+                    //        {
+                    //            data.ListCompanyHRDetails = CommonFuncationHelper.ConvertDataTable<List<HRMaster>>(ds.Tables[1]);
+                    //        }
+                    //    }
+
+                    //}
+
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
 
 
