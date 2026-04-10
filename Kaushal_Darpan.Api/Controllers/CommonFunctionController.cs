@@ -771,6 +771,48 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+
+        [HttpGet("HODSemesterMaster/{UserID}/{StreamType}/{EndTermId}")]
+        public async Task<ApiResult<DataTable>> HODSemesterMaster(int UserID = 0, int StreamType = 0, int EndTermId = 0)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.HODSemesterMaster(UserID, StreamType, EndTermId);
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
         [HttpGet("SemesterList/{DepartmentID}")]
         public async Task<ApiResult<DataTable>> SemesterList(int DepartmentID = 0)
         {
