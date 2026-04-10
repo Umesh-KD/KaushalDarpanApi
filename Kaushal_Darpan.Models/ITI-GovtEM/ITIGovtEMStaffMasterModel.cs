@@ -830,4 +830,11 @@
         public int? ModifyBy { get; set; }
         public int? StatusIDs { get; set; }
     }
+
+    public class ITI_EM_DroupdownDataModel
+    {
+        public string? Action { get; set; }
+        public int? InstituteID{ get; set; }
+        public int? DepartmentID { get; set; }
+    }
 }
