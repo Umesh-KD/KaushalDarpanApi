@@ -16757,6 +16757,9 @@ namespace Kaushal_Darpan.Api.Controllers
                                 <b>Total Passed</b> : {stream.First().PassStudent}
                             </td>
                             <td style='border:1px solid #000;padding:4px;'>
+                                <b>Total Grace</b> : {stream.First().GraceStudent}
+                            </td>
+                            <td style='border:1px solid #000;padding:4px;'>
                                 <b>{(stream.First().SemesterID == 6 ||
                                     (stream.First().SemesterID == 4 && stream.First().StreamName == "Beauty Culture") ? "Total Failed" : "Total Regulation")}</b> : {stream.First().FailStudent}
                             </td>

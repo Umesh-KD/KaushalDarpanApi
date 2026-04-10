@@ -30,66 +30,67 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> UserRequest(RequestSearchModel Model)
         {
             _actionName = "GetAllData()";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_UserRequest";
-                        // Add parameters to the stored procedure from the model                        
-                        command.Parameters.AddWithValue("@ServiceRequestId", Model.ServiceRequestId);
-                        command.Parameters.AddWithValue("@RequestId", Model.RequestId);
-                        command.Parameters.AddWithValue("@RequestType", Model.RequestType);
-                        command.Parameters.AddWithValue("@UserId", Model.UserId);
-                        command.Parameters.AddWithValue("@UserName", Model.UserName);
-                        command.Parameters.AddWithValue("@SSOID", Model.SSOID);
-                        command.Parameters.AddWithValue("@StatusId", Model.StatusId);
-                        command.Parameters.AddWithValue("@PageNumber", Model.PageNumber);
-                        command.Parameters.AddWithValue("@PageSize", Model.PageSize);
-                        command.Parameters.AddWithValue("@SearchText", Model.SearchText);
-                        command.Parameters.AddWithValue("@PostID", Model.PostID);
-                        command.Parameters.AddWithValue("@OfficeID", Model.OfficeID);
-                        command.Parameters.AddWithValue("@LevelID", Model.LevelID);
-                        command.Parameters.AddWithValue("@DepartmentID", Model.DepartmentID);
-                        command.Parameters.AddWithValue("@DesignationID", Model.DesignationID);
-                        command.Parameters.AddWithValue("@InstituteID", Model.InstituteID);
-                        command.Parameters.AddWithValue("@RequestRemarks", Model.RequestRemarks);
-                        command.Parameters.AddWithValue("@OrderNo", Model.OrderNo);
-                        command.Parameters.AddWithValue("@OrderDate", Model.OrderDate);
-                        command.Parameters.AddWithValue("@JoiningDate", Model.JoiningDate);
-                        command.Parameters.AddWithValue("@RequestDate", Model.RequestDate);
-                        command.Parameters.AddWithValue("@CreatedBy", Model.CreatedBy);
-                        command.Parameters.AddWithValue("@AttachDocument_file", Model.AttachDocument_file);
-                        command.Parameters.AddWithValue("@AttachDocument_fileName", Model.AttachDocument_fileName);
-                        command.Parameters.AddWithValue("@IPAddress", Model.IPAddress);
-                        command.Parameters.AddWithValue("@NodalStateID", Model.NodalStateID);
-                        command.Parameters.AddWithValue("@NodalDistrictID", Model.NodalDistrictID);
-                        command.Parameters.AddWithValue("@DivisionID", Model.DivisionID);
-                        command.Parameters.AddWithValue("@StaffTypeID", Model.StaffTypeID);
-                        command.Parameters.AddWithValue("@ReqRoleID", Model.ReqRoleID);
-                        command.Parameters.AddWithValue("@Action", Model.Action);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    
-                    return dataTable;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_UserRequest";
+                    // Add parameters to the stored procedure from the model                        
+                    command.Parameters.AddWithValue("@ServiceRequestId", Model.ServiceRequestId);
+                    command.Parameters.AddWithValue("@RequestId", Model.RequestId);
+                    command.Parameters.AddWithValue("@RequestType", Model.RequestType);
+                    command.Parameters.AddWithValue("@UserId", Model.UserId);
+                    command.Parameters.AddWithValue("@UserName", Model.UserName);
+                    command.Parameters.AddWithValue("@SSOID", Model.SSOID);
+                    command.Parameters.AddWithValue("@StatusId", Model.StatusId);
+                    command.Parameters.AddWithValue("@PageNumber", Model.PageNumber);
+                    command.Parameters.AddWithValue("@PageSize", Model.PageSize);
+                    command.Parameters.AddWithValue("@SearchText", Model.SearchText);
+                    command.Parameters.AddWithValue("@PostID", Model.PostID);
+                    command.Parameters.AddWithValue("@OfficeID", Model.OfficeID);
+                    command.Parameters.AddWithValue("@LevelID", Model.LevelID);
+                    command.Parameters.AddWithValue("@DepartmentID", Model.DepartmentID);
+                    command.Parameters.AddWithValue("@DesignationID", Model.DesignationID);
+                    command.Parameters.AddWithValue("@InstituteID", Model.InstituteID);
+                    command.Parameters.AddWithValue("@RequestRemarks", Model.RequestRemarks);
+                    command.Parameters.AddWithValue("@OrderNo", Model.OrderNo);
+                    command.Parameters.AddWithValue("@OrderDate", Model.OrderDate);
+                    command.Parameters.AddWithValue("@JoiningDate", Model.JoiningDate);
+                    command.Parameters.AddWithValue("@RequestDate", Model.RequestDate);
+                    command.Parameters.AddWithValue("@CreatedBy", Model.CreatedBy);
+                    command.Parameters.AddWithValue("@AttachDocument_file", Model.AttachDocument_file);
+                    command.Parameters.AddWithValue("@AttachDocument_fileName", Model.AttachDocument_fileName);
+                    command.Parameters.AddWithValue("@IPAddress", Model.IPAddress);
+                    command.Parameters.AddWithValue("@NodalStateID", Model.NodalStateID);
+                    command.Parameters.AddWithValue("@NodalDistrictID", Model.NodalDistrictID);
+                    command.Parameters.AddWithValue("@DivisionID", Model.DivisionID);
+                    command.Parameters.AddWithValue("@StaffTypeID", Model.StaffTypeID);
+                    command.Parameters.AddWithValue("@ReqRoleID", Model.ReqRoleID);
+                    command.Parameters.AddWithValue("@Action", Model.Action);
+                    command.Parameters.AddWithValue("@RequestedUserID", Model.RequestedUserID);
+                    command.Parameters.AddWithValue("@StaffID", Model.StaffID);
+                    command.Parameters.AddWithValue("@RequestCreatedRoleID", Model.RequestCreatedRoleID);
+                    command.Parameters.AddWithValue("@RequestCreatedInstituteID", Model.RequestCreatedInstituteID);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
@@ -623,6 +624,47 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> UserRequest_GetData(RequestSearchModel Model)
+        {
+            _actionName = "UserRequest_GetData(RequestSearchModel Model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_EM_UserRequest_GetData";
+                    // Add parameters to the stored procedure from the model                      
+                    command.Parameters.AddWithValue("@Action", Model.Action);  
+                    command.Parameters.AddWithValue("@ServiceRequestId", Model.ServiceRequestId);
+                    command.Parameters.AddWithValue("@RequestId", Model.RequestId);
+                    command.Parameters.AddWithValue("@RequestType", Model.RequestType);
+                    command.Parameters.AddWithValue("@UserId", Model.UserId);
+                    command.Parameters.AddWithValue("@LevelID", Model.LevelID);
+                    command.Parameters.AddWithValue("@StaffTypeID", Model.StaffTypeID);
+                    command.Parameters.AddWithValue("@PostID", Model.PostID);
+                    command.Parameters.AddWithValue("@OfficeID", Model.OfficeID);
+                    command.Parameters.AddWithValue("@OrderNo", Model.OrderNo);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
 
 
         #region  ds
