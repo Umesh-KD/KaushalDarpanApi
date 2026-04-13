@@ -313,4 +313,11 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public string? SSOIDBY { get; set; } = string.Empty;
     }
 
-}
+
+    public class GetHODWiseSemesterDataModel
+    {
+        public string? SSOID { get; set; } = string.Empty;
+        public int? InstituteID { get; set; } = 0;
+    }
+
+    }

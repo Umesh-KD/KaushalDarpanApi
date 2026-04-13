@@ -49,6 +49,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetBranchSectionAcRosterData(GetDDlSectionDataModel body);
 
         Task<DataTable> GetAssignedTeacher_SSOData(GetDDlSectionDataModel body);
+        Task<DataTable> GetHODWiseSemester(GetHODWiseSemesterDataModel body);
 
     }
 }
