@@ -112,59 +112,56 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> SaveData(M_CommonSubject entity)
         {
             _actionName = "SaveData(M_CommonSubject entity)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_AddEditCommonSubject";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_AddEditCommonSubject";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_addEditData");
-                        command.Parameters.AddWithValue("@CommonSubjectID", entity.CommonSubjectID);
-                        command.Parameters.AddWithValue("@CommonSubjectName", entity.CommonSubjectName);
-                        command.Parameters.AddWithValue("@SemesterID", entity.SemesterID);
-                        command.Parameters.AddWithValue("@Remark", entity.Remark);
-                        command.Parameters.AddWithValue("@ActiveStatus", entity.ActiveStatus);
-                        command.Parameters.AddWithValue("@DeleteStatus", entity.DeleteStatus);
-                        command.Parameters.AddWithValue("@RTS", entity.RTS);
-                        command.Parameters.AddWithValue("@CreatedBy", entity.CreatedBy);
-                        command.Parameters.AddWithValue("@ModifyBy", entity.ModifyBy);
-                        command.Parameters.AddWithValue("@ModifyDate", entity.ModifyDate);
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-                        command.Parameters.AddWithValue("@DepartmentID", entity.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", entity.Eng_NonEng);
-                        command.Parameters.AddWithValue("@EndTermID", entity.EndTermID);
-                        command.Parameters.AddWithValue("@SubjectCode", entity.SubjectCode);
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_addEditData");
+                    command.Parameters.AddWithValue("@CommonSubjectID", entity.CommonSubjectID);
+                    command.Parameters.AddWithValue("@CommonSubjectName", entity.CommonSubjectName);
+                    command.Parameters.AddWithValue("@SemesterID", entity.SemesterID);
+                    command.Parameters.AddWithValue("@Remark", entity.Remark);
+                    command.Parameters.AddWithValue("@ActiveStatus", entity.ActiveStatus);
+                    command.Parameters.AddWithValue("@DeleteStatus", entity.DeleteStatus);
+                    command.Parameters.AddWithValue("@RTS", entity.RTS);
+                    command.Parameters.AddWithValue("@CreatedBy", entity.CreatedBy);
+                    command.Parameters.AddWithValue("@ModifyBy", entity.ModifyBy);
+                    command.Parameters.AddWithValue("@ModifyDate", entity.ModifyDate);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@DepartmentID", entity.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", entity.Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermID", entity.EndTermID);
+                    command.Parameters.AddWithValue("@SubjectCode", entity.SubjectCode);
 
 
 
-                        command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
-                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
+                    command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        await command.ExecuteNonQueryAsync();
-                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
-                    }
-                    return result;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
                 }
-                catch (Exception ex)
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<bool> SaveDataChild(List<M_CommonSubject_Details> entity)
@@ -186,7 +183,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Child_Json", JsonConvert.SerializeObject(entity));
 
                         _sqlQuery = command.GetSqlExecutableQuery();
-                            await command.ExecuteNonQueryAsync();
+                        await command.ExecuteNonQueryAsync();
                     }
                     if (result == 0)
                         return true;

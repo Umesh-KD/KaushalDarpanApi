@@ -949,42 +949,39 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> SemesterMaster(int ShowAllSemester = 0, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0, int IsWithNot6thSem = 0, int EngNonEng = 0)
         {
             _actionName = "SemesterMaster()";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_DDL_SemesterMaster";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_DDL_SemesterMaster";
 
-                        command.Parameters.AddWithValue("@ShowAllSemester", ShowAllSemester);
-                        command.Parameters.AddWithValue("@EndTermID", EndTermID);
-                        command.Parameters.AddWithValue("@IsWithNotYearly", IsWithNotYearly);
-                        command.Parameters.AddWithValue("@IsPromote", IsPromote);
-                        command.Parameters.AddWithValue("@IsForEx", IsForEx);
-                        command.Parameters.AddWithValue("@IsWithNot6thSem", IsWithNot6thSem);
-                        command.Parameters.AddWithValue("@EngNonEng", EngNonEng);
+                    command.Parameters.AddWithValue("@ShowAllSemester", ShowAllSemester);
+                    command.Parameters.AddWithValue("@EndTermID", EndTermID);
+                    command.Parameters.AddWithValue("@IsWithNotYearly", IsWithNotYearly);
+                    command.Parameters.AddWithValue("@IsPromote", IsPromote);
+                    command.Parameters.AddWithValue("@IsForEx", IsForEx);
+                    command.Parameters.AddWithValue("@IsWithNot6thSem", IsWithNot6thSem);
+                    command.Parameters.AddWithValue("@EngNonEng", EngNonEng);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> SemesterGenerateMaster()
@@ -4276,8 +4273,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        
-        
+
+
         public async Task<Int64> UpdateEmitraApplicationPaymentStatus(EmitraResponseParametersModel request)
         {
 

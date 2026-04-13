@@ -1344,6 +1344,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BankID", model.BankID);
                         command.Parameters.AddWithValue("@Action", model.ActionType);
 
+                        command.Parameters.AddWithValue("@Orderdate", model.Orderdate);
+                        command.Parameters.AddWithValue("@OrderNo", model.OrderNo);
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
