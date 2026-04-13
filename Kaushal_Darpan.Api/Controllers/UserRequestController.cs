@@ -824,6 +824,66 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [HttpPost("UserRequestJoiningApprove_ITI_EM")]
+        public async Task<ApiResult<int>> UserRequestJoiningApprove_ITI_EM([FromBody] RequestUpdateStatus request)
+        {
+            ActionName = "StafffJoiningRequestUpdateAndPromotions([FromBody] RequestUpdateStatus request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.UsersRequest.UserRequestJoiningApprove_ITI_EM(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (result.Data == 1)
+                        {
+                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        else if (result.Data == 2)
+                        {
+                            result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (result.Data == 0)
+                        {
+                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        }
+                        else if (result.Data == -1)
+                        {
+                            result.State = EnumStatus.Warning;
+                            result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                        }
+                        else
+                        {
+                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
         #region divya
 
         [HttpPost("GetITI_GetStaffDetailsVRS")]
