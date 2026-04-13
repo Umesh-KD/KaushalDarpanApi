@@ -35,6 +35,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> BterGovtEM_Govt_EstablishUserRequestReportRelievingAndJoing(BterStaffUserRequestReportSearchModel body);
         Task<DataTable> GetBter_GetStaffDetailsVRS(BTER_EM_UnlockProfileDataModel Model);
         Task<DataTable> GetITI_GetStaffDetailsVRS(ITI_EM_UnlockProfileDataModel Model);
+        Task<DataTable> UserRequest_GetData(RequestSearchModel Model);
 
     }
 }

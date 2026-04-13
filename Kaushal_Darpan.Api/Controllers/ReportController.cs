@@ -16584,152 +16584,7 @@ namespace Kaushal_Darpan.Api.Controllers
         <!DOCTYPE html>
         <html>
         <head>
-            <meta charset='UTF-8'>
-            <style>
-                body {
-                    margin: 0;
-                    padding: 0;
-                    font-family: 'Segoe UI', Arial, sans-serif;
-                }
-
-                .page {
-                    width: 210mm;
-                    min-height: 297mm;
-                    padding: 20mm;
-                    box-sizing: border-box;
-                    background: #ffffff;
-                    position: relative;
-                    color: #000;
-                }
-
-                .top-number {
-                    text-align: right;
-                    font-weight: bold;
-                    font-style: italic;
-                    font-size: 14px;
-                    margin-bottom: 90mm;
-                }
-
-                .center-content {
-                    text-align: center;
-                }
-
-                .name {
-                    font-size: 20px;
-                    font-weight: 900;
-                    text-transform: uppercase;
-                    margin-bottom: 5px;
-                }
-
-                .father {
-                    font-size: 16px;
-                    font-weight: 900;
-                    text-transform: uppercase;
-                    margin-bottom: 35px;
-                }
-
-                .course {
-                    font-size: 18px;
-                    font-weight: 900;
-                    font-style: italic;
-                    text-transform: uppercase;
-                    margin-bottom: 40px;
-                }
-
-                .result-row {
-                    width: 80%;
-                    margin: 0 auto 30px auto;
-                    font-weight: 900;
-                    text-transform: uppercase;
-                    display: flex;
-                    justify-content: space-between;
-                }
-
-                .number {
-                    font-size: 18px;
-                    font-weight: 900;
-                    margin-bottom: 25px;
-                }
-
-                .completion {
-                    font-size: 18px;
-                    font-weight: 900;
-                    font-style: italic;
-                }
-
-                .signatures {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: flex-end;
-                    margin-top: 60px;
-                    padding: 0 40px;
-                }
-
-                .date {
-                    text-align: center;
-                    font-weight: bold;
-                    margin-top: 40px;
-                }
-            </style>
-        </head>
-
-        <body>
-            <div class='page'>
-
-                <div class='top-number'>
-                    CE20210003/001
-                </div>
-
-                <div class='center-content'>
-
-                    <div class='name'>
-                        ANJALI KANWAR
-                    </div>
-
-                    <div class='father'>
-                        D/O LAXMAN SINGH
-                    </div>
-
-                    <div class='course'>
-                        DIPLOMA IN CIVIL ENGINEERING
-                    </div>
-
-                    <div class='result-row'>
-                        <span>MAY 2024</span>
-                        <span>FIRST (HONOURS)</span>
-                    </div>
-
-                    <div class='number'>
-                        3
-                    </div>
-
-                    <div class='completion'>
-                        Diploma Completion Date : 13-08-2024
-                    </div>
-
-                </div>
-
-                <div class='signatures'>
-                    <div>
-                        <svg width='100' height='60'>
-                            <path d='M10,40 Q30,10 50,40 T90,30' 
-                                  fill='none' stroke='black' stroke-width='2'/>
-                        </svg>
-                    </div>
-
-                    <div>
-                        <svg width='100' height='60'>
-                            <path d='M20,30 C40,10 60,50 80,30' 
-                                  fill='none' stroke='black' stroke-width='2'/>
-                        </svg>
-                    </div>
-                </div>
-
-                <div class='date'>
-                    04-08-2025
-                </div>
-
-            </div>
+            <p><strong>विषय – NOC for Increase in Intake &amp; Addition of Course.</strong></p><p>महोदय ,</p><p>उपर्युक्त विषयान्तर्गत निर्देशानुसार लेख है कि आपके द्वारा प्रस्तुत प्रस्ताव एवं निदेशक, तकनीकी शिक्षा, जोधपुर से प्राप्त अभिशंसानुसार सत्र 2025-26 से आपके संस्थान में संचालित पाठ्यक्रम में सीट वृद्धि एवं नये पाठ्यक्रमों का संचालन किये जाने की अनुमति निम्नानुसार प्रदान की जाती है –</p><p><strong>Programs - Engineering and Technology</strong></p><h3>1. Increase in Intake</h3><figure class=""table""><table><thead><tr><th>Sr No.</th><th>Programme Name</th><th>Course Level</th><th>Course</th><th>Previous Intake</th><th>Updated Intake</th></tr></thead><tbody><tr><td>1</td><td>Engineering and Technology</td><td>UG</td><td>Computer Science and Engineering</td><td>30</td><td>60</td></tr><tr><td>2</td><td>Computer Application</td><td>UG</td><td>BCA</td><td>30</td><td>60</td></tr></tbody></table></figure><h3>2. Closure of Course</h3><figure class=""table""><table><thead><tr><th>Sr No.</th><th>Programme Name</th><th>Course Level</th><th>Course</th><th>Current Intake</th><th>Reduced Intake</th></tr></thead><tbody><tr><td>1</td><td>Engineering and Technology</td><td>UG</td><td>MECHATRONICS</td><td>30</td><td>30</td></tr></tbody></table></figure><p>उक्त अनुमति इस शर्त के साथ प्रदान की जाती है कि समस्त विद्यार्थियों (नियमित/स्वयंपाठी) के अध्ययन, फीस एवं लीगल सम्बंधित तथा स्टाफ से सम्बंधित समस्त जिम्मेदारी स्वयं संस्थान की रहेगी तथा एआईसीटीई, बीटीयू बीकानेर / आरटीयू कोटा / बीटीडीआर, जोधपुर एवं राज्य स्तरीय शुल्क निर्धारण समिति द्वारा जारी गाइडलाइन एवं आदेशों की पालन भी सुनिश्चित की जाए।</p><p>यह सक्षम स्तर से अनुमोदित है।</p><p style=""text-align:right;"">भवदीय<br>संयुक्त शासन सचिव</p><p><strong>प्रतिलिपि निम्नलिखित को सूचनार्थ एवं आवश्यक कार्यवाही हेतु प्रेषित है:</strong></p><ol><li>विशिष्ट सहायक, माननीय उपमुख्यमंत्री महोदय, तकनीकी शिक्षा विभाग।</li><li>निजी सचिव, अतिरिक्त शासन सचिव, तकनीकी शिक्षा विभाग।</li><li>निजी सचिव, अध्यक्ष राज्य स्तरीय शुल्क निर्धारण समिति, राजकीय महिला पॉलिटेक्निक महाविद्यालय, गाँधी नगर, जयपुर।</li><li>अध्यक्ष, अखिल भारतीय तकनीकी शिक्षा परिषद, नई दिल्ली।</li><li>क्षेत्रीय अधिकारी, अखिल भारतीय तकनीकी शिक्षा परिषद, चंडीगढ़।</li><li>कुलसचिव, राजस्थान तकनीकी विश्वविद्यालय, कोटा।</li><li>कुलसचिव, बीकानेर तकनीकी विश्वविद्यालय, बीकानेर।</li><li>निदेशक, तकनीकी शिक्षा निदेशालय, जोधपुर।</li><li>निदेशक, सेंटर फॉर ई-गवर्नेंस, जयपुर।</li><li>रक्षित प्रति।</li></ol></p>
         </body>
         </html>
         ");
@@ -16900,6 +16755,9 @@ namespace Kaushal_Darpan.Api.Controllers
                             </td>
                             <td style='border:1px solid #000;padding:4px;'>
                                 <b>Total Passed</b> : {stream.First().PassStudent}
+                            </td>
+                            <td style='border:1px solid #000;padding:4px;'>
+                                <b>Total Grace</b> : {stream.First().GraceStudent}
                             </td>
                             <td style='border:1px solid #000;padding:4px;'>
                                 <b>{(stream.First().SemesterID == 6 ||

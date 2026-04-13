@@ -3123,7 +3123,41 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> ITI_EM_DropdownGetData(ITI_EM_DroupdownDataModel model)
+        {
+            _actionName = "ITI_EM_DropdownGetData(ITI_EM_DroupdownDataModel model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
+                    command.CommandText = "USP_ITI_EM_DropdownGetData";
 
+                    command.Parameters.AddWithValue("@Action", model.Action);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
 
     }
 

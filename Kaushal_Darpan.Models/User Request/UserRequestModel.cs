@@ -80,6 +80,10 @@ namespace Kaushal_Darpan.Models.UserMaster
         public int DivisionID { get; set; } =0;
         public int StaffTypeID { get; set; } =0;
         public int ReqRoleID { get; set; } =0;
+        public int? RequestedUserID { get; set; } =0;
+        public int? StaffID { get; set; } =0;
+        public int? RequestCreatedRoleID { get; set; } =0;
+        public int? RequestCreatedInstituteID { get; set; } =0;
 
        
     }

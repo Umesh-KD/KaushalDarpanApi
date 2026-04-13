@@ -10,6 +10,7 @@ using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
 using Kaushal_Darpan.Models.ItiCompanyMaster;
 using Kaushal_Darpan.Models.RoleMaster;
+using Org.BouncyCastle.Utilities.Collections;
 
 //namespace Kaushal_Darpan.Infra.Repositories
 //{
@@ -399,10 +400,18 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
-                        _sqlQuery = $" update OrderDetailsList set ActiveStatus=0,ModifyBy='{request.ModifyBy} '," +
-                        $"ModifyDate=GETDATE()'Where ID={request.ID}";
-                        command.CommandText = _sqlQuery;
+                        command.CommandText = @"UPDATE OrderDetailsList 
+                        SET ActiveStatus = 0, 
+                            ModifyBy = @ModifyBy, 
+                            ModifyDate = GETDATE() 
+                        WHERE ID = @ID";
+
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@ID", request.ID);
+
                         result = await command.ExecuteNonQueryAsync();
+                
                     }
                     if (result > 0)
                         return true;
@@ -436,7 +445,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
-                        _sqlQuery = $" update M_SanctionMaster set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'                         Where ID={request.ID}";
+                        _sqlQuery = $" update M_SanctionMaster set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} '," +
+                        $"ModifyDate=GETDATE(),IPAddress='{_IPAddress}'                         Where SanctionID={request.ID}";
                         command.CommandText = _sqlQuery;
                         result = await command.ExecuteNonQueryAsync();
                     }
@@ -512,6 +522,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_SanctionOrderList";
                          command.Parameters.AddWithValue("@OrderType", body.OrderType);
                         command.Parameters.AddWithValue("@OrderNo", body.OrderNo);
+                        command.Parameters.AddWithValue("@OrderDate", body.OrderDate);
                         command.Parameters.AddWithValue("@action", "GetNotAssign");
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
