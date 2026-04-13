@@ -56,7 +56,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Name", model.Name ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@ItiCode", model.ItiCode ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@DgetCode", model.DgetCode ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@CampusID", model.CampusID );
+                        command.Parameters.AddWithValue("@CampusID", model.CampusID);
                         command.Parameters.AddWithValue("@IsCampus", model.IsCampus);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -80,7 +80,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         public async Task<ITICollegeMasterModel> Get_ITIsData_ByID(int Id)
         {
-                _actionName = "GetById(int PK_ID)";
+            _actionName = "GetById(int PK_ID)";
             try
             {
                 return await Task.Run(async () =>
@@ -91,7 +91,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITICollegeMasterGetById";
                         command.Parameters.AddWithValue("@action", "_getAllData");
-                        command.Parameters.AddWithValue("@Id",Id);
+                        command.Parameters.AddWithValue("@Id", Id);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataSet = await command.FillAsync();
                     }
@@ -102,7 +102,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             data = CommonFuncationHelper.ConvertDataTable<ITICollegeMasterModel>(dataSet.Tables[0]);
 
-                            if (dataSet.Tables[1].Rows.Count>0)
+                            if (dataSet.Tables[1].Rows.Count > 0)
                             {
 
                                 data.SeatIntakes = CommonFuncationHelper.ConvertDataTable<List<SeatIntakesModel>>(dataSet.Tables[1]);
@@ -133,7 +133,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetById(int PK_ID)";
             try
             {
-                return await Task.Run(async () =>   
+                return await Task.Run(async () =>
                 {
                     DataSet dataSet = new DataSet();
                     using (var command = await _dbContext.CreateCommandAsync())
@@ -152,13 +152,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             data = CommonFuncationHelper.ConvertDataTable<ITI_PlanningColleges>(dataSet.Tables[0]);
 
-                            if (dataSet.Tables[1].Rows.Count>0)
+                            if (dataSet.Tables[1].Rows.Count > 0)
                             {
 
                                 data.ItiMembersModel = CommonFuncationHelper.ConvertDataTable<List<ItiMembersModel>>(dataSet.Tables[1]);
 
                             }
-                            if (dataSet.Tables[2].Rows.Count>0)
+                            if (dataSet.Tables[2].Rows.Count > 0)
                             {
 
                                 data.ItiAffiliationList = CommonFuncationHelper.ConvertDataTable<List<ItiAffiliationList>>(dataSet.Tables[2]);
@@ -245,7 +245,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<int> SaveData(ITICollegeMasterModel request)
         {
-                        _actionName = "SaveData(ITICollegeMasterModel request)";
+            _actionName = "SaveData(ITICollegeMasterModel request)";
             return await Task.Run(async () =>
             {
                 try
@@ -254,7 +254,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     int returnValue = 0;
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
-                        
+
                         command.CommandText = "USP_ITICollegeMaster_IU";
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@Id", request.Id);
@@ -279,20 +279,20 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CourseTypeID", request.CourseTypeID);
                         command.Parameters.AddWithValue("@IsCampus", request.IsCampus);
                         command.Parameters.AddWithValue("@CampusID", request.CampusID);
-                   
-                  
+
+
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
                         command.Parameters.AddWithValue("@ITISeatIntakesModel", JsonConvert.SerializeObject(request.SeatIntakes));
 
-                     
-                       
+
+
                         var returnParam = new SqlParameter("@Return", SqlDbType.Int) { Direction = ParameterDirection.Output };
                         command.Parameters.Add(returnParam);
 
-                       
-                        _sqlQuery = command.GetSqlExecutableQuery();                       
-                        await command.ExecuteNonQueryAsync();                        
-                        returnValue = (int)returnParam.Value;                        
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        await command.ExecuteNonQueryAsync();
+                        returnValue = (int)returnParam.Value;
                         return returnValue;
                     }
                 }
@@ -307,7 +307,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         SqlExecutableQuery = _sqlQuery
                     };
 
-                    
+
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
@@ -328,7 +328,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                     command.Parameters.AddWithValue("@Remark", request.Remark);
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-            
+
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     result = await command.ExecuteNonQueryAsync();
@@ -389,7 +389,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<bool> ResetSSOID(int id, int ModifyBy,string remark,string SSOID)
+        public async Task<bool> ResetSSOID(int id, int ModifyBy, string remark, string SSOID)
         {
             _actionName = "ResetSSOID(ITICollegeMasterModel request)";
             try
@@ -440,7 +440,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Id", id);
                     command.Parameters.AddWithValue("@ModifyBy", ModifyBy);
                     command.Parameters.AddWithValue("@Remark", remark);
-                    command.Parameters.AddWithValue("@IPAddress",_IPAddress);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     result = await command.ExecuteNonQueryAsync();
@@ -517,9 +517,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PropTehsilID", request.PropTehsilID);
                         command.Parameters.AddWithValue("@PropUrbanRural", request.PropUrbanRural);
                         command.Parameters.AddWithValue("@AdministrativeBodyId", request.AdministrativeBodyId);
-                            command.Parameters.AddWithValue("@VillageID", request.VillageID);
-                                command.Parameters.AddWithValue("@GramPanchayatSamiti", request.GramPanchayatSamiti);
-                            command.Parameters.AddWithValue("@PanchayatSamiti", request.PanchayatSamiti);
+                        command.Parameters.AddWithValue("@VillageID", request.VillageID);
+                        command.Parameters.AddWithValue("@GramPanchayatSamiti", request.GramPanchayatSamiti);
+                        command.Parameters.AddWithValue("@PanchayatSamiti", request.PanchayatSamiti);
                         command.Parameters.AddWithValue("@CityID", request.CityID);
                         command.Parameters.AddWithValue("@WardNo", request.WardNo);
                         command.Parameters.AddWithValue("@KhasraKhataNo", request.KhasraKhataNo);
@@ -540,14 +540,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Status", request.Status);
                         command.Parameters.AddWithValue("@Latitude", request.Latitude);
                         command.Parameters.AddWithValue("@Longitude", request.Longitude);
-            
+
                         command.Parameters.AddWithValue("@Bill_DisFilename", request.Bill_DisFilename);
                         command.Parameters.AddWithValue("@Bill_Filename", request.Bill_Filename);
                         command.Parameters.AddWithValue("@KNo", request.KNo);
                         command.Parameters.AddWithValue("@ContactName", request.ContactName);
                         command.Parameters.AddWithValue("@ContactDesignation", request.ContactDesignation);
                         command.Parameters.AddWithValue("@LandlineNo", request.LandlineNo);
-                     
+
                         command.Parameters.AddWithValue("@AmountAvailable", request.AmountAvailable);
                         command.Parameters.AddWithValue("@AmountRequired", request.AmountRequired);
                         command.Parameters.AddWithValue("@AmountDifference", request.AmountDifference);
@@ -620,7 +620,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BankRemark", request.BankRemark);
                         command.Parameters.AddWithValue("@BankStatus", request.BankStatus);
                         command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
-    
+
 
                         var returnParam = new SqlParameter("@Return", SqlDbType.Int) { Direction = ParameterDirection.Output };
                         command.Parameters.Add(returnParam);
@@ -663,11 +663,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
 
                         command.Parameters.AddWithValue("@CollegeId", request.InstituteID);
-                
+
                         command.Parameters.AddWithValue("@UserID", request.UserID);
                         command.Parameters.AddWithValue("@FileName", request.FileName);
                         command.Parameters.AddWithValue("@DisFileName", request.DisFileName);
-               
+
 
 
                         var returnParam = new SqlParameter("@Return", SqlDbType.Int) { Direction = ParameterDirection.Output };
@@ -729,7 +729,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Pincode", request.Pincode);
                         command.Parameters.AddWithValue("@StartDate", request.StartDate);
                         command.Parameters.AddWithValue("@CompleteDate", request.CompleteDate);
-                    
+
                         command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
                         command.Parameters.AddWithValue("@CollegeName", request.CollegeName);
                         command.Parameters.AddWithValue("@Loksabha", request.Loksabha);
@@ -849,7 +849,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-                });
+            });
         }
 
         public async Task<ItiReportDataModel> Get_ITIsReportData_ByID(int Id)
@@ -948,7 +948,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ModifyBy", ModifyBy);
                     command.Parameters.AddWithValue("@Remark", remark);
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-           
+
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     result = await command.ExecuteNonQueryAsync();
@@ -973,7 +973,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> GetPlanningList(int CollegeID,int? ITItypeID,int Status,int? DistrictID)
+        public async Task<DataTable> GetPlanningList(int CollegeID, int? ITItypeID, int Status, int? DistrictID)
         {
             _actionName = "GetPlanningList()";
             return await Task.Run(async () =>
@@ -1011,7 +1011,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-          
+
 
         public async Task<DataTable> ViewWorkflow(int CollegeID)
         {
@@ -1027,7 +1027,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITiPlanningWorkflow";
 
                         command.Parameters.AddWithValue("@CollegeID", CollegeID);
-   
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -1063,9 +1063,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITICollegeSearch";
                         command.Parameters.AddWithValue("@action", "_getAllData");
-                        command.Parameters.AddWithValue("@DivisionID", model.DivisionID);                       
-                        command.Parameters.AddWithValue("@DistrictID", model.DistrictID);                       
-                        command.Parameters.AddWithValue("@SearchText", model.SearchText ?? (object)DBNull.Value);                       
+                        command.Parameters.AddWithValue("@DivisionID", model.DivisionID);
+                        command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
+                        command.Parameters.AddWithValue("@SearchText", model.SearchText ?? (object)DBNull.Value);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1271,8 +1271,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     };
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
-                    }
-                });
+                }
+            });
         }
 
         public async Task<DataTable> GetAllEstablishmentIti(ItiEstablishmentSearchModel model)
@@ -1288,13 +1288,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITICollegeEstablishmentList";
                         command.Parameters.AddWithValue("@IsNewCollege", model.IsNewCollege);
-           
+
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
                         command.Parameters.AddWithValue("@UserID", model.UserID);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@Name", model.CollegeName ?? (object)DBNull.Value);
-             
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1344,6 +1344,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BankID", model.BankID);
                         command.Parameters.AddWithValue("@Action", model.ActionType);
 
+                        command.Parameters.AddWithValue("@Orderdate", model.Orderdate);
+                        command.Parameters.AddWithValue("@OrderNo", model.OrderNo);
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -1382,7 +1385,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CollageId", body.CollageId);
                         command.Parameters.AddWithValue("@dayWise", body.dayWise);
 
-                        
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1417,7 +1420,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_GetITIPlanningBankGuarantee_report";
                         command.Parameters.AddWithValue("@Status", body.Status);
                         command.Parameters.AddWithValue("@CollageId", body.CollageId);
-                        
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1511,23 +1514,21 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "statusUpdateById()";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetITIPlanningStatusUpdateById";
-                        command.Parameters.AddWithValue("@BankGuaranteeID", body.BankGuaranteeID);
-                        command.Parameters.AddWithValue("@Status", body.Status);
-                        command.Parameters.AddWithValue("@Remarks", body.Remarks);
-                        command.Parameters.AddWithValue("@OrderNo", body.OrderNo);
-                        command.Parameters.AddWithValue("@Orderdate", body.Orderdate);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetITIPlanningStatusUpdateById";
+                    command.Parameters.AddWithValue("@BankGuaranteeID", body.BankGuaranteeID);
+                    command.Parameters.AddWithValue("@Status", body.Status);
+                    command.Parameters.AddWithValue("@Remarks", body.Remarks);
+                    command.Parameters.AddWithValue("@OrderNo", body.OrderNo);
+                    command.Parameters.AddWithValue("@Orderdate", body.Orderdate);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+
             }
             catch (Exception ex)
             {
