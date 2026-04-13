@@ -150,7 +150,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     else if (result.Data == -2)
                     {
                         result.State = EnumStatus.Warning;
-                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                        result.ErrorMessage = "The email ID or mobile number you entered already exists.";
                     }
 
                     else if (result.Data == -6)
