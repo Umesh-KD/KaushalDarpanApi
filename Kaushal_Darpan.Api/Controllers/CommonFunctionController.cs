@@ -897,49 +897,46 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpGet("SemesterMaster/{ShowAllSemester}/{EndTermID}/{IsWithNotYearly}/{IsPromote}/{IsForEx}/{IsWithNot6thSem}/{EngNonEng}")]
         public async Task<ApiResult<DataTable>> SemesterMaster(int ShowAllSemester, int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0, int IsWithNot6thSem = 0, int EngNonEng = 0)
         {
-            return await Task.Run(async () =>
+            var result = new ApiResult<DataTable>();
+            try
             {
-                var result = new ApiResult<DataTable>();
-                try
+                var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.SemesterMaster(
+                    ShowAllSemester: ShowAllSemester,
+                    EndTermID: EndTermID,
+                    IsWithNotYearly: IsWithNotYearly,
+                    IsPromote: IsPromote,
+                    IsForEx: IsForEx,
+                    IsWithNot6thSem: IsWithNot6thSem,
+                    EngNonEng: EngNonEng
+                    ));
+                if (data.Rows.Count > 0)
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.SemesterMaster(
-                        ShowAllSemester: ShowAllSemester,
-                        EndTermID: EndTermID,
-                        IsWithNotYearly: IsWithNotYearly,
-                        IsPromote: IsPromote,
-                        IsForEx: IsForEx,
-                        IsWithNot6thSem: IsWithNot6thSem,
-                        EngNonEng: EngNonEng
-                        );
-                    if (data.Rows.Count > 0)
-                    {
-                        result.Data = data;
-                        result.State = EnumStatus.Success;
-                        result.Message = "Data load successfully .!";
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
 
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = "No record found.!";
-                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found.!";
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
         [HttpGet("SemesterGenerateMaster")]
