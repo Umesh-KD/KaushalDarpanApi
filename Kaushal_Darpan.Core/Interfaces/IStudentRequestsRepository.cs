@@ -46,5 +46,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> WithdrawHostelRequest(DeallocateRoomDataModel request);
         Task<DataTable> HostelStudentMeritListWardenView(SearchStudentApplyForHostel SearchReq);
         Task<DataTable> GetRoomFee(HostelFeeModel SearchReq);
+        Task<DataTable> GetStudentdata(GetMeritDataModel_Hostel SearchReq);
     }
 }

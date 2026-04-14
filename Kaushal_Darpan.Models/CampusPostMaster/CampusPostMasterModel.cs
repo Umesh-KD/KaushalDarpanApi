@@ -74,6 +74,7 @@
         public string Dis_AgeAllowedTo { get; set; }
         public string? SalaryName { get; set; }
         public int EligibleInstitutesID { get; set; }
+        public string? appointmentLocation { get; set; }
     }
 
     public class CampusPostMaster_Action
