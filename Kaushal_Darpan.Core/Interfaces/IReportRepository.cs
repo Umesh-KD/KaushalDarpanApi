@@ -315,5 +315,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetExamWiseStreamPapersreport(ExamWiseStreamPapersReportModel model);
         Task<DataTable> GetStudentAllMarksReport(StudentAllMarksReportModel model);
         Task<DataSet> GetStudentRevalFeePaymentReceipt(string TransactionId, int StudentExamID);
+        Task<DataSet> GetDiplomaCertificate(DiplomaCertificateModel model);
     }
 }

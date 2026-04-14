@@ -6645,7 +6645,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.CommandText = "Usp_Bter_Diploma_Report1";
                             command.Parameters.AddWithValue("@Action", filterModel.Action);
                             command.Parameters.AddWithValue("@EnrollmentNo", filterModel.EnrollmentNo);
-                            command.Parameters.AddWithValue("@RevisedType", filterModel.RevisedType);
+                            command.Parameters.AddWithValue("" +
+                                "@RevisedType", filterModel.RevisedType);
                             command.Parameters.AddWithValue("@ResultType", filterModel.ResultType);
                             command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterID);
                         }
@@ -9734,6 +9735,47 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_Rpt_GetRevelFeeReceipt";
                         command.Parameters.AddWithValue("@TransactionId", TransactionId);
                         command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
+
+        #region Diploma Certificate
+        public async Task<DataSet> GetDiplomaCertificate(DiplomaCertificateModel model)
+        {
+            _actionName = "GetDiplomaCertificate()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "Usp_Bter_DiplomaCertificate_Report";
+                        //command.Parameters.AddWithValue("@Action", "certificate-letter-download");
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@CertificateType", model.CertificateType);
+                        command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
