@@ -116,8 +116,10 @@ public class ITIPlanningBankGuaranteeModel
     public string? Remarks { get; set; } 
     public int? FinYearId { get; set; } 
     public int? BankID { get; set; } 
-    public string? ActionType { get; set; } 
-    
+    public string? ActionType { get; set; }
+    public int? OrderNo { get; set; }
+    public string? Orderdate { get; set; }
+
 }
 
 

@@ -455,11 +455,15 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 var data = await _unitOfWork.ITI_InstructorRepository.GetverificationStatus(model);
+                await _unitOfWork.SaveChangesAsync();
                 if (data != null && data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
                     result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                     result.Data = data;
+
+               
+
                 }
                 else
                 {
@@ -696,9 +700,15 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.State=EnumStatus.Error;
                         result.ErrorMessage="No More Vacancy";
                     }
-                    
 
-                    
+
+                    else if (result.Data==-4)
+                    {
+                        result.State=EnumStatus.Error;
+                        result.ErrorMessage="No More Vacancy";
+                    }
+
+
                     else
                     {
                         result.State = EnumStatus.Error;

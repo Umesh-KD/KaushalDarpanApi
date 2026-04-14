@@ -3138,6 +3138,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Action", model.Action);
                     command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@UserID", model.UserID);
+                    command.Parameters.AddWithValue("@RoleID", model.RoleID);
 
 
                     _sqlQuery = command.GetSqlExecutableQuery();

@@ -36,6 +36,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetBter_GetStaffDetailsVRS(BTER_EM_UnlockProfileDataModel Model);
         Task<DataTable> GetITI_GetStaffDetailsVRS(ITI_EM_UnlockProfileDataModel Model);
         Task<DataTable> UserRequest_GetData(RequestSearchModel Model);
+        Task<int> UserRequestJoiningApprove_ITI_EM(RequestUpdateStatus request);
 
     }
 }
