@@ -2481,6 +2481,85 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetCompanyTierMaster()
+        {
+            _actionName = "GetCompanyTierMaster()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    //List<CommonDDLModel> studentMaster = new List<CommonDDLModel>();
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDL_Placement";
+                        command.Parameters.AddWithValue("@Action", "_getCompanyTierList");
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+
+                    }
+                    //if (dataTable.Rows.Count > 1)
+                    //{
+                    //    studentMaster = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    //}
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetTierBasedPackageMaster(int TierID)
+        {
+            _actionName = "GetTierBasedPackageMaster()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    //List<CommonDDLModel> studentMaster = new List<CommonDDLModel>();
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDL_Placement";
+                        command.Parameters.AddWithValue("@Action", "_getTierBasedPackageList");
+                        command.Parameters.AddWithValue("@TierID", TierID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+
+                    }
+                    //if (dataTable.Rows.Count > 1)
+                    //{
+                    //    studentMaster = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    //}
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<List<CommonDDLModel>> DistrictMaster_StateIDWise(int StateID)
         {
             _actionName = "DistrictMaster_StateIDWise(int StateID)";

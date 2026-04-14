@@ -19,6 +19,8 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public bool DeleteStatus { get; set; }
 
         public int ModifyBy { get; set; }
+        public int TierID { get; set; }
+        public int PackageID { get; set; }
         public string? IPAddress { get; set; }
 
         public List<HRMaster> ListCompanyHRDetails { get; set; }
