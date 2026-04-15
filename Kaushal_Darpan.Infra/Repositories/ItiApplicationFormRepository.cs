@@ -656,8 +656,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<List<ExperienceDetailsDataModel>> GetExpereinceDetailsbyID(ItiApplicationSearchModel request)
         {
             _actionName = "GetOptionDetailsbyID(int PK_ID, int DepartmentID)";
-            return await Task.Run(async () =>
-            {
+          
                 try
                 {
                     DataTable dataTable = new DataTable();
@@ -689,7 +688,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+         
         }
         public async Task<ItiApplicationPreviewModel> GetApplicationPreviewbyID(ItiApplicationSearchModel searchRequest)
         {
