@@ -707,6 +707,49 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataTable> GetUserRequestList_DDO(RequestSearchModel Model)
+        {
+            _actionName = "GetUserRequestList_DDO(RequestSearchModel Model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_UserRequestList_DDO";
+                    // Add parameters to the stored procedure from the model   
+                    command.Parameters.AddWithValue("@Action", Model.Action);
+                    command.Parameters.AddWithValue("@ServiceRequestId", Model.ServiceRequestId);
+                    command.Parameters.AddWithValue("@RequestId", Model.RequestId);
+                    command.Parameters.AddWithValue("@RequestType", Model.RequestType);
+                    command.Parameters.AddWithValue("@UserId", Model.UserId);
+                    command.Parameters.AddWithValue("@LevelID", Model.LevelID);
+                    command.Parameters.AddWithValue("@StaffTypeID", Model.StaffTypeID);
+                    command.Parameters.AddWithValue("@PostID", Model.PostID);
+                    command.Parameters.AddWithValue("@OfficeID", Model.OfficeID);
+                    command.Parameters.AddWithValue("@OrderNo", Model.OrderNo);
+                    command.Parameters.AddWithValue("@RoleID", Model.RoleID);
+                    command.Parameters.AddWithValue("@InstituteID", Model.InstituteID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
 
         #region  ds
 

@@ -107,66 +107,63 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<bool>> SaveData([FromBody] CommonSubjectMasterModel request)
         {
             ActionName = "SaveData([FromBody] CommonSubjectMasterModel request)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<bool>();
+            try
             {
-                var result = new ApiResult<bool>();
-                try
+                var mappedData = _mapper.Map<M_CommonSubject>(request);
+                //parent
+                mappedData.RTS = DateTime.Now;
+                mappedData.CreatedBy = request.ModifyBy;
+                mappedData.ModifyDate = DateTime.Now;
+                mappedData.Remark = string.Empty;
+                mappedData.ActiveStatus = true;
+                mappedData.DeleteStatus = false;
+                var pid = await Task.Run(() => _unitOfWork.CommonSubjectMasterRepository.SaveData(mappedData));
+                //child
+                mappedData.commonSubjectDetails.ForEach(x => x.CommonSubjectID = pid);
+                result.Data = await Task.Run(() => _unitOfWork.CommonSubjectMasterRepository.SaveDataChild(mappedData.commonSubjectDetails));
+                await _unitOfWork.SaveChangesAsync();
+                //result
+                if (result.Data)
                 {
-                    var mappedData = _mapper.Map<M_CommonSubject>(request);
-                    //parent
-                    mappedData.RTS = DateTime.Now;
-                    mappedData.CreatedBy = request.ModifyBy;
-                    mappedData.ModifyDate = DateTime.Now;
-                    mappedData.Remark = string.Empty;
-                    mappedData.ActiveStatus = true;
-                    mappedData.DeleteStatus = false;
-                    var pid = await _unitOfWork.CommonSubjectMasterRepository.SaveData(mappedData);
-                    //child
-                    mappedData.commonSubjectDetails.ForEach(x => x.CommonSubjectID = pid);
-                    result.Data = await _unitOfWork.CommonSubjectMasterRepository.SaveDataChild(mappedData.commonSubjectDetails);
-                    await _unitOfWork.SaveChangesAsync();
-                    //result
-                    if (result.Data)
+                    result.State = EnumStatus.Success;
+                    if (request.CommonSubjectID == 0)
                     {
-                        result.State = EnumStatus.Success;
-                        if (request.CommonSubjectID == 0)
-                        {
-                            result.Message = Constants.MSG_SAVE_SUCCESS;
-                        }
-                        else
-                        {
-                            result.Message = Constants.MSG_UPDATE_SUCCESS;
-                        }
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
                     }
                     else
                     {
-                        result.State = EnumStatus.Error;
-                        if (request.CommonSubjectID == 0)
-                        {
-                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                        }
-                        else
-                        {
-                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
-                        }
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
                     }
                 }
-                catch (System.Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // write error log
-                    var nex = new NewException
+                    if (request.CommonSubjectID == 0)
                     {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
                 }
-                return result;
-            });
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
         [HttpDelete("DeleteByID/{CommonSubjectId:int}/{ModifyBy:int}")]

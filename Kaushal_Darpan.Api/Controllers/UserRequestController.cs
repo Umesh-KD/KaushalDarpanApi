@@ -884,6 +884,52 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("GetUserRequestList_DDO")]
+        public async Task<ApiResult<DataTable>> GetUserRequestList_DDO([FromBody] RequestSearchModel request)
+        {
+            ActionName = "GetUserRequestList_DDO([FromBody] RequestSearchModel request)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.UsersRequest.GetUserRequestList_DDO(request);
+
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_SAVE_Duplicate;
+                }
+                else if (request.ServiceRequestId == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_UPDATE_SUCCESS;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
         #region divya
 
         [HttpPost("GetITI_GetStaffDetailsVRS")]

@@ -52,6 +52,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BackSubjectCount", request.BackSubjectCount);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
+                        command.Parameters.AddWithValue("@SchemeID", request.SchemeID);
                         command.Parameters.AddWithValue("@Child_Json", JsonConvert.SerializeObject(request.CasteCatogaryList));
 
 
