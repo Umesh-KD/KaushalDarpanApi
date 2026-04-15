@@ -1692,8 +1692,6 @@ namespace Kaushal_Darpan.Api.Controllers
                         RESPONSEPARAMS.RESPONSEMESSAGE = RESPONSEPARAMS.MSG;
                         RESPONSEPARAMS.STATUS = RESPONSEPARAMS.TRANSACTIONSTATUS;
 
-
-
                         RESPONSEPARAMS.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
                         await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(RESPONSEPARAMS);
                         await _unitOfWork.SaveChangesAsync();
