@@ -40,8 +40,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> SavePersonalDetailsData(PersonalDetailsDataModel request)
         {
             _actionName = "SaveData(PersonalDetailsDataModel request)";
-            return await Task.Run(async () =>
-            {
+        
                 try
                 {
                     int result = 0;
@@ -128,14 +127,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errorDetails, ex);
                 }
-            });
+         
         }
 
         public async Task<PersonalDetailsDataModel> GetApplicationDatabyID(ItiApplicationSearchModel request)
         {
             _actionName = "GetApplicationDatabyID(ItiApplicationSearchModel request)";
-            return await Task.Run(async () =>
-            {
+          
                 try
                 {
                     DataTable dataTable = new DataTable();
@@ -169,7 +167,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+         
         }
 
         public async Task<int> SaveOptionDetailsData_Back(List<OptionDetailsDataModel> request)
@@ -340,8 +338,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> SaveQualificationDetailsData(List<QualificationDetailsDataModel> request)
         {
             _actionName = "SaveQualificationDetailsData(List<QualificationDetailsDataModel> request)";
-            return await Task.Run(async () =>
-            {
+        
                 try
                 {
                     int result = 0;
@@ -382,7 +379,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errorDetails, ex);
                 }
-            });
+         
         }
 
 
@@ -390,8 +387,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> SaveEditQualificationDetailsData(List<QualificationDetailsDataModel> request)
         {
             _actionName = "SaveQualificationDetailsData(List<QualificationDetailsDataModel> request)";
-            return await Task.Run(async () =>
-            {
+            
                 try
                 {
                     int result = 0;
@@ -432,15 +428,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errorDetails, ex);
                 }
-            });
+        
         }
 
 
         public async Task<int> SaveDocumentDetailsData(List<DocumentDetailsModel> request)
         {
             _actionName = " SaveDocumentDetailsData(List<DocumentDetailsModel> request)";
-            return await Task.Run(async () =>
-            {
+      
                 try
                 {
                     int result = 0;
@@ -479,14 +474,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errorDetails, ex);
                 }
-            });
+      
         }
 
         public async Task<int> SaveAddressDetailsData(AddressDetailsDataModel request)
         {
             _actionName = "SaveAddressDetailsData(AddressDetailsDataModel request)";
-            return await Task.Run(async () =>
-            {
+           
                 try
                 {
                     int result = 0;
@@ -537,14 +531,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errorDetails, ex);
                 }
-            });
+        
         }
 
         public async Task<List<QualificationDetailsDataModel>> GetQualificationDatabyID(ItiApplicationSearchModel request)
         {
             _actionName = "GetQualificationDatabyID(int PK_ID, int DepartmentID)";
-            return await Task.Run(async () =>
-            {
+          
                 try
                 {
                     DataTable dataTable = new DataTable();
@@ -579,14 +572,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+         
         }
 
         public async Task<AddressDetailsDataModel> GetAddressDetailsbyID(ItiApplicationSearchModel request)
         {
             _actionName = "GetAddressDetailsbyID(ItiApplicationSearchModel request)";
-            return await Task.Run(async () =>
-            {
+         
                 try
                 {
                     DataTable dataTable = new DataTable();
@@ -620,14 +612,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+         
         }
 
         public async Task<List<OptionDetailsDataModel>> GetOptionDetailsbyID(ItiApplicationSearchModel request)
         {
             _actionName = "GetOptionDetailsbyID(int PK_ID, int DepartmentID)";
-            return await Task.Run(async () =>
-            {
+           
                 try
                 {
                     DataTable dataTable = new DataTable();
@@ -659,7 +650,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+           
         }
 
         public async Task<List<ExperienceDetailsDataModel>> GetExpereinceDetailsbyID(ItiApplicationSearchModel request)
@@ -705,8 +696,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetApplicationPreviewbyID(ItiApplicationSearchModel searchRequest)";
             try
             {
-                return await Task.Run(async () =>
-                {
+              
                     DataSet dataSet = new DataSet();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
@@ -754,7 +744,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         }
                     }
                     return data;
-                });
+           
             }
             catch (Exception ex)
             {
@@ -777,8 +767,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetApplicationPreviewbyID(ItiApplicationSearchModel searchRequest)";
             try
             {
-                return await Task.Run(async () =>
-                {
+               
                     DataSet dataSet = new DataSet();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
@@ -836,7 +825,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         }
                     }
                     return data;
-                });
+           
             }
             catch (Exception ex)
             {
@@ -910,8 +899,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> FinalSubmit(int ApplicationID, int Status)
         {
             _actionName = "FinalSubmit(int ApplicationID, int Status)";
-            return await Task.Run(async () =>
-            {
+         
                 try
                 {
                     int result = 0;
@@ -954,7 +942,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errorDetails, ex);
                 }
-            });
+         
         }
 
 
@@ -991,8 +979,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<bool> DeleteOptionByID(OptionDetailsDataModel model)
         {
             _actionName = "GetById(int PK_ID)";
-            return await Task.Run(async () =>
-            {
+         
                 try
                 {
                     int result = 0;
@@ -1023,55 +1010,52 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+       
         }
 
         public async Task<bool> PriorityChange(OptionDetailsDataModel model)
         {
             _actionName = "PriorityChange(OptionDetailsDataModel model)";
-            return await Task.Run(async () =>
-            {
-                try
-                {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITIApplication_Options_IU";
-                        command.Parameters.AddWithValue("@OptionID", model.OptionID);
-                        command.Parameters.AddWithValue("@ApplicationID", model.ApplicationID);
-                        command.Parameters.AddWithValue("@Type", model.Type);
-                        command.Parameters.AddWithValue("@TradeLevel", model.TradeLevel);
-                        command.Parameters.AddWithValue("@action", "PriorityChange");
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
-                    }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
-                }
-                catch (Exception ex)
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITIApplication_Options_IU";
+                    command.Parameters.AddWithValue("@OptionID", model.OptionID);
+                    command.Parameters.AddWithValue("@ApplicationID", model.ApplicationID);
+                    command.Parameters.AddWithValue("@Type", model.Type);
+                    command.Parameters.AddWithValue("@TradeLevel", model.TradeLevel);
+                    command.Parameters.AddWithValue("@action", "PriorityChange");
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
                 }
-            });
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetItiApplicationData(ItiAdminDashApplicationSearchModel body)
         {
             _actionName = "GetAllData()";
-            return await Task.Run(async () =>
-            {
+        
                 try
                 {
                     DataTable dataTable = new DataTable();
@@ -1116,7 +1100,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+       
         }
 
         public async Task<bool> UnlockApplication(ItiApplicationUnlockDataModel model)
@@ -1162,8 +1146,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> ITI_DirectAdmissionApply(ITI_DirectAdmissionApplyDataModel model)
         {
             _actionName = "ITI_DirectAdmissionApply(int ApplicationId, int UserId)";
-            return await Task.Run(async () =>
-            {
+         
                 try
                 {
                     int result = 0;
@@ -1201,7 +1184,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errorDetails, ex);
                 }
-            });
+          
         }
 
 
