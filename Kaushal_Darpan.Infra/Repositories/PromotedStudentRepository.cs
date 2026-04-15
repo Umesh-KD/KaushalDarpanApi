@@ -136,90 +136,84 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> SaveEnrolledStudentExam_Back(List<PromotedStudentMarkedModel> model)
         {
             _actionName = "SaveEnrolledStudentExam_Back(List<PromotedStudentMarkedModel> model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    int retval = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_SaveEnrolledStudentExamData_Back";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_SaveEnrolledStudentExamData_Back";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_saveEnrolledStudentExam_Back");
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_saveEnrolledStudentExam_Back");
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
-                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
-                    }
-                    return retval;
+                    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
                 }
-                catch (Exception ex)
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<int> SaveEnrolledStudentExam_Next(List<PromotedStudentMarkedModel> model)
         {
             _actionName = "SaveEnrolledStudentExam_Next(List<PromotedStudentMarkedModel> model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    int retval = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_SaveEnrolledStudentExamData_Next";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_SaveEnrolledStudentExamData_Next";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_saveEnrolledStudentExam");
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_saveEnrolledStudentExam");
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
-                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
-                    }
-                    return retval;
+                    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
                 }
-                catch (Exception ex)
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetITIPromotedStudent(PromotedStudentSearchModel model)
@@ -278,7 +272,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<int> SaveItiPromotedStudent(List<PromotedStudentMarkedModel> model)
         {
-            _actionName = "SavePromotedStudent(List<PromotedStudentMarkedModel> model)";
+            _actionName = "SaveItiPromotedStudent(List<PromotedStudentMarkedModel> model)";
             return await Task.Run(async () =>
             {
                 try
@@ -323,267 +317,249 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> SaveFormNotFilledPromotedStudent(List<PromotedStudentMarkedModel> model)
         {
             _actionName = "SaveFormNotFilledPromotedStudent(List<PromotedStudentMarkedModel> model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    int retval = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_SaveFormNotFilledPromotedStudentData";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_SaveFormNotFilledPromotedStudentData";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_saveFormNotFilledPromotedStudentData");
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_saveFormNotFilledPromotedStudentData");
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
-                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
-                    }
-                    return retval;
+                    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
                 }
-                catch (Exception ex)
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<int> SaveFormNotFilledEnrolledStudentExam_Next(List<PromotedStudentMarkedModel> model)
         {
             _actionName = "SaveFormNotFilledEnrolledStudentExam_Next(List<PromotedStudentMarkedModel> model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    int retval = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_SaveFormNotFilledEnrolledStudentExamData_Next";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_SaveFormNotFilledEnrolledStudentExamData_Next";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_saveFormNotFilledEnrolledStudentExam");
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_saveFormNotFilledEnrolledStudentExam");
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
-                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
-                    }
-                    return retval;
+                    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
                 }
-                catch (Exception ex)
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<int> SaveDetainedPromotedStudent(List<PromotedStudentMarkedModel> model)
         {
             _actionName = "SaveDetainedPromotedStudent(List<PromotedStudentMarkedModel> model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    int retval = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_SaveDetainedPromotedStudentData";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_SaveDetainedPromotedStudentData";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_saveDetainedPromotedStudentData");
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_saveDetainedPromotedStudentData");
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
-                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
-                    }
-                    return retval;
+                    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
                 }
-                catch (Exception ex)
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<int> SaveDetainedEnrolledStudentExam_Next(List<PromotedStudentMarkedModel> model)
         {
             _actionName = "SaveDetainedEnrolledStudentExam_Next(List<PromotedStudentMarkedModel> model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    int retval = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_SaveDetainedEnrolledStudentExamData_Next";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_SaveDetainedEnrolledStudentExamData_Next";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_saveDetainedEnrolledStudentExam");
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_saveDetainedEnrolledStudentExam");
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
-                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
-                    }
-                    return retval;
+                    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
                 }
-                catch (Exception ex)
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<int> SaveITIPromotedStudentReg(List<PromotedStudentMarkedModel> model)
         {
-            _actionName = "SavePromotedStudent(List<PromotedStudentMarkedModel> model)";
-            return await Task.Run(async () =>
+            _actionName = "SaveITIPromotedStudentReg(List<PromotedStudentMarkedModel> model)";
+            try
             {
-                try
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    int retval = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_SavePromotedStudentDataITI";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_SavePromotedStudentDataITI";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_savePromotedStudentDataReg");
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_savePromotedStudentDataReg");
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
-                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
-                    }
-                    return retval;
+                    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
                 }
-                catch (Exception ex)
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<int> SaveFormNotFilledExEnrolledStudentExam_Back(List<PromotedStudentMarkedModel> model)
         {
             _actionName = "SaveFormNotFilledExEnrolledStudentExam_Back(List<PromotedStudentMarkedModel> model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    int retval = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_SaveFormNotFilledExEnrolledStudentExam_Back";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_SaveFormNotFilledExEnrolledStudentExam_Back";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_saveFormNotFilledExEnrolledStudentExam_Back");
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_saveFormNotFilledExEnrolledStudentExam_Back");
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
-                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
-                    }
-                    return retval;
+                    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
                 }
-                catch (Exception ex)
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
     }
 }

@@ -1362,41 +1362,38 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("ViewStudentDetails")]
         public async Task<ApiResult<ViewStudentDetailsModel>> ViewStudentDetails(ViewStudentDetailsRequestModel model)
         {
-            return await Task.Run(async () =>
+            var result = new ApiResult<ViewStudentDetailsModel>();
+            try
             {
-                var result = new ApiResult<ViewStudentDetailsModel>();
-                try
+                var data = await Task.Run(() => _unitOfWork.PreExamStudentRepository.ViewStudentDetails(model));
+                if (data != null)
                 {
-                    var data = await _unitOfWork.PreExamStudentRepository.ViewStudentDetails(model);
-                    if (data != null)
-                    {
-                        result.Data = data;
-                        result.State = EnumStatus.Success;
-                        result.Message = "Data load successfully .!";
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
 
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = "No record found.!";
-                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found.!";
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
 
@@ -2024,7 +2021,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-        
+
         [HttpPost("VerifyStudent_Registrar")]
         public async Task<ApiResult<bool>> VerifyStudent_Registrar([FromBody] List<StudentMarkedModel> request)
         {
