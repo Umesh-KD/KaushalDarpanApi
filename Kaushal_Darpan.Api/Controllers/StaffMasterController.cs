@@ -1691,6 +1691,140 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+        [HttpPost("InsertStaffAssignmentHierarchy")]
+        public async Task<ApiResult<DataTable>> InsertStaffAssignmentHierarchy([FromBody] InsertStaffAssignmentHierarchyModel body)
+        {
+            ActionName = "InsertStaffAssignmentHierarchy()";
+
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                result.Data = await _unitOfWork.StaffMasterRepository.InsertStaffAssignmentHierarchy(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    var status = Convert.ToInt32(result.Data.Rows[0]["Status"]);
+                    var message = result.Data.Rows[0]["Message"].ToString();
+
+                    if (status == 1)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = message;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = message;
+                    }
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                await _unitOfWork.DisposeAsync();
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
+        [HttpPost("GetStaffAssignmentHierarchy")]
+        public async Task<ApiResult<DataTable>> GetStaffAssignmentHierarchy([FromBody] GetStaffAssignmentHierarchyModel body)
+        {
+            ActionName = "GetStaffAssignmentHierarchy()";
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                result.Data = await _unitOfWork.StaffMasterRepository.GetStaffAssignmentHierarchy(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                await _unitOfWork.DisposeAsync();
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
+
+        [HttpPost("GetStaffAssignmentHistory")]
+        public async Task<ApiResult<DataTable>> GetStaffAssignmentHistory([FromBody] StaffAssignmentHistoryModel body)
+        {
+            ActionName = "GetStaffAssignmentHistory()";
+
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                result.Data = await _unitOfWork.StaffMasterRepository.GetStaffAssignmentHistory(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                await _unitOfWork.DisposeAsync();
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
 
     }
 }

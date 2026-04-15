@@ -247,6 +247,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetCenter_DistrictWise(CenterMasterDDLDataModel body);
         Task<DataTable> GetExamDate(CenterMasterDDLDataModel body);
         Task<DataTable> GetStaff_InstituteWise(StaffMasterDDLDataModel body);
+        Task<DataTable> Get_Staff_Ac_Year(StaffMasterDDLDataModel body);
         Task<List<CommonDDLModel>> GetCategory_BranchWise(int ID);
 
         Task<List<CommonDDLModel>> GetDTEEquipment_CategoryWise(int ID);

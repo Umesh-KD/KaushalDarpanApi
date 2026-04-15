@@ -319,5 +319,28 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public string? SSOID { get; set; } = string.Empty;
         public int? InstituteID { get; set; } = 0;
     }
-
+    public class InsertStaffAssignmentHierarchyModel
+    {
+        public int? AssignmentId { get; set; }
+        public int StaffId { get; set; }
+        public int InstituteId { get; set; }
+        public string BranchIds { get; set; }      // CSV
+        public string SemesterIds { get; set; }    // CSV
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public int Status { get; set; }
+        public int CreatedBy { get; set; }
     }
+    public class GetStaffAssignmentHierarchyModel
+    {
+        public int? InstituteId { get; set; }
+        public int? CreatedBy { get; set; }
+    }
+
+    public class StaffAssignmentHistoryModel
+    {
+        public int? InstituteId { get; set; }
+        public int? CreatedBy { get; set; }
+        public int? StaffId { get; set; }
+    }
+}

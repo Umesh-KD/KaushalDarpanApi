@@ -37,6 +37,9 @@
         public string? Remark { get; set; }
         public int DepartmentID { get; set; }
         public int CampusPostType { get; set; }
+
+        public string? StudentConsentTime { get; set; }
+        public string? StudentConsentDate { get; set; }
         public List<CampusPostMaster_EligibilityCriteria> EligibilityCriteriaModel { get; set; }
     }
     public class CampusPostMaster_EligibilityCriteria
