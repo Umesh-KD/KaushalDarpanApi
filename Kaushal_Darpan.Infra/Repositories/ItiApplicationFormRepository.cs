@@ -278,8 +278,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> SaveOptionDetailsData(List<OptionDetailsDataModel> request)
         {
             _actionName = "SaveOptionDetailsData(List<OptionDetailsDataModel> request)";
-            return await Task.Run(async () =>
-            {
+        
                 try
                 {
                     int result = 0;
@@ -336,9 +335,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errorDetails, ex);
                 }
-            });
         }
-
 
         public async Task<int> SaveQualificationDetailsData(List<QualificationDetailsDataModel> request)
         {
