@@ -109,6 +109,11 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.State = EnumStatus.Warning;
                         result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
                     }
+                    else if (result.Data == -3)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = "Post is not vacant";
+                    }
                     else
                     {
                         result.State = EnumStatus.Error;
