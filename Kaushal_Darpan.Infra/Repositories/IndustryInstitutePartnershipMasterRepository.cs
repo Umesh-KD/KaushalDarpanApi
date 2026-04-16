@@ -570,10 +570,19 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@EventForID", request.EventForID);
                     command.Parameters.AddWithValue("@EventStartDate", Convert.ToDateTime(request.EventStartDate));
                     command.Parameters.AddWithValue("@EventEndDate", Convert.ToDateTime(request.EventEndDate));
-
+                    command.Parameters.AddWithValue("@FileUpload", request.FileUpload);
+                    command.Parameters.AddWithValue("@Dis_FileUpload", request.Dis_FileUpload);
+                    command.Parameters.AddWithValue("@EventLevelID", request.EventLevelID);
+                    command.Parameters.AddWithValue("@Remark", request.Remark);
                     command.Parameters.AddWithValue("@Semesterlist", JsonConvert.SerializeObject(request.Semesterlist));
                     command.Parameters.AddWithValue("@Branchlist", JsonConvert.SerializeObject(request.Branchlist));
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@SSOID", request.SSOID ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@MobileNo", request.MobileNo ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Email", request.Email ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Designation", request.Designation ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@TrainingDuration", request.TrainingDuration ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@AreaOfDomain", request.AreaOfDomain ?? (object)DBNull.Value);
 
                     command.Parameters.Add("@Return", SqlDbType.Int); // out
                     command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
