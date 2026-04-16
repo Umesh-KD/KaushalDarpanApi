@@ -93,8 +93,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Dis_Name", request.Dis_CompanyName);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
-                        command.Parameters.AddWithValue("@CompanyStatusID", request.TierID);
+                        command.Parameters.AddWithValue("@TierID", request.TierID);
                         command.Parameters.AddWithValue("@PackageID", request.PackageID);
+                        command.Parameters.AddWithValue("@ISIIP", request.ISIIP);
 
                         //command.Parameters.AddWithValue("@HRName", request.HRName);
                         //command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
