@@ -1453,7 +1453,135 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> InsertStaffAssignmentHierarchy(InsertStaffAssignmentHierarchyModel body)
+        {
+            _actionName = "InsertStaffAssignmentHierarchy()";
 
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "usp_InsertStaffAssignmentHierarchy";
+
+                        command.Parameters.AddWithValue("@AssignmentId", (object?)body.AssignmentId ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@StaffId", body.StaffId);
+                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
+                        command.Parameters.AddWithValue("@BranchIds", body.BranchIds);
+                        command.Parameters.AddWithValue("@SemesterIds", body.SemesterIds);
+                        command.Parameters.AddWithValue("@FromDate", body.FromDate);
+                        command.Parameters.AddWithValue("@ToDate", (object?)body.ToDate ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@Status", body.Status);
+                        command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        public async Task<DataTable> GetStaffAssignmentHierarchy(GetStaffAssignmentHierarchyModel body)
+        {
+            _actionName = "GetStaffAssignmentHierarchy()";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "Sp_Get_StaffAssignmentHierarchy";
+
+                        command.Parameters.AddWithValue("@InstituteId", (object?)body.InstituteId ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@CreatedBy", (object?)body.CreatedBy ?? DBNull.Value);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetStaffAssignmentHistory(StaffAssignmentHistoryModel body)
+        {
+            _actionName = "GetStaffAssignmentHistory()";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "Sp_Get_StaffAssignmentHistory";
+
+                        command.Parameters.AddWithValue("@InstituteId", (object?)body.InstituteId ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@CreatedBy", (object?)body.CreatedBy ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@StaffId", (object?)body.StaffId ?? DBNull.Value);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 
 

@@ -53,6 +53,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@From_Date", Convert.ToDateTime(request.From_Date));
                     command.Parameters.AddWithValue("@To_Date", Convert.ToDateTime(request.To_Date));
                     command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
+                    command.Parameters.AddWithValue("@SchemeID", request.SchemeID);
 
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                     command.Parameters.Add("@Return", SqlDbType.Int);// out

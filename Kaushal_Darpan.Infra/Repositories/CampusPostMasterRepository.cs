@@ -172,6 +172,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CampusToTime", request.CampusToTime);
                         command.Parameters.AddWithValue("@CampusAddress", request.CampusAddress);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@StudConsentTime", request.StudentConsentTime);
+                        command.Parameters.AddWithValue("@StudConsentLastDate", request.StudentConsentDate);
 
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);

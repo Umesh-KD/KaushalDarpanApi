@@ -50,6 +50,9 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetAssignedTeacher_SSOData(GetDDlSectionDataModel body);
         Task<DataTable> GetHODWiseSemester(GetHODWiseSemesterDataModel body);
+        Task<DataTable> InsertStaffAssignmentHierarchy(InsertStaffAssignmentHierarchyModel body);
+        Task<DataTable> GetStaffAssignmentHierarchy(GetStaffAssignmentHierarchyModel body);
+        Task<DataTable> GetStaffAssignmentHistory(StaffAssignmentHistoryModel body);
 
     }
 }

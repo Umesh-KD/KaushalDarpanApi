@@ -94,6 +94,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<CommonDDLModel>> PrefentialCategoryMaster(int DepartmentID, int CourseTypeId, int PrefentialCategoryType);
         Task<DataTable> PlacementCompanyMaster_IDWise(int ID, int DepartmentID);
         Task<List<CommonDDLModel>> GetStateMaster();
+        Task<DataTable> GetCompanyTierMaster();
+        Task<DataTable> GetTierBasedPackageMaster(int TierID);
         Task<List<CommonDDLModel>> GetCastCategory();
 
         Task<List<CommonDDLModel>> DistrictMaster_StateIDWise(int StateID);
@@ -245,6 +247,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetCenter_DistrictWise(CenterMasterDDLDataModel body);
         Task<DataTable> GetExamDate(CenterMasterDDLDataModel body);
         Task<DataTable> GetStaff_InstituteWise(StaffMasterDDLDataModel body);
+        Task<DataTable> Get_Staff_Ac_Year(StaffMasterDDLDataModel body);
         Task<List<CommonDDLModel>> GetCategory_BranchWise(int ID);
 
         Task<List<CommonDDLModel>> GetDTEEquipment_CategoryWise(int ID);

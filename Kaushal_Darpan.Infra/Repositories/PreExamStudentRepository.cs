@@ -116,7 +116,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_PreExamStudentReport";
-                        
+
                         command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
                         command.Parameters.AddWithValue("@Name", model.Name);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
@@ -1347,47 +1347,44 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<ViewStudentDetailsModel> ViewStudentDetails(ViewStudentDetailsRequestModel model)
         {
             _actionName = "ViewStudentDetails(ViewStudentDetailsRequestModel model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataSet dataSet = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataSet dataSet = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ViewStudentExamDetails";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ViewStudentExamDetails";
 
-                        command.Parameters.AddWithValue("@action", "getStudentExamData");
-                        command.Parameters.AddWithValue("@StudentID", model.StudentID);
-                        command.Parameters.AddWithValue("@StudentFilterStatusId", model.StudentFilterStatusId);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@StudentExamID", model.StudentExamID);
-                        command.Parameters.AddWithValue("@FileNameWithDynamicPath", model.FileNameWithDynamicPath);
+                    command.Parameters.AddWithValue("@action", "getStudentExamData");
+                    command.Parameters.AddWithValue("@StudentID", model.StudentID);
+                    command.Parameters.AddWithValue("@StudentFilterStatusId", model.StudentFilterStatusId);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@StudentExamID", model.StudentExamID);
+                    command.Parameters.AddWithValue("@FileNameWithDynamicPath", model.FileNameWithDynamicPath);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataSet = await command.FillAsync();
-                    }
-                    ViewStudentDetailsModel viewStudentDetailsModel = new ViewStudentDetailsModel();
-                    viewStudentDetailsModel.ViewStudentDetails = dataSet.Tables[0];
-                    viewStudentDetailsModel.Student_QualificationDetails = dataSet.Tables[1];
-                    viewStudentDetailsModel.documentDetails = CommonFuncationHelper.ConvertDataTable<List<DocumentDetailsModel>>(dataSet.Tables[2]);
-                    return viewStudentDetailsModel;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataSet = await command.FillAsync();
                 }
-                catch (Exception ex)
+                ViewStudentDetailsModel viewStudentDetailsModel = new ViewStudentDetailsModel();
+                viewStudentDetailsModel.ViewStudentDetails = dataSet.Tables[0];
+                viewStudentDetailsModel.Student_QualificationDetails = dataSet.Tables[1];
+                viewStudentDetailsModel.documentDetails = CommonFuncationHelper.ConvertDataTable<List<DocumentDetailsModel>>(dataSet.Tables[2]);
+                return viewStudentDetailsModel;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<StudentMasterModel> PreExam_StudentMaster(int StudentID, int statusId, int DepartmentID, int Eng_NonEng, int status, int EndTermID, int StudentExamID, int FileNameWithDynamicPath)
