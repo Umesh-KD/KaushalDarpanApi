@@ -51,5 +51,15 @@ namespace Kaushal_Darpan.Models.CertificateDownload
 
     }
 
+    public class UFMLetterModel
+    {
+        public int InstituteID { get; set; }
+        //public int CertificateType { get; set; }
+        public string? EnrollmentNo { get; set; }
+        public int EndTermID { get; set; }
+        public int DepartmentID { get; set; }
+        public int CourseTypeID { get; set; }
+
+    }
 
 }

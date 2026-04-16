@@ -11458,6 +11458,40 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetEventCommonMaster(string type)
+        {
+            _actionName = "GetEventCommonMaster()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dt = new DataTable();
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Get_EventCommonMaster";
+
+                        command.Parameters.AddWithValue("@Type", type);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dt = await command.FillAsync_DataTable();
+                    }
+
+                    //var data = new List<CommonDDLModel>();
+                    //if (dt != null)
+                    //{
+                    //    data = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dt);
+                    //}
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            });
+        }
 
     }
 }

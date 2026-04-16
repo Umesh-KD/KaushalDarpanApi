@@ -156,6 +156,7 @@
         public int StaffLevelChildID { get; set; }
         public int EMTypeID { get; set; }
         public int OfficeID { get; set; }
+        public int StaffPostTypeID { get; set; }
 
         public string multiHostelIDs { get; set; }
 
@@ -343,6 +344,7 @@
         public string MobileNo { get; set; }
         public string EmailID { get; set; }
         public int DistrictID { get; set; }
+        public int StaffPostTypeID { get; set; }
 
     }
 
