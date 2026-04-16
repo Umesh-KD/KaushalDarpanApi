@@ -824,6 +824,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PrincipleUserID", request.PrincipleUserID);
                         command.Parameters.AddWithValue("@PrincipalOrderCopy", request.PrincipalOrderCopy);
                         command.Parameters.AddWithValue("@WorkOrderCopy", request.WorkOrderCopy);
+                        command.Parameters.AddWithValue("@Islanddetail", request.Islanddetail);
+                        command.Parameters.AddWithValue("@IsConstructdetail", request.IsConstructdetail);
+                        command.Parameters.AddWithValue("@IsElectricdetail", request.IsElectricdetail);
+                    
 
                         // Output parameter
                         var returnParam = new SqlParameter("@Return", SqlDbType.Int) { Direction = ParameterDirection.Output };
