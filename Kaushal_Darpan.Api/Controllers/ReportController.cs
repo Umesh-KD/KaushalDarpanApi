@@ -17340,7 +17340,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         //var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                         LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("DiplomaCertificate", data.Tables[0]);
+                        localReport.AddDataSource("UFMLetter", data.Tables[0]);
                         var reportResult = localReport.Execute(RenderType.Pdf);
                         if (!System.IO.Directory.Exists(folderPath))
                         {

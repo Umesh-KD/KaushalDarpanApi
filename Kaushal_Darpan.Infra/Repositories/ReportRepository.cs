@@ -9811,7 +9811,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_UFMReport";
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@CertificateType", model.CertificateType);
+                        //command.Parameters.AddWithValue("@CertificateType", model.CertificateType);
                         command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
