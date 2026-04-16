@@ -49,7 +49,6 @@ namespace Kaushal_Darpan.Models.CertificateDownload
         public int DepartmentID { get; set; }
         public int CourseTypeID { get; set; }
 
-
     }
 
 

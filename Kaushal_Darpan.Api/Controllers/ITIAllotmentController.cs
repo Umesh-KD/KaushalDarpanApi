@@ -1621,161 +1621,161 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        //tabluation umesh
-        //        [HttpPost("DownloadForCollegeData")]
-        //        public async Task<ApiResult<string>> DownloadForCollegeData([FromBody] ReportCollegeModel body)
-        //        {
-        //            ActionName = "TabulationDataReport([FromBody] TabluationDataModel body)";
-        //            var result = new ApiResult<string>();
-        //            try
-        //            {
-        //                // get all streams
-        //                var streams_data = await Task.Run(() => _unitOfWork.StudentsJoiningStatusMarksRepository.GetCollegeData(body));
+        //  tabluation umesh
+        [HttpPost("DownloadForCollegeData")]
+        public async Task<ApiResult<string>> DownloadForCollegeData([FromBody] ReportCollegeModel body)
+        {
+            ActionName = "TabulationDataReport([FromBody] TabluationDataModel body)";
+            var result = new ApiResult<string>();
+            try
+            {
+                // get all streams
+                var streams_data = await Task.Run(() => _unitOfWork.StudentsJoiningStatusMarksRepository.GetCollegeData(body));
 
-        //                if (streams_data?.Rows?.Count == 0)
-        //                {
-        //                    result.State = EnumStatus.Warning;
-        //                    result.Message = Constants.MSG_DATA_NOT_FOUND;
-        //                    return result;
-        //                }
+                if (streams_data?.Rows?.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
 
 
-        //                var data = new List<StudentAllotmentReportDataModel>();
-        //                if (streams_data != null)
-        //                {
-        //                    data = CommonFuncationHelper.ConvertDataTable<List<StudentAllotmentReportDataModel>>(streams_data);
-        //                }
+                var data = new List<StudentAllotmentReportDataModel>();
+                if (streams_data != null)
+                {
+                    data = CommonFuncationHelper.ConvertDataTable<List<StudentAllotmentReportDataModel>>(streams_data);
+                }
 
-        //                StringBuilder sb = new StringBuilder();
+                StringBuilder sb = new StringBuilder();
 
-        //                // Add a style block at the top of your HTML
-        //                sb.Append(@"
-        //<style>
-        //    body {
-        //         font-family: Arial, sans-serif;
-        //        font-size: 10pt; /* Global font size */
-        //    }
-        //    table {
-        //        border-collapse: collapse;
-        //        width: 100%;
-        //    }
-        //    th, td {
-        //        border: 1px solid #494949;
-        //        padding: 4px;
-        //        font-size: 10pt; /* Cell font size */
+                // Add a style block at the top of your HTML
+                sb.Append(@"
+        <style>
+            body {
+                 font-family: Arial, sans-serif;
+                font-size: 10pt; /* Global font size */
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            th, td {
+                border: 1px solid #494949;
+                padding: 4px;
+                font-size: 10pt; /* Cell font size */
 
-        //    }
-        //    b {
-        //        font-size: 12pt; /* Trade name header */
-        //    }
-        //</style>
-        //");
+            }
+            b {
+                font-size: 12pt; /* Trade name header */
+            }
+        </style>
+        ");
 
-        //                foreach (var collegeGroup in data.GroupBy(f => f.CollegeId))
-        //                {
+                foreach (var collegeGroup in data.GroupBy(f => f.CollegeId))
+                {
 
-        //                    sb.Append($@"
-        //<table id='pdf-header' style='width:100%'>
-        //    <tr>
-        //        <td style='text-align:center'>
-        //            {collegeGroup.FirstOrDefault()?.CollegeName}<br /><br />
-        //            Reported Applicant List
-        //        </td>
-        //    </tr>
-        //    <tr>
-        //        <th colspan='3' style='border-bottom: 1px solid #494949; padding-top:1px;'>Total Applicant {data.Count}</th>
-        //    </tr>
-        //</table>");
-        //                    int rowTradeC = 1;
-        //                    foreach (var tradeGroup in collegeGroup.GroupBy(f => f.BranchName))
-        //                    {
+                    sb.Append($@"
+        <table id='pdf-header' style='width:100%'>
+            <tr>
+                <td style='text-align:center'>
+                    {collegeGroup.FirstOrDefault()?.CollegeName}<br /><br />
+                    Reported Applicant List
+                </td>
+            </tr>
+            <tr>
+                <th colspan='3' style='border-bottom: 1px solid #494949; padding-top:1px;'>Total Applicant {data.Count}</th>
+            </tr>
+        </table>");
+                    int rowTradeC = 1;
+                    foreach (var tradeGroup in collegeGroup.GroupBy(f => f.BranchName))
+                    {
 
-        //                        sb.Append($@"
-        //<div style='margin-top:3px;'>&nbsp;</div>
-        //<b>  {tradeGroup.Key}</b>
+                        sb.Append($@"
+        <div style='margin-top:3px;'>&nbsp;</div>
+        <b>  {tradeGroup.Key}</b>
 
-        //<table cellpadding='2' cellspacing='0'>
-        //    <tr>
-        //        <th>Sr No</th>
-        //        <th>Application No</th>
-        //        <th>Name</th>
-        //        <th>Father Name</th>
-        //        <th>Shift</th>
-        //        <th>Unit</th>
-        //        <th>Allotted Category</th>
-        //        <th>Reported Date and Time</th>
-        // <th>Admission Round</th>
-        //    </tr>");
+        <table cellpadding='2' cellspacing='0'>
+            <tr>
+                <th>Sr No</th>
+                <th>Application No</th>
+                <th>Name</th>
+                <th>Father Name</th>
+                <th>Shift</th>
+                <th>Unit</th>
+                <th>Allotted Category</th>
+                <th>Reported Date and Time</th>
+         <th>Admission Round</th>
+            </tr>");
 
-        //                        int rowNumber = 1;
-        //                        foreach (var s in tradeGroup.OrderBy(f => f.Shift).ThenBy(f => f.UnitNo))
-        //                        {
-        //                           sb.Append($@"
-        //                                <tr>
-        //                                    <td>{rowNumber}</td>
-        //                                    <td>{s.ApplicationNo}</td>
-        //                                    <td>{s.Name}</td>
-        //                                    <td>{s.FatherName}</td>
-        //                                    <td>{s.Shift}</td>
-        //                                    <td>{s.UnitNo}</td>
-        //                                    <td>{s.AllotedCategory}</td>
-        //                                    <td>{s.ReportingDate}</td>
-        //                                    <td>{s.AdmissionRound}</td>
-        //                                </tr>");
-        //                             rowNumber++;
-        //                        }
-        //                        sb.Append("</table>");
-        //                        rowTradeC++;
-        //                    }
-        //                }
-        //                var doc = new HtmlToPdfDocument()
-        //                {
-        //                    GlobalSettings = {
-        //                   PaperSize = PaperKind.A4,
-        //                   Orientation = Orientation.Portrait, // ✅ spelling fixed
+                        int rowNumber = 1;
+                        foreach (var s in tradeGroup.OrderBy(f => f.Shift).ThenBy(f => f.UnitNo))
+                        {
+                            sb.Append($@"
+                                        <tr>
+                                            <td>{rowNumber}</td>
+                                            <td>{s.ApplicationNo}</td>
+                                            <td>{s.Name}</td>
+                                            <td>{s.FatherName}</td>
+                                            <td>{s.Shift}</td>
+                                            <td>{s.UnitNo}</td>
+                                            <td>{s.AllotedCategory}</td>
+                                            <td>{s.ReportingDate}</td>
+                                            <td>{s.AdmissionRound}</td>
+                                        </tr>");
+                            rowNumber++;
+                        }
+                        sb.Append("</table>");
+                        rowTradeC++;
+                    }
+                }
+                var doc = new HtmlToPdfDocument()
+                {
+                    GlobalSettings = {
+                           PaperSize = PaperKind.A4,
+                           Orientation = Orientation.Portrait, // ✅ spelling fixed
 
-        //                    },
-        //                    Objects = {
-        //        new ObjectSettings()
-        //        {
-        //            HtmlContent = sb.ToString(),
-        //            WebSettings = { DefaultEncoding = "utf-8" },
-        //            FooterSettings = new FooterSettings
-        //            {
-        //                FontName = "Arial",
-        //                FontSize = 9,
-        //                Right = "Page [page] of [toPage]",
-        //                Left = "Printed on: [date]",
-        //                Line = true // Adds a line above footer
-        //            }
-        //        }
-        //    }
-        //                };
-        //                byte[] pdfBytes = _converter.Convert(doc);
+                            },
+                    Objects = {
+                new ObjectSettings()
+                {
+                    HtmlContent = sb.ToString(),
+                    WebSettings = { DefaultEncoding = "utf-8" },
+                    FooterSettings = new FooterSettings
+                    {
+                        FontName = "Arial",
+                        FontSize = 9,
+                        Right = "Page [page] of [toPage]",
+                        Left = "Printed on: [date]",
+                        Line = true // Adds a line above footer
+                    }
+                }
+            }
+                };
+                byte[] pdfBytes = _converter.Convert(doc);
 
-        //                result.Data = Convert.ToBase64String(pdfBytes);
-        //                result.State = EnumStatus.Success;
-        //                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-        //                //return File(pdfBytes, "application/pdf", "tabulationresult.pdf");
-        //            }
-        //            catch (System.Exception ex)
-        //            {
-        //                await _unitOfWork.DisposeAsync();
-        //                result.State = EnumStatus.Error;
-        //                result.Message = Constants.MSG_ERROR_OCCURRED;
-        //                result.ErrorMessage = ex.Message;
-        //                // write error log
-        //                var nex = new NewException
-        //                {
-        //                    PageName = PageName,
-        //                    ActionName = ActionName,
-        //                    Ex = ex,
-        //                };
-        //                await CreateErrorLog(nex, _unitOfWork);
-        //                //return StatusCode(500, ex.Message);
-        //            }
-        //            return result;
-        //        }
+                result.Data = Convert.ToBase64String(pdfBytes);
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                //return File(pdfBytes, "application/pdf", "tabulationresult.pdf");
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //return StatusCode(500, ex.Message);
+            }
+            return result;
+        }
 
 
 
@@ -2170,9 +2170,9 @@ namespace Kaushal_Darpan.Api.Controllers
                                 <tbody>
                         ");
 
-                            int srNo = 1;
-                            foreach (var s in tradeGroup)
-                            {
+                    int srNo = 1;
+                    foreach (var s in tradeGroup)
+                    {
                         sb.Append($@"
                             <tr>
                                 <td>{srNo}</td>
@@ -2182,9 +2182,9 @@ namespace Kaushal_Darpan.Api.Controllers
                                 <td>{s.InstituteName}</td>
                                 <td>{(s.PresentStatus)}</td>
                             </tr>");
-                             srNo++;
-                        }
-                        sb.Append(@"
+                        srNo++;
+                    }
+                    sb.Append(@"
                                 </tbody>
                             </table>
                             <br/>
@@ -2237,7 +2237,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     "application/pdf",
                     "Center_Wise_Present_Absent_Report.pdf"
                 );
-                
+
             }
             catch (Exception ex)
             {
@@ -2411,7 +2411,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-       
+
 
 
 
