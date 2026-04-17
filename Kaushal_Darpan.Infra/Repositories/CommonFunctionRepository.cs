@@ -4035,8 +4035,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<EmitraTransactionsModel> CreateEmitraApplicationTransation(EmitraTransactionsModel Model)
         {
-            return await Task.Run(async () =>
-            {
+            
                 _actionName = "CreateAddEmitraTransation(EmitraTransactionsModel Model)";
                 try
                 {
@@ -4100,7 +4099,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+        
         }
 
         #region Inspection Fees Payment via Principle
@@ -7989,8 +7988,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetITIOptionFormData(ItiTradeSearchModel request)
         {
             _actionName = "TradeListGetAllData()";
-            return await Task.Run(async () =>
-            {
+           
                 try
                 {
                     DataTable dataTable = new DataTable();
@@ -8024,7 +8022,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+         
         }
 
         public async Task<DataTable> DDL_GroupCode_ExaminerWise(DDL_GroupCode_ExaminerWiseModel request)
