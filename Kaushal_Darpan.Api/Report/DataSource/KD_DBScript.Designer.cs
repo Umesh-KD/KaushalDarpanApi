@@ -57964,6 +57964,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnSubjectCode;
             
+            private global::System.Data.DataColumn columnEndTermName;
+            
+            private global::System.Data.DataColumn columnFinancialYearName;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public UFMLetterDataTable() {
@@ -58049,6 +58053,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EndTermNameColumn {
+                get {
+                    return this.columnEndTermName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn FinancialYearNameColumn {
+                get {
+                    return this.columnFinancialYearName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -58084,7 +58104,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public UFMLetterRow AddUFMLetterRow(string StudentName, string FatherName, string RollNo, string EnrollmentNo, string InstituteName, string SubjectCode) {
+            public UFMLetterRow AddUFMLetterRow(string StudentName, string FatherName, string RollNo, string EnrollmentNo, string InstituteName, string SubjectCode, string EndTermName, string FinancialYearName) {
                 UFMLetterRow rowUFMLetterRow = ((UFMLetterRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         StudentName,
@@ -58092,7 +58112,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         RollNo,
                         EnrollmentNo,
                         InstituteName,
-                        SubjectCode};
+                        SubjectCode,
+                        EndTermName,
+                        FinancialYearName};
                 rowUFMLetterRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowUFMLetterRow);
                 return rowUFMLetterRow;
@@ -58121,6 +58143,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnEnrollmentNo = base.Columns["EnrollmentNo"];
                 this.columnInstituteName = base.Columns["InstituteName"];
                 this.columnSubjectCode = base.Columns["SubjectCode"];
+                this.columnEndTermName = base.Columns["EndTermName"];
+                this.columnFinancialYearName = base.Columns["FinancialYearName"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -58138,6 +58162,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnInstituteName);
                 this.columnSubjectCode = new global::System.Data.DataColumn("SubjectCode", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSubjectCode);
+                this.columnEndTermName = new global::System.Data.DataColumn("EndTermName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEndTermName);
+                this.columnFinancialYearName = new global::System.Data.DataColumn("FinancialYearName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFinancialYearName);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -103522,6 +103550,38 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string EndTermName {
+                get {
+                    try {
+                        return ((string)(this[this.tableUFMLetter.EndTermNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EndTermName\' in table \'UFMLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableUFMLetter.EndTermNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string FinancialYearName {
+                get {
+                    try {
+                        return ((string)(this[this.tableUFMLetter.FinancialYearNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FinancialYearName\' in table \'UFMLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableUFMLetter.FinancialYearNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsStudentNameNull() {
                 return this.IsNull(this.tableUFMLetter.StudentNameColumn);
             }
@@ -103590,6 +103650,30 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetSubjectCodeNull() {
                 this[this.tableUFMLetter.SubjectCodeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEndTermNameNull() {
+                return this.IsNull(this.tableUFMLetter.EndTermNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEndTermNameNull() {
+                this[this.tableUFMLetter.EndTermNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsFinancialYearNameNull() {
+                return this.IsNull(this.tableUFMLetter.FinancialYearNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetFinancialYearNameNull() {
+                this[this.tableUFMLetter.FinancialYearNameColumn] = global::System.Convert.DBNull;
             }
         }
         
