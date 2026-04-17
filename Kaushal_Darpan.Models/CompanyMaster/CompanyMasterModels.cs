@@ -22,7 +22,8 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int TierID { get; set; }
         public int PackageID { get; set; }
         public string? IPAddress { get; set; }
-
+         
+        public bool ISIIP { get; set; }
         public List<HRMaster> ListCompanyHRDetails { get; set; }
         //public string? MobileNo { get; set; }
         //public string? EmailId { get; set; }

@@ -101,6 +101,17 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int? EventForID { get; set; } = 0;
         public List<BranchList>? Branchlist { get; set; } = new List<BranchList>();
         public List<Semesterlist>? Semesterlist { get; set; } = new List<Semesterlist>();
+
+        public string FileUpload { get; set; } = string.Empty;
+        public string Dis_FileUpload { get; set; } = string.Empty;
+        public int EventLevelID { get; set; } = 0;
+        public string Remark { get; set; } = string.Empty;
+        public string? SSOID { get; set; }
+        public string? MobileNo { get; set; }
+        public string? Email { get; set; }
+        public string? Designation { get; set; }
+        public int? TrainingDuration { get; set; }
+        public string? AreaOfDomain { get; set; }
     }
 
     public class BranchList

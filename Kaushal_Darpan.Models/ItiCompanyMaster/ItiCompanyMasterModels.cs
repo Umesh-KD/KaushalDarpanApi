@@ -168,7 +168,9 @@ namespace Kaushal_Darpan.Models.ItiCompanyMaster
         public string? WorkOrderCopy { get; set; }
         public int PlanDocID { get; set; }
         public int StatusID { get; set; }
-
+        public bool Islanddetail { get; set; } = false;
+        public bool IsConstructdetail { get; set; } = false;
+        public bool IsElectricdetail { get; set; } = false;
     }
 
 
@@ -221,6 +223,7 @@ namespace Kaushal_Darpan.Models.ItiCompanyMaster
         public string? OrderTypeName { get; set; }
         public string? DisOrderDate { get; set; }
         public int OrderType { get; set; }
+        public int TypeID { get; set; }
     }
 
     public class UpdateWorkList

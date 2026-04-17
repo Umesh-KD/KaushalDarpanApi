@@ -9797,5 +9797,45 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
+        #region UFM Letter
+        public async Task<DataSet> GetUFMLetter(UFMLetterModel model)
+        {
+            _actionName = "GetUFMLetter()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_UFMReport";
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        //command.Parameters.AddWithValue("@CertificateType", model.CertificateType);
+                        command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
+
     }
 }

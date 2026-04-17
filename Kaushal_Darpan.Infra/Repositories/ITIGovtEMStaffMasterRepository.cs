@@ -238,6 +238,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@multiHostelIDs", request.multiHostelIDs);
                         command.Parameters.AddWithValue("@EMTypeID", request.EMTypeID);
                         command.Parameters.AddWithValue("@OfficeID", request.OfficeID);
+                        command.Parameters.AddWithValue("@StaffPostTypeID", request.StaffPostTypeID);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
@@ -1325,10 +1326,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         if (dataSet.Tables.Count > 0)
                         {
                             data = CommonFuncationHelper.ConvertDataTable<ITI_Govt_EM_ZonalOFFICERSDataModel>(dataSet.Tables[0]);
-
-
-
-
                         }
                     }
                     return data;

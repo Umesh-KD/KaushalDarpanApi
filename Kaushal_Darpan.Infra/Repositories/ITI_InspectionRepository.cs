@@ -4,6 +4,7 @@ using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CheckListModel;
 using Kaushal_Darpan.Models.CommonFunction;
+using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.ITI_Inspection;
 using Kaushal_Darpan.Models.ITIAdminDashboard;
 using Kaushal_Darpan.Models.ITIAllotment;
@@ -337,6 +338,49 @@ namespace Kaushal_Darpan.Infra.Repositories
                         }
                     }
                     return data;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<bool> DeleteConsentByID(int id,int UserId)
+        {
+            _actionName = "DeleteMinRequiredItem_ITI_INV(AddMinRequiredItemDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_M_ITI_ConsentData";
+                        command.Parameters.AddWithValue("@Action", "DeleteDataById_Consent");
+
+                        command.Parameters.AddWithValue("@InspectionConsentID", id);
+                        command.Parameters.AddWithValue("@UserID", UserId);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    return true;
+                    //if (result > 0)
+                    //    return true;
+                    //else
+                    //    return false;
                 }
                 catch (Exception ex)
                 {
@@ -1227,6 +1271,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_M_ITI_ConsentData";
                         command.Parameters.AddWithValue("@Action", "GetAllConsents");
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
+                        command.Parameters.AddWithValue("@TentativeDate", body.TentativeDate);
+                        command.Parameters.AddWithValue("@consentTypeID", body.consentTypeID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
