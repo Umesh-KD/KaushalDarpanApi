@@ -277,7 +277,6 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetAllDataAdmissionList(BTERSeatIntakeSearchModel request)
         {
             _actionName = "GetAllData(SeatIntakeSearchModel request)";
-
             try
             {
                 DataTable dataTable = new DataTable();
@@ -300,7 +299,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
                     command.Parameters.AddWithValue("@TradeCode", request.TradeCode);
                     command.Parameters.AddWithValue("@action", "_getAllData");
-
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }

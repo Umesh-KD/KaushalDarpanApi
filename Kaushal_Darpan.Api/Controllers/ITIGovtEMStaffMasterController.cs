@@ -2582,34 +2582,18 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<string>();
                 try
                 {
-
                     var data = await _unitOfWork.ITIGovtEMStaffMasterRepository.GetRelievingLetter(model);
                     if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
                     {
-                        //var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-                        ////report
-                        //var fileName = $"JoiningLetter_{model.UserID}_{model.StaffID}.pdf";
-                        //string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        //string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/ApplicationFormPreview.rdlc";
-
                         //provider                      
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        //images
-
-
-
-
-
-                        /*define table name for read and replace column from table*/
+                        
                         data.Tables[0].TableName = "Relieving_Details";
-
-
 
                         string devFontSize = "15px";
                         /*default font size for kruti dev*/
                         //string fontSize = "font-size: 10px;";
                         System.Text.StringBuilder sb = new System.Text.StringBuilder();
-
 
                         string htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.JoiningLetterITI}/RelievingLetterForm.html";
 
@@ -2623,10 +2607,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
                         byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1);
-
-                        // Example: Send in API
-                        //return File(pdfBytes, "application/pdf", "Generated.pdf");
-
 
                         ///string dataUri = "data:application/pdf;base64," + base64String;
                         result.Data =  Convert.ToBase64String(pdfBytes); ;

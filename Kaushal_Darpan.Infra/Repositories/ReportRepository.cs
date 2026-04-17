@@ -9809,10 +9809,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_UFMReport";
-                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        //command.Parameters.AddWithValue("@CertificateType", model.CertificateType);
+                        command.CommandText = "USP_UFMLetter";
+                        //command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@action", "GetUFMReport");
                         command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                        command.Parameters.AddWithValue("@isUFM", model.isUFM);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);

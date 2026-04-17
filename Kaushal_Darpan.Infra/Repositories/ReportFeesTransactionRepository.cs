@@ -85,8 +85,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetApplicationFeesTransaction(GetApplicationFeesTransactionSearchModel model)
         {
             _actionName = "GetApplicationFeesTransaction(GetApplicationFeesTransactionSearchModel model)";
-            return await Task.Run(async () =>
-            {
+            
                 try
                 {
                     var ds = new DataTable();
@@ -133,7 +132,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+           
         }
 
         public async Task<DataTable> GetEmitraFeesTransactionHistory(EmitraFeesTransactionSearchModel model)
