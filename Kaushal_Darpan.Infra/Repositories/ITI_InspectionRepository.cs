@@ -1271,6 +1271,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_M_ITI_ConsentData";
                         command.Parameters.AddWithValue("@Action", "GetAllConsents");
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
+                        command.Parameters.AddWithValue("@TentativeDate", body.TentativeDate);
+                        command.Parameters.AddWithValue("@consentTypeID", body.consentTypeID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
