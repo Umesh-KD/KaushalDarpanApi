@@ -223,6 +223,7 @@ namespace Kaushal_Darpan.Models.ItiCompanyMaster
         public string? OrderTypeName { get; set; }
         public string? DisOrderDate { get; set; }
         public int OrderType { get; set; }
+        public int TypeID { get; set; }
     }
 
     public class UpdateWorkList
