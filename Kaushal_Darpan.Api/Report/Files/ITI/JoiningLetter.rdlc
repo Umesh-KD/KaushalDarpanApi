@@ -9,7 +9,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>कार्यमुक्ति आदेश</Value>
+                <Value>कार्यग्रहण आदेश</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
                   <FontFamily>Times New Roman</FontFamily>
@@ -84,7 +84,7 @@
               </TextRun>
               <TextRun>
                 <Label>orderDate</Label>
-                <Value>=First(Fields!OrderDate.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Value>=First(Fields!OrderDate.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -152,7 +152,7 @@
               </TextRun>
               <TextRun>
                 <Label>empName</Label>
-                <Value>=First(Fields!EmployeeName.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Value>=First(Fields!EmployeeName.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -220,7 +220,7 @@
               </TextRun>
               <TextRun>
                 <Label>currentPost</Label>
-                <Value>=First(Fields!PostName.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Value>=First(Fields!LastPostName.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -228,7 +228,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>6.7049cm</Top>
+        <Top>5.91115cm</Top>
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
@@ -260,7 +260,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>6.7049cm</Top>
+        <Top>5.91115cm</Top>
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
@@ -291,7 +291,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>7.49311cm</Top>
+        <Top>6.69936cm</Top>
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
@@ -323,81 +323,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>7.49311cm</Top>
+        <Top>6.69936cm</Top>
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
         <ZIndex>9</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox12">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Label>TransactionAmount</Label>
-                <Value>: </Value>
-                <Style />
-              </TextRun>
-              <TextRun>
-                <Label>order no</Label>
-                <Value>=First(Fields!OrderNo.Value, "ITI_RelievingLetterDataTable")</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Left</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>9.81126cm</Top>
-        <Left>7.49799cm</Left>
-        <Height>0.66146cm</Height>
-        <Width>11.07509cm</Width>
-        <ZIndex>10</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox13">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>आदेश क्रमांक ( आदेशकर्ता अधिकारी )</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>9.81126cm</Top>
-        <Left>0.25723cm</Left>
-        <Height>0.66146cm</Height>
-        <Width>6.87035cm</Width>
-        <ZIndex>11</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -420,8 +350,8 @@
                 <Style />
               </TextRun>
               <TextRun>
-                <Label>order date</Label>
-                <Value>=First(Fields!OrderDate.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Label>transferPost</Label>
+                <Value>=First(Fields!TransferPostName.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -431,11 +361,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>10.57366cm</Top>
+        <Top>9.01791cm</Top>
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>12</ZIndex>
+        <ZIndex>10</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -453,7 +383,17 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>दिनांक</Value>
+                <Value>कार्य</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontWeight>Bold</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                  <Color>#000000</Color>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>ग्रहण पद</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -463,11 +403,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>10.57366cm</Top>
+        <Top>9.01791cm</Top>
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
-        <ZIndex>13</ZIndex>
+        <ZIndex>11</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -496,11 +436,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>11.3424cm</Top>
+        <Top>9.78665cm</Top>
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>14</ZIndex>
+        <ZIndex>12</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -518,7 +458,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>संशोधित आदेश क्रमांक</Value>
+                <Value>व्यवसाय</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -528,11 +468,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>11.3424cm</Top>
+        <Top>9.78665cm</Top>
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
-        <ZIndex>15</ZIndex>
+        <ZIndex>13</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -556,7 +496,7 @@
               </TextRun>
               <TextRun>
                 <Label>orderno</Label>
-                <Value>=First(Fields!OrderNo.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Value>=First(Fields!OrderNo.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -568,7 +508,7 @@
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>16</ZIndex>
+        <ZIndex>14</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -584,7 +524,7 @@
         <Left>0.00001cm</Left>
         <Height>0cm</Height>
         <Width>18.99568cm</Width>
-        <ZIndex>17</ZIndex>
+        <ZIndex>15</ZIndex>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -612,7 +552,7 @@
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
-        <ZIndex>18</ZIndex>
+        <ZIndex>16</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -636,7 +576,7 @@
               </TextRun>
               <TextRun>
                 <Label>EmpID</Label>
-                <Value>=First(Fields!EmployeeID.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Value>=First(Fields!EmployeeID.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -648,7 +588,7 @@
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>19</ZIndex>
+        <ZIndex>17</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -666,7 +606,17 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>आदेश का कारण</Value>
+                <Value>कार्यग्रहण </Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontWeight>Bold</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                  <Color>#000000</Color>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>कारण</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -676,11 +626,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Top>8.27315cm</Top>
+        <Top>7.4794cm</Top>
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
-        <ZIndex>20</ZIndex>
+        <ZIndex>18</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -708,11 +658,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>9.04028cm</Top>
+        <Top>8.24653cm</Top>
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
-        <ZIndex>21</ZIndex>
+        <ZIndex>19</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -736,7 +686,7 @@
               </TextRun>
               <TextRun>
                 <Label>er</Label>
-                <Value>=First(Fields!RequestRemarks.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Value>=First(Fields!RequestRemarks.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -744,11 +694,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>8.27315cm</Top>
+        <Top>7.4794cm</Top>
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>22</ZIndex>
+        <ZIndex>20</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -772,7 +722,7 @@
               </TextRun>
               <TextRun>
                 <Label>officerOrder</Label>
-                <Value>=First(Fields!ApproveName.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Value>=First(Fields!CreatedBy.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -782,11 +732,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>9.04028cm</Top>
+        <Top>8.24653cm</Top>
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>23</ZIndex>
+        <ZIndex>21</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -818,7 +768,7 @@
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
-        <ZIndex>24</ZIndex>
+        <ZIndex>22</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -842,7 +792,7 @@
               </TextRun>
               <TextRun>
                 <Label>DOB</Label>
-                <Value>=First(Fields!DateOfBirth.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Value>=First(Fields!DateOfBirth.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -854,77 +804,7 @@
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>25</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox31">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>मोबाइल नंबर</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>5.92547cm</Top>
-        <Left>0.25723cm</Left>
-        <Height>0.66146cm</Height>
-        <Width>6.87035cm</Width>
-        <ZIndex>26</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox32">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Label>RollNo</Label>
-                <Value>: </Value>
-                <Style />
-              </TextRun>
-              <TextRun>
-                <Label>mobileNo</Label>
-                <Value>=First(Fields!MobileNo.Value, "ITI_RelievingLetterDataTable")</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Left</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>5.92547cm</Top>
-        <Left>7.49799cm</Left>
-        <Height>0.66146cm</Height>
-        <Width>11.07509cm</Width>
-        <ZIndex>27</ZIndex>
+        <ZIndex>23</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -948,7 +828,7 @@
               </TextRun>
               <TextRun>
                 <Label>transferPost</Label>
-                <Value>=First(Fields!TransferPostName.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Value>=First(Fields!TransferPostName.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -958,11 +838,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>12.88889cm</Top>
+        <Top>12.09514cm</Top>
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>28</ZIndex>
+        <ZIndex>24</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -990,141 +870,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>12.88889cm</Top>
+        <Top>12.09514cm</Top>
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
-        <ZIndex>29</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox20">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Label>ChallanTID</Label>
-                <Value>: </Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Left</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>13.65129cm</Top>
-        <Left>7.49799cm</Left>
-        <Height>0.66146cm</Height>
-        <Width>11.07509cm</Width>
-        <ZIndex>30</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox21">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>व्यवसाय</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>13.65129cm</Top>
-        <Left>0.25723cm</Left>
-        <Height>0.66146cm</Height>
-        <Width>6.87035cm</Width>
-        <ZIndex>31</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox27">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Label>TransactionDate</Label>
-                <Value>: </Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Left</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>14.42003cm</Top>
-        <Left>7.49799cm</Left>
-        <Height>0.66146cm</Height>
-        <Width>11.07509cm</Width>
-        <ZIndex>32</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox28">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>स्थान जिसके लिए कार्यमुक्त किया है।</Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>14.42003cm</Top>
-        <Left>0.25723cm</Left>
-        <Height>0.66146cm</Height>
-        <Width>6.87035cm</Width>
-        <ZIndex>33</ZIndex>
+        <ZIndex>25</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1152,11 +902,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>12.11791cm</Top>
+        <Top>11.32416cm</Top>
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
-        <ZIndex>34</ZIndex>
+        <ZIndex>26</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1178,6 +928,11 @@
                 <Value>: </Value>
                 <Style />
               </TextRun>
+              <TextRun>
+                <Label>JOININGDATE</Label>
+                <Value>=First(Fields!JoiningDate.Value, "ITI_JoiningLetterDataTable")</Value>
+                <Style />
+              </TextRun>
             </TextRuns>
             <Style>
               <TextAlign>Left</TextAlign>
@@ -1185,11 +940,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>12.11791cm</Top>
+        <Top>11.32416cm</Top>
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>35</ZIndex>
+        <ZIndex>27</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1212,7 +967,7 @@
               </TextRun>
               <TextRun>
                 <Label>district</Label>
-                <Value>=First(Fields!DistrictName.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Value>=First(Fields!DistrictName.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1222,11 +977,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>15.18732cm</Top>
+        <Top>12.86957cm</Top>
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>36</ZIndex>
+        <ZIndex>28</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1254,11 +1009,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>15.18732cm</Top>
+        <Top>12.86957cm</Top>
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
-        <ZIndex>37</ZIndex>
+        <ZIndex>29</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1282,7 +1037,7 @@
               </TextRun>
               <TextRun>
                 <Label>block</Label>
-                <Value>=First(Fields!BlockName.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Value>=First(Fields!BlockName.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1292,11 +1047,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>15.96734cm</Top>
+        <Top>13.64959cm</Top>
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>38</ZIndex>
+        <ZIndex>30</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1324,11 +1079,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>15.96734cm</Top>
+        <Top>13.64959cm</Top>
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
-        <ZIndex>39</ZIndex>
+        <ZIndex>31</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1351,8 +1106,8 @@
                 <Style />
               </TextRun>
               <TextRun>
-                <Label>relieving time</Label>
-                <Value>=First(Fields!LastWorkingDate.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Label>JOINING TIME</Label>
+                <Value>=First(Fields!JoiningTime.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1362,11 +1117,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>17.51383cm</Top>
+        <Top>15.19608cm</Top>
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>40</ZIndex>
+        <ZIndex>32</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1394,11 +1149,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>17.50661cm</Top>
+        <Top>15.18886cm</Top>
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
-        <ZIndex>41</ZIndex>
+        <ZIndex>33</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1422,7 +1177,7 @@
               </TextRun>
               <TextRun>
                 <Label>no of L</Label>
-                <Value>=First(Fields!LeaveCount.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Value>=First(Fields!LeaveCount.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1432,11 +1187,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>18.27623cm</Top>
+        <Top>15.95848cm</Top>
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>42</ZIndex>
+        <ZIndex>34</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1454,7 +1209,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>कार्यमुक्ति</Value>
+                <Value>कार्य</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
                   <FontFamily>Times New Roman</FontFamily>
@@ -1464,7 +1219,7 @@
                 </Style>
               </TextRun>
               <TextRun>
-                <Value> के समय अवकाशों कि संख्या</Value>
+                <Value>ग्रहण के समय अवकाशों कि संख्या</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -1474,11 +1229,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>18.27623cm</Top>
+        <Top>15.95848cm</Top>
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
-        <ZIndex>43</ZIndex>
+        <ZIndex>35</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1502,7 +1257,7 @@
               </TextRun>
               <TextRun>
                 <Label>head of department</Label>
-                <Value>=First(Fields!HeadOfInstitute.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Value>=First(Fields!HeadOfInstitute.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1512,11 +1267,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>19.04497cm</Top>
+        <Top>16.72722cm</Top>
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>44</ZIndex>
+        <ZIndex>36</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1544,11 +1299,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>19.04497cm</Top>
+        <Top>16.72722cm</Top>
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
-        <ZIndex>45</ZIndex>
+        <ZIndex>37</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1566,7 +1321,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>कार्यमुक्ति</Value>
+                <Value>कार्य</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
                   <FontFamily>Times New Roman</FontFamily>
@@ -1576,7 +1331,7 @@
                 </Style>
               </TextRun>
               <TextRun>
-                <Value> दिनांक</Value>
+                <Value>ग्रहण दिनांक</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -1586,11 +1341,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>16.74285cm</Top>
+        <Top>14.4251cm</Top>
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
-        <ZIndex>46</ZIndex>
+        <ZIndex>38</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1613,8 +1368,8 @@
                 <Style />
               </TextRun>
               <TextRun>
-                <Label>relievingdate</Label>
-                <Value>=First(Fields!LastWorkingDate.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Label>JOINING DATE</Label>
+                <Value>=First(Fields!JoiningDate.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1624,11 +1379,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>16.74285cm</Top>
+        <Top>14.4251cm</Top>
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>47</ZIndex>
+        <ZIndex>39</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1651,7 +1406,7 @@
               </TextRun>
               <TextRun>
                 <Label>seal id</Label>
-                <Value>=First(Fields!HeadOfInstituteIDWithSeal.Value, "ITI_RelievingLetterDataTable")</Value>
+                <Value>=First(Fields!HeadOfInstituteIDWithSeal.Value, "ITI_JoiningLetterDataTable")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1661,11 +1416,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>19.81226cm</Top>
+        <Top>17.49451cm</Top>
         <Left>7.49799cm</Left>
         <Height>0.66146cm</Height>
         <Width>11.07509cm</Width>
-        <ZIndex>48</ZIndex>
+        <ZIndex>40</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1693,11 +1448,76 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>19.81226cm</Top>
+        <Top>17.49451cm</Top>
         <Left>0.25723cm</Left>
         <Height>0.66146cm</Height>
         <Width>6.87035cm</Width>
-        <ZIndex>49</ZIndex>
+        <ZIndex>41</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox31">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Label>TransactionDate</Label>
+                <Value>: </Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>10.55334cm</Top>
+        <Left>7.49799cm</Left>
+        <Height>0.66146cm</Height>
+        <Width>11.07509cm</Width>
+        <ZIndex>42</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox32">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>स्थान जहाँ से कार्यमुक्त किया है</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>10.55334cm</Top>
+        <Left>0.25723cm</Left>
+        <Height>0.66146cm</Height>
+        <Width>6.87035cm</Width>
+        <ZIndex>43</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1709,7 +1529,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>8.53229in</Height>
+    <Height>7.54271in</Height>
     <Style>
       <Border>
         <Style>Solid</Style>
@@ -1738,26 +1558,18 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="ITI_RelievingLetterDataTable">
+    <DataSet Name="ITI_JoiningLetterDataTable">
       <Query>
         <DataSourceName>KD_DBScript</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="RequestType">
-          <DataField>RequestType</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="PostName">
           <DataField>PostName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="EmployeeName">
           <DataField>EmployeeName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="MobileNo">
-          <DataField>MobileNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="EmployeeID">
@@ -1856,11 +1668,15 @@
           <DataField>UpdatedDate</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="RequestType">
+          <DataField>RequestType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
         <rd:SchemaPath>D:\Kausal_Darpan\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
-        <rd:TableName>ITI_RelievingLetterDataTable</rd:TableName>
+        <rd:TableName>ITI_JoiningLetterDataTable</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
         <rd:TableAdapterName />

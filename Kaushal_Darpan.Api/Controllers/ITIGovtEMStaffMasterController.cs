@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AspNetCore.Reporting;
+using AutoMapper;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
@@ -2572,6 +2573,75 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("DownloadJoiningLetter_pdf")]
+        public async Task<ApiResult<string>> DownloadJoiningLetter_pdf([FromBody] JoiningLetterSearchModel model)
+        {
+            ActionName = "DownloadJoiningLetter_pdf([FromBody] JoiningLetterSearchModel model)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.ITIGovtEMStaffMasterRepository.GetJoiningLetter(model);
+                    if (data != null && data.Tables.Count > 0 && data.Tables[0].Rows.Count > 0)
+                    {
+
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        //report
+                        var timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+                        var employeeId = data.Tables[0].Rows[0]["EmployeeID"]?.ToString();
+
+                        var fileName = $"JoiningLetter_{employeeId}_{timeStamp}.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/JoiningLetter.rdlc";
+                        //
+                        // var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                        //
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+                        localReport.AddDataSource("ITI_JoiningLetterDataTable", data.Tables[0]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        //save
+
+
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        //end report
+
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
         [HttpPost("GetRelievingLetter")]
         public async Task<ApiResult<string>> GetRelievingLetter([FromBody] RelievingLetterSearchModel model)
         {
@@ -2612,6 +2682,75 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.Data =  Convert.ToBase64String(pdfBytes); ;
                         result.State = EnumStatus.Success;
                         result.Message = "Success";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("DownloadRelievingLetter_pdf")]
+        public async Task<ApiResult<string>> DownloadRelievingLetter_pdf([FromBody] RelievingLetterSearchModel model)
+        {
+            ActionName = "DownloadRelievingLetter_pdf([FromBody] RelievingLetterSearchModel model)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var data = await _unitOfWork.ITIGovtEMStaffMasterRepository.GetRelievingLetter(model);
+                    if (data != null && data.Tables.Count > 0 && data.Tables[0].Rows.Count > 0)
+                    {
+
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        //report
+                        var timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+                        var employeeId = data.Tables[0].Rows[0]["EmployeeID"]?.ToString();
+
+                        var fileName = $"RelievingLetter_{employeeId}_{timeStamp}.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/RelievingLetter.rdlc";
+                        //
+                        // var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                        //
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+                        localReport.AddDataSource("ITI_RelievingLetterDataTable", data.Tables[0]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        //save
+
+
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        //end report
+
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                     }
                     else
                     {

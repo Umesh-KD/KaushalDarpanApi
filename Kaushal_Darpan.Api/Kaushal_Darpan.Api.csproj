@@ -82,6 +82,7 @@
     <None Remove="Report\Files\ITI\INV_SR6_Report.rdlc" />
     <None Remove="Report\Files\ITI\ITIFeeRevalReceipt.rdlc" />
     <None Remove="Report\Files\ITI\ITI_CounsellingAllotmentOrder.rdlc" />
+    <None Remove="Report\Files\ITI\JoiningLetter.rdlc" />
     <None Remove="Report\Files\ITI\RelievingLetter.rdlc" />
     <None Remove="Report\ITI\CounsellingAllotmentOrder.html" />
   </ItemGroup>
