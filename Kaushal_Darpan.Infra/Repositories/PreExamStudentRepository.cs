@@ -868,45 +868,42 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> SaveEligibleForExamination(List<StudentMarkedModel> model)
         {
             _actionName = "SaveEligibleForExamination(List<StudentMarkedModel> model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    int retval = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_SaveEligibleForExamination";
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandTimeout = 0;
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_addStudentEligibleForExaminationData");
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_SaveEligibleForExamination";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_addStudentEligibleForExaminationData");
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
-                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
-                    }
-                    return retval;
+                    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
                 }
-                catch (Exception ex)
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
@@ -1789,45 +1786,42 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> VerifyByExaminationIncharge(List<StudentMarkedModel> model)
         {
             _actionName = "SaveEligibleForExamination(List<StudentMarkedModel> model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    int retval = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_PreExamStudentVerification";
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandTimeout = 0;
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "VerifyByExaminationIncharge");
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_PreExamStudentVerification";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "VerifyByExaminationIncharge");
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
 
-                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
-                    }
-                    return retval;
+                    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
                 }
-                catch (Exception ex)
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<int> VerifyStudent_Registrar(List<StudentMarkedModel> model)

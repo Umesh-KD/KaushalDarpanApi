@@ -817,68 +817,65 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<int>> SaveEligibleForExamination([FromBody] List<StudentMarkedModel> request)
         {
             ActionName = "SaveEligibleForExamination([FromBody] List<StudentMarkedModel> request)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<int>();
+            try
             {
-                var result = new ApiResult<int>();
-                try
+                //validation
+                if (request.Any(x => x.StudentFilterStatusId != (int)EnumExamStudentStatus.ExaminationFeesPaid || x.Status != (int)EnumExamStudentStatus.EligibleForExamination))
                 {
-                    //validation
-                    if (request.Any(x => x.StudentFilterStatusId != (int)EnumExamStudentStatus.ExaminationFeesPaid || x.Status != (int)EnumExamStudentStatus.EligibleForExamination))
-                    {
-                        result.State = EnumStatus.Error;
-                        result.Message = Constants.MSG_VALIDATION_FAILED;
-                        return result;
-                    }
-                    //ipaddress
-                    request.ForEach(x =>
-                    {
-                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
-                    });
-                    // regular subject
-                    var isSave = await _unitOfWork.PreExamStudentRepository.SaveEligibleForExamination(request);
-                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
-
-                    if (isSave == -1)
-                    {
-                        result.Data = isSave;
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_NO_DATA_SAVE;
-                    }
-                    else if (isSave == -6)
-                    {
-                        result.Data = isSave;
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_SAVE_SUCCESS_EXCEPT_UNVERIFIED_STUDENTS;
-                    }
-                    else if (isSave > 0)
-                    {
-                        result.Data = isSave;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_SAVE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.Message = Constants.MSG_VALIDATION_FAILED;
+                    return result;
                 }
-                return result;
-            });
+                //ipaddress
+                request.ForEach(x =>
+                {
+                    x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                });
+                // regular subject
+                var isSave = await Task.Run(() => _unitOfWork.PreExamStudentRepository.SaveEligibleForExamination(request));
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                if (isSave == -1)
+                {
+                    result.Data = isSave;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_NO_DATA_SAVE;
+                }
+                else if (isSave == -6)
+                {
+                    result.Data = isSave;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_SAVE_SUCCESS_EXCEPT_UNVERIFIED_STUDENTS;
+                }
+                else if (isSave > 0)
+                {
+                    result.Data = isSave;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
         [HttpPost("SaveRejectAtBTER")]
@@ -1957,69 +1954,66 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("VerifyByExaminationIncharge")]
         public async Task<ApiResult<bool>> VerifyByExaminationIncharge([FromBody] List<StudentMarkedModel> request)
         {
-            ActionName = "SaveEligibleForExamination([FromBody] List<StudentMarkedModel> request)";
-            return await Task.Run(async () =>
+            ActionName = "VerifyByExaminationIncharge([FromBody] List<StudentMarkedModel> request)";
+            var result = new ApiResult<bool>();
+            try
             {
-                var result = new ApiResult<bool>();
-                try
+                //validation
+                if (request.Any(x => x.RoleId != (int)EnumRole.ExaminationIncharge && x.RoleId != (int)EnumRole.ExaminationIncharge_NonEng))
                 {
-                    //validation
-                    if (request.Any(x => x.RoleId != (int)EnumRole.ExaminationIncharge && x.RoleId != (int)EnumRole.ExaminationIncharge_NonEng))
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_UNAUTHORIZED_ACCESS_FOR_ROLE;
-                        return result;
-                    }
-                    if (request.Any(x => x.Status != (int)EnumExamStudentStatus.EligibleForExamination))
-                    {
-                        result.State = EnumStatus.Error;
-                        result.Message = Constants.MSG_VALIDATION_FAILED;
-                        return result;
-                    }
-                    //ipaddress
-                    request.ForEach(x =>
-                    {
-                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
-                    });
-                    // regular subject
-                    var isSave = await _unitOfWork.PreExamStudentRepository.VerifyByExaminationIncharge(request);
-                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
-
-                    if (isSave == -1)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_NO_DATA_SAVE;
-                    }
-                    else if (isSave > 0)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_SAVE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                    }
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_UNAUTHORIZED_ACCESS_FOR_ROLE;
+                    return result;
                 }
-                catch (Exception ex)
+                if (request.Any(x => x.Status != (int)EnumExamStudentStatus.EligibleForExamination))
                 {
-                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.Message = Constants.MSG_VALIDATION_FAILED;
+                    return result;
                 }
-                return result;
-            });
+                //ipaddress
+                request.ForEach(x =>
+                {
+                    x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                });
+                // regular subject
+                var isSave = await Task.Run(() => _unitOfWork.PreExamStudentRepository.VerifyByExaminationIncharge(request));
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                if (isSave == -1)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_NO_DATA_SAVE;
+                }
+                else if (isSave > 0)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
         [HttpPost("VerifyStudent_Registrar")]

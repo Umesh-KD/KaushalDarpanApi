@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using AspNetCore.Reporting;
 using AutoMapper;
 using DinkToPdf;
 using DinkToPdf.Contracts;
