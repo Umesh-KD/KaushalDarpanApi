@@ -3297,10 +3297,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 await _unitOfWork.SaveChangesAsync();
                 if (result.Data > 0)
                 {
-
-
-
-                    if (result.Data == 1)
+                    if (result.Data == 2)
                     {
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_SAVE_SUCCESS;
