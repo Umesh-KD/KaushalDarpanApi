@@ -49,6 +49,14 @@
           <DataField>FinancialYearName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="StreamCode">
+          <DataField>StreamCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CurrentDate">
+          <DataField>CurrentDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
@@ -118,6 +126,26 @@
                     </Style>
                   </TextRun>
                   <TextRun>
+                    <Value>=First(Fields!StreamCode.Value, "UFMLetter")</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value xml:space="preserve"> </Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
                     <Value>=First(Fields!SubjectCode.Value, "UFMLetter")</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
@@ -144,7 +172,38 @@
                 <TextRuns>
                   <TextRun>
                     <Value>2. यह मामला मण्डल की अनुचित साधन सम्बन्धी दण्ड सारणी के अपराध के अन्तर्गत आता है , जिसके अनुसार आपको मण्डल की अनुचित साधन सम्बन्धी दण्ड सारणी के अनुसार दण्ड दिया जा सकता है।
-3. इस संबंध में आपको अपना पक्ष प्रस्तुत करना हो तो लिखित रूप में अपना जवाब प्रधानाचार्य के माध्यम से इस मण्डल को दिनांक 23/02/2024 तक भेज दे। यदि इस अवधि में आपका कोई उत्तर प्राप्त नहीं होता है तो यह मान लिया जावेगा कि आपको इस बारे में कुछ नहीं कहना है और आप उपरोक्त पैरा (1) व (2) से सहमत है।  आपके प्रत्युत्तर के अभाव में मण्डल एक पक्षीय कार्यवाही करने में स्वतन्त्र होगा।  जवाब दो पेज से अधिक न हो।  जवाब में संलग्नक की आवश्यकता नहीं है।  
+3. इस संबंध में आपको अपना पक्ष प्रस्तुत करना हो तो लिखित रूप में अपना जवाब प्रधानाचार्य के माध्यम से इस मण्डल को दिनांक </Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=First(Fields!CurrentDate.Value, "UFMLetter")</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value xml:space="preserve"> </Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>12pt</FontSize>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>तक भेज दे। यदि इस अवधि में आपका कोई उत्तर प्राप्त नहीं होता है तो यह मान लिया जावेगा कि आपको इस बारे में कुछ नहीं कहना है और आप उपरोक्त पैरा (1) व (2) से सहमत है।  आपके प्रत्युत्तर के अभाव में मण्डल एक पक्षीय कार्यवाही करने में स्वतन्त्र होगा।  जवाब दो पेज से अधिक न हो।  जवाब में संलग्नक की आवश्यकता नहीं है।  
 
 </Value>
                     <Style>
@@ -252,6 +311,26 @@
                     </Style>
                   </TextRun>
                   <TextRun>
+                    <Value>=First(Fields!StreamCode.Value, "UFMLetter")</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value xml:space="preserve">  </Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
                     <Value>=First(Fields!SubjectCode.Value, "UFMLetter")</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
@@ -341,10 +420,26 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>दिनांक : 23/02/2024</Value>
+                    <Value>दिनांक</Value>
+                    <Style>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value> : </Value>
                     <Style>
                       <FontSize>8pt</FontSize>
                       <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=First(Fields!CurrentDate.Value, "UFMLetter")</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                      <Color>#000000</Color>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -441,7 +536,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>प्रतिलिपि : PRINCIPAL, 214 </Value>
+                    <Value>प्रतिलिपि : PRINCIPAL  </Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Times New Roman</FontFamily>
@@ -731,10 +826,37 @@ Email:conf.bter@gmail.com</Value>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>दिनांक : 23/02/2024</Value>
+                      <Value>दिनांक</Value>
+                      <Style>
+                        <FontWeight>Normal</FontWeight>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> : </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                         <FontWeight>Normal</FontWeight>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!CurrentDate.Value, "UFMLetter")</Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontWeight>Normal</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>12pt</FontSize>
+                        <FontWeight>Normal</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -766,8 +888,7 @@ Email:conf.bter@gmail.com</Value>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>214 
-PRINCIPAL 
+                      <Value>PRINCIPAL 
 </Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
@@ -816,8 +937,50 @@ PRINCIPAL
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>SPN: ME20230013/214 
-Roll No.: 1116070 
+                      <Value>SPN: </Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>12pt</FontSize>
+                        <FontWeight>Normal</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!EnrollmentNo.Value, "UFMLetter")</Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontWeight>Normal</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>
+Roll No.: </Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>12pt</FontSize>
+                        <FontWeight>Normal</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!RollNo.Value, "UFMLetter")</Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontWeight>Normal</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve">
 </Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
@@ -840,7 +1003,7 @@ Roll No.: 1116070
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> S/O </Value>
+                      <Value xml:space="preserve">  </Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Times New Roman</FontFamily>
