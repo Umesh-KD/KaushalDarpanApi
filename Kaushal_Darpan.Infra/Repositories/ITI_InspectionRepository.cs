@@ -143,6 +143,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InspectionTeamName", body.InspectionTeamName);
                         command.Parameters.AddWithValue("@UserID", body.UserID);
                         command.Parameters.AddWithValue("@LevelId", body.LevelId);
+                        command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
+                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -1274,6 +1276,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
                         command.Parameters.AddWithValue("@TentativeDate", body.TentativeDate);
                         command.Parameters.AddWithValue("@consentTypeID", body.consentTypeID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();

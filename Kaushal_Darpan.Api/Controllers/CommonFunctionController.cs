@@ -488,41 +488,38 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpGet("InstituteMaster/{DepartmentID}/{Eng_NonEng}/{EndTermId}")]
         public async Task<ApiResult<DataTable>> InstituteMaster(int DepartmentID, int Eng_NonEng, int EndTermId)
         {
-            return await Task.Run(async () =>
+            var result = new ApiResult<DataTable>();
+            try
             {
-                var result = new ApiResult<DataTable>();
-                try
+                var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.InstituteMaster(DepartmentID, Eng_NonEng, EndTermId));
+                if (data.Rows.Count > 0)
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.InstituteMaster(DepartmentID, Eng_NonEng, EndTermId);
-                    if (data.Rows.Count > 0)
-                    {
-                        result.Data = data;
-                        result.State = EnumStatus.Success;
-                        result.Message = "Data load successfully .!";
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
 
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = "No record found.!";
-                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found.!";
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
 
@@ -2436,7 +2433,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("GetTierBasedPackageMaster/{TierID}")]
-        public async Task<ApiResult<DataTable>> GetTierBasedPackageMaster(int TierID )
+        public async Task<ApiResult<DataTable>> GetTierBasedPackageMaster(int TierID)
         {
             ActionName = "GetTierBasedPackageMaster()";
             return await Task.Run(async () =>
