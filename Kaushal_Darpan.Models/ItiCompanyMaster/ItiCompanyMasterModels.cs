@@ -150,7 +150,7 @@ namespace Kaushal_Darpan.Models.ItiCompanyMaster
         public int IsNewCollege { get; set; }
         public int Ownership { get; set; }
         public int ModifyBy { get; set; }
-        public int Esttablishment_Year { get; set; }
+        public string? Esttablishment_Year { get; set; }
         public List<FinancialSanctionList>? FinancialSanctionList { get; set; }
         public List<BasicDetailsList>? BasicDetailsList { get; set; }
         public List<OrderDetailsList>? OrderDetailsList { get; set; }
