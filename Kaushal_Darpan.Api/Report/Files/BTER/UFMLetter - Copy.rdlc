@@ -144,7 +144,7 @@
                 <TextRuns>
                   <TextRun>
                     <Value>2. यह मामला मण्डल की अनुचित साधन सम्बन्धी दण्ड सारणी के अपराध के अन्तर्गत आता है , जिसके अनुसार आपको मण्डल की अनुचित साधन सम्बन्धी दण्ड सारणी के अनुसार दण्ड दिया जा सकता है।
-3. इस संबंध में आपको अपना पक्ष प्रस्तुत करना हो तो लिखित रूप में अपना जवाब प्रधानाचार्य के माध्यम से इस मण्डल को दिनांक 23/02/2024 तक भेज दे। यदि इस अवधि में आपका कोई उत्तर प्राप्त नहीं होता है तो यह मान लिया जावेगा कि आपको इस बारे में कुछ नहीं कहना है और आप उपरोक्त पैरा (1) व (2) से सहमत है।  आपके प्रत्युत्तर के अभाव में मण्डल एक पक्षीय कार्यवाही करने में स्वतन्त्र होगा।  जवाब दो पेज से अधिक न हो।  जवाब में संलग्नक की आवश्यकता नहीं है।  
+3. इस संबंध में आपको अपना पक्ष प्रस्तूत करना हो तो लिखित रूप में अपना जवाब प्रधानाचार्य के माध्यम से इस मण्डल को दिनांक 23/02/2024 तक भेज दे। यदि इस अवधि में आपका कोई उत्तर प्राप्त नहीं होता है तो यह मान लिया जावेगा कि आपको इस बारे में कुछ नहीं कहना है और आप उपरोक्त पैरा (1) व (2) से सहमत है।  आपके प्रत्युत्तर के अभाव में मण्डल एक पक्षीय कार्यवाही करने में स्वतन्त्र होगा।  जवाब दो पेज से अधिक न हो।  जवाब में संलग्नक की आवश्यकता नहीं है।  
 
 </Value>
                     <Style>
@@ -267,10 +267,42 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value />
+                    <Value>5. परीक्षा प्रथम सेमेस्टर </Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Times New Roman</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=First(Fields!EndTermName.Value, "UFMLetter")</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>12pt</FontSize>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value> सत्र </Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=First(Fields!FinancialYearName.Value, "UFMLetter")</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>12pt</FontSize>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                       <Color>#000000</Color>
@@ -467,21 +499,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>को भेजकर लेख है कि छात्र/छात्रा को नोटिस की प्रति देकर उससे प्राप्ति की रसीद एवं </Value>
-                    <Style>
-                      <FontStyle>Normal</FontStyle>
-                      <FontFamily>Times New Roman</FontFamily>
-                      <FontWeight>Normal</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                      <Color>#000000</Color>
-                    </Style>
-                  </TextRun>
-                  <TextRun>
-                    <Value>नोटिस</Value>
-                    <Style />
-                  </TextRun>
-                  <TextRun>
-                    <Value> का जवाब Email: conf.bter@gmail.com पर भिजवाये। Hard Copy संस्थान मे सुरक्षित रखें, आवश्यक्तानुशार प्राविधिक शिक्षा मण्डल,जोधपुर द्वारा मंगवाया जा सकता है।</Value>
+                    <Value>को भेजकर लेख है कि छात्र को नोटिस की प्रति देकर उससे प्राप्ति की रसीद एवं नोटस का जवाब Email: conf.bter@gmail.com पर भिजवाये। Hard Copy संस्थान मे सुरक्षित रखें, आवश्यक्तानुशार प्राविधिक शिक्षा मण्डल,जोधपुर द्वारा मंगवाया जा सकता है।</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Times New Roman</FontFamily>
