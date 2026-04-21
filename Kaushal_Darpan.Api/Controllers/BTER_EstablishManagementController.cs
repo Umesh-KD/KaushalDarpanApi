@@ -1522,7 +1522,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 else if (result.Data == -1)
                 {
                     result.State = EnumStatus.Warning;
-                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    result.ErrorMessage = "Total Seat should be greater then posted seat";
                 }
                 else
                 {
