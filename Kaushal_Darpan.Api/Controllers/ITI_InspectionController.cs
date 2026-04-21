@@ -1083,7 +1083,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         
                         List<string> files = data.Tables[1].AsEnumerable().Select(x => Path.Combine($"{ConfigurationHelper.StaticFileRootPath}/InspectionManagerITI", x["Answer"].ToString())).ToList();
                        
-                        byte[] mergedPdf = WordHelper.MergePdfFiles(files);
+                        //byte[] mergedPdf = WordHelper.MergePdfFiles(files);
+                        byte[] mergedPdf = WordHelper.MergePdfAndImgFiles(files);
 
                         if (!System.IO.Directory.Exists(folderPath))
                         {
