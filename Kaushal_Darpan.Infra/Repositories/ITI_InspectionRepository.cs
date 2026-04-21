@@ -93,6 +93,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_Inspection";
                         command.Parameters.AddWithValue("@Action", "GetAllData_Members");
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@AcademicYearID", body.FinancialYearID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@DeploymentStatus", body.DeploymentStatus);
@@ -143,6 +144,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InspectionTeamName", body.InspectionTeamName);
                         command.Parameters.AddWithValue("@UserID", body.UserID);
                         command.Parameters.AddWithValue("@LevelId", body.LevelId);
+                        command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
+                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -219,6 +222,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InspectionTeamID", request.InspectionTeamID);
                         command.Parameters.AddWithValue("@InspectionTeamName", request.InspectionTeamName);
                         command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                        command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
                         command.Parameters.AddWithValue("@UserID", request.UserID);
                         command.Parameters.AddWithValue("@TeamTypeID", request.TeamTypeID);
@@ -1274,6 +1278,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
                         command.Parameters.AddWithValue("@TentativeDate", body.TentativeDate);
                         command.Parameters.AddWithValue("@consentTypeID", body.consentTypeID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -1473,6 +1479,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_M_ITI_ConsentData";
                         command.Parameters.AddWithValue("@Action", "GetConsentsByPrincipal");
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query

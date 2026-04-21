@@ -431,46 +431,43 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         {
             _actionName = "InstituteMaster()";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_InstituteMaster";
+                    if (DepartmentID == 1)
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_InstituteMaster";
-                        if (DepartmentID == 1)
-                        {
-                            command.Parameters.AddWithValue("@action", "BTERInstitute");
-                        }
-                        else if (DepartmentID == 2)
-                        {
-                            command.Parameters.AddWithValue("@action", "ITIInstitute");
-                        }
-
-                        command.Parameters.AddWithValue("@Eng_NonEng", Eng_NonEng);
-                        command.Parameters.AddWithValue("@EndTermId", EndTermId);
-                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
-
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
+                        command.Parameters.AddWithValue("@action", "BTERInstitute");
                     }
-                    return dataTable;
-                }
-                catch (Exception ex)
-                {
-                    var errorDesc = new ErrorDescription
+                    else if (DepartmentID == 2)
                     {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
+                        command.Parameters.AddWithValue("@action", "ITIInstitute");
+                    }
+
+                    command.Parameters.AddWithValue("@Eng_NonEng", Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermId", EndTermId);
+                    command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-            });
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
@@ -837,6 +834,43 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        public async Task<DataTable> MultiStreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, string SemesterID = "", int InstituteId = 0)
+        {
+            _actionName = "StreamMaster()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDL_StreamMasterHODMulti";
+                        command.Parameters.AddWithValue("@UserID", UserID);
+                        command.Parameters.AddWithValue("@EndTermId", EndTermId);
+                        command.Parameters.AddWithValue("@StreamType", StreamType);
+                        command.Parameters.AddWithValue("@SemesterID", SemesterID);
+                        command.Parameters.AddWithValue("@InstituteId", InstituteId);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
 
         public async Task<DataTable> HODSemesterMaster(int UserID = 0, int StreamType = 0, int EndTermId = 0)
         {
@@ -853,7 +887,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserID", UserID);
                         command.Parameters.AddWithValue("@EndTermId", EndTermId);
                         command.Parameters.AddWithValue("@StreamType", StreamType);
-                
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -5194,6 +5228,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
                         command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
                         command.Parameters.AddWithValue("@StreamID", request.StreamID);
+                        command.Parameters.AddWithValue("@SchemeID", request.SchemeID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -7640,11 +7675,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_BTER_Get_Staff_Ac_Year";
+                            command.CommandText = "USP_BTER_Get_Staff_Ac_Year";
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@StreamIds", body.StreamIds);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }

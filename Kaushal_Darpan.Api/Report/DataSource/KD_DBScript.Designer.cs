@@ -290,6 +290,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         private UFMLetterDataTable tableUFMLetter;
         
+        private ITI_JoiningLetterDataTableDataTable tableITI_JoiningLetterDataTable;
+        
+        private ITI_RelievingLetterDataTableDataTable tableITI_RelievingLetterDataTable;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -718,6 +722,12 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 }
                 if ((ds.Tables["UFMLetter"] != null)) {
                     base.Tables.Add(new UFMLetterDataTable(ds.Tables["UFMLetter"]));
+                }
+                if ((ds.Tables["ITI_JoiningLetterDataTable"] != null)) {
+                    base.Tables.Add(new ITI_JoiningLetterDataTableDataTable(ds.Tables["ITI_JoiningLetterDataTable"]));
+                }
+                if ((ds.Tables["ITI_RelievingLetterDataTable"] != null)) {
+                    base.Tables.Add(new ITI_RelievingLetterDataTableDataTable(ds.Tables["ITI_RelievingLetterDataTable"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -2069,6 +2079,26 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ITI_JoiningLetterDataTableDataTable ITI_JoiningLetterDataTable {
+            get {
+                return this.tableITI_JoiningLetterDataTable;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ITI_RelievingLetterDataTableDataTable ITI_RelievingLetterDataTable {
+            get {
+                return this.tableITI_RelievingLetterDataTable;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -2532,6 +2562,12 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 }
                 if ((ds.Tables["UFMLetter"] != null)) {
                     base.Tables.Add(new UFMLetterDataTable(ds.Tables["UFMLetter"]));
+                }
+                if ((ds.Tables["ITI_JoiningLetterDataTable"] != null)) {
+                    base.Tables.Add(new ITI_JoiningLetterDataTableDataTable(ds.Tables["ITI_JoiningLetterDataTable"]));
+                }
+                if ((ds.Tables["ITI_RelievingLetterDataTable"] != null)) {
+                    base.Tables.Add(new ITI_RelievingLetterDataTableDataTable(ds.Tables["ITI_RelievingLetterDataTable"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -3364,6 +3400,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                     this.tableUFMLetter.InitVars();
                 }
             }
+            this.tableITI_JoiningLetterDataTable = ((ITI_JoiningLetterDataTableDataTable)(base.Tables["ITI_JoiningLetterDataTable"]));
+            if ((initTable == true)) {
+                if ((this.tableITI_JoiningLetterDataTable != null)) {
+                    this.tableITI_JoiningLetterDataTable.InitVars();
+                }
+            }
+            this.tableITI_RelievingLetterDataTable = ((ITI_RelievingLetterDataTableDataTable)(base.Tables["ITI_RelievingLetterDataTable"]));
+            if ((initTable == true)) {
+                if ((this.tableITI_RelievingLetterDataTable != null)) {
+                    this.tableITI_RelievingLetterDataTable.InitVars();
+                }
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3640,6 +3688,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             base.Tables.Add(this.tableStudentRevalFeePaymentReceipt_SubDetails);
             this.tableUFMLetter = new UFMLetterDataTable();
             base.Tables.Add(this.tableUFMLetter);
+            this.tableITI_JoiningLetterDataTable = new ITI_JoiningLetterDataTableDataTable();
+            base.Tables.Add(this.tableITI_JoiningLetterDataTable);
+            this.tableITI_RelievingLetterDataTable = new ITI_RelievingLetterDataTableDataTable();
+            base.Tables.Add(this.tableITI_RelievingLetterDataTable);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4442,6 +4494,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeITI_JoiningLetterDataTable() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeITI_RelievingLetterDataTable() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e) {
             if ((e.Action == global::System.ComponentModel.CollectionChangeAction.Remove)) {
                 this.InitVars();
@@ -4893,6 +4957,12 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public delegate void UFMLetterRowChangeEventHandler(object sender, UFMLetterRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void ITI_JoiningLetterDataTableRowChangeEventHandler(object sender, ITI_JoiningLetterDataTableRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void ITI_RelievingLetterDataTableRowChangeEventHandler(object sender, ITI_RelievingLetterDataTableRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -57968,6 +58038,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnFinancialYearName;
             
+            private global::System.Data.DataColumn columnStreamCode;
+            
+            private global::System.Data.DataColumn columnCurrentDate;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public UFMLetterDataTable() {
@@ -58069,6 +58143,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn StreamCodeColumn {
+                get {
+                    return this.columnStreamCode;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn CurrentDateColumn {
+                get {
+                    return this.columnCurrentDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -58104,7 +58194,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public UFMLetterRow AddUFMLetterRow(string StudentName, string FatherName, string RollNo, string EnrollmentNo, string InstituteName, string SubjectCode, string EndTermName, string FinancialYearName) {
+            public UFMLetterRow AddUFMLetterRow(string StudentName, string FatherName, string RollNo, string EnrollmentNo, string InstituteName, string SubjectCode, string EndTermName, string FinancialYearName, string StreamCode, string CurrentDate) {
                 UFMLetterRow rowUFMLetterRow = ((UFMLetterRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         StudentName,
@@ -58114,7 +58204,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         InstituteName,
                         SubjectCode,
                         EndTermName,
-                        FinancialYearName};
+                        FinancialYearName,
+                        StreamCode,
+                        CurrentDate};
                 rowUFMLetterRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowUFMLetterRow);
                 return rowUFMLetterRow;
@@ -58145,6 +58237,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnSubjectCode = base.Columns["SubjectCode"];
                 this.columnEndTermName = base.Columns["EndTermName"];
                 this.columnFinancialYearName = base.Columns["FinancialYearName"];
+                this.columnStreamCode = base.Columns["StreamCode"];
+                this.columnCurrentDate = base.Columns["CurrentDate"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -58166,6 +58260,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnEndTermName);
                 this.columnFinancialYearName = new global::System.Data.DataColumn("FinancialYearName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnFinancialYearName);
+                this.columnStreamCode = new global::System.Data.DataColumn("StreamCode", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnStreamCode);
+                this.columnCurrentDate = new global::System.Data.DataColumn("CurrentDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCurrentDate);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -58252,6 +58350,1301 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "UFMLetterDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ITI_JoiningLetterDataTableDataTable : global::System.Data.TypedTableBase<ITI_JoiningLetterDataTableRow> {
+            
+            private global::System.Data.DataColumn columnPostName;
+            
+            private global::System.Data.DataColumn columnEmployeeName;
+            
+            private global::System.Data.DataColumn columnEmployeeID;
+            
+            private global::System.Data.DataColumn columnCurrentOffice;
+            
+            private global::System.Data.DataColumn columnDateOfBirth;
+            
+            private global::System.Data.DataColumn columnLastPostName;
+            
+            private global::System.Data.DataColumn columnLastOfficeName;
+            
+            private global::System.Data.DataColumn columnTransferPostName;
+            
+            private global::System.Data.DataColumn columnDistrictName;
+            
+            private global::System.Data.DataColumn columnBlockName;
+            
+            private global::System.Data.DataColumn columnLastWorkingDate;
+            
+            private global::System.Data.DataColumn columnApproveName;
+            
+            private global::System.Data.DataColumn columnRequestRemarks;
+            
+            private global::System.Data.DataColumn columnOrderNo;
+            
+            private global::System.Data.DataColumn columnOrderDate;
+            
+            private global::System.Data.DataColumn columnLeaveCount;
+            
+            private global::System.Data.DataColumn columnHeadOfInstitute;
+            
+            private global::System.Data.DataColumn columnHeadOfInstituteIDWithSeal;
+            
+            private global::System.Data.DataColumn columnJoiningDate;
+            
+            private global::System.Data.DataColumn columnJoiningTime;
+            
+            private global::System.Data.DataColumn columnRequestDate;
+            
+            private global::System.Data.DataColumn columnRequestStatus;
+            
+            private global::System.Data.DataColumn columnCreatedBy;
+            
+            private global::System.Data.DataColumn columnCreatedDate;
+            
+            private global::System.Data.DataColumn columnUpdatedBy;
+            
+            private global::System.Data.DataColumn columnUpdatedDate;
+            
+            private global::System.Data.DataColumn columnRequestType;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_JoiningLetterDataTableDataTable() {
+                this.TableName = "ITI_JoiningLetterDataTable";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_JoiningLetterDataTableDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
+            protected ITI_JoiningLetterDataTableDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PostNameColumn {
+                get {
+                    return this.columnPostName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EmployeeNameColumn {
+                get {
+                    return this.columnEmployeeName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EmployeeIDColumn {
+                get {
+                    return this.columnEmployeeID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn CurrentOfficeColumn {
+                get {
+                    return this.columnCurrentOffice;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DateOfBirthColumn {
+                get {
+                    return this.columnDateOfBirth;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn LastPostNameColumn {
+                get {
+                    return this.columnLastPostName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn LastOfficeNameColumn {
+                get {
+                    return this.columnLastOfficeName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TransferPostNameColumn {
+                get {
+                    return this.columnTransferPostName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DistrictNameColumn {
+                get {
+                    return this.columnDistrictName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn BlockNameColumn {
+                get {
+                    return this.columnBlockName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn LastWorkingDateColumn {
+                get {
+                    return this.columnLastWorkingDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ApproveNameColumn {
+                get {
+                    return this.columnApproveName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RequestRemarksColumn {
+                get {
+                    return this.columnRequestRemarks;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn OrderNoColumn {
+                get {
+                    return this.columnOrderNo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn OrderDateColumn {
+                get {
+                    return this.columnOrderDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn LeaveCountColumn {
+                get {
+                    return this.columnLeaveCount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn HeadOfInstituteColumn {
+                get {
+                    return this.columnHeadOfInstitute;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn HeadOfInstituteIDWithSealColumn {
+                get {
+                    return this.columnHeadOfInstituteIDWithSeal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn JoiningDateColumn {
+                get {
+                    return this.columnJoiningDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn JoiningTimeColumn {
+                get {
+                    return this.columnJoiningTime;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RequestDateColumn {
+                get {
+                    return this.columnRequestDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RequestStatusColumn {
+                get {
+                    return this.columnRequestStatus;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn CreatedByColumn {
+                get {
+                    return this.columnCreatedBy;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn CreatedDateColumn {
+                get {
+                    return this.columnCreatedDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn UpdatedByColumn {
+                get {
+                    return this.columnUpdatedBy;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn UpdatedDateColumn {
+                get {
+                    return this.columnUpdatedDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RequestTypeColumn {
+                get {
+                    return this.columnRequestType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_JoiningLetterDataTableRow this[int index] {
+                get {
+                    return ((ITI_JoiningLetterDataTableRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_JoiningLetterDataTableRowChangeEventHandler ITI_JoiningLetterDataTableRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_JoiningLetterDataTableRowChangeEventHandler ITI_JoiningLetterDataTableRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_JoiningLetterDataTableRowChangeEventHandler ITI_JoiningLetterDataTableRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_JoiningLetterDataTableRowChangeEventHandler ITI_JoiningLetterDataTableRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddITI_JoiningLetterDataTableRow(ITI_JoiningLetterDataTableRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_JoiningLetterDataTableRow AddITI_JoiningLetterDataTableRow(
+                        string PostName, 
+                        string EmployeeName, 
+                        string EmployeeID, 
+                        string CurrentOffice, 
+                        string DateOfBirth, 
+                        string LastPostName, 
+                        string LastOfficeName, 
+                        string TransferPostName, 
+                        string DistrictName, 
+                        string BlockName, 
+                        string LastWorkingDate, 
+                        string ApproveName, 
+                        string RequestRemarks, 
+                        string OrderNo, 
+                        string OrderDate, 
+                        string LeaveCount, 
+                        string HeadOfInstitute, 
+                        string HeadOfInstituteIDWithSeal, 
+                        string JoiningDate, 
+                        string JoiningTime, 
+                        string RequestDate, 
+                        string RequestStatus, 
+                        string CreatedBy, 
+                        string CreatedDate, 
+                        string UpdatedBy, 
+                        string UpdatedDate, 
+                        string RequestType) {
+                ITI_JoiningLetterDataTableRow rowITI_JoiningLetterDataTableRow = ((ITI_JoiningLetterDataTableRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        PostName,
+                        EmployeeName,
+                        EmployeeID,
+                        CurrentOffice,
+                        DateOfBirth,
+                        LastPostName,
+                        LastOfficeName,
+                        TransferPostName,
+                        DistrictName,
+                        BlockName,
+                        LastWorkingDate,
+                        ApproveName,
+                        RequestRemarks,
+                        OrderNo,
+                        OrderDate,
+                        LeaveCount,
+                        HeadOfInstitute,
+                        HeadOfInstituteIDWithSeal,
+                        JoiningDate,
+                        JoiningTime,
+                        RequestDate,
+                        RequestStatus,
+                        CreatedBy,
+                        CreatedDate,
+                        UpdatedBy,
+                        UpdatedDate,
+                        RequestType};
+                rowITI_JoiningLetterDataTableRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowITI_JoiningLetterDataTableRow);
+                return rowITI_JoiningLetterDataTableRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                ITI_JoiningLetterDataTableDataTable cln = ((ITI_JoiningLetterDataTableDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new ITI_JoiningLetterDataTableDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnPostName = base.Columns["PostName"];
+                this.columnEmployeeName = base.Columns["EmployeeName"];
+                this.columnEmployeeID = base.Columns["EmployeeID"];
+                this.columnCurrentOffice = base.Columns["CurrentOffice"];
+                this.columnDateOfBirth = base.Columns["DateOfBirth"];
+                this.columnLastPostName = base.Columns["LastPostName"];
+                this.columnLastOfficeName = base.Columns["LastOfficeName"];
+                this.columnTransferPostName = base.Columns["TransferPostName"];
+                this.columnDistrictName = base.Columns["DistrictName"];
+                this.columnBlockName = base.Columns["BlockName"];
+                this.columnLastWorkingDate = base.Columns["LastWorkingDate"];
+                this.columnApproveName = base.Columns["ApproveName"];
+                this.columnRequestRemarks = base.Columns["RequestRemarks"];
+                this.columnOrderNo = base.Columns["OrderNo"];
+                this.columnOrderDate = base.Columns["OrderDate"];
+                this.columnLeaveCount = base.Columns["LeaveCount"];
+                this.columnHeadOfInstitute = base.Columns["HeadOfInstitute"];
+                this.columnHeadOfInstituteIDWithSeal = base.Columns["HeadOfInstituteIDWithSeal"];
+                this.columnJoiningDate = base.Columns["JoiningDate"];
+                this.columnJoiningTime = base.Columns["JoiningTime"];
+                this.columnRequestDate = base.Columns["RequestDate"];
+                this.columnRequestStatus = base.Columns["RequestStatus"];
+                this.columnCreatedBy = base.Columns["CreatedBy"];
+                this.columnCreatedDate = base.Columns["CreatedDate"];
+                this.columnUpdatedBy = base.Columns["UpdatedBy"];
+                this.columnUpdatedDate = base.Columns["UpdatedDate"];
+                this.columnRequestType = base.Columns["RequestType"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnPostName = new global::System.Data.DataColumn("PostName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPostName);
+                this.columnEmployeeName = new global::System.Data.DataColumn("EmployeeName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEmployeeName);
+                this.columnEmployeeID = new global::System.Data.DataColumn("EmployeeID", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEmployeeID);
+                this.columnCurrentOffice = new global::System.Data.DataColumn("CurrentOffice", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCurrentOffice);
+                this.columnDateOfBirth = new global::System.Data.DataColumn("DateOfBirth", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDateOfBirth);
+                this.columnLastPostName = new global::System.Data.DataColumn("LastPostName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLastPostName);
+                this.columnLastOfficeName = new global::System.Data.DataColumn("LastOfficeName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLastOfficeName);
+                this.columnTransferPostName = new global::System.Data.DataColumn("TransferPostName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTransferPostName);
+                this.columnDistrictName = new global::System.Data.DataColumn("DistrictName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDistrictName);
+                this.columnBlockName = new global::System.Data.DataColumn("BlockName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBlockName);
+                this.columnLastWorkingDate = new global::System.Data.DataColumn("LastWorkingDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLastWorkingDate);
+                this.columnApproveName = new global::System.Data.DataColumn("ApproveName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnApproveName);
+                this.columnRequestRemarks = new global::System.Data.DataColumn("RequestRemarks", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRequestRemarks);
+                this.columnOrderNo = new global::System.Data.DataColumn("OrderNo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnOrderNo);
+                this.columnOrderDate = new global::System.Data.DataColumn("OrderDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnOrderDate);
+                this.columnLeaveCount = new global::System.Data.DataColumn("LeaveCount", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLeaveCount);
+                this.columnHeadOfInstitute = new global::System.Data.DataColumn("HeadOfInstitute", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnHeadOfInstitute);
+                this.columnHeadOfInstituteIDWithSeal = new global::System.Data.DataColumn("HeadOfInstituteIDWithSeal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnHeadOfInstituteIDWithSeal);
+                this.columnJoiningDate = new global::System.Data.DataColumn("JoiningDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnJoiningDate);
+                this.columnJoiningTime = new global::System.Data.DataColumn("JoiningTime", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnJoiningTime);
+                this.columnRequestDate = new global::System.Data.DataColumn("RequestDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRequestDate);
+                this.columnRequestStatus = new global::System.Data.DataColumn("RequestStatus", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRequestStatus);
+                this.columnCreatedBy = new global::System.Data.DataColumn("CreatedBy", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCreatedBy);
+                this.columnCreatedDate = new global::System.Data.DataColumn("CreatedDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCreatedDate);
+                this.columnUpdatedBy = new global::System.Data.DataColumn("UpdatedBy", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUpdatedBy);
+                this.columnUpdatedDate = new global::System.Data.DataColumn("UpdatedDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUpdatedDate);
+                this.columnRequestType = new global::System.Data.DataColumn("RequestType", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRequestType);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_JoiningLetterDataTableRow NewITI_JoiningLetterDataTableRow() {
+                return ((ITI_JoiningLetterDataTableRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new ITI_JoiningLetterDataTableRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(ITI_JoiningLetterDataTableRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ITI_JoiningLetterDataTableRowChanged != null)) {
+                    this.ITI_JoiningLetterDataTableRowChanged(this, new ITI_JoiningLetterDataTableRowChangeEvent(((ITI_JoiningLetterDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ITI_JoiningLetterDataTableRowChanging != null)) {
+                    this.ITI_JoiningLetterDataTableRowChanging(this, new ITI_JoiningLetterDataTableRowChangeEvent(((ITI_JoiningLetterDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ITI_JoiningLetterDataTableRowDeleted != null)) {
+                    this.ITI_JoiningLetterDataTableRowDeleted(this, new ITI_JoiningLetterDataTableRowChangeEvent(((ITI_JoiningLetterDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ITI_JoiningLetterDataTableRowDeleting != null)) {
+                    this.ITI_JoiningLetterDataTableRowDeleting(this, new ITI_JoiningLetterDataTableRowChangeEvent(((ITI_JoiningLetterDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveITI_JoiningLetterDataTableRow(ITI_JoiningLetterDataTableRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                KD_DBScript ds = new KD_DBScript();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ITI_JoiningLetterDataTableDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ITI_RelievingLetterDataTableDataTable : global::System.Data.TypedTableBase<ITI_RelievingLetterDataTableRow> {
+            
+            private global::System.Data.DataColumn columnRequestType;
+            
+            private global::System.Data.DataColumn columnPostName;
+            
+            private global::System.Data.DataColumn columnEmployeeName;
+            
+            private global::System.Data.DataColumn columnMobileNo;
+            
+            private global::System.Data.DataColumn columnEmployeeID;
+            
+            private global::System.Data.DataColumn columnCurrentOffice;
+            
+            private global::System.Data.DataColumn columnDateOfBirth;
+            
+            private global::System.Data.DataColumn columnLastPostName;
+            
+            private global::System.Data.DataColumn columnLastOfficeName;
+            
+            private global::System.Data.DataColumn columnTransferPostName;
+            
+            private global::System.Data.DataColumn columnDistrictName;
+            
+            private global::System.Data.DataColumn columnBlockName;
+            
+            private global::System.Data.DataColumn columnLastWorkingDate;
+            
+            private global::System.Data.DataColumn columnApproveName;
+            
+            private global::System.Data.DataColumn columnRequestRemarks;
+            
+            private global::System.Data.DataColumn columnOrderNo;
+            
+            private global::System.Data.DataColumn columnOrderDate;
+            
+            private global::System.Data.DataColumn columnLeaveCount;
+            
+            private global::System.Data.DataColumn columnHeadOfInstitute;
+            
+            private global::System.Data.DataColumn columnHeadOfInstituteIDWithSeal;
+            
+            private global::System.Data.DataColumn columnJoiningDate;
+            
+            private global::System.Data.DataColumn columnJoiningTime;
+            
+            private global::System.Data.DataColumn columnRequestDate;
+            
+            private global::System.Data.DataColumn columnRequestStatus;
+            
+            private global::System.Data.DataColumn columnCreatedBy;
+            
+            private global::System.Data.DataColumn columnCreatedDate;
+            
+            private global::System.Data.DataColumn columnUpdatedBy;
+            
+            private global::System.Data.DataColumn columnUpdatedDate;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_RelievingLetterDataTableDataTable() {
+                this.TableName = "ITI_RelievingLetterDataTable";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_RelievingLetterDataTableDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
+            protected ITI_RelievingLetterDataTableDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RequestTypeColumn {
+                get {
+                    return this.columnRequestType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PostNameColumn {
+                get {
+                    return this.columnPostName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EmployeeNameColumn {
+                get {
+                    return this.columnEmployeeName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn MobileNoColumn {
+                get {
+                    return this.columnMobileNo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EmployeeIDColumn {
+                get {
+                    return this.columnEmployeeID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn CurrentOfficeColumn {
+                get {
+                    return this.columnCurrentOffice;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DateOfBirthColumn {
+                get {
+                    return this.columnDateOfBirth;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn LastPostNameColumn {
+                get {
+                    return this.columnLastPostName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn LastOfficeNameColumn {
+                get {
+                    return this.columnLastOfficeName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TransferPostNameColumn {
+                get {
+                    return this.columnTransferPostName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DistrictNameColumn {
+                get {
+                    return this.columnDistrictName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn BlockNameColumn {
+                get {
+                    return this.columnBlockName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn LastWorkingDateColumn {
+                get {
+                    return this.columnLastWorkingDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ApproveNameColumn {
+                get {
+                    return this.columnApproveName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RequestRemarksColumn {
+                get {
+                    return this.columnRequestRemarks;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn OrderNoColumn {
+                get {
+                    return this.columnOrderNo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn OrderDateColumn {
+                get {
+                    return this.columnOrderDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn LeaveCountColumn {
+                get {
+                    return this.columnLeaveCount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn HeadOfInstituteColumn {
+                get {
+                    return this.columnHeadOfInstitute;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn HeadOfInstituteIDWithSealColumn {
+                get {
+                    return this.columnHeadOfInstituteIDWithSeal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn JoiningDateColumn {
+                get {
+                    return this.columnJoiningDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn JoiningTimeColumn {
+                get {
+                    return this.columnJoiningTime;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RequestDateColumn {
+                get {
+                    return this.columnRequestDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RequestStatusColumn {
+                get {
+                    return this.columnRequestStatus;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn CreatedByColumn {
+                get {
+                    return this.columnCreatedBy;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn CreatedDateColumn {
+                get {
+                    return this.columnCreatedDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn UpdatedByColumn {
+                get {
+                    return this.columnUpdatedBy;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn UpdatedDateColumn {
+                get {
+                    return this.columnUpdatedDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_RelievingLetterDataTableRow this[int index] {
+                get {
+                    return ((ITI_RelievingLetterDataTableRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_RelievingLetterDataTableRowChangeEventHandler ITI_RelievingLetterDataTableRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_RelievingLetterDataTableRowChangeEventHandler ITI_RelievingLetterDataTableRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_RelievingLetterDataTableRowChangeEventHandler ITI_RelievingLetterDataTableRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event ITI_RelievingLetterDataTableRowChangeEventHandler ITI_RelievingLetterDataTableRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddITI_RelievingLetterDataTableRow(ITI_RelievingLetterDataTableRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_RelievingLetterDataTableRow AddITI_RelievingLetterDataTableRow(
+                        string RequestType, 
+                        string PostName, 
+                        string EmployeeName, 
+                        string MobileNo, 
+                        string EmployeeID, 
+                        string CurrentOffice, 
+                        string DateOfBirth, 
+                        string LastPostName, 
+                        string LastOfficeName, 
+                        string TransferPostName, 
+                        string DistrictName, 
+                        string BlockName, 
+                        string LastWorkingDate, 
+                        string ApproveName, 
+                        string RequestRemarks, 
+                        string OrderNo, 
+                        string OrderDate, 
+                        string LeaveCount, 
+                        string HeadOfInstitute, 
+                        string HeadOfInstituteIDWithSeal, 
+                        string JoiningDate, 
+                        string JoiningTime, 
+                        string RequestDate, 
+                        string RequestStatus, 
+                        string CreatedBy, 
+                        string CreatedDate, 
+                        string UpdatedBy, 
+                        string UpdatedDate) {
+                ITI_RelievingLetterDataTableRow rowITI_RelievingLetterDataTableRow = ((ITI_RelievingLetterDataTableRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        RequestType,
+                        PostName,
+                        EmployeeName,
+                        MobileNo,
+                        EmployeeID,
+                        CurrentOffice,
+                        DateOfBirth,
+                        LastPostName,
+                        LastOfficeName,
+                        TransferPostName,
+                        DistrictName,
+                        BlockName,
+                        LastWorkingDate,
+                        ApproveName,
+                        RequestRemarks,
+                        OrderNo,
+                        OrderDate,
+                        LeaveCount,
+                        HeadOfInstitute,
+                        HeadOfInstituteIDWithSeal,
+                        JoiningDate,
+                        JoiningTime,
+                        RequestDate,
+                        RequestStatus,
+                        CreatedBy,
+                        CreatedDate,
+                        UpdatedBy,
+                        UpdatedDate};
+                rowITI_RelievingLetterDataTableRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowITI_RelievingLetterDataTableRow);
+                return rowITI_RelievingLetterDataTableRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                ITI_RelievingLetterDataTableDataTable cln = ((ITI_RelievingLetterDataTableDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new ITI_RelievingLetterDataTableDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnRequestType = base.Columns["RequestType"];
+                this.columnPostName = base.Columns["PostName"];
+                this.columnEmployeeName = base.Columns["EmployeeName"];
+                this.columnMobileNo = base.Columns["MobileNo"];
+                this.columnEmployeeID = base.Columns["EmployeeID"];
+                this.columnCurrentOffice = base.Columns["CurrentOffice"];
+                this.columnDateOfBirth = base.Columns["DateOfBirth"];
+                this.columnLastPostName = base.Columns["LastPostName"];
+                this.columnLastOfficeName = base.Columns["LastOfficeName"];
+                this.columnTransferPostName = base.Columns["TransferPostName"];
+                this.columnDistrictName = base.Columns["DistrictName"];
+                this.columnBlockName = base.Columns["BlockName"];
+                this.columnLastWorkingDate = base.Columns["LastWorkingDate"];
+                this.columnApproveName = base.Columns["ApproveName"];
+                this.columnRequestRemarks = base.Columns["RequestRemarks"];
+                this.columnOrderNo = base.Columns["OrderNo"];
+                this.columnOrderDate = base.Columns["OrderDate"];
+                this.columnLeaveCount = base.Columns["LeaveCount"];
+                this.columnHeadOfInstitute = base.Columns["HeadOfInstitute"];
+                this.columnHeadOfInstituteIDWithSeal = base.Columns["HeadOfInstituteIDWithSeal"];
+                this.columnJoiningDate = base.Columns["JoiningDate"];
+                this.columnJoiningTime = base.Columns["JoiningTime"];
+                this.columnRequestDate = base.Columns["RequestDate"];
+                this.columnRequestStatus = base.Columns["RequestStatus"];
+                this.columnCreatedBy = base.Columns["CreatedBy"];
+                this.columnCreatedDate = base.Columns["CreatedDate"];
+                this.columnUpdatedBy = base.Columns["UpdatedBy"];
+                this.columnUpdatedDate = base.Columns["UpdatedDate"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnRequestType = new global::System.Data.DataColumn("RequestType", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRequestType);
+                this.columnPostName = new global::System.Data.DataColumn("PostName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPostName);
+                this.columnEmployeeName = new global::System.Data.DataColumn("EmployeeName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEmployeeName);
+                this.columnMobileNo = new global::System.Data.DataColumn("MobileNo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMobileNo);
+                this.columnEmployeeID = new global::System.Data.DataColumn("EmployeeID", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEmployeeID);
+                this.columnCurrentOffice = new global::System.Data.DataColumn("CurrentOffice", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCurrentOffice);
+                this.columnDateOfBirth = new global::System.Data.DataColumn("DateOfBirth", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDateOfBirth);
+                this.columnLastPostName = new global::System.Data.DataColumn("LastPostName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLastPostName);
+                this.columnLastOfficeName = new global::System.Data.DataColumn("LastOfficeName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLastOfficeName);
+                this.columnTransferPostName = new global::System.Data.DataColumn("TransferPostName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTransferPostName);
+                this.columnDistrictName = new global::System.Data.DataColumn("DistrictName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDistrictName);
+                this.columnBlockName = new global::System.Data.DataColumn("BlockName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBlockName);
+                this.columnLastWorkingDate = new global::System.Data.DataColumn("LastWorkingDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLastWorkingDate);
+                this.columnApproveName = new global::System.Data.DataColumn("ApproveName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnApproveName);
+                this.columnRequestRemarks = new global::System.Data.DataColumn("RequestRemarks", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRequestRemarks);
+                this.columnOrderNo = new global::System.Data.DataColumn("OrderNo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnOrderNo);
+                this.columnOrderDate = new global::System.Data.DataColumn("OrderDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnOrderDate);
+                this.columnLeaveCount = new global::System.Data.DataColumn("LeaveCount", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLeaveCount);
+                this.columnHeadOfInstitute = new global::System.Data.DataColumn("HeadOfInstitute", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnHeadOfInstitute);
+                this.columnHeadOfInstituteIDWithSeal = new global::System.Data.DataColumn("HeadOfInstituteIDWithSeal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnHeadOfInstituteIDWithSeal);
+                this.columnJoiningDate = new global::System.Data.DataColumn("JoiningDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnJoiningDate);
+                this.columnJoiningTime = new global::System.Data.DataColumn("JoiningTime", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnJoiningTime);
+                this.columnRequestDate = new global::System.Data.DataColumn("RequestDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRequestDate);
+                this.columnRequestStatus = new global::System.Data.DataColumn("RequestStatus", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRequestStatus);
+                this.columnCreatedBy = new global::System.Data.DataColumn("CreatedBy", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCreatedBy);
+                this.columnCreatedDate = new global::System.Data.DataColumn("CreatedDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCreatedDate);
+                this.columnUpdatedBy = new global::System.Data.DataColumn("UpdatedBy", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUpdatedBy);
+                this.columnUpdatedDate = new global::System.Data.DataColumn("UpdatedDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUpdatedDate);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_RelievingLetterDataTableRow NewITI_RelievingLetterDataTableRow() {
+                return ((ITI_RelievingLetterDataTableRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new ITI_RelievingLetterDataTableRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(ITI_RelievingLetterDataTableRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ITI_RelievingLetterDataTableRowChanged != null)) {
+                    this.ITI_RelievingLetterDataTableRowChanged(this, new ITI_RelievingLetterDataTableRowChangeEvent(((ITI_RelievingLetterDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ITI_RelievingLetterDataTableRowChanging != null)) {
+                    this.ITI_RelievingLetterDataTableRowChanging(this, new ITI_RelievingLetterDataTableRowChangeEvent(((ITI_RelievingLetterDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ITI_RelievingLetterDataTableRowDeleted != null)) {
+                    this.ITI_RelievingLetterDataTableRowDeleted(this, new ITI_RelievingLetterDataTableRowChangeEvent(((ITI_RelievingLetterDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ITI_RelievingLetterDataTableRowDeleting != null)) {
+                    this.ITI_RelievingLetterDataTableRowDeleting(this, new ITI_RelievingLetterDataTableRowChangeEvent(((ITI_RelievingLetterDataTableRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveITI_RelievingLetterDataTableRow(ITI_RelievingLetterDataTableRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                KD_DBScript ds = new KD_DBScript();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ITI_RelievingLetterDataTableDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -103582,6 +104975,38 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string StreamCode {
+                get {
+                    try {
+                        return ((string)(this[this.tableUFMLetter.StreamCodeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'StreamCode\' in table \'UFMLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableUFMLetter.StreamCodeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string CurrentDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableUFMLetter.CurrentDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CurrentDate\' in table \'UFMLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableUFMLetter.CurrentDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsStudentNameNull() {
                 return this.IsNull(this.tableUFMLetter.StudentNameColumn);
             }
@@ -103674,6 +105099,1653 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetFinancialYearNameNull() {
                 this[this.tableUFMLetter.FinancialYearNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsStreamCodeNull() {
+                return this.IsNull(this.tableUFMLetter.StreamCodeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetStreamCodeNull() {
+                this[this.tableUFMLetter.StreamCodeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsCurrentDateNull() {
+                return this.IsNull(this.tableUFMLetter.CurrentDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetCurrentDateNull() {
+                this[this.tableUFMLetter.CurrentDateColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class ITI_JoiningLetterDataTableRow : global::System.Data.DataRow {
+            
+            private ITI_JoiningLetterDataTableDataTable tableITI_JoiningLetterDataTable;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_JoiningLetterDataTableRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableITI_JoiningLetterDataTable = ((ITI_JoiningLetterDataTableDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PostName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.PostNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PostName\' in table \'ITI_JoiningLetterDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.PostNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string EmployeeName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.EmployeeNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EmployeeName\' in table \'ITI_JoiningLetterDataTable\' is DBNu" +
+                                "ll.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.EmployeeNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string EmployeeID {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.EmployeeIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EmployeeID\' in table \'ITI_JoiningLetterDataTable\' is DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.EmployeeIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string CurrentOffice {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.CurrentOfficeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CurrentOffice\' in table \'ITI_JoiningLetterDataTable\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.CurrentOfficeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string DateOfBirth {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.DateOfBirthColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DateOfBirth\' in table \'ITI_JoiningLetterDataTable\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.DateOfBirthColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string LastPostName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.LastPostNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'LastPostName\' in table \'ITI_JoiningLetterDataTable\' is DBNu" +
+                                "ll.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.LastPostNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string LastOfficeName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.LastOfficeNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'LastOfficeName\' in table \'ITI_JoiningLetterDataTable\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.LastOfficeNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string TransferPostName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.TransferPostNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TransferPostName\' in table \'ITI_JoiningLetterDataTable\' is " +
+                                "DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.TransferPostNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string DistrictName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.DistrictNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DistrictName\' in table \'ITI_JoiningLetterDataTable\' is DBNu" +
+                                "ll.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.DistrictNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string BlockName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.BlockNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'BlockName\' in table \'ITI_JoiningLetterDataTable\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.BlockNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string LastWorkingDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.LastWorkingDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'LastWorkingDate\' in table \'ITI_JoiningLetterDataTable\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.LastWorkingDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ApproveName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.ApproveNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ApproveName\' in table \'ITI_JoiningLetterDataTable\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.ApproveNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RequestRemarks {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.RequestRemarksColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RequestRemarks\' in table \'ITI_JoiningLetterDataTable\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.RequestRemarksColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string OrderNo {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.OrderNoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'OrderNo\' in table \'ITI_JoiningLetterDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.OrderNoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string OrderDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.OrderDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'OrderDate\' in table \'ITI_JoiningLetterDataTable\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.OrderDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string LeaveCount {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.LeaveCountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'LeaveCount\' in table \'ITI_JoiningLetterDataTable\' is DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.LeaveCountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string HeadOfInstitute {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.HeadOfInstituteColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'HeadOfInstitute\' in table \'ITI_JoiningLetterDataTable\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.HeadOfInstituteColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string HeadOfInstituteIDWithSeal {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.HeadOfInstituteIDWithSealColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'HeadOfInstituteIDWithSeal\' in table \'ITI_JoiningLetterDataT" +
+                                "able\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.HeadOfInstituteIDWithSealColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string JoiningDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.JoiningDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'JoiningDate\' in table \'ITI_JoiningLetterDataTable\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.JoiningDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string JoiningTime {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.JoiningTimeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'JoiningTime\' in table \'ITI_JoiningLetterDataTable\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.JoiningTimeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RequestDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.RequestDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RequestDate\' in table \'ITI_JoiningLetterDataTable\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.RequestDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RequestStatus {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.RequestStatusColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RequestStatus\' in table \'ITI_JoiningLetterDataTable\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.RequestStatusColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string CreatedBy {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.CreatedByColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CreatedBy\' in table \'ITI_JoiningLetterDataTable\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.CreatedByColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string CreatedDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.CreatedDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CreatedDate\' in table \'ITI_JoiningLetterDataTable\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.CreatedDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string UpdatedBy {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.UpdatedByColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UpdatedBy\' in table \'ITI_JoiningLetterDataTable\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.UpdatedByColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string UpdatedDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.UpdatedDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UpdatedDate\' in table \'ITI_JoiningLetterDataTable\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.UpdatedDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RequestType {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_JoiningLetterDataTable.RequestTypeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RequestType\' in table \'ITI_JoiningLetterDataTable\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_JoiningLetterDataTable.RequestTypeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPostNameNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.PostNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPostNameNull() {
+                this[this.tableITI_JoiningLetterDataTable.PostNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEmployeeNameNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.EmployeeNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEmployeeNameNull() {
+                this[this.tableITI_JoiningLetterDataTable.EmployeeNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEmployeeIDNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.EmployeeIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEmployeeIDNull() {
+                this[this.tableITI_JoiningLetterDataTable.EmployeeIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsCurrentOfficeNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.CurrentOfficeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetCurrentOfficeNull() {
+                this[this.tableITI_JoiningLetterDataTable.CurrentOfficeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDateOfBirthNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.DateOfBirthColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDateOfBirthNull() {
+                this[this.tableITI_JoiningLetterDataTable.DateOfBirthColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsLastPostNameNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.LastPostNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetLastPostNameNull() {
+                this[this.tableITI_JoiningLetterDataTable.LastPostNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsLastOfficeNameNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.LastOfficeNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetLastOfficeNameNull() {
+                this[this.tableITI_JoiningLetterDataTable.LastOfficeNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTransferPostNameNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.TransferPostNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTransferPostNameNull() {
+                this[this.tableITI_JoiningLetterDataTable.TransferPostNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDistrictNameNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.DistrictNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDistrictNameNull() {
+                this[this.tableITI_JoiningLetterDataTable.DistrictNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsBlockNameNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.BlockNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetBlockNameNull() {
+                this[this.tableITI_JoiningLetterDataTable.BlockNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsLastWorkingDateNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.LastWorkingDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetLastWorkingDateNull() {
+                this[this.tableITI_JoiningLetterDataTable.LastWorkingDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsApproveNameNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.ApproveNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetApproveNameNull() {
+                this[this.tableITI_JoiningLetterDataTable.ApproveNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRequestRemarksNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.RequestRemarksColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRequestRemarksNull() {
+                this[this.tableITI_JoiningLetterDataTable.RequestRemarksColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsOrderNoNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.OrderNoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetOrderNoNull() {
+                this[this.tableITI_JoiningLetterDataTable.OrderNoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsOrderDateNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.OrderDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetOrderDateNull() {
+                this[this.tableITI_JoiningLetterDataTable.OrderDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsLeaveCountNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.LeaveCountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetLeaveCountNull() {
+                this[this.tableITI_JoiningLetterDataTable.LeaveCountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsHeadOfInstituteNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.HeadOfInstituteColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetHeadOfInstituteNull() {
+                this[this.tableITI_JoiningLetterDataTable.HeadOfInstituteColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsHeadOfInstituteIDWithSealNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.HeadOfInstituteIDWithSealColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetHeadOfInstituteIDWithSealNull() {
+                this[this.tableITI_JoiningLetterDataTable.HeadOfInstituteIDWithSealColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsJoiningDateNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.JoiningDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetJoiningDateNull() {
+                this[this.tableITI_JoiningLetterDataTable.JoiningDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsJoiningTimeNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.JoiningTimeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetJoiningTimeNull() {
+                this[this.tableITI_JoiningLetterDataTable.JoiningTimeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRequestDateNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.RequestDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRequestDateNull() {
+                this[this.tableITI_JoiningLetterDataTable.RequestDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRequestStatusNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.RequestStatusColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRequestStatusNull() {
+                this[this.tableITI_JoiningLetterDataTable.RequestStatusColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsCreatedByNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.CreatedByColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetCreatedByNull() {
+                this[this.tableITI_JoiningLetterDataTable.CreatedByColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsCreatedDateNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.CreatedDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetCreatedDateNull() {
+                this[this.tableITI_JoiningLetterDataTable.CreatedDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsUpdatedByNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.UpdatedByColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetUpdatedByNull() {
+                this[this.tableITI_JoiningLetterDataTable.UpdatedByColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsUpdatedDateNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.UpdatedDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetUpdatedDateNull() {
+                this[this.tableITI_JoiningLetterDataTable.UpdatedDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRequestTypeNull() {
+                return this.IsNull(this.tableITI_JoiningLetterDataTable.RequestTypeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRequestTypeNull() {
+                this[this.tableITI_JoiningLetterDataTable.RequestTypeColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class ITI_RelievingLetterDataTableRow : global::System.Data.DataRow {
+            
+            private ITI_RelievingLetterDataTableDataTable tableITI_RelievingLetterDataTable;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal ITI_RelievingLetterDataTableRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableITI_RelievingLetterDataTable = ((ITI_RelievingLetterDataTableDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RequestType {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.RequestTypeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RequestType\' in table \'ITI_RelievingLetterDataTable\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.RequestTypeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PostName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.PostNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PostName\' in table \'ITI_RelievingLetterDataTable\' is DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.PostNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string EmployeeName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.EmployeeNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EmployeeName\' in table \'ITI_RelievingLetterDataTable\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.EmployeeNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string MobileNo {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.MobileNoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'MobileNo\' in table \'ITI_RelievingLetterDataTable\' is DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.MobileNoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string EmployeeID {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.EmployeeIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EmployeeID\' in table \'ITI_RelievingLetterDataTable\' is DBNu" +
+                                "ll.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.EmployeeIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string CurrentOffice {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.CurrentOfficeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CurrentOffice\' in table \'ITI_RelievingLetterDataTable\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.CurrentOfficeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string DateOfBirth {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.DateOfBirthColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DateOfBirth\' in table \'ITI_RelievingLetterDataTable\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.DateOfBirthColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string LastPostName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.LastPostNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'LastPostName\' in table \'ITI_RelievingLetterDataTable\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.LastPostNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string LastOfficeName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.LastOfficeNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'LastOfficeName\' in table \'ITI_RelievingLetterDataTable\' is " +
+                                "DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.LastOfficeNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string TransferPostName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.TransferPostNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TransferPostName\' in table \'ITI_RelievingLetterDataTable\' i" +
+                                "s DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.TransferPostNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string DistrictName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.DistrictNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DistrictName\' in table \'ITI_RelievingLetterDataTable\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.DistrictNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string BlockName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.BlockNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'BlockName\' in table \'ITI_RelievingLetterDataTable\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.BlockNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string LastWorkingDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.LastWorkingDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'LastWorkingDate\' in table \'ITI_RelievingLetterDataTable\' is" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.LastWorkingDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ApproveName {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.ApproveNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ApproveName\' in table \'ITI_RelievingLetterDataTable\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.ApproveNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RequestRemarks {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.RequestRemarksColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RequestRemarks\' in table \'ITI_RelievingLetterDataTable\' is " +
+                                "DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.RequestRemarksColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string OrderNo {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.OrderNoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'OrderNo\' in table \'ITI_RelievingLetterDataTable\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.OrderNoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string OrderDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.OrderDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'OrderDate\' in table \'ITI_RelievingLetterDataTable\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.OrderDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string LeaveCount {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.LeaveCountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'LeaveCount\' in table \'ITI_RelievingLetterDataTable\' is DBNu" +
+                                "ll.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.LeaveCountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string HeadOfInstitute {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.HeadOfInstituteColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'HeadOfInstitute\' in table \'ITI_RelievingLetterDataTable\' is" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.HeadOfInstituteColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string HeadOfInstituteIDWithSeal {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.HeadOfInstituteIDWithSealColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'HeadOfInstituteIDWithSeal\' in table \'ITI_RelievingLetterDat" +
+                                "aTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.HeadOfInstituteIDWithSealColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string JoiningDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.JoiningDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'JoiningDate\' in table \'ITI_RelievingLetterDataTable\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.JoiningDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string JoiningTime {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.JoiningTimeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'JoiningTime\' in table \'ITI_RelievingLetterDataTable\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.JoiningTimeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RequestDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.RequestDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RequestDate\' in table \'ITI_RelievingLetterDataTable\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.RequestDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string RequestStatus {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.RequestStatusColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RequestStatus\' in table \'ITI_RelievingLetterDataTable\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.RequestStatusColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string CreatedBy {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.CreatedByColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CreatedBy\' in table \'ITI_RelievingLetterDataTable\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.CreatedByColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string CreatedDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.CreatedDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CreatedDate\' in table \'ITI_RelievingLetterDataTable\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.CreatedDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string UpdatedBy {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.UpdatedByColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UpdatedBy\' in table \'ITI_RelievingLetterDataTable\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.UpdatedByColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string UpdatedDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableITI_RelievingLetterDataTable.UpdatedDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UpdatedDate\' in table \'ITI_RelievingLetterDataTable\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableITI_RelievingLetterDataTable.UpdatedDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRequestTypeNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.RequestTypeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRequestTypeNull() {
+                this[this.tableITI_RelievingLetterDataTable.RequestTypeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPostNameNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.PostNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPostNameNull() {
+                this[this.tableITI_RelievingLetterDataTable.PostNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEmployeeNameNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.EmployeeNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEmployeeNameNull() {
+                this[this.tableITI_RelievingLetterDataTable.EmployeeNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsMobileNoNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.MobileNoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetMobileNoNull() {
+                this[this.tableITI_RelievingLetterDataTable.MobileNoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEmployeeIDNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.EmployeeIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEmployeeIDNull() {
+                this[this.tableITI_RelievingLetterDataTable.EmployeeIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsCurrentOfficeNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.CurrentOfficeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetCurrentOfficeNull() {
+                this[this.tableITI_RelievingLetterDataTable.CurrentOfficeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDateOfBirthNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.DateOfBirthColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDateOfBirthNull() {
+                this[this.tableITI_RelievingLetterDataTable.DateOfBirthColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsLastPostNameNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.LastPostNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetLastPostNameNull() {
+                this[this.tableITI_RelievingLetterDataTable.LastPostNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsLastOfficeNameNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.LastOfficeNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetLastOfficeNameNull() {
+                this[this.tableITI_RelievingLetterDataTable.LastOfficeNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTransferPostNameNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.TransferPostNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTransferPostNameNull() {
+                this[this.tableITI_RelievingLetterDataTable.TransferPostNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDistrictNameNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.DistrictNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDistrictNameNull() {
+                this[this.tableITI_RelievingLetterDataTable.DistrictNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsBlockNameNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.BlockNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetBlockNameNull() {
+                this[this.tableITI_RelievingLetterDataTable.BlockNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsLastWorkingDateNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.LastWorkingDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetLastWorkingDateNull() {
+                this[this.tableITI_RelievingLetterDataTable.LastWorkingDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsApproveNameNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.ApproveNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetApproveNameNull() {
+                this[this.tableITI_RelievingLetterDataTable.ApproveNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRequestRemarksNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.RequestRemarksColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRequestRemarksNull() {
+                this[this.tableITI_RelievingLetterDataTable.RequestRemarksColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsOrderNoNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.OrderNoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetOrderNoNull() {
+                this[this.tableITI_RelievingLetterDataTable.OrderNoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsOrderDateNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.OrderDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetOrderDateNull() {
+                this[this.tableITI_RelievingLetterDataTable.OrderDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsLeaveCountNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.LeaveCountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetLeaveCountNull() {
+                this[this.tableITI_RelievingLetterDataTable.LeaveCountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsHeadOfInstituteNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.HeadOfInstituteColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetHeadOfInstituteNull() {
+                this[this.tableITI_RelievingLetterDataTable.HeadOfInstituteColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsHeadOfInstituteIDWithSealNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.HeadOfInstituteIDWithSealColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetHeadOfInstituteIDWithSealNull() {
+                this[this.tableITI_RelievingLetterDataTable.HeadOfInstituteIDWithSealColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsJoiningDateNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.JoiningDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetJoiningDateNull() {
+                this[this.tableITI_RelievingLetterDataTable.JoiningDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsJoiningTimeNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.JoiningTimeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetJoiningTimeNull() {
+                this[this.tableITI_RelievingLetterDataTable.JoiningTimeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRequestDateNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.RequestDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRequestDateNull() {
+                this[this.tableITI_RelievingLetterDataTable.RequestDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRequestStatusNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.RequestStatusColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRequestStatusNull() {
+                this[this.tableITI_RelievingLetterDataTable.RequestStatusColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsCreatedByNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.CreatedByColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetCreatedByNull() {
+                this[this.tableITI_RelievingLetterDataTable.CreatedByColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsCreatedDateNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.CreatedDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetCreatedDateNull() {
+                this[this.tableITI_RelievingLetterDataTable.CreatedDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsUpdatedByNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.UpdatedByColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetUpdatedByNull() {
+                this[this.tableITI_RelievingLetterDataTable.UpdatedByColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsUpdatedDateNull() {
+                return this.IsNull(this.tableITI_RelievingLetterDataTable.UpdatedDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetUpdatedDateNull() {
+                this[this.tableITI_RelievingLetterDataTable.UpdatedDateColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -108185,6 +111257,74 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public UFMLetterRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class ITI_JoiningLetterDataTableRowChangeEvent : global::System.EventArgs {
+            
+            private ITI_JoiningLetterDataTableRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_JoiningLetterDataTableRowChangeEvent(ITI_JoiningLetterDataTableRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_JoiningLetterDataTableRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class ITI_RelievingLetterDataTableRowChangeEvent : global::System.EventArgs {
+            
+            private ITI_RelievingLetterDataTableRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_RelievingLetterDataTableRowChangeEvent(ITI_RelievingLetterDataTableRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public ITI_RelievingLetterDataTableRow Row {
                 get {
                     return this.eventRow;
                 }

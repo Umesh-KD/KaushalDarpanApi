@@ -58,6 +58,12 @@ namespace Kaushal_Darpan.Models.StudentDetailUpdate
         public int DepartmentID { get; set; }
         public string StudentName { get; set; }
         public string StudFatherName { get; set; }
+
+        public string? MobileNo { get; set; }
+        public string? PinCode { get; set; }
+        public int? EmploymentViaID { get; set; }
+        public int? PanchayatSamiti { get; set; }
+
         public List<StudentEmploymentDetailsModel> ListEmployementDetails { get; set; }
 
         public string? Action { get; set; }

@@ -85,6 +85,9 @@ namespace Kaushal_Darpan.Models.CenterObserver
         public int SemesterID { get; set; }
         public int StreamID { get; set; }
         public int SubjectID { get; set; }
+
+        public string? StreamIds { get; set; }
+
     }
 
     public class CenterMasterDDLDataModel : RequestBaseModel
