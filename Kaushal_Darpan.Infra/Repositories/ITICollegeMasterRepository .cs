@@ -698,14 +698,12 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<bool> SaveDataReport(ItiReportDataModel request)
         {
-            _actionName = "SaveData(ItiReportDataModel request)";
-            return await Task.Run(async () =>
-            {
+      
                 try
                 {
                     int returnValue = 0;
 
-                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandText = "USP_ITICollegeReport_IU";
                         command.CommandType = CommandType.StoredProcedure;
@@ -827,6 +825,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Islanddetail", request.Islanddetail);
                         command.Parameters.AddWithValue("@IsConstructdetail", request.IsConstructdetail);
                         command.Parameters.AddWithValue("@IsElectricdetail", request.IsElectricdetail);
+                        command.Parameters.AddWithValue("@IsDistrictHq", request.IsDistrictHq);
+                        command.Parameters.AddWithValue("@CollegePlace", request.CollegePlace);
+                        command.Parameters.AddWithValue("@InstitutionCategoryId", request.InstitutionCategoryId);
                     
 
                         // Output parameter
@@ -853,7 +854,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+         
         }
 
         public async Task<ItiReportDataModel> Get_ITIsReportData_ByID(int Id)
