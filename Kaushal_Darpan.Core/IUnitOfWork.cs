@@ -300,5 +300,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         IFileUploadMasterRepository FileUploadMasterRepository { get; }
         IBTER_EM_StaffServiceDetailsRepository BTER_EM_StaffServiceDetailsRepository { get; }
         IQualificationMasterRepository QualificationMasterRepository { get; }
+        I_ITI_AdmissionReports ITI_AdmissionReports { get; }
     }
 }

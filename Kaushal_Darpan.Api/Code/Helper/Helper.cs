@@ -286,7 +286,88 @@ namespace Kaushal_Darpan.Api.Code.Helper
                 return memoryStream.ToArray();
             }
         }
-        
+
+
+
+        #region pdf and images both get merge in a single file
+
+        public static byte[] MergePdfAndImgFiles(List<string> filePaths)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                var document = new iTextSharp.text.Document();
+                //PdfSmartCopy
+                var copy = new PdfCopy(document, memoryStream);
+                document.Open();
+
+                foreach (var file in filePaths)
+                {
+                    if (string.IsNullOrWhiteSpace(file)) continue;
+
+                    string fileToUse = file;
+
+                    if (!File.Exists(fileToUse))
+                    {
+                        fileToUse = Path.Combine(ConfigurationHelper.StaticFileRootPath, "default.pdf");
+                    }
+
+                    if (!File.Exists(fileToUse)) continue;
+
+                    string ext = Path.GetExtension(fileToUse).ToLower();
+
+                    try
+                    {
+                        // ✅ HANDLE PDF
+                        if (ext == ".pdf")
+                        {
+                            using (PdfReader reader = new PdfReader(fileToUse))
+                            {
+                                for (int i = 1; i <= reader.NumberOfPages; i++)
+                                {
+                                    copy.AddPage(copy.GetImportedPage(reader, i));
+                                }
+                            }
+                        }
+
+                        // ✅ HANDLE IMAGE (PNG/JPG)
+                        else if (ext == ".png" || ext == ".jpg" || ext == ".jpeg")
+                        {
+                            using (var imgStream = new MemoryStream())
+                            {
+                                var imgDoc = new iTextSharp.text.Document();
+                                var writer = PdfWriter.GetInstance(imgDoc, imgStream);
+
+                                imgDoc.Open();
+
+                                var image = iTextSharp.text.Image.GetInstance(fileToUse);
+                                image.ScaleToFit(imgDoc.PageSize.Width, imgDoc.PageSize.Height);
+                                image.SetAbsolutePosition(0, 0);
+
+                                imgDoc.Add(image);
+                                imgDoc.Close();
+
+                                using (PdfReader imgReader = new PdfReader(imgStream.ToArray()))
+                                {
+                                    for (int i = 1; i <= imgReader.NumberOfPages; i++)
+                                    {
+                                        copy.AddPage(copy.GetImportedPage(imgReader, i));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error processing file: {fileToUse} - {ex.Message}");
+                    }
+                }
+
+                document.Close();
+                return memoryStream.ToArray();
+            }
+        }
+
+        #endregion
     }
 
 }

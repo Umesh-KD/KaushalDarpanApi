@@ -1993,82 +1993,77 @@ namespace Kaushal_Darpan.Api.Controllers
             bool bisyearly = false;
             int iCourseType = 0;
 
-
-
-            ActionName = "GetExaminationForm(string EnrollmentNo)";
-            return await Task.Run(async () =>
+            ActionName = "GetExaminationForm(ReportBaseModel model)";
+            var result = new ApiResult<string>();
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                var data = await Task.Run(() => _unitOfWork.ReportRepository.GetExaminationForm(model));
+                if (data != null)
                 {
-                    var data = await _unitOfWork.ReportRepository.GetExaminationForm(model);
-                    if (data != null)
-                    {
 
-                        iCourseType = Convert.ToInt32(data.Tables[0].Rows[0]["CourseType"]);
-                        bisyearly = Convert.ToBoolean(data.Tables[0].Rows[0]["IsYearly"]);
-                        istudentId = Convert.ToInt32(data.Tables[0].Rows[0]["StudentID"]);
+                    iCourseType = Convert.ToInt32(data.Tables[0].Rows[0]["CourseType"]);
+                    bisyearly = Convert.ToBoolean(data.Tables[0].Rows[0]["IsYearly"]);
+                    istudentId = Convert.ToInt32(data.Tables[0].Rows[0]["StudentID"]);
 
 
 
 
-                        //report
-                        var fileName = $"StudentExaminationForm_{model.StudentID}_{model.EndTermID}.pdf";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentExaminationForm.rdlc";
+                    //report
+                    var fileName = $"StudentExaminationForm_{model.StudentID}_{model.EndTermID}.pdf";
+                    string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                    string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentExaminationForm.rdlc";
 
-                        //temp comment
-                        string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
-                        data.Tables[0].Rows[0]["StudentImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
+                    //temp comment
+                    string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
+                    data.Tables[0].Rows[0]["StudentImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
 
-                        //string stuimgFilepath = $"{CommonFuncationHelper.GetStudentFilesForOldBter(iCourseType, bisyearly, istudentId)}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
-                        //data.Tables[0].Rows[0]["StudentImg"] = await GetByteImages(stuimgFilepath);
+                    //string stuimgFilepath = $"{CommonFuncationHelper.GetStudentFilesForOldBter(iCourseType, bisyearly, istudentId)}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
+                    //data.Tables[0].Rows[0]["StudentImg"] = await GetByteImages(stuimgFilepath);
 
-                        //temp comment
-                        string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
-                        data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
+                    //temp comment
+                    string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
+                    data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
 
-                        //string stusignFilepath = $"{CommonFuncationHelper.GetStudentFilesForOldBter(iCourseType, bisyearly, istudentId)}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
-                        //data.Tables[0].Rows[0]["StudentSign"] = await GetByteImages(stusignFilepath);
+                    //string stusignFilepath = $"{CommonFuncationHelper.GetStudentFilesForOldBter(iCourseType, bisyearly, istudentId)}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
+                    //data.Tables[0].Rows[0]["StudentSign"] = await GetByteImages(stusignFilepath);
 
 
-                        //
-                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        LocalReport localReport = new LocalReport(rdlcpath);
-
-                        localReport.AddDataSource("StudentExaminationForm", data.Tables[0]);
-                        localReport.AddDataSource("StudentExaminationSubject", data.Tables[1]);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        //end report
-
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
                     //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                    LocalReport localReport = new LocalReport(rdlcpath);
+
+                    localReport.AddDataSource("StudentExaminationForm", data.Tables[0]);
+                    localReport.AddDataSource("StudentExaminationSubject", data.Tables[1]);
+                    var reportResult = localReport.Execute(RenderType.Pdf);
+                    System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                    //end report
+
+                    result.Data = fileName;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                 }
-                return result;
-            });
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
         #endregion
 
@@ -14775,7 +14770,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
 
                 // get consolidate summary of tabular details
-                var consolidate_data = await Task.Run(() =>_unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body));
+                var consolidate_data = await Task.Run(() => _unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body));
                 if (consolidate_data?.Rows.Count > 0)
                 {
                     //get html
