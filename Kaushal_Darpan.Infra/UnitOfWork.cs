@@ -2235,7 +2235,22 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        private I_ITI_AdmissionReports _I_ITI_AdmissionReports;
+        public I_ITI_AdmissionReports ITI_AdmissionReports
+        {
+            get
+            {
+                return _I_ITI_AdmissionReports ??= new ITI_AdmissionReportsRepository(_dbContext);
+            }
+        }
         #endregion
+
+
+
+
+
+
+        //public I_ITI_AdmissionReports ITI_AdmissionReports => throw new NotImplementedException();
     }
 }
 
