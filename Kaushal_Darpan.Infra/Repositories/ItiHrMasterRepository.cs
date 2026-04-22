@@ -190,7 +190,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_HRValidation_NodalAction";
+                        command.CommandText = "USP_ITIHRValidation_NodalAction";
                         command.Parameters.AddWithValue("@HRManagerID", request.HRManagerID);
                         command.Parameters.AddWithValue("@Action", request.Action);
                         command.Parameters.AddWithValue("@ActionRemarks", request.ActionRemarks);
