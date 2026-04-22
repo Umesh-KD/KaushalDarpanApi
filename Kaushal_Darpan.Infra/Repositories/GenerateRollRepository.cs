@@ -87,6 +87,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                     command.Parameters.AddWithValue("@VerifierStatus", model.VerifierStatus);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();
@@ -150,9 +151,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-        public async Task<int> SaveAllRevelData(List<GenerateRollMaster> model)
+        public async Task<int> SaveAllRevelData(List<GenerateRevalRollData> model)
         {
-            _actionName = "SaveAllRevelData(List<GenerateEnrollMaster> model)";
+            _actionName = "SaveAllRevelData(List<GenerateRevalRollData> model)";
             try
             {
                 int result = 0;
@@ -235,9 +236,9 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<int> OnPublishRevelData(List<GenerateRollMaster> model)
+        public async Task<int> OnPublishRevelData(List<GenerateRevalRollData> model)
         {
-            _actionName = "OnPublishRevelData(List<GenerateRollMaster> model)";
+            _actionName = "OnPublishRevelData(List<GenerateRevalRollData> model)";
             try
             {
                 int result = 0;
