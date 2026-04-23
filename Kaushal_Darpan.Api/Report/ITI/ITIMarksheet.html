@@ -149,7 +149,7 @@
         </tr>
         <tr>
             <td>
-                <table style="border-collapse:collapse;width:100%;margin-top:4px" border="0" cellpadding="5" cellspacing="0"> <!--5 to 4 px-->
+                <table style="border-collapse:collapse;width:100%;margin-top:5px" border="0" cellpadding="5" cellspacing="0"> <!--5 to 4 px-->
 
                     <tr>
                         <td style="font-size: 12px;"><b>Note: </b> <span style="display: inline-block; border-bottom: dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.Note=#}</span></td>
@@ -195,9 +195,10 @@
 
                         <td width="20%"></td>
                         <td width="20%"></td>
-                        <td width="30%" style="font-size: 13px; text-align: center; vertical-align: bottom;padding-right:120px;" height="100">
+                        <td width="30%" style="font-size: 13px; text-align: center; vertical-align: bottom;padding-right:120px;     page-break-inside: avoid; break-inside: avoid;" height="100">
 
-                            <img src="{#=GetITIStudent_Marksheet_SingleDetails.signlogo=#}" alt="" style="width:120px;" /><br />
+                            <!--<img src="{#=GetITIStudent_Marksheet_SingleDetails.signlogo=#}" alt="" style="width: 120px; max-height: 80px; object-fit: cover;" /><br />-->
+                            <img src="{#=GetITIStudent_Marksheet_SingleDetails.signlogo=#}" alt="" style="height: 40px;" /><br />
                             {#=GetITIStudent_Marksheet_SingleDetails.footerHeading1=#}<br />
                             {#=GetITIStudent_Marksheet_SingleDetails.footerHeading2=#}<br />
                             {#=GetITIStudent_Marksheet_SingleDetails.footerHeading3=#}
