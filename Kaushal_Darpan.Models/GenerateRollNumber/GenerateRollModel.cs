@@ -24,6 +24,11 @@ namespace Kaushal_Darpan.Models.GenerateEnroll
         public int PDFType { get; set; }
         public int? VerifyerStatus { get; set; }
         public int? StudentExamID { get; set; }
+        public string? SubjectCode { get; set; }
+        public string? GroupCode { get; set; }
+        public string? CCCode { get; set; }
+        public string? StreamCode { get; set; }
+        public int? StudentExamPaperID { get; set; }
 
     }
 
@@ -115,4 +120,24 @@ namespace Kaushal_Darpan.Models.GenerateEnroll
         public bool IsRegistrarVerified { get; set; }
     }
 
+    public class GenerateRevalRollData : RequestBaseModel
+    {
+        public int StudentID { get; set; } = 0;
+        public int ApplicationID { get; set; } = 0;
+        public int? StudentExamID { get; set; } = 0;
+        public string EnrollmentNo { get; set; } = string.Empty;
+        public int InstituteID { get; set; } = 0;
+        public int StreamID { get; set; } = 0;
+        public int SemesterID { get; set; } = 0;
+        public int ModifyBy { get; set; } = 0;
+        public int VerifyerStatus { get; set; } = 0;
+        public int PublishOrder { get; set; } = 0;
+
+        public string? SubjectCode { get; set; } = string.Empty;
+        public string? CCCode { get; set; } = string.Empty;
+        public string? GroupCode { get; set; } = string.Empty;
+        public string? StreamCode { get; set; } = string.Empty;
+
+        public int? StudentExamPaperID { get; set; } = 0;
+    }
 }

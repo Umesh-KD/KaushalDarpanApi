@@ -112,7 +112,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetAllRevalationReportList(RevalationReportsearchModel body)
         {
-            _actionName = "getAllNodalUserdata()";
+            _actionName = "GetAllRevalationReportList(RevalationReportsearchModel body)";
             try
             {
                 DataTable dataTable = new DataTable();

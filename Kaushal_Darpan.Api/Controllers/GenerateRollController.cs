@@ -170,9 +170,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
         [RoleActionFilter(EnumRole.ACP, EnumRole.ACP_NonEng)]
         [HttpPost("SaveAllRevelData")]
-        public async Task<ApiResult<bool>> SaveAllRevelData([FromBody] List<GenerateRollMaster> request)
+        public async Task<ApiResult<bool>> SaveAllRevelData([FromBody] List<GenerateRevalRollData> request)
         {
-            ActionName = "SaveAllRevelData([FromBody] List<GenerateRollMaster> request)";
+            ActionName = "SaveAllRevelData([FromBody] List<GenerateRevalRollData> request)";
             var result = new ApiResult<bool>();
             try
             {
@@ -274,9 +274,9 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("OnPublishRevelData")]
-        public async Task<ApiResult<bool>> OnPublishRevelData([FromBody] List<GenerateRollMaster> request)
+        public async Task<ApiResult<bool>> OnPublishRevelData([FromBody] List<GenerateRevalRollData> request)
         {
-            ActionName = "OnPublishRevelData([FromBody] List<GenerateRollMaster> request)";
+            ActionName = "OnPublishRevelData([FromBody] List<GenerateRevalRollData> request)";
             var result = new ApiResult<bool>();
             try
             {

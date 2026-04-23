@@ -14,9 +14,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetGenerateRollData(GenerateRollSearchModel model);
         Task<DataTable> GetGenerateRevelData(GenerateRollSearchModel model);
         Task<int> SaveRolledData(List<GenerateRollMaster> model);
-        Task<int> SaveAllRevelData(List<GenerateRollMaster> model);
+        Task<int> SaveAllRevelData(List<GenerateRevalRollData> model);
         Task<int> OnPublish(List<GenerateRollMaster> model);
-        Task<int> OnPublishRevelData(List<GenerateRollMaster> model);
+        Task<int> OnPublishRevelData(List<GenerateRevalRollData> model);
         Task<int> SaveWorkflow(List<VerifyRollNumberList> model);
         Task<List<DownloadnRollNoModel>> GetGenerateRollDataForPrint(DownloadnRollNoModel model);
         Task<DataTable> GetPublishedRollData(GenerateRollSearchModel model);
