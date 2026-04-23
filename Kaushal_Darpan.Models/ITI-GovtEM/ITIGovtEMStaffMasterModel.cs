@@ -332,7 +332,7 @@
         public int OfficeID { get; set; }
         public int PostID { get; set; }
         public int CreatedBy { get; set; }
-        public bool IsHod { get; set; }
+        public bool? IsHod { get; set; }
         public string SSOID { get; set; }
         public int DepartmentID { get; set; }
         public int CourseTypeID { get; set; }
