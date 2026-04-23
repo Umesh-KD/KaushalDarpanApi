@@ -257,82 +257,83 @@ namespace Kaushal_Darpan.Infra.Repositories
 
             int result = 0;
             _actionName = "DeleteDataByID(UserMasterModel request)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
 
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_UserMasterDeleteById";
-                        command.Parameters.AddWithValue("@UserAdditionID", request.UserAdditionID);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_UserMasterDeleteById";
 
-                        result = await command.ExecuteNonQueryAsync();
-                    }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    command.Parameters.AddWithValue("@UserAdditionID", request.UserAdditionID);
+
+                    command.Parameters.Add("@Ret_Val", SqlDbType.Int); // out
+                    command.Parameters["@Ret_Val"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    
+                    result = Convert.ToInt32(command.Parameters["@Ret_Val"].Value);// out
                 }
-                catch (Exception ex)
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<int> AssignHOD(AssignHodBranch request)
         {
-            _actionName = "SaveAllData(AdminUserDetailModel entity)";
-            return await Task.Run(async () =>
+            _actionName = "AssignHOD(AssignHodBranch request)";
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_AddHodStream";
-                        command.Parameters.AddWithValue("@UserID", request.UserID);
-                        command.Parameters.AddWithValue("@UserAdditionID", request.UserAdditionalID);
-                        command.Parameters.AddWithValue("@CourseTypeID", request.CourseTypeID);
-                        command.Parameters.AddWithValue("@ModifyByBy", request.ModifyBy);
-                        command.Parameters.AddWithValue("@RoleID", request.UserRole);
-                        command.Parameters.AddWithValue("@rowjson", JsonConvert.SerializeObject(request.Branchlist));
+                    // Set the stored procedure name and type
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_AddHodStream";
+                    command.Parameters.AddWithValue("@UserID", request.UserID);
+                    command.Parameters.AddWithValue("@UserAdditionID", request.UserAdditionalID);
+                    command.Parameters.AddWithValue("@CourseTypeID", request.CourseTypeID);
+                    command.Parameters.AddWithValue("@ModifyByBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@RoleID", request.UserRole);
+                    command.Parameters.AddWithValue("@rowjson", JsonConvert.SerializeObject(request.Branchlist));
 
-                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
-                        command.Parameters.Add("@Return", SqlDbType.Int); // out
-                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                    command.Parameters.Add("@Return", SqlDbType.Int); // out
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
-                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
-                    }
-                    return result;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
                 }
-                catch (Exception ex)
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetStreamMasterForHod(StreamMasterForHodModel request)
@@ -354,7 +355,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StreamType", request.StreamType);
                         command.Parameters.AddWithValue("@UserAdditionID", request.UserAdditionID);
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
-                        
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
