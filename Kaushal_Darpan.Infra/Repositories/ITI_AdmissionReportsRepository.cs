@@ -40,5 +40,20 @@ namespace Kaushal_Darpan.Infra.Repositories
 
             return ds;
         }
+
+        public async Task<DataSet> GetITIStatistics()
+        {
+            DataSet ds = new DataSet();
+
+            using (var command = await _dbContext.CreateCommandAsync())
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "Sp_Get_ITI_RPT_Statistics";
+
+                ds = await command.FillAsync();
+            }
+
+            return ds;
+        }
     }
 }

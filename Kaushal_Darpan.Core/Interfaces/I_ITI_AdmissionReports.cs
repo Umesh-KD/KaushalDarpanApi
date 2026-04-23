@@ -10,5 +10,6 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface I_ITI_AdmissionReports
     {
         Task<DataSet> GetITISeatOffered();
+        Task<DataSet> GetITIStatistics();
     }
 }
