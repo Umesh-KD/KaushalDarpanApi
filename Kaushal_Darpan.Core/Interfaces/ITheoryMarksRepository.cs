@@ -19,5 +19,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> UpdateTheoryMarks_Admin(List<TheoryMarksModel> entity);
         Task<UFMStudentExtraInfoSaveModel> GetUFMStudentExtraInfo(UFMStudentExtraInfoGetModel body);
         Task<int> SaveUFMStudentExtraInfo(UFMStudentExtraInfoSaveModel model);
+        Task<int> SaveUFMExtraInfo(UFMExtraInfoSaveModel model);
     }
 }

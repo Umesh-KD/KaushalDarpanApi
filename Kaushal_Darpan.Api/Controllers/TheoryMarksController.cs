@@ -360,5 +360,57 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        [HttpPost("SaveUFMExtraInfo")]
+        public async Task<ApiResult<bool>> SaveUFMExtraInfo([FromBody] UFMExtraInfoSaveModel model)
+        {
+            ActionName = "SaveUFMExtraInfo([FromBody] UFMExtraInfoSaveModel model)";
+            var result = new ApiResult<bool>();
+            try
+            {
+                if (model == null)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_VALIDATION_FAILED;
+                    return result;
+                }
+
+                model.IPAddress = CommonFuncationHelper.GetIpAddress();
+
+                // Pass the list to the repository for batch update
+                var isSave = await Task.Run(() => _unitOfWork.TheoryMarksRepository.SaveUFMExtraInfo(model));
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                if (isSave > 0)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_ADD_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }
