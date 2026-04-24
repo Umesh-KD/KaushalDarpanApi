@@ -180,7 +180,7 @@
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value> की परीक्षा में आपके पास अनुचित सामाग्री पाई गई।</Value>
+                    <Value> की परीक्षा में आपके पास अनुचित सामग्री पाई गई।</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Times New Roman</FontFamily>
@@ -611,7 +611,7 @@
                     <Style />
                   </TextRun>
                   <TextRun>
-                    <Value> का जवाब Email: conf.bter@gmail.com पर भिजवाये। Hard Copy संस्थान मे सुरक्षित रखें, आवश्यक्तानुशार प्राविधिक शिक्षा मण्डल,जोधपुर द्वारा मंगवाया जा सकता है।</Value>
+                    <Value> का जवाब Email: conf.bter@gmail.com पर भिजवाये। Hard Copy संस्थान मे सुरक्षित रखें, आवश्यक्तानुसार प्राविधिक शिक्षा मण्डल,जोधपुर द्वारा मंगवाया जा सकता है।</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Times New Roman</FontFamily>
