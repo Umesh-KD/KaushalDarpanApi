@@ -17320,55 +17320,52 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<string>> GetUFMLetter(UFMLetterModel model)
         {
             ActionName = "GetUFMLetter()";
-            return await Task.Run(async () =>
+            var result = new ApiResult<string>();
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                var data = await Task.Run(() => _unitOfWork.ReportRepository.GetUFMLetter(model));
+                if (data != null)
                 {
-                    var data = await _unitOfWork.ReportRepository.GetUFMLetter(model);
-                    if (data != null)
+                    var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                    var fileName = $"UFMLetter.pdf";
+                    string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                    string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/UFMLetter.rdlc";
+                    //var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                    LocalReport localReport = new LocalReport(rdlcpath);
+                    localReport.AddDataSource("UFMLetter", data.Tables[0]);
+                    var reportResult = localReport.Execute(RenderType.Pdf);
+                    if (!System.IO.Directory.Exists(folderPath))
                     {
-                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-                        var fileName = $"UFMLetter.pdf";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/UFMLetter.rdlc";
-                        //var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
-                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("UFMLetter", data.Tables[0]);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
-                        if (!System.IO.Directory.Exists(folderPath))
-                        {
-                            Directory.CreateDirectory(folderPath);
-                        }
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                        Directory.CreateDirectory(folderPath);
                     }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
+                    System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                    result.Data = fileName;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
         #endregion
 

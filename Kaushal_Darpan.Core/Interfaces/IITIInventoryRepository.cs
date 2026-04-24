@@ -81,6 +81,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> Download_SR5ReportData_pdf(inventoryIssueHistorySearchModel SearchReq);
         Task<int> SaveMinRequiredItems_ITI_INV(AddMinRequiredItemDataModel request);
         Task<DataTable> GetMinRequiredItem_ITI_INV(MinRequiredItemSearchModel SearchReq);
+        Task<DataTable> GetMinRequiredItem_ITI_INV_Report(MinRequiredItemSearchModel SearchReq);
         Task<bool> DeleteMinRequiredItem_ITI_INV(AddMinRequiredItemDataModel request);
         Task<DataTable> GetConsumableItemAuctionData(DTEItemsSearchModel SearchReq);
         Task<DataTable> GetConsumableAuctionedItemsData(DTEItemsSearchModel SearchReq);

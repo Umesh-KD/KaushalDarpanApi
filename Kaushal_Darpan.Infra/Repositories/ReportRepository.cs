@@ -9800,40 +9800,43 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataSet> GetUFMLetter(UFMLetterModel model)
         {
             _actionName = "GetUFMLetter()";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var ds = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_UFMLetter";
-                        //command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@action", "GetUFMReport");
-                        command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
-                        command.Parameters.AddWithValue("@isUFM", model.isUFM);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        ds = await command.FillAsync();
-                    }
-                    return ds;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_UFMLetter";
+
+                    //command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@action", "GetUFMReport");
+                    command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                    command.Parameters.AddWithValue("@isUFM", model.isUFM);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@UFMStuExtraInfoID", model.UFMStuExtraInfoID);
+                    command.Parameters.AddWithValue("@StudentID", model.StudentID);
+                    command.Parameters.AddWithValue("@StudentExamID", model.StudentExamID);
+                    command.Parameters.AddWithValue("@StudentExamPaperID", model.StudentExamPaperID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
                 }
-                catch (Exception ex)
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         #endregion
 

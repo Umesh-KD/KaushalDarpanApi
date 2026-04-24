@@ -2809,6 +2809,45 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetMinRequiredItem_ITI_INV_Report(MinRequiredItemSearchModel SearchReq)
+        {
+            _actionName = "GetMinRequiredItem_ITI_INV_Report(MinRequiredItemSearchModel SearchReq)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITI_INV_MinRequiredItems_Report";
+                        command.Parameters.AddWithValue("@EquipmentsId", SearchReq.EquipmentsId);
+                        command.Parameters.AddWithValue("@RequiredItemId", SearchReq.RequiredItemId);
+                        command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
+                        command.Parameters.AddWithValue("@ItemCategoryId", SearchReq.ItemCategoryId);
+                        command.Parameters.AddWithValue("@Action", SearchReq.Action);
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.CollegeId);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<bool> DeleteMinRequiredItem_ITI_INV(AddMinRequiredItemDataModel request)
         {
             _actionName = "DeleteMinRequiredItem_ITI_INV(AddMinRequiredItemDataModel request)";
