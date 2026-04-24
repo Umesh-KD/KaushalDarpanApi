@@ -163,6 +163,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<CommonDDLModel>> SubjectMaster_SubjectCode_SemesterIDWise(int SemesterID, int DepartmentID, string SubjectCode);
         Task<List<CommonDDLModel>> SubjectMaster_StreamIDWise(int StreamID, int DepartmentID, int SemesterID, int Eng_NonEng, int EndTermID);
         Task<List<CommonDDLModel>> GetAssignedSubject(string SSOID, int EndTermID, int SemesterID, int Eng_NonEng, int StreamID);
+        Task<List<CommonDDLModel>> GetNonsubstitutesubject(string SSOID, int EndTermID, int SemesterID, int Eng_NonEng, int StreamID);
         Task<DataTable> GetStudentStatusByRole(int roleId, int type);
         Task<DataTable> GetEnrollmentCancelStatusByRole(int roleId, int type);
         Task<DataTable> ItiGetStudentStatusByRole(int roleId, int type);

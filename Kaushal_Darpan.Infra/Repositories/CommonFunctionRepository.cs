@@ -3077,6 +3077,53 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+        public async Task<List<CommonDDLModel>> GetNonsubstitutesubject(string SSOID, int EndTermID, int SemesterID, int Eng_NonEng, int StreamID)
+        {
+            _actionName = "SubjectMaster_StreamIDWise(int StreamID)";
+            return await Task.Run(async () =>
+            {
+                List<CommonDDLModel> subjectMasters = new List<CommonDDLModel>();
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Getnonsubstitutesubject";
+                        command.Parameters.AddWithValue("@StreamID", StreamID);
+                        command.Parameters.AddWithValue("@SSOID", SSOID);
+                        command.Parameters.AddWithValue("@SemesterID", SemesterID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", EndTermID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    if (dataTable.Rows.Count > 0)
+                    {
+                        subjectMasters = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    }
+                    return subjectMasters;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
         public async Task<List<CommonDDLModel>> GetStaffTypeDDL()
         {
             _actionName = "GetRoleMasterDDL()";
