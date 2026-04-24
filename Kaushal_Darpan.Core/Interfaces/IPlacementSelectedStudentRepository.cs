@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.PlacementSelectedStudentMaster;
+﻿using System.Data;
+using Kaushal_Darpan.Models.PlacementSelectedStudentMaster;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 
 namespace Kaushal_Darpan.Core.Interfaces
@@ -8,6 +9,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<PlacementSelectedStudentResponseModel>> GetAllData(PlacementSelectedStudentSearchModel searchModel);
 
         Task<int> SaveAllData(List<PlacementSelectedStudentResponseModel> productDetails);
+        Task<DataTable> GetStudentPlacedCount();
+
 
     }
 }
