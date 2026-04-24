@@ -890,7 +890,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserID", UserID);
                         command.Parameters.AddWithValue("@EndTermId", EndTermId);
                         command.Parameters.AddWithValue("@StreamType", StreamType);
-                
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -5714,38 +5714,36 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataSet> GetOptionalSubjectsByStudentID(Int32 StudentID, Int32 DepartmentID, int StudentExamID)
         {
             _actionName = "GetOptionalSubjectsByStudentID(Int32 StudentID, Int32 DepartmentID,int StudentExamID)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataSet dataSet = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataSet dataSet = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_OptionalSubjectMaster";
-                        command.Parameters.AddWithValue("@Action", "OptionalSubject");
-                        command.Parameters.AddWithValue("@StudentID", StudentID);
-                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
-                        command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_OptionalSubjectMaster";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataSet = await command.FillAsync();
-                    }
-                    return dataSet;
+                    command.Parameters.AddWithValue("@Action", "OptionalSubject");
+                    command.Parameters.AddWithValue("@StudentID", StudentID);
+                    command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                    command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataSet = await command.FillAsync();
                 }
-                catch (Exception ex)
+                return dataSet;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         public async Task<List<CommonDDLModel>> GetCastCategory()
         {
@@ -7728,7 +7726,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                            command.CommandText = "USP_BTER_Get_Staff_Ac_Year";
+                        command.CommandText = "USP_BTER_Get_Staff_Ac_Year";
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
