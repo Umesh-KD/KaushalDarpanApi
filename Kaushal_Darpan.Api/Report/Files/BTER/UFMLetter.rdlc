@@ -552,7 +552,7 @@
             <Top>12.55548cm</Top>
             <Left>0.48683cm</Left>
             <Height>0.81167cm</Height>
-            <Width>6.63334cm</Width>
+            <Width>10.1523cm</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -664,7 +664,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>16.97286cm</Top>
+            <Top>16.44369cm</Top>
             <Left>13.64192cm</Left>
             <Height>0.81167cm</Height>
             <Width>5.87406cm</Width>
@@ -690,7 +690,7 @@
       <Width>7.90346in</Width>
       <Page>
         <PageHeader>
-          <Height>8.15404cm</Height>
+          <Height>7.62487cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <ReportItems>
             <Textbox Name="Textbox8">
@@ -769,9 +769,9 @@ Email:conf.bter@gmail.com</Value>
               </Paragraphs>
               <rd:DefaultName>Textbox2</rd:DefaultName>
               <Top>0.21638cm</Top>
-              <Left>15.86442cm</Left>
+              <Left>15.3088cm</Left>
               <Height>1.04979cm</Height>
-              <Width>3.65156cm</Width>
+              <Width>4.20718cm</Width>
               <ZIndex>1</ZIndex>
               <Style>
                 <Border>
@@ -853,7 +853,7 @@ Email:conf.bter@gmail.com</Value>
               <Top>2.80929cm</Top>
               <Left>0.48683cm</Left>
               <Height>0.81167cm</Height>
-              <Width>6.63334cm</Width>
+              <Width>10.1523cm</Width>
               <ZIndex>2</ZIndex>
               <Style>
                 <Border>
@@ -913,9 +913,9 @@ Email:conf.bter@gmail.com</Value>
               </Paragraphs>
               <rd:DefaultName>Textbox2</rd:DefaultName>
               <Top>2.80929cm</Top>
-              <Left>15.86442cm</Left>
+              <Left>15.3088cm</Left>
               <Height>0.81167cm</Height>
-              <Width>3.65156cm</Width>
+              <Width>4.20718cm</Width>
               <ZIndex>3</ZIndex>
               <Style>
                 <Border>
@@ -963,7 +963,7 @@ Email:conf.bter@gmail.com</Value>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>3.79735cm</Top>
               <Left>0.48683cm</Left>
-              <Height>3.51885cm</Height>
+              <Height>3.64585cm</Height>
               <Width>10.52535cm</Width>
               <ZIndex>4</ZIndex>
               <Style>
@@ -1100,7 +1100,7 @@ C/O </Value>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>3.79735cm</Top>
               <Left>11.01218cm</Left>
-              <Height>3.51885cm</Height>
+              <Height>3.64585cm</Height>
               <Width>8.5038cm</Width>
               <ZIndex>5</ZIndex>
               <Style>

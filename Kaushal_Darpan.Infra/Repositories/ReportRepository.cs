@@ -7662,6 +7662,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetUFMStudentExamList";
+
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
@@ -9815,7 +9816,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                    command.Parameters.AddWithValue("@UFMStuExtraInfoID", model.UFMStuExtraInfoID);
+                    command.Parameters.AddWithValue("@UFMExtraInfoID", model.UFMExtraInfoID);
                     command.Parameters.AddWithValue("@StudentID", model.StudentID);
                     command.Parameters.AddWithValue("@StudentExamID", model.StudentExamID);
                     command.Parameters.AddWithValue("@StudentExamPaperID", model.StudentExamPaperID);

@@ -56,7 +56,7 @@ namespace Kaushal_Darpan.Models.CertificateDownload
         public string? EnrollmentNo { get; set; }
         public int isUFM { get; set; }
         public int? StudentID { get; set; } = 0;
-        public int? UFMStuExtraInfoID { get; set; } = 0;
+        public int? UFMExtraInfoID { get; set; } = 0;
         public int? StudentExamID { get; set; } = 0;
         public int? StudentExamPaperID { get; set; } = 0;
 
