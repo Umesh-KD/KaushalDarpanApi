@@ -636,6 +636,43 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        public async Task<DataTable> StreamMaster_streamType(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0,string action="")
+        {
+            _actionName = "StreamMaster()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDL_StreamMaster_streamTypeWise";
+                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermId", EndTermId);
+                        command.Parameters.AddWithValue("@StreamType", StreamType);
+                        command.Parameters.AddWithValue("@action", action);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
         public async Task<DataTable> Stream_InstituteIdWise(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int AcademicYearID = 0)
         {
             _actionName = "Stream_InstituteIdWise(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int AcademicYearID = 0)";
