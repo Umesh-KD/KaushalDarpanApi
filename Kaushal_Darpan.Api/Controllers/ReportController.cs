@@ -17369,7 +17369,745 @@ namespace Kaushal_Darpan.Api.Controllers
         }
         #endregion
 
+        #region Reval Exam Letter Report
+        [HttpPost("GetRevalExamLetterReport")]
+        public async Task<ApiResult<string>> GetRevalExamLetterReport(ExamLetterReport model)
+        {
+            ActionName = "GetRevalExamLetterReport(ExamLetterReport model)";
+            List<string> ListRoleListPath = new List<string>();
+            var result = new ApiResult<string>();
+            try
+            {
+                var data = await Task.Run(() => _unitOfWork.ReportRepository.GetRevalExamLetterReport(model));
+                if (data != null)
+                {
 
+                    var groupedData = data.Tables[0]
+                    .AsEnumerable()
+                    .GroupBy(r => r.Field<int>("GroupCode"))
+                    .Select(g => g.Key)
+                    .ToList();
+
+                    foreach (var group in groupedData)
+                    {
+
+                        var filteredRows = data.Tables[0]
+                            .AsEnumerable()
+                            .Where(r => r.Field<int>("GroupCode") == group)
+                            .ToList();
+
+                        DataTable filteredTable = filteredRows.Any()
+                            ? filteredRows.CopyToDataTable()
+                             : data.Tables[0].Clone();
+
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        var fileName = $"RevalExamLetterReport_{group}.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/RevalExamLetter.rdlc";
+                        //
+                        var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                        //
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+                        localReport.AddDataSource("ExamLetterReport", filteredTable);
+                        //localReport.AddDataSource("ExamLetterReport", data.Tables[0]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        ListRoleListPath.Add(filepath);
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Success.";
+
+                        //check file exists
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        //save
+
+
+
+                        //end report
+
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                    }
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+
+
+                #region "Save Multiple PDF PAGES"
+                string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                string guid = Guid.NewGuid().ToString().ToUpper();
+                string outputFile = $"{guid}_{timestamp}.pdf";
+                string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+
+                if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
+                {
+                    try
+                    {
+                        //delete files
+                        await DeleteFiles(ListRoleListPath);
+                    }
+                    catch (Exception exd)
+                    {
+                    }
+                    result.Data = outputFile;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Success.";
+
+                    await _unitOfWork.SaveChangesAsync();
+
+
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Something went wrong";
+                }
+                #endregion
+
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+        #endregion
+
+        [HttpPost("GetRevalGroupCodeMasterReportBranchwise")]
+        public async Task<IActionResult> GetRevalGroupCodeMasterReportBranchwise([FromBody] GroupCodeAllocationAddEditModel filterModel)
+        {
+            ActionName = "GetRevalGroupCodeMasterReportBranchwise([FromBody] GroupCodeAllocationAddEditModel filterModel)";
+            try
+            {
+                // data
+                var streams_data = await _unitOfWork.ReportRepository.GetRevalGroupCodeMasterReportBranchwise(filterModel);
+
+                // data list
+                var dataList = CommonFuncationHelper.ConvertDataTable<List<GroupCodeAllocationAddEditModel>>(streams_data.Tables[0]);
+
+                // validate
+                if (dataList == null || !dataList.Any())
+                    return BadRequest("No data found");
+
+                // get the exam name once
+                string examName = dataList.First().ExamName ?? "";
+
+                // start html with exam name main heading
+                string headerHtml = $@"
+                                    <!DOCTYPE html>
+                                    <html>
+                                    <head>
+                                    <style>
+                                        body {{
+                                            font-family: Arial, Helvetica, sans-serif;
+                                            margin: 0;
+                                            padding: 10px 20px;
+                                            font-size: 13px;
+                                        }}
+                                        .center {{ 
+                                            text-align: center; 
+                                        }}
+                                        .title {{ 
+                                            font-weight: bold; 
+                                            font-size: 17px; 
+                                        }}
+                                        .subtitle {{ 
+                                            font-size: 14px; 
+                                            margin-top: 3px; 
+                                        }}
+                                        .subject-title {{
+                                            text-align: center;
+                                            font-weight: bold;
+                                            font-size: 15px;
+                                            margin: 10px 0 6px 0;
+                                        }}
+
+                                        .row {{
+                                            width: 100%;
+                                            display: table;
+                                            table-layout: fixed;
+                                        }}
+                                        .col {{
+                                            display: table-cell;
+                                            vertical-align: top;
+                                            padding: 4px;
+                                        }}
+                                        table {{
+                                            width: 100%;
+                                            border-collapse: collapse;
+                                            border: 1px solid #000;
+                                        }}
+                                        th, td {{
+                                            border: 1px solid #000;
+                                            padding: 6px;
+                                            text-align: center;
+                                        }}
+                                        th {{
+                                            background-color: #f2f2f2;
+                                            font-weight: bold;
+                                        }}
+                                        tr {{
+                                            page-break-inside: avoid;
+                                        }}
+                                        .total-row td {{
+                                            font-weight: bold;
+                                            background-color: #e6e6e6;
+                                        }}
+                                        .page-break {{
+                                            page-break-after: always;
+                                        }}
+                                    </style>
+                                    </head>
+                                    <body>
+                                        <div class='center'>
+                                            <div>Government of Rajasthan</div>
+                                            <div class='title'>Board of Technical Education of Rajasthan, Jodhpur</div>
+                                            <div class='subtitle'>
+                                                Details of Examiner Group Code Diploma {examName}
+                                            </div>
+                                        </div>";
+
+                // html store
+                var sb = new StringBuilder();
+
+                // get distinct subjects for filter
+                var distinct_SubjectCodes = dataList.Select(x => x.SubjectCode).Distinct();
+
+                // each subject code loop
+                foreach (var distinct_SubjectCode in distinct_SubjectCodes)
+                {
+                    // get filtered list of each subject code
+                    var filtered_SubjectCodes = dataList.Where(x => x.SubjectCode == distinct_SubjectCode)
+                                                        .OrderBy(x => x.CCCode)
+                                                        .ToList();
+
+                    // heading
+                    sb.Append(headerHtml);
+
+                    // subject heading
+                    sb.Append($@"
+                            <div class='subject-title'>
+                                Subject Code: {distinct_SubjectCode} 
+                            </div>
+                            ");
+
+                    // group
+                    sb.Append("<div class='row'>");
+
+                    // filtered subject loop
+                    int present = 0;
+                    int total = 0;
+                    int? prevgroupCode = 0;
+                    int? currentgroupCode = 0;
+                    int? nextgroupCode = 0;
+                    int pageHeightCount = 35;
+                    int pageHeightLoop = 0;
+                    int pageColumnCount = 3;
+                    int pageColumnLoop = 0;
+                    bool isTotalTableFooterAdded = false;
+                    for (int i = 0; i < filtered_SubjectCodes.Count; i++)
+                    {
+                        // set current group code
+                        currentgroupCode = filtered_SubjectCodes[i].CCCode;
+
+                        // set prev group code
+                        if (i > 0)
+                        {
+                            prevgroupCode = filtered_SubjectCodes[i - 1].CCCode;
+                        }
+                        // set next group code
+                        if (i + 1 < filtered_SubjectCodes.Count)
+                        {
+                            nextgroupCode = filtered_SubjectCodes[i + 1].CCCode;
+                        }
+
+                        // column divided loop
+                        if (pageHeightLoop == 0)
+                        {
+                            isTotalTableFooterAdded = false;
+                            sb.Append("<div class='col'>");
+
+                            // group code
+                            sb.Append(@"
+                                    <div class='group-block' style='page-break-inside:avoid; margin-bottom:8px;'>
+                                    <table>
+                                    <thead>                                    
+                                    <tr>
+                                        <th>CCode/Code/Group/Branch</th>
+                                        <th>Present/Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                ");
+                        }
+
+                        // total
+                        sb.Append($@"
+                                <tr>
+                                    <td>{filtered_SubjectCodes[i].centergroupcode}</td>
+                                    <td>{filtered_SubjectCodes[i].IsPresentTotal}/{filtered_SubjectCodes[i].Total}</td>
+                                </tr>");
+
+                        // grand total                        
+                        present += filtered_SubjectCodes[i].IsPresentTotal;
+                        total += filtered_SubjectCodes[i].Total;
+                        if (filtered_SubjectCodes.Count == i + 1 || nextgroupCode != currentgroupCode)
+                        {
+                            sb.Append($@"
+                                <tr class='total-row'>
+                                    <td>Total</td>
+                                    <td>{present}/{total}</td>
+                                </tr>
+                            ");
+
+                            // reset
+                            present = 0;
+                            total = 0;
+
+                            isTotalTableFooterAdded = true;
+                            pageHeightLoop++;
+                        }
+
+                        // column divided loop
+                        pageHeightLoop++;
+                        if (pageHeightCount < pageHeightLoop + 1 || filtered_SubjectCodes.Count + 1 == pageHeightLoop + 1)
+                        {
+                            sb.Append(@"
+                                    </tbody>
+                                    </table>
+                                    </div>
+                                ");
+
+                            sb.Append("</div>");
+                            pageHeightLoop = 0;
+                            pageColumnLoop++;
+                        }
+
+                        // row changed
+                        if (pageColumnLoop >= pageColumnCount)
+                        {
+                            sb.Append(@"
+                                    </tbody>
+                                    </table>
+                                    </div>
+                                ");
+                            sb.Append("</div>");
+                            // group
+                            sb.Append("</div>");
+                            sb.Append("<div class='page-break'></div>");
+
+                            // heading
+                            sb.Append(headerHtml);
+
+                            // subject heading
+                            sb.Append($@"
+                            <div class='subject-title'>
+                                Subject Code: {distinct_SubjectCode}
+                            </div>
+                            ");
+
+                            // group
+                            sb.Append("<div class='row'>");
+
+                            pageColumnLoop = 0;
+                        }
+                    }
+
+                    sb.Append(@"
+                                    </tbody>
+                                    </table>
+                                    </div>
+                                ");
+                    sb.Append("</div>");
+                    // group
+                    sb.Append("</div>");
+                    sb.Append("<div class='page-break'></div>");
+
+                    // end html 
+                    sb.Append(@"
+                        </body>
+                        </html>
+                    ");
+                }
+
+                var _html = sb.ToString();
+
+                // pdf document setting
+                var doc = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+                    {
+                        PaperSize = PaperKind.A4,
+                        Orientation = Orientation.Portrait,
+                        Margins = new MarginSettings
+                        {
+                            Top = 10,
+                            Bottom = 10,
+                            Left = 5,
+                            Right = 5
+                        }
+                    },
+                    Objects =
+                    {
+                        new ObjectSettings
+                        {
+                            HtmlContent = _html,
+                            WebSettings = { DefaultEncoding = "utf-8" },
+
+                            //HeaderSettings = new HeaderSettings
+                            //{
+                            //    HtmUrl = headerFilePath,
+                            //    Spacing = 3
+                            //},
+
+                            FooterSettings = new FooterSettings
+                            {
+                                FontName = "Arial",
+                                FontSize = 7,
+                                Center = "Page [page] of [toPage]",
+                                Line = true
+                            }
+                        }
+                    }
+                };
+
+                // return
+                byte[] pdfBytes = _converter.Convert(doc);
+                return File(pdfBytes, "application/pdf", "RevalGroup_Code_Master_Report_SubjectWise.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost("GetRevalGroupCodeMasterReport")]
+        public async Task<IActionResult> GetRevalGroupCodeMasterReport([FromBody] GroupCodeAllocationAddEditModel filterModel)
+        {
+            ActionName = "GetRevalGroupCodeMasterReport([FromBody] GroupCodeAllocationAddEditModel filterModel)";
+            try
+            {
+                // data
+                var streams_data = await _unitOfWork.ReportRepository.GetRevalGroupCodeMasterReport(filterModel);
+
+                // data list
+                var dataList = CommonFuncationHelper.ConvertDataTable<List<GroupCodeAllocationAddEditModel>>(streams_data.Tables[0]);
+
+                // validate
+                if (dataList == null || !dataList.Any())
+                    return BadRequest("No data found");
+
+                // get the exam name once
+                string examName = dataList.First().ExamName ?? "";
+
+                // start html with exam name main heading
+                string headerHtml = $@"
+                                    <!DOCTYPE html>
+                                    <html>
+                                    <head>
+                                    <style>
+                                        body {{
+                                            font-family: Arial, Helvetica, sans-serif;
+                                            margin: 0;
+                                            padding: 10px 20px;
+                                            font-size: 13px;
+                                        }}
+                                        .center {{ 
+                                            text-align: center; 
+                                        }}
+                                        .title {{ 
+                                            font-weight: bold; 
+                                            font-size: 17px; 
+                                        }}
+                                        .subtitle {{ 
+                                            font-size: 14px; 
+                                            margin-top: 3px; 
+                                        }}
+                                        .subject-title {{
+                                            text-align: center;
+                                            font-weight: bold;
+                                            font-size: 15px;
+                                            margin: 10px 0 6px 0;
+                                        }}
+
+                                        .row {{
+                                            width: 100%;
+                                            display: table;
+                                            table-layout: fixed;
+                                        }}
+                                        .col {{
+                                            display: table-cell;
+                                            vertical-align: top;
+                                            padding: 4px;
+                                        }}
+                                        table {{
+                                            width: 100%;
+                                            border-collapse: collapse;
+                                            border: 1px solid #000;
+                                        }}
+                                        th, td {{
+                                            border: 1px solid #000;
+                                            padding: 6px;
+                                            text-align: center;
+                                        }}
+                                        th {{
+                                            background-color: #f2f2f2;
+                                            font-weight: bold;
+                                        }}
+                                        tr {{
+                                            page-break-inside: avoid;
+                                        }}
+                                        .total-row td {{
+                                            font-weight: bold;
+                                            background-color: #e6e6e6;
+                                        }}
+                                        .page-break {{
+                                            page-break-after: always;
+                                        }}
+                                    </style>
+                                    </head>
+                                    <body>
+                                        <div class='center'>
+                                            <div>Government of Rajasthan</div>
+                                            <div class='title'>Board of Technical Education of Rajasthan, Jodhpur</div>
+                                            <div class='subtitle'>
+                                                Details of Examiner Group Code Diploma {examName}
+                                            </div>
+                                        </div>";
+
+                // html store
+                var sb = new StringBuilder();
+
+                // get distinct subjects for filter
+                var distinct_SubjectCodes = dataList.Select(x => (x.SubjectCode, x.SubjectName)).Distinct();
+
+                // each subject code loop
+                foreach (var distinct_SubjectCode in distinct_SubjectCodes)
+                {
+                    // get filtered list of each subject code
+                    var filtered_SubjectCodes = dataList.Where(x => x.SubjectCode == distinct_SubjectCode.SubjectCode)
+                                                        .OrderBy(x => x.GroupCode)
+                                                        .ToList();
+
+                    // heading
+                    sb.Append(headerHtml);
+
+                    // subject heading
+                    sb.Append($@"
+                            <div class='subject-title'>
+                                Subject Code: {distinct_SubjectCode.SubjectCode} &nbsp; {distinct_SubjectCode.SubjectName}
+                            </div>
+                            ");
+
+                    // group
+                    sb.Append("<div class='row'>");
+
+                    // filtered subject loop
+                    int present = 0;
+                    int total = 0;
+                    int? prevgroupCode = 0;
+                    int? currentgroupCode = 0;
+                    int? nextgroupCode = 0;
+                    int pageHeightCount = 37;
+                    int pageHeightLoop = 0;
+                    int pageColumnCount = 3;
+                    int pageColumnLoop = 0;
+                    bool isTotalTableFooterAdded = false;
+                    for (int i = 0; i < filtered_SubjectCodes.Count; i++)
+                    {
+                        // set current group code
+                        currentgroupCode = filtered_SubjectCodes[i].GroupCode;
+
+                        // set prev group code
+                        if (i > 0)
+                        {
+                            prevgroupCode = filtered_SubjectCodes[i - 1].GroupCode;
+                        }
+                        // set next group code
+                        if (i + 1 < filtered_SubjectCodes.Count)
+                        {
+                            nextgroupCode = filtered_SubjectCodes[i + 1].GroupCode;
+                        }
+
+                        // column divided loop
+                        if (pageHeightLoop == 0)
+                        {
+                            isTotalTableFooterAdded = false;
+                            sb.Append("<div class='col'>");
+
+                            // group code
+                            sb.Append(@"
+                                    <div class='group-block' style='page-break-inside:avoid; margin-bottom:8px;'>
+                                    <table>
+                                    <thead>                                    
+                                    <tr>
+                                        <th>CCode/Code/Group</th>
+                                        <th>Present/Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                ");
+                        }
+
+                        // total
+                        sb.Append($@"
+                                <tr>
+                                    <td>{filtered_SubjectCodes[i].centergroupcode}</td>
+                                    <td>{filtered_SubjectCodes[i].IsPresentTotal}/{filtered_SubjectCodes[i].Total}</td>
+                                </tr>");
+
+                        // grand total                        
+                        present += filtered_SubjectCodes[i].IsPresentTotal;
+                        total += filtered_SubjectCodes[i].Total;
+                        if (filtered_SubjectCodes.Count == i + 1 || nextgroupCode != currentgroupCode)
+                        {
+                            sb.Append($@"
+                                <tr class='total-row'>
+                                    <td>Total</td>
+                                    <td>{present}/{total}</td>
+                                </tr>
+                            ");
+
+                            // reset
+                            present = 0;
+                            total = 0;
+
+                            isTotalTableFooterAdded = true;
+                            pageHeightLoop++;
+                        }
+
+                        // column divided loop
+                        pageHeightLoop++;
+                        if (pageHeightCount < pageHeightLoop + 1 || filtered_SubjectCodes.Count + 1 == pageHeightLoop + 1)
+                        {
+                            sb.Append(@"
+                                    </tbody>
+                                    </table>
+                                    </div>
+                                ");
+
+                            sb.Append("</div>");
+                            pageHeightLoop = 0;
+                            pageColumnLoop++;
+                        }
+
+                        // row changed
+                        if (pageColumnLoop >= pageColumnCount)
+                        {
+                            sb.Append(@"
+                                    </tbody>
+                                    </table>
+                                    </div>
+                                ");
+                            sb.Append("</div>");
+                            // group
+                            sb.Append("</div>");
+                            sb.Append("<div class='page-break'></div>");
+
+                            // heading
+                            sb.Append(headerHtml);
+
+                            // subject heading
+                            sb.Append($@"
+                            <div class='subject-title'>
+                                Subject Code: {distinct_SubjectCode.SubjectCode} &nbsp; {distinct_SubjectCode.SubjectName}
+                            </div>
+                            ");
+
+                            // group
+                            sb.Append("<div class='row'>");
+
+                            pageColumnLoop = 0;
+                        }
+                    }
+
+                    sb.Append(@"
+                            </tbody>
+                            </table>
+                            </div>
+                        ");
+                    sb.Append("</div>");
+                    // group
+                    sb.Append("</div>");
+                    sb.Append("<div class='page-break'></div>");
+
+                    // end html 
+                    sb.Append(@"
+                        </body>
+                        </html>
+                    ");
+                }
+
+                var _html = sb.ToString();
+
+                // pdf document setting
+                var doc = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+                    {
+                        PaperSize = PaperKind.A4,
+                        Orientation = Orientation.Portrait,
+                        Margins = new MarginSettings
+                        {
+                            Top = 10,
+                            Bottom = 10,
+                            Left = 5,
+                            Right = 5
+                        }
+                    },
+                    Objects =
+                    {
+                        new ObjectSettings
+                        {
+                            HtmlContent = _html,
+                            WebSettings = { DefaultEncoding = "utf-8" },
+
+                            //HeaderSettings = new HeaderSettings
+                            //{
+                            //    HtmUrl = headerFilePath,
+                            //    Spacing = 3
+                            //},
+
+                            FooterSettings = new FooterSettings
+                            {
+                                FontName = "Arial",
+                                FontSize = 7,
+                                Center = "Page [page] of [toPage]",
+                                Line = true
+                            }
+                        }
+                    }
+                };
+
+                // return
+                byte[] pdfBytes = _converter.Convert(doc);
+                return File(pdfBytes, "application/pdf", "RevalGroup_Code_Master_Report_SubjectWise.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
 
     }
 }

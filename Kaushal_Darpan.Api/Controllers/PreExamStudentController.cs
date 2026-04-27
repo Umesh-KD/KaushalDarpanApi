@@ -1100,56 +1100,53 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<bool>> Save_Student_Optional_Subject([FromBody] OptionalSubjectModel request)
         {
             ActionName = "Save_Student_Optional_Subject([FromBody] OptionalSubjectModel request)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<bool>();
+            try
             {
-                var result = new ApiResult<bool>();
-                try
-                {
-                    request.IPAddress = CommonFuncationHelper.GetIpAddress();
-                    var isSave = await _unitOfWork.PreExamStudentRepository.Save_Student_Optional_Subject(request);
-                    await _unitOfWork.SaveChangesAsync();
+                request.IPAddress = CommonFuncationHelper.GetIpAddress();
+                var isSave = await Task.Run(() => _unitOfWork.PreExamStudentRepository.Save_Student_Optional_Subject(request));
+                await _unitOfWork.SaveChangesAsync();
 
-                    if (isSave == -2)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Warning;
-                        result.Message = "Optional subject already assigned/added for this student.";
-                    }
-                    else if (isSave == -1)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_NO_DATA_UPDATE;
-                    }
-                    else if (isSave > 0)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_UPDATE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
-                    }
-                }
-                catch (Exception ex)
+                if (isSave == -2)
                 {
-                    await _unitOfWork.DisposeAsync();
+                    result.Data = true;
+                    result.State = EnumStatus.Warning;
+                    result.Message = "Optional subject already assigned/added for this student.";
+                }
+                else if (isSave == -1)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_NO_DATA_UPDATE;
+                }
+                else if (isSave > 0)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_UPDATE_SUCCESS;
+                }
+                else
+                {
                     result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
         /// <summary>
