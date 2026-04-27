@@ -216,4 +216,13 @@
         public int UFMStuExtraInfoID { get; set; } = 0;
     }
 
+    public class UFMExtraInfoSaveModel : ResponseBaseModel
+    {
+        public int UFMExtraInfoID { get; set; } = 0;
+        public int SerialNo { get; set; } = 0;
+        public int SerialNo2 { get; set; } = 0;
+        public string? IssueDate { get; set; }
+        public string? BundleSendDate { get; set; }
+        public string? Date2 { get; set; }
+    }
 }

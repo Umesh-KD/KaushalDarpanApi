@@ -46,6 +46,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> Iticollege(int DepartmentID, int Eng_NonEng, int EndTermId, int InsutiteId);
         Task<DataTable> IticenterColleges(int DepartmentID, int Eng_NonEng, int EndTermId, int InstituteID);
         Task<DataTable> StreamMaster(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0);
+        Task<DataTable> StreamMaster_streamType(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0,string action="");
         Task<DataTable> Stream_InstituteIdWise(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituteID=0,int AcademicYearID=0);
         Task<DataTable> ItiTrade(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituiteID = 0, int DivisionId = 0,int SemesterID=0);
         Task<DataTable> ItiTradecouncelling(string DesignationID);
@@ -163,6 +164,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<CommonDDLModel>> SubjectMaster_SubjectCode_SemesterIDWise(int SemesterID, int DepartmentID, string SubjectCode);
         Task<List<CommonDDLModel>> SubjectMaster_StreamIDWise(int StreamID, int DepartmentID, int SemesterID, int Eng_NonEng, int EndTermID);
         Task<List<CommonDDLModel>> GetAssignedSubject(string SSOID, int EndTermID, int SemesterID, int Eng_NonEng, int StreamID);
+        Task<List<CommonDDLModel>> GetNonsubstitutesubject(string SSOID, int EndTermID, int SemesterID, int Eng_NonEng, int StreamID);
         Task<DataTable> GetStudentStatusByRole(int roleId, int type);
         Task<DataTable> GetEnrollmentCancelStatusByRole(int roleId, int type);
         Task<DataTable> ItiGetStudentStatusByRole(int roleId, int type);

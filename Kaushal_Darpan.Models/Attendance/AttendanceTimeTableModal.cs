@@ -56,8 +56,13 @@ namespace Kaushal_Darpan.Models.Attendance
         public int StaffID { get; set; }
 
         public int? IsFinalSubmit { get; set; }
+        public int? Shift { get; set; }
+        public int? Unit { get; set; }
+   
         public string? Latitude { get; set; }
         public string? Longitude { get; set; }
+
+        public bool isreaasign { get; set; }
     }
 
     public class Attendances

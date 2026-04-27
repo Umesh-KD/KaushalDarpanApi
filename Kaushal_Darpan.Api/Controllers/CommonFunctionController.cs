@@ -488,38 +488,41 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpGet("InstituteMaster/{DepartmentID}/{Eng_NonEng}/{EndTermId}")]
         public async Task<ApiResult<DataTable>> InstituteMaster(int DepartmentID, int Eng_NonEng, int EndTermId)
         {
-            var result = new ApiResult<DataTable>();
-            try
+            return await Task.Run(async () =>
             {
-                var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.InstituteMaster(DepartmentID, Eng_NonEng, EndTermId));
-                if (data.Rows.Count > 0)
+                var result = new ApiResult<DataTable>();
+                try
                 {
-                    result.Data = data;
-                    result.State = EnumStatus.Success;
-                    result.Message = "Data load successfully .!";
+                    var data = await _unitOfWork.CommonFunctionRepository.InstituteMaster(DepartmentID, Eng_NonEng, EndTermId);
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
 
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    result.State = EnumStatus.Warning;
-                    result.Message = "No record found.!";
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
                 }
-            }
-            catch (Exception ex)
-            {
-                await _unitOfWork.DisposeAsync();
-                result.State = EnumStatus.Error;
-                result.ErrorMessage = ex.Message;
-                // write error log
-                var nex = new NewException
-                {
-                    PageName = PageName,
-                    ActionName = ActionName,
-                    Ex = ex,
-                };
-                await CreateErrorLog(nex, _unitOfWork);
-            }
-            return result;
+                return result;
+            });
         }
 
 
@@ -616,6 +619,48 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.CommonFunctionRepository.StreamMaster(DepartmetnID, StreamType, EndTermId);
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
+        [HttpGet("StreamMaster_streamType/{DepartmentID}/{StreamType}/{EndTermId}/{ActionName}")]
+        public async Task<ApiResult<DataTable>> StreamMaster_streamType(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0,string? ActionName = "")
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.StreamMaster_streamType(DepartmentID, StreamType, EndTermId, ActionName);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
@@ -2433,7 +2478,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("GetTierBasedPackageMaster/{TierID}")]
-        public async Task<ApiResult<DataTable>> GetTierBasedPackageMaster(int TierID)
+        public async Task<ApiResult<DataTable>> GetTierBasedPackageMaster(int TierID )
         {
             ActionName = "GetTierBasedPackageMaster()";
             return await Task.Run(async () =>
@@ -3242,6 +3287,49 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+        [HttpGet("GetNonsubstitutesubject/{SSOID}/{EndTermID}/{SemesterID}/{Eng_NonEng}/{StreamID}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> GetNonsubstitutesubject(string SSOID, int EndTermID, int SemesterID, int Eng_NonEng, int StreamID)
+        {
+            ActionName = "SubjectMaster_StreamIDWise(int StreamID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<CommonDDLModel>>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.GetNonsubstitutesubject(SSOID, EndTermID, SemesterID, Eng_NonEng, StreamID);
+                    if (data != null)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
 
 
         [HttpGet("Examiner_SSOID/{DepartmentID:int}")]
@@ -4771,41 +4859,38 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpGet("GetOptionalSubjectsByStudentID/{StudentID}/{DepartmentID}/{StudentExamID}")]
         public async Task<ApiResult<DataSet>> GetOptionalSubjectsByStudentID(Int32 StudentID, Int32 DepartmentID, int StudentExamID)
         {
-            return await Task.Run(async () =>
+            var result = new ApiResult<DataSet>();
+            try
             {
-                var result = new ApiResult<DataSet>();
-                try
+                var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetOptionalSubjectsByStudentID(StudentID, DepartmentID, StudentExamID));
+                if (data?.Tables?.Count == 2)
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetOptionalSubjectsByStudentID(StudentID, DepartmentID, StudentExamID);
-                    if (data?.Tables?.Count == 2)
-                    {
-                        result.Data = data;
-                        result.State = EnumStatus.Success;
-                        result.Message = "Data load successfully .!";
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
 
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = "No record found.!";
-                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found.!";
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
         [HttpPost("GetCommonSubjectDDL")]

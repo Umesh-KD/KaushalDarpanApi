@@ -1039,62 +1039,50 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-
-
-
-
-
-
-
-
-
         public async Task<int> Save_Student_Optional_Subject(OptionalSubjectModel optionalSubject)
         {
             _actionName = "Save_Student_Optional_Subject(OptionalSubjectModel optionalSubject))";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    int retval = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        command.CommandText = "USP_StudentAssignOptionalSubject";
-                        command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StudentAssignOptionalSubject";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_addStudentOptionalSubject");
-                        command.Parameters.AddWithValue("@StudentID", optionalSubject.StudentID);
-                        command.Parameters.AddWithValue("@RowJson", optionalSubject.RowJson);
-                        command.Parameters.AddWithValue("@EndTermID", optionalSubject.EndTermID);
-                        command.Parameters.AddWithValue("@DepartmentID", optionalSubject.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", optionalSubject.Eng_NonEng);
-                        command.Parameters.AddWithValue("@ModifyBy", optionalSubject.CreatedBy);
-                        command.Parameters.AddWithValue("@IPAddress", optionalSubject.IPAddress);
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_addStudentOptionalSubject");
+                    command.Parameters.AddWithValue("@StudentID", optionalSubject.StudentID);
+                    command.Parameters.AddWithValue("@RowJson", optionalSubject.RowJson);
+                    command.Parameters.AddWithValue("@EndTermID", optionalSubject.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", optionalSubject.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", optionalSubject.Eng_NonEng);
+                    command.Parameters.AddWithValue("@ModifyBy", optionalSubject.CreatedBy);
+                    command.Parameters.AddWithValue("@IPAddress", optionalSubject.IPAddress);
 
-                        command.Parameters.Add("@Retval", SqlDbType.Int);// out
-                        command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
-                    }
-                    return retval;
+                    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
                 }
-                catch (Exception ex)
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetStudentOptionalSubject_ByStudentID(Int32 StudentID, Int32 EndTermID)

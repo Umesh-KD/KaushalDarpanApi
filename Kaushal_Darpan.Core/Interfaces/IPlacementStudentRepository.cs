@@ -8,7 +8,8 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<List<PlacementStudentResponseModel>> GetAllData(PlacementStudentSearchModel searchModel);
         Task<DataTable> GetPlacementconsent(StudentConsentSearchmodel body);
-  
+        Task<DataTable> GetStudentConsentCount(int StudentID);
+
         Task<int> SaveData(CampusStudentConsentModel productDetails);
 
 
