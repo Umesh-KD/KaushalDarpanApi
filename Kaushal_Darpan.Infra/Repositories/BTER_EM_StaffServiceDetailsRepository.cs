@@ -94,6 +94,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@UserID", body.UserID);
                     command.Parameters.AddWithValue("@StaffID", body.StaffID);
                     command.Parameters.AddWithValue("@StaffTrainingDetailID", body.StaffTrainingDetailID);
+                    command.Parameters.AddWithValue("@StatusID", body.StatusID);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }

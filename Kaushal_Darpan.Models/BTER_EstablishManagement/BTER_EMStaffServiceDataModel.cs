@@ -42,6 +42,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? StaffTrainingDetailID { get; set; }
         public int? UserID { get; set; }
         public int? StaffID { get; set; }
+        public int? StatusID { get; set; }
         public string? Action { get; set; }
     }
 
