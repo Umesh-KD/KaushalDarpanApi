@@ -20,5 +20,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAdminDashNCVTData(ITIAdminDashboardSearchModel model);
         Task<DataTable> GetApprenticeshipDirectorNCVTData(ITIAdminDashboardSearchModel model);
         Task<DataTable> GetItiJailDashApplicationData(ItiAdminDashApplicationSearchModel model);
+        Task<DataTable> GetExaminationCollegeTrade(ITIAdminDashboardSearchModel model);
     }
 }
