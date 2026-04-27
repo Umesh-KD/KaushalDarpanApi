@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Kaushal_Darpan.Infra.Repositories
@@ -51,7 +52,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@StaffID", body.StaffID);
                     command.Parameters.AddWithValue("@TrainingDoc", body.TrainingDoc);
                     command.Parameters.AddWithValue("@Dis_TrainingDoc", body.Dis_TrainingDoc);
-
+                    command.Parameters.AddWithValue("@TrainingTypeID", body.TrainingTypeID);
+                    command.Parameters.AddWithValue("@ComplitionTrainingDoc", body.ComplitionTrainingDoc);
+                    command.Parameters.AddWithValue("@Dis_complitionTrainingDoc", body.Dis_complitionTrainingDoc);
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;
@@ -149,5 +152,45 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<int> StaffTrainingStatusUpdate(StaffTrainingStatusUpdateDataModel body)
+        {
+            _actionName = "StaffTrainingStatusUpdate(StaffTrainingStatusUpdateDataModel body)";
+            try
+            {
+                
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StaffTrainingStatusUpdate";
+                    command.Parameters.AddWithValue("@TrainingStatus", body.TrainingStatus);
+                    command.Parameters.AddWithValue("@Remark", body.Remark);
+                    command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                    command.Parameters.AddWithValue("@jsonData", body.jsonData);
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
     }
 }
