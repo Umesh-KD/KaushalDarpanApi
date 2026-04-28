@@ -17393,7 +17393,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     var groupedData = data.Tables[0]
                     .AsEnumerable()
-                    .GroupBy(r => r.Field<int>("GroupCode"))
+                    .GroupBy(r => r.Field<string>("GroupCode"))
                     .Select(g => g.Key)
                     .ToList();
 
@@ -17402,7 +17402,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         var filteredRows = data.Tables[0]
                             .AsEnumerable()
-                            .Where(r => r.Field<int>("GroupCode") == group)
+                            .Where(r => r.Field<string>("GroupCode") == group)
                             .ToList();
 
                         DataTable filteredTable = filteredRows.Any()
@@ -17503,16 +17503,16 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
         [HttpPost("GetRevalGroupCodeMasterReportBranchwise")]
-        public async Task<IActionResult> GetRevalGroupCodeMasterReportBranchwise([FromBody] GroupCodeAllocationAddEditModel filterModel)
+        public async Task<IActionResult> GetRevalGroupCodeMasterReportBranchwise([FromBody] GroupCodeAllocationAddEditModel_Reval filterModel)
         {
-            ActionName = "GetRevalGroupCodeMasterReportBranchwise([FromBody] GroupCodeAllocationAddEditModel filterModel)";
+            ActionName = "GetRevalGroupCodeMasterReportBranchwise([FromBody] GroupCodeAllocationAddEditModel_Reval filterModel)";
             try
             {
                 // data
                 var streams_data = await _unitOfWork.ReportRepository.GetRevalGroupCodeMasterReportBranchwise(filterModel);
 
                 // data list
-                var dataList = CommonFuncationHelper.ConvertDataTable<List<GroupCodeAllocationAddEditModel>>(streams_data.Tables[0]);
+                var dataList = CommonFuncationHelper.ConvertDataTable<List<GroupCodeAllocationAddEditModel_Reval>>(streams_data.Tables[0]);
 
                 // validate
                 if (dataList == null || !dataList.Any())
@@ -17811,16 +17811,16 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("GetRevalGroupCodeMasterReport")]
-        public async Task<IActionResult> GetRevalGroupCodeMasterReport([FromBody] GroupCodeAllocationAddEditModel filterModel)
+        public async Task<IActionResult> GetRevalGroupCodeMasterReport([FromBody] GroupCodeAllocationAddEditModel_Reval filterModel)
         {
-            ActionName = "GetRevalGroupCodeMasterReport([FromBody] GroupCodeAllocationAddEditModel filterModel)";
+            ActionName = "GetRevalGroupCodeMasterReport([FromBody] GroupCodeAllocationAddEditModel_Reval filterModel)";
             try
             {
                 // data
                 var streams_data = await _unitOfWork.ReportRepository.GetRevalGroupCodeMasterReport(filterModel);
 
                 // data list
-                var dataList = CommonFuncationHelper.ConvertDataTable<List<GroupCodeAllocationAddEditModel>>(streams_data.Tables[0]);
+                var dataList = CommonFuncationHelper.ConvertDataTable<List<GroupCodeAllocationAddEditModel_Reval>>(streams_data.Tables[0]);
 
                 // validate
                 if (dataList == null || !dataList.Any())
@@ -17934,9 +17934,9 @@ namespace Kaushal_Darpan.Api.Controllers
                     // filtered subject loop
                     int present = 0;
                     int total = 0;
-                    int? prevgroupCode = 0;
-                    int? currentgroupCode = 0;
-                    int? nextgroupCode = 0;
+                    string? prevgroupCode = "";
+                    string? currentgroupCode = "";
+                    string? nextgroupCode = "";
                     int pageHeightCount = 37;
                     int pageHeightLoop = 0;
                     int pageColumnCount = 3;

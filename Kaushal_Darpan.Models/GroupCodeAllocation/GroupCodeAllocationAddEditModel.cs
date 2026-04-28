@@ -68,6 +68,14 @@ namespace Kaushal_Darpan.Models.GroupCodeAllocation
         public string CommonSubjectName { get; set; }
         public string SubjectCode { get; set; }
         public string? SubjectName { get; set; }
+
+        public string? action { get; set; }
+        public int schemeid { get; set; }
+        public int IsPresentTotal { get; set; }
+        public string? centergroupcode { get; set; }
+        public string? EndTerm { get; set; }
+        public string? ExamName { get; set; }
+        public int? CCCode { get; set; }
     }
 
 }
