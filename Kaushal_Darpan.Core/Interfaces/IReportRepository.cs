@@ -317,5 +317,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetStudentRevalFeePaymentReceipt(string TransactionId, int StudentExamID);
         Task<DataSet> GetDiplomaCertificate(DiplomaCertificateModel model);
         Task<DataSet> GetUFMLetter(UFMLetterModel model);
+        Task<DataSet> GetRevalExamLetterReport(ExamLetterReport model);
+        Task<DataSet> GetRevalGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel_Reval filterModel);
+        Task<DataSet> GetRevalGroupCodeMasterReport(GroupCodeAllocationAddEditModel_Reval filterModel);
     }
 }

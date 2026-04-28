@@ -30,6 +30,11 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? TrainingCourseType_str { get; set; }
         public string? DurationUnit_str { get; set; }
         public string? ModeOfTraining_str { get; set; }
+        public int? TrainingTypeID { get; set; }
+        public int? TrainingStatus { get; set; }
+        public string? ComplitionTrainingDoc { get; set; }
+        public string? Dis_complitionTrainingDoc { get; set; }
+        public string? Remark { get; set; }
     }
 
     public class StaffTrainingDetailSearchData
@@ -37,6 +42,22 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? StaffTrainingDetailID { get; set; }
         public int? UserID { get; set; }
         public int? StaffID { get; set; }
+        public int? StatusID { get; set; }
         public string? Action { get; set; }
     }
-}
+
+
+    public class StaffTrainingStatusUpdateDataModel
+    {
+        public int? StaffTrainingDetailID { get; set; }
+        public int? TrainingStatus { get; set; }
+        public string? Remark { get; set; }
+        public int? CreatedBy { get; set; }
+        public string? jsonData { get; set; }
+    }
+
+
+
+    }
+
+

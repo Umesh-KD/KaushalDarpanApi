@@ -255,12 +255,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     var mergedRows = new List<string>();
 
                     // get all group rno that already merged
-                    //var mergedGroupNo_StudentExamPaperMarksIDs = newList
-                    //                                                .Where(x => x.SubjectCode == distinctSubjectCode)
-                    //                                                .SelectMany(x => x.StudentExamPaperMarksIDs.Split(','))
-                    //                                                .ToList();
-
-                    // get all group rno that already merged
                     var mergedGroupNo_StudentExamPaperRevaluationIDs = newList
                                                                     .Where(x => x.SubjectCode == distinctSubjectCode)
                                                                     .SelectMany(x => x.StudentExamPaperRevaluationIDs.Split(','))

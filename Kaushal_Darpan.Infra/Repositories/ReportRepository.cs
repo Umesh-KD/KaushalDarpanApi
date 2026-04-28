@@ -597,40 +597,37 @@ namespace Kaushal_Darpan.Infra.Repositories
         #region Exam Letter Report
         public async Task<DataSet> GetExamLetterReport(ExamLetterReport model)
         {
-            _actionName = "GetExamLetterReport()";
-            return await Task.Run(async () =>
+            _actionName = "GetExamLetterReport(ExamLetterReport model)";
+            try
             {
-                try
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var ds = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetGroupCode__brachwisewise_Report";
-                        command.Parameters.AddWithValue("@action", "_getAllData");
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndtermID);
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        ds = await command.FillAsync();
-                    }
-                    return ds;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetGroupCode__brachwisewise_Report";
+                    command.Parameters.AddWithValue("@action", "_getAllData");
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndtermID);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
                 }
-                catch (Exception ex)
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         #endregion
 
@@ -7662,6 +7659,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetUFMStudentExamList";
+
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
@@ -9815,7 +9813,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                    command.Parameters.AddWithValue("@UFMStuExtraInfoID", model.UFMStuExtraInfoID);
+                    command.Parameters.AddWithValue("@UFMExtraInfoID", model.UFMExtraInfoID);
                     command.Parameters.AddWithValue("@StudentID", model.StudentID);
                     command.Parameters.AddWithValue("@StudentExamID", model.StudentExamID);
                     command.Parameters.AddWithValue("@StudentExamPaperID", model.StudentExamPaperID);
@@ -9840,5 +9838,127 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
+        #region Reval Exam Letter Report
+        public async Task<DataSet> GetRevalExamLetterReport(ExamLetterReport model)
+        {
+            _actionName = "GetRevalExamLetterReport(ExamLetterReport model)";
+            try
+            {
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetRevalGroupCode_brachwisewise_Report";
+
+                    command.Parameters.AddWithValue("@action", "_getAllData");
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndtermID);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        #endregion
+
+        public async Task<DataSet> GetRevalGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel_Reval filterModel)
+        {
+            _actionName = "GetRevalGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel_Reval filterModel)";
+
+            try
+            {
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetRevalGroupCodeMasterReport_brachwise";
+                    //command.CommandText = "USP_GetGroupCodeMasterReport_dummy";
+
+                    command.Parameters.AddWithValue("@action", "_getAllData");
+                    command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterId);
+                    command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                    command.Parameters.AddWithValue("@schemeId", filterModel.schemeid);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
+                }
+
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataSet> GetRevalGroupCodeMasterReport(GroupCodeAllocationAddEditModel_Reval filterModel)
+        {
+            _actionName = "GetRevalGroupCodeMasterReport(GroupCodeAllocationAddEditModel_Reval filterModel)";
+
+            try
+            {
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetRevalGroupCodeMasterReport";
+                    //command.CommandText = "USP_GetGroupCodeMasterReport_dummy";
+
+                    command.Parameters.AddWithValue("@action", "_getAllData");
+                    command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterId);
+                    command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                    command.Parameters.AddWithValue("@schemeId", filterModel.schemeid);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
+                }
+
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }

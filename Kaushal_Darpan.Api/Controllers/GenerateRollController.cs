@@ -168,7 +168,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        [RoleActionFilter(EnumRole.ACP, EnumRole.ACP_NonEng)]
+        [RoleActionFilter(EnumRole.ACP, EnumRole.ACP_NonEng,EnumRole.JDConfidential_Eng, EnumRole.JDConfidential_NonEng)]
         [HttpPost("SaveAllRevelData")]
         public async Task<ApiResult<bool>> SaveAllRevelData([FromBody] List<GenerateRevalRollData> request)
         {
@@ -273,6 +273,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [RoleActionFilter(EnumRole.ACP, EnumRole.ACP_NonEng, EnumRole.JDConfidential_Eng, EnumRole.JDConfidential_NonEng)]
         [HttpPost("OnPublishRevelData")]
         public async Task<ApiResult<bool>> OnPublishRevelData([FromBody] List<GenerateRevalRollData> request)
         {

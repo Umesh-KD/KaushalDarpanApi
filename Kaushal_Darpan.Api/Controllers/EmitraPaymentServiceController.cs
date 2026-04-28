@@ -505,6 +505,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 dataModel.ServiceID = Model.ServiceID;
                 dataModel.DepartmentID = Model.DepartmentID;
                 dataModel.ID = Model.ID;
+                dataModel.IsKiosk = Model.IsEmitra;
                 var data = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(dataModel);
                 if (data == null)
                 {

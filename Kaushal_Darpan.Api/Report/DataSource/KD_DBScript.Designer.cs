@@ -58054,6 +58054,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnStudentExamTypeName;
             
+            private global::System.Data.DataColumn columnJDSign;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public UFMLetterDataTable() {
@@ -58219,6 +58221,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn JDSignColumn {
+                get {
+                    return this.columnJDSign;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -58270,7 +58280,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         string IssueDate, 
                         string BundleSendDate, 
                         string Date2, 
-                        string StudentExamTypeName) {
+                        string StudentExamTypeName, 
+                        string JDSign) {
                 UFMLetterRow rowUFMLetterRow = ((UFMLetterRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         StudentName,
@@ -58288,7 +58299,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         IssueDate,
                         BundleSendDate,
                         Date2,
-                        StudentExamTypeName};
+                        StudentExamTypeName,
+                        JDSign};
                 rowUFMLetterRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowUFMLetterRow);
                 return rowUFMLetterRow;
@@ -58327,6 +58339,7 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnBundleSendDate = base.Columns["BundleSendDate"];
                 this.columnDate2 = base.Columns["Date2"];
                 this.columnStudentExamTypeName = base.Columns["StudentExamTypeName"];
+                this.columnJDSign = base.Columns["JDSign"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -58364,6 +58377,8 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnDate2);
                 this.columnStudentExamTypeName = new global::System.Data.DataColumn("StudentExamTypeName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnStudentExamTypeName);
+                this.columnJDSign = new global::System.Data.DataColumn("JDSign", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnJDSign);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -105203,6 +105218,22 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string JDSign {
+                get {
+                    try {
+                        return ((string)(this[this.tableUFMLetter.JDSignColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'JDSign\' in table \'UFMLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableUFMLetter.JDSignColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsStudentNameNull() {
                 return this.IsNull(this.tableUFMLetter.StudentNameColumn);
             }
@@ -105391,6 +105422,18 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetStudentExamTypeNameNull() {
                 this[this.tableUFMLetter.StudentExamTypeNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsJDSignNull() {
+                return this.IsNull(this.tableUFMLetter.JDSignColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetJDSignNull() {
+                this[this.tableUFMLetter.JDSignColumn] = global::System.Convert.DBNull;
             }
         }
         
