@@ -44,6 +44,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
                     command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
                     command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                    command.Parameters.AddWithValue("@schemeId", filterModel.schemeId);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dt = await command.FillAsync_DataTable();
@@ -120,6 +121,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;//max
                     command.CommandText = "USP_GetGroupCodeMaster_Reval";
 
                     // Add parameters to the stored procedure from the model
@@ -164,6 +166,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     // Set the stored procedure name and type
                     command.CommandText = "USP_AddEditGroupCodeMaster_Reval";
+                    command.CommandTimeout = 0;//max
                     command.CommandType = CommandType.StoredProcedure;
 
                     // Add parameters with appropriate null handling

@@ -851,6 +851,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ITI_Inspection";
                         command.Parameters.AddWithValue("@InspectionTeamID", model.InspectionTeamID);
                         command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@AcademicYearID", model.FinancialYearID);
                         command.Parameters.AddWithValue("@Action", "GetITIInspectionInstituteList");
                         command.Parameters.AddWithValue("@AnswerStatus", model.AnswerStatus);
                         _sqlQuery = command.GetSqlExecutableQuery();
