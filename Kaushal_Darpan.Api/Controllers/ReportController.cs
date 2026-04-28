@@ -17324,31 +17324,40 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 var data = await Task.Run(() => _unitOfWork.ReportRepository.GetUFMLetter(model));
-                if (data != null)
-                {
-                    var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-                    var fileName = $"UFMLetter.pdf";
-                    string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                    string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/UFMLetter.rdlc";
-                    //var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
-                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                    LocalReport localReport = new LocalReport(rdlcpath);
-                    localReport.AddDataSource("UFMLetter", data.Tables[0]);
-                    var reportResult = localReport.Execute(RenderType.Pdf);
-                    if (!System.IO.Directory.Exists(folderPath))
-                    {
-                        Directory.CreateDirectory(folderPath);
-                    }
-                    System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                    result.Data = fileName;
-                    result.State = EnumStatus.Success;
-                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                }
-                else
+                if (data == null || data.Tables.Count == 0 || data.Tables[0].Rows.Count == 0)
                 {
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
                 }
+
+                var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+
+                var fileName = $"UFMLetter.pdf";
+
+                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/UFMLetter.rdlc";
+
+                string JDSignFilePath = $"{ConfigurationHelper.StaticFileRootPath}{data.Tables[0].Rows[0]["JDSignFileName"]}";
+                data.Tables[0].Rows[0]["JDSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(JDSignFilePath));
+
+                //var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                LocalReport localReport = new LocalReport(rdlcpath);
+                localReport.AddDataSource("UFMLetter", data.Tables[0]);
+
+                var reportResult = localReport.Execute(RenderType.Pdf);
+
+                if (!System.IO.Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                result.Data = fileName;
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
             }
             catch (Exception ex)
             {
