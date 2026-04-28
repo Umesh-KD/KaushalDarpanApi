@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Data;
+using AutoMapper;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
@@ -36,6 +37,45 @@ namespace Kaushal_Darpan.Api.Controllers
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.PlacementShortListStudentRepository.GetAllData(searchModel);
                 if (result.Data.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        [HttpPost("GetPlacedStudentsCountList")]
+        public async Task<ApiResult<DataTable>> GetPlacedStudentsCountList( )
+        {
+            ActionName = "GetPlacedStudentsCountList()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.PlacementShortListStudentRepository.GetPlacedStudentsCountList();
+                if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
                     result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
