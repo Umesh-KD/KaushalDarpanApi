@@ -55,8 +55,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0);
         Task<DataTable> MultiStreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, string SemesterID = "", int InstituteId = 0);
         Task<DataTable> HODSemesterMaster(int UserID = 0, int StreamType = 0, int EndTermId = 0);
-        Task<DataTable> SemesterRolewise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID=0);
-        Task<DataTable> StreamRoleWise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID=0, int SemesterID = 0, int InstituteID=0);
+        Task<DataTable> SemesterRolewise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID=0, int StaffID = 0);
+        Task<DataTable> StreamRoleWise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID=0, int SemesterID = 0, 
+            int InstituteID=0,int StaffID=0);
         Task<DataTable> StaffAttendence(string SSOID= "", int StreamType = 0, int EndTermId = 0, int InstituteID=0);
         Task<DataTable> SemesterList(int DepartmentID = 0);
         Task<DataTable> StreamMasterByCampus(int CampusPostID, int DepartmentID, int EndTermId);

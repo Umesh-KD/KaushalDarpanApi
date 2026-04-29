@@ -949,7 +949,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> SemesterRolewise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID=0)
+        public async Task<DataTable> SemesterRolewise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID=0,int StaffID=0)
         {
             _actionName = "SemesterRolewise()";
             return await Task.Run(async () =>
@@ -965,6 +965,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermId", EndTermId);
                         command.Parameters.AddWithValue("@StreamType", StreamType);
                         command.Parameters.AddWithValue("@RoleID", RoleID);
+                        command.Parameters.AddWithValue("@StaffID", StaffID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -988,7 +989,8 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> StreamRoleWise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID = 0,int SemesterID=0,int InstituteID=0)
+        public async Task<DataTable> StreamRoleWise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID = 0,
+            int SemesterID=0,int InstituteID=0,int StaffID = 0)
         {
             _actionName = "SemesterRolewise()";
             return await Task.Run(async () =>
@@ -1006,6 +1008,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", RoleID);
                         command.Parameters.AddWithValue("@SemesterID", SemesterID);
                         command.Parameters.AddWithValue("@InstituteID", InstituteID);
+                        command.Parameters.AddWithValue("@StaffID", StaffID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -5483,6 +5486,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SchemeID", request.SchemeID);
                         command.Parameters.AddWithValue("@RoleID", request.RoleID);
                         command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@StaffID", request.StaffID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
