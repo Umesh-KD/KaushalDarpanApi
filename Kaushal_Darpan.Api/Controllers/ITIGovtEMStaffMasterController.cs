@@ -3651,12 +3651,15 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpPost("downloadRelievingLetterPDF")]
-        public async Task<IActionResult> DownloadRelievingLetterPDF([FromBody] RelievingLetterSearchModel body)
+        [HttpGet("downloadRelievingLetterPDF/{UserID}")]
+        public async Task<IActionResult> DownloadRelievingLetterPDF(int UserID)
         {
 
-            if (body == null)
-                return BadRequest("Request body is null");
+
+            var body = new RelievingLetterSearchModel
+            {
+                UserID = UserID
+            };
 
             // अब आप यहाँ बिना एरर के 'await' का उपयोग कर सकते हैं
             var ds = await _unitOfWork.ITIGovtEMStaffMasterRepository.GetRelievingLetter(body);
@@ -3960,12 +3963,17 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpPost("downloadJoinningLetterPDF")]
-        public async Task<IActionResult> downloadJoinningLetterPDF([FromBody] RelievingLetterSearchModel body)
+        [HttpGet("downloadJoinningLetterPDF/{UserID}")]
+        public async Task<IActionResult> downloadJoinningLetterPDF(int UserID)
         {
 
-            if (body == null)
-                return BadRequest("Request body is null");
+
+
+
+            var body = new RelievingLetterSearchModel
+            {
+                UserID = UserID
+            };
 
             // अब आप यहाँ बिना एरर के 'await' का उपयोग कर सकते हैं
             var ds = await _unitOfWork.ITIGovtEMStaffMasterRepository.GetRelievingLetter(body);
