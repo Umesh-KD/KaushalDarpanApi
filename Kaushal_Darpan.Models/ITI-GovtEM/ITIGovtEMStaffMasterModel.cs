@@ -884,12 +884,12 @@
         public string? HeadOfInstituteIDWithSeal { get; set; }
         public string? JoiningDate { get; set; }
         public string? JoiningTime { get; set; }
-        public DateTime? RequestDate { get; set; }
-        public int? RequestStatus { get; set; }
+        public string? RequestDate { get; set; }
+        public string? RequestStatus { get; set; }
         public int? CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public string? CreatedDate { get; set; }
         public int? UpdatedBy { get; set; }
-        public DateTime? UpdatedDate { get; set; }
+        public string? UpdatedDate { get; set; }
         public string? IPAddress { get; set; }
         public string? OldCollege { get; set; }
         public string? oldcollegedistrict { get; set; }

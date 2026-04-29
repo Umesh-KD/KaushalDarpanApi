@@ -383,7 +383,10 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> ITI_DeirectAdmissionOptionFormData_Private(ItiTradeSearch_PrivateModel request);
 
-        Task<DataTable> GetEventCommonMaster(string type);
+        Task<DataTable> GetEventCommonMaster(string? type);
+        Task<int> InsertEventCommonMaster(EventModel request);
+        Task<DataTable> GetEventTypes();
+        Task<DataTable> GetEventCommonMasterList(string type);
 
 
 
