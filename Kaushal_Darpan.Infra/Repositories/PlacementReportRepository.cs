@@ -83,6 +83,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Id", filterModel.Id);
                         command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                        command.Parameters.AddWithValue("@RoleID", filterModel.RoleID);
                         command.Parameters.AddWithValue("@CollegeID", filterModel.CollegeID);
                         command.Parameters.AddWithValue("@StudentName", filterModel.StudentName ?? string.Empty);
                         command.Parameters.AddWithValue("@Gender", filterModel.Gender ?? string.Empty);
