@@ -525,6 +525,10 @@
         public bool IsAccount { get; set; }
         public string AccountComments { get; set; }
         public int RoleID { get; set; }
+        public int JoiningRoleID { get; set; }
+        public int JoiningTimeID { get; set; }
+        public string? OnHoldDoc { get; set; }
+        public string? Dis_OnHoldDoc { get; set; }
 
     }
 
