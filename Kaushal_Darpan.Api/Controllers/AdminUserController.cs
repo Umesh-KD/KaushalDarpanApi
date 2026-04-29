@@ -6,7 +6,13 @@ using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.SubjectMaster;
 using Kaushal_Darpan.Models.UserMaster;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Data;
+using static Kaushal_Darpan.Api.Controllers.AdminUserController;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -392,5 +398,15 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+
+
+
+
+
     }
+
+
+
 }

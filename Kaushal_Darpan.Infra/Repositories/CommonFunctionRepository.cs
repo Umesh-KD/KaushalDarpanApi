@@ -11749,7 +11749,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> GetEventCommonMaster(string type)
+        public async Task<DataTable> GetEventCommonMaster(string? type)
         {
             _actionName = "GetEventCommonMaster()";
             return await Task.Run(async () =>
@@ -11784,6 +11784,75 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<int> InsertEventCommonMaster(EventModel request)
+        {
+            _actionName = "InsertEventCommonMaster()";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Insert_EventCommonMaster";
+
+                        command.Parameters.AddWithValue("@Type", request.Type);
+                        command.Parameters.AddWithValue("@NameEng", request.NameEng);
+                        command.Parameters.AddWithValue("@NameHi", request.NameHi);
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+
+                        result = Convert.ToInt32(await command.ExecuteScalarAsync());
+                    }
+
+                    return result;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            });
+        }
+
+        public async Task<DataTable> GetEventTypes()
+        {
+            return await Task.Run(async () =>
+            {
+                DataTable dt = new DataTable();
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Get_EventTypes";
+
+                    dt = await command.FillAsync_DataTable();
+                }
+
+                return dt;
+            });
+        }
+
+        public async Task<DataTable> GetEventCommonMasterList(string type)
+        {
+            return await Task.Run(async () =>
+            {
+                DataTable dt = new DataTable();
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Get_EventCommonMaster_List";
+
+                    command.Parameters.AddWithValue("@Type", type ?? "");
+
+                    dt = await command.FillAsync_DataTable();
+                }
+
+                return dt;
+            });
+        }
     }
 }
 
