@@ -3651,7 +3651,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("downloadRelievingLetterPDF/{UserID}")]
+        [HttpGet("downloadRelievingLetterPDF1/{UserID}")]
         public async Task<IActionResult> DownloadRelievingLetterPDF(int UserID)
         {
 
@@ -3963,7 +3963,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("downloadJoinningLetterPDF/{UserID}")]
+        [HttpGet("downloadJoinningLetterPDF1/{UserID}")]
         public async Task<IActionResult> downloadJoinningLetterPDF(int UserID)
         {
 
