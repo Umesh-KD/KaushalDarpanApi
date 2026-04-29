@@ -74,6 +74,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RequestCreatedRoleID", Model.RequestCreatedRoleID);
                     command.Parameters.AddWithValue("@RequestCreatedInstituteID", Model.RequestCreatedInstituteID);
                     command.Parameters.AddWithValue("@LastworkingDate", Model.LastworkingDate);
+                    command.Parameters.AddWithValue("@RelievingTimeID", Model.RelievingTimeID);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }
@@ -681,6 +682,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@StatusID", request.StatusIDs);
                     command.Parameters.AddWithValue("@RequestRemarks", request.Remark);
                     command.Parameters.AddWithValue("@ServiceRequestId", request.ServiceRequestId);
+                    command.Parameters.AddWithValue("@JoiningRoleID", request.JoiningRoleID);
+                    command.Parameters.AddWithValue("@JoiningTimeID", request.JoiningTimeID);
+                    command.Parameters.AddWithValue("@Dis_OnHoldDoc", request.Dis_OnHoldDoc);
+                    command.Parameters.AddWithValue("@OnHoldDoc", request.OnHoldDoc);
 
                     command.Parameters.Add("@Return", SqlDbType.Int); // out
                     command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
