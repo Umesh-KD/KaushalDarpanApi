@@ -3883,33 +3883,9 @@ namespace Kaushal_Darpan.Api.Controllers
         </tr>
     </table>
 
-    <table class='dispatch-section' style='margin-top:30px;'>
-        <tr>
-            <td style='width:50%; line-height:1.8;'>
-                विद्यालय पत्र प्रेषण क्रमांक: ________________<br/>
-                दिनांक: ________________
-            </td>
-            <td style='width:50%; text-align:right;'>
-                प्रधानाचार्य/प्रधानाध्यापक<br/>
-                सं.प्र. एम्प्लाई आईडी मय सील
-            </td>
-        </tr>
-    </table>
+  
 
-    <div class='copy-text'>
-        <strong>प्रतिलिपि:-</strong><br/>
-        1. संबंधित निदेशालय / विभाग, राजस्थान<br/>
-        2. संबंधित संयुक्त निदेशक / जिला शिक्षा अधिकारी<br/>
-        3. संबंधित कर्मचारी / रक्षित पत्रावली
-    </div>
-
-    <div class='footer-stamp'>
-        प्रधानाचार्य/प्रधानाध्यापक
-    </div>
-
-    <div class='system-footer'>
-        Generated From Kaushal Darpan Printed On {DateTime.Now:dd/MM/yyyy HH:mm:ss}
-    </div>
+  
 
 </div>
 </body>
@@ -4185,29 +4161,14 @@ namespace Kaushal_Darpan.Api.Controllers
         <td>कार्यग्रहण दिनांक</td>
         <td class='value'>{model.JoiningDate}</td>
         <td>समय</td>
+        <td>समय</td>
         <td class='value'>{model.RelivingTime}</td>
     </tr>
-    <tr>
-        <td>कार्यग्रहण के समय अवकाशों कि संख्या</td>
-        <td colspan='3' class='full-value'>{model.LeaveCount}</td>
-    </tr>
+
    
 </table>
 
-    <div class='copy-text'>
-        <strong>प्रतिलिपि:-</strong><br/>
-        1. संबंधित निदेशालय / विभाग, राजस्थान<br/>
-        2. संबंधित संयुक्त निदेशक / जिला शिक्षा अधिकारी<br/>
-        3. संबंधित कर्मचारी / रक्षित पत्रावली
-    </div>
-
-    <div class='footer-stamp'>
-        प्रधानाचार्य/प्रधानाध्यापक
-    </div>
-
-    <div class='system-footer'>
-        Generated From Kaushal Darpan Printed On {DateTime.Now:dd/MM/yyyy HH:mm:ss}
-    </div>
+  
 
 </div>
 </body>
