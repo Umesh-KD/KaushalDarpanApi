@@ -174,6 +174,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetCommonMasterData(string MasterCode, int DepartmentID, int CourseTypeID = 0,int StaffTypeID=0);
 
         Task<DataTable> CommonMasterDataByAction(CommonMasterModel model);
+        Task<DataTable> GetItiVacantPost(VacantPostMaster model);
         Task<List<CommonDDLModel>> GetCenterMasterDDL(RequestBaseModel request);
         Task<List<CommonDDLModel>> GetSubjectMasterDDL_New(CommonDDLSubjectMasterModel request);
 
