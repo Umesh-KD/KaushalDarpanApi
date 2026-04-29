@@ -3902,6 +3902,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
   <br/>
 <br/>
+<br/>
+<br/>
+<br/>
 <table class='footer-sign' style='font-size:15px';margin-top:40px;>
     <tr>
         <td style='width:50%; text-align:left; vertical-align:top;'>
@@ -4225,6 +4228,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
    
 </table>
+<br/>
+<br/>
+<br/>
 <br/>
 <br/>
 <table class='footer-sign' style='font-size:15px';margin-top:40px;>
