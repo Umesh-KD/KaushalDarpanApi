@@ -193,5 +193,75 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataTable> StaffTrainingHTS_GetData(StaffTrainingDetailSearchData body)
+        {
+            _actionName = "StaffTrainingHTS_GetData(StaffTrainingDetailSearchData body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StaffTrainingHTS";
+                    command.Parameters.AddWithValue("@StaffTrainingDetailID", body.StaffTrainingDetailID);
+                    command.Parameters.AddWithValue("@ActionBy", body.UserID);
+                    command.Parameters.AddWithValue("@StatusID", body.StatusID);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> StaffTrainingDocUpdate(StaffTrainingDetailDataModel body)
+        {
+            _actionName = "StaffTrainingDocUpdate(StaffTrainingDetailDataModel body)";
+            try
+            {
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StaffTrainingDocUpdate";
+
+                    command.Parameters.AddWithValue("@StaffTrainingDetailId", body.StaffTrainingDetailID);
+                    command.Parameters.AddWithValue("@ComplitionTrainingDoc", body.ComplitionTrainingDoc);
+                    command.Parameters.AddWithValue("@Dis_complitionTrainingDoc", body.Dis_complitionTrainingDoc);
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
