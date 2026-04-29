@@ -37,18 +37,18 @@ namespace Kaushal_Darpan.Api.Controllers
         public override string ActionName { get; set; }
         private readonly IConverter _converter;
         private readonly IPrintHtmlFile _printHtmlFile;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public ITIGovtEMStaffMasterController(IMapper mapper, IUnitOfWork unitOfWork, IConverter converter, IPrintHtmlFile printHtmlFile, IWebHostEnvironment webHostEnvironment)
+        public ITIGovtEMStaffMasterController(IMapper mapper, IUnitOfWork unitOfWork, IConverter converter, IPrintHtmlFile printHtmlFile)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _converter = converter;
             _printHtmlFile = printHtmlFile;
-            _webHostEnvironment=webHostEnvironment;
+   
 
         }
         [HttpPost("GetAllData")]
