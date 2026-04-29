@@ -898,15 +898,15 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("SemesterRolewise/{UserID}/{StreamType}/{EndTermId}/{RoleID}")]
-        public async Task<ApiResult<DataTable>> SemesterRolewise(int UserID = 0, int StreamType = 0, int EndTermId = 0,int RoleID=0)
+        [HttpGet("SemesterRolewise/{UserID}/{StreamType}/{EndTermId}/{RoleID}/{StaffID}")]
+        public async Task<ApiResult<DataTable>> SemesterRolewise(int UserID = 0, int StreamType = 0, int EndTermId = 0,int RoleID=0,int StaffID=0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.SemesterRolewise(UserID, StreamType, EndTermId,RoleID);
+                    var data = await _unitOfWork.CommonFunctionRepository.SemesterRolewise(UserID, StreamType, EndTermId,RoleID,StaffID);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
@@ -940,15 +940,17 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("StreamRoleWise/{UserID}/{StreamType}/{EndTermId}/{RoleID}/{SemesterID}/{InstituteID}")]
-        public async Task<ApiResult<DataTable>> StreamRoleWise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID = 0, int SemesterID=0,int InstituteID=0)
+        [HttpGet("StreamRoleWise/{UserID}/{StreamType}/{EndTermId}/{RoleID}/{SemesterID}/{InstituteID}/{StaffID}")]
+        public async Task<ApiResult<DataTable>> StreamRoleWise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID = 0, 
+            int SemesterID=0,int InstituteID=0,int StaffID=0)
         {   
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.StreamRoleWise(UserID, StreamType, EndTermId, RoleID ,SemesterID, InstituteID);
+                    var data = await _unitOfWork.CommonFunctionRepository.StreamRoleWise(UserID, StreamType, EndTermId, RoleID ,SemesterID, 
+                        InstituteID,StaffID);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;

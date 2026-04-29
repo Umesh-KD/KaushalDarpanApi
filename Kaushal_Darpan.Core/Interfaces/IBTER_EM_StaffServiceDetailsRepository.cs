@@ -15,5 +15,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> StaffTrainingDetails_DeleteById(StaffTrainingDetailSearchData request);
 
         Task<int> StaffTrainingStatusUpdate(StaffTrainingStatusUpdateDataModel body);
+
+        Task<DataTable> StaffTrainingHTS_GetData(StaffTrainingDetailSearchData body);
+
+        Task<int> StaffTrainingDocUpdate(StaffTrainingDetailDataModel body);
     }
 }
