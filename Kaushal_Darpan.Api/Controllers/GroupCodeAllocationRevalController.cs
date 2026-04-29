@@ -235,6 +235,47 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [HttpPost("GetOldNewRollNoGroupCodeData")]
+        public async Task<ApiResult<DataTable>> GetOldNewRollNoGroupCodeData([FromBody] GroupCodeAllocationSearchModel filterModel)
+        {
+            ActionName = "GetOldNewRollNoGroupCodeData([FromBody] GroupCodeAllocationSearchModel filterModel)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                // Pass the entire model to the repository
+                var data = await Task.Run(() => _unitOfWork.GroupCodeAllocationRevalRepository.GetOldNewRollNoGroupCodeData(filterModel));
+
+                if (data != null)
+                {
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
         #region private function if need
         private List<GroupCodeAddEditModel> SetThenOptimizePartitionData(List<GroupCodeAddEditModel> studentPapers, int PartitionSize)
         {
