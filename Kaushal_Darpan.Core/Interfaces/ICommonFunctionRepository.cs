@@ -55,6 +55,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0);
         Task<DataTable> MultiStreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, string SemesterID = "", int InstituteId = 0);
         Task<DataTable> HODSemesterMaster(int UserID = 0, int StreamType = 0, int EndTermId = 0);
+        Task<DataTable> SemesterRolewise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID=0);
+        Task<DataTable> StreamRoleWise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID=0, int SemesterID = 0, int InstituteID=0);
+        Task<DataTable> StaffAttendence(string SSOID= "", int StreamType = 0, int EndTermId = 0, int InstituteID=0);
         Task<DataTable> SemesterList(int DepartmentID = 0);
         Task<DataTable> StreamMasterByCampus(int CampusPostID, int DepartmentID, int EndTermId);
         Task<DataTable> SemesterMaster(int ShowAllSemester = 0,int EndTermID = 0, int IsWithNotYearly = 0, int IsPromote = 0, int IsForEx = 0, int IsWithNot6thSem = 0,int EngNonEng = 0);
@@ -171,6 +174,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetCommonMasterData(string MasterCode, int DepartmentID, int CourseTypeID = 0,int StaffTypeID=0);
 
         Task<DataTable> CommonMasterDataByAction(CommonMasterModel model);
+        Task<DataTable> GetItiVacantPost(VacantPostMaster model);
         Task<List<CommonDDLModel>> GetCenterMasterDDL(RequestBaseModel request);
         Task<List<CommonDDLModel>> GetSubjectMasterDDL_New(CommonDDLSubjectMasterModel request);
 

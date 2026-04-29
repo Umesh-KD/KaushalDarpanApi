@@ -81,6 +81,10 @@
           <DataField>StudentExamTypeName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="JDSign">
+          <DataField>JDSign</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
@@ -386,7 +390,7 @@
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>0.39864cm</Top>
             <Left>0.48682cm</Left>
-            <Height>9.8075cm</Height>
+            <Height>9.51646cm</Height>
             <Width>19.02916cm</Width>
             <Style>
               <Border>
@@ -422,9 +426,9 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>11.21817cm</Top>
+            <Top>11.6415cm</Top>
             <Left>13.64192cm</Left>
-            <Height>0.81167cm</Height>
+            <Height>0.84342cm</Height>
             <Width>5.87406cm</Width>
             <ZIndex>1</ZIndex>
             <Style>
@@ -625,9 +629,9 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox24</rd:DefaultName>
-            <Top>13.67091cm</Top>
-            <Left>0.48683cm</Left>
-            <Height>2.24042cm</Height>
+            <Top>13.57529cm</Top>
+            <Left>0.48682cm</Left>
+            <Height>1.87cm</Height>
             <Width>19.02915cm</Width>
             <ZIndex>4</ZIndex>
             <Style>
@@ -664,9 +668,9 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>16.44369cm</Top>
+            <Top>17.17394cm</Top>
             <Left>13.64192cm</Left>
-            <Height>0.81167cm</Height>
+            <Height>0.84342cm</Height>
             <Width>5.87406cm</Width>
             <ZIndex>5</ZIndex>
             <Style>
@@ -679,8 +683,40 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
+          <Image Name="stusign2">
+            <Source>Database</Source>
+            <Value>=First(Fields!JDSign.Value, "UFMLetter")</Value>
+            <MIMEType>image/png</MIMEType>
+            <Sizing>Fit</Sizing>
+            <Top>10.25024cm</Top>
+            <Left>13.64192cm</Left>
+            <Height>1.32071cm</Height>
+            <Width>4.36592cm</Width>
+            <ZIndex>6</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="stusign3">
+            <Source>Database</Source>
+            <Value>=First(Fields!JDSign.Value, "UFMLetter")</Value>
+            <MIMEType>image/png</MIMEType>
+            <Sizing>Fit</Sizing>
+            <Top>15.75318cm</Top>
+            <Left>13.64192cm</Left>
+            <Height>1.38548cm</Height>
+            <Width>4.36594cm</Width>
+            <ZIndex>7</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
         </ReportItems>
-        <Height>7.05276in</Height>
+        <Height>7.25068in</Height>
         <Style>
           <Border>
             <Style>None</Style>

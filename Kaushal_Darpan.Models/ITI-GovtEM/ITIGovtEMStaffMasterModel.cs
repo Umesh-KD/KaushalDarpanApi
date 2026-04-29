@@ -525,6 +525,10 @@
         public bool IsAccount { get; set; }
         public string AccountComments { get; set; }
         public int RoleID { get; set; }
+        public int JoiningRoleID { get; set; }
+        public int JoiningTimeID { get; set; }
+        public string? OnHoldDoc { get; set; }
+        public string? Dis_OnHoldDoc { get; set; }
 
     }
 
@@ -581,9 +585,11 @@
     {
         public int UserID { get; set; }
         public int StaffID { get; set; }
+        public int OldOfficeID { get; set; }
+        public int NewofficeID { get; set; }
         public int StaffUserID { get; set; }
-        public string Action { get; set; }
-        public string SSOID { get; set; }
+        public string? Action { get; set; }
+        public string? SSOID { get; set; }
     }
 
     public class CheckDistrictNodalOfficeSearchModel
@@ -841,4 +847,53 @@
         public int? RoleID { get; set; }
         public int? UserID { get; set; }
     }
+
+    public class RelievingLetterResponseModel
+    {
+        public int? ServiceRequestId { get; set; }
+        public string? RequestType { get; set; }
+        public int? UserId { get; set; }
+        public int? PostID { get; set; }
+        public string? PostName { get; set; }
+        public string? EmployeeName { get; set; }
+        public string? MobileNo { get; set; }
+        public string? EmployeeID { get; set; }
+        public int? OfficeID { get; set; }
+        public string? CurrentOffice { get; set; }
+        public string? DateOfBirth { get; set; }
+        public string? LastPostName { get; set; }
+        public string? LastOfficeName { get; set; }
+        public string? TransferPostName { get; set; }
+        public string? DistrictName { get; set; }
+        public string? BlockName { get; set; }
+        public int? LevelID { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? DesignationID { get; set; }
+        public string? LastWorkingDate { get; set; }
+        public string? ApproveName { get; set; }
+        public int? InstituteID { get; set; }
+        public string? RequestRemarks { get; set; }
+        public string? OrderNo { get; set; }
+        public string? OrderDate { get; set; }
+        public string? LeaveCount { get; set; }
+        public string? HeadOfInstitute { get; set; }
+        public string? HeadOfInstituteIDWithSeal { get; set; }
+        public string? JoiningDate { get; set; }
+        public string? JoiningTime { get; set; }
+        public DateTime? RequestDate { get; set; }
+        public int? RequestStatus { get; set; }
+        public int? CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public int? UpdatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public string? IPAddress { get; set; }
+        public string? OldCollege { get; set; }
+        public string? oldcollegedistrict { get; set; }
+        public string? OldCollegepincode { get; set; }
+        public string? Newdistrictname { get; set; }
+        public string? Newblockname { get; set; }
+        public string? RelivingTime { get; set; }
+        public int? StaffID { get; set; }
+    }
+
 }

@@ -9877,9 +9877,9 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
-        public async Task<DataSet> GetRevalGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel filterModel)
+        public async Task<DataSet> GetRevalGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel_Reval filterModel)
         {
-            _actionName = "GetRevalGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel filterModel)";
+            _actionName = "GetRevalGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel_Reval filterModel)";
 
             try
             {
@@ -9919,9 +9919,9 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<DataSet> GetRevalGroupCodeMasterReport(GroupCodeAllocationAddEditModel filterModel)
+        public async Task<DataSet> GetRevalGroupCodeMasterReport(GroupCodeAllocationAddEditModel_Reval filterModel)
         {
-            _actionName = "GetRevalGroupCodeMasterReport(GroupCodeAllocationAddEditModel filterModel)";
+            _actionName = "GetRevalGroupCodeMasterReport(GroupCodeAllocationAddEditModel_Reval filterModel)";
 
             try
             {
