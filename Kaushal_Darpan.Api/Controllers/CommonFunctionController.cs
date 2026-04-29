@@ -10415,10 +10415,9 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpGet("EventCommonMaster")]
-        public async Task<ApiResult<DataTable>> EventCommonMaster(string type)
+        public async Task<ApiResult<DataTable>> EventCommonMaster(string? type)
         {
-            return await Task.Run(async () =>
-            {
+            
                 //var result = new ApiResult<List<CommonDDLModel>>();
                 var result = new ApiResult<DataTable>();
                 try
@@ -10452,7 +10451,94 @@ namespace Kaushal_Darpan.Api.Controllers
                     await CreateErrorLog(nex, _unitOfWork);
                 }
                 return result;
-            });
+           
+        }
+
+        [HttpPost("InsertEventCommonMaster")]
+        public async Task<ApiResult<int>> InsertEventCommonMaster(EventModel request)
+        {
+            var result = new ApiResult<int>();
+
+            try
+            {
+                var data = await _unitOfWork.CommonFunctionRepository.InsertEventCommonMaster(request);
+
+                if (data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data inserted successfully!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = "Insert failed!";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        [HttpGet("GetEventTypes")]
+        public async Task<ApiResult<DataTable>> GetEventTypes()
+        {
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                var data = await _unitOfWork.CommonFunctionRepository.GetEventTypes();
+
+                if (data.Rows.Count > 0)
+                {
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No types found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        [HttpGet("GetEventCommonMasterList")]
+        public async Task<ApiResult<DataTable>> GetEventCommonMasterList(string type = "")
+        {
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                var data = await _unitOfWork.CommonFunctionRepository.GetEventCommonMasterList(type);
+
+                if (data.Rows.Count > 0)
+                {
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
         }
 
 
