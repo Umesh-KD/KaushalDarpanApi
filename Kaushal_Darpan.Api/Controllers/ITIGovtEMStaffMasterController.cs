@@ -3696,7 +3696,7 @@ namespace Kaushal_Darpan.Api.Controllers
     }}
 
     .page {{
-        width: 90%;
+        width: 95%;
         margin: 0 auto;
         padding: 20px;
         background: #fff;
@@ -3836,7 +3836,7 @@ namespace Kaushal_Darpan.Api.Controllers
         <tr>
             <td colspan='3' class='school-info-section'>
                 <div class='school-name'>{model.OldCollege}</div>
-                //<div>District : {model.oldcollegedistrict}</div>
+             
             </td>
         </tr>
         <tr>
