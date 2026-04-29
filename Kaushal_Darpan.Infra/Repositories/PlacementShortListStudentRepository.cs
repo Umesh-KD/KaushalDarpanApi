@@ -69,6 +69,40 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        public async Task<DataTable> GetPlacedStudentsCountList()
+        {
+            _actionName = "GetPlacedStudentsCountList()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDL_CampusPostMaster";
+                        command.Parameters.AddWithValue("@Action", "_getStudentPlacedCount");
+                        //command.Parameters.AddWithValue("@StudentID", StudentID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
         public async Task<int> SaveAllData(List<PlacementShortListStudentResponseModel> entity)
         {
             _actionName = "SaveAllData(List<CreateTpoAddEditModel> entity)";

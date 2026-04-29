@@ -671,6 +671,57 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetStudentAttendanceReport(AttendanceTimeTableModal model)
+        {
+            _actionName = "GetStudentAttendanceReport()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BTER_Get_StudentAttandanceReport";
+
+                        // Add parameters to the stored procedure from the model
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@SectionID", model.SectionID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@ShiftNo", model.ShiftID);
+                        command.Parameters.AddWithValue("@UnitNo", model.UnitID);
+                        command.Parameters.AddWithValue("@StaffID", model.StaffID);
+                        command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@AttendanceStartDate", model.AttendanceStartDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
+                        command.Parameters.AddWithValue("@AttendanceEndDate", model.AttendanceEndDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
 
 
         public async Task<DataTable> ITIGetStudentAttendanceTimeTable(AttendanceTimeTableModal model)
@@ -753,6 +804,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffID", model.StaffID);
                         command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);
                         command.Parameters.AddWithValue("@Seatintake", model.Seatintake);
+                        command.Parameters.AddWithValue("@SSOID", model.SSOID);
                         command.Parameters.AddWithValue("@AttendanceStartDate", model.AttendanceStartDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
                         command.Parameters.AddWithValue("@AttendanceEndDate", model.AttendanceEndDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -806,6 +858,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);
                         command.Parameters.AddWithValue("@Seatintake", model.Seatintake);
                         command.Parameters.AddWithValue("@Percent", model.Percent);
+                        command.Parameters.AddWithValue("@SSOID", model.SSOID);
                     command.Parameters.AddWithValue("@AttendanceStartDate",
                   model.AttendanceStartDate ?? (object)DBNull.Value);
 

@@ -58042,6 +58042,20 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnCurrentDate;
             
+            private global::System.Data.DataColumn columnSerialNo;
+            
+            private global::System.Data.DataColumn columnSerialNo2;
+            
+            private global::System.Data.DataColumn columnIssueDate;
+            
+            private global::System.Data.DataColumn columnBundleSendDate;
+            
+            private global::System.Data.DataColumn columnDate2;
+            
+            private global::System.Data.DataColumn columnStudentExamTypeName;
+            
+            private global::System.Data.DataColumn columnJDSign;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public UFMLetterDataTable() {
@@ -58159,6 +58173,62 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn SerialNoColumn {
+                get {
+                    return this.columnSerialNo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn SerialNo2Column {
+                get {
+                    return this.columnSerialNo2;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn IssueDateColumn {
+                get {
+                    return this.columnIssueDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn BundleSendDateColumn {
+                get {
+                    return this.columnBundleSendDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn Date2Column {
+                get {
+                    return this.columnDate2;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn StudentExamTypeNameColumn {
+                get {
+                    return this.columnStudentExamTypeName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn JDSignColumn {
+                get {
+                    return this.columnJDSign;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -58194,7 +58264,24 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public UFMLetterRow AddUFMLetterRow(string StudentName, string FatherName, string RollNo, string EnrollmentNo, string InstituteName, string SubjectCode, string EndTermName, string FinancialYearName, string StreamCode, string CurrentDate) {
+            public UFMLetterRow AddUFMLetterRow(
+                        string StudentName, 
+                        string FatherName, 
+                        string RollNo, 
+                        string EnrollmentNo, 
+                        string InstituteName, 
+                        string SubjectCode, 
+                        string EndTermName, 
+                        string FinancialYearName, 
+                        string StreamCode, 
+                        string CurrentDate, 
+                        string SerialNo, 
+                        string SerialNo2, 
+                        string IssueDate, 
+                        string BundleSendDate, 
+                        string Date2, 
+                        string StudentExamTypeName, 
+                        string JDSign) {
                 UFMLetterRow rowUFMLetterRow = ((UFMLetterRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         StudentName,
@@ -58206,7 +58293,14 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         EndTermName,
                         FinancialYearName,
                         StreamCode,
-                        CurrentDate};
+                        CurrentDate,
+                        SerialNo,
+                        SerialNo2,
+                        IssueDate,
+                        BundleSendDate,
+                        Date2,
+                        StudentExamTypeName,
+                        JDSign};
                 rowUFMLetterRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowUFMLetterRow);
                 return rowUFMLetterRow;
@@ -58239,6 +58333,13 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnFinancialYearName = base.Columns["FinancialYearName"];
                 this.columnStreamCode = base.Columns["StreamCode"];
                 this.columnCurrentDate = base.Columns["CurrentDate"];
+                this.columnSerialNo = base.Columns["SerialNo"];
+                this.columnSerialNo2 = base.Columns["SerialNo2"];
+                this.columnIssueDate = base.Columns["IssueDate"];
+                this.columnBundleSendDate = base.Columns["BundleSendDate"];
+                this.columnDate2 = base.Columns["Date2"];
+                this.columnStudentExamTypeName = base.Columns["StudentExamTypeName"];
+                this.columnJDSign = base.Columns["JDSign"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -58264,6 +58365,20 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnStreamCode);
                 this.columnCurrentDate = new global::System.Data.DataColumn("CurrentDate", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCurrentDate);
+                this.columnSerialNo = new global::System.Data.DataColumn("SerialNo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSerialNo);
+                this.columnSerialNo2 = new global::System.Data.DataColumn("SerialNo2", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSerialNo2);
+                this.columnIssueDate = new global::System.Data.DataColumn("IssueDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnIssueDate);
+                this.columnBundleSendDate = new global::System.Data.DataColumn("BundleSendDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBundleSendDate);
+                this.columnDate2 = new global::System.Data.DataColumn("Date2", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDate2);
+                this.columnStudentExamTypeName = new global::System.Data.DataColumn("StudentExamTypeName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnStudentExamTypeName);
+                this.columnJDSign = new global::System.Data.DataColumn("JDSign", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnJDSign);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -105007,6 +105122,118 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string SerialNo {
+                get {
+                    try {
+                        return ((string)(this[this.tableUFMLetter.SerialNoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SerialNo\' in table \'UFMLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableUFMLetter.SerialNoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string SerialNo2 {
+                get {
+                    try {
+                        return ((string)(this[this.tableUFMLetter.SerialNo2Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SerialNo2\' in table \'UFMLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableUFMLetter.SerialNo2Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string IssueDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableUFMLetter.IssueDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'IssueDate\' in table \'UFMLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableUFMLetter.IssueDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string BundleSendDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableUFMLetter.BundleSendDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'BundleSendDate\' in table \'UFMLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableUFMLetter.BundleSendDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Date2 {
+                get {
+                    try {
+                        return ((string)(this[this.tableUFMLetter.Date2Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Date2\' in table \'UFMLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableUFMLetter.Date2Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string StudentExamTypeName {
+                get {
+                    try {
+                        return ((string)(this[this.tableUFMLetter.StudentExamTypeNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'StudentExamTypeName\' in table \'UFMLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableUFMLetter.StudentExamTypeNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string JDSign {
+                get {
+                    try {
+                        return ((string)(this[this.tableUFMLetter.JDSignColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'JDSign\' in table \'UFMLetter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableUFMLetter.JDSignColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsStudentNameNull() {
                 return this.IsNull(this.tableUFMLetter.StudentNameColumn);
             }
@@ -105123,6 +105350,90 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetCurrentDateNull() {
                 this[this.tableUFMLetter.CurrentDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsSerialNoNull() {
+                return this.IsNull(this.tableUFMLetter.SerialNoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetSerialNoNull() {
+                this[this.tableUFMLetter.SerialNoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsSerialNo2Null() {
+                return this.IsNull(this.tableUFMLetter.SerialNo2Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetSerialNo2Null() {
+                this[this.tableUFMLetter.SerialNo2Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsIssueDateNull() {
+                return this.IsNull(this.tableUFMLetter.IssueDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetIssueDateNull() {
+                this[this.tableUFMLetter.IssueDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsBundleSendDateNull() {
+                return this.IsNull(this.tableUFMLetter.BundleSendDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetBundleSendDateNull() {
+                this[this.tableUFMLetter.BundleSendDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDate2Null() {
+                return this.IsNull(this.tableUFMLetter.Date2Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDate2Null() {
+                this[this.tableUFMLetter.Date2Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsStudentExamTypeNameNull() {
+                return this.IsNull(this.tableUFMLetter.StudentExamTypeNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetStudentExamTypeNameNull() {
+                this[this.tableUFMLetter.StudentExamTypeNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsJDSignNull() {
+                return this.IsNull(this.tableUFMLetter.JDSignColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetJDSignNull() {
+                this[this.tableUFMLetter.JDSignColumn] = global::System.Convert.DBNull;
             }
         }
         

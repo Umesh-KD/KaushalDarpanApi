@@ -22,6 +22,7 @@
         public int DepartmentID { get; set; }
         public int Eng_NonEng { get; set; }
         public int CollegeID { get; set; }
+        public int? RoleID { get; set; }
 
     }
 }

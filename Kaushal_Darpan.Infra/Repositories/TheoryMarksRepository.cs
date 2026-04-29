@@ -119,7 +119,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetTheoryMarksRptData(TheorySearchModel body)
         {
-            _actionName = "GetTheoryMarksDetailList(TheorySearchModel body)";
+            _actionName = "GetTheoryMarksRptData(TheorySearchModel body)";
             try
             {
                 DataTable dataTable = new DataTable();
@@ -307,6 +307,142 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+        public async Task<UFMStudentExtraInfoSaveModel> GetUFMStudentExtraInfo(UFMStudentExtraInfoGetModel body)
+        {
+            _actionName = "GetUFMStudentExtraInfo(UFMStudentExtraInfoGetModel body)";
+            try
+            {
+                UFMStudentExtraInfoSaveModel data = new UFMStudentExtraInfoSaveModel();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetUFMStuExtraInfo";
+
+                    command.Parameters.AddWithValue("@action", "_getUFMLetterInfoById");
+                    command.Parameters.AddWithValue("@StudentID", body.StudentID);
+                    command.Parameters.AddWithValue("@UFMStuExtraInfoID", body.UFMStuExtraInfoID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@StudentExamID", body.StudentExamID);
+                    command.Parameters.AddWithValue("@StudentExamPaperID", body.StudentExamPaperID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    var dt = await command.FillAsync_DataTable();
+
+                    data = CommonFuncationHelper.ConvertDataTable<UFMStudentExtraInfoSaveModel>(dt);
+                }
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> SaveUFMStudentExtraInfo(UFMStudentExtraInfoSaveModel model)
+        {
+            _actionName = "SaveUFMStudentExtraInfo(UFMStudentExtraInfoSaveModel model)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_SaveUFMStuExtraInfo";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@action", "_saveUFMLetterInfo");
+                    command.Parameters.AddWithValue("@StudentID", model.StudentID);
+                    command.Parameters.AddWithValue("@SerialNo", model.SerialNo);
+                    command.Parameters.AddWithValue("@SerialNo2", model.SerialNo2);
+                    command.Parameters.AddWithValue("@IssueDate", model.IssueDate);
+                    command.Parameters.AddWithValue("@BundleSendDate", model.BundleSendDate);
+                    command.Parameters.AddWithValue("@Date2", model.Date2);
+                    command.Parameters.AddWithValue("@StudentExamType", model.StudentExamType);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@ModifyBy", model.ModifyBy);
+                    command.Parameters.AddWithValue("@IPAddress", model.IPAddress);
+                    command.Parameters.AddWithValue("@StudentExamID", model.StudentExamID);
+                    command.Parameters.AddWithValue("@StudentExamPaperID", model.StudentExamPaperID);
+
+                    command.Parameters.Add("@Ret_Val", SqlDbType.Int);// out
+                    command.Parameters["@Ret_Val"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+
+                    result = Convert.ToInt32(command.Parameters["@Ret_Val"].Value);// out
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> SaveUFMExtraInfo(UFMExtraInfoSaveModel model)
+        {
+            _actionName = "SaveUFMExtraInfo(UFMExtraInfoSaveModel model)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_SaveUFMExtraInfo";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@action", "_saveUFMLetterInfo");
+                    command.Parameters.AddWithValue("@SerialNo", model.SerialNo);
+                    command.Parameters.AddWithValue("@SerialNo2", model.SerialNo2);
+                    command.Parameters.AddWithValue("@IssueDate", model.IssueDate);
+                    command.Parameters.AddWithValue("@BundleSendDate", model.BundleSendDate);
+                    command.Parameters.AddWithValue("@Date2", model.Date2);
+                    command.Parameters.AddWithValue("@CourseType", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@ModifyBy", model.ModifyBy);
+                    command.Parameters.AddWithValue("@IPAddress", model.IPAddress);
+
+                    command.Parameters.Add("@Ret_Val", SqlDbType.Int);// out
+                    command.Parameters["@Ret_Val"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+
+                    result = Convert.ToInt32(command.Parameters["@Ret_Val"].Value);// out
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
     }
 }

@@ -117,7 +117,7 @@ namespace Kaushal_Darpan.Api.Controllers
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await _unitOfWork.TheoryMarksRepository.GetTheoryMarksRptData(body);
+                result.Data = await Task.Run(() => _unitOfWork.TheoryMarksRepository.GetTheoryMarksRptData(body));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
@@ -270,6 +270,147 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 return result;
             });
+        }
+
+        [HttpPost("GetUFMStudentExtraInfo")]
+        public async Task<ApiResult<UFMStudentExtraInfoSaveModel>> GetUFMStudentExtraInfo([FromBody] UFMStudentExtraInfoGetModel body)
+        {
+            ActionName = "GetUFMStudentExtraInfo([FromBody] UFMStudentExtraInfoGetModel body)";
+            var result = new ApiResult<UFMStudentExtraInfoSaveModel>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.TheoryMarksRepository.GetUFMStudentExtraInfo(body));
+                if (result.Data == null)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("SaveUFMStudentExtraInfo")]
+        public async Task<ApiResult<bool>> SaveUFMStudentExtraInfo([FromBody] UFMStudentExtraInfoSaveModel model)
+        {
+            ActionName = "SaveUFMStudentExtraInfo([FromBody] UFMStudentExtraInfoSaveModel model)";
+            var result = new ApiResult<bool>();
+            try
+            {
+                if (model == null || model.StudentID == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_VALIDATION_FAILED;
+                    return result;
+                }
+
+                model.IPAddress = CommonFuncationHelper.GetIpAddress();
+
+                // Pass the list to the repository for batch update
+                var isSave = await Task.Run(() => _unitOfWork.TheoryMarksRepository.SaveUFMStudentExtraInfo(model));
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                if (isSave > 0)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_ADD_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("SaveUFMExtraInfo")]
+        public async Task<ApiResult<bool>> SaveUFMExtraInfo([FromBody] UFMExtraInfoSaveModel model)
+        {
+            ActionName = "SaveUFMExtraInfo([FromBody] UFMExtraInfoSaveModel model)";
+            var result = new ApiResult<bool>();
+            try
+            {
+                if (model == null)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_VALIDATION_FAILED;
+                    return result;
+                }
+
+                model.IPAddress = CommonFuncationHelper.GetIpAddress();
+
+                // Pass the list to the repository for batch update
+                var isSave = await Task.Run(() => _unitOfWork.TheoryMarksRepository.SaveUFMExtraInfo(model));
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                if (isSave > 0)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_ADD_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
     }
 }

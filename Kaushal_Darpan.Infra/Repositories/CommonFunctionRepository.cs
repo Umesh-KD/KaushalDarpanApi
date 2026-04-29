@@ -636,6 +636,43 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        public async Task<DataTable> StreamMaster_streamType(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0,string action="")
+        {
+            _actionName = "StreamMaster()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDL_StreamMaster_streamTypeWise";
+                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermId", EndTermId);
+                        command.Parameters.AddWithValue("@StreamType", StreamType);
+                        command.Parameters.AddWithValue("@action", action);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
         public async Task<DataTable> Stream_InstituteIdWise(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int AcademicYearID = 0)
         {
             _actionName = "Stream_InstituteIdWise(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int AcademicYearID = 0)";
@@ -890,7 +927,131 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserID", UserID);
                         command.Parameters.AddWithValue("@EndTermId", EndTermId);
                         command.Parameters.AddWithValue("@StreamType", StreamType);
-                
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> SemesterRolewise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID=0,int StaffID=0)
+        {
+            _actionName = "SemesterRolewise()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDL_SemesterMasterrolewise";
+                        command.Parameters.AddWithValue("@UserID", UserID);
+                        command.Parameters.AddWithValue("@EndTermId", EndTermId);
+                        command.Parameters.AddWithValue("@StreamType", StreamType);
+                        command.Parameters.AddWithValue("@RoleID", RoleID);
+                        command.Parameters.AddWithValue("@StaffID", StaffID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
+        public async Task<DataTable> StreamRoleWise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID = 0,
+            int SemesterID=0,int InstituteID=0,int StaffID = 0)
+        {
+            _actionName = "SemesterRolewise()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDL_StreamMasterrolewise";
+                        command.Parameters.AddWithValue("@UserID", UserID);
+                        command.Parameters.AddWithValue("@EndTermId", EndTermId);
+                        command.Parameters.AddWithValue("@StreamType", StreamType);
+                        command.Parameters.AddWithValue("@RoleID", RoleID);
+                        command.Parameters.AddWithValue("@SemesterID", SemesterID);
+                        command.Parameters.AddWithValue("@InstituteID", InstituteID);
+                        command.Parameters.AddWithValue("@StaffID", StaffID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
+
+        public async Task<DataTable> StaffAttendence(string SSOID= "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0)
+        {
+            _actionName = "SemesterRolewise()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDL_StaffAttendence";
+                        command.Parameters.AddWithValue("@SSOID", SSOID);
+                        command.Parameters.AddWithValue("@EndTermId", EndTermId);
+                        command.Parameters.AddWithValue("@StreamType", StreamType);
+                  
+              
+                        command.Parameters.AddWithValue("@InstituteID", InstituteID);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1641,6 +1802,45 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetItiVacantPost(VacantPostMaster model)
+        {
+            _actionName = "GetFinancialYear()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDL_VacantPostMaster";
+                        //command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
+            
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
         public async Task<DataTable> CommonMasterDataByAction(CommonMasterModel model)
         {
             _actionName = "GetFinancialYear()";
@@ -1679,6 +1879,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
 
 
         public async Task<DataTable> GetExamType()
@@ -3076,6 +3278,53 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+
+        public async Task<List<CommonDDLModel>> GetNonsubstitutesubject(string SSOID, int EndTermID, int SemesterID, int Eng_NonEng, int StreamID)
+        {
+            _actionName = "SubjectMaster_StreamIDWise(int StreamID)";
+            return await Task.Run(async () =>
+            {
+                List<CommonDDLModel> subjectMasters = new List<CommonDDLModel>();
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Getnonsubstitutesubject";
+                        command.Parameters.AddWithValue("@StreamID", StreamID);
+                        command.Parameters.AddWithValue("@SSOID", SSOID);
+                        command.Parameters.AddWithValue("@SemesterID", SemesterID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", EndTermID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    if (dataTable.Rows.Count > 0)
+                    {
+                        subjectMasters = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    }
+                    return subjectMasters;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
 
         public async Task<List<CommonDDLModel>> GetStaffTypeDDL()
         {
@@ -5235,6 +5484,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
                         command.Parameters.AddWithValue("@StreamID", request.StreamID);
                         command.Parameters.AddWithValue("@SchemeID", request.SchemeID);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@StaffID", request.StaffID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -5667,38 +5919,36 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataSet> GetOptionalSubjectsByStudentID(Int32 StudentID, Int32 DepartmentID, int StudentExamID)
         {
             _actionName = "GetOptionalSubjectsByStudentID(Int32 StudentID, Int32 DepartmentID,int StudentExamID)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataSet dataSet = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataSet dataSet = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_OptionalSubjectMaster";
-                        command.Parameters.AddWithValue("@Action", "OptionalSubject");
-                        command.Parameters.AddWithValue("@StudentID", StudentID);
-                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
-                        command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_OptionalSubjectMaster";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataSet = await command.FillAsync();
-                    }
-                    return dataSet;
+                    command.Parameters.AddWithValue("@Action", "OptionalSubject");
+                    command.Parameters.AddWithValue("@StudentID", StudentID);
+                    command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                    command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataSet = await command.FillAsync();
                 }
-                catch (Exception ex)
+                return dataSet;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         public async Task<List<CommonDDLModel>> GetCastCategory()
         {
@@ -7681,7 +7931,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                            command.CommandText = "USP_BTER_Get_Staff_Ac_Year";
+                        command.CommandText = "USP_BTER_Get_Staff_Ac_Year";
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
@@ -11499,7 +11749,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> GetEventCommonMaster(string type)
+        public async Task<DataTable> GetEventCommonMaster(string? type)
         {
             _actionName = "GetEventCommonMaster()";
             return await Task.Run(async () =>
@@ -11534,6 +11784,75 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<int> InsertEventCommonMaster(EventModel request)
+        {
+            _actionName = "InsertEventCommonMaster()";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Insert_EventCommonMaster";
+
+                        command.Parameters.AddWithValue("@Type", request.Type);
+                        command.Parameters.AddWithValue("@NameEng", request.NameEng);
+                        command.Parameters.AddWithValue("@NameHi", request.NameHi);
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+
+                        result = Convert.ToInt32(await command.ExecuteScalarAsync());
+                    }
+
+                    return result;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            });
+        }
+
+        public async Task<DataTable> GetEventTypes()
+        {
+            return await Task.Run(async () =>
+            {
+                DataTable dt = new DataTable();
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Get_EventTypes";
+
+                    dt = await command.FillAsync_DataTable();
+                }
+
+                return dt;
+            });
+        }
+
+        public async Task<DataTable> GetEventCommonMasterList(string type)
+        {
+            return await Task.Run(async () =>
+            {
+                DataTable dt = new DataTable();
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Get_EventCommonMaster_List";
+
+                    command.Parameters.AddWithValue("@Type", type ?? "");
+
+                    dt = await command.FillAsync_DataTable();
+                }
+
+                return dt;
+            });
+        }
     }
 }
 

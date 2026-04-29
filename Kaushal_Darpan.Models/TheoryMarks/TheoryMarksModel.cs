@@ -40,7 +40,7 @@
 
 
     }
-    public class TheorySearchModel: RequestBaseModel
+    public class TheorySearchModel : RequestBaseModel
     {
         public int SemesterID { get; set; }
         public int StreamID { get; set; }
@@ -107,7 +107,7 @@
     public class ExaminerFeedbackDataModel : RequestBaseModel
     {
         public int? ExaminerID { get; set; }
-        public string? ExaminerCode { get; set; } 
+        public string? ExaminerCode { get; set; }
         public int? GroupCodeID { get; set; }
         public string? GroupCode { get; set; }
         public string? Feedback { get; set; }
@@ -121,7 +121,7 @@
         public int StreamID { get; set; }
         public int CourseType { get; set; }
         public int ResultTypeId { get; set; }
-        
+
     }
 
     public class UnlockInternalMarksModel
@@ -189,12 +189,40 @@
         public int ModifyBy { get; set; }
         public int EndTermID { get; set; }
 
-
-
-   
     }
 
+    public class UFMStudentExtraInfoSaveModel : ResponseBaseModel
+    {
+        public int UFMStuExtraInfoID { get; set; } = 0;
+        public int StudentID { get; set; } = 0;
+        public int SerialNo { get; set; } = 0;
+        public int SerialNo2 { get; set; } = 0;
 
+        public string? IssueDate { get; set; }
+        public string? BundleSendDate { get; set; }
+        public string? Date2 { get; set; }
 
+        public int StudentExamType { get; set; } = 0;
+        public int StudentExamID { get; set; } = 0;
+        public int StudentExamPaperID { get; set; } = 0;
+        public string EnrollmentNo { get; set; } = string.Empty;
+    }
 
+    public class UFMStudentExtraInfoGetModel : RequestBaseModel
+    {
+        public int StudentID { get; set; } = 0;
+        public int StudentExamID { get; set; } = 0;
+        public int StudentExamPaperID { get; set; } = 0;
+        public int UFMStuExtraInfoID { get; set; } = 0;
+    }
+
+    public class UFMExtraInfoSaveModel : ResponseBaseModel
+    {
+        public int UFMExtraInfoID { get; set; } = 0;
+        public int SerialNo { get; set; } = 0;
+        public int SerialNo2 { get; set; } = 0;
+        public string? IssueDate { get; set; }
+        public string? BundleSendDate { get; set; }
+        public string? Date2 { get; set; }
+    }
 }

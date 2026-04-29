@@ -535,30 +535,79 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        //[HttpPost("adminUserDataDelete")]
+        //public async Task<ApiResult<DataTable>> adminUserDataDelete([FromBody] ITIAdminUserDetailModel body)
+        //{
+        //    ActionName = "getAllNodalUserdata()";
+        //    var result = new ApiResult<DataTable>();
+        //    try
+        //    {
+        //        result.Data = await Task.Run(() => _unitOfWork.ITIAdminUserRepository.adminUserDataDelete(body));
+        //        result.State = EnumStatus.Success;
+        //        if (result.Data.Rows.Count == 0)
+        //        {
+        //            result.State = EnumStatus.Success;
+        //            result.Message = "Status Updated Successfully";
+        //            return result;
+        //        }
+        //        result.State = EnumStatus.Success;
+        //        result.Message = "Data load successfully .!";
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        await _unitOfWork.DisposeAsync();
+        //        result.State = EnumStatus.Error;
+        //        result.ErrorMessage = ex.Message;
+        //        // write error log
+        //        var nex = new NewException
+        //        {
+        //            PageName = PageName,
+        //            ActionName = ActionName,
+        //            Ex = ex,
+        //        };
+        //        await CreateErrorLog(nex, _unitOfWork);
+        //    }
+        //    return result;
+        //}
+
         [HttpPost("adminUserDataDelete")]
         public async Task<ApiResult<DataTable>> adminUserDataDelete([FromBody] ITIAdminUserDetailModel body)
         {
-            ActionName = "getAllNodalUserdata()";
             var result = new ApiResult<DataTable>();
+
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.ITIAdminUserRepository.adminUserDataDelete(body));
-                result.State = EnumStatus.Success;
-                if (result.Data.Rows.Count == 0)
+
+                if (result.Data.Rows.Count > 0)
                 {
-                    result.State = EnumStatus.Success;
-                    result.Message = "No record found.!";
-                    return result;
+                    var status = Convert.ToInt32(result.Data.Rows[0]["Status"]);
+                    var message = result.Data.Rows[0]["Message"].ToString();
+
+                    if (status == 1)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = message;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = message;
+                    }
                 }
-                result.State = EnumStatus.Success;
-                result.Message = "Data load successfully .!";
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = "No response from server.";
+                }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 await _unitOfWork.DisposeAsync();
+
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
-                // write error log
+
                 var nex = new NewException
                 {
                     PageName = PageName,
@@ -567,9 +616,9 @@ namespace Kaushal_Darpan.Api.Controllers
                 };
                 await CreateErrorLog(nex, _unitOfWork);
             }
+
             return result;
         }
-
 
 
     }

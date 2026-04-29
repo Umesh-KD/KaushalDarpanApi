@@ -57,10 +57,38 @@
           <DataField>CurrentDate</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="SerialNo">
+          <DataField>SerialNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SerialNo2">
+          <DataField>SerialNo2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="IssueDate">
+          <DataField>IssueDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BundleSendDate">
+          <DataField>BundleSendDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Date2">
+          <DataField>Date2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="StudentExamTypeName">
+          <DataField>StudentExamTypeName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="JDSign">
+          <DataField>JDSign</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Kaushal_Darpan\API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Projects\doitoffice\KD-Api\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
         <rd:TableName>UFMLetter</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -156,7 +184,7 @@
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value> की परीक्षा में आपके पास अनुचित सामाग्री पाई गई।</Value>
+                    <Value> की परीक्षा में आपके पास अनुचित सामग्री पाई गई।</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Times New Roman</FontFamily>
@@ -182,7 +210,7 @@
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value>=First(Fields!CurrentDate.Value, "UFMLetter")</Value>
+                    <Value>=First(Fields!BundleSendDate.Value, "UFMLetter")</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Times New Roman</FontFamily>
@@ -362,7 +390,7 @@
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>0.39864cm</Top>
             <Left>0.48682cm</Left>
-            <Height>9.8075cm</Height>
+            <Height>9.51646cm</Height>
             <Width>19.02916cm</Width>
             <Style>
               <Border>
@@ -398,9 +426,9 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>11.21817cm</Top>
+            <Top>11.6415cm</Top>
             <Left>13.64192cm</Left>
-            <Height>0.81167cm</Height>
+            <Height>0.84342cm</Height>
             <Width>5.87406cm</Width>
             <ZIndex>1</ZIndex>
             <Style>
@@ -433,7 +461,7 @@
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value>=First(Fields!CurrentDate.Value, "UFMLetter")</Value>
+                    <Value>=First(Fields!Date2.Value, "UFMLetter")</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Times New Roman</FontFamily>
@@ -498,10 +526,21 @@
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value>/123</Value>
+                    <Value>/</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Times New Roman</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                      <Color>#000000</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=First(Fields!SerialNo2.Value, "UFMLetter")</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>12pt</FontSize>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                       <Color>#000000</Color>
@@ -517,7 +556,7 @@
             <Top>12.55548cm</Top>
             <Left>0.48683cm</Left>
             <Height>0.81167cm</Height>
-            <Width>6.63334cm</Width>
+            <Width>10.1523cm</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -576,7 +615,7 @@
                     <Style />
                   </TextRun>
                   <TextRun>
-                    <Value> का जवाब Email: conf.bter@gmail.com पर भिजवाये। Hard Copy संस्थान मे सुरक्षित रखें, आवश्यक्तानुशार प्राविधिक शिक्षा मण्डल,जोधपुर द्वारा मंगवाया जा सकता है।</Value>
+                    <Value> का जवाब Email: conf.bter@gmail.com पर भिजवाये। Hard Copy संस्थान मे सुरक्षित रखें, आवश्यक्तानुसार प्राविधिक शिक्षा मण्डल,जोधपुर द्वारा मंगवाया जा सकता है।</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Times New Roman</FontFamily>
@@ -590,9 +629,9 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox24</rd:DefaultName>
-            <Top>13.67091cm</Top>
-            <Left>0.48683cm</Left>
-            <Height>2.24042cm</Height>
+            <Top>13.57529cm</Top>
+            <Left>0.48682cm</Left>
+            <Height>1.87cm</Height>
             <Width>19.02915cm</Width>
             <ZIndex>4</ZIndex>
             <Style>
@@ -629,9 +668,9 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>16.97286cm</Top>
+            <Top>17.17394cm</Top>
             <Left>13.64192cm</Left>
-            <Height>0.81167cm</Height>
+            <Height>0.84342cm</Height>
             <Width>5.87406cm</Width>
             <ZIndex>5</ZIndex>
             <Style>
@@ -644,8 +683,40 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
+          <Image Name="stusign2">
+            <Source>Database</Source>
+            <Value>=First(Fields!JDSign.Value, "UFMLetter")</Value>
+            <MIMEType>image/png</MIMEType>
+            <Sizing>Fit</Sizing>
+            <Top>10.25024cm</Top>
+            <Left>13.64192cm</Left>
+            <Height>1.32071cm</Height>
+            <Width>4.36592cm</Width>
+            <ZIndex>6</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="stusign3">
+            <Source>Database</Source>
+            <Value>=First(Fields!JDSign.Value, "UFMLetter")</Value>
+            <MIMEType>image/png</MIMEType>
+            <Sizing>Fit</Sizing>
+            <Top>15.75318cm</Top>
+            <Left>13.64192cm</Left>
+            <Height>1.38548cm</Height>
+            <Width>4.36594cm</Width>
+            <ZIndex>7</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
         </ReportItems>
-        <Height>7.05276in</Height>
+        <Height>7.25068in</Height>
         <Style>
           <Border>
             <Style>None</Style>
@@ -655,7 +726,7 @@
       <Width>7.90346in</Width>
       <Page>
         <PageHeader>
-          <Height>8.15404cm</Height>
+          <Height>7.62487cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <ReportItems>
             <Textbox Name="Textbox8">
@@ -734,9 +805,9 @@ Email:conf.bter@gmail.com</Value>
               </Paragraphs>
               <rd:DefaultName>Textbox2</rd:DefaultName>
               <Top>0.21638cm</Top>
-              <Left>15.86442cm</Left>
+              <Left>15.3088cm</Left>
               <Height>1.04979cm</Height>
-              <Width>3.65156cm</Width>
+              <Width>4.20718cm</Width>
               <ZIndex>1</ZIndex>
               <Style>
                 <Border>
@@ -788,10 +859,21 @@ Email:conf.bter@gmail.com</Value>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>/123</Value>
+                      <Value>/</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Times New Roman</FontFamily>
+                        <FontWeight>Normal</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                        <Color>#000000</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!SerialNo.Value, "UFMLetter")</Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>12pt</FontSize>
                         <FontWeight>Normal</FontWeight>
                         <TextDecoration>None</TextDecoration>
                         <Color>#000000</Color>
@@ -807,7 +889,7 @@ Email:conf.bter@gmail.com</Value>
               <Top>2.80929cm</Top>
               <Left>0.48683cm</Left>
               <Height>0.81167cm</Height>
-              <Width>6.63334cm</Width>
+              <Width>10.1523cm</Width>
               <ZIndex>2</ZIndex>
               <Style>
                 <Border>
@@ -839,7 +921,7 @@ Email:conf.bter@gmail.com</Value>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=First(Fields!CurrentDate.Value, "UFMLetter")</Value>
+                      <Value>=First(Fields!IssueDate.Value, "UFMLetter")</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Times New Roman</FontFamily>
@@ -867,9 +949,9 @@ Email:conf.bter@gmail.com</Value>
               </Paragraphs>
               <rd:DefaultName>Textbox2</rd:DefaultName>
               <Top>2.80929cm</Top>
-              <Left>15.86442cm</Left>
+              <Left>15.3088cm</Left>
               <Height>0.81167cm</Height>
-              <Width>3.65156cm</Width>
+              <Width>4.20718cm</Width>
               <ZIndex>3</ZIndex>
               <Style>
                 <Border>
@@ -917,7 +999,7 @@ Email:conf.bter@gmail.com</Value>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>3.79735cm</Top>
               <Left>0.48683cm</Left>
-              <Height>3.51885cm</Height>
+              <Height>3.64585cm</Height>
               <Width>10.52535cm</Width>
               <ZIndex>4</ZIndex>
               <Style>
@@ -1054,7 +1136,7 @@ C/O </Value>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>3.79735cm</Top>
               <Left>11.01218cm</Left>
-              <Height>3.51885cm</Height>
+              <Height>3.64585cm</Height>
               <Width>8.5038cm</Width>
               <ZIndex>5</ZIndex>
               <Style>

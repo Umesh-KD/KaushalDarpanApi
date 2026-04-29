@@ -216,7 +216,20 @@ namespace Kaushal_Darpan.Models.CommonFunction
 
     }
 
+    public class EventModel
+    {
+        public string Type { get; set; }
+        public string NameEng { get; set; }
 
+        public string NameHi { get; set; }
 
+        public string CreatedBy { get; set; }
+    }
 
+    public class VacantPostMaster
+    {
+
+        public int InstituteID { get; set; }
+        public int OfficeID { get; set; }
+    }
 }

@@ -23,7 +23,7 @@ namespace Kaushal_Darpan.Models.CertificateDownload
         public int RoleID { get; set; }
         public int DepartmentID { get; set; }
         public int CourseTypeID { get; set; }
-       
+
 
     }
 
@@ -51,13 +51,14 @@ namespace Kaushal_Darpan.Models.CertificateDownload
 
     }
 
-    public class UFMLetterModel
+    public class UFMLetterModel : RequestBaseModel
     {
         public string? EnrollmentNo { get; set; }
         public int isUFM { get; set; }
-        public int EndTermID { get; set; }
-        public int DepartmentID { get; set; }
-        public int CourseTypeID { get; set; }
+        public int? StudentID { get; set; } = 0;
+        public int? UFMExtraInfoID { get; set; } = 0;
+        public int? StudentExamID { get; set; } = 0;
+        public int? StudentExamPaperID { get; set; } = 0;
 
     }
 
