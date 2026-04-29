@@ -150,9 +150,16 @@ namespace Kaushal_Darpan.Api.Controllers
                     else if (result.Data == -2)
                     {
                         result.State = EnumStatus.Warning;
-                        result.ErrorMessage = "The email ID or mobile number you entered already exists.";
-                    }
 
+                        if (request.DirectAdmissionTypeID == 181)
+                        {
+                            result.ErrorMessage = "The mobile number you entered already exists.";
+                        }
+                        else
+                        {
+                            result.ErrorMessage = "The email ID or mobile number you entered already exists.";
+                        }
+                    }
                     else if (result.Data == -6)
                     {
                         result.State = EnumStatus.Error;

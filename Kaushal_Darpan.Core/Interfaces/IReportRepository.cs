@@ -318,7 +318,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetDiplomaCertificate(DiplomaCertificateModel model);
         Task<DataSet> GetUFMLetter(UFMLetterModel model);
         Task<DataSet> GetRevalExamLetterReport(ExamLetterReport model);
-        Task<DataSet> GetRevalGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel filterModel);
-        Task<DataSet> GetRevalGroupCodeMasterReport(GroupCodeAllocationAddEditModel filterModel);
+        Task<DataSet> GetRevalGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel_Reval filterModel);
+        Task<DataSet> GetRevalGroupCodeMasterReport(GroupCodeAllocationAddEditModel_Reval filterModel);
     }
 }
