@@ -3926,7 +3926,7 @@ namespace Kaushal_Darpan.Api.Controllers
         </td>
         <td style='width:50%; text-align:right; vertical-align:top;'>
             {model.ApprovePost}<br>
-           {model.OldCollege} सील
+           {model.OldCollege}
         </td>
     </tr>
 </table>
@@ -4219,8 +4219,8 @@ namespace Kaushal_Darpan.Api.Controllers
         <td colspan='3' class='full-value'>{model.DateOfBirth}</td>
     </tr>
     <tr>
-        <td>वर्तमान पद का नाम</td>
-        <td colspan='3' class='full-value'>{model.TransferPostName}</td>
+        <td>पूर्व पद का नाम</td>
+        <td colspan='3' class='full-value'>{model.LastOfficeName}</td>
     </tr>
 
     <tr>
@@ -4233,7 +4233,7 @@ namespace Kaushal_Darpan.Api.Controllers
     </tr>
     <tr>
         <td>कार्यभार पद</td>
-        <td colspan='3' class='full-value'>{model.LastPostName}</td>
+        <td colspan='3' class='full-value'>{model.TransferPostName}</td>
     </tr>
 
     <tr>
@@ -4244,10 +4244,7 @@ namespace Kaushal_Darpan.Api.Controllers
         <td>दिनांक</td>
         <td colspan='3' class='full-value'>{model.RequestDate}</td>
     </tr>
-    <tr>
-        <td>पद जिसे हेतु कार्यमुक्त हुआ है</td>
-        <td colspan='3' class='full-value'>{model.LastPostName}</td>
-    </tr>
+  
  
     <tr>
         <td>कार्यग्रहण दिनांक</td>
@@ -4272,7 +4269,7 @@ namespace Kaushal_Darpan.Api.Controllers
         </td>
         <td style='width:50%; text-align:right; vertical-align:top;'>
             {model.ApprovePost}<br>
-            {model.CurrentOffice} सील
+            {model.CurrentOffice}
         </td>
     </tr>
 </table>
