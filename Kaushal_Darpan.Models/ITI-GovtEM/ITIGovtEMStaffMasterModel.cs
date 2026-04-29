@@ -846,6 +846,10 @@
         public int? DepartmentID { get; set; }
         public int? RoleID { get; set; }
         public int? UserID { get; set; }
+        public int? DivisionID { get; set; }
+        public int? OfficeID { get; set; }
+        public int? LevelID { get; set; }
+        public int? NodalDistrictID { get; set; }
     }
 
     public class RelievingLetterResponseModel
