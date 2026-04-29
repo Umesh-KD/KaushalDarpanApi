@@ -893,6 +893,7 @@
         public string? Newdistrictname { get; set; }
         public string? Newblockname { get; set; }
         public string? RelivingTime { get; set; }
+        public string? ApprovePost { get; set; }
         public int? StaffID { get; set; }
     }
 

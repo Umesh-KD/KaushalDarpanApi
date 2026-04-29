@@ -3912,8 +3912,8 @@ namespace Kaushal_Darpan.Api.Controllers
             दिनांक
         </td>
         <td style='width:50%; text-align:right; vertical-align:top;'>
-            प्रधानाचार्य/प्राचार्य<br>
-            सं.रा. एन.जनरेशन आईटीआई जयपुर सील
+            {model.ApprovePost}<br>
+           {model.OldCollege} सील
         </td>
     </tr>
 </table>
@@ -4240,8 +4240,8 @@ namespace Kaushal_Darpan.Api.Controllers
             दिनांक
         </td>
         <td style='width:50%; text-align:right; vertical-align:top;'>
-            प्रधानाचार्य/प्राचार्य<br>
-            सं.रा. एन.जनरेशन आईटीआई जयपुर सील
+            {model.ApprovePost}<br>
+            {model.CurrentOffice} सील
         </td>
     </tr>
 </table>
