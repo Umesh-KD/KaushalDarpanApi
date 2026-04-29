@@ -17,6 +17,7 @@ using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.ViewPlacedStudents;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Data;
@@ -36,15 +37,18 @@ namespace Kaushal_Darpan.Api.Controllers
         public override string ActionName { get; set; }
         private readonly IConverter _converter;
         private readonly IPrintHtmlFile _printHtmlFile;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ITIGovtEMStaffMasterController(IMapper mapper, IUnitOfWork unitOfWork, IConverter converter, IPrintHtmlFile printHtmlFile)
+
+        public ITIGovtEMStaffMasterController(IMapper mapper, IUnitOfWork unitOfWork, IConverter converter, IPrintHtmlFile printHtmlFile, IWebHostEnvironment webHostEnvironment)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _converter = converter;
             _printHtmlFile = printHtmlFile;
+            _webHostEnvironment=webHostEnvironment;
 
         }
         [HttpPost("GetAllData")]
@@ -3667,6 +3671,18 @@ namespace Kaushal_Darpan.Api.Controllers
             if (model == null)
                 return NotFound("Data mapping failed");
 
+            string base64Logo = "";
+            string path = Path.Combine(ConfigurationHelper.StaticFileRootPath, "kd.jpeg");
+
+            if (System.IO.File.Exists(path))
+            {
+                byte[] imageArray = System.IO.File.ReadAllBytes(path);
+                base64Logo = $"data:image/jpeg;base64,{Convert.ToBase64String(imageArray)}";
+            }
+
+
+
+
             var html = $@"
 <html>
 <head>
@@ -3680,7 +3696,7 @@ namespace Kaushal_Darpan.Api.Controllers
     }}
 
     .page {{
-        width: 750px;
+        width: 90%;
         margin: 0 auto;
         padding: 20px;
         background: #fff;
@@ -3804,17 +3820,23 @@ namespace Kaushal_Darpan.Api.Controllers
 <div class='page'>
 
     <table class='main-table'>
-        <tr>
-            <td class='logo-box'>Kaushal<br/>Darpan</td>
-            <td class='dept-box'>शिक्षा विभाग - राजस्थान</td>
-            <td class='photo-box'>
-                <div class='photo-placeholder'>Photo</div>
-            </td>
-        </tr>
+ <tr>
+    <td class='logo-box' style='width: 10%; text-align: center;'>
+        <img src='{base64Logo}' style='height: 60px; width: auto;' alt='Logo' />
+    </td>
+
+    <td class='dept-box' style='width: 70%; text-align: center;'>
+        <div style='font-size: 18px; font-weight: bold; text-decoration: underline;'>
+            शिक्षा विभाग - राजस्थान
+        </div>
+    </td>
+
+  
+</tr>
         <tr>
             <td colspan='3' class='school-info-section'>
                 <div class='school-name'>{model.OldCollege}</div>
-                <div>District : {model.oldcollegedistrict}</div>
+                //<div>District : {model.oldcollegedistrict}</div>
             </td>
         </tr>
         <tr>
@@ -3869,15 +3891,10 @@ namespace Kaushal_Darpan.Api.Controllers
             <td>स्थान जिसके लिये कार्यमुक्त किया गया है</td>
             <td colspan='3' class='full-value'>{model.CurrentOffice}</td>
         </tr>
-        <tr>
-            <td>जिला</td>
-            <td class='value'>{model.Newdistrictname}</td>
-            <td style='width:15%;'>ब्लॉक</td>
-            <td class='value'>{model.Newblockname}</td>
-        </tr>
+       
         <tr>
             <td>कार्यमुक्ति दिनांक</td>
-            <td class='value'>{model.LastWorkingDate}</td>
+            <td class='value'>{model.RequestDate}</td>
             <td>समय</td>
             <td class='value'>{model.RelivingTime}</td>
         </tr>
@@ -3940,12 +3957,27 @@ namespace Kaushal_Darpan.Api.Controllers
             if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                 return NotFound("Data not found in database");
 
+   
+
             var model = CommonFuncationHelper
-                .ConvertDataTable<List<RelievingLetterResponseModel>>(ds.Tables[0])
-                .FirstOrDefault();
+              .ConvertDataTable<List<RelievingLetterResponseModel>>(ds.Tables[0])
+              .FirstOrDefault();
 
             if (model == null)
                 return NotFound("Data mapping failed");
+
+            string base64Logo = "";
+            string path = Path.Combine(ConfigurationHelper.StaticFileRootPath, "kd.jpeg");
+
+            if (System.IO.File.Exists(path))
+            {
+                byte[] imageArray = System.IO.File.ReadAllBytes(path);
+                base64Logo = $"data:image/jpeg;base64,{Convert.ToBase64String(imageArray)}";
+            }
+
+
+
+
 
             var html = $@"
 <html>
@@ -3960,7 +3992,7 @@ namespace Kaushal_Darpan.Api.Controllers
     }}
 
     .page {{
-        width: 750px;
+        width: 95%;
         margin: 0 auto;
         padding: 20px;
         background: #fff;
@@ -4084,19 +4116,19 @@ namespace Kaushal_Darpan.Api.Controllers
 <div class='page'>
 
     <table class='main-table'>
-        <tr>
-            <td class='logo-box'>Kaushal<br/>Darpan</td>
-            <td class='dept-box'>शिक्षा विभाग - राजस्थान</td>
-            <td class='photo-box'>
-                <div class='photo-placeholder'>Photo</div>
-            </td>
-        </tr>
-        <tr>
-            <td colspan='3' class='school-info-section'>
-                <div class='school-name'>{model.OldCollege}</div>
-                <div>District : {model.oldcollegedistrict}</div>
-            </td>
-        </tr>
+       <tr>
+    <td class='logo-box' style='width: 10%; text-align: center;'>
+        <img src='{base64Logo}' style='height: 60px; width: auto;' alt='Logo' />
+    </td>
+
+    <td class='dept-box' style='width: 70%; text-align: center;'>
+        <div style='font-size: 18px; font-weight: bold; text-decoration: underline;'>
+            शिक्षा विभाग - राजस्थान
+        </div>
+    </td>
+
+  
+</tr>
         <tr>
             <td colspan='3' class='order-title'>कार्यभार आदेश</td>
         </tr>
@@ -4123,7 +4155,7 @@ namespace Kaushal_Darpan.Api.Controllers
     </tr>
     <tr>
         <td>वर्तमान पद का नाम</td>
-        <td colspan='3' class='full-value'>{model.LastPostName}</td>
+        <td colspan='3' class='full-value'>{model.TransferPostName}</td>
     </tr>
 
     <tr>
@@ -4136,31 +4168,26 @@ namespace Kaushal_Darpan.Api.Controllers
     </tr>
     <tr>
         <td>कार्यभार पद</td>
-        <td colspan='3' class='full-value'>{model.TransferPostName}</td>
+        <td colspan='3' class='full-value'>{model.LastPostName}</td>
     </tr>
 
     <tr>
         <td>स्थान जहाँ से कार्यमुक्त किया है</td>
-        <td colspan='3' class='full-value'>{model.CurrentOffice}</td>
+        <td colspan='3' class='full-value'>{model.OldCollege}</td>
     </tr>
     <tr>
         <td>दिनांक</td>
-        <td colspan='3' class='full-value'>{model.LastWorkingDate}</td>
+        <td colspan='3' class='full-value'>{model.RequestDate}</td>
     </tr>
     <tr>
         <td>पद जिसे हेतु कार्यमुक्त हुआ है</td>
-        <td colspan='3' class='full-value'>{model.TransferPostName}</td>
+        <td colspan='3' class='full-value'>{model.LastPostName}</td>
     </tr>
-    <tr>
-        <td>जिला</td>
-        <td class='value'>{model.Newdistrictname}</td>
-        <td style='width:15%;'>ब्लॉक</td>
-        <td class='value'>{model.Newblockname}</td>
-    </tr>
+ 
     <tr>
         <td>कार्यग्रहण दिनांक</td>
         <td class='value'>{model.JoiningDate}</td>
-        <td>समय</td>
+     
         <td>समय</td>
         <td class='value'>{model.RelivingTime}</td>
     </tr>
@@ -4204,7 +4231,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
             var pdf = _converter.Convert(doc);
 
-            return File(pdf, "application/pdf", "Relieving_Letter.pdf");
+            return File(pdf, "application/pdf", "JoinningLetter.pdf");
         }
 
 
