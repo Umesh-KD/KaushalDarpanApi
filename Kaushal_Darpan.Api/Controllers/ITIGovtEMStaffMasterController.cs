@@ -3817,6 +3817,16 @@ namespace Kaushal_Darpan.Api.Controllers
         margin-top: 20px;
         padding-top: 5px;
     }}
+
+.footer {{position: absolute;
+    bottom: 15mm;
+    left: 15mm;
+    right: 15mm;
+    text-align: center;
+    font-size: 12px;
+    border-top: 1px solid #ddd;
+    padding-top: 5px;
+}}
 </style>
 </head>
 <body>
@@ -3849,7 +3859,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
     <table class='main-table'>
         <tr>
-            <td class='label'>शालादर्पण आदेश क्रमांक</td>
+            <td class='label'>कौशल दर्पण आदेश क्रमांक</td>
             <td class='value'>{model.OrderNo}</td>
             <td style='width:15%;'>दिनांक</td>
             <td class='value'>{model.OrderDate}</td>
@@ -3921,7 +3931,11 @@ namespace Kaushal_Darpan.Api.Controllers
     </tr>
 </table>
 
-  
+
+
+  <div class='footer'>
+    This order is system-generated and does not require an e-signature!
+</div>
 
 </div>
 </body>
@@ -4144,6 +4158,15 @@ namespace Kaushal_Darpan.Api.Controllers
 .footer-sign td {{border: none !important;
     padding: 2px 0 !important;
 }}
+.footer {{position: absolute;
+    bottom: 15mm;
+    left: 15mm;
+    right: 15mm;
+    text-align: center;
+    font-size: 12px;
+    border-top: 1px solid #ddd;
+    padding-top: 5px;
+}}
 
 </style>
 </head>
@@ -4253,7 +4276,9 @@ namespace Kaushal_Darpan.Api.Controllers
         </td>
     </tr>
 </table>
-  
+   <div class='footer'>
+    This order is system-generated and does not require an e-signature!
+</div>
 
 </div>
 </body>
