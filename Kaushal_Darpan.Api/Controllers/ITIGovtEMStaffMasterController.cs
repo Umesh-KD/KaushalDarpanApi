@@ -3688,7 +3688,7 @@ namespace Kaushal_Darpan.Api.Controllers
 <head>
 <style>
     body {{
-        font-family: 'Arial', 'Helvetica', sans-serif;
+      font-family: 'Noto Sans Devanagari', 'Mangal', 'Arial Unicode MS', sans-serif;
         font-size: 11.5px;
         margin: 0;
         padding: 0;
@@ -3900,7 +3900,20 @@ namespace Kaushal_Darpan.Api.Controllers
         </tr>
     </table>
 
-  
+  <br/>
+<br/>
+<table class='footer-sign' style='font-size:15px';margin-top:40px;>
+    <tr>
+        <td style='width:50%; text-align:left; vertical-align:top;'>
+            प्रतिलिपि एवं प्रेषण क्रमांक<br>
+            दिनांक
+        </td>
+        <td style='width:50%; text-align:right; vertical-align:top;'>
+            प्रधानाचार्य/प्राचार्य<br>
+            सं.रा. एन.जनरेशन आईटीआई जयपुर सील
+        </td>
+    </tr>
+</table>
 
   
 
@@ -3984,7 +3997,7 @@ namespace Kaushal_Darpan.Api.Controllers
 <head>
 <style>
     body {{
-        font-family: 'Arial', 'Helvetica', sans-serif;
+       font-family: 'Noto Sans Devanagari', 'Mangal', 'Arial Unicode MS', sans-serif;
         font-size: 11.5px;
         margin: 0;
         padding: 0;
@@ -4110,13 +4123,24 @@ namespace Kaushal_Darpan.Api.Controllers
         margin-top: 20px;
         padding-top: 5px;
     }}
+
+.footer-sign {{width: 100%;
+    margin-top: 35px;
+    font-size: 12px;
+    font-weight: bold;
+}}
+
+.footer-sign td {{border: none !important;
+    padding: 2px 0 !important;
+}}
+
 </style>
 </head>
 <body>
 <div class='page'>
 
     <table class='main-table'>
-       <tr>
+ <tr>
     <td class='logo-box' style='width: 10%; text-align: center;'>
         <img src='{base64Logo}' style='height: 60px; width: auto;' alt='Logo' />
     </td>
@@ -4130,9 +4154,16 @@ namespace Kaushal_Darpan.Api.Controllers
   
 </tr>
         <tr>
+            <td colspan='3' class='school-info-section'>
+                <div class='school-name'>{model.CurrentOffice}</div>
+             
+            </td>
+        </tr>
+        <tr>
             <td colspan='3' class='order-title'>कार्यभार आदेश</td>
         </tr>
     </table>
+
 
    <table class='main-table'>
     <tr>
@@ -4194,7 +4225,20 @@ namespace Kaushal_Darpan.Api.Controllers
 
    
 </table>
-
+<br/>
+<br/>
+<table class='footer-sign' style='font-size:15px';margin-top:40px;>
+    <tr>
+        <td style='width:50%; text-align:left; vertical-align:top;'>
+            प्रतिलिपि एवं प्रेषण क्रमांक<br>
+            दिनांक
+        </td>
+        <td style='width:50%; text-align:right; vertical-align:top;'>
+            प्रधानाचार्य/प्राचार्य<br>
+            सं.रा. एन.जनरेशन आईटीआई जयपुर सील
+        </td>
+    </tr>
+</table>
   
 
 </div>
