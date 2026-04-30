@@ -48,15 +48,16 @@ namespace Kaushal_Darpan.Api.Controllers
             _unitOfWork = unitOfWork;
             _converter = converter;
         }
+
         [HttpPost("GetStudentDashboard")]
         public async Task<ApiResult<DataTable>> GetStudentDashboard([FromBody] StudentSearchModel body)
         {
-            ActionName = "GetStudentDashboard()";
+            ActionName = "GetStudentDashboard([FromBody] StudentSearchModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
                 // Pass the entire model to the repository
-                result.Data = await _unitOfWork.StudentRepository.GetStudentDashboard(body);
+                result.Data = await Task.Run(() => _unitOfWork.StudentRepository.GetStudentDashboard(body));
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -243,7 +244,8 @@ namespace Kaushal_Darpan.Api.Controllers
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<int>();
-                try {
+                try
+                {
 
                     var data = await _unitOfWork.StudentRepository.UpdateStudentSsoMapping(model);
                     await _unitOfWork.SaveChangesAsync();
@@ -1044,7 +1046,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.StudentRepository.GetStudentAttendanceSubjectwise(request);
-                    
+
                     if (result.Data.Rows.Count > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -1899,7 +1901,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         string devFontSize = "15px";
                         System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                        
+
                         string html = BuildTimeTableHtml(dsTemp);
 
                         //log 1
@@ -2173,7 +2175,7 @@ namespace Kaushal_Darpan.Api.Controllers
             foreach (DataRow row in ds.Tables[1].Rows)
             {
 
-                sb1.AppendLine(string.Format( "<td colspan=\"3\">{0}</td>\n", rowCounter));
+                sb1.AppendLine(string.Format("<td colspan=\"3\">{0}</td>\n", rowCounter));
 
                 rowCounter++;
             }
@@ -2219,7 +2221,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
             // Monday block
-           sb1.AppendLine("<tr style=\"background-color: #FFFF99;\">\n");
+            sb1.AppendLine("<tr style=\"background-color: #FFFF99;\">\n");
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 sb1.AppendLine("<tr style=\"background-color: #FFFF99;\">\n");
@@ -2232,7 +2234,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 sb1.AppendLine(string.Format("<td>{0}</td>\n", row["StaffName"].ToString()));
                 sb1.AppendLine(string.Format("<td>{0}</td>\n", ""));
                 sb1.AppendLine(string.Format("<td>{0}</td>\n", ""));
-                sb1.AppendLine(string.Format("<td>{0}</td>\n",""));
+                sb1.AppendLine(string.Format("<td>{0}</td>\n", ""));
                 sb1.AppendLine(string.Format("<td>{0}</td>\n", ""));
 
             }
@@ -2441,7 +2443,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.StudentRepository.GetStudentAttendanceTLC(request);
-                    
+
                     if (result.Data.Rows.Count > 0)
                     {
                         result.State = EnumStatus.Success;
