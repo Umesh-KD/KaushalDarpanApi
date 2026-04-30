@@ -345,5 +345,47 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("BTER_EM_TransferSystem_IU")]
+        public async Task<ApiResult<int>> BTER_EM_TransferSystem_IU([FromBody] BTER_EM_TransferSystemModule body)
+        {
+            ActionName = "BTER_EM_TransferSystem_IU([FromBody] BTER_EM_TransferSystemModule body)";
+            var result = new ApiResult<int>();
+            try
+            {
+                result.Data = await _unitOfWork.BTER_EM_StaffServiceDetailsRepository.BTER_EM_TransferSystem_IU(body);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else if (result.Data == -1)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
+
     }
 }

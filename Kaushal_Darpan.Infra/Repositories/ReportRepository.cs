@@ -605,12 +605,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_GetGroupCode__brachwisewise_Report";
+
                     command.Parameters.AddWithValue("@action", "_getAllData");
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                    command.Parameters.AddWithValue("@EndTermID", model.EndtermID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                     command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
+                    command.Parameters.AddWithValue("@Schemeid", model.SchemeID);
+
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();
                 }
@@ -9853,9 +9856,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@action", "_getAllData");
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                    command.Parameters.AddWithValue("@EndTermID", model.EndtermID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                     command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
+                    command.Parameters.AddWithValue("@Schemeid", model.SchemeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();

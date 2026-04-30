@@ -38,6 +38,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStudentAttendance_PercentReport(AttendanceTimeTableModal model);
         Task<DataTable> GetStudentAttendance(AttendanceTimeTableModal model);
         Task<DataTable> GetStudentAttendanceReport(AttendanceTimeTableModal model);
+        Task<DataTable> GetStudentAttendancePercentReport(AttendanceTimeTableModal model);
         Task<DataTable> GetStudentAttendanceSubjectwise(AttendanceTimeTableModal model);
         Task<DataTable> GetHolidaysmaster(DateTime? start, DateTime? end);
         Task<int> AddStudentAttendance(List<PostAttendanceTimeTableModal> model);
