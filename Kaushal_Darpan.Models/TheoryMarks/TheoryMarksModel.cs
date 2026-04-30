@@ -121,6 +121,7 @@
         public int StreamID { get; set; }
         public int CourseType { get; set; }
         public int ResultTypeId { get; set; }
+        public int EffectiveFromEndTermId { get; set; }
 
     }
 

@@ -10416,35 +10416,32 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetExamResultType()
         {
-            _actionName = "ResultType()";
-            return await Task.Run(async () =>
+            _actionName = "GetExamResultType()";
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "Usp_Bter_ResultType";
 
-                        command.CommandText = "Usp_Bter_ResultType";
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> ItiShiftUnitDDL(int ID = 0, int FinancialYearID = 0, int CourseTypeID = 0, int InstituteID = 0)
@@ -11851,6 +11848,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return dt;
             });
         }
+
+        #region
+        public async Task<List<EndTermFinYearModel>> GetEffectiveFinYear()
+        {
+            _actionName = "GetEffectiveFinYear()";
+            try
+            {
+                List<EndTermFinYearModel> data = new List<EndTermFinYearModel>();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "Usp_GetEffectiveFinYear";
+
+                    command.Parameters.AddWithValue("@action", "_getRWHeffectiveyears");
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    var dt = await command.FillAsync_DataTable();
+
+                    data = CommonFuncationHelper.ConvertDataTable<List<EndTermFinYearModel>>(dt);
+                }
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        #endregion
 
 
         public async Task<List<CommonDDLModel>> GetCommonMasterDDLByAction(string Action)

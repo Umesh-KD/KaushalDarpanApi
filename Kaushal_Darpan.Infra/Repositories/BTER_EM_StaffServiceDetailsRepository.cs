@@ -333,7 +333,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
                     command.Parameters.AddWithValue("@UpdatedBy", body.UpdatedBy);
                     command.Parameters.AddWithValue("@TransferStatus", body.TransferStatus);
-                    command.Parameters.AddWithValue("@TransferExtJson", jsonParam ?? (object)DBNull.Value);
+                    //command.Parameters.AddWithValue("@TransferExtJson", jsonParam ?? (object)DBNull.Value);
+                    command.Parameters.Add(jsonParam);
                     var returnParam = new SqlParameter("@Return", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
