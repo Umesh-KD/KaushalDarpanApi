@@ -370,10 +370,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "EM_TransferSystemListmain";
+                        command.CommandText = "USP_EM_TransferSystemList";
                         command.Parameters.AddWithValue("@Action", filterModel.Action);
                         command.Parameters.AddWithValue("@TransferSystemID", filterModel.TransferSystemID);
                         command.Parameters.AddWithValue("@StaffID", filterModel.StaffID);
+                        command.Parameters.AddWithValue("@ActionBy", filterModel.ActionBy);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

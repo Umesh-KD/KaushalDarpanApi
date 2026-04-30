@@ -11851,6 +11851,46 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return dt;
             });
         }
+
+
+        public async Task<List<CommonDDLModel>> GetCommonMasterDDLByAction(string Action)
+        {
+            _actionName = "GetCommonMasterDDLByAction(string type)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDL_CommonMaster";
+                        command.Parameters.AddWithValue("@action", Action);
+                        
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    var data = new List<CommonDDLModel>();
+                    if (dataTable != null)
+                    {
+                        data = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    }
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
 

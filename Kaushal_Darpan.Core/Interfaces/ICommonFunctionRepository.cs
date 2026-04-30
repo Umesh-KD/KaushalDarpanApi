@@ -388,7 +388,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetEventTypes();
         Task<DataTable> GetEventCommonMasterList(string type);
 
-
+        Task<List<CommonDDLModel>> GetCommonMasterDDLByAction(string Action);
 
     }
 }
