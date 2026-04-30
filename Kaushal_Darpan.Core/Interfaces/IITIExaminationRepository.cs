@@ -34,6 +34,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> ReturnToAdmitted(int StudentID);
         Task<bool> RevertStatus(RevertDataModel productDetails);
         Task<DataTable> GetDetails(ITIRevaluationDataModel filterModel);
+        Task<DataTable> GetStudentDetailsByEnrollment(StudentEnrollmentModel body);
+        Task<int> UpdateStudentWithHistory(UpdateStudentWithHistoryModel body);
 
 
 
