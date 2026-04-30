@@ -904,7 +904,21 @@
     public class UserOfficePostDataModel
     {
         public int? UserID { get; set; }
+        public int? UserOfficeDetailsId { get; set; }
         public int? DepartmentID { get; set; }
-        public string? Action{ get; set; }
+        public int? OfficeID { get; set; }
+        public int? NodalDistrictID { get; set; }
+        public int? InstituteID { get; set; }
+        public int? DivisionID { get; set; }
+        public int? CurrentPostID { get; set; }
+        public int? UpdatePostID { get; set; }
+        public int? ModifyBy { get; set; }
+
+        public string? Action { get; set; }
+        public string? Office { get; set; }
+        public string? NodalDistrict { get; set; }
+        public string? College { get; set; }
+        public string? Division { get; set; }
+        public string? CurrentPost { get; set; }
     }
 }
