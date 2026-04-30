@@ -686,6 +686,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@JoiningTimeID", request.JoiningTimeID);
                     command.Parameters.AddWithValue("@Dis_OnHoldDoc", request.Dis_OnHoldDoc);
                     command.Parameters.AddWithValue("@OnHoldDoc", request.OnHoldDoc);
+                    command.Parameters.AddWithValue("@JoiningDate", request.JoiningDate);
 
                     command.Parameters.Add("@Return", SqlDbType.Int); // out
                     command.Parameters["@Return"].Direction = ParameterDirection.Output; // out

@@ -5,6 +5,7 @@
         public int SemesterID { get; set; }
         public int StreamID { get; set; }
         public int SubjectID { get; set; }
+        public int StaffID { get; set; }
     }
     public class CommonDDLSubjectCodeMasterModel : RequestBaseModel
     {

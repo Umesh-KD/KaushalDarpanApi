@@ -3137,6 +3137,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@UserID", model.UserID);
                     command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                    command.Parameters.AddWithValue("@LevelID", model.LevelID);
+                    command.Parameters.AddWithValue("@DivisionID", model.DivisionID);
+                    command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
+                    command.Parameters.AddWithValue("@NodalDistrictID", model.NodalDistrictID);
 
 
                     _sqlQuery = command.GetSqlExecutableQuery();

@@ -636,7 +636,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> StreamMaster_streamType(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0,string action="")
+        public async Task<DataTable> StreamMaster_streamType(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, string action = "")
         {
             _actionName = "StreamMaster()";
             return await Task.Run(async () =>
@@ -949,7 +949,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> SemesterRolewise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID=0)
+        public async Task<DataTable> SemesterRolewise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID = 0, int StaffID = 0)
         {
             _actionName = "SemesterRolewise()";
             return await Task.Run(async () =>
@@ -965,6 +965,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermId", EndTermId);
                         command.Parameters.AddWithValue("@StreamType", StreamType);
                         command.Parameters.AddWithValue("@RoleID", RoleID);
+                        command.Parameters.AddWithValue("@StaffID", StaffID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -988,7 +989,8 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> StreamRoleWise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID = 0,int SemesterID=0,int InstituteID=0)
+        public async Task<DataTable> StreamRoleWise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID = 0,
+            int SemesterID = 0, int InstituteID = 0, int StaffID = 0)
         {
             _actionName = "SemesterRolewise()";
             return await Task.Run(async () =>
@@ -1006,6 +1008,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", RoleID);
                         command.Parameters.AddWithValue("@SemesterID", SemesterID);
                         command.Parameters.AddWithValue("@InstituteID", InstituteID);
+                        command.Parameters.AddWithValue("@StaffID", StaffID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -1030,7 +1033,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> StaffAttendence(string SSOID= "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0)
+        public async Task<DataTable> StaffAttendence(string SSOID = "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0)
         {
             _actionName = "SemesterRolewise()";
             return await Task.Run(async () =>
@@ -1045,8 +1048,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SSOID", SSOID);
                         command.Parameters.AddWithValue("@EndTermId", EndTermId);
                         command.Parameters.AddWithValue("@StreamType", StreamType);
-                  
-              
+
+
                         command.Parameters.AddWithValue("@InstituteID", InstituteID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -1814,7 +1817,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         //command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
-            
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -4798,41 +4801,39 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         public async Task<DataTable> GetTransactionDetailsActionWise(StudentSearchModel model)
         {
-            return await Task.Run(async () =>
+            _actionName = "GetTransactionDetailsActionWise(StudentSearchModel model)";
+            try
             {
-                _actionName = "GetEmitraTransactionDetails(string PRN)";
-                try
+                DataTable dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dt = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetEmitraTransactionDetails";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetEmitraTransactionDetails";
 
-                        command.Parameters.AddWithValue("@PRN", model.PrnNo);
-                        command.Parameters.AddWithValue("@StudentID", model.StudentID);
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@TrasactionStatus", model.TrasactionStatus);
-                        command.Parameters.AddWithValue("@action", model.Action);
-                        _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
-                        dt = await command.FillAsync_DataTable();
-                    }
+                    command.Parameters.AddWithValue("@PRN", model.PrnNo);
+                    command.Parameters.AddWithValue("@StudentID", model.StudentID);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@TrasactionStatus", model.TrasactionStatus);
+                    command.Parameters.AddWithValue("@action", model.Action);
 
-                    return dt;
+                    _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
+                    dt = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         public async Task<DataTable> GetEgrassDetails_DepartmentWise(int DepartmentID, string PaymentType)
         {
@@ -5483,6 +5484,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SchemeID", request.SchemeID);
                         command.Parameters.AddWithValue("@RoleID", request.RoleID);
                         command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@StaffID", request.StaffID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -11745,7 +11747,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> GetEventCommonMaster(string type)
+        public async Task<DataTable> GetEventCommonMaster(string? type)
         {
             _actionName = "GetEventCommonMaster()";
             return await Task.Run(async () =>
@@ -11780,6 +11782,75 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<int> InsertEventCommonMaster(EventModel request)
+        {
+            _actionName = "InsertEventCommonMaster()";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Insert_EventCommonMaster";
+
+                        command.Parameters.AddWithValue("@Type", request.Type);
+                        command.Parameters.AddWithValue("@NameEng", request.NameEng);
+                        command.Parameters.AddWithValue("@NameHi", request.NameHi);
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+
+                        result = Convert.ToInt32(await command.ExecuteScalarAsync());
+                    }
+
+                    return result;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            });
+        }
+
+        public async Task<DataTable> GetEventTypes()
+        {
+            return await Task.Run(async () =>
+            {
+                DataTable dt = new DataTable();
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Get_EventTypes";
+
+                    dt = await command.FillAsync_DataTable();
+                }
+
+                return dt;
+            });
+        }
+
+        public async Task<DataTable> GetEventCommonMasterList(string type)
+        {
+            return await Task.Run(async () =>
+            {
+                DataTable dt = new DataTable();
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Get_EventCommonMaster_List";
+
+                    command.Parameters.AddWithValue("@Type", type ?? "");
+
+                    dt = await command.FillAsync_DataTable();
+                }
+
+                return dt;
+            });
+        }
     }
 }
 

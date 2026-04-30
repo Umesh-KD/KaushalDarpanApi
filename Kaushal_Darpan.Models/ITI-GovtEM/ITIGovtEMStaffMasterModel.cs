@@ -846,6 +846,10 @@
         public int? DepartmentID { get; set; }
         public int? RoleID { get; set; }
         public int? UserID { get; set; }
+        public int? DivisionID { get; set; }
+        public int? OfficeID { get; set; }
+        public int? LevelID { get; set; }
+        public int? NodalDistrictID { get; set; }
     }
 
     public class RelievingLetterResponseModel
@@ -880,12 +884,12 @@
         public string? HeadOfInstituteIDWithSeal { get; set; }
         public string? JoiningDate { get; set; }
         public string? JoiningTime { get; set; }
-        public DateTime? RequestDate { get; set; }
-        public int? RequestStatus { get; set; }
+        public string? RequestDate { get; set; }
+        public string? RequestStatus { get; set; }
         public int? CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public string? CreatedDate { get; set; }
         public int? UpdatedBy { get; set; }
-        public DateTime? UpdatedDate { get; set; }
+        public string? UpdatedDate { get; set; }
         public string? IPAddress { get; set; }
         public string? OldCollege { get; set; }
         public string? oldcollegedistrict { get; set; }
@@ -893,6 +897,7 @@
         public string? Newdistrictname { get; set; }
         public string? Newblockname { get; set; }
         public string? RelivingTime { get; set; }
+        public string? ApprovePost { get; set; }
         public int? StaffID { get; set; }
     }
 
