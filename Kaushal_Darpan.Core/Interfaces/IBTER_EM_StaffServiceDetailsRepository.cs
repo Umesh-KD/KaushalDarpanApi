@@ -19,5 +19,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> StaffTrainingHTS_GetData(StaffTrainingDetailSearchData body);
 
         Task<int> StaffTrainingDocUpdate(StaffTrainingDetailDataModel body);
+
+        //// BTER Staff Transfer System
+        Task<DataTable> GetStaffPersonalDetails(BTER_GetStaffPersonalDetailsModel Model);
     }
 }
