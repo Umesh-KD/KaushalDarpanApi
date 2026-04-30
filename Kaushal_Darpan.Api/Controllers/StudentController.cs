@@ -799,6 +799,88 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+
+
+        [HttpPost("GetStudentAttendancePercentReport")]
+        public async Task<ApiResult<DataTable>> GetStudentAttendancePercentReport([FromBody] AttendanceTimeTableModal request)
+        {
+            ActionName = "GetStudentAttendance()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    result.Data = await _unitOfWork.StudentRepository.GetStudentAttendancePercentReport(request);
+                    //var holidayData = await _unitOfWork.StudentRepository.GetHolidaysmaster(request.AttendanceStartDate, request.AttendanceEndDate);
+
+                    // if (result.Data.Rows.Count > 0)
+                    // {
+                    //     // Iterate through each student attendance row
+                    //     foreach (DataRow studentRow in result.Data.Rows)
+                    //     {
+
+                    //         // Check each holiday data to update attendance status
+                    //         foreach (DataRow holidayRow in holidayData.Rows)
+                    //         {
+                    //             var holidayDate = Convert.ToDateTime(holidayRow.ItemArray[0]).ToString("yyyy-MM-dd");
+
+                    //             if (!result.Data.Columns.Contains(holidayDate))
+                    //             {
+                    //                 result.Data.Columns.Add(holidayDate, typeof(string)); // Add new column to store holiday data
+                    //                                                                       // Get the first item in the holidayRow
+                    //                 string holidayValue = "A";
+                    //                 // Example: Add the holidayValue to the studentRow's new column
+                    //                 studentRow[holidayDate] = holidayValue;
+                    //             }
+                    //             else
+                    //             {
+                    //                 // Get the first item in the holidayRow
+                    //                 string holidayValue = "P";
+                    //                 // Example: Add the holidayValue to the studentRow's new column
+                    //                 studentRow[holidayDate] = holidayValue;
+                    //             }
+
+
+
+
+
+                    //         }
+                    //     }
+                    // }
+
+
+
+
+                    if (result.Data.Rows.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    await _unitOfWork.DisposeAsync();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
         [HttpPost("ITIGetStudentAttendance")]
         public async Task<ApiResult<DataTable>> ITIGetStudentAttendance([FromBody] AttendanceTimeTableModal request)
         {
