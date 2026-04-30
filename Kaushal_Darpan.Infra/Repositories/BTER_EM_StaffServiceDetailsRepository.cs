@@ -2,6 +2,8 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.BTER_EstablishManagement;
+using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -248,6 +250,99 @@ namespace Kaushal_Darpan.Infra.Repositories
                     result = Convert.ToInt32(command.Parameters["@Return"].Value);
                 }
 
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        //// BTER Staff Transfer System
+
+        public async Task<DataTable> GetStaffPersonalDetails(BTER_GetStaffPersonalDetailsModel filterModel)
+        {
+            _actionName = "GetStaffPersonalDetails()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetStaffPersonalDetails";
+                        command.Parameters.AddWithValue("@StaffID", filterModel.StaffID);
+                        command.Parameters.AddWithValue("@SSOID", filterModel.SSOID);
+                        command.Parameters.AddWithValue("@StaffUserID", filterModel.StaffUserID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> BTER_EM_TransferSystem_IU(BTER_EM_TransferSystemModule body)
+        {
+            _actionName = "BTER_EM_TransferSystem_IU(BTER_EM_TransferSystemModule body)";
+            try
+            {
+                int result = 0;
+
+                    var json = body.TransferExtDetails != 
+                    null && body.TransferExtDetails.Any()? System.Text.Json.JsonSerializer.Serialize(body.TransferExtDetails): null;
+
+                var jsonParam = new SqlParameter("@TransferExtJson", SqlDbType.NVarChar, -1)
+                {
+                    Value = string.IsNullOrEmpty(json) ? DBNull.Value : json
+                };
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_BTER_EM_TransferSystem_IU";
+                    command.Parameters.AddWithValue("@TransferSystemID", body.TransferSystemID);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                    command.Parameters.AddWithValue("@SSOID", body.SSOID ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@TransferCategoryID", body.TransferCategoryID);
+                    command.Parameters.AddWithValue("@ReasonDescription", body.ReasonDescription ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@SupportingDocuments", body.SupportingDocuments ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@SupportingDocumentsDis", body.SupportingDocumentsDis ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                    command.Parameters.AddWithValue("@UpdatedBy", body.UpdatedBy);
+                    command.Parameters.AddWithValue("@TransferStatus", body.TransferStatus);
+                    command.Parameters.AddWithValue("@TransferExtJson", jsonParam ?? (object)DBNull.Value);
+                    var returnParam = new SqlParameter("@Return", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(returnParam);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(returnParam.Value);
+                }
                 return result;
             }
             catch (Exception ex)
