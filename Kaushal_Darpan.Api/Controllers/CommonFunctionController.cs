@@ -10585,8 +10585,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("GetCommonMasterDDLByAction/{Action}")]
-        public async Task<ApiResult<List<CommonDDLModel>>> GetCommonMasterDDLByAction(string Action)
+        [HttpGet("GetCommonMasterDDLByAction1/{ActionType}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> GetCommonMasterDDLByAction1(string ActionType)
         {
             ActionName = "GetCommonMasterDDLByAction(string Action)";
             return await Task.Run(async () =>
@@ -10594,7 +10594,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<List<CommonDDLModel>>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetCommonMasterDDLByAction(Action);
+                    var data = await _unitOfWork.CommonFunctionRepository.GetCommonMasterDDLByAction(ActionType);
                     if (data.Count > 0)
                     {
                         result.Data = data;

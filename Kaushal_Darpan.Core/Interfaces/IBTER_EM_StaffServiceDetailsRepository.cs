@@ -30,6 +30,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<bool> EM_TransferSystemUpdatePocessManage(EM_TransferSystemSearchModel request);
 
-        
+        Task<int> EM_TransferSystemUpdateStatus(TransferSystemUpdateDataModel body);
     }
 }

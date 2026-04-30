@@ -115,6 +115,16 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int ActionBy { get; set; }
    
     }
+
+
+    public class TransferSystemUpdateDataModel
+    {
+        public int? TransferSystemID { get; set; }
+        public int? TrainingStatus { get; set; }
+        public string? Remark { get; set; }
+        public int? CreatedBy { get; set; }
+        public string? jsonData { get; set; }
+    }
 }
 
 
