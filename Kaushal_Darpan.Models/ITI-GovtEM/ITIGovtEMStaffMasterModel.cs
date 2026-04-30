@@ -901,4 +901,10 @@
         public int? StaffID { get; set; }
     }
 
+    public class UserOfficePostDataModel
+    {
+        public int? UserID { get; set; }
+        public int? DepartmentID { get; set; }
+        public string? Action{ get; set; }
+    }
 }
