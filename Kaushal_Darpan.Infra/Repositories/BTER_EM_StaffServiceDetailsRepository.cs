@@ -394,6 +394,40 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-       
+        public async Task<bool> EM_TransferSystemUpdatePocessManage(EM_TransferSystemSearchModel request)
+        {
+            _actionName = "EM_TransferSystemUpdatePocessManage(EM_TransferSystemSearchModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_EM_TransferSystemUpdatePocessManage";
+
+                    command.Parameters.AddWithValue("@Action", request.Action);
+                    command.Parameters.AddWithValue("@TransferSystemID", request.TransferSystemID);
+                    command.Parameters.AddWithValue("@ActionBy", request.ActionBy);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                }
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }

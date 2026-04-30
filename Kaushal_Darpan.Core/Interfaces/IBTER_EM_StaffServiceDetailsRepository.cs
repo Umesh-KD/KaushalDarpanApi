@@ -26,7 +26,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> BTER_EM_TransferSystem_IU(BTER_EM_TransferSystemModule body);
 
         Task<DataTable> GetEM_TransferSystemData(EM_TransferSystemSearchModel Model);
-       
 
+        Task<bool> EM_TransferSystemUpdatePocessManage(EM_TransferSystemSearchModel request);
     }
 }
