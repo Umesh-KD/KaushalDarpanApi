@@ -118,5 +118,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> ITI_EM_DropdownGetData(ITI_EM_DroupdownDataModel model);
         Task<DataTable> ITI_OfficeVacancyReport(ITIOfficeVacancyModel model);
         Task<DataTable> ITI_EM_GetUserOfficePostDetails(UserOfficePostDataModel model);
+        Task<int> UpdateUserOfficePost_ITI_EM(UserOfficePostDataModel request);
     }
 }
