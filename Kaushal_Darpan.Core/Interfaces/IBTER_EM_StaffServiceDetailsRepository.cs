@@ -22,5 +22,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         //// BTER Staff Transfer System
         Task<DataTable> GetStaffPersonalDetails(BTER_GetStaffPersonalDetailsModel Model);
+
+        Task<int> BTER_EM_TransferSystem_IU(BTER_EM_TransferSystemModule body);
     }
 }
