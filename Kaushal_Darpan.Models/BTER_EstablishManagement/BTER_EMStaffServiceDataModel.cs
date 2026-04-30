@@ -105,6 +105,16 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int UpdatedBy { get; set; }
         public int FinalApproveStatus { get; set; }
     }
+
+    public class EM_TransferSystemSearchModel
+    {
+        public string? Action { get; set; }
+        public string? Remark { get; set; }
+        public int TransferSystemID { get; set; }
+        public int StaffID { get; set; }
+        public int ActionBy { get; set; }
+   
+    }
 }
 
 

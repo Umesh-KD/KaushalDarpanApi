@@ -358,5 +358,76 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<DataTable> GetEM_TransferSystemData(EM_TransferSystemSearchModel filterModel)
+        {
+            _actionName = "GetEM_TransferSystemData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "EM_TransferSystemListmain";
+                        command.Parameters.AddWithValue("@Action", filterModel.Action);
+                        command.Parameters.AddWithValue("@TransferSystemID", filterModel.TransferSystemID);
+                        command.Parameters.AddWithValue("@StaffID", filterModel.StaffID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> EM_TransferSystemUpdatePocessManage(EM_TransferSystemSearchModel request)
+        {
+            _actionName = "EM_TransferSystemUpdatePocessManage(EM_TransferSystemSearchModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_EM_TransferSystemUpdatePocessManage";
+
+                    command.Parameters.AddWithValue("@Action", request.Action);
+                    command.Parameters.AddWithValue("@TransferSystemID", request.TransferSystemID);
+                    command.Parameters.AddWithValue("@ActionBy", request.ActionBy);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                }
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
