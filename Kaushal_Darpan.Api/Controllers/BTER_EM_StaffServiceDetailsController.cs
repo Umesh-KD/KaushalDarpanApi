@@ -387,5 +387,45 @@ namespace Kaushal_Darpan.Api.Controllers
 
         }
 
+
+        [HttpPost("GetEM_TransferSystemData")]
+        public async Task<ApiResult<DataTable>> GetEM_TransferSystemData([FromBody] EM_TransferSystemSearchModel body)
+        {
+
+            ActionName = "GetEM_TransferSystemData([FromBody] EM_TransferSystemSearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.BTER_EM_StaffServiceDetailsRepository.GetEM_TransferSystemData(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
     }
 }

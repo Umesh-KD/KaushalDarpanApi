@@ -358,5 +358,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<DataTable> GetEM_TransferSystemData(EM_TransferSystemSearchModel filterModel)
+        {
+            _actionName = "GetEM_TransferSystemData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "EM_TransferSystemListmain";
+                        command.Parameters.AddWithValue("@Action", filterModel.Action);
+                        command.Parameters.AddWithValue("@TransferSystemID", filterModel.TransferSystemID);
+                        command.Parameters.AddWithValue("@StaffID", filterModel.StaffID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+       
     }
 }
