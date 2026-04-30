@@ -85,6 +85,11 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public DateTime? UpdatedDate { get; set; }
         public int UpdatedBy { get; set; }
         public int TransferStatus { get; set; }
+        public int NonGazettedID { get; set; }
+
+        public string? EmployeeDesignation { get; set; }
+        public string? EmployeeName { get; set; }
+        public string? NonGazetteName { get; set; }
 
         public List<BTER_EM_TransferSystemExtModule>? TransferExtDetails { get; set; }
 
