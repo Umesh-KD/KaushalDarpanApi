@@ -70,6 +70,8 @@ namespace Kaushal_Darpan.Models.SSOUserDetails
         public int? ManagementTypeId { get; set; }
         public string? OfficeName { get; set; }
         public string? GuestHouseID { get; set; }
+        public int IsShowFinYearDDL { get; set; }
+        
     }
 
 
