@@ -42,42 +42,39 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetStudentDashboard(StudentSearchModel filterModel)
         {
-            _actionName = "GetAllData()";
-            return await Task.Run(async () =>
+            _actionName = "GetStudentDashboard(StudentSearchModel filterModel)";
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "usp_StudentDashboard";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "usp_StudentDashboard";
 
-                        // Add parameters to the stored procedure from the model
-                        command.Parameters.AddWithValue("@RoleId", filterModel.RoleId );
-                        command.Parameters.AddWithValue("@StudentID", filterModel.StudentID );
-                        command.Parameters.AddWithValue("@SsoID", filterModel.SsoID ?? string.Empty);
-                        command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-
-                    return dataTable;
+                    // Add parameters to the stored procedure from the model
+                    command.Parameters.AddWithValue("@RoleId", filterModel.RoleId);
+                    command.Parameters.AddWithValue("@StudentID", filterModel.StudentID);
+                    command.Parameters.AddWithValue("@SsoID", filterModel.SsoID ?? string.Empty);
+                    command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         public async Task<List<StudentDetailsModel>> GetAllData(StudentSearchModel searchModel)
         {
@@ -85,7 +82,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             return await Task.Run(async () =>
             {
                 try
-                    {
+                {
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
@@ -196,7 +193,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITI_StudentPendingFees";
-   
+
                         command.Parameters.AddWithValue("@StudentID", searchModel.StudentID);
                         command.Parameters.AddWithValue("@DepartmentID", searchModel.DepartmentID);
                         command.Parameters.AddWithValue("@EndTermID", searchModel.EndTermID);
@@ -396,7 +393,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> GetStudentDeatilsBySSOId(String ssoid,int DepartmentID=0)
+        public async Task<DataTable> GetStudentDeatilsBySSOId(String ssoid, int DepartmentID = 0)
         {
             _actionName = "GetStudentDeatilsBySSOId()";
             return await Task.Run(async () =>
@@ -647,7 +644,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UnitNo", model.UnitID);
                         command.Parameters.AddWithValue("@StaffID", model.StaffID);
                         command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);
-                        command.Parameters.AddWithValue("@AttendanceStartDate", model.AttendanceStartDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB"))); 
+                        command.Parameters.AddWithValue("@AttendanceStartDate", model.AttendanceStartDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
                         command.Parameters.AddWithValue("@AttendanceEndDate", model.AttendanceEndDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -721,6 +718,61 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+
+        public async Task<DataTable> GetStudentAttendancePercentReport(AttendanceTimeTableModal model)
+        {
+            _actionName = "GetStudentAttendanceReport()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BTER_Get_StudentAttendancePercent";
+
+                        // Add parameters to the stored procedure from the model
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@SectionID", model.SectionID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                  
+                        command.Parameters.AddWithValue("@StaffID", model.StaffID);
+                        command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@Percent", model.Percent);
+                        command.Parameters.AddWithValue("@AttendanceStartDate", model.AttendanceStartDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
+                        command.Parameters.AddWithValue("@AttendanceEndDate", model.AttendanceEndDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
 
 
 
@@ -834,55 +886,55 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetStudentAttendance_PercentReport(AttendanceTimeTableModal model)
         {
             _actionName = "GetStudentAttendance()";
-          
-                try
-                {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITI_Get_StudentAttendancePercent";
 
-                        // Add parameters to the stored procedure from the model
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
-                        command.Parameters.AddWithValue("@SectionID", model.SectionID);
-                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@ShiftNo", model.ShiftID);
-                        command.Parameters.AddWithValue("@UnitNo", model.UnitID);
-                        command.Parameters.AddWithValue("@StaffID", model.StaffID);
-                        command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);
-                        command.Parameters.AddWithValue("@Seatintake", model.Seatintake);
-                        command.Parameters.AddWithValue("@Percent", model.Percent);
-                        command.Parameters.AddWithValue("@SSOID", model.SSOID);
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_Get_StudentAttendancePercent";
+
+                    // Add parameters to the stored procedure from the model
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                    command.Parameters.AddWithValue("@SectionID", model.SectionID);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@ShiftNo", model.ShiftID);
+                    command.Parameters.AddWithValue("@UnitNo", model.UnitID);
+                    command.Parameters.AddWithValue("@StaffID", model.StaffID);
+                    command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);
+                    command.Parameters.AddWithValue("@Seatintake", model.Seatintake);
+                    command.Parameters.AddWithValue("@Percent", model.Percent);
+                    command.Parameters.AddWithValue("@SSOID", model.SSOID);
                     command.Parameters.AddWithValue("@AttendanceStartDate",
                   model.AttendanceStartDate ?? (object)DBNull.Value);
 
                     command.Parameters.AddWithValue("@AttendanceEndDate",
                         model.AttendanceEndDate ?? (object)DBNull.Value);
                     _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-
-
-                    return dataTable;
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetStudentAttendanceSubjectwise(AttendanceTimeTableModal model)
@@ -904,12 +956,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@StreamID", model.StreamID);
                         command.Parameters.AddWithValue("@SectionID", model.SectionID);
-                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID); 
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                         command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
                         command.Parameters.AddWithValue("@StudentID", model.StudentId);
                         command.Parameters.AddWithValue("@Action", model.ActionName);
-                        
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -953,7 +1005,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@AttendanceStartDate", start.Value);
                     command.Parameters.AddWithValue("@AttendanceEndDate", end.Value);
 
-              
+
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
@@ -1016,7 +1068,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errorDetails, ex);
                 }
             });
-          
+
         }
         public async Task<int> PostAttendanceTimeTable(PostAttendanceTimeTable model)
         {
@@ -1029,7 +1081,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
-                        if (model.DepartmentID==2)
+                        if (model.DepartmentID == 2)
                         {
                             command.CommandText = "USP_AddEdit_AssignTeacherForSubjectITI";
                         }
@@ -1037,7 +1089,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.CommandText = "USP_AddEdit_AssignTeacherForSubject";
                         }
-                 
+
                         command.CommandType = CommandType.StoredProcedure;
 
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
@@ -1067,7 +1119,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errorDetails, ex);
                 }
             });
-          
+
         }
 
 
@@ -1083,10 +1135,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
-                       
-                            command.CommandText = "USP_AddEdit_ReAssignTeacherForSubjectITI";
-                   
-                        
+
+                        command.CommandText = "USP_AddEdit_ReAssignTeacherForSubjectITI";
+
+
 
                         command.CommandType = CommandType.StoredProcedure;
 
@@ -1252,7 +1304,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync();
                     }
-                  
+
                     return dataTable;
                 });
             }
@@ -1285,7 +1337,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@MobileNo", body.MobileNumber);
-      
+
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1491,9 +1543,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         // Set the stored procedure name and type
-                       
+
                         command.CommandText = "USP_Bter_AddEdit_AssignTeacherForSubject";
-                       
+
                         command.CommandType = CommandType.StoredProcedure;
 
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
@@ -1619,7 +1671,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errorDetails, ex);
                 }
-            }); 
+            });
 
         }
 
@@ -1813,8 +1865,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                         command.Parameters.AddWithValue("@StreamID", model.StreamID);
-                       
-                        
+
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

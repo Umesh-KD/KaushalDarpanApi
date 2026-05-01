@@ -65,7 +65,7 @@ namespace Kaushal_Darpan.Api.Controllers
         <td>{x.Total_Admission}</td>
         <td>{x.Total_Percentage}</td>
     </tr>
-    "));
+    ")); 
 
             var html = $@"
     <html>

@@ -79,12 +79,9 @@ namespace Kaushal_Darpan.Models.CommonModel
 
     }
 
-    public class ExamLetterReport
+    public class ExamLetterReport : RequestBaseModel
     {
         public int SemesterID { get; set; }
-        public int DepartmentID { get; set; }
-        public int Eng_NonEng { get; set; }
-        public int EndtermID { get; set; }
         public string? SubjectCode { get; set; }
 
     }
@@ -167,6 +164,7 @@ namespace Kaushal_Darpan.Models.CommonModel
         public string? FileNo2 { get; set; }
         public DateOnly? FileDate { get; set; }
         public int? GraceStudent { get; set; }
+        public int? EffectiveFromEndTermId { get; set; }
     }
 
     public class ExamWiseStreamPapersReportModel

@@ -219,7 +219,7 @@ namespace Kaushal_Darpan.Core.Helper
     }
     #endregion
 
-    #region classe
+    #region classes
     public class GenericPaginationSpecification
     {
         private int _pageNumber = 1;
@@ -366,7 +366,11 @@ namespace Kaushal_Darpan.Core.Helper
         public string? FileName { get; set; }
         public bool? ForPGMK { get; set; }
     }
-
+    public class EndTermFinYearModel
+    {
+        public int EndTermID { get; set; }
+        public string EndTermName { get; set; }
+    }
     #endregion
 
     #region enums
@@ -552,6 +556,14 @@ namespace Kaushal_Darpan.Core.Helper
         CalenderYear = 2
     }
 
+    public enum EnumResultType
+    {
+        MainResult = 1,
+        RevaluationResult = 2,
+        RwhResult = 3,
+        Ufm = 4,
+        RwhRevalEffected = 5
+    }
     #endregion
 
     #region extensions

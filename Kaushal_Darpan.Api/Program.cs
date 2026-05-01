@@ -200,6 +200,8 @@ builder.WebHost.ConfigureKestrel(options =>
 });
 
 
+//builder.Services.AddControllersWithViews();
+
 //// action filter
 //builder.Services.AddControllersWithViews(options =>
 //{

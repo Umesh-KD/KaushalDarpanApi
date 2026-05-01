@@ -1011,6 +1011,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetTransactionDetailsActionWise")]
         public async Task<ApiResult<DataTable>> GetTransactionDetailsActionWise(StudentSearchModel model)
         {
+            ActionName = "GetTransactionDetailsActionWise(StudentSearchModel model)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -1781,6 +1782,163 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
+
+        [HttpPost("EmitraExaminationVerifyPaymentStatus")]
+        public async Task<ApiResult<EmitraResponseParametersModel>> EmitraExaminationVerifyPaymentStatus(RPPTransactionStatusDataModel Model)
+        {
+            string RESPONSEJSON;
+            ActionName = "GetTransactionStatus(RPPTransactionStatusDataModel Model)";
+            var result = new ApiResult<EmitraResponseParametersModel>();
+            try
+            {
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                //get payment details form database
+                EmitraRequestDetailsModel dataModel = new EmitraRequestDetailsModel();
+                dataModel.ServiceID = Model.ServiceID;
+                dataModel.DepartmentID = Model.DepartmentID;
+                dataModel.ID = Model.ID;
+                dataModel.IsKiosk = Model.IsEmitra;
+                var data = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(dataModel);
+                if (data == null)
+                {
+                    result.State = EnumStatus.Error;
+                    result.Data = new EmitraResponseParametersModel();
+                    result.ErrorMessage = "Payment Integrations Details Not Found.!";
+                    return result;
+                }
+
+                if (dataModel.IsKiosk)
+                {
+                    data.EncryptionKey = "E-m!@2016";
+                    EmitraVerifyModel VerifyModel = new EmitraVerifyModel();
+                    VerifyModel.MERCHANTCODE = data.MERCHANTCODE;
+                    VerifyModel.SERVICEID = Model.ServiceID;
+                    VerifyModel.REQUESTID = Model.TransactionID;
+                    VerifyModel.SSOTOKEN = "0";
+                    var dRequestChecksum = new VerifyCheckSumEmitra
+                    {
+                        MERCHANTCODE = data.MERCHANTCODE,
+                        REQUESTID = Model.TransactionID,
+                        SSOTOKEN = "0",
+                    };
+                    VerifyModel.CHECKSUM = CommonFuncationHelper.CreateMD5(JsonConvert.SerializeObject(dRequestChecksum));
+                    string retVal = await ThirdPartyServiceHelper.EmitraBackToBackVerifyData("https://emitraapp.rajasthan.gov.in/webServicesRepository/getTokenVerifyNewProcessByRequestIdWithEncryption", JsonConvert.SerializeObject(VerifyModel), "E-m!@2016");
+                    //RESPONSEJSON = EmitraHelper.Decrypt(retVal, data.EncryptionKey);
+
+                    RESPONSEJSON = await ThirdPartyServiceHelper.GetDecryptedStringAsync(retVal);
+
+                    EmitraResponseParametersModel RESPONSEPARAMS = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(RESPONSEJSON);
+                    dynamic stuff = JsonConvert.DeserializeObject(RESPONSEJSON);
+                    string STATUS = stuff.STATUS;
+                    string RESPONSECODE = stuff.RESPONSECODE;
+                    if (RESPONSEPARAMS.TRANSACTIONSTATUS == "SUCCESS")
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Data = RESPONSEPARAMS;
+                        result.Message = RESPONSEPARAMS.MSG;
+                        //Update Database
+                        RESPONSEPARAMS.TransactionNo = RESPONSEPARAMS.TRANSACTIONID;
+                        RESPONSEPARAMS.ApplicationIdEnc = "0";
+                        RESPONSEPARAMS.TRANSACTIONID = Model.TransactionID;
+                        RESPONSEPARAMS.PRN = RESPONSEPARAMS.CONSUMERKEY;
+                        RESPONSEPARAMS.PAIDAMOUNT = RESPONSEPARAMS.AMT;
+                        RESPONSEPARAMS.RESPONSEMESSAGE = RESPONSEPARAMS.MSG;
+                        RESPONSEPARAMS.STATUS = RESPONSEPARAMS.TRANSACTIONSTATUS;
+
+                        RESPONSEPARAMS.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
+                        await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(RESPONSEPARAMS);
+                        await _unitOfWork.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.Data = RESPONSEPARAMS;
+                        result.ErrorMessage = RESPONSEPARAMS.MSG;
+                        //Update Database
+                        RESPONSEPARAMS.TransactionNo = RESPONSEPARAMS.TRANSACTIONID;
+                        RESPONSEPARAMS.ApplicationIdEnc = "0";
+                        RESPONSEPARAMS.TRANSACTIONID = Model.TransactionID;
+                        RESPONSEPARAMS.PRN = RESPONSEPARAMS.CONSUMERKEY;
+                        RESPONSEPARAMS.PAIDAMOUNT = RESPONSEPARAMS.AMT;
+                        RESPONSEPARAMS.RESPONSEMESSAGE = RESPONSEPARAMS.MSG;
+                        RESPONSEPARAMS.STATUS = RESPONSEPARAMS.TRANSACTIONSTATUS;
+                        await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(RESPONSEPARAMS);
+                        await _unitOfWork.SaveChangesAsync();
+                    }
+                }
+                else
+                {
+                    var d = data.VerifyURL + "?MERCHANTCODE=" + data.MERCHANTCODE + "&SERVICEID=" + data.SERVICEID + "&PRN=" + Model.PRN + "";
+                    HttpWebRequest webrequest = (HttpWebRequest)WebRequest.Create(d);
+                    webrequest.Method = "POST";
+                    webrequest.ContentType = "application/x-www-form-urlencoded";
+                    webrequest.ContentLength = 0;
+                    Stream stream = webrequest.GetRequestStream();
+                    stream.Close();
+
+                    using (WebResponse response = webrequest.GetResponse())
+                    {
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        {
+
+                            RESPONSEJSON = reader.ReadToEnd();
+                            EmitraResponseParametersModel RESPONSEPARAMS = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(RESPONSEJSON);
+                            dynamic stuff = JsonConvert.DeserializeObject(RESPONSEJSON);
+                            string STATUS = stuff.STATUS;
+                            string RESPONSECODE = stuff.RESPONSECODE;
+                            if (STATUS == "SUCCESS")
+                            {
+                                result.State = EnumStatus.Success;
+                                result.Data = RESPONSEPARAMS;
+                                result.Message = RESPONSEPARAMS.RESPONSEMESSAGE;
+                                //Update Database
+                                RESPONSEPARAMS.TransactionNo = RESPONSEPARAMS.TRANSACTIONID;
+                                RESPONSEPARAMS.ApplicationIdEnc = Model.ApplicationID;
+                                RESPONSEPARAMS.TRANSACTIONID = Model.TransactionID;
+                                RESPONSEPARAMS.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
+                                await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(RESPONSEPARAMS);
+                                await _unitOfWork.SaveChangesAsync();
+                            }
+                            else
+                            {
+                                result.State = EnumStatus.Error;
+                                result.Data = RESPONSEPARAMS;
+                                result.ErrorMessage = RESPONSEPARAMS.RESPONSEMESSAGE;
+                                //Update Database
+                                RESPONSEPARAMS.TransactionNo = RESPONSEPARAMS.TRANSACTIONID;
+                                RESPONSEPARAMS.ApplicationIdEnc = Model.ApplicationID;
+                                RESPONSEPARAMS.TRANSACTIONID = Model.TransactionID;
+                                RESPONSEPARAMS.ExamStudentStatus = Convert.ToString(Model.ExamStudentStatus);
+                                await _unitOfWork.CommonFunctionRepository.UpdateEmitraApplicationPaymentStatus(RESPONSEPARAMS);
+                                await _unitOfWork.SaveChangesAsync();
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+
 
 
 

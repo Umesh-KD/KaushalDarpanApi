@@ -653,7 +653,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("StreamMaster_streamType/{DepartmentID}/{StreamType}/{EndTermId}/{ActionName}")]
-        public async Task<ApiResult<DataTable>> StreamMaster_streamType(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0,string? ActionName = "")
+        public async Task<ApiResult<DataTable>> StreamMaster_streamType(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, string? ActionName = "")
         {
             return await Task.Run(async () =>
             {
@@ -898,15 +898,15 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("SemesterRolewise/{UserID}/{StreamType}/{EndTermId}/{RoleID}")]
-        public async Task<ApiResult<DataTable>> SemesterRolewise(int UserID = 0, int StreamType = 0, int EndTermId = 0,int RoleID=0)
+        [HttpGet("SemesterRolewise/{UserID}/{StreamType}/{EndTermId}/{RoleID}/{StaffID}")]
+        public async Task<ApiResult<DataTable>> SemesterRolewise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID = 0, int StaffID = 0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.SemesterRolewise(UserID, StreamType, EndTermId,RoleID);
+                    var data = await _unitOfWork.CommonFunctionRepository.SemesterRolewise(UserID, StreamType, EndTermId, RoleID, StaffID);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
@@ -940,15 +940,17 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("StreamRoleWise/{UserID}/{StreamType}/{EndTermId}/{RoleID}/{SemesterID}/{InstituteID}")]
-        public async Task<ApiResult<DataTable>> StreamRoleWise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID = 0, int SemesterID=0,int InstituteID=0)
-        {   
+        [HttpGet("StreamRoleWise/{UserID}/{StreamType}/{EndTermId}/{RoleID}/{SemesterID}/{InstituteID}/{StaffID}")]
+        public async Task<ApiResult<DataTable>> StreamRoleWise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID = 0,
+            int SemesterID = 0, int InstituteID = 0, int StaffID = 0)
+        {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.StreamRoleWise(UserID, StreamType, EndTermId, RoleID ,SemesterID, InstituteID);
+                    var data = await _unitOfWork.CommonFunctionRepository.StreamRoleWise(UserID, StreamType, EndTermId, RoleID, SemesterID,
+                        InstituteID, StaffID);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
@@ -983,7 +985,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("StaffAttendence/{SSOID}/{StreamType}/{EndTermId}/{InstituteID}")]
-        public async Task<ApiResult<DataTable>> StaffAttendence(string SSOID= "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0)
+        public async Task<ApiResult<DataTable>> StaffAttendence(string SSOID = "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0)
         {
             return await Task.Run(async () =>
             {
@@ -2606,7 +2608,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("GetTierBasedPackageMaster/{TierID}")]
-        public async Task<ApiResult<DataTable>> GetTierBasedPackageMaster(int TierID )
+        public async Task<ApiResult<DataTable>> GetTierBasedPackageMaster(int TierID)
         {
             ActionName = "GetTierBasedPackageMaster()";
             return await Task.Run(async () =>
@@ -8845,32 +8847,29 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpGet("GetExamResultType")]
         public async Task<ApiResult<DataTable>> GetExamResultType()
         {
-            return await Task.Run(async () =>
+            var result = new ApiResult<DataTable>();
+            try
             {
-                var result = new ApiResult<DataTable>();
-                try
+                var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetExamResultType());
+                if (data.Rows.Count > 0)
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetExamResultType();
-                    if (data.Rows.Count > 0)
-                    {
-                        result.Data = data;
-                        result.State = EnumStatus.Success;
-                        result.Message = "Data load successfully .!";
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
 
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = "No record found.!";
-                    }
                 }
-                catch (Exception ex)
+                else
                 {
                     result.State = EnumStatus.Warning;
-                    result.ErrorMessage = ex.Message;
+                    result.Message = "No record found.!";
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Warning;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
 
 
@@ -10413,26 +10412,238 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpGet("EventCommonMaster")]
-        public async Task<ApiResult<DataTable>> EventCommonMaster(string type)
+        public async Task<ApiResult<DataTable>> EventCommonMaster(string? type)
+        {
+
+            //var result = new ApiResult<List<CommonDDLModel>>();
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                var data = await _unitOfWork.CommonFunctionRepository.GetEventCommonMaster(type);
+
+                if (data.Rows.Count > 0)
+                {
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data loaded successfully!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
+
+        [HttpPost("InsertEventCommonMaster")]
+        public async Task<ApiResult<int>> InsertEventCommonMaster(EventModel request)
+        {
+            var result = new ApiResult<int>();
+
+            try
+            {
+                var data = await _unitOfWork.CommonFunctionRepository.InsertEventCommonMaster(request);
+
+                if (data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data inserted successfully!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = "Insert failed!";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        [HttpGet("GetEventTypes")]
+        public async Task<ApiResult<DataTable>> GetEventTypes()
+        {
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                var data = await _unitOfWork.CommonFunctionRepository.GetEventTypes();
+
+                if (data.Rows.Count > 0)
+                {
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No types found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        [HttpGet("GetEventCommonMasterList")]
+        public async Task<ApiResult<DataTable>> GetEventCommonMasterList(string type = "")
+        {
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                var data = await _unitOfWork.CommonFunctionRepository.GetEventCommonMasterList(type);
+
+                if (data.Rows.Count > 0)
+                {
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+
+        [HttpPost("GetItiVacantPost")]
+        public async Task<ApiResult<DataTable>> GetItiVacantPost(VacantPostMaster model)
+
         {
             return await Task.Run(async () =>
             {
-                //var result = new ApiResult<List<CommonDDLModel>>();
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetEventCommonMaster(type);
-
+                    var data = await _unitOfWork.CommonFunctionRepository.GetItiVacantPost(model);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
                         result.State = EnumStatus.Success;
-                        result.Message = "Data loaded successfully!";
+                        result.Message = "Data load successfully .!";
+
                     }
                     else
                     {
                         result.State = EnumStatus.Warning;
-                        result.Message = "No record found!";
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        #region Effective End Terms
+        [HttpGet("GetEffectiveFinYear")]
+        public async Task<ApiResult<List<EndTermFinYearModel>>> GetEffectiveFinYear()
+        {
+            ActionName = "GetEffectiveFinYear()";
+            var result = new ApiResult<List<EndTermFinYearModel>>();
+            try
+            {
+                var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetEffectiveFinYear());
+                if (data.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+
+                result.Data = data;
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+        #endregion
+
+
+
+        [HttpGet("GetCommonMasterDDLByAction1/{ActionType}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> GetCommonMasterDDLByAction1(string ActionType)
+        {
+            ActionName = "GetCommonMasterDDLByAction(string Action)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<CommonDDLModel>>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.GetCommonMasterDDLByAction(ActionType);
+                    if (data.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
                     }
                 }
                 catch (Exception ex)

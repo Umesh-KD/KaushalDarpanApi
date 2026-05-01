@@ -57,7 +57,80 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
     }
 
 
+    //// BTER Staff Transfer System
+
+    public class BTER_GetStaffPersonalDetailsModel
+    {
+        public int? StaffUserID { get; set; }
+        public int? StaffID { get; set; }
+        public string? SSOID { get; set; }
+        public string Remark { get; set; }
+        public int? ModifyBy { get; set; }
+    }
+
+    public class BTER_EM_TransferSystemModule
+    {
+        public int TransferSystemID { get; set; }
+        public int UserID { get; set; }
+        public int StaffID { get; set; }
+        public string? SSOID { get; set; }
+        public int TransferCategoryID { get; set; }
+        public string? ReasonDescription { get; set; }
+        public string? SupportingDocuments { get; set; }
+        public string? SupportingDocumentsDis { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public int UpdatedBy { get; set; }
+        public int TransferStatus { get; set; }
+        public int NonGazettedID { get; set; }
+
+        public string? EmployeeDesignation { get; set; }
+        public string? EmployeeName { get; set; }
+        public string? NonGazetteName { get; set; }
+
+        public List<BTER_EM_TransferSystemExtModule>? TransferExtDetails { get; set; }
 
     }
+
+    public class BTER_EM_TransferSystemExtModule
+    {
+        public int ID { get; set; }
+        public int TransferSystemID { get; set; }
+        public int OfficeID { get; set; }
+        public int PostID { get; set; }
+        public int DistrictID { get; set; }
+        public int InstituteID { get; set; }
+        public int Priority { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public int UpdatedBy { get; set; }
+        public int FinalApproveStatus { get; set; }
+    }
+
+    public class EM_TransferSystemSearchModel
+    {
+        public string? Action { get; set; }
+        public string? Remark { get; set; }
+        public int TransferSystemID { get; set; }
+        public int StaffID { get; set; }
+        public int ActionBy { get; set; }
+        public int StatusID { get; set; }
+   
+    }
+
+
+    public class TransferSystemUpdateDataModel
+    {
+        public int? TransferSystemID { get; set; }
+        public int? TrainingStatus { get; set; }
+        public string? Remark { get; set; }
+        public int? CreatedBy { get; set; }
+        public string? jsonData { get; set; }
+    }
+}
 
 

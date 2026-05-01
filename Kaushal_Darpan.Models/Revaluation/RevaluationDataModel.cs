@@ -107,5 +107,20 @@ namespace Kaushal_Darpan.Models.RevaluationDataModel
         public int RoleID { get; set; }
     }
 
+    public class StudentEnrollmentModel
+    {
+        public string Enrollment { get; set; }
+    }
 
+    public class UpdateStudentWithHistoryModel
+    {
+        public string EnrollmentNo { get; set; }
+        public DateTime DOB { get; set; }
+        public string FatherName { get; set; }
+        public string MotherName { get; set; }
+        public string StudentName { get; set; }
+        public string CreatedBy { get; set; }
+        public int SelectedEndTermID { get; set; }
+        public string CreatedSsoID { get; set; }
+    }
 }

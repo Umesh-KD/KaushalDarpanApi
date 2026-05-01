@@ -468,6 +468,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModeOfDisposal", request.ModeOfDisposal);
                         command.Parameters.AddWithValue("@Remarks", request.Remarks);
                         command.Parameters.AddWithValue("@ApproximateCost", request.ApproximateCost);
+                        command.Parameters.AddWithValue("@ItemDetails", JsonConvert.SerializeObject(request.ItemDetails));
 
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
@@ -803,6 +804,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_StaffIssueReturnItems";
                         command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(SearchReq.ItemList));
+                    
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -1253,6 +1255,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_DTE_INV_SaveLabItemReturn";
                         command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(SearchReq.ItemList));
+                        command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -1556,42 +1559,39 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> ApproveSR5Items(List<ApproveIssuedItemsDataModel> request)
         {
             _actionName = "ApproveSR5Items(ApproveIssuedItemsDataModel request)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        command.CommandText = "USP_Bter_INV_SR5ApprovalOfItems";
-                        command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Bter_INV_SR5ApprovalOfItems";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(request));
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(request));
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
-                        command.Parameters.Add("@Return", SqlDbType.Int);
-                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
-                    }
-                    return result;
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
                 }
-                catch (Exception ex)
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         public async Task<DataTable> GetAllData4LabIncharge(DTEItemsSearchModel4Lab SearchReq)
         {
@@ -1632,6 +1632,56 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+        public async Task<int> MarkAuctionedItems_SR6(AuctionDetailsModel request)
+        {
+            _actionName = "MarkAuctionedItems_SR6(AuctionDetailsModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_BTER_INV_SaveAuctionData_SR6";
+                    command.CommandType = CommandType.StoredProcedure;
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@ItemDetailsId", request.ItemDetailsId);
+                    command.Parameters.AddWithValue("@AuctionDate", request.AuctionDate);
+                    command.Parameters.AddWithValue("@Dis_AuctionDoc", request.Dis_AuctionDoc);
+                    command.Parameters.AddWithValue("@AuctionDoc", request.AuctionDoc);
+                    command.Parameters.AddWithValue("@AuctionQuantity", request.AuctionQuantity);
+                    command.Parameters.AddWithValue("@Authority", request.Authority_forAuctionOrder);
+                    command.Parameters.AddWithValue("@ModeOfDisposal", request.ModeOfDisposal);
+                    command.Parameters.AddWithValue("@Remarks", request.Remarks);
+                    command.Parameters.AddWithValue("@ApproximateCost", request.ApproximateCost);
+                    command.Parameters.AddWithValue("@ItemDetails", JsonConvert.SerializeObject(request.ItemDetails));
+
+                    command.Parameters.Add("@Return", SqlDbType.Int); // out
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
     }
 }

@@ -1023,5 +1023,87 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataTable> GetStudentDetailsByEnrollment(StudentEnrollmentModel body)
+        {
+            _actionName = "GetStudentDetailsByEnrollment()";
+
+            try
+            {
+               
+                    DataTable dataTable = new DataTable();
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIGetStudentDetailsByEnrollment";
+
+                        command.Parameters.Add("@Enrollment", SqlDbType.VarChar).Value = body.Enrollment;
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> UpdateStudentWithHistory(UpdateStudentWithHistoryModel body)
+        {
+            _actionName = "UpdateStudentWithHistory()";
+
+            try
+            {
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_UpdateStudentWithHistory";
+
+                    command.Parameters.Add("@EnrollmentNo", SqlDbType.VarChar).Value = body.EnrollmentNo;
+                    command.Parameters.Add("@DOB", SqlDbType.Date).Value = body.DOB;
+                    command.Parameters.Add("@FatherName", SqlDbType.VarChar).Value = body.FatherName;
+                    command.Parameters.Add("@MotherName", SqlDbType.VarChar).Value = body.MotherName;
+                    command.Parameters.Add("@StudentName", SqlDbType.VarChar).Value = body.StudentName;
+                    command.Parameters.Add("@CreatedBy", SqlDbType.VarChar).Value = body.CreatedBy;
+                    command.Parameters.Add("@SelectedEndTermID", SqlDbType.Int).Value = body.SelectedEndTermID;
+                    command.Parameters.Add("@CreatedSsoID", SqlDbType.VarChar).Value = body.CreatedSsoID;
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    var obj = await command.ExecuteScalarAsync();
+                    result = Convert.ToInt32(obj);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
