@@ -46,6 +46,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> HostelInstituteMapping(HostelInstituteMappingModel hostelManagement);
         Task<DataTable> GetAllddlHostelList(HostelManagementSearchModel filterModel);
         Task<DataTable> GetAllHostelInstituteMappingList(HostelInstituteMappingModel filterModel);
+        Task<int> UnmapHostelInstitute(UnmapHostelDataModel model);
         Task<HostelInstituteMappingModel> GetHostelInstituteMappingByID(int PK_ID);
         Task<int> HostelInstituteMappingSaveData(List<InstituteMappingListModel> productDetails);
         Task<bool> SaveHostelFee(HostelFeeModel request);

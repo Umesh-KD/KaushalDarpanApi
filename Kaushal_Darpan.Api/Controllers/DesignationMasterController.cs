@@ -105,6 +105,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.State = EnumStatus.Success;
                         if (request.DesignationID == 0)
                         {
+
                             result.Message = "Saved successfully!";
                         }
                         else
