@@ -1082,7 +1082,92 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [HttpPost("GetStudentDetailsByEnrollment")]
+        public async Task<ApiResult<DataTable>> GetStudentDetailsByEnrollment([FromBody] StudentEnrollmentModel body)
+        {
+            ActionName = "GetStudentDetailsByEnrollment()";
+            var result = new ApiResult<DataTable>();
 
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITIExaminationRepository.GetStudentDetailsByEnrollment(body));
+
+                if (result.Data == null || result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+
+                result.State = EnumStatus.Success;
+                result.Message = "Student details fetched successfully.!";
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
+
+        [HttpPost("UpdateStudentWithHistory")]
+        public async Task<ApiResult<int>> UpdateStudentWithHistory([FromBody] UpdateStudentWithHistoryModel body)
+        {
+            ActionName = "UpdateStudentWithHistory()";
+            var result = new ApiResult<int>();
+
+            try
+            {
+                var data = await Task.Run(() =>
+                    _unitOfWork.ITIExaminationRepository.UpdateStudentWithHistory(body));
+
+                if (data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Student updated successfully with history.";
+                }
+                else if (data == -2)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "Student not found.";
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = "Update failed.";
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
     }
 
 }

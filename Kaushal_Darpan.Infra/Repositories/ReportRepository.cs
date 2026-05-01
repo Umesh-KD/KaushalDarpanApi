@@ -195,6 +195,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
                     //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
+                    command.Parameters.AddWithValue("@EffectiveEndTermID", body.EffectiveFromEndTermId);
 
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
@@ -272,6 +273,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
                     //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
+                    command.Parameters.AddWithValue("@EffectiveEndTermID", body.EffectiveFromEndTermId);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dt = await command.FillAsync_DataTable();
@@ -605,12 +607,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_GetGroupCode__brachwisewise_Report";
+
                     command.Parameters.AddWithValue("@action", "_getAllData");
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                    command.Parameters.AddWithValue("@EndTermID", model.EndtermID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                     command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
+                    command.Parameters.AddWithValue("@Schemeid", model.SchemeID);
+
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();
                 }
@@ -9853,9 +9858,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@action", "_getAllData");
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                    command.Parameters.AddWithValue("@EndTermID", model.EndtermID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                     command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
+                    command.Parameters.AddWithValue("@Schemeid", model.SchemeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();
@@ -9956,6 +9962,125 @@ namespace Kaushal_Darpan.Infra.Repositories
                     SqlExecutableQuery = _sqlQuery
                 };
 
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataSet> GetTabularDetailsResultRptTabulationRWH(TabluationDataModel body)
+        {
+            _actionName = "GetTabularDetailsResultRptTabulationRWH(TabluationDataModel body)";
+            try
+            {
+                DataSet ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
+                    command.CommandText = "USP_GetTabularDetails_ResultRpt_TabulationRWH";
+
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
+                    command.Parameters.AddWithValue("@CourseType", body.CourseType);
+                    command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
+                    //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+                    command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
+                    command.Parameters.AddWithValue("@EffectiveEndTermID", body.EffectiveFromEndTermId);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    ds = await command.FillAsync();
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataSet> DownloadResultStatisticsReportRWH(StatisticsBridgeCourseModel model)
+        {
+            _actionName = "DownloadResultStatisticsReportRWH(StatisticsBridgeCourseModel model)";
+            try
+            {
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_RWHResultStatisticsReport";
+
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@ResultType", model.ResultType);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                    command.Parameters.AddWithValue("@EffectiveEndTermID", model.EffectiveFromEndTermId);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataSet> downloadResultAppearedPassedStatisticsReportRWH(ResultAppearedPassedStatisticsReportModel model)
+        {
+            _actionName = "downloadResultAppearedPassedStatisticsReportRWH(ResultAppearedPassedStatisticsReportModel model)";
+            try
+            {
+                DataSet ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_RWHResultRpt_AppearedPassedStatistics";
+
+                    command.Parameters.AddWithValue("@Action", "Passed-StudentResultsheet");
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@ResultType", model.ResultType);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                    command.Parameters.AddWithValue("@EffectiveEndTermID", model.EffectiveFromEndTermId);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                 throw new Exception(errordetails, ex);
             }

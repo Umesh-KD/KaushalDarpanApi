@@ -85,6 +85,11 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public DateTime? UpdatedDate { get; set; }
         public int UpdatedBy { get; set; }
         public int TransferStatus { get; set; }
+        public int NonGazettedID { get; set; }
+
+        public string? EmployeeDesignation { get; set; }
+        public string? EmployeeName { get; set; }
+        public string? NonGazetteName { get; set; }
 
         public List<BTER_EM_TransferSystemExtModule>? TransferExtDetails { get; set; }
 
@@ -104,6 +109,27 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public DateTime? UpdatedDate { get; set; }
         public int UpdatedBy { get; set; }
         public int FinalApproveStatus { get; set; }
+    }
+
+    public class EM_TransferSystemSearchModel
+    {
+        public string? Action { get; set; }
+        public string? Remark { get; set; }
+        public int TransferSystemID { get; set; }
+        public int StaffID { get; set; }
+        public int ActionBy { get; set; }
+        public int StatusID { get; set; }
+   
+    }
+
+
+    public class TransferSystemUpdateDataModel
+    {
+        public int? TransferSystemID { get; set; }
+        public int? TrainingStatus { get; set; }
+        public string? Remark { get; set; }
+        public int? CreatedBy { get; set; }
+        public string? jsonData { get; set; }
     }
 }
 

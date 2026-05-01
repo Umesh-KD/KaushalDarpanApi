@@ -1,4 +1,5 @@
 ﻿using Kaushal_Darpan.Models.BTER_EstablishManagement;
+using Kaushal_Darpan.Models.CommonFunction;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -24,5 +25,11 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStaffPersonalDetails(BTER_GetStaffPersonalDetailsModel Model);
 
         Task<int> BTER_EM_TransferSystem_IU(BTER_EM_TransferSystemModule body);
+
+        Task<DataTable> GetEM_TransferSystemData(EM_TransferSystemSearchModel Model);
+
+        Task<bool> EM_TransferSystemUpdatePocessManage(EM_TransferSystemSearchModel request);
+
+        Task<int> EM_TransferSystemUpdateStatus(TransferSystemUpdateDataModel body);
     }
 }

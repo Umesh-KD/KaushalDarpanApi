@@ -3648,8 +3648,153 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        //ITI_EM_GetUserOfficePostDetails(UserOfficePostDataModel model)
+        [HttpPost("ITI_EM_GetUserOfficePostDetails")]
+        public async Task<ApiResult<DataTable>> ITI_EM_GetUserOfficePostDetails(UserOfficePostDataModel model)
+        {
+            ActionName = "ITI_EM_GetUserOfficePostDetails(UserOfficePostDataModel model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
 
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITI_EM_GetUserOfficePostDetails(model);
 
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("UpdateUserOfficePost_ITI_EM")]
+        public async Task<ApiResult<int>> UpdateUserOfficePost_ITI_EM([FromBody] UserOfficePostDataModel body)
+        {
+
+            ActionName = "ITI_EM_PostWithVacancyApproveStaffProfile([FromBody] ITI_EM_ApproveStaffDataModel body)";
+            var result = new ApiResult<int>();
+            try
+            {
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.UpdateUserOfficePost_ITI_EM(body);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    if (result.Data == 1)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else if (result.Data == 3)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "";
+                    }
+                    else
+                    {
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                }
+                else if (result.Data == -2)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (body.UserID == 0)
+                    {
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
+
+        [HttpPost("GetEmployeeServiceDetails_ITI_EM")]
+        public async Task<ApiResult<DataTable>> GetEmployeeServiceDetails_ITI_EM([FromBody] ITI_Govt_EM_UserRequestHistoryListSearchDataModel request)
+        {
+            ActionName = "GetEmployeeServiceDetails_ITI_EM([FromBody] ITI_Govt_EM_UserRequestHistoryListSearchDataModel request)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.GetEmployeeServiceDetails_ITI_EM(request);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        #region Relieving letter
 
         [HttpGet("downloadRelievingLetterPDF1/{UserID}")]
         public async Task<IActionResult> DownloadRelievingLetterPDF(int UserID)
@@ -3973,9 +4118,10 @@ namespace Kaushal_Darpan.Api.Controllers
 
             return File(pdf, "application/pdf", "Relieving_Letter.pdf");
         }
+        #endregion
 
 
-
+        #region Joining letter
 
         [HttpGet("downloadJoinningLetterPDF1/{UserID}")]
         public async Task<IActionResult> downloadJoinningLetterPDF(int UserID)
@@ -4314,7 +4460,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return File(pdf, "application/pdf", "JoinningLetter.pdf");
         }
 
-
+        #endregion
 
 
     }
