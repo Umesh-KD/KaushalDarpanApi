@@ -376,7 +376,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TransferSystemID", filterModel.TransferSystemID);
                         command.Parameters.AddWithValue("@StaffID", filterModel.StaffID);
                         command.Parameters.AddWithValue("@ActionBy", filterModel.ActionBy);
-                        command.Parameters.AddWithValue("@StatuID", filterModel.StatusID);
+                        command.Parameters.AddWithValue("@StatusID", filterModel.StatusID);
+                        command.Parameters.AddWithValue("@CategoryID", filterModel.CategoryID);
+                        command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);
+                        command.Parameters.AddWithValue("@EmployeeType", filterModel.EmployeeType);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -448,6 +451,46 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@TransferSystemID", body.TransferSystemID);
                     command.Parameters.AddWithValue("@Remark", body.Remark);
                     command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                    command.Parameters.AddWithValue("@jsonData", body.jsonData);
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> TransferSystemEXTStatusUpdate(TransferSystemUpdateDataModel body)
+        {
+            _actionName = "TransferSystemEXTStatusUpdate(TransferSystemUpdateDataModel body)";
+            try
+            {
+
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_TransferSystemEXTStatusUpdate";
+                    command.Parameters.AddWithValue("@TransferSystemID", body.TransferSystemID);
+                    command.Parameters.AddWithValue("@Remark", body.Remark);
+                    command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                    command.Parameters.AddWithValue("@ID", body.ID);
                     command.Parameters.AddWithValue("@jsonData", body.jsonData);
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;

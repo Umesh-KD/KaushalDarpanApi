@@ -529,5 +529,53 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
 
         }
+
+
+        [HttpPost("TransferSystemEXTStatusUpdate")]
+        public async Task<ApiResult<int>> TransferSystemEXTStatusUpdate([FromBody] TransferSystemUpdateDataModel body)
+        {
+
+            ActionName = "TransferSystemEXTStatusUpdate([FromBody] TransferSystemUpdateDataModel body)";
+            var result = new ApiResult<int>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.BTER_EM_StaffServiceDetailsRepository.TransferSystemEXTStatusUpdate(body);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else if (result.Data == -1)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
     }
 }
