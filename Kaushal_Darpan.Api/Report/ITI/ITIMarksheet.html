@@ -3,11 +3,11 @@
 
     <table style="border-collapse: collapse; width: 100%; font-family: Arial; font-size:14px" border="0" cellpadding="5" cellspacing="0">
 
-        {#IF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
+        <!--{#IF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
         <tr>
             <td style="text-align:right;padding-right:50px;"><b>{#=GetITIStudent_Marksheet_SingleDetails.RevisedName=#}&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
         </tr>
-        {#ENDIF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
+        {#ENDIF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}-->
         <tr>
             <td>
                 <table style="border-collapse:collapse;width:100%;">
@@ -17,6 +17,9 @@
                                 <tr>
                                     <td style="width:15%;font-size:12px;vertical-align:top;">
                                         <b> S.No. {#=GetITIStudent_Marksheet_SingleDetails.SNo=#}</b>
+
+
+
                                     </td>
 
                                     <td style="width:70%;text-align:center;vertical-align:middle; padding-bottom:10px;padding-top:0px">
@@ -42,12 +45,17 @@
                                     </td>
 
                                     <td style="width: 15%; text-align: right; vertical-align: top;">
-                                       
+
                                         <div style="text-align:center;float:right; ">
                                             <img src="{#=GetITIStudent_Marksheet_SingleDetails.ITILogo=#}" style="width:100px;" /><br />
                                             <img src="{#=GetITIStudent_Marksheet_SingleDetails.QRCode=#}"
                                                  style="width:80px;height:80px;" />
                                         </div>
+                                        <!--Revised Marksheet-->
+                                        {#IF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
+                                        <b>{#=GetITIStudent_Marksheet_SingleDetails.RevisedName=#}&nbsp;&nbsp;&nbsp;&nbsp;</b>
+                                        {#ENDIF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
+                                        <!--Revised Marksheet-->
                                     </td>
                                     
                                 </tr>
