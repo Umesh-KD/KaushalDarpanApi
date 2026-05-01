@@ -48,15 +48,16 @@ namespace Kaushal_Darpan.Api.Controllers
             _unitOfWork = unitOfWork;
             _converter = converter;
         }
+
         [HttpPost("GetStudentDashboard")]
         public async Task<ApiResult<DataTable>> GetStudentDashboard([FromBody] StudentSearchModel body)
         {
-            ActionName = "GetStudentDashboard()";
+            ActionName = "GetStudentDashboard([FromBody] StudentSearchModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
                 // Pass the entire model to the repository
-                result.Data = await _unitOfWork.StudentRepository.GetStudentDashboard(body);
+                result.Data = await Task.Run(() => _unitOfWork.StudentRepository.GetStudentDashboard(body));
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -243,7 +244,8 @@ namespace Kaushal_Darpan.Api.Controllers
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<int>();
-                try {
+                try
+                {
 
                     var data = await _unitOfWork.StudentRepository.UpdateStudentSsoMapping(model);
                     await _unitOfWork.SaveChangesAsync();
@@ -797,6 +799,88 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+
+
+        [HttpPost("GetStudentAttendancePercentReport")]
+        public async Task<ApiResult<DataTable>> GetStudentAttendancePercentReport([FromBody] AttendanceTimeTableModal request)
+        {
+            ActionName = "GetStudentAttendance()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    result.Data = await _unitOfWork.StudentRepository.GetStudentAttendancePercentReport(request);
+                    //var holidayData = await _unitOfWork.StudentRepository.GetHolidaysmaster(request.AttendanceStartDate, request.AttendanceEndDate);
+
+                    // if (result.Data.Rows.Count > 0)
+                    // {
+                    //     // Iterate through each student attendance row
+                    //     foreach (DataRow studentRow in result.Data.Rows)
+                    //     {
+
+                    //         // Check each holiday data to update attendance status
+                    //         foreach (DataRow holidayRow in holidayData.Rows)
+                    //         {
+                    //             var holidayDate = Convert.ToDateTime(holidayRow.ItemArray[0]).ToString("yyyy-MM-dd");
+
+                    //             if (!result.Data.Columns.Contains(holidayDate))
+                    //             {
+                    //                 result.Data.Columns.Add(holidayDate, typeof(string)); // Add new column to store holiday data
+                    //                                                                       // Get the first item in the holidayRow
+                    //                 string holidayValue = "A";
+                    //                 // Example: Add the holidayValue to the studentRow's new column
+                    //                 studentRow[holidayDate] = holidayValue;
+                    //             }
+                    //             else
+                    //             {
+                    //                 // Get the first item in the holidayRow
+                    //                 string holidayValue = "P";
+                    //                 // Example: Add the holidayValue to the studentRow's new column
+                    //                 studentRow[holidayDate] = holidayValue;
+                    //             }
+
+
+
+
+
+                    //         }
+                    //     }
+                    // }
+
+
+
+
+                    if (result.Data.Rows.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    await _unitOfWork.DisposeAsync();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
         [HttpPost("ITIGetStudentAttendance")]
         public async Task<ApiResult<DataTable>> ITIGetStudentAttendance([FromBody] AttendanceTimeTableModal request)
         {
@@ -1044,7 +1128,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.StudentRepository.GetStudentAttendanceSubjectwise(request);
-                    
+
                     if (result.Data.Rows.Count > 0)
                     {
                         result.State = EnumStatus.Success;
@@ -1899,7 +1983,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         string devFontSize = "15px";
                         System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                        
+
                         string html = BuildTimeTableHtml(dsTemp);
 
                         //log 1
@@ -2173,7 +2257,7 @@ namespace Kaushal_Darpan.Api.Controllers
             foreach (DataRow row in ds.Tables[1].Rows)
             {
 
-                sb1.AppendLine(string.Format( "<td colspan=\"3\">{0}</td>\n", rowCounter));
+                sb1.AppendLine(string.Format("<td colspan=\"3\">{0}</td>\n", rowCounter));
 
                 rowCounter++;
             }
@@ -2219,7 +2303,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
             // Monday block
-           sb1.AppendLine("<tr style=\"background-color: #FFFF99;\">\n");
+            sb1.AppendLine("<tr style=\"background-color: #FFFF99;\">\n");
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 sb1.AppendLine("<tr style=\"background-color: #FFFF99;\">\n");
@@ -2232,7 +2316,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 sb1.AppendLine(string.Format("<td>{0}</td>\n", row["StaffName"].ToString()));
                 sb1.AppendLine(string.Format("<td>{0}</td>\n", ""));
                 sb1.AppendLine(string.Format("<td>{0}</td>\n", ""));
-                sb1.AppendLine(string.Format("<td>{0}</td>\n",""));
+                sb1.AppendLine(string.Format("<td>{0}</td>\n", ""));
                 sb1.AppendLine(string.Format("<td>{0}</td>\n", ""));
 
             }
@@ -2441,7 +2525,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     result.Data = await _unitOfWork.StudentRepository.GetStudentAttendanceTLC(request);
-                    
+
                     if (result.Data.Rows.Count > 0)
                     {
                         result.State = EnumStatus.Success;

@@ -387,8 +387,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> InsertEventCommonMaster(EventModel request);
         Task<DataTable> GetEventTypes();
         Task<DataTable> GetEventCommonMasterList(string type);
+        Task<List<EndTermFinYearModel>> GetEffectiveFinYear();
 
-
+        Task<List<CommonDDLModel>> GetCommonMasterDDLByAction(string Action);
 
     }
 }

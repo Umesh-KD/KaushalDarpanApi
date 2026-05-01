@@ -6,6 +6,7 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.tool.xml.html;
@@ -44,6 +45,7 @@ using Kaushal_Darpan.Models.TheoryMarks;
 using Kaushal_Darpan.Models.TimeTable;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Pkcs;
 using QRCoder;
 using System;
@@ -53,7 +55,6 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using System.Text;
-using Newtonsoft.Json;
 
 
 
@@ -2410,7 +2411,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 await Task.Run(() =>
                 {
                     using (FileStream stream = new FileStream(poutputPath, FileMode.Create))
-                    using (Document document = new Document())
+                    using (iTextSharp.text.Document document = new iTextSharp.text.Document())
                     using (PdfCopy pdfCopy = new PdfCopy(document, stream))
                     {
                         document.Open();
@@ -12692,7 +12693,16 @@ namespace Kaushal_Darpan.Api.Controllers
             var result = new ApiResult<string>();
             try
             {
-                var data = await _unitOfWork.ReportRepository.DownloadResultStatisticsReport(model);
+                var data = new DataSet();
+                if (model.ResultType == (int)EnumResultType.RwhResult || model.ResultType == (int)EnumResultType.RwhRevalEffected)
+                {
+                    data = await Task.Run(() => _unitOfWork.ReportRepository.DownloadResultStatisticsReportRWH(model));
+                }
+                else
+                {
+                    data = await Task.Run(() => _unitOfWork.ReportRepository.DownloadResultStatisticsReport(model));
+                }
+                //
                 if (data.Tables.Count > 1 && data.Tables[0].Rows?.Count > 0)
                 {
                     //report
@@ -14759,7 +14769,15 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
 
                     // get tabular details
-                    var tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body));
+                    var tabular_data = new DataSet();
+                    if (body.ResultTypeId == (int)EnumResultType.RwhResult || body.ResultTypeId == (int)EnumResultType.RwhRevalEffected)
+                    {
+                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationRWH(body));
+                    }
+                    else
+                    {
+                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body));
+                    }
                     if (tabular_data.Tables?.Count < 2)
                     {
                         continue;
@@ -16708,7 +16726,16 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             try
             {
-                var main_data = await _unitOfWork.ReportRepository.downloadResultAppearedPassedStatisticsReport(data);
+                var main_data = new DataSet();
+                if (data.ResultType == (int)EnumResultType.RwhResult || data.ResultType == (int)EnumResultType.RwhRevalEffected)
+                {
+                    main_data = await Task.Run(() => _unitOfWork.ReportRepository.downloadResultAppearedPassedStatisticsReportRWH(data));
+                }
+                else
+                {
+                    main_data = await Task.Run(() => _unitOfWork.ReportRepository.downloadResultAppearedPassedStatisticsReport(data));
+                }
+                //
                 if (main_data == null || main_data.Tables.Count < 2)
                 {
                     throw new Exception("Data not found for the given parameters.");

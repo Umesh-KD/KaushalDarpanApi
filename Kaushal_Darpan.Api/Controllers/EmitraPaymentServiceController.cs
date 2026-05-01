@@ -1011,6 +1011,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetTransactionDetailsActionWise")]
         public async Task<ApiResult<DataTable>> GetTransactionDetailsActionWise(StudentSearchModel model)
         {
+            ActionName = "GetTransactionDetailsActionWise(StudentSearchModel model)";
             var result = new ApiResult<DataTable>();
             try
             {
