@@ -60,5 +60,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> ApproveIssuedItems(List<ApproveIssuedItemsDataModel> request);
         Task<int> ApproveSR5Items(List<ApproveIssuedItemsDataModel> request);
         Task<DataTable> GetAllData4LabIncharge(DTEItemsSearchModel4Lab SearchReq);
+        Task<int> MarkAuctionedItems_SR6(AuctionDetailsModel request);
     }
 }

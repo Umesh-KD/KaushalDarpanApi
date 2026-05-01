@@ -116,9 +116,13 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public string? ModeOfDisposal { get; set; }
         public string? Remarks { get; set; }
         public decimal? ApproximateCost { get; set; }
+        public List<AuctionItemDetailsDataModel>? ItemDetails { get; set; }
     }
 
-
+    public class AuctionItemDetailsDataModel 
+    { 
+        public int? ItemDetailsId { get; set; }
+    }
     public class EquipmentCodeDuplicateSearch
     {
         public string ItemCategoryName { get; set; }
@@ -231,6 +235,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? UserID { get; set; }
         public int? ApproveIssueQuantity { get; set; }
         public int? IssueStatus { get; set; }
+        public int? equipmentStatus { get; set; }
+        public bool? isOption { get; set; }
     }
 
     public class HandoverItemSearchModel

@@ -2243,6 +2243,17 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return _I_ITI_AdmissionReports ??= new ITI_AdmissionReportsRepository(_dbContext);
             }
         }
+
+        private IPostMasterRepository _postMasterRepository;
+        public IPostMasterRepository PostMasterRepository
+        {
+            get
+            {
+                return _postMasterRepository ??= new PostMasterRepository(_dbContext);
+            }
+
+
+        }
         #endregion
 
 
