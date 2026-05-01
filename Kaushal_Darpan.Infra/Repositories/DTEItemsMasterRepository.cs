@@ -803,6 +803,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_StaffIssueReturnItems";
                         command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(SearchReq.ItemList));
+                    
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -1253,6 +1254,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_DTE_INV_SaveLabItemReturn";
                         command.Parameters.AddWithValue("@ItemList", JsonConvert.SerializeObject(SearchReq.ItemList));
+                        command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();
