@@ -119,6 +119,9 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int StaffID { get; set; }
         public int ActionBy { get; set; }
         public int StatusID { get; set; }
+        public int EmployeeType { get; set; }
+        public int InstituteID { get; set; }
+        public int CategoryID { get; set; }
    
     }
 
@@ -130,6 +133,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? Remark { get; set; }
         public int? CreatedBy { get; set; }
         public string? jsonData { get; set; }
+        public int? ID { get; set; }
     }
 }
 

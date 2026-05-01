@@ -7,6 +7,7 @@ using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.HostelManagementModel;
 using Kaushal_Darpan.Models.StudentApplyForHostel;
 using Kaushal_Darpan.Models.TSPAreaMaster;
+using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using System.Data;
 
@@ -1251,6 +1252,41 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
         }
+
+        public async Task<int> UnmapHostelInstitute(UnmapHostelDataModel model)
+        {
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Unmap_HostelInstitute";
+                    command.Parameters.AddWithValue("@HIMappingID", model.HIMappingID);
+
+                    var result = await command.ExecuteScalarAsync();
+                    return Convert.ToInt32(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+
+
+
+
+
 
         public async Task<HostelInstituteMappingModel> GetHostelInstituteMappingByID(int PK_ID)
         {

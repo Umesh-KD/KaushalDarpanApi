@@ -256,6 +256,7 @@ namespace Kaushal_Darpan.Models.HostelManagementModel
         public string HostelName { get; set; } = string.Empty;
         public string Selected { get; set; } = string.Empty;
         public bool isParent { get; set; } = false;
+        public int HIMappingID { get; set; }
     }
 
     public class HostelFeeModel
@@ -270,6 +271,10 @@ namespace Kaushal_Darpan.Models.HostelManagementModel
         public int EndTermID { get; set; } 
     }
 
+    public class UnmapHostelDataModel
+    {
+        public int HIMappingID { get; set; }
+    }
 
 
 }

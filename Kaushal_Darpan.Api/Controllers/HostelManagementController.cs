@@ -1262,7 +1262,37 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [HttpPost("UnmapHostelInstitute")]
+        public async Task<ApiResult<bool>> UnmapHostelInstitute([FromBody] UnmapHostelDataModel model)
+        {
+            var result = new ApiResult<bool>();
 
+            try
+            {
+                var dbResult = await _unitOfWork.HostelManagementRepository.UnmapHostelInstitute(model);
+
+                if (dbResult == 1)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Unmapped successfully!";
+                    result.Data = true;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Unmap failed";
+                    result.Data = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                result.Data = false;
+            }
+
+            return result;
+        }
 
         [HttpGet("GetHostelInstituteMappingByID/{PK_ID:int}")]
         public async Task<ApiResult<HostelInstituteMappingModel>> GetHostelInstituteMappingByID(int PK_ID)
