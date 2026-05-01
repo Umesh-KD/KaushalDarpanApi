@@ -35,6 +35,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAttendanceTimeTable(AttendanceTimeTableModal model);
         Task<DataTable> ITIGetStudentAttendanceTimeTable(AttendanceTimeTableModal model);
         Task<DataTable> GetStudentAttendance_ITIReport(AttendanceTimeTableModal model);
+        Task<DataTable> GetTeacherAttendence(AttendanceTimeTableModal model);
         Task<DataTable> GetStudentAttendance_PercentReport(AttendanceTimeTableModal model);
         Task<DataTable> GetStudentAttendance(AttendanceTimeTableModal model);
         Task<DataTable> GetStudentAttendanceReport(AttendanceTimeTableModal model);
