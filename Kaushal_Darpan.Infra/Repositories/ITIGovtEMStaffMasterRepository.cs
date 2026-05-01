@@ -2443,40 +2443,37 @@ namespace Kaushal_Darpan.Infra.Repositories
         #region
         public async Task<DataTable> GetITI_Govt_EM_UserProfileStatusHt(ITI_Govt_EM_UserRequestHistoryListSearchDataModel Model)
         {
-            _actionName = "GetAllData()";
-            return await Task.Run(async () =>
+            _actionName = "GetITI_Govt_EM_UserProfileStatusHt(ITI_Govt_EM_UserRequestHistoryListSearchDataModel Model)";
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITI_Govt_EM_UserProfileStatusHt";
-                        // Add parameters to the stored procedure from the model                        
-                        command.Parameters.AddWithValue("@UserID", Model.StaffUserID);
-                        command.Parameters.AddWithValue("@StaffID", Model.StaffID);
-                        command.Parameters.AddWithValue("@DepartmentID", Model.DepartmentID);
-                        command.Parameters.AddWithValue("@Action", "UserProfileStatusHt");
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_Govt_EM_UserProfileStatusHt";
+                    // Add parameters to the stored procedure from the model                        
+                    command.Parameters.AddWithValue("@UserID", Model.StaffUserID);
+                    command.Parameters.AddWithValue("@StaffID", Model.StaffID);
+                    command.Parameters.AddWithValue("@DepartmentID", Model.DepartmentID);
+                    command.Parameters.AddWithValue("@Action", "UserProfileStatusHt");
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
 
-                    return dataTable;
-                }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         #endregion
 
@@ -3244,55 +3241,86 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> UpdateUserOfficePost_ITI_EM(UserOfficePostDataModel request)
         {
             _actionName = "ITI_EM_PostWithVacancyApproveStaffProfile(ITI_EM_ApproveStaffDataModel request)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITI_EM_UpdateUserOfficePost";
-                        command.Parameters.AddWithValue("@Action", "UpdateUserPost");
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_EM_UpdateUserOfficePost";
+                    command.Parameters.AddWithValue("@Action", "UpdateUserPost");
 
-                        command.Parameters.AddWithValue("@UserID", request.UserID);
-                        command.Parameters.AddWithValue("@UserOfficeDetailsId", request.UserOfficeDetailsId);
-                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
-                        command.Parameters.AddWithValue("@OfficeID", request.OfficeID);
-                        command.Parameters.AddWithValue("@NodalDistrictID", request.NodalDistrictID);
-                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
-                        command.Parameters.AddWithValue("@DivisionID", request.DivisionID);
-                        command.Parameters.AddWithValue("@CurrentPostID", request.CurrentPostID);
-                        command.Parameters.AddWithValue("@UpdatePostID", request.UpdatePostID);
-                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@UserID", request.UserID);
+                    command.Parameters.AddWithValue("@UserOfficeDetailsId", request.UserOfficeDetailsId);
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                    command.Parameters.AddWithValue("@OfficeID", request.OfficeID);
+                    command.Parameters.AddWithValue("@NodalDistrictID", request.NodalDistrictID);
+                    command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                    command.Parameters.AddWithValue("@DivisionID", request.DivisionID);
+                    command.Parameters.AddWithValue("@CurrentPostID", request.CurrentPostID);
+                    command.Parameters.AddWithValue("@UpdatePostID", request.UpdatePostID);
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
-                        command.Parameters.Add("@Return", SqlDbType.Int);
-                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
+                    _sqlQuery = command.GetSqlExecutableQuery();
 
-                        await command.ExecuteNonQueryAsync();
-                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
-                    }
-
-                    return result;
+                    await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
                 }
-                catch (Exception ex)
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
+        public async Task<DataTable> GetEmployeeServiceDetails_ITI_EM(ITI_Govt_EM_UserRequestHistoryListSearchDataModel Model)
+        {
+            _actionName = "GetAllData()";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_Govt_EM_UserProfileStatusHt";
+                    command.Parameters.AddWithValue("@Action", "EmployeeServiceHistory");
+
+                    command.Parameters.AddWithValue("@UserID", Model.StaffUserID);
+                    command.Parameters.AddWithValue("@StaffID", Model.StaffID);
+                    command.Parameters.AddWithValue("@DepartmentID", Model.DepartmentID);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 
 

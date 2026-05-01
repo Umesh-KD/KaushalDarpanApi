@@ -376,6 +376,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TransferSystemID", filterModel.TransferSystemID);
                         command.Parameters.AddWithValue("@StaffID", filterModel.StaffID);
                         command.Parameters.AddWithValue("@ActionBy", filterModel.ActionBy);
+                        command.Parameters.AddWithValue("@StatuID", filterModel.StatusID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
