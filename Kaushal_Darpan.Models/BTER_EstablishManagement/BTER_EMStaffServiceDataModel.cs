@@ -118,6 +118,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int TransferSystemID { get; set; }
         public int StaffID { get; set; }
         public int ActionBy { get; set; }
+        public int StatusID { get; set; }
    
     }
 
