@@ -164,6 +164,7 @@ namespace Kaushal_Darpan.Models.CommonModel
         public string? FileNo2 { get; set; }
         public DateOnly? FileDate { get; set; }
         public int? GraceStudent { get; set; }
+        public int? EffectiveFromEndTermId { get; set; }
     }
 
     public class ExamWiseStreamPapersReportModel

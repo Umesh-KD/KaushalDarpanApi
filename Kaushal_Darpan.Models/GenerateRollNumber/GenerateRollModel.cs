@@ -91,6 +91,7 @@ namespace Kaushal_Darpan.Models.GenerateEnroll
         public int InstituteID { get; set; }
         public int SemesterID { get; set; }
         public int StreamID { get; set; }
+        public int EffectiveFromEndTermId { get; set; }
     }
 
     public class VerifyRollNumberList
