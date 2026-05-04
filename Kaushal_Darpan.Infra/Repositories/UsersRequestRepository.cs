@@ -75,6 +75,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RequestCreatedInstituteID", Model.RequestCreatedInstituteID);
                     command.Parameters.AddWithValue("@LastworkingDate", Model.LastworkingDate);
                     command.Parameters.AddWithValue("@RelievingTimeID", Model.RelievingTimeID);
+                    command.Parameters.AddWithValue("@OrderID", Model.OrderID);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }

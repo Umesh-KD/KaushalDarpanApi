@@ -288,6 +288,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@OrderDate", request.OrderDate);
                         command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
                         command.Parameters.AddWithValue("@OrderType", request.OrderType);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.AddWithValue("@action", "SaveDataOrder");
                         _sqlQuery = command.GetSqlExecutableQuery();// sql query
@@ -475,6 +476,9 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetAllData()";
             try
             {
+              
+
+
                 return await Task.Run(async () =>
                 {
                     DataTable dataTable = new DataTable();
@@ -486,6 +490,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@OrderNo", body.OrderNo);
                         command.Parameters.AddWithValue("@ParentID", body.ParentID);
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         command.Parameters.AddWithValue("@action", "GetAllData");
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -523,6 +528,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                          command.Parameters.AddWithValue("@OrderType", body.OrderType);
                         command.Parameters.AddWithValue("@OrderNo", body.OrderNo);
                         command.Parameters.AddWithValue("@OrderDate", body.OrderDate);
+                        command.Parameters.AddWithValue("@SanctionID", body.SanctionID);
                         command.Parameters.AddWithValue("@action", "GetNotAssign");
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
