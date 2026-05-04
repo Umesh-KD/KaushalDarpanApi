@@ -86,6 +86,7 @@ namespace Kaushal_Darpan.Models.UserMaster
         public int? RequestCreatedInstituteID { get; set; } =0;
         public string? LastworkingDate { get; set; }
         public int? RoleID { get; set; }
+        public int? OrderID { get; set; }
         public int? RelievingTimeID { get; set; }               
     }
 
