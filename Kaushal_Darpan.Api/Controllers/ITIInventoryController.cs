@@ -868,6 +868,11 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.State = EnumStatus.Warning;
                         result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
                     }
+                    else if(result.Data == -3)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "This item has already been approved and cannot be edited.";
+                    }
                     else
                     {
                         result.State = EnumStatus.Error;
