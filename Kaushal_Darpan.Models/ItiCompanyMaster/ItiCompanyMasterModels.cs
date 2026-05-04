@@ -219,6 +219,7 @@ namespace Kaushal_Darpan.Models.ItiCompanyMaster
         public int? InstituteID { get; set; } = 0;
         public int? ParentID { get; set; } = 0;
         public int? ModifyBy { get; set; } = 0;
+        public int? RoleID { get; set; } = 0;
         
         public string? OrderCopy { get; set; }
         public string? OrderDate { get; set; }
