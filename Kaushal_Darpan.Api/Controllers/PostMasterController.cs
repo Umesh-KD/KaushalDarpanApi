@@ -152,7 +152,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         // ================= DELETE =================
-        [HttpDelete("DeletePostByID/{postID}/{modifyBy}")]
+        [HttpPost("DeletePostByID/{postID}/{modifyBy}")]
         public async Task<ApiResult<bool>> DeletePostByID(int postID, int modifyBy)
         {
             var result = new ApiResult<bool>();
