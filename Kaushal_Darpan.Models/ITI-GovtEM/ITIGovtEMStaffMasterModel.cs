@@ -787,6 +787,8 @@
         public int PostedSeat { get; set; }
         public int TradeID { get; set; }
         public int? PostSanctionedID { get; set; }
+        public int? RoleID { get; set; }
+        public int? UserID { get; set; }
     }
 
 
