@@ -772,6 +772,7 @@
         public int StaffTypeID { get; set; }
         public string? Comments { get; set; }
         public int DepartmentID { get; set; }
+        public int NodalDistrictID { get; set; }
         public int EndTermID { get; set; }
         public int CourseTypeID { get; set; }
         public bool ActiveStatus { get; set; }
@@ -782,6 +783,7 @@
         public string? ModifyDate { get; set; }
         public string? IPAddress { get; set; }
         public string? PostSanctionDate { get; set; }
+        public string? NodalDistrictName { get; set; }
         public int PostedSeat { get; set; }
         public int TradeID { get; set; }
         public int? PostSanctionedID { get; set; }

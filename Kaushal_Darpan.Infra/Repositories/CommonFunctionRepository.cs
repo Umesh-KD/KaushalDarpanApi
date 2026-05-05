@@ -1817,7 +1817,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         //command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
-
+                        command.Parameters.AddWithValue("@NodalDistrictID", model.NodalDistrictID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -2836,7 +2836,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<List<CommonDDLModel>> DistrictMaster_DivisionIDWise(int DivisionID)
+        public async Task<List<CommonDDLModel>> DistrictMaster_DivisionIDWise(int DivisionID, int StateID)
         {
             _actionName = "DistrictMaster_DivisionIDWise(int DivisionID)";
             return await Task.Run(async () =>
@@ -2850,6 +2850,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_DDL_DistrictMaster_dIVISIONIDWise";
                         command.Parameters.AddWithValue("@DivisionID", DivisionID);
+                        command.Parameters.AddWithValue("@StateID", StateID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
