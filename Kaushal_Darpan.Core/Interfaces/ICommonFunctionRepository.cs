@@ -105,7 +105,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<CommonDDLModel>> GetCastCategory();
 
         Task<List<CommonDDLModel>> DistrictMaster_StateIDWise(int StateID);
-        Task<List<CommonDDLModel>> DistrictMaster_DivisionIDWise(int DivisionID);
+        Task<List<CommonDDLModel>> DistrictMaster_DivisionIDWise(int DivisionID, int StateID);
         Task<List<CommonDDLModel>> TehsilMaster_DistrictIDWise(int DistrictID);
         Task<List<CommonDDLModel>> SubDivisionMaster_DistrictIDWise(int DistrictID);
         Task<List<CommonDDLModel>> AssemblyMaster_DistrictIDWise(int DistrictID);

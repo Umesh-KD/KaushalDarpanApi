@@ -2690,8 +2690,8 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpGet("DistrictMaster_DivisionIDWise/{DivisionID}")]
-        public async Task<ApiResult<List<CommonDDLModel>>> DistrictMaster_DivisionIDWise(int DivisionID)
+        [HttpGet("DistrictMaster_DivisionIDWise/{DivisionID}/{StateID}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> DistrictMaster_DivisionIDWise(int DivisionID, int StateID)
         {
             ActionName = " DistrictMaster_DivisionIDWise(int DivisionID)";
             return await Task.Run(async () =>
@@ -2699,7 +2699,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<List<CommonDDLModel>>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.DistrictMaster_DivisionIDWise(DivisionID);
+                    var data = await _unitOfWork.CommonFunctionRepository.DistrictMaster_DivisionIDWise(DivisionID, StateID);
                     if (data != null)
                     {
                         result.Data = data;

@@ -32,5 +32,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<int> EM_TransferSystemUpdateStatus(TransferSystemUpdateDataModel body);
         Task<int> TransferSystemEXTStatusUpdate(TransferSystemUpdateDataModel body);
+        Task<int> TransferSystemGeneratorUpdate(TransferSystemUpdateDataModel body);
     }
 }

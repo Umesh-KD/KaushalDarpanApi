@@ -231,6 +231,7 @@ namespace Kaushal_Darpan.Models.CommonFunction
 
         public int InstituteID { get; set; }
         public int OfficeID { get; set; }
+        public int NodalDistrictID { get; set; }
     }
 
 }
