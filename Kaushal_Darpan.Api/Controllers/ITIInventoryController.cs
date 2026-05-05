@@ -2826,7 +2826,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     if (result.Data > 0)
                     {
                         result.State = EnumStatus.Success;
-                        if (request.RequiredItemId == 1)
+                        if (request.RequiredItemId == 0)
                         {
                             result.Message = Constants.MSG_SAVE_SUCCESS;
                         }

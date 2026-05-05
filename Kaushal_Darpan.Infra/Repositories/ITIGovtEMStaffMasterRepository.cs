@@ -3181,6 +3181,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DesignationID", model.DesignationID);
                         command.Parameters.AddWithValue("@StaffTypeID", model.StaffTypeID);
                         command.Parameters.AddWithValue("@TradeID", model.TradeID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();
