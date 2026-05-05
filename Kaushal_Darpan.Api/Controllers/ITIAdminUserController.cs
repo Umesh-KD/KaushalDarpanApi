@@ -305,64 +305,122 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        //[HttpPost("adminUserDataSave")]
+        //public async Task<ApiResult<int>> adminUserDataSave([FromBody] ITIAdminUserDetailModel request)
+        //{
+        //    ActionName = " SaveAllData([FromBody] ITIAdminUserDetailModel request)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        var result = new ApiResult<int>();
+        //        try
+        //        {
+        //            request.IPAddress = CommonFuncationHelper.GetIpAddress();
+        //            result.Data = await _unitOfWork.ITIAdminUserRepository.adminUserDataSave(request);
+        //            await _unitOfWork.SaveChangesAsync();
+        //            if (result.Data > 0)
+        //            {
+        //                result.State = EnumStatus.Success;
+        //                if (request.UserID == 0)
+        //                {
+        //                    result.Message = Constants.MSG_SAVE_SUCCESS;
+        //                }
+        //                else
+        //                {
+        //                    result.Message = Constants.MSG_UPDATE_SUCCESS;
+        //                }
+        //            }
+        //            else if (result.Data == -2)
+        //            {
+        //                result.State = EnumStatus.Warning;
+        //                result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+        //            }
+        //            else
+        //            {
+        //                result.State = EnumStatus.Error;
+        //                if (request.UserID == 0)
+        //                {
+        //                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+        //                }
+        //                else
+        //                {
+        //                    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+        //                }
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            await _unitOfWork.DisposeAsync();
+        //            result.State = EnumStatus.Error;
+        //            result.ErrorMessage = ex.Message;
+        //            // Log the error
+        //            var nex = new NewException
+        //            {
+        //                PageName = PageName,
+        //                ActionName = ActionName,
+        //                Ex = ex,
+        //            };
+        //            await CreateErrorLog(nex, _unitOfWork);
+        //        }
+        //        return result;
+        //    });
+        //}
+
         [HttpPost("adminUserDataSave")]
         public async Task<ApiResult<int>> adminUserDataSave([FromBody] ITIAdminUserDetailModel request)
         {
             ActionName = " SaveAllData([FromBody] ITIAdminUserDetailModel request)";
-            return await Task.Run(async () =>
+
+            var result = new ApiResult<int>();
+
+            try
             {
-                var result = new ApiResult<int>();
-                try
+                request.IPAddress = CommonFuncationHelper.GetIpAddress();
+
+                result.Data = await _unitOfWork.ITIAdminUserRepository.adminUserDataSave(request);
+                await _unitOfWork.SaveChangesAsync();
+
+                if (result.Data == -3) // ✅ FIXED
                 {
-                    request.IPAddress = CommonFuncationHelper.GetIpAddress();
-                    result.Data = await _unitOfWork.ITIAdminUserRepository.adminUserDataSave(request);
-                    await _unitOfWork.SaveChangesAsync();
-                    if (result.Data > 0)
-                    {
-                        result.State = EnumStatus.Success;
-                        if (request.UserID == 0)
-                        {
-                            result.Message = Constants.MSG_SAVE_SUCCESS;
-                        }
-                        else
-                        {
-                            result.Message = Constants.MSG_UPDATE_SUCCESS;
-                        }
-                    }
-                    else if (result.Data == -2)
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
-                    }
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = "Role already assigned"; // or your constant
+                }
+                else if (result.Data > 0)
+                {
+                    result.State = EnumStatus.Success;
+
+                    if (request.UserID == 0)
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
                     else
-                    {
-                        result.State = EnumStatus.Error;
-                        if (request.UserID == 0)
-                        {
-                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                        }
-                        else
-                        {
-                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
-                        }
-                    }
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
                     result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+
+                    if (request.UserID == 0)
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    else
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
         }
 
 
