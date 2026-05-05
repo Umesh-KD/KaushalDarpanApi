@@ -1288,7 +1288,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<HostelInstituteMappingModel> GetHostelInstituteMappingByID(int PK_ID)
+        public async Task<DataTable> GetHostelInstituteMappingByID(int PK_ID)
         {
             _actionName = "GetHostelInstituteMappingByID(int PK_ID)";
             try
@@ -1304,15 +1304,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
-                    var data = new HostelInstituteMappingModel();
-                    if (dataTable != null)
-                    {
-                        if (dataTable.Rows.Count > 0)
-                        {
-                            data = CommonFuncationHelper.ConvertDataTable<HostelInstituteMappingModel>(dataTable);
-                        }
-                    }
-                    return data;
+                    return dataTable;
                 });
             }
             catch (Exception ex)

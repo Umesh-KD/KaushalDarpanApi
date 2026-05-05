@@ -1295,19 +1295,19 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpGet("GetHostelInstituteMappingByID/{PK_ID:int}")]
-        public async Task<ApiResult<HostelInstituteMappingModel>> GetHostelInstituteMappingByID(int PK_ID)
+        public async Task<ApiResult<DataTable>> GetHostelInstituteMappingByID(int PK_ID)
         {
             ActionName = "GetHostelInstituteMappingByID(int PK_ID)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<HostelInstituteMappingModel>();
+                var result = new ApiResult<DataTable>();
                 try
                 {
                     var data = await _unitOfWork.HostelManagementRepository.GetHostelInstituteMappingByID(PK_ID);
                     if (data != null)
                     {
-                        var mappedData = _mapper.Map<HostelInstituteMappingModel>(data);
-                        result.Data = mappedData;
+                       // var mappedData = _mapper.Map< List< HostelInstituteMappingModel>>(data);
+                        result.Data = data;
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                     }

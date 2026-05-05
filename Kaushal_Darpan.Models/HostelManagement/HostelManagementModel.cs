@@ -235,12 +235,12 @@ namespace Kaushal_Darpan.Models.HostelManagementModel
 
     public class HostelInstituteMappingModel
     {
-        public int HIMappingID { get; set; }
-        public int EndTermID { get; set; }
-        public int DepartmentID { get; set; }
-        public int CourseTypeID { get; set; }
+        public int? HIMappingID { get; set; }
+        public int? EndTermID { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? CourseTypeID { get; set; }
         public string? InstituteID { get; set; }
-        public int HostelID { get; set; }
+        public int? HostelID { get; set; }
         public string? IPAddress { get; set; }
 
         public List<InstituteMappingListModel>? SelectedinstituteList { get; set; }
