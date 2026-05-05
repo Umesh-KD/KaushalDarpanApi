@@ -550,5 +550,56 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+        public async Task<int> AddTransferSystemManualRequest(BTERStaffManualRequestModel body)
+        {
+            _actionName = "AddTransferSystemManualRequest(TransferSystemUpdateDataModel body)";
+            try
+            {
+
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_TransferSystemManualRequest";
+                    command.Parameters.AddWithValue("@OfficeID", body.OfficeID ?? 0);
+                    command.Parameters.AddWithValue("@PostID", body.PostID ?? 0);
+                    command.Parameters.AddWithValue("@DistrictID", body.DistrictID ?? 0);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID ?? 0);
+                    command.Parameters.AddWithValue("@StaffID", body.StaffID ?? 0);
+                    command.Parameters.AddWithValue("@NonGazettedID", body.NonGazettedID ?? 0);
+
+                    command.Parameters.AddWithValue("@To_OfficeID", body.To_OfficeID ?? 0);
+                    command.Parameters.AddWithValue("@To_PostID", body.To_PostID ?? 0);
+                    command.Parameters.AddWithValue("@To_ddlDistrictID", body.To_ddlDistrictID ?? 0);
+                    command.Parameters.AddWithValue("@To_ddlCollege", body.To_ddlCollege ?? 0);
+
+                    command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy ?? 0);
+                    command.Parameters.AddWithValue("@UserID", body.UserID ?? 0);
+                    command.Parameters.AddWithValue("@SSOID", body.SSOID ?? "");
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }

@@ -135,6 +135,38 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? jsonData { get; set; }
         public int? ID { get; set; }
     }
+
+
+    public class BTERStaffManualRequestModel
+    {
+        public string? EmployeeDesignation { get; set; }
+        public string? EmployeeName { get; set; }
+        public string? NonGazetteName { get; set; }
+
+        public int? StaffID { get; set; }
+        public int? TransfercateID { get; set; }
+
+        public string? ReasonDescription { get; set; }
+        public string? SupportingDocuments { get; set; }
+        public string? SupportingDocuments_Dis { get; set; }
+        public string? vReasonDescription { get; set; }
+
+        public int? NonGazettedID { get; set; }
+        public int? OfficeID { get; set; }
+        public int? DistrictID { get; set; }
+        public int? InstituteID { get; set; }
+        public int? PostID { get; set; }
+        public int? PriorityID { get; set; }
+
+        public int? CreatedBy { get; set; }
+        public int? UserID { get; set; }
+        public string? SSOID { get; set; }
+
+        public int? To_OfficeID { get; set; }
+        public int? To_PostID { get; set; }
+        public int? To_ddlDistrictID { get; set; }
+        public int? To_ddlCollege { get; set; }
+    }
 }
 
 
