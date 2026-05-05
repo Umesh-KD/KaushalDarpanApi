@@ -390,6 +390,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<EndTermFinYearModel>> GetEffectiveFinYear();
 
         Task<List<CommonDDLModel>> GetCommonMasterDDLByAction(string Action);
-
+        Task<List<CommonDDLModel>> GetGroupCode_Reval(CommonDDLSubjectMasterModel model);
     }
 }

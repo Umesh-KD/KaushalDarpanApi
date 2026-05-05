@@ -3368,45 +3368,43 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<List<CommonDDLModel>> GetGroupCode(CommonDDLSubjectMasterModel model)
         {
             _actionName = "GetGroupCode(CommonDDLSubjectMasterModel model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                List<CommonDDLModel> roleMaster = new List<CommonDDLModel>();
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    List<CommonDDLModel> roleMaster = new List<CommonDDLModel>();
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_DDL_GroupCode";
-                        command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_DDL_GroupCode";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
+                    command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
 
-                    }
-                    if (dataTable.Rows.Count > 1)
-                    {
-                        roleMaster = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
-                    }
-                    return roleMaster;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+
                 }
-                catch (Exception ex)
+                if (dataTable.Rows.Count > 1)
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
+                    roleMaster = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
                 }
-            });
+                return roleMaster;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         public async Task<DataTable> GetExamName()
         {
@@ -11917,6 +11915,48 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+        public async Task<List<CommonDDLModel>> GetGroupCode_Reval(CommonDDLSubjectMasterModel model)
+        {
+            _actionName = "GetGroupCode_Reval(CommonDDLSubjectMasterModel model)";
+            try
+            {
+                List<CommonDDLModel> roleMaster = new List<CommonDDLModel>();
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_DDL_GroupCode_Reval";
+
+                    command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+
+                }
+                if (dataTable.Rows.Count > 1)
+                {
+                    roleMaster = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                }
+                return roleMaster;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
     }
 }

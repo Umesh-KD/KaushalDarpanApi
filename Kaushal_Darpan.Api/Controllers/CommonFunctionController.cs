@@ -3029,41 +3029,38 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<List<CommonDDLModel>>> GetGroupCode(CommonDDLSubjectMasterModel model)
         {
             ActionName = "GetGroupCode(CommonDDLSubjectMasterModel model)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<List<CommonDDLModel>>();
+            try
             {
-                var result = new ApiResult<List<CommonDDLModel>>();
-                try
+                var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetGroupCode(model));
+                if (data != null)
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetGroupCode(model);
-                    if (data != null)
-                    {
-                        result.Data = data;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
 
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
 
@@ -10654,6 +10651,44 @@ namespace Kaushal_Darpan.Api.Controllers
                 }
                 return result;
             });
+        }
+
+        [HttpPost("GetGroupCode_Reval")]
+        public async Task<ApiResult<List<CommonDDLModel>>> GetGroupCode_Reval(CommonDDLSubjectMasterModel model)
+        {
+            ActionName = "GetGroupCode_Reval(CommonDDLSubjectMasterModel model)";
+            var result = new ApiResult<List<CommonDDLModel>>();
+            try
+            {
+                var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetGroupCode_Reval(model));
+                if (data != null)
+                {
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
     }
 }
