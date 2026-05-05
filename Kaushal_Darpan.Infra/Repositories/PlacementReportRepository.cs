@@ -85,8 +85,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
                         command.Parameters.AddWithValue("@RoleID", filterModel.RoleID);
                         command.Parameters.AddWithValue("@CollegeID", filterModel.CollegeID);
+                        command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID ?? string.Empty);
                         command.Parameters.AddWithValue("@StudentName", filterModel.StudentName ?? string.Empty);
                         command.Parameters.AddWithValue("@Gender", filterModel.Gender ?? string.Empty);
+                        command.Parameters.AddWithValue("@TradeID", filterModel.TradeID ?? string.Empty);
+                        command.Parameters.AddWithValue("@CompanyID", filterModel.CompanyID??string.Empty );
                         command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
 
                         _sqlQuery = command.GetSqlExecutableQuery();

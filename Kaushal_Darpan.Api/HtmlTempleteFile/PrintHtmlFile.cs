@@ -197,7 +197,8 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("                <td style=\"width:60%; text-align:center; line-height:1.5;\">");
                 sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_1"]}</strong><br>");
                 sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_2"]}</strong><br>");
-                sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_3"]}</strong>");
+                sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_3"]}</strong><br>");
+                sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
                 sb.AppendLine("                </td>");
                 sb.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
                 sb.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
