@@ -141,35 +141,32 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetExaminerData(TeacherForExaminerSearchModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_Examiner_GetExaminerData";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Examiner_GetExaminerData";
 
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
-                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
-                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
-                        command.Parameters.AddWithValue("@GroupCodeID", body.GroupCodeID);
-                        //command.Parameters.AddWithValue("@ExamID", body.ExamID);
-                        //command.Parameters.AddWithValue("@Name", body.Name);
-                        //command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@CommonSubjectYesNo", body.CommonSubjectYesNo);
-                        command.Parameters.AddWithValue("@CommonSubjectID", body.CommonSubjectID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@IsYearly", body.IsYearly);
-                        command.Parameters.AddWithValue("@Name", body.Name);
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@GroupCodeID", body.GroupCodeID);
+                    //command.Parameters.AddWithValue("@ExamID", body.ExamID);
+                    //command.Parameters.AddWithValue("@Name", body.Name);
+                    //command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@CommonSubjectYesNo", body.CommonSubjectYesNo);
+                    command.Parameters.AddWithValue("@CommonSubjectID", body.CommonSubjectID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@IsYearly", body.IsYearly);
+                    command.Parameters.AddWithValue("@Name", body.Name);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
@@ -188,37 +185,44 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<bool> DeleteDataByID(ExaminerMaster request)
         {
             _actionName = "DeleteDataByID(ExaminerMaster request)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        command.CommandType = CommandType.Text;
-                        command.CommandText = $" update M_ExaminerMaster set ActiveStatus=0, DeleteStatus=1, IsAppointed=0,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'Where ExaminerID={request.ExaminerID}";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_DeleteExaminerData";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
-                    }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    command.Parameters.AddWithValue("@action", "_deleteexaminerdata");
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@ExaminerID", request.ExaminerID);
+
+                    command.Parameters.Add("@Ret_Val", SqlDbType.Int);// out
+                    command.Parameters["@Ret_Val"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Ret_Val"].Value);// out
                 }
-                catch (Exception ex)
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetExaminerByCode(ExaminerCodeLoginModel model)
@@ -733,34 +737,31 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetExaminerData_Reval(TeacherForExaminerSearchModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_Examiner_GetData_Reval";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Examiner_GetData_Reval";
 
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
-                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
-                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
-                        command.Parameters.AddWithValue("@GroupCodeID", body.GroupCodeID);
-                        //command.Parameters.AddWithValue("@ExamID", body.ExamID);
-                        //command.Parameters.AddWithValue("@Name", body.Name);
-                        //command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@CommonSubjectYesNo", body.CommonSubjectYesNo);
-                        command.Parameters.AddWithValue("@CommonSubjectID", body.CommonSubjectID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@IsYearly", body.IsYearly);
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@GroupCodeID", body.GroupCodeID);
+                    //command.Parameters.AddWithValue("@ExamID", body.ExamID);
+                    //command.Parameters.AddWithValue("@Name", body.Name);
+                    //command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@CommonSubjectYesNo", body.CommonSubjectYesNo);
+                    command.Parameters.AddWithValue("@CommonSubjectID", body.CommonSubjectID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@IsYearly", body.IsYearly);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
@@ -779,37 +780,44 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<bool> DeleteByID_Reval(ExaminerMaster request)
         {
             _actionName = "DeleteByID_Reval(ExaminerMaster request)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        command.CommandType = CommandType.Text;
-                        command.CommandText = $" update M_RevalExaminerMaster set ActiveStatus=0, DeleteStatus=1, IsAppointed=0,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'Where ExaminerID={request.ExaminerID}";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_DeleteExaminerData_Reval";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
-                    }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    command.Parameters.AddWithValue("@action", "_deleteexaminerdata_Reval");
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@ExaminerID", request.ExaminerID);
+
+                    command.Parameters.Add("@Ret_Val", SqlDbType.Int);// out
+                    command.Parameters["@Ret_Val"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Ret_Val"].Value);// out
                 }
-                catch (Exception ex)
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetExaminerByCode_Reval(ExaminerCodeLoginModel model)

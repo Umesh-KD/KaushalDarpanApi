@@ -133,7 +133,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetExaminerData")]
         public async Task<ApiResult<DataTable>> GetExaminerData([FromBody] TeacherForExaminerSearchModel body)
         {
-            ActionName = "GetExaminerData()";
+            ActionName = "GetExaminerData([FromBody] TeacherForExaminerSearchModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -169,49 +169,46 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<bool>> DeleteByID(int ExaminerID, int ModifyBy)
         {
             ActionName = "DeleteByID(int ExaminerID, int ModifyBy)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<bool>();
+            try
             {
-                var result = new ApiResult<bool>();
-                try
+                var mappedData = new ExaminerMaster
                 {
-                    var mappedData = new ExaminerMaster
-                    {
-                        ExaminerID = ExaminerID,
-                        ModifyBy = ModifyBy,
+                    ExaminerID = ExaminerID,
+                    ModifyBy = ModifyBy,
 
-                        //ActiveStatus = false,
-                        //DeleteStatus = true,
-                    };
-                    result.Data = await _unitOfWork.ExaminersRepository.DeleteDataByID(mappedData);
-                    await _unitOfWork.SaveChangesAsync();
+                    //ActiveStatus = false,
+                    //DeleteStatus = true,
+                };
+                result.Data = await Task.Run(() => _unitOfWork.ExaminersRepository.DeleteDataByID(mappedData));
+                await _unitOfWork.SaveChangesAsync();
 
-                    if (result.Data)
-                    {
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DELETE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_DELETE_ERROR;
-                    }
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DELETE_SUCCESS;
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
                     result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.ErrorMessage = Constants.MSG_DELETE_ERROR;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
 
         [HttpPost("GetExaminerByCode")]
@@ -718,49 +715,46 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<bool>> DeleteByID_Reval(int ExaminerID, int ModifyBy)
         {
             ActionName = "DeleteByID_Reval(int ExaminerID, int ModifyBy)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<bool>();
+            try
             {
-                var result = new ApiResult<bool>();
-                try
+                var mappedData = new ExaminerMaster
                 {
-                    var mappedData = new ExaminerMaster
-                    {
-                        ExaminerID = ExaminerID,
-                        ModifyBy = ModifyBy,
+                    ExaminerID = ExaminerID,
+                    ModifyBy = ModifyBy,
 
-                        //ActiveStatus = false,
-                        //DeleteStatus = true,
-                    };
-                    result.Data = await _unitOfWork.ExaminersRepository.DeleteByID_Reval(mappedData);
-                    await _unitOfWork.SaveChangesAsync();
+                    //ActiveStatus = false,
+                    //DeleteStatus = true,
+                };
+                result.Data = await Task.Run(() => _unitOfWork.ExaminersRepository.DeleteByID_Reval(mappedData));
+                await _unitOfWork.SaveChangesAsync();
 
-                    if (result.Data)
-                    {
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DELETE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_DELETE_ERROR;
-                    }
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DELETE_SUCCESS;
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
                     result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.ErrorMessage = Constants.MSG_DELETE_ERROR;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
 
         [HttpPost("GetExaminerByCode_Reval")]
