@@ -293,7 +293,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("ExaminerInchargeDashboard")]
         public async Task<ApiResult<DataTable>> ExaminerInchargeDashboard(ExaminerDashboardSearchModel model)
         {
-            ActionName = "GetExaminerByCode([FromBody] ExaminerCodeLoginModel model)";
+            ActionName = "ExaminerInchargeDashboard(ExaminerDashboardSearchModel model)";
             var result = new ApiResult<DataTable>();
             try
             {
