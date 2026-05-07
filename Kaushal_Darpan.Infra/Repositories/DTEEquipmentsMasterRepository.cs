@@ -103,7 +103,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<bool> SaveData(DTEEquipmentsModel request)
+        public async Task<int> SaveData(DTEEquipmentsModel request)
         {
             _actionName = "SaveData(DTEEquipmentsModel request)";
             return await Task.Run(async () =>
@@ -132,16 +132,16 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ItemCategoryId",request.ItemCategoryId);
                         command.Parameters.AddWithValue("@IsConsumable", request.IsConsumable);
                         command.Parameters.AddWithValue("@IsSerialNo", request.IsSerialNo);
-                        
+                        command.Parameters.Add("@Return", SqlDbType.Int);// out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
                         result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
                     }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    return result;
                 }
                 catch (Exception ex)
                 {

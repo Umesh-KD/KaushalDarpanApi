@@ -50,6 +50,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@GroupCodeID", body.GroupCodeID);
                     command.Parameters.AddWithValue("@ExaminerCode", body.ExaminerCode);
                     //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
+                    command.Parameters.AddWithValue("@CheckedStatus", body.CheckedStatus);
+                    command.Parameters.AddWithValue("@CenterCode", body.CenterCode);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();
@@ -136,6 +138,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                     //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
+                    command.Parameters.AddWithValue("@CheckedStatus", body.CheckedStatus);
+                    command.Parameters.AddWithValue("@CenterCode", body.CenterCode);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();
