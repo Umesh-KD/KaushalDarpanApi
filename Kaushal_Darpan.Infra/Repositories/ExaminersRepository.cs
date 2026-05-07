@@ -230,28 +230,25 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetExaminerByCode(ExaminerCodeLoginModel model)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetExaminerMasterData";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetExaminerMasterData";
 
-                        command.Parameters.AddWithValue("@action", "_getExaminerByCode");
-                        command.Parameters.AddWithValue("@ExaminerID", model.ExaminerID);
-                        command.Parameters.AddWithValue("@SSOID", model.SSOID);
-                        command.Parameters.AddWithValue("@ExaminerCode", model.ExaminerCode);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@GroupCodeID", model.GroupCodeID);
+                    command.Parameters.AddWithValue("@action", "_getExaminerByCode");
+                    command.Parameters.AddWithValue("@ExaminerID", model.ExaminerID);
+                    command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                    command.Parameters.AddWithValue("@ExaminerCode", model.ExaminerCode);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@GroupCodeID", model.GroupCodeID);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {

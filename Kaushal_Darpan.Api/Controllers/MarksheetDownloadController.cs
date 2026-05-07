@@ -76,7 +76,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<string>();
                 try
                 {
-                    
+
                     var data = await _unitOfWork.MarksheetDownloadRepository.MarksheetLetterDownload(model);
                     if (data != null)
                     {
@@ -173,7 +173,15 @@ namespace Kaushal_Darpan.Api.Controllers
             var result = new ApiResult<DataSet>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.MarksheetDownloadRepository.GetStudentResult_public(model));
+                result.Data = new DataSet();
+                if (model.ResultType == (int)EnumResultType.RwhResult || model.ResultType == (int)EnumResultType.RwhRevalEffected)
+                {
+                    result.Data = await Task.Run(() => _unitOfWork.MarksheetDownloadRepository.GetStudentResultRWH_public(model));
+                }
+                else
+                {
+                    result.Data = await Task.Run(() => _unitOfWork.MarksheetDownloadRepository.GetStudentResult_public(model));
+                }
                 result.State = EnumStatus.Success;
                 if (result.Data.Tables[0].Rows.Count == 0)
                 {

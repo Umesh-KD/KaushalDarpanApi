@@ -18,5 +18,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> Get5thSemBackPaperReport(BackPaperReportDataModel body);
         Task<DataSet> GetStudentResult_public(StudentResultSearchModel model);
         Task<DataTable> GetResultEndTermDDLList();
+        Task<DataSet> GetStudentResultRWH_public(StudentResultSearchModel model);
     }
 }

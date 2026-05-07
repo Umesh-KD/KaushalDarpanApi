@@ -1,111 +1,128 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<!-- Prevent auto generation of web.config -->
+		<IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="ClosedXML" Version="0.104.2" />
-    <PackageReference Include="DinkToPdf" Version="1.0.8" />
-    <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
-    <PackageReference Include="ExcelDataReader.DataSet" Version="3.7.0" />
-    <PackageReference Include="FluentValidation" Version="11.9.2" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
-    <PackageReference Include="Hangfire" Version="1.8.20" />
-    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.20" />
-    <PackageReference Include="HtmlToOpenXml.dll" Version="3.2.8" />
-    <PackageReference Include="iTextSharp" Version="5.5.13.4" />
-    <PackageReference Include="itextsharp.pdfa" Version="5.5.13.4" />
-    <PackageReference Include="itextsharp.xmlworker" Version="5.5.13.4" />
-    <PackageReference Include="itextsharp.xtra" Version="5.5.13.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="9.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.7" />
-    <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
-    <PackageReference Include="QRCoder" Version="1.7.0" />
-    <PackageReference Include="RestSharp" Version="112.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
-    <PackageReference Include="System.Security.Permissions" Version="9.0.0" />
-    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.*" />
-    <PackageReference Include="System.ServiceModel.Federation" Version="6.0.*" />
-    <PackageReference Include="System.ServiceModel.Http" Version="6.0.*" />
-    <PackageReference Include="System.ServiceModel.NetTcp" Version="6.0.*" />
-    <PackageReference Include="System.ServiceModel.Security" Version="6.0.*" />
-    <PackageReference Include="Unity" Version="5.11.10" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
+		<PackageReference Include="AutoMapper" Version="13.0.1" />
+		<PackageReference Include="ClosedXML" Version="0.104.2" />
+		<PackageReference Include="DinkToPdf" Version="1.0.8" />
+		<PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
+		<PackageReference Include="ExcelDataReader.DataSet" Version="3.7.0" />
+		<PackageReference Include="FluentValidation" Version="11.9.2" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+		<PackageReference Include="Hangfire" Version="1.8.20" />
+		<PackageReference Include="Hangfire.AspNetCore" Version="1.8.20" />
+		<PackageReference Include="HtmlToOpenXml.dll" Version="3.2.8" />
+		<PackageReference Include="iTextSharp" Version="5.5.13.4" />
+		<PackageReference Include="itextsharp.pdfa" Version="5.5.13.4" />
+		<PackageReference Include="itextsharp.xmlworker" Version="5.5.13.4" />
+		<PackageReference Include="itextsharp.xtra" Version="5.5.13.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
+		<PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="9.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.7" />
+		<PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
+		<PackageReference Include="QRCoder" Version="1.7.0" />
+		<PackageReference Include="RestSharp" Version="112.0.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+		<PackageReference Include="System.Drawing.Common" Version="9.0.0" />
+		<PackageReference Include="System.Security.Permissions" Version="9.0.0" />
+		<PackageReference Include="System.ServiceModel.Duplex" Version="6.0.*" />
+		<PackageReference Include="System.ServiceModel.Federation" Version="6.0.*" />
+		<PackageReference Include="System.ServiceModel.Http" Version="6.0.*" />
+		<PackageReference Include="System.ServiceModel.NetTcp" Version="6.0.*" />
+		<PackageReference Include="System.ServiceModel.Security" Version="6.0.*" />
+		<PackageReference Include="Unity" Version="5.11.10" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Kaushal_Darpan.Core\Kaushal_Darpan.Core.csproj" />
-    <ProjectReference Include="..\Kaushal_Darpan.Infra\Kaushal_Darpan.Infra.csproj" />
-    <ProjectReference Include="..\Kaushal_Darpan.Models\Kaushal_Darpan.Models.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Kaushal_Darpan.Core\Kaushal_Darpan.Core.csproj" />
+		<ProjectReference Include="..\Kaushal_Darpan.Infra\Kaushal_Darpan.Infra.csproj" />
+		<ProjectReference Include="..\Kaushal_Darpan.Models\Kaushal_Darpan.Models.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="HelpFiles\DatabaseObjects\" />
-    <Folder Include="StaticFiles\Log\" />
-    <Folder Include="StaticFiles\PGMK\" />
-    <Folder Include="StaticFiles\Reports\" />
-    <Folder Include="StaticFiles\StaffDetails\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="HelpFiles\DatabaseObjects\" />
+		<Folder Include="StaticFiles\Log\" />
+		<Folder Include="StaticFiles\PGMK\" />
+		<Folder Include="StaticFiles\Reports\" />
+		<Folder Include="StaticFiles\StaffDetails\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="wkhtmltox\libwkhtmltox.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  
-  <ItemGroup>
-  <Content Include="Report\**\*">
-    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-  </Content>
-</ItemGroup>
-  
-  <ItemGroup>
-    <Compile Remove="Report\DataSource\KD_DBScript - Copy.cs" />
-    <Compile Remove="Report\DataSource\KD_DBScript - Copy.Designer.cs" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <None Remove="Report\DataSource\KD_DBScript - Copy.xsc" />
-    <None Remove="Report\DataSource\KD_DBScript - Copy.xss" />
-    <None Remove="Report\DataSource\KD_DBScript.xsd" />
-    <None Remove="Report\Files\BTER\ITI_CounsellingAllotmentOrder.rdlc" />
-    <None Remove="Report\Files\BTER\RevalFeeReceipt.rdlc" />
-    <None Remove="Report\Files\ITI\CounsellingAllotmentOrder.rdlc" />
-    <None Remove="Report\Files\ITI\INV_SR5_Report.rdlc" />
-    <None Remove="Report\Files\ITI\INV_SR6_Report.rdlc" />
-    <None Remove="Report\Files\ITI\ITIFeeRevalReceipt.rdlc" />
-    <None Remove="Report\Files\ITI\ITI_CounsellingAllotmentOrder.rdlc" />
-    <None Remove="Report\Files\ITI\JoiningLetter.rdlc" />
-    <None Remove="Report\Files\ITI\RelievingLetter.rdlc" />
-    <None Remove="Report\ITI\CounsellingAllotmentOrder.html" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Compile Update="Report\DataSource\KD_DBScript.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>KD_DBScript.xsd</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Content Update="Report\DataSource\KD_DBScript.Designer.cs">
-      <SubType>Code</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>KD_DBScript.xsd</DependentUpon>
-    </Content>
-    <Content Update="Report\DataSource\KD_DBScript.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>KD_DBScript.Designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="wkhtmltox\libwkhtmltox.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Report\**\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="Report\DataSource\KD_DBScript - Copy.cs" />
+		<Compile Remove="Report\DataSource\KD_DBScript - Copy.Designer.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Report\DataSource\KD_DBScript - Copy.xsc" />
+		<None Remove="Report\DataSource\KD_DBScript - Copy.xss" />
+		<None Remove="Report\DataSource\KD_DBScript.xsd" />
+		<None Remove="Report\Files\BTER\ITI_CounsellingAllotmentOrder.rdlc" />
+		<None Remove="Report\Files\BTER\RevalFeeReceipt.rdlc" />
+		<None Remove="Report\Files\ITI\CounsellingAllotmentOrder.rdlc" />
+		<None Remove="Report\Files\ITI\INV_SR5_Report.rdlc" />
+		<None Remove="Report\Files\ITI\INV_SR6_Report.rdlc" />
+		<None Remove="Report\Files\ITI\ITIFeeRevalReceipt.rdlc" />
+		<None Remove="Report\Files\ITI\ITI_CounsellingAllotmentOrder.rdlc" />
+		<None Remove="Report\Files\ITI\JoiningLetter.rdlc" />
+		<None Remove="Report\Files\ITI\RelievingLetter.rdlc" />
+		<None Remove="Report\ITI\CounsellingAllotmentOrder.html" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Report\DataSource\KD_DBScript.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>KD_DBScript.xsd</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="Report\DataSource\KD_DBScript.Designer.cs">
+			<SubType>Code</SubType>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>KD_DBScript.xsd</DependentUpon>
+		</Content>
+		<Content Update="Report\DataSource\KD_DBScript.xsd">
+			<Generator>MSDataSetGenerator</Generator>
+			<LastGenOutput>KD_DBScript.Designer.cs</LastGenOutput>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Exclude specific files from publish -->
+		<Content Update="appsettings.Development.json">
+			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</Content>
+
+		<Content Update="appsettings.json">
+			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</Content>
+
+		<Content Update="web.config">
+			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
 
 </Project>
