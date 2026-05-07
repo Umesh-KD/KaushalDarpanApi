@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.BTER_EstablishManagement;
+using Kaushal_Darpan.Models.StaffMaster;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -681,5 +682,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        #region GetRelievingLetter
+        public async Task<DataSet> GetRelievingLetter(EM_TransferSystemSearchModel model)
+        {
+            _actionName = "GetJRelievingLetter(RelievingLetterSearchModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetTransferSystemRelievingLetter";
+                        command.Parameters.AddWithValue("@Action", "RelievingLetter");
+                        command.Parameters.AddWithValue("@TransferSystemID", model.TransferSystemID);
+                        command.Parameters.AddWithValue("@StaffID", model.StaffID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
     }
 }

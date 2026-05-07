@@ -1,5 +1,6 @@
 ﻿using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.CommonFunction;
+using Kaushal_Darpan.Models.StaffMaster;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -38,5 +39,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
 
         Task<int> AddTransferSystemManualRequest(BTERStaffManualRequestModel body);
+
+        Task<DataSet> GetRelievingLetter(EM_TransferSystemSearchModel model);
     }
 }
