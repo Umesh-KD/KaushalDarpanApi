@@ -106,7 +106,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetTheoryMarksRptData_Reval")]
         public async Task<ApiResult<DataTable>> GetTheoryMarksRptData_Reval([FromBody] TheorySearchModel body)
         {
-            ActionName = "GetTheoryMarksDetailList_Reval([FromBody] TheorySearchModel body)";
+            ActionName = "GetTheoryMarksRptData_Reval([FromBody] TheorySearchModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
