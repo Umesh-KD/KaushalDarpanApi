@@ -12,7 +12,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetAllData(CommonSearchModal modal); 
         Task<DTEEquipmentsModel> GetById(int PK_ID);
-        Task<bool> SaveData(DTEEquipmentsModel productDetails);
+        Task<int> SaveData(DTEEquipmentsModel productDetails);
         Task<bool> DeleteDataByID(DTEEquipmentsModel productDetails);
         Task<DataTable> GetEquipmentByItemType(CommonSearchModal modal);
     }
