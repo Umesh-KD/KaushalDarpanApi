@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
-    public class WebsiteSettingsRepository: IWebsiteSettingsRepository
+    public class WebsiteSettingsRepository : IWebsiteSettingsRepository
     {
         private readonly DBContext _dbContext;
         private readonly string _pageName;
@@ -244,26 +244,24 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetDynamicUploadContent(DynamicUploadContentListsModal model)
         {
-            _actionName = "GetDynamicUploadContent()";
+            _actionName = "GetDynamicUploadContent(DynamicUploadContentListsModal model)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetDynamicUploadContent";
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@DynamicUploadTypeID", model.DynamicUploadTypeID);
-                        command.Parameters.AddWithValue("@DepartmentSubID", model.DepartmentSubID);
-                        command.Parameters.AddWithValue("@Key", model.Key);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetDynamicUploadContent";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@DynamicUploadTypeID", model.DynamicUploadTypeID);
+                    command.Parameters.AddWithValue("@DepartmentSubID", model.DepartmentSubID);
+                    command.Parameters.AddWithValue("@Key", model.Key);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
