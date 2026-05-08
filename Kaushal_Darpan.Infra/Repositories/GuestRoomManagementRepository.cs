@@ -214,6 +214,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@guestHouseForApply", body.guestHouseForApply);
                         command.Parameters.AddWithValue("@isEstablishment", body.isEstablishment);
                         command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                        command.Parameters.AddWithValue("@RoleId", body.@RoleId ?? 0);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -382,7 +383,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsFacilities", request.IsFacilities);
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);                        
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
                         command.Parameters.AddWithValue("@Action", "SaveGuestRoomFacility");
