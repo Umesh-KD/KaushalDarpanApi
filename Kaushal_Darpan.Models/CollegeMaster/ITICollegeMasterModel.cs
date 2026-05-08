@@ -3,14 +3,14 @@
 
     public int Id { get; set; }
     public int InstituteTypeID { get; set; }
-    public string SSOID { get; set; }
-    public string DGETCode { get; set; }
-    public string Name { get; set; }
-    public string CollegeCode { get; set; }
-    public string EmailAddress { get; set; }
-    public string FaxNumber { get; set; }
-    public string MobileNumber { get; set; }
-    public string Pincode { get; set; }
+    public string? SSOID { get; set; }
+    public string? DGETCode { get; set; }
+    public string? Name { get; set; }
+    public string? CollegeCode { get; set; }
+    public string? EmailAddress { get; set; }
+    public string? FaxNumber { get; set; }
+    public string? MobileNumber { get; set; }
+    public string? Pincode { get; set; }
     public int Has8th { get; set; }
     public int Has10th { get; set; }
     public int Has12th { get; set; }
@@ -19,13 +19,19 @@
     public bool DeleteStatus { get; set; }
     public int CreatedBy { get; set; }
     public int ModifyBy { get; set; }
-    public string IPAddress { get; set; }
+    public string? IPAddress { get; set; }
     public int DepartmentID { get; set; }
     public int CourseTypeID { get; set; }
     public int? CampusID { get; set; }
     public Boolean IsCampus { get; set; }
-    public List<SeatIntakesModel> SeatIntakes { get; set; }
+    public List<SeatIntakesModel>? SeatIntakes { get; set; }
     public string? Remark { get; set; }
+
+    public string? OrderNo { get; set; }
+
+    public DateTime OrderDate { get; set; }
+
+    public DateTime EffectiveDate { get; set; }
 }
 
 public class SeatIntakesModel
@@ -171,4 +177,19 @@ public class ITIPlanningBankGuaranteeSearchList
     public int dayWise { get; set; }
 
 
+}
+
+public class DgtOrdersMasterModel
+{
+    public int Id { get; set; }
+
+    public string OrderNo { get; set; }
+
+    public DateTime? OrderDate { get; set; }
+
+    public int CreatedBy { get; set; }
+
+    public DateTime? CreatedDate { get; set; }
+
+    public bool ActiveStatus { get; set; }
 }
