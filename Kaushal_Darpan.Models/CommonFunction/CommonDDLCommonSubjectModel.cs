@@ -4,5 +4,6 @@
     {
         public int SemesterID { get; set; }
         public int? CommonSubjectID { get; set; }
+        public bool? IsReval { get; set; }
     }
 }

@@ -404,6 +404,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@GuestHouseID", filterModel.GuestHouseID);
                     command.Parameters.AddWithValue("@RoleID", filterModel.RoleID);
                     command.Parameters.AddWithValue("@GuestHouseIDs", filterModel.GuestHouseIDs);
+                    command.Parameters.AddWithValue("@Guest_Houseids", filterModel.Guest_Houseids);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }

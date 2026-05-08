@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.BTER_EstablishManagement;
+using Kaushal_Darpan.Models.StaffMaster;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -400,6 +401,46 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetEM_RelievingTransferData(EM_TransferSystemSearchModel filterModel)
+        {
+            _actionName = "GetEM_RelievingTransferData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_EM_TransferSystemList";
+                        command.Parameters.AddWithValue("@Action", "RelievingMechanismList");
+                        command.Parameters.AddWithValue("@TransferSystemID", filterModel.TransferSystemID);
+                        command.Parameters.AddWithValue("@StaffID", filterModel.StaffID);
+                        command.Parameters.AddWithValue("@ActionBy", filterModel.ActionBy);
+                        command.Parameters.AddWithValue("@StatusID", filterModel.StatusID);
+                        command.Parameters.AddWithValue("@CategoryID", filterModel.CategoryID);
+                        command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);
+                        command.Parameters.AddWithValue("@EmployeeType", filterModel.EmployeeType);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<DataTable> GetEM_TransferSystemEmployeeStatus(EM_TransferSystemSearchModel filterModel)
         {
             _actionName = "GetEM_TransferSystemEmployeeStatus()";
@@ -568,6 +609,137 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_TransferSystemGenerator";
                     command.Parameters.AddWithValue("@jsonData", body.jsonData);
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        public async Task<int> AddTransferSystemManualRequest(BTERStaffManualRequestModel body)
+        {
+            _actionName = "AddTransferSystemManualRequest(TransferSystemUpdateDataModel body)";
+            try
+            {
+
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_TransferSystemManualRequest";
+                    command.Parameters.AddWithValue("@OfficeID", body.OfficeID ?? 0);
+                    command.Parameters.AddWithValue("@PostID", body.PostID ?? 0);
+                    command.Parameters.AddWithValue("@DistrictID", body.DistrictID ?? 0);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID ?? 0);
+                    command.Parameters.AddWithValue("@StaffID", body.StaffID ?? 0);
+                    command.Parameters.AddWithValue("@NonGazettedID", body.NonGazettedID ?? 0);
+
+                    command.Parameters.AddWithValue("@To_OfficeID", body.To_OfficeID ?? 0);
+                    command.Parameters.AddWithValue("@To_PostID", body.To_PostID ?? 0);
+                    command.Parameters.AddWithValue("@To_ddlDistrictID", body.To_ddlDistrictID ?? 0);
+                    command.Parameters.AddWithValue("@To_ddlCollege", body.To_ddlCollege ?? 0);
+
+                    command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy ?? 0);
+                    command.Parameters.AddWithValue("@UserID", body.UserID ?? 0);
+                    command.Parameters.AddWithValue("@SSOID", body.SSOID ?? "");
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        #region GetRelievingLetter
+        public async Task<DataSet> GetRelievingLetter(EM_TransferSystemSearchModel model)
+        {
+            _actionName = "GetJRelievingLetter(RelievingLetterSearchModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetTransferSystemRelievingLetter";
+                        command.Parameters.AddWithValue("@Action", "RelievingLetter");
+                        command.Parameters.AddWithValue("@TransferSystemID", model.TransferSystemID);
+                        command.Parameters.AddWithValue("@StaffID", model.StaffID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
+
+
+        public async Task<int> TransferSystemRetievingUpdateStatus(EM_TransferSystemSearchModel body)
+        {
+            _actionName = "TransferSystemRetievingUpdateStatus(TransferSystemUpdateDataModel body)";
+            try
+            {
+
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_TransferSystemRetievingUpdateStatus";
+                    command.Parameters.AddWithValue("@TransferSystemID", body.TransferSystemID);
+                    command.Parameters.AddWithValue("@RelievingStatus", body.StatusID);
+                    command.Parameters.AddWithValue("@RelievingDoc", body.RelievingDoc);
+                    command.Parameters.AddWithValue("@RelievingDoc_Dis", body.RelievingDoc_Dis);
+                    command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                    command.Parameters.AddWithValue("@Remark", body.Remark);
+                    command.Parameters.AddWithValue("@CreatedBy", body.ActionBy);
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;
                     _sqlQuery = command.GetSqlExecutableQuery();

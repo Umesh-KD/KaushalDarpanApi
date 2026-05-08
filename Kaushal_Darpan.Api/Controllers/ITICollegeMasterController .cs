@@ -286,6 +286,46 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("UpdateActiveStatusByIDCollegeMaster")]
+        public async Task<ApiResult<bool>> UpdateActiveStatusByIDCollegeMaster([FromBody] ITICollegeMasterModel model)
+        {
+            ActionName = "UpdateActiveStatusByID";
+
+            var result = new ApiResult<bool>();
+            try
+            {
+                result.Data = await _unitOfWork.ITICollegeMasterRepository.UpdateActiveStatusByID(model);
+                await _unitOfWork.SaveChangesAsync();
+
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_UPDATE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+
+        }
+
         [HttpGet("GetItiTradeData_ByID/{Id}")]
         public async Task<ApiResult<DataTable>> GetItiTradeData_ByID(int Id)
         {
@@ -1465,7 +1505,47 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpGet("GetAllActiveDgtOrders")]
+        public async Task<ApiResult<List<DgtOrdersMasterModel>>> GetAllActiveDgtOrders()
+        {
+            ActionName = "GetAllActiveDgtOrders";
 
+            var result = new ApiResult<List<DgtOrdersMasterModel>>();
+
+            try
+            {
+                result.Data = await _unitOfWork.ITICollegeMasterRepository.GetAllActiveDgtOrders();
+
+                if (result.Data != null && result.Data.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Records fetched successfully";
+                }
+                else
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No records found";
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
 
     }
 }

@@ -5999,6 +5999,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@IsReval", model.IsReval);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
@@ -8310,39 +8311,37 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> DDL_GroupCode_ExaminerWise(DDL_GroupCode_ExaminerWiseModel request)
         {
-            _actionName = "GetDDLCompanyName(int DepartmentID, int CourseTypeID, int EndTermID)";
-            return await Task.Run(async () =>
+            _actionName = "DDL_GroupCode_ExaminerWise(DDL_GroupCode_ExaminerWiseModel request)";
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_DDL_GroupCode_ExaminerWise";
-                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", request.Eng_NonEng);
-                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
-                        command.Parameters.AddWithValue("@SSOID", request.SSOID);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_DDL_GroupCode_ExaminerWise";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", request.Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                    command.Parameters.AddWithValue("@SSOID", request.SSOID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
@@ -10519,38 +10518,36 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> DDL_GroupCode_ExaminerWise_Reval(DDL_GroupCode_ExaminerWiseModel request)
         {
             _actionName = "DDL_GroupCode_ExaminerWise_Reval(DDL_GroupCode_ExaminerWiseModel request)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_DDL_GroupCode_ExaminerWise_Reval";
-                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", request.Eng_NonEng);
-                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
-                        command.Parameters.AddWithValue("@SSOID", request.SSOID);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_DDL_GroupCode_ExaminerWise_Reval";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", request.Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                    command.Parameters.AddWithValue("@SSOID", request.SSOID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> StudentListForAdmitCard_CS(StudentAdmitCardDownloadModel request)
@@ -11957,6 +11954,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                 throw new Exception(errordetails, ex);
             }
+        }
+
+        public async Task<DataTable> DDL_EmployeeTransferSysterm(int OfficeID = 0, int DesignationID = 0, int DistrictID = 0, int InstituteID = 0)
+        {
+            _actionName = "DDL_EmployeeTransferSysterm()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDL_EmployeeTransferSysterm";
+                        command.Parameters.AddWithValue("@OfficeID", OfficeID);
+                        command.Parameters.AddWithValue("@DesignationID", DesignationID);
+                        command.Parameters.AddWithValue("@DistrictID", DistrictID);
+                        command.Parameters.AddWithValue("@InstituteID", InstituteID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
         }
     }
 }
