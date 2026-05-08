@@ -2475,37 +2475,81 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetAllinventoryIssueHistoryNew")]
         public async Task<ApiResult<DataTable>> GetAllinventoryIssueHistoryNew([FromBody] inventoryIssueHistorySearchModel body)
         {
-            ActionName = "GetAllinventoryIssueHistoryNew([FromBody] inventoryIssueHistorySearchModel body)";
+            ActionName = "GetAllinventoryIssueHistoryNew";
+
             var result = new ApiResult<DataTable>();
+
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.i_ITIInventoryRepository.GetAllinventoryIssueHistoryNew(body));
-                result.State = EnumStatus.Success;
+                result.Data = await _unitOfWork.i_ITIInventoryRepository
+                    .GetAllinventoryIssueHistoryNew(body);
+
                 if (result.Data.Rows.Count == 0)
                 {
                     result.State = EnumStatus.Success;
                     result.Message = "No record found.!";
                     return result;
                 }
+
                 result.State = EnumStatus.Success;
                 result.Message = "Data load successfully .!";
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 await _unitOfWork.DisposeAsync();
+
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
-                // write error log
+
                 var nex = new NewException
                 {
                     PageName = PageName,
                     ActionName = ActionName,
                     Ex = ex,
                 };
+
                 await CreateErrorLog(nex, _unitOfWork);
             }
+
             return result;
         }
+
+        // ********************* backup 070526 
+
+        //[HttpPost("GetAllinventoryIssueHistoryNew")]
+        //public async Task<ApiResult<DataTable>> GetAllinventoryIssueHistoryNew([FromBody] inventoryIssueHistorySearchModel body)
+        //{
+        //    ActionName = "GetAllinventoryIssueHistoryNew([FromBody] inventoryIssueHistorySearchModel body)";
+        //    var result = new ApiResult<DataTable>();
+        //    try
+        //    {
+        //        result.Data = await Task.Run(() => _unitOfWork.i_ITIInventoryRepository.GetAllinventoryIssueHistoryNew(body));
+        //        result.State = EnumStatus.Success;
+        //        if (result.Data.Rows.Count == 0)
+        //        {
+        //            result.State = EnumStatus.Success;
+        //            result.Message = "No record found.!";
+        //            return result;
+        //        }
+        //        result.State = EnumStatus.Success;
+        //        result.Message = "Data load successfully .!";
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        await _unitOfWork.DisposeAsync();
+        //        result.State = EnumStatus.Error;
+        //        result.ErrorMessage = ex.Message;
+        //        // write error log
+        //        var nex = new NewException
+        //        {
+        //            PageName = PageName,
+        //            ActionName = ActionName,
+        //            Ex = ex,
+        //        };
+        //        await CreateErrorLog(nex, _unitOfWork);
+        //    }
+        //    return result;
+        //}
         [HttpPost("GetAllStoksNew")]
         public async Task<ApiResult<DataTable>> GetAllStoksNew([FromBody] DTEStoksSearchModel body)
         {
