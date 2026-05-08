@@ -37,6 +37,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? ModifyBy { get; set; }
         public int? GuestHouseID { get; set; }
         public int? BugetHeadID { get; set; }
+        public int? BugetHeadTypeID { get; set; }
         public string? MultiGuestHouseIDs { get; set; }
         public List<BTER_EM_StaffHostelListModel>? GuestHouseIDs { get; set; }
     }
