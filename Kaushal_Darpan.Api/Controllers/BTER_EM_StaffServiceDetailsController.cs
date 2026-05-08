@@ -1083,5 +1083,53 @@ namespace Kaushal_Darpan.Api.Controllers
             return File(pdf, "application/pdf", "Relieving_Letter.pdf");
         }
         #endregion
+
+
+        [HttpPost("TransferSystemRetievingUpdateStatus")]
+        public async Task<ApiResult<int>> TransferSystemRetievingUpdateStatus([FromBody] EM_TransferSystemSearchModel body)
+        {
+
+            ActionName = "TransferSystemRetievingUpdateStatus([FromBody] TransferSystemUpdateDataModel body)";
+            var result = new ApiResult<int>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.BTER_EM_StaffServiceDetailsRepository.TransferSystemRetievingUpdateStatus(body);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else if (result.Data == -1)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
     }
 }

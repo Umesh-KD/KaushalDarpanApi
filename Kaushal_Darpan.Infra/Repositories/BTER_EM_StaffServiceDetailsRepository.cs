@@ -719,5 +719,48 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
         #endregion
+
+
+        public async Task<int> TransferSystemRetievingUpdateStatus(EM_TransferSystemSearchModel body)
+        {
+            _actionName = "TransferSystemRetievingUpdateStatus(TransferSystemUpdateDataModel body)";
+            try
+            {
+
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_TransferSystemRetievingUpdateStatus";
+                    command.Parameters.AddWithValue("@TransferSystemID", body.TransferSystemID);
+                    command.Parameters.AddWithValue("@RelievingStatus", body.StatusID);
+                    command.Parameters.AddWithValue("@RelievingDoc", body.RelievingDoc);
+                    command.Parameters.AddWithValue("@RelievingDoc_Dis", body.RelievingDoc_Dis);
+                    command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                    command.Parameters.AddWithValue("@Remark", body.Remark);
+                    command.Parameters.AddWithValue("@CreatedBy", body.ActionBy);
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }

@@ -122,7 +122,10 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int EmployeeType { get; set; }
         public int InstituteID { get; set; }
         public int CategoryID { get; set; }
-   
+
+        public string? RelievingDoc { get; set; }
+        public string? RelievingDoc_Dis { get; set; }
+
     }
 
 

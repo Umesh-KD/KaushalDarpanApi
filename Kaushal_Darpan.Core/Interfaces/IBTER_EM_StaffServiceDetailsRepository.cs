@@ -41,5 +41,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> AddTransferSystemManualRequest(BTERStaffManualRequestModel body);
 
         Task<DataSet> GetRelievingLetter(EM_TransferSystemSearchModel model);
+
+        Task<int> TransferSystemRetievingUpdateStatus(EM_TransferSystemSearchModel body);
     }
 }
