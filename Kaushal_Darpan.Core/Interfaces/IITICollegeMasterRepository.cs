@@ -39,5 +39,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> statusUpdateById(ITIPlanningStatusUpdateByIdModel model);
 
         Task<bool> DeleteGuarantee(ITIPlanningBankGuarantee model);
+        Task<List<DgtOrdersMasterModel>> GetAllActiveDgtOrders();
     }
 }

@@ -535,6 +535,15 @@ namespace Kaushal_Darpan.Core.Helper
 
         [Description("Exam_Fee_Reminder")]
         Exam_Fee_Reminder,
+
+        [Description("GuestHouseCheckOut")]
+        GuestHouseCheckOut,
+
+        [Description("GuestHouseCheckIn")]
+        GuestHouseCheckIn,
+
+        [Description("GuestHouseAdminApprove")]
+        GuestHouseAdminApprove,
     }
 
     public enum EnumStudentType

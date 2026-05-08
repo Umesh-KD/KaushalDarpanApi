@@ -328,6 +328,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                     command.Parameters.AddWithValue("@Remark", request.Remark);
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
+                    command.Parameters.AddWithValue("@OrderDate", request.OrderDate);
+                    command.Parameters.AddWithValue("@EffectiveDate", request.EffectiveDate);
 
 
                     _sqlQuery = command.GetSqlExecutableQuery();
@@ -1587,7 +1590,67 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<List<DgtOrdersMasterModel>> GetAllActiveDgtOrders()
+        {
+            _actionName = "GetAllActiveDgtOrders()";
+            try
+            {
+                var list = new List<DgtOrdersMasterModel>();
 
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandText = "USP_GetAllDgtOrdersMaster";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            list.Add(new DgtOrdersMasterModel
+                            {
+                                Id = reader["Id"] != DBNull.Value ? Convert.ToInt32(reader["Id"]) : 0,
+
+                                OrderNo = reader["OrderNo"] != DBNull.Value
+                 ? reader["OrderNo"].ToString()
+                 : null,
+
+                                OrderDate = reader["OrderDate"] != DBNull.Value
+                 ? Convert.ToDateTime(reader["OrderDate"])
+                 : (DateTime?)null,
+
+                                CreatedBy = reader["CreatedBy"] != DBNull.Value
+                 ? Convert.ToInt32(reader["CreatedBy"])
+                 : 0,
+
+                                CreatedDate = reader["CreatedDate"] != DBNull.Value
+                 ? Convert.ToDateTime(reader["CreatedDate"])
+                 : (DateTime?)null,
+
+                                ActiveStatus = reader["ActiveStatus"] != DBNull.Value
+                 ? Convert.ToBoolean(reader["ActiveStatus"])
+                 : false
+                            });
+                        }
+                    }
+                }
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errorDetails, ex);
+            }
+        }
 
 
     }
