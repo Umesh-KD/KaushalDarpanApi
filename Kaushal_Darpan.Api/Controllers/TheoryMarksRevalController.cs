@@ -137,5 +137,85 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        [HttpPost("GetTheoryMarks_Admin")]
+        public async Task<ApiResult<DataTable>> GetTheoryMarks_Admin([FromBody] TheorySearchModel body)
+        {
+            ActionName = "GetTheoryMarks_Admin([FromBody] TheorySearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.TheoryMarksRevalRepository.GetTheoryMarks_Admin(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("UpdateTheoryMarks_Admin")]
+        public async Task<ApiResult<bool>> UpdateTheoryMarks_Admin([FromBody] List<TheoryMarksModel> request)
+        {
+            ActionName = "UpdateTheoryMarks_Admin([FromBody] List<TheoryMarksModel> request)";
+            var result = new ApiResult<bool>();
+            try
+            {
+                request.ForEach(x =>
+                {
+                    x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                });
+                // Pass the list to the repository for batch update
+                var isSave = await Task.Run(() => _unitOfWork.TheoryMarksRevalRepository.UpdateTheoryMarks_Admin(request));
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                if (isSave > 0)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_UPDATE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }

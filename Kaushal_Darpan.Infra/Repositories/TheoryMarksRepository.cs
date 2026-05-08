@@ -216,36 +216,33 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetTheoryMarks_Admin(TheorySearchModel body)
         {
-            _actionName = "GetTheoryMarksDetailList(TheorySearchModel body)";
+            _actionName = "GetTheoryMarks_Admin(TheorySearchModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetTheoryMarks_Admin";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetTheoryMarks_Admin";
 
-                        command.Parameters.AddWithValue("@action", "_getTheoryDetail");
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
-                        command.Parameters.AddWithValue("@StudentID", body.StudentID);
-                        command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
-                        command.Parameters.AddWithValue("@RollNo", body.RollNo);
-                        command.Parameters.AddWithValue("@MarkEnter", body.MarkEnter);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@GroupCodeID", body.GroupCodeID);
-                        command.Parameters.AddWithValue("@ExaminerCode", body.ExaminerCode);
-                        //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
+                    command.Parameters.AddWithValue("@action", "_getTheoryDetail");
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                    command.Parameters.AddWithValue("@StudentID", body.StudentID);
+                    command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
+                    command.Parameters.AddWithValue("@RollNo", body.RollNo);
+                    command.Parameters.AddWithValue("@MarkEnter", body.MarkEnter);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@GroupCodeID", body.GroupCodeID);
+                    command.Parameters.AddWithValue("@ExaminerCode", body.ExaminerCode);
+                    //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
@@ -264,43 +261,40 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> UpdateTheoryMarks_Admin(List<TheoryMarksModel> entity)
         {
             _actionName = "UpdateTheoryMarks_Admin(List<TheoryMarksModel> entity)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_UpdateTheoryMarks_Admin";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_UpdateTheoryMarks_Admin";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(entity));
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(entity));
 
-                        command.Parameters.Add("@Return", SqlDbType.Int);// out
-                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@Return", SqlDbType.Int);// out
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
-                    }
-                    return result;
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
                 }
-                catch (Exception ex)
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<UFMStudentExtraInfoSaveModel> GetUFMStudentExtraInfo(UFMStudentExtraInfoGetModel body)
