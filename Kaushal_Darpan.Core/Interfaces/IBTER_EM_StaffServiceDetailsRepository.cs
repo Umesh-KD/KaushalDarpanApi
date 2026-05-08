@@ -1,5 +1,6 @@
 ﻿using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.CommonFunction;
+using Kaushal_Darpan.Models.StaffMaster;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -27,6 +28,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> BTER_EM_TransferSystem_IU(BTER_EM_TransferSystemModule body);
 
         Task<DataTable> GetEM_TransferSystemData(EM_TransferSystemSearchModel Model);
+        Task<DataTable> GetEM_RelievingTransferData(EM_TransferSystemSearchModel Model);
         Task<DataTable> GetEM_TransferSystemEmployeeStatus(EM_TransferSystemSearchModel Model);
 
         Task<bool> EM_TransferSystemUpdatePocessManage(EM_TransferSystemSearchModel request);
@@ -37,5 +39,9 @@ namespace Kaushal_Darpan.Core.Interfaces
 
 
         Task<int> AddTransferSystemManualRequest(BTERStaffManualRequestModel body);
+
+        Task<DataSet> GetRelievingLetter(EM_TransferSystemSearchModel model);
+
+        Task<int> TransferSystemRetievingUpdateStatus(EM_TransferSystemSearchModel body);
     }
 }

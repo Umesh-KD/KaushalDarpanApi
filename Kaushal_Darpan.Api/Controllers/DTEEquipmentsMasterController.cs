@@ -64,12 +64,12 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("SaveData")]
-        public async Task<ApiResult<bool>> SaveData([FromBody] DTEEquipmentsModel request)
+        public async Task<ApiResult<int>> SaveData([FromBody] DTEEquipmentsModel request)
         {
             ActionName = "SaveData([FromBody] DTEEquipmentsModel request)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<bool>();
+                var result = new ApiResult<int>();
                 try
                 {
 
@@ -83,29 +83,27 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     result.Data = await _unitOfWork.iDTEEquipmentsMasterRepository.SaveData(request);
                     await _unitOfWork.SaveChangesAsync();
-                    if (result.Data)
+                    if (result.Data > 0)
                     {
                         result.State = EnumStatus.Success;
-                        if (request.EquipmentsId == 0)
+                        if (result.Data == 1)
                         {
                             result.Message = Constants.MSG_SAVE_SUCCESS;
                         }
-                        else
+                        else if(result.Data == 2)
                         {
                             result.Message = Constants.MSG_UPDATE_SUCCESS;
                         }
                     }
+                    else if(result.Data == -3)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
                     else
                     {
                         result.State = EnumStatus.Error;
-                        if (request.EquipmentsId == 0)
-                        {
-                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                        }
-                        else
-                        {
-                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
-                        }
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
                     }
                 }
                 catch (System.Exception ex)

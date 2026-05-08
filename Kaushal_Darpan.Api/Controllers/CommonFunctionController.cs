@@ -7193,41 +7193,38 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<DataTable>> DDL_GroupCode_ExaminerWise(DDL_GroupCode_ExaminerWiseModel model)
         {
             ActionName = "DDL_GroupCode_ExaminerWise(DDL_GroupCode_ExaminerWiseModel model)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<DataTable>();
+            try
             {
-                var result = new ApiResult<DataTable>();
-                try
+                var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.DDL_GroupCode_ExaminerWise(model));
+                if (data != null)
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.DDL_GroupCode_ExaminerWise(model);
-                    if (data != null)
-                    {
-                        result.Data = data;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
 
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
 
@@ -8938,41 +8935,38 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<DataTable>> DDL_GroupCode_ExaminerWise_Reval(DDL_GroupCode_ExaminerWiseModel model)
         {
             ActionName = "DDL_GroupCode_ExaminerWise_Reval(DDL_GroupCode_ExaminerWiseModel model)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<DataTable>();
+            try
             {
-                var result = new ApiResult<DataTable>();
-                try
+                var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.DDL_GroupCode_ExaminerWise_Reval(model));
+                if (data != null)
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.DDL_GroupCode_ExaminerWise_Reval(model);
-                    if (data != null)
-                    {
-                        result.Data = data;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
 
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
         [RoleActionFilter(EnumRole.CenterSuperintendent_Eng, EnumRole.CenterSuperintendent_NonEng)]

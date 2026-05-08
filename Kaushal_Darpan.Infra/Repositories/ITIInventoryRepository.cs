@@ -2431,6 +2431,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
                         command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
                         command.Parameters.AddWithValue("@TradeId", SearchReq.TradeId);
+
+                        // ✅ NEW FILTER PARAMS 070526
+                        command.Parameters.AddWithValue("@EquipmentsId", SearchReq.EquipmentsId ?? 0);
+                        command.Parameters.AddWithValue("@ItemCategoryId", SearchReq.ItemCategoryId ?? 0);
+                        command.Parameters.AddWithValue("@IsConsume", SearchReq.IsConsume ?? -1);
+                        command.Parameters.AddWithValue("@EquipmentWorking", SearchReq.EquipmentWorking ?? -1);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         
                         dataTable = await command.FillAsync_DataTable();
