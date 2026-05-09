@@ -14,6 +14,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IDTEItemsMasterRepository
     {
         Task<DataTable> GetAllData(DTEItemsSearchModel SearchReq);
+        Task<DataTable> GetAllDataHistory(DTEItemsSearchModel SearchReq);
         Task<DTEItemsModel> GetById(int PK_ID);
         Task<int> UpdateStatusItemsData(DTEItemsModel request);
         Task<int> SaveData(DTEItemsModel productDetails);

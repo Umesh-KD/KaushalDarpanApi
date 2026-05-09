@@ -24,6 +24,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int DepartmentID { get; set; }
         public int TradeIdTypeId { get; set; }
         public int Status { get; set; }
+        public int ItemID { get; set; }
+        public string? Remark { get; set; }
         public int InstituteID { get; set; }
     }
 
