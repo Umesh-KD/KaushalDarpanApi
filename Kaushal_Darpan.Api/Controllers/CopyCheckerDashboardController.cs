@@ -68,7 +68,7 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<DataTable>> GetAllData([FromBody] ExaminerDashboardModel model)
 
         {
-            ActionName = "GetAllData()";
+            ActionName = "GetAllData([FromBody] ExaminerDashboardModel model)";
             var result = new ApiResult<DataTable>();
             try
             {

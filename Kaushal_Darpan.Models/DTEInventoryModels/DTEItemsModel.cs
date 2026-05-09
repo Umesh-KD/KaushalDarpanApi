@@ -156,6 +156,12 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public string? actionName { get; set; }
         public int? CategoryFor { get; set; }
 
+
+        // ✅ NEW FILTERS 070526
+        public int? EquipmentsId { get; set; }
+        public int? ItemCategoryId { get; set; }
+        public int? IsConsume { get; set; }        // -1 = All
+        public int? EquipmentWorking { get; set; } // -1 = All, 0/1 = both
     }
     public class itemReturnModel
     {

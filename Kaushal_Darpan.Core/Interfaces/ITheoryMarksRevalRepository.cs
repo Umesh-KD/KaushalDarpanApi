@@ -12,6 +12,8 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetTheoryMarksDetailList_Reval(TheorySearchModel filterModel);
         Task<DataTable> GetTheoryMarksRptData_Reval(TheorySearchModel filterModel);
+        Task<DataTable> GetTheoryMarks_Admin(TheorySearchModel body);
         Task<int> UpdateSaveData_Reval(List<TheoryMarksModel> productDetails);
+        Task<int> UpdateTheoryMarks_Admin(List<TheoryMarksModel> entity);
     }
 }

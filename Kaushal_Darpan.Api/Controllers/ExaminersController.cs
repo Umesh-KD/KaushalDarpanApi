@@ -70,73 +70,70 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<int>> SaveExaminerData([FromBody] ExaminerMaster request)
         {
             ActionName = " SaveExaminerData([FromBody] ExaminerMaster request)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<int>();
+            try
             {
-                var result = new ApiResult<int>();
-                try
+                request.IPAddress = CommonFuncationHelper.GetIpAddress();
+                result.Data = await Task.Run(() => _unitOfWork.ExaminersRepository.SaveExaminerData(request));
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
                 {
-                    request.IPAddress = CommonFuncationHelper.GetIpAddress();
-                    result.Data = await _unitOfWork.ExaminersRepository.SaveExaminerData(request);
-                    await _unitOfWork.SaveChangesAsync();
-                    if (result.Data > 0)
+                    result.State = EnumStatus.Success;
+                    if (request.ExaminerID == 0)
                     {
-                        result.State = EnumStatus.Success;
-                        if (request.ExaminerID == 0)
-                        {
-                            result.Message = Constants.MSG_SAVE_SUCCESS;
-                        }
-                        else
-                        {
-                            result.Message = Constants.MSG_UPDATE_SUCCESS;
-                        }
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
                     }
-                    else if (result.Data == -2)
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.ErrorMessage = "UserID Does Not Exist";
-                    }
-
-                    else if (result.Data == -3)
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = "This Examiner Code is already assigned to other user";
-                    }
-
                     else
                     {
-                        result.State = EnumStatus.Error;
-                        if (request.ExaminerID == 0)
-                        {
-                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                        }
-                        else
-                        {
-                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
-                        }
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
                     }
                 }
-                catch (Exception ex)
+                else if (result.Data == -2)
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = "UserID Does Not Exist";
                 }
-                return result;
-            });
+
+                else if (result.Data == -3)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "This Examiner Code is already assigned to other user";
+                }
+
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (request.ExaminerID == 0)
+                    {
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
         [HttpPost("GetExaminerData")]
         public async Task<ApiResult<DataTable>> GetExaminerData([FromBody] TeacherForExaminerSearchModel body)
         {
-            ActionName = "GetExaminerData()";
+            ActionName = "GetExaminerData([FromBody] TeacherForExaminerSearchModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -172,49 +169,46 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<bool>> DeleteByID(int ExaminerID, int ModifyBy)
         {
             ActionName = "DeleteByID(int ExaminerID, int ModifyBy)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<bool>();
+            try
             {
-                var result = new ApiResult<bool>();
-                try
+                var mappedData = new ExaminerMaster
                 {
-                    var mappedData = new ExaminerMaster
-                    {
-                        ExaminerID = ExaminerID,
-                        ModifyBy = ModifyBy,
+                    ExaminerID = ExaminerID,
+                    ModifyBy = ModifyBy,
 
-                        //ActiveStatus = false,
-                        //DeleteStatus = true,
-                    };
-                    result.Data = await _unitOfWork.ExaminersRepository.DeleteDataByID(mappedData);
-                    await _unitOfWork.SaveChangesAsync();
+                    //ActiveStatus = false,
+                    //DeleteStatus = true,
+                };
+                result.Data = await Task.Run(() => _unitOfWork.ExaminersRepository.DeleteDataByID(mappedData));
+                await _unitOfWork.SaveChangesAsync();
 
-                    if (result.Data)
-                    {
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DELETE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_DELETE_ERROR;
-                    }
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DELETE_SUCCESS;
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
                     result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.ErrorMessage = Constants.MSG_DELETE_ERROR;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
 
         [HttpPost("GetExaminerByCode")]
@@ -256,46 +250,41 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("GetByID/{PK_ID}/{StaffSubjectID}/{DepartmentID}/{EndTermID}/{CourseTypeID}")]
-        public async Task<ApiResult<ExaminerMaster>> GetByID(int PK_ID,int StaffSubjectID,int DepartmentID,int EndTermID,int CourseTypeID)
-
-
+        public async Task<ApiResult<ExaminerMaster>> GetByID(int PK_ID, int StaffSubjectID, int DepartmentID, int EndTermID, int CourseTypeID)
         {
-            ActionName = "GetByID(int AppointExaminerID)";
-            return await Task.Run(async () =>
+            ActionName = "GetByID(int PK_ID, int StaffSubjectID, int DepartmentID, int EndTermID, int CourseTypeID)";
+            var result = new ApiResult<ExaminerMaster>();
+            try
             {
-                var result = new ApiResult<ExaminerMaster>();
-                try
+                var data = await Task.Run(() => _unitOfWork.ExaminersRepository.GetById(PK_ID, StaffSubjectID, DepartmentID, EndTermID, CourseTypeID));
+                if (data != null)
                 {
-                    var data = await _unitOfWork.ExaminersRepository.GetById(PK_ID, StaffSubjectID, DepartmentID,EndTermID, CourseTypeID);
-                    if (data != null)
-                    {
-                        var mappedData = _mapper.Map<ExaminerMaster>(data);
-                        result.Data = mappedData;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
+                    var mappedData = _mapper.Map<ExaminerMaster>(data);
+                    result.Data = mappedData;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
 
 
@@ -304,7 +293,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("ExaminerInchargeDashboard")]
         public async Task<ApiResult<DataTable>> ExaminerInchargeDashboard(ExaminerDashboardSearchModel model)
         {
-            ActionName = "GetExaminerByCode([FromBody] ExaminerCodeLoginModel model)";
+            ActionName = "ExaminerInchargeDashboard(ExaminerDashboardSearchModel model)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -585,45 +574,40 @@ namespace Kaushal_Darpan.Api.Controllers
         #region Reval Examiner
         [HttpGet("Getexaminer_byID_Reval/{PK_ID}/{StaffSubjectID}/{DepartmentID}/{EndTermID}/{CourseTypeID}")]
         public async Task<ApiResult<ExaminerMaster>> Getexaminer_byID_Reval(int PK_ID, int StaffSubjectID, int DepartmentID, int EndTermID, int CourseTypeID)
-
-
         {
             ActionName = "Getexaminer_byID_Reval(int PK_ID, int StaffSubjectID, int DepartmentID, int EndTermID, int CourseTypeID)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<ExaminerMaster>();
+            try
             {
-                var result = new ApiResult<ExaminerMaster>();
-                try
+                var data = await Task.Run(() => _unitOfWork.ExaminersRepository.Getexaminer_byID_Reval(PK_ID, StaffSubjectID, DepartmentID, EndTermID, CourseTypeID));
+                if (data != null)
                 {
-                    var data = await _unitOfWork.ExaminersRepository.Getexaminer_byID_Reval(PK_ID, StaffSubjectID, DepartmentID, EndTermID, CourseTypeID);
-                    if (data != null)
-                    {
-                        var mappedData = _mapper.Map<ExaminerMaster>(data);
-                        result.Data = mappedData;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
+                    var mappedData = _mapper.Map<ExaminerMaster>(data);
+                    result.Data = mappedData;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
 
         //[RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
@@ -631,67 +615,64 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<int>> SaveExaminerData_Reval([FromBody] ExaminerMaster request)
         {
             ActionName = " SaveExaminerData_Reval([FromBody] ExaminerMaster request)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<int>();
+            try
             {
-                var result = new ApiResult<int>();
-                try
+                request.IPAddress = CommonFuncationHelper.GetIpAddress();
+                result.Data = await Task.Run(() => _unitOfWork.ExaminersRepository.SaveExaminerData_Reval(request));
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
                 {
-                    request.IPAddress = CommonFuncationHelper.GetIpAddress();
-                    result.Data = await _unitOfWork.ExaminersRepository.SaveExaminerData_Reval(request);
-                    await _unitOfWork.SaveChangesAsync();
-                    if (result.Data > 0)
+                    result.State = EnumStatus.Success;
+                    if (request.ExaminerID == 0)
                     {
-                        result.State = EnumStatus.Success;
-                        if (request.ExaminerID == 0)
-                        {
-                            result.Message = Constants.MSG_SAVE_SUCCESS;
-                        }
-                        else
-                        {
-                            result.Message = Constants.MSG_UPDATE_SUCCESS;
-                        }
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
                     }
-                    else if (result.Data == -2)
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.ErrorMessage = "UserID Does Not Exist";
-                    }
-
-                    else if (result.Data == -3)
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = "This Examiner Code is already assigned to other user";
-                    }
-
                     else
                     {
-                        result.State = EnumStatus.Error;
-                        if (request.ExaminerID == 0)
-                        {
-                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                        }
-                        else
-                        {
-                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
-                        }
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
                     }
                 }
-                catch (Exception ex)
+                else if (result.Data == -2)
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = "UserID Does Not Exist";
                 }
-                return result;
-            });
+
+                else if (result.Data == -3)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "This Examiner Code is already assigned to other user";
+                }
+
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (request.ExaminerID == 0)
+                    {
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
         [HttpPost("GetExaminerData_Reval")]
@@ -734,49 +715,46 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<bool>> DeleteByID_Reval(int ExaminerID, int ModifyBy)
         {
             ActionName = "DeleteByID_Reval(int ExaminerID, int ModifyBy)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<bool>();
+            try
             {
-                var result = new ApiResult<bool>();
-                try
+                var mappedData = new ExaminerMaster
                 {
-                    var mappedData = new ExaminerMaster
-                    {
-                        ExaminerID = ExaminerID,
-                        ModifyBy = ModifyBy,
+                    ExaminerID = ExaminerID,
+                    ModifyBy = ModifyBy,
 
-                        //ActiveStatus = false,
-                        //DeleteStatus = true,
-                    };
-                    result.Data = await _unitOfWork.ExaminersRepository.DeleteByID_Reval(mappedData);
-                    await _unitOfWork.SaveChangesAsync();
+                    //ActiveStatus = false,
+                    //DeleteStatus = true,
+                };
+                result.Data = await Task.Run(() => _unitOfWork.ExaminersRepository.DeleteByID_Reval(mappedData));
+                await _unitOfWork.SaveChangesAsync();
 
-                    if (result.Data)
-                    {
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DELETE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_DELETE_ERROR;
-                    }
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DELETE_SUCCESS;
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
                     result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.ErrorMessage = Constants.MSG_DELETE_ERROR;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
 
         [HttpPost("GetExaminerByCode_Reval")]

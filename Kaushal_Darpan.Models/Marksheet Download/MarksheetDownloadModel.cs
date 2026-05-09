@@ -49,6 +49,7 @@
     {
         public int? EndTermID { get; set; }
         public int? SemesterID { get; set; }
+        public int? ResultType { get; set; }
         public string? RollNo { get; set; }
         public string? DOB { get; set; }
     }

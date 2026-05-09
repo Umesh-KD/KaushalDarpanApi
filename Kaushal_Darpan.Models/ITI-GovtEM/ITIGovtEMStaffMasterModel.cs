@@ -324,6 +324,8 @@
         public string? SSOID { get; set; }
         public string? Name { get; set; }
 
+        public int RoleId { get; set; }
+
     }
 
     public class ITI_Govt_EM_ZonalOFFICERSDataModel
@@ -787,6 +789,8 @@
         public int PostedSeat { get; set; }
         public int TradeID { get; set; }
         public int? PostSanctionedID { get; set; }
+        public int? RoleID { get; set; }
+        public int? UserID { get; set; }
     }
 
 

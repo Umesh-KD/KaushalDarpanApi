@@ -68,6 +68,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@GuestHouseID", request.GuestHouseID);
                         command.Parameters.AddWithValue("@EndtermID", request.EndTermID);
                         command.Parameters.AddWithValue("@BugetHeadID", request.BugetHeadID);
+                        command.Parameters.AddWithValue("@BugetHeadTypeID", request.BugetHeadTypeID);
                         command.Parameters.AddWithValue("@multiGuestHouseIDs", request.MultiGuestHouseIDs);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out

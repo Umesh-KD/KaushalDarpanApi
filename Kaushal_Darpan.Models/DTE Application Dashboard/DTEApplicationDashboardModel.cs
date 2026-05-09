@@ -24,6 +24,7 @@ namespace Kaushal_Darpan.Models.DTEApplicationDashboardModel
         public int GuestHouseID { get; set; }
         public string? UrlStatus { get; set; }
         public string? GuestHouseIDs { get; set; }
+        public int? Guest_Houseids { get; set; }
     }
 
     public class GroupCenterMappingModel

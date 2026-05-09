@@ -1026,8 +1026,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> CollegeTradeMasterData(BTERSeatIntakeDataModel request)
         {
             _actionName = "SaveSeatIntakeData(SeatIntakeDataModel request)";
-            return await Task.Run(async () =>
-            {
+            
                 try
                 {
                     int result = 0;
@@ -1094,7 +1093,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errorDetails, ex);
                 }
-            });
+           
         }
 
 

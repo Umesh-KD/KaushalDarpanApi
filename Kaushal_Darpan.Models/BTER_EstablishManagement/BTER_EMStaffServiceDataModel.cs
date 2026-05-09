@@ -122,7 +122,10 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int EmployeeType { get; set; }
         public int InstituteID { get; set; }
         public int CategoryID { get; set; }
-   
+
+        public string? RelievingDoc { get; set; }
+        public string? RelievingDoc_Dis { get; set; }
+
     }
 
 
@@ -134,6 +137,84 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? CreatedBy { get; set; }
         public string? jsonData { get; set; }
         public int? ID { get; set; }
+    }
+
+
+    public class BTERStaffManualRequestModel
+    {
+        public string? EmployeeDesignation { get; set; }
+        public string? EmployeeName { get; set; }
+        public string? NonGazetteName { get; set; }
+
+        public int? StaffID { get; set; }
+        public int? TransfercateID { get; set; }
+
+        public string? ReasonDescription { get; set; }
+        public string? SupportingDocuments { get; set; }
+        public string? SupportingDocuments_Dis { get; set; }
+        public string? vReasonDescription { get; set; }
+
+        public int? NonGazettedID { get; set; }
+        public int? OfficeID { get; set; }
+        public int? DistrictID { get; set; }
+        public int? InstituteID { get; set; }
+        public int? PostID { get; set; }
+        public int? PriorityID { get; set; }
+
+        public int? CreatedBy { get; set; }
+        public int? UserID { get; set; }
+        public string? SSOID { get; set; }
+
+        public int? To_OfficeID { get; set; }
+        public int? To_PostID { get; set; }
+        public int? To_ddlDistrictID { get; set; }
+        public int? To_ddlCollege { get; set; }
+    }
+
+    public class TransferSystemShowDataModel
+    {
+        public int TransferSystemID { get; set; }
+
+        public string? Name { get; set; }
+
+        public string? SSOID { get; set; }
+
+        public string? TransferCategory { get; set; }
+
+        public string? ReasonDescription { get; set; }
+
+        public string? OrderSupportingDocument { get; set; }
+
+        public string? OrderSupportingDocument_Dis { get; set; }
+
+        public DateTime? CreatedDate { get; set; }
+
+        public string? RelievingStatusName { get; set; }
+
+        public bool ISNonGazetted { get; set; }
+
+        public int StatusID { get; set; }
+
+        public string? OfficeName { get; set; }
+
+        public string? DesignationName { get; set; }
+
+        public string? DistrictName { get; set; }
+
+        public string? InstituteName { get; set; }
+        public string? OrderNo { get; set; }
+        public string? OrderDate { get; set; }
+        public string? EmployeeID { get; set; }
+        public string? NAME { get; set; }
+        public string? DateOfBirth { get; set; }
+        public string? MobileNumber { get; set; }
+        public string? LastPostName { get; set; }
+        public string? RequestRemarks { get; set; }
+        public string? TransferPostName { get; set; }
+        public string? TransferOfficeName { get; set; }
+        public string? RequestDate { get; set; }
+        public string? RelivingTime { get; set; }
+        public string? ApproveName { get; set; }
     }
 }
 
