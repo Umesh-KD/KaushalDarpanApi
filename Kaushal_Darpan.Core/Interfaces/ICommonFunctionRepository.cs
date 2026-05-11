@@ -391,9 +391,10 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<List<CommonDDLModel>> GetCommonMasterDDLByAction(string Action);
 
-
         Task<DataTable> DDL_EmployeeTransferSysterm(int OfficeID = 0, int DesignationID = 0, int DistrictID = 0,int InstituteID = 0);
 
         Task<List<CommonDDLModel>> GetGroupCode_Reval(CommonDDLSubjectMasterModel model);
+
+        Task<DataTable> GetAlreadyAssignedOptionalSubject(int StudentExamID);
     }
 }

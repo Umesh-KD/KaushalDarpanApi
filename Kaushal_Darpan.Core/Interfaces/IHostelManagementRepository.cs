@@ -52,6 +52,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> SaveHostelFee(HostelFeeModel request);
         Task<DataTable> getHostelFeeList();
         Task<DataTable> getHostelFeeByID(int id);
+        Task<DataTable> GetRoomAllotmentCancelHistory(int reqId);
 
 
     }

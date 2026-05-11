@@ -1522,8 +1522,51 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+        [HttpGet("GetRoomAllotmentCancelHistory/{reqId}")]
+        public async Task<ApiResult<DataTable>> GetRoomAllotmentCancelHistory(int reqId)
+        {
+            ActionName = "GetRoomAllotmentCancelHistory()";
 
+            var result = new ApiResult<DataTable>();
 
+            try
+            {
+                result.Data = await Task.Run(() =>
+                    _unitOfWork.HostelManagementRepository
+                    .GetRoomAllotmentCancelHistory(reqId));
+
+                result.State = EnumStatus.Success;
+
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Write Error Log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
     }
 }
 
