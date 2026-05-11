@@ -984,15 +984,15 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("StaffAttendence/{SSOID}/{StreamType}/{EndTermId}/{InstituteID}")]
-        public async Task<ApiResult<DataTable>> StaffAttendence(string SSOID = "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0)
+        [HttpGet("StaffAttendence/{SSOID}/{StreamType}/{EndTermId}/{InstituteID}/{RoleID}")]
+        public async Task<ApiResult<DataTable>> StaffAttendence(string SSOID = "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0,int RoleID=0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.StaffAttendence(SSOID, StreamType, EndTermId, InstituteID);
+                    var data = await _unitOfWork.CommonFunctionRepository.StaffAttendence(SSOID, StreamType, EndTermId, InstituteID,RoleID);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
@@ -10726,6 +10726,43 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpGet("GetAlreadyAssignedOptionalSubject/{StudentExamID}")]
+        public async Task<ApiResult<DataTable>> GetAlreadyAssignedOptionalSubject(int StudentExamID)
+        {
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetAlreadyAssignedOptionalSubject(StudentExamID));
+                if (data != null)
+                {
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }
 

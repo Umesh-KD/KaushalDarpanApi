@@ -118,6 +118,7 @@ namespace Kaushal_Darpan.Models.PreExamStudent
     {
         public Int32 StudentID { get; set; }
         public string RowJson { get; set; } = "[]";
+        public string RowJson_AlreadyAssigned { get; set; } = "[]";
         public string? IPAddress { get; set; }
         public int CreatedBy { get; set; }
         public int? StudentExamID { get; set; }

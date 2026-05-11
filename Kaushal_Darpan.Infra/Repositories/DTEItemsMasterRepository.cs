@@ -68,6 +68,52 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+
+        public async Task<DataTable> GetAllDataHistory(DTEItemsSearchModel SearchReq)
+        {
+            _actionName = "GetAllData(DTEItemsSearchModel SearchReq)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetAllDTEItemsHistory";
+                        command.Parameters.AddWithValue("@EquipmentsId", SearchReq.EquipmentsId);
+                        command.Parameters.AddWithValue("@CollegeId", SearchReq.CollegeId);
+                        command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
+                        command.Parameters.AddWithValue("@DepartmentID", SearchReq.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", SearchReq.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", SearchReq.EndTermID);
+                        command.Parameters.AddWithValue("@StatusID", SearchReq.StatusID);
+                        command.Parameters.AddWithValue("@IsConsumable", SearchReq.ItemType);
+                        command.Parameters.AddWithValue("@ItemId", SearchReq.ItemId);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
         public async Task<DTEItemsModel> GetById(int PK_ID)
         {
             _actionName = "GetById(int PK_ID)";
@@ -155,6 +201,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BillFileName", request.BillFileName);
                         command.Parameters.AddWithValue("@BillFilePath", request.BillFilePath);
                         command.Parameters.AddWithValue("@Specification", request.Specification);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
 
@@ -597,6 +644,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModifyDate", request.ModifyDate ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Status", request.Status);
                         command.Parameters.AddWithValue("@Remark", request.Remark);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
@@ -866,6 +914,51 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+
+        public async Task<DataTable> GetAllinventoryIssueHistoryTrail(inventoryIssueHistorySearchModel SearchReq)
+        {
+            _actionName = "GetAllinventoryIssueHistory(inventoryIssueHistorySearchModel SearchReq)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Bter_GetAllInventoryIssueHistoryTrail";
+                        command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
+                        command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
+                        command.Parameters.AddWithValue("@status", SearchReq.status);
+                        command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
+                        command.Parameters.AddWithValue("@IssueStatus", SearchReq.IssueStatus);
+                        command.Parameters.AddWithValue("@ItemDetailsId", SearchReq.ItemDetailsId);
+                        command.Parameters.AddWithValue("@IssuedId", SearchReq.IssuedId);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<DataTable> GetAllInventoryIssueReturnItemList(inventoryIssueHistorySearchModel SearchReq)
         {
             _actionName = "GetAllInventoryIssueReturnItemList(inventoryIssueHistorySearchModel SearchReq)";
@@ -1178,6 +1271,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StreamID", SearchReq.StreamID);
                         command.Parameters.AddWithValue("@LabID", SearchReq.LabID);
                         command.Parameters.AddWithValue("@IndentNo", SearchReq.IndentNo);
+                        command.Parameters.AddWithValue("@UserId", SearchReq.UserId);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

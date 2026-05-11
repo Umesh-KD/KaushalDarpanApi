@@ -13,7 +13,7 @@ namespace Kaushal_Darpan.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [CustomeAuthorize]
+    //[CustomeAuthorize]
     [ValidationActionFilter]
     public class LeaveMasterController : BaseController
     {

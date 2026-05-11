@@ -122,6 +122,60 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<bool> PrincipalStatusChange(DTETradeEquipmentsMapping request)
+        {
+            _actionName = "SaveData(DTETradeEquipmentsMapping request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_DTEPrincipalItemStatuschange_IU";
+                        command.CommandType = CommandType.StoredProcedure;
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@ItemID", request.ItemID);
+                        command.Parameters.AddWithValue("@Status", request.Status);
+                      
+                    
+                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    
+       
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
         public async Task<int> SaveEquipmentsMappingRequestData(DTERequestTradeEquipmentsMapping request)
         {
             _actionName = "SaveEquipmentsMappingRequestData(DTERequestTradeEquipmentsMapping request)";
