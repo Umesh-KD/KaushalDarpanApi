@@ -170,6 +170,8 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public int CourseTypeID { get; set; }
         public int EndTermID { get; set; }
         public DateTime? AttendanceDate { get; set; }
+        public DateTime? AttendanceStartDate { get; set; }
+        public DateTime? AttendanceEndDate { get; set; }
     }
     public class SaveRosterDisplayModel
     {
