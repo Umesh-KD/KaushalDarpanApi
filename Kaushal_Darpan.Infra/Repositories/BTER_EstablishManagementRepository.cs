@@ -405,6 +405,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Action", "BTER_EM_DeleteStaff");
                         command.Parameters.AddWithValue("@UserID", body.ID);
                         command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.Add("@Return", SqlDbType.Int);
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;
                         _sqlQuery = command.GetSqlExecutableQuery();
