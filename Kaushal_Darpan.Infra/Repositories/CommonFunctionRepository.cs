@@ -1033,7 +1033,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> StaffAttendence(string SSOID = "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0)
+        public async Task<DataTable> StaffAttendence(string SSOID = "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int RoleID =0)
         {
             _actionName = "SemesterRolewise()";
             return await Task.Run(async () =>
@@ -1051,6 +1051,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
                         command.Parameters.AddWithValue("@InstituteID", InstituteID);
+                        command.Parameters.AddWithValue("@RoleID", RoleID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

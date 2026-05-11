@@ -984,15 +984,15 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("StaffAttendence/{SSOID}/{StreamType}/{EndTermId}/{InstituteID}")]
-        public async Task<ApiResult<DataTable>> StaffAttendence(string SSOID = "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0)
+        [HttpGet("StaffAttendence/{SSOID}/{StreamType}/{EndTermId}/{InstituteID}/{RoleID}")]
+        public async Task<ApiResult<DataTable>> StaffAttendence(string SSOID = "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0,int RoleID=0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.StaffAttendence(SSOID, StreamType, EndTermId, InstituteID);
+                    var data = await _unitOfWork.CommonFunctionRepository.StaffAttendence(SSOID, StreamType, EndTermId, InstituteID,RoleID);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
