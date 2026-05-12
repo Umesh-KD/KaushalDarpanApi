@@ -2177,5 +2177,88 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<DataTable> GetStaff_GuestHouseList(StaffGuestHouseSearchModel body)
+        {
+            _actionName = "GetStaff_HostelIDs(StaffHostelSearchModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BTER_EM_StaffUpdateGuestHouse";
+                        command.Parameters.AddWithValue("@Action", "GetStaff_GuestHouseList");
+                        command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                        command.Parameters.AddWithValue("@StaffUserID", body.StaffUserID);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<bool> SaveStaff_GuestHouseIDs(StaffGuestHouseSearchModel body)
+        {
+            _actionName = "SaveStaff_GuestHouseIDs(StaffGuestHouseSearchModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.CommandText = "USP_BTER_EM_StaffUpdateGuestHouse";
+                        command.Parameters.AddWithValue("@Action", "UpdateStaff_GuestHouse");
+                        command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                        command.Parameters.AddWithValue("@StaffUserID", body.StaffUserID);
+                        command.Parameters.AddWithValue("@StaffGuestHouseIDs", body.StaffGuestHouseIDs);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }

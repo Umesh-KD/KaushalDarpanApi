@@ -56,5 +56,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetBudgetHeadMasterData_EM(EM_BudgetHeadMasterDataModel body);
         Task<int> DeleteBudgetHeadById_EM(int HeadId, int UserID);
         Task<DataTable> GetBudgetHeadById_EM(int id);
+        Task<DataTable> GetStaff_GuestHouseList(StaffGuestHouseSearchModel body);
+        Task<bool> SaveStaff_GuestHouseIDs(StaffGuestHouseSearchModel body);
     }
 }

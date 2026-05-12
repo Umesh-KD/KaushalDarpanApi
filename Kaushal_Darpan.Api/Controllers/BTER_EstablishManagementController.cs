@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Infra.Repositories;
 using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.ITI_InstructorModel;
 using Kaushal_Darpan.Models.StaffDashboard;
 using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.Test;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data;
 
 namespace Kaushal_Darpan.Api.Controllers
@@ -2099,6 +2101,86 @@ namespace Kaushal_Darpan.Api.Controllers
             }
 
             return result;
+        }
+
+        [HttpPost("GetStaff_GuestHouseList")]
+        public async Task<ApiResult<DataTable>> GetStaff_GuestHouseList(StaffGuestHouseSearchModel model)
+        {
+            ActionName = "GetStaff_GuestHouseList(StaffGuestHouseSearchModel model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.BTER_EstablishManagementRepository.GetStaff_GuestHouseList(model);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("SaveStaff_GuestHouseIDs")]
+        public async Task<ApiResult<bool>> SaveStaff_GuestHouseIDs([FromBody] StaffGuestHouseSearchModel request)
+        {
+            ActionName = "SaveStaff_GuestHouseIDs([FromBody] StaffGuestHouseSearchModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.BTER_EstablishManagementRepository.SaveStaff_GuestHouseIDs(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
         }
     }
 }
