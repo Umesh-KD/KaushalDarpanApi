@@ -924,5 +924,118 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<DataTable> GetInstituteDetails(ScholarshipApiSearchDataModel model)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ScholarsipgetdataInstitute";
+                        //command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        //command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        //command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        //command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+                        //command.Parameters.AddWithValue("@InstituteCode", model.InstituteCode);
+                        //command.Parameters.AddWithValue("@InstituteName", model.InstituteName);
+                        //command.Parameters.AddWithValue("@ManagementType", model.ManagementType);
+                        //command.Parameters.AddWithValue("@DistrictId", model.DistrictId);
+                        //command.Parameters.AddWithValue("@Email", model.Email);
+                        //command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                        //command.Parameters.AddWithValue("@ActiveStatus", model.Status);
+                        //command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        //command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        //command.Parameters.AddWithValue("@StreamTypeID", model.StreamTypeID);
+
+                        //command.Parameters.AddWithValue("@PageNumber", model.PageNumber);
+                        //command.Parameters.AddWithValue("@PageSize", model.PageSize);
+
+                        command.Parameters.AddWithValue("@PGCode", model.PGCODE);
+   
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        public async Task<DataTable> GetCourseDetails(ScholarshipApiSearchDataModel model)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ScholarsipgetdatACourse";
+                        //command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        //command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        //command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        //command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+                        //command.Parameters.AddWithValue("@InstituteCode", model.InstituteCode);
+                        //command.Parameters.AddWithValue("@InstituteName", model.InstituteName);
+                        //command.Parameters.AddWithValue("@ManagementType", model.ManagementType);
+                        //command.Parameters.AddWithValue("@DistrictId", model.DistrictId);
+                        //command.Parameters.AddWithValue("@Email", model.Email);
+                        //command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                        //command.Parameters.AddWithValue("@ActiveStatus", model.Status);
+                        //command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        //command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        //command.Parameters.AddWithValue("@StreamTypeID", model.StreamTypeID);
+
+                        //command.Parameters.AddWithValue("@PageNumber", model.PageNumber);
+                        //command.Parameters.AddWithValue("@PageSize", model.PageSize);
+
+                        command.Parameters.AddWithValue("@SJEDCOURSEID", model.SJEDCOURSEID);
+                        command.Parameters.AddWithValue("@PGCode", model.PGCODE);
+
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
     }
 }
