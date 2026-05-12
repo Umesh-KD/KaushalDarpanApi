@@ -110,10 +110,13 @@
         public string? CollegeType { get; set; }
 
         public string? CollegeCode { get; set; }
+        public string? CourseCode { get; set; }
 
         public int? DepartmentID { get; set; }
         public int? InstituteID { get; set; }
         public string? COURSEID { get; set; }
+        public string? PGCODE { get; set; }
+        public string? SJEDCOURSEID { get; set; }
 
         public int? AcademicYear { get; set; }
     }
