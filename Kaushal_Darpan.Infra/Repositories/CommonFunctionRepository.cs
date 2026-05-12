@@ -1033,7 +1033,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> StaffAttendence(string SSOID = "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0)
+        public async Task<DataTable> StaffAttendence(string SSOID = "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int RoleID =0)
         {
             _actionName = "SemesterRolewise()";
             return await Task.Run(async () =>
@@ -1051,6 +1051,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
                         command.Parameters.AddWithValue("@InstituteID", InstituteID);
+                        command.Parameters.AddWithValue("@RoleID", RoleID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -11990,6 +11991,39 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+        public async Task<DataTable> GetAlreadyAssignedOptionalSubject(int StudentExamID)
+        {
+            _actionName = "GetAlreadyAssignedOptionalSubject(int StudentExamID)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_OptionalSubjectMaster";
+
+                    command.Parameters.AddWithValue("@Action", "_getAlreadyAssignedOptionalSubject");
+                    command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
     }
 }

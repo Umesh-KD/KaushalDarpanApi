@@ -2143,5 +2143,48 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        [HttpPost("UpdateOptionalSubjectAfterEligibleStudent")]
+        public async Task<ApiResult<bool>> UpdateOptionalSubjectAfterEligibleStudent([FromBody] OptionalSubjectModel request)
+        {
+            ActionName = "UpdateOptionalSubjectAfterEligibleStudent([FromBody] OptionalSubjectModel request)";
+            var result = new ApiResult<bool>();
+            try
+            {
+                request.IPAddress = CommonFuncationHelper.GetIpAddress();
+                var isSave = await Task.Run(() => _unitOfWork.PreExamStudentRepository.UpdateOptionalSubjectAfterEligibleStudent(request));
+                await _unitOfWork.SaveChangesAsync();
+                //
+                if (isSave > 0)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_UPDATE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }

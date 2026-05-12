@@ -1924,6 +1924,54 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<int> UpdateOptionalSubjectAfterEligibleStudent(OptionalSubjectModel optionalSubject)
+        {
+            _actionName = "UpdateOptionalSubjectAfterEligibleStudent(OptionalSubjectModel optionalSubject)";
+            try
+            {
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_UpdateOptionalSubjectAfterEligibleStudent";
+
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_updateOptionalSubjectAfterEligibleStudent");
+                    command.Parameters.AddWithValue("@StudentID", optionalSubject.StudentID);
+                    command.Parameters.AddWithValue("@EndTermID", optionalSubject.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", optionalSubject.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", optionalSubject.Eng_NonEng);
+                    command.Parameters.AddWithValue("@ModifyBy", optionalSubject.CreatedBy);
+                    command.Parameters.AddWithValue("@IPAddress", optionalSubject.IPAddress);
+                    // json
+                    command.Parameters.AddWithValue("@RowJson", optionalSubject.RowJson); // update
+                    command.Parameters.AddWithValue("@RowJson_AlreadyAssigned", optionalSubject.RowJson_AlreadyAssigned); // already assigned
+
+                    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+
+                    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                }
+                return retval;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
 
