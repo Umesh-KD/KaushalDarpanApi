@@ -59,12 +59,12 @@ namespace Kaushal_Darpan.Models.Test
 
     public class THTE_ApplicationSearchModel
     {
-        public int Id { get; set; }
-        public int THTEAppID { get; set; }
-        public string Name { get; set; }
-        public int StaffID { get; set; }
+        public int? Id { get; set; }
+        public int? THTEAppID { get; set; }
+        public string? Name { get; set; }
+        public int? StaffID { get; set; }
         public string? action { get; set; }
-        public int RoleID { get; set; }
+        public int? RoleID { get; set; }
     }
 
     public class PrincipleApplicationListSearchModel: RequestBaseModel
