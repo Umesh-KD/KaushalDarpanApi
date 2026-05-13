@@ -2098,6 +2098,49 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         }
 
+
+        public async Task<int> DeleteAssignTeacherForSubject(PostAttendanceTimeTable model)
+        {
+            _actionName = "AddStudentAttendance()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_Bter_Delete_AssignTeacherForSubject";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@ID", model.ID);
+               
+                    
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errorDetails, ex);
+                }
+            });
+
+        }
+
+
         public async Task<DataTable> GetStudentAttendanceTLC(AttendanceTimeTableTLCModal model)
         {
             _actionName = "ReAssignTeacherForSaveLC()";

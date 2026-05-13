@@ -243,6 +243,12 @@ namespace Kaushal_Darpan.Models.StaffMaster
     public class GetAssignedTeacherForSubjectDataModel: RequestBaseModel
     {
         public int? SectionID { get; set; }
+        public int? ID { get; set; }
+        public int? StreamID { get; set; }
+        public int? SubjectID { get; set; }
+        public int? SemesterID { get; set; }
+        public string? SSOID { get; set; }
+      
     }
 
 
