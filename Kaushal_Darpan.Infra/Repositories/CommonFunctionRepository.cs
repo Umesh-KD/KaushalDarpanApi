@@ -5511,6 +5511,57 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<List<CommonDDLModel>> Get_SubjectMasterByCondition(CommonDDLSubjectMasterModel request)
+        {
+            _actionName = "Get_SubjectMasterByCondition(CommonDDLSubjectMasterModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    List<CommonDDLModel> roleMaster = new List<CommonDDLModel>();
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDL_SubjectMasterByCondition";
+
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", request.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                        command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
+                        command.Parameters.AddWithValue("@StreamID", request.StreamID);
+                        command.Parameters.AddWithValue("@SchemeID", request.SchemeID);
+                        //command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        //command.Parameters.AddWithValue("@UserID", request.UserID);
+                        //command.Parameters.AddWithValue("@StaffID", request.StaffID);
+                        //command.Parameters.AddWithValue("@InstituteId", request.InstituteId);
+                        command.Parameters.AddWithValue("@ACTION", "_getSubjectMasterByAssignedStudent");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+
+                    }
+                    if (dataTable != null)
+                    {
+                        roleMaster = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    }
+                    return roleMaster;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<List<CommonSerialMasterResponseModel>> GetSerialMasterData(CommonSerialMasterRequestModel request)
         {
             _actionName = "GetSerialMasterData(CommonSerialMasterRequestModel request)";

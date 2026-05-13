@@ -743,7 +743,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                  
+
                         command.Parameters.AddWithValue("@StaffID", model.StaffID);
                         command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
@@ -898,10 +898,10 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         // Add parameters to the stored procedure from the model
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-              
+
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                   
-                    
+
+
                         command.Parameters.AddWithValue("@SSOID", model.SSOID);
                         command.Parameters.AddWithValue("@AttendanceStartDate", model.AttendanceStartDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
                         command.Parameters.AddWithValue("@AttendanceEndDate", model.AttendanceEndDate?.ToString("yyyy-MM-dd", new CultureInfo("en-GB")));
@@ -1075,45 +1075,41 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> AddStudentAttendance(List<PostAttendanceTimeTableModal> model)
         {
             _actionName = "AddStudentAttendance()";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_AddEdit_StudentAttandance";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_AddEdit_StudentAttandance";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
-                        // Add the return parameter
-                        command.Parameters.Add("@Return", SqlDbType.Int); // out
-                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                    // Add the return parameter
+                    command.Parameters.Add("@Return", SqlDbType.Int); // out
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
+                    _sqlQuery = command.GetSqlExecutableQuery();
 
-                        // Execute the command
-                        result = await command.ExecuteNonQueryAsync();
-                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
-                    }
-
-                    return result;
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
                 }
-                catch (Exception ex)
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errorDetails, ex);
-                }
-            });
-
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errorDetails, ex);
+            }
         }
         public async Task<int> PostAttendanceTimeTable(PostAttendanceTimeTable model)
         {
