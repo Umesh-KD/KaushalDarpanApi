@@ -1518,38 +1518,84 @@ namespace Kaushal_Darpan.Api.Controllers
             return await Task.Run(async () =>
             {
                 try
-            {
-
-                // Pass the entire model to the repository
-                result.Data = await _unitOfWork.StaffMasterRepository.GetAssignedTeacherForSubject_BySecctionID(body);
-
-                if (result.Data.Rows.Count > 0)
                 {
-                    result.State = EnumStatus.Success;
-                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                    // Pass the entire model to the repository
+                    result.Data = await _unitOfWork.StaffMasterRepository.GetAssignedTeacherForSubject_BySecctionID(body);
+
+                    if (result.Data.Rows.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    result.State = EnumStatus.Warning;
-                    result.Message = Constants.MSG_DATA_NOT_FOUND;
-                }
-            }
-            catch (Exception ex)
-            {
-                result.State = EnumStatus.Error;
-                result.ErrorMessage = ex.Message;
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
 
-                // Log the error
-                await _unitOfWork.DisposeAsync();
-                var nex = new NewException
+                    // Log the error
+                    await _unitOfWork.DisposeAsync();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+
+                return result;
+            });
+        }
+
+
+        [HttpPost("GetAssignedTeacherForSubject_History")]
+        public async Task<ApiResult<DataTable>> GetAssignedTeacherForSubject_History([FromBody] GetAssignedTeacherForSubjectDataModel body)
+        {
+
+            ActionName = " GetAssignedTeacherForSubject_History([FromBody] GetAssignedTeacherForSubjectDataModel body)";
+            var result = new ApiResult<DataTable>();
+            return await Task.Run(async () =>
+            {
+                try
                 {
-                    PageName = PageName,
-                    ActionName = ActionName,
-                    Ex = ex,
-                };
-                await CreateErrorLog(nex, _unitOfWork);
-            }
-            
+
+                    // Pass the entire model to the repository
+                    result.Data = await _unitOfWork.StaffMasterRepository.GetAssignedTeacherForSubject_History(body);
+
+                    if (result.Data.Rows.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    await _unitOfWork.DisposeAsync();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+
                 return result;
             });
         }
