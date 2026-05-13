@@ -1015,6 +1015,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ApplyHostelByStudent";
                         command.Parameters.AddWithValue("@EndTermId", request.EndTermID);
                         command.Parameters.AddWithValue("@action", request.Action);
+                        command.Parameters.AddWithValue("@StudentID", request.StudentID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync();
                     }
