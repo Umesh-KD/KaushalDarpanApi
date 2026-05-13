@@ -3743,6 +3743,48 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("Get_SubjectMasterByCondition")]
+        public async Task<ApiResult<List<CommonDDLModel>>> Get_SubjectMasterByCondition(CommonDDLSubjectMasterModel request)
+        {
+            ActionName = "Get_SubjectMasterByCondition(CommonDDLSubjectMasterModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<CommonDDLModel>>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.Get_SubjectMasterByCondition(request);
+                    if (data != null)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
         [HttpGet("GetCollegeTypeList")]
         public async Task<ApiResult<DataTable>> GetCollegeTypeList()
         {
