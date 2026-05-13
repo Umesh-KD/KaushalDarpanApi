@@ -1360,8 +1360,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetAssignedTeacherForSubject_BySecctionID(GetAssignedTeacherForSubjectDataModel body)
         {
             _actionName = "GetAssignedTeacherForSubject_BySecctionID(SearchBranchDataModel body)";
-            return await Task.Run(async () =>
-            {
+      
                 try
                 {
                     DataTable dataTable = new DataTable();
@@ -1376,10 +1375,18 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@SectionID", body.SectionID);
+                        command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
+                        command.Parameters.AddWithValue("@ID", body.ID);
+                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
-                    }
+
+
+                }
 
                     return dataTable;
                 }
@@ -1395,7 +1402,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+   
         }
 
 

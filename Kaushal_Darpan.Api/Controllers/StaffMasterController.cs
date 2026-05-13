@@ -1515,7 +1515,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
             ActionName = " GetAssignedTeacherForSubject_BySecctionID([FromBody] GetAssignedTeacherForSubjectDataModel body)";
             var result = new ApiResult<DataTable>();
-            try
+            return await Task.Run(async () =>
+            {
+                try
             {
 
                 // Pass the entire model to the repository
@@ -1547,7 +1549,9 @@ namespace Kaushal_Darpan.Api.Controllers
                 };
                 await CreateErrorLog(nex, _unitOfWork);
             }
-            return result;
+            
+                return result;
+            });
         }
 
 
