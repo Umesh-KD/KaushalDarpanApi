@@ -25,13 +25,13 @@ namespace Kaushal_Darpan.Models.Attendance
         public int RoleID { get; set; }
         public DateTime? AttendanceStartDate { get; set; }
         public DateTime? AttendanceEndDate { get; set; }
-        public string? EnrollmentNo { get; set; } 
-        public int StudentId{ get; set; }
+        public string? EnrollmentNo { get; set; }
+        public int StudentId { get; set; }
         public int? Seatintake { get; set; }
 
-        public string? ActionName {  get; set; }
-        public string? TodayDate {  get; set; }
-        public int?     Percent {  get; set; }
+        public string? ActionName { get; set; }
+        public string? TodayDate { get; set; }
+        public int? Percent { get; set; }
     }
 
     public class PostAttendanceTimeTableModal
@@ -49,6 +49,7 @@ namespace Kaushal_Darpan.Models.Attendance
         public int SemesterID { get; set; }
         public string? StudentName { get; set; }
         public int AssignTeacherForSubjectID { get; set; }
+        public int? RosterID { get; set; }
 
         // Change from a single Attendances object to a list
         public List<Attendances> Attendance { get; set; }
@@ -58,7 +59,7 @@ namespace Kaushal_Darpan.Models.Attendance
         public int? IsFinalSubmit { get; set; }
         public int? Shift { get; set; }
         public int? Unit { get; set; }
-   
+
         public string? Latitude { get; set; }
         public string? Longitude { get; set; }
 
@@ -69,7 +70,6 @@ namespace Kaushal_Darpan.Models.Attendance
     {
         public string? Date { get; set; }
         public string? Status { get; set; }
-
         public int? IsFinalSubmit { get; set; }
     }
 
@@ -87,9 +87,9 @@ namespace Kaushal_Darpan.Models.Attendance
         public int AssignToRoleID { get; set; }
         public int AssignByRoleID { get; set; }
         public int AssignbyStaffID { get; set; }
-        public int DeleteStatus { get; set; } 
-        public int ActiveStatus { get; set; } 
-        public int ShiftId { get; set; } 
+        public int DeleteStatus { get; set; }
+        public int ActiveStatus { get; set; }
+        public int ShiftId { get; set; }
         public string? AssignBySSOID { get; set; }
         public string? AssignToSSOID { get; set; }
         public int InstituteID { get; set; }
@@ -124,9 +124,9 @@ namespace Kaushal_Darpan.Models.Attendance
         public int InstituteID { get; set; }
         public int RoleID { get; set; }
         public int StaffID { get; set; }
-         public string? AssignFromSSOID { get; set; }
-         public string? AttendanceEndDate { get; set; }
-         public string? AttendanceStartDate { get; set; }
+        public string? AssignFromSSOID { get; set; }
+        public string? AttendanceEndDate { get; set; }
+        public string? AttendanceStartDate { get; set; }
         public string? SubjectIDs { get; set; }
 
     }
@@ -149,7 +149,7 @@ namespace Kaushal_Darpan.Models.Attendance
         public int? CurrentMonth { get; set; }
         public int? CurrentYear { get; set; }
         public int? InstituteID { get; set; }
-        public bool? IsFinalSubmit{ get; set; }
+        public bool? IsFinalSubmit { get; set; }
         public int? SubjectID { get; set; } = 0;
         public string? SSOID { get; set; }
     }
@@ -162,7 +162,7 @@ namespace Kaushal_Darpan.Models.Attendance
         public DateTime EventDate { get; set; }
         public string? EventType { get; set; }
         public string? Remark { get; set; }
-        public string? SSOID{ get; set; }
+        public string? SSOID { get; set; }
         public DateTime CreatedAt { get; set; }
         public int DepartmentID { get; set; }
         public int EndTermID { get; set; }

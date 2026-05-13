@@ -178,6 +178,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetItiVacantPost(VacantPostMaster model);
         Task<List<CommonDDLModel>> GetCenterMasterDDL(RequestBaseModel request);
         Task<List<CommonDDLModel>> GetSubjectMasterDDL_New(CommonDDLSubjectMasterModel request);
+        Task<List<CommonDDLModel>> Get_SubjectMasterByCondition(CommonDDLSubjectMasterModel request);
 
         Task<DataTable> GetCollegeTypeList();
         Task<DataTable> GetTradeTypesList();

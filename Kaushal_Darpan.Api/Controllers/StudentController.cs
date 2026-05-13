@@ -1258,7 +1258,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     else
                     {
                         result.State = EnumStatus.Error;
-                        result.ErrorMessage = "Something went wrong";
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
                         result.Data = data;
                     }
                     return result;
