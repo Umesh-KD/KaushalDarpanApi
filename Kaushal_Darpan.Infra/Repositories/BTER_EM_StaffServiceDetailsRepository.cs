@@ -661,6 +661,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy ?? 0);
                     command.Parameters.AddWithValue("@UserID", body.UserID ?? 0);
                     command.Parameters.AddWithValue("@SSOID", body.SSOID ?? "");
+                    command.Parameters.AddWithValue("@TransferCategoryID", body.TransfercateID ?? 0);
+                    command.Parameters.AddWithValue("@ReasonDescription", body.ReasonDescription ?? "");
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;
                     _sqlQuery = command.GetSqlExecutableQuery();
