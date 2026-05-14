@@ -164,35 +164,37 @@ namespace Kaushal_Darpan.Infra.Repositories
         {
 
             int result = 0;
-            _actionName = "DeleteDataByID(GroupMaster request)";
-            return await Task.Run(async () =>
+            _actionName = "DeleteDataByID(StatusChangeGuestModel request)";
+            try
             {
-                try
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        _sqlQuery = $" update M_GuestHouseMaster set ActiveStatus=0,DeleteStatus=1,ModifyBy='{request.ModifyBy} ',ModifyDate=GETDATE(),IPAddress='{_IPAddress}'  Where GuestHouseID={request.PK_ID}";
-                        command.CommandText = _sqlQuery;
-                        result = await command.ExecuteNonQueryAsync();
-                    }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GuestApplyForGuestRoom";
+                    command.Parameters.AddWithValue("@Action", "deleteByID");
+
+                    command.Parameters.AddWithValue("@GuestReqID", request.PK_ID);
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+
+                    result = await command.ExecuteNonQueryAsync();
                 }
-                catch (Exception ex)
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetGuestHouseNameList(GuestRoomSeatSearchModel body)
@@ -1392,6 +1394,48 @@ namespace Kaushal_Darpan.Infra.Repositories
                     dataTable = await command.FillAsync_DataTable();
                 }
                 return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> SaveRoomReservation(RoomReservationDataModel request)
+        {
+            _actionName = "Task<int> SaveRoomReservation(RoomReservationDataModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GH_SaveRoomReservation";
+                    command.Parameters.AddWithValue("@FromDate", request.FromDate);
+                    command.Parameters.AddWithValue("@ToDate", request.ToDate);
+                    command.Parameters.AddWithValue("@Remark", request.Remark);
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                    command.Parameters.AddWithValue("@RoomDetailDataModel", JsonConvert.SerializeObject(request.RoomDetailList));
+
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result;
             }
             catch (Exception ex)
             {

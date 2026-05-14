@@ -527,7 +527,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.State = EnumStatus.Success;
                         if (request.StaffID == 0)
                         {
-                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                            result.Message = Constants.MSG_DELETE_SUCCESS;
                         }
                         else
                         {
@@ -758,6 +758,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #region Relieving letter
 
+
+
         [HttpGet("DownloadRelievingLetterPDF/{TransferSystemID}/{StaffID}")]
         public async Task<IActionResult> DownloadRelievingLetterPDF(int TransferSystemID, int StaffID)
         {
@@ -770,7 +772,7 @@ namespace Kaushal_Darpan.Api.Controllers
             };
 
             // अब आप यहाँ बिना एरर के 'await' का उपयोग कर सकते हैं
-          
+
             var ds = await _unitOfWork.BTER_EM_StaffServiceDetailsRepository.GetRelievingLetter(body);
 
             if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
@@ -779,6 +781,7 @@ namespace Kaushal_Darpan.Api.Controllers
             var model = CommonFuncationHelper
                 .ConvertDataTable<List<TransferSystemShowDataModel>>(ds.Tables[0])
                 .FirstOrDefault();
+
 
             if (model == null)
                 return NotFound("Data mapping failed");
@@ -796,259 +799,259 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
             var html = $@"
-<html>
-<head>
-<style>
-    body {{
-      font-family: 'Noto Sans Devanagari', 'Mangal', 'Arial Unicode MS', sans-serif;
-        font-size: 11.5px;
-        margin: 0;
-        padding: 0;
-        color: #000;
-    }}
+        <html>
+        <head>
+        <style>
+            body {{
+              font-family: 'Noto Sans Devanagari', 'Mangal', 'Arial Unicode MS', sans-serif;
+                font-size: 11.5px;
+                margin: 0;
+                padding: 0;
+                color: #000;
+            }}
 
-    .page {{
-        width: 95%;
-        margin: 0 auto;
-        padding: 20px;
-        background: #fff;
-    }}
+            .page {{
+                width: 95%;
+                margin: 0 auto;
+                padding: 20px;
+                background: #fff;
+            }}
 
-    table {{
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: -1px; /* Borders overlap avoid double lines */
-    }}
+            table {{
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: -1px; /* Borders overlap avoid double lines */
+            }}
 
-    .main-table td {{
-        border: 1px solid #777;
-        padding: 6px 10px;
-        vertical-align: middle;
-    }}
+            .main-table td {{
+                border: 1px solid #777;
+                padding: 6px 10px;
+                vertical-align: middle;
+            }}
 
-    /* Header Styles */
-    .logo-box {{
-        width: 15%;
-        text-align: center;
-        color: #d32f2f;
-        font-weight: bold;
-        font-size: 14px;
-        line-height: 1.2;
-    }}
-    
-    .dept-box {{
-        width: 70%;
-        text-align: center;
-        font-size: 18px;
-        font-weight: bold;
-        text-decoration: underline;
-    }}
+            /* Header Styles */
+            .logo-box {{
+                width: 15%;
+                text-align: center;
+                color: #d32f2f;
+                font-weight: bold;
+                font-size: 14px;
+                line-height: 1.2;
+            }}
 
-    .photo-box {{
-        width: 15%;
-        text-align: center;
-    }}
+            .dept-box {{
+                width: 70%;
+                text-align: center;
+                font-size: 18px;
+                font-weight: bold;
+                text-decoration: underline;
+            }}
 
-    .photo-placeholder {{
-        border: 1px solid #ccc;
-        width: 65px;
-        height: 75px;
-        margin: 0 auto;
-        line-height: 75px;
-        font-size: 10px;
-        color: #999;
-    }}
+            .photo-box {{
+                width: 15%;
+                text-align: center;
+            }}
 
-    .school-info-section {{
-        text-align: center;
-        padding: 8px !important;
-    }}
+            .photo-placeholder {{
+                border: 1px solid #ccc;
+                width: 65px;
+                height: 75px;
+                margin: 0 auto;
+                line-height: 75px;
+                font-size: 10px;
+                color: #999;
+            }}
 
-    .school-name {{
-        font-size: 14px;
-        font-weight: bold;
-        color: #1a237e;
-        margin-bottom: 2px;
-    }}
+            .school-info-section {{
+                text-align: center;
+                padding: 8px !important;
+            }}
 
-    .order-title {{
-        background-color: #f2f2f2;
-        text-align: center;
-        font-size: 16px;
-        font-weight: bold;
-        letter-spacing: 1px;
-    }}
+            .school-name {{
+                font-size: 14px;
+                font-weight: bold;
+                color: #1a237e;
+                margin-bottom: 2px;
+            }}
 
-    /* Data Table Styles */
-    .label {{
-        background-color: #ffffff;
-        width: 30%;
-    }}
+            .order-title {{
+                background-color: #f2f2f2;
+                text-align: center;
+                font-size: 16px;
+                font-weight: bold;
+                letter-spacing: 1px;
+            }}
 
-    .value {{
-        font-weight: bold;
-        width: 20%;
-    }}
+            /* Data Table Styles */
+            .label {{
+                background-color: #ffffff;
+                width: 30%;
+            }}
 
-    .full-value {{
-        font-weight: bold;
-    }}
+            .value {{
+                font-weight: bold;
+                width: 20%;
+            }}
 
-    /* Footer Styles */
-    .dispatch-section {{
-        margin-top: 25px;
-        border: none !important;
-    }}
-    
-    .dispatch-section td {{
-        border: none !important;
-        padding: 0;
-    }}
+            .full-value {{
+                font-weight: bold;
+            }}
 
-    .copy-text {{
-        margin-top: 20px;
-        font-size: 10px;
-        line-height: 1.6;
-    }}
+            /* Footer Styles */
+            .dispatch-section {{
+                margin-top: 25px;
+                border: none !important;
+            }}
 
-    .footer-stamp {{
-        text-align: right;
-        margin-top: 35px;
-        font-weight: bold;
-        font-size: 12px;
-    }}
+            .dispatch-section td {{
+                border: none !important;
+                padding: 0;
+            }}
 
-    .system-footer {{
-        text-align: center;
-        font-size: 9px;
-        color: #666;
-        border-top: 1px solid #eee;
-        margin-top: 20px;
-        padding-top: 5px;
-    }}
+            .copy-text {{
+                margin-top: 20px;
+                font-size: 10px;
+                line-height: 1.6;
+            }}
 
-.footer {{position: absolute;
-    bottom: 15mm;
-    left: 15mm;
-    right: 15mm;
-    text-align: center;
-    font-size: 12px;
-    border-top: 1px solid #ddd;
-    padding-top: 5px;
-}}
-</style>
-</head>
-<body>
-<div class='page'>
+            .footer-stamp {{
+                text-align: right;
+                margin-top: 35px;
+                font-weight: bold;
+                font-size: 12px;
+            }}
 
-    <table class='main-table'>
- <tr>
-    <td class='logo-box' style='width: 10%; text-align: center;'>
-        <img src='{base64Logo}' style='height: 60px; width: auto;' alt='Logo' />
-    </td>
+            .system-footer {{
+                text-align: center;
+                font-size: 9px;
+                color: #666;
+                border-top: 1px solid #eee;
+                margin-top: 20px;
+                padding-top: 5px;
+            }}
 
-    <td class='dept-box' style='width: 70%; text-align: center;'>
-        <div style='font-size: 18px; font-weight: bold; text-decoration: underline;'>
-            शिक्षा विभाग - राजस्थान
-        </div>
-    </td>
+        .footer {{position: absolute;
+            bottom: 15mm;
+            left: 15mm;
+            right: 15mm;
+            text-align: center;
+            font-size: 12px;
+            border-top: 1px solid #ddd;
+            padding-top: 5px;
+        }}
+        </style>
+        </head>
+        <body>
+        <div class='page'>
 
-  
-</tr>
-        <tr>
-            <td colspan='3' class='school-info-section'>
-                <div class='school-name'>{model.InstituteName}</div>
-             
+            <table class='main-table'>
+         <tr>
+            <td class='logo-box' style='width: 10%; text-align: center;'>
+                <img src='{base64Logo}' style='height: 60px; width: auto;' alt='Logo' />
             </td>
-        </tr>
-        <tr>
-            <td colspan='3' class='order-title'>कार्यमुक्ति आदेश</td>
-        </tr>
-    </table>
 
-    <table class='main-table'>
-        <tr>
-            <td class='label'>कौशल दर्पण आदेश क्रमांक</td>
-            <td class='value'>{model.OrderNo}</td>
-            <td style='width:15%;'>दिनांक</td>
-            <td class='value'>{model.OrderDate}</td>
-        </tr>
-        <tr>
-            <td>अधिकारी/कर्मचारी का नाम</td>
-            <td colspan='3' class='full-value'>{model.NAME}</td>
-        </tr>
-        <tr>
-            <td>अधिकारी / कर्मचारी का एम्प्लाई आईडी</td>
-            <td colspan='3' class='full-value'>{model.EmployeeID}</td>
-        </tr>
-        <tr>
-            <td>जन्म दिनांक</td>
-            <td class='value'>{model.DateOfBirth}</td>
-            <td>मो.नं.</td>
-            <td class='value'>{model.MobileNumber}</td>
-        </tr>
-        <tr>
-            <td>वर्तमान पद का नाम</td>
-            <td colspan='3' class='full-value'>{model.LastPostName}</td>
-        </tr>
-        <tr>
-            <td>आदेश का कारण</td>
-            <td colspan='3' class='full-value'>{model.RequestRemarks}</td>
-        </tr>
-        <tr>
-            <td>आदेशकर्ता अधिकारी</td>
-            <td colspan='3' class='full-value'>{model.ApproveName}</td>
-        </tr>
-        <tr>
-            <td>आदेश क्रमांक (आदेशकर्ता अधिकारी)</td>
-            <td class='value'>{model.OrderNo}</td>
-            <td>दिनांक</td>
-            <td class='value'>{model.OrderDate}</td>
-        </tr>
-        <tr>
-            <td>पद जिस हेतु कार्यमुक्त हुआ है</td>
-            <td colspan='3' class='full-value'>{model.LastPostName}</td>
-        </tr>
-        <tr>
-            <td>स्थान जिसके लिये कार्यमुक्त किया गया है</td>
-            <td colspan='3' class='full-value'>{model.TransferOfficeName}</td>
-        </tr>
-       
-        <tr>
-            <td>कार्यमुक्ति दिनांक</td>
-            <td class='value'>{model.RequestDate}</td>
-            <td>समय</td>
-            <td class='value'>{model.RelivingTime}</td>
-        </tr>
-    </table>
-
-  <br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<table class='footer-sign' style='font-size:15px';margin-top:40px;>
-    <tr>
-        <td style='width:50%; text-align:left; vertical-align:top;'>
-            प्रतिलिपि एवं प्रेषण क्रमांक<br>
-            दिनांक
-        </td>
-        <td style='width:50%; text-align:right; vertical-align:top;'>
-            {model.TransferPostName}<br>
-           {model.InstituteName}
-        </td>
-    </tr>
-</table>
+            <td class='dept-box' style='width: 70%; text-align: center;'>
+                <div style='font-size: 18px; font-weight: bold; text-decoration: underline;'>
+                    शिक्षा विभाग - राजस्थान
+                </div>
+            </td>
 
 
+        </tr>
+                <tr>
+                    <td colspan='3' class='school-info-section'>
+                        <div class='school-name'>{model.InstituteName}</div>
 
-  <div class='footer'>
-    This order is system-generated and does not require an e-signature!
-</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='3' class='order-title'>कार्यमुक्ति आदेश</td>
+                </tr>
+            </table>
 
-</div>
-</body>
-</html>";
+            <table class='main-table'>
+                <tr>
+                    <td class='label'>कौशल दर्पण आदेश क्रमांक</td>
+                    <td class='value'>{model.OrderNo}</td>
+                    <td style='width:15%;'>दिनांक</td>
+                    <td class='value'>{model.OrderDate}</td>
+                </tr>
+                <tr>
+                    <td>अधिकारी/कर्मचारी का नाम</td>
+                    <td colspan='3' class='full-value'>{model.NAME}</td>
+                </tr>
+                <tr>
+                    <td>अधिकारी / कर्मचारी का एम्प्लाई आईडी</td>
+                    <td colspan='3' class='full-value'>{model.EmployeeID}</td>
+                </tr>
+                <tr>
+                    <td>जन्म दिनांक</td>
+                    <td class='value'>{model.DateOfBirth}</td>
+                    <td>मो.नं.</td>
+                    <td class='value'>{model.MobileNumber}</td>
+                </tr>
+                <tr>
+                    <td>वर्तमान पद का नाम</td>
+                    <td colspan='3' class='full-value'>{model.LastPostName}</td>
+                </tr>
+                <tr>
+                    <td>आदेश का कारण</td>
+                    <td colspan='3' class='full-value'>{model.RequestRemarks}</td>
+                </tr>
+                <tr>
+                    <td>आदेशकर्ता अधिकारी</td>
+                    <td colspan='3' class='full-value'>{model.ApproveName}</td>
+                </tr>
+                <tr>
+                    <td>आदेश क्रमांक (आदेशकर्ता अधिकारी)</td>
+                    <td class='value'>{model.OrderNo}</td>
+                    <td>दिनांक</td>
+                    <td class='value'>{model.OrderDate}</td>
+                </tr>
+                <tr>
+                    <td>पद जिस हेतु कार्यमुक्त हुआ है</td>
+                    <td colspan='3' class='full-value'>{model.LastPostName}</td>
+                </tr>
+                <tr>
+                    <td>स्थान जिसके लिये कार्यमुक्त किया गया है</td>
+                    <td colspan='3' class='full-value'>{model.TransferOfficeName}</td>
+                </tr>
+
+                <tr>
+                    <td>कार्यमुक्ति दिनांक</td>
+                    <td class='value'>{model.RequestDate}</td>
+                    <td>समय</td>
+                    <td class='value'>{model.RelivingTime}</td>
+                </tr>
+            </table>
+
+          <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <table class='footer-sign' style='font-size:15px';margin-top:40px;>
+            <tr>
+                <td style='width:50%; text-align:left; vertical-align:top;'>
+                    प्रतिलिपि एवं प्रेषण क्रमांक<br>
+                    दिनांक
+                </td>
+                <td style='width:50%; text-align:right; vertical-align:top;'>
+                    {model.TransferPostName}<br>
+                   {model.InstituteName}
+                </td>
+            </tr>
+        </table>
+
+
+
+          <div class='footer'>
+            This order is system-generated and does not require an e-signature!
+        </div>
+
+        </div>
+        </body>
+        </html>";
 
             var doc = new HtmlToPdfDocument
             {
@@ -1065,20 +1068,24 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
                 },
                 Objects =
-        {
-            new ObjectSettings
-            {
-                HtmlContent = html,
-                WebSettings = new WebSettings
                 {
-                    DefaultEncoding = "utf-8",
-                    LoadImages = true
+                    new ObjectSettings
+                    {
+                        HtmlContent = html,
+                        WebSettings = new WebSettings
+                        {
+                            DefaultEncoding = "utf-8",
+                            LoadImages = true
+                        }
+                    }
                 }
-            }
-        }
             };
 
+
+
+
             var pdf = _converter.Convert(doc);
+
 
             return File(pdf, "application/pdf", "Relieving_Letter.pdf");
         }
