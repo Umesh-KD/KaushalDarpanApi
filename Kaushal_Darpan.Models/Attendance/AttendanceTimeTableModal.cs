@@ -34,6 +34,12 @@ namespace Kaushal_Darpan.Models.Attendance
         public int? Percent { get; set; }
     }
 
+    public class BasePostAttendanceTimeTableModal
+    {
+        public List<PostAttendanceTimeTableModal> PostAttendanceTimeTables { get; set; }
+        public List<MarkedAttendanceDatesDetailsModel> MarkedAttendanceDatesDetails { get; set; }
+    }
+
     public class PostAttendanceTimeTableModal
     {
         public int EndTermID { get; set; }
@@ -64,6 +70,28 @@ namespace Kaushal_Darpan.Models.Attendance
         public string? Longitude { get; set; }
 
         public bool isreaasign { get; set; }
+
+    }
+
+    public class MarkedAttendanceDatesDetailsModel : RequestBaseModel
+    {
+        public int SemesterID { get; set; }
+
+        public int StreamID { get; set; }
+
+        public int SectionID { get; set; }
+
+        public int SubjectID { get; set; }
+
+        public int CourseTypeID { get; set; }
+
+        public int RosterID { get; set; }
+
+        public string Date { get; set; }
+
+        public bool IsLocked { get; set; }
+
+        public bool IsMarked { get; set; }
     }
 
     public class Attendances
