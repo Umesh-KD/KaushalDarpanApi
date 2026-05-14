@@ -28,7 +28,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<List<RenumerationJDModel>> GetAllData(RenumerationJDRequestModel filterModel)
         {
-            _actionName = "GetAllData(RenumerationExaminerRequestModel filterModel)";
+            _actionName = "GetAllData(RenumerationJDRequestModel filterModel)";
             return await Task.Run(async () =>
             {
                 try
@@ -76,7 +76,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         public async Task<int> SaveDataApprovedAndSendToAccounts(List<RenumerationJDSaveModel> request)
         {
-            _actionName = "SaveDataApprovedAndSendToAccounts(RenumerationJDSaveModel request)";
+            _actionName = "SaveDataApprovedAndSendToAccounts(List<RenumerationJDSaveModel> request)";
             return await Task.Run(async () =>
             {
                 try
@@ -116,6 +116,93 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        #region reval
+        public async Task<List<RenumerationJDModel>> GetAllData_Reval(RenumerationJDRequestModel filterModel)
+        {
+            _actionName = "GetAllData_Reval(RenumerationJDRequestModel filterModel)";
+            try
+            {
+                List<RenumerationJDModel> obj = new List<RenumerationJDModel>();
+                DataTable dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_RenumerationJD_Reval";
+
+                    command.Parameters.AddWithValue("@action", "_getRenumerationByStatus");
+
+                    // Add parameters to the stored procedure from the model
+                    command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                    command.Parameters.AddWithValue("@SSOID", filterModel.SSOID);
+                    command.Parameters.AddWithValue("@Status", filterModel.RenumerationExaminerStatusID);
+                    command.Parameters.AddWithValue("@RoleID", filterModel.RoleID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dt = await command.FillAsync_DataTable();
+                }
+                if (dt != null)
+                {
+                    obj = CommonFuncationHelper.ConvertDataTable<List<RenumerationJDModel>>(dt);
+                }
+
+                return obj;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        public async Task<int> SaveDataApprovedAndSendToAccounts_Reval(List<RenumerationJDSaveModel> request)
+        {
+            _actionName = "SaveDataApprovedAndSendToAccounts_Reval(List<RenumerationJDSaveModel> request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    // Set the stored procedure name and type
+                    command.CommandText = "usp_SaveRenumerationExaminerGroupCode_Reval"; 
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    // Add parameters 
+                    command.Parameters.AddWithValue("@action", "_saveApprovedAndSendtoAccounts");
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+
+                    command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
+                    command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+
+                    result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        #endregion
 
     }
 }
