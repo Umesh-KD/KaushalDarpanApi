@@ -126,6 +126,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
 
         public string? RelievingDoc { get; set; }
         public string? RelievingDoc_Dis { get; set; }
+        public string? RelievingDate { get; set; }
 
     }
 
@@ -188,7 +189,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
 
         public string? OrderSupportingDocument_Dis { get; set; }
 
-        public DateTime? CreatedDate { get; set; }
+        public string? CreatedDate { get; set; }
 
         public string? RelievingStatusName { get; set; }
 
