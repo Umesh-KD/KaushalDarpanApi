@@ -256,6 +256,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? DateOfRetirement { get; set; }
         public string? PhysicalDisability_str { get; set; }
         public string? SportsQuota_str { get; set; }
+        public string? InstituteName { get; set; }
 
         public int StaffID { get; set; }
         public int StaffUserID { get; set; }

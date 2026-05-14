@@ -291,5 +291,21 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public int? RoomType { get; set; }
         public int? GenderId { get; set; }
     }
+
+    public class RoomReservationDataModel
+    {
+        public string? FromDate { get; set; }
+        public string? ToDate { get; set; }
+        public string? Remark { get; set; }
+        public int? ModifyBy { get; set; }
+        public int? RoleID { get; set; }
+        public List<RoomDetailDataModel>? RoomDetailList { get; set; }
+    }
+
+    public class RoomDetailDataModel
+    {
+        public int? GuestRoomDetailID { get; set; }
+        public int? GuestHouseID { get; set; }
+    }
 }
 
