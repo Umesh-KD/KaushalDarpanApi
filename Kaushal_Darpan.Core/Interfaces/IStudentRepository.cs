@@ -38,11 +38,12 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetTeacherAttendence(AttendanceTimeTableModal model);
         Task<DataTable> GetStudentAttendance_PercentReport(AttendanceTimeTableModal model);
         Task<DataTable> GetStudentAttendance(AttendanceTimeTableModal model);
+        Task<DataTable> GetStudentAttendanceWitMarkingStatus(AttendanceTimeTableModal model);
         Task<DataTable> GetStudentAttendanceReport(AttendanceTimeTableModal model);
         Task<DataTable> GetStudentAttendancePercentReport(AttendanceTimeTableModal model);
         Task<DataTable> GetStudentAttendanceSubjectwise(AttendanceTimeTableModal model);
         Task<DataTable> GetHolidaysmaster(DateTime? start, DateTime? end);
-        Task<int> AddStudentAttendance(List<PostAttendanceTimeTableModal> model);
+        Task<int> AddStudentAttendance(BasePostAttendanceTimeTableModal model);
         Task<int> PostAttendanceTimeTable(PostAttendanceTimeTable model);
         Task<int> RePostAttendanceTimeTable(PostAttendanceTimeTableITI model);
         Task<int> SaveRecheckData(List<RecheckDocumentModel> productDetails);

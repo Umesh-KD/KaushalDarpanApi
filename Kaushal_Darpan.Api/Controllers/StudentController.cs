@@ -719,6 +719,46 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("GetStudentAttendanceWitMarkingStatus")]
+        public async Task<ApiResult<DataTable>> GetStudentAttendanceWitMarkingStatus([FromBody] AttendanceTimeTableModal request)
+        {
+            ActionName = "GetStudentAttendanceWitMarkingStatus()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    result.Data = await _unitOfWork.StudentRepository.GetStudentAttendanceWitMarkingStatus(request);
+                    
+
+                    if (result.Data.Rows.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    await _unitOfWork.DisposeAsync();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
 
         [HttpPost("GetStudentAttendanceReport")]
         public async Task<ApiResult<DataTable>> GetStudentAttendanceReport([FromBody] AttendanceTimeTableModal request)
@@ -1239,7 +1279,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("AddStudentAttendance")]
-        public async Task<ApiResult<int>> AddStudentAttendance([FromBody] List<PostAttendanceTimeTableModal> model)
+        public async Task<ApiResult<int>> AddStudentAttendance([FromBody] BasePostAttendanceTimeTableModal model)
         {
             return await Task.Run(async () =>
             {

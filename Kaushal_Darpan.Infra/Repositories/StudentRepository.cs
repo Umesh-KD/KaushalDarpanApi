@@ -668,6 +668,50 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetStudentAttendanceWitMarkingStatus(AttendanceTimeTableModal model)
+        {
+            _actionName = "GetStudentAttendanceWitMarkingStatus()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BTER_Get_StudentAttandanceMarkingDetail";
+
+                        // Add parameters to the stored procedure from the model
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@SectionID", model.SectionID);                        
+                        command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);                        
+                        command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);                        
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<DataTable> GetStudentAttendanceReport(AttendanceTimeTableModal model)
         {
             _actionName = "GetStudentAttendanceReport()";
@@ -1072,7 +1116,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<int> AddStudentAttendance(List<PostAttendanceTimeTableModal> model)
+        public async Task<int> AddStudentAttendance(BasePostAttendanceTimeTableModal model)
         {
             _actionName = "AddStudentAttendance()";
             try
@@ -1084,7 +1128,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandText = "USP_AddEdit_StudentAttandance";
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model.PostAttendanceTimeTables));
+                    command.Parameters.AddWithValue("@rowJsonMarking", JsonConvert.SerializeObject(model.MarkedAttendanceDatesDetails));
                     // Add the return parameter
                     command.Parameters.Add("@Return", SqlDbType.Int); // out
                     command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
