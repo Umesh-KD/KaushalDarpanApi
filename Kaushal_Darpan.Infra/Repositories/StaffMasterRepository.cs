@@ -1360,8 +1360,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetAssignedTeacherForSubject_BySecctionID(GetAssignedTeacherForSubjectDataModel body)
         {
             _actionName = "GetAssignedTeacherForSubject_BySecctionID(SearchBranchDataModel body)";
-            return await Task.Run(async () =>
-            {
+      
                 try
                 {
                     DataTable dataTable = new DataTable();
@@ -1376,10 +1375,18 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                         command.Parameters.AddWithValue("@SectionID", body.SectionID);
+                        command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
+                        command.Parameters.AddWithValue("@ID", body.ID);
+                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
-                    }
+
+
+                }
 
                     return dataTable;
                 }
@@ -1395,8 +1402,59 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+   
         }
+
+
+
+        public async Task<DataTable> GetAssignedTeacherForSubject_History(GetAssignedTeacherForSubjectDataModel body)
+        {
+            _actionName = "GetAssignedTeacherForSubject_History(SearchBranchDataModel body)";
+
+            try
+            {
+                DataTable dataTable = new DataTable();
+                //using (var command = _dbContext.CreateCommand())
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_BTER_GetAssignedBranchSection_History";
+
+                    // Required for all actions
+                    //command.Parameters.AddWithValue("@ActionType", "BranchNameHide");
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@SectionID", body.SectionID);
+                    command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
+                    command.Parameters.AddWithValue("@ID", body.ID);
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                    command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+
+
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+        }
+
 
 
         public async Task<DataTable> GetAssignedTeacherForSubject(GetAssignedTeacherForSubjectDataModel body)
