@@ -64,6 +64,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> getCalendarEventModel(CalendarEventModel model);
         Task<DataTable> getCalendarEventModelITI(CalendarEventModel model);
+        Task<int> DeleteAssignTeacherForSubject(PostAttendanceTimeTable model);
         Task<DataTable> getAssignCalendarEventModelITI(CalendarEventModelITI model);
         Task<DataTable> getdublicateCheckSection(SectionDataModel model);
         Task<DataTable> GetRosterDisplay_PDFTimeTable(RosterDisplayTimeTableDataModel model);

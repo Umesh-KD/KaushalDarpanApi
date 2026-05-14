@@ -1914,6 +1914,10 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+
+
+
+
         [HttpPost("getAssignCalendarEventModelITI")]
         public async Task<ApiResult<DataTable>> getAssignCalendarEventModelITI([FromBody] CalendarEventModelITI request)
         {
@@ -2836,7 +2840,51 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+    
+    
+        [HttpPost("DeleteAssignTeacherForSubject")]
+        public async Task<ApiResult<int>> DeleteAssignTeacherForSubject([FromBody] PostAttendanceTimeTable model)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    var data = await _unitOfWork.StudentRepository.DeleteAssignTeacherForSubject(model);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Data = data;
+                        result.Message = "Delete Successfully";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Something went wrong";
+                        result.Data = data;
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    await _unitOfWork.DisposeAsync();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
     }
-
-
-}
+    }
