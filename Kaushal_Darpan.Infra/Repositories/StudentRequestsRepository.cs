@@ -517,6 +517,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@HostelID", SearchReq.HostelID);
                         command.Parameters.AddWithValue("@BrachId", SearchReq.BrachId);
                         command.Parameters.AddWithValue("@EndTermId", SearchReq.EndTermId);
+                        command.Parameters.AddWithValue("@Status", SearchReq.status);
                         command.Parameters.AddWithValue("@Action", SearchReq.Action);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
