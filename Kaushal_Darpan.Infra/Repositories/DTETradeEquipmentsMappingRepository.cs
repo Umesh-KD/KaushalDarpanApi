@@ -140,6 +140,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@ItemID", request.ItemID);
                         command.Parameters.AddWithValue("@Status", request.Status);
+                        command.Parameters.AddWithValue("@Remark", request.Remark);
                       
                     
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
