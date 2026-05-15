@@ -46,5 +46,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GuestHouse_Dropdowns(GuestHouseDropdownDataModel body);
         Task<DataTable> GetGuestHouseRoomAvailabilityData(GuestRoomSeatSearchModel body);
         Task<RoomReservationSaveResponse> SaveRoomReservation(RoomReservationDataModel request);
+        Task<RoomReservationSaveResponse> ReservedRoomCheckIn(GuestApplyForGuestRoomDataModel request);
     }
 }
