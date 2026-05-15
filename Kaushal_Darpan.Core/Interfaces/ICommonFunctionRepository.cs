@@ -9,6 +9,7 @@ using Kaushal_Darpan.Models.CenterSuperitendent;
 using Kaushal_Darpan.Models.CitizenSuggestion;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.CommonFunction;
+using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.EgrassPayment;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
@@ -401,5 +402,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<EmitraTransactionsModel> CreateEmitraTransationWhatsapp(EmitraTransactionsModel Model);
         Task<EmitraRequstParametersModel> GetEmitraServiceDetailsWhatsapp(EmitraRequestDetailsModel Model);
         Task<bool> UpdateEmitraPaymentStatusWhatsApp(EmitraResponseParametersModel request);
+        Task<int> HasResultPublishedForRole(HasResultPublishModel model);
     }
 }
