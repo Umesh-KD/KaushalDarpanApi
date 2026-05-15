@@ -52,6 +52,7 @@ namespace Kaushal_Darpan.Models.RPPPayment
         public string CleintID { get; set; } = string.Empty;
         public string TokenURL { get; set; } = string.Empty;
         public string ViewName { get; set; } = string.Empty;
+        public string EmitraServiceDetail { get; set; } = string.Empty;
 
 
 
