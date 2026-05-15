@@ -198,7 +198,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_1"]}</strong><br>");
                 sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_2"]}</strong><br>");
                 sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_3"]}</strong><br>");
-        //        sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
+                //        sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
                 sb.AppendLine("                </td>");
                 sb.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
                 sb.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
@@ -831,7 +831,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         #endregion
 
         #region Theory Marks Reports
-        public async Task<StringBuilder> TheoryMarksReports_GetHtml(DataSet ds)
+        public async Task<StringBuilder> TheoryMarksReports_GetHtml(DataSet ds, int IsReval)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -894,6 +894,8 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         .OrderBy(x => x["RollNo"])
                         .ToList();
 
+                    var revaltext = IsReval == 1 ? "(Revaluation)" : "";
+
                     // pagged data loop 
                     for (int page = 0; page < pageCount; page++)
                     {
@@ -904,9 +906,9 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         sb.Append(@"<!DOCTYPE html>
                         <html lang='en'>
                         <head>
-                        <meta charset='UTF-8'>
-                        <title>Theory Marks Report</title>
-                        <style>
+                        <meta charset='UTF-8'>");
+                        sb.Append($"<title>Theory Marks Report {revaltext}</title>");
+                        sb.Append(@"<style>
                         .page-break { page-break-after: always; }
                         </style>
                         </head>
