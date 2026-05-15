@@ -261,7 +261,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 if (tabular_ds.Tables[1].Rows.Count > 0)
                 {
                     // table -3(actual-2)
-                    sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;\">");
+                    sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px; border:1px solid black;\">");
 
                     //column table-3(actual-2)
                     // Main Header Row
@@ -279,7 +279,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         sb.AppendLine($"            <tr>");
                         foreach (DataColumn dc in tabular_ds.Tables[1].Columns)
                         {
-                            sb.AppendLine($"                <td>{dr[dc.ColumnName]}</td>");
+                            sb.AppendLine($"                <td style=\"border:1px solid black;\">{dr[dc.ColumnName]}</td>");
                         }
                         sb.AppendLine("            </tr>");
                     }
@@ -303,7 +303,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("</br>");
 
                 // table -3
-                sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;\">");
+                sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px; border:1px solid black;\">");
 
                 //column
                 // Main Header Row
@@ -321,7 +321,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     sb.AppendLine($"            <tr>");
                     foreach (DataColumn dc in consolidate_dt.Columns)
                     {
-                        sb.AppendLine($"                <td>{dr[dc.ColumnName]}</td>");
+                        sb.AppendLine($"                <td style=\"border:1px solid black;\">{dr[dc.ColumnName]}</td>");
                     }
                     sb.AppendLine("            </tr>");
                 }

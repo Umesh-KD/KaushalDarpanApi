@@ -89,7 +89,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
 
                     // Pass the list to the repository for batch update
-                    var isSave = await _unitOfWork.RenumerationAccounts.SaveDataApprovedFromAccounts(request);
+                    var isSave = await _unitOfWork.RenumerationAccounts.SaveDataApprovedFromAccounts_Reval(request);
                     await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
                     if (isSave > 0)
