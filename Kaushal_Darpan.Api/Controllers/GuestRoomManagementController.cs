@@ -9,6 +9,7 @@ using Kaushal_Darpan.Models.GuestRoomManagementModel;
 using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Crypto.Tls;
 using System.Data;
+using System.ServiceModel.Channels;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -1503,25 +1504,30 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("SaveRoomReservation")]
-        public async Task<ApiResult<int>> SaveRoomReservation([FromBody] RoomReservationDataModel request)
+        public async Task<ApiResult<RoomReservationSaveResponse>> SaveRoomReservation([FromBody] RoomReservationDataModel request)
         {
             ActionName = "SaveData([FromBody] GuestRoomManagement request)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<int>();
+                var result = new ApiResult<RoomReservationSaveResponse>();
                 try
                 {
                     result.Data = await _unitOfWork.GuestRoomManagementRepository.SaveRoomReservation(request);
                     await _unitOfWork.SaveChangesAsync();
-                    if (result.Data == 1)
+                    if (result.Data.State == 1)
                     {
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_SAVE_SUCCESS;
                     }
-                    else if (result.Data == -2)
+                    else if (result.Data.State == -2)
                     {
                         result.State = EnumStatus.Warning;
                         result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else if (result.Data.State == -1)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = result.Data.Message;
                     }
                     else
                     {

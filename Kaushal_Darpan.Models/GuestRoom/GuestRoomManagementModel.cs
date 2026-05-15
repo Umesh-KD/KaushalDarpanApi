@@ -203,6 +203,8 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public string? GuestHouseName { get; set; }
         public string? FacilitiesName { get; set; }
         public string? GuestHouseIDs { get; set; }
+        public string? FromDate { get; set; }
+        public string? ToDate { get; set; }
         public bool IsFacilities { get; set; }
         public int RoleID { get; set; }
         public int ModifyBy { get; set; }
@@ -306,6 +308,12 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
     {
         public int? GuestRoomDetailID { get; set; }
         public int? GuestHouseID { get; set; }
+    }
+
+    public class RoomReservationSaveResponse
+    {
+        public int? State { get; set; }
+        public string? Message { get; set; }
     }
 }
 
