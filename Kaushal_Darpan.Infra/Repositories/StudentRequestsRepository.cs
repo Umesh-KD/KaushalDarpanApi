@@ -500,7 +500,6 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
         public async Task<DataTable> GetAllGenerateHostelWardenStudentMeritlist(SearchStudentApplyForHostel SearchReq)
-        
         {
             _actionName = "GetAllGenerateHostelWardenStudentMeritlist()";
             return await Task.Run(async () =>
@@ -517,6 +516,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@HostelID", SearchReq.HostelID);
                         command.Parameters.AddWithValue("@BrachId", SearchReq.BrachId);
                         command.Parameters.AddWithValue("@EndTermId", SearchReq.EndTermId);
+                        command.Parameters.AddWithValue("@Status", SearchReq.status);
                         command.Parameters.AddWithValue("@Action", SearchReq.Action);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -818,6 +818,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BrachId", SearchReq.BrachId);
                         command.Parameters.AddWithValue("@EndTermId", SearchReq.EndTermId);
                         command.Parameters.AddWithValue("@GenderID", SearchReq.Gender);
+                        command.Parameters.AddWithValue("@AllotmentStatus", SearchReq.AllotmentStatus);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
