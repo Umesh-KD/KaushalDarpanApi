@@ -60,6 +60,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SetCalendarEventModel(List<CalendarEventModel> model);
         Task<int> SetCalendarEventModelITI(List<CalendarEventModel> model);
         Task<int> UpdateCalendarEventModelITI(List<CalendarEventModel> model);
+        Task<int> UpdateCalendarEventModelBter(List<CalendarEventModelITI> model);
 
 
         Task<DataTable> getCalendarEventModel(CalendarEventModel model);
