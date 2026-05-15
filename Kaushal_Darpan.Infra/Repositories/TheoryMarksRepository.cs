@@ -127,7 +127,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     }
                     else
                     {
-                        command.CommandText = "USP_TheoryMarksReport";
+                        command.CommandText = "USP_TheoryMasterList";
                     }
 
                     command.Parameters.AddWithValue("@action", "GetTheoryMarksRptData");
