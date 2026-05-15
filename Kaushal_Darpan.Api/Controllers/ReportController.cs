@@ -5625,7 +5625,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("PaperCountCustomizeReportColumnsAndList")]
         public async Task<ApiResult<DataTable>> PaperCountCustomizeReportColumnsAndList(ReportCustomizeBaseModel model)
         {
-            ActionName = "PaperCountCustomizeReportColumns()";
+            ActionName = "PaperCountCustomizeReportColumnsAndList(ReportCustomizeBaseModel model)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -18145,5 +18145,125 @@ namespace Kaushal_Darpan.Api.Controllers
             }
         }
 
+        #region Renumeration Examiner Reval
+        [HttpPost("GenerateAndViewPdf_Reval")]
+        [RoleActionFilter(EnumRole.Examiner_Eng, EnumRole.Examiner_NonEng)]
+        public async Task<IActionResult> GenerateAndViewPdf_Reval([FromBody] RenumerationExaminerRequestModel filterModel)
+        {
+            ActionName = "GenerateAndViewPdf_Reval([FromBody] RenumerationExaminerRequestModel filterModel)";
+            try
+            {
+                var data = await _unitOfWork.RenumerationExaminerRepository.GetDataForGeneratePdf_Reval(filterModel);
+                if (data?.Rows?.Count > 0)
+                {
+                    //rdlc
+                    string rdlcPath = Path.Combine(ConfigurationHelper.RootPath, Constants.RDLCFolderBTER, "RemunerationExaminerReval.rdlc");
+                    //save file
+                    var newFileName = $"RemunerationExaminerReval_{DateTime.Now.ToString("MMMddyyyyhhmmssffffff")}.pdf";
+                    //rpt
+                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                    LocalReport localReport = new LocalReport(rdlcPath);
+                    localReport.AddDataSource("Remuneration", data);
+                    var reportResult = localReport.Execute(RenderType.Pdf);
+                    //file stream
+                    return File(reportResult.MainStream, "application/pdf", newFileName);
+                }
+                else
+                {
+                    return Content("No data available to generate the PDF.");
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //
+                return Content("An error occurred while generating the PDF.");
+            }
+        }
+
+        [HttpPost("SavePDFSubmitAndForwardToJD_Reval")]
+        [RoleActionFilter(EnumRole.Examiner_Eng, EnumRole.Examiner_NonEng)]
+        public async Task<ApiResult<bool>> SavePDFSubmitAndForwardToJD_Reval([FromBody] RenumerationExaminerRequestModel filterModel)
+        {
+            ActionName = "SavePDFSubmitAndForwardToJD_Reval([FromBody] RenumerationExaminerRequestModel filterModel)";
+            var result = new ApiResult<bool>();
+            try
+            {
+                var data = await _unitOfWork.RenumerationExaminerRepository.GetDataForGeneratePdf_Reval(filterModel);
+                var objData = CommonFuncationHelper.ConvertDataTable<RenumerationExaminerPDFModel>(data);
+                if (objData != null)
+                {
+                    //rdlc
+                    string rdlcPath = Path.Combine(ConfigurationHelper.RootPath, Constants.RDLCFolderBTER, "RemunerationExaminerReval.rdlc");
+                    //save file
+                    var newFileName = $"RemunerationExaminerReval_{DateTime.Now.ToString("MMMddyyyyhhmmssffffff")}.pdf";
+                    var folderPath = Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.ReportsFolder);
+                    var filepath = Path.Combine(folderPath, newFileName);
+
+                    //rpt
+                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                    LocalReport localReport = new LocalReport(rdlcPath);
+                    localReport.AddDataSource("Remuneration", data);
+                    var reportResult = localReport.Execute(RenderType.Pdf);
+
+                    //file stream
+                    if (!System.IO.Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
+
+                    //save in folder
+                    System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+
+                    //save in db
+                    objData.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    objData.FileName = newFileName;
+
+                    var isSave = await _unitOfWork.RenumerationExaminerRepository.SaveDataSubmitAndForwardToJD_Reval(objData);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.Message = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+        #endregion
     }
 }

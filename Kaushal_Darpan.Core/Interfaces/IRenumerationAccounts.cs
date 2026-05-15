@@ -11,8 +11,12 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IRenumerationAccounts
     {
         Task<List<RenumerationAccountsModel>> GetAllData(RenumerationAccountsRequestModel filterModel);
+        Task<List<RenumerationAccountsModel>> GetAllData_Reval(RenumerationAccountsRequestModel filterModel);
         Task<int> HasDblicateTvNoAndVoucharNo(RenumerationAccountsSaveModel request);
+        Task<int> HasDblicateTvNoAndVoucharNo_Reval(RenumerationAccountsSaveModel request);
         Task<int> SaveDataApprovedFromAccounts(RenumerationAccountsSaveModel request);
+        Task<int> SaveDataApprovedFromAccounts_Reval(RenumerationAccountsSaveModel request);
         Task<int> UpdateDataApprovedFromAccounts(RenumerationAccountsSaveModel request);
+        Task<int> UpdateDataApprovedFromAccounts_Reval(RenumerationAccountsSaveModel request);
     }
 }
