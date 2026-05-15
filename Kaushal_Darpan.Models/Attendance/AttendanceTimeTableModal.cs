@@ -203,6 +203,9 @@ namespace Kaushal_Darpan.Models.Attendance
         public int? CurrentMonth { get; set; }
         public int? CurrentYear { get; set; }
         public int? InstituteID { get; set; }
+        public int? SectionID { get; set; }
+        public int? TimeID { get; set; }
+        public int? StaffID { get; set; }
     }
 
 

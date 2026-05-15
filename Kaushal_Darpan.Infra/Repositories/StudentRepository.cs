@@ -1935,6 +1935,55 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+        public async Task<DataTable> getAssignCalendarEventModelBter(CalendarEventModelITI model)
+        {
+            _actionName = "getAssignCalendarEventModelBter()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_getAssignCalendarEventModelITI";
+
+                        // Add parameters to the stored procedure from the model
+                        command.Parameters.AddWithValue("@Action", "View");
+                        command.Parameters.AddWithValue("@CurrentMonth", model.CurrentMonth);
+                        command.Parameters.AddWithValue("@CurrentYear", model.CurrentYear);
+                
+                        command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@InstituteID", model.SectionID);
+                        command.Parameters.AddWithValue("@InstituteID", model.StaffID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
         public async Task<DataTable> getdublicateCheckSection(SectionDataModel model)
         {
             _actionName = "ITIGetDataStudentBySSOId()";
