@@ -894,7 +894,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         .OrderBy(x => x["RollNo"])
                         .ToList();
 
-                    var revaltext = IsReval == 1 ? "(Revaluation)" : "";
+                    var revaltext = IsReval == 1 ? "(Revaluation) " : "";
 
                     // pagged data loop 
                     for (int page = 0; page < pageCount; page++)
@@ -918,7 +918,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         sb.Append($"<div style='width: 100%; max-width: 90%; margin: 0 auto; border: 1px solid #000; padding: 20px;'>");
 
                         // Header
-                        sb.Append($"<div style='text-align:center; font-weight:bold; font-size:18px; margin-bottom:20px;'>THEORY MARKS {header.SessionName}</div>");
+                        sb.Append($"<div style='text-align:center; font-weight:bold; font-size:18px; margin-bottom:20px;'>THEORY MARKS {revaltext} {header.SessionName}</div>");
 
                         sb.Append($@"<table style='width: 100%; border-collapse: collapse; font-size: 15px;'>
                             <tr>
