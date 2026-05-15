@@ -831,7 +831,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         #endregion
 
         #region Theory Marks Reports
-        public async Task<StringBuilder> TheoryMarksReports_GetHtml(DataSet ds, int IsReval)
+        public async Task<StringBuilder> TheoryMarksReports_GetHtml(DataSet ds, int? IsReval)
         {
             StringBuilder sb = new StringBuilder();
 
