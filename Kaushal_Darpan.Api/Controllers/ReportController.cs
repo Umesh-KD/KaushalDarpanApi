@@ -8824,7 +8824,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     return result;
                 }
 
-                var sb = await _printHtmlFile.TheoryMarksReports_GetHtml(data);
+                var sb = await _printHtmlFile.TheoryMarksReports_GetHtml(data, filterModel.IsReval);
                 var _html = sb.ToString();
 
                 // remove last blank page
@@ -14733,6 +14733,26 @@ namespace Kaushal_Darpan.Api.Controllers
             var result = new ApiResult<string>();
             try
             {
+                // check for principal role has publish 
+                var hasPublishBody = new HasResultPublishModel
+                {
+                    RoleID = body.RoleID,
+                    ResultTypeId = body.ResultTypeId,
+                    SemesterID = body.SemesterID,
+                    EndTermID = body.EndTermID,
+                    Eng_NonEng = body.Eng_NonEng,
+                    DepartmentID = body.DepartmentID,
+                    SchemeID = body.SchemeID,
+                    EffectiveEndTermId = body.EffectiveFromEndTermId
+                };
+                var haspublished = await Task.Run(() => _unitOfWork.CommonFunctionRepository.HasResultPublishedForRole(hasPublishBody));
+                if (haspublished == 0)
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = "Result not publish yet!";
+                    return result;
+                }
+
                 // get all streams
                 var streams_data = await Task.Run(() => _unitOfWork.ReportRepository.GetStreamResultRptTabulation(body));
 
@@ -14753,6 +14773,9 @@ namespace Kaushal_Darpan.Api.Controllers
                 sb.AppendLine("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
                 sb.AppendLine("    <title>Tabulation Register</title>");
                 sb.AppendLine("</head>");
+                sb.AppendLine("<style>");
+                sb.AppendLine(".page-break {page-break-after: always; }");
+                sb.AppendLine("</style>");
                 sb.AppendLine("<body>");
                 sb.AppendLine("    <div style=\"width: 98%; margin: auto;\">");
 
@@ -14798,8 +14821,20 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // end
                 sb.AppendLine("    </div>");
+                sb.Append("<div class='page-break'></div>");
                 sb.AppendLine("</body>");
                 sb.AppendLine("</html>");
+
+
+                var htmlContent = sb.ToString();
+
+                // remove last blank page
+                string endTag = "<div class='page-break'></div></body></html>";
+                if (htmlContent.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    htmlContent = htmlContent.Substring(0, htmlContent.Length - endTag.Length)
+                                 + "</body></html>";
+                }
 
                 var doc = new HtmlToPdfDocument()
                 {
@@ -14810,8 +14845,17 @@ namespace Kaushal_Darpan.Api.Controllers
                     Objects = {
                         new ObjectSettings()
                         {
-                            HtmlContent = sb.ToString(),
-                            WebSettings = { DefaultEncoding = "utf-8" }
+                            HtmlContent = htmlContent,
+                            WebSettings = {
+                                DefaultEncoding = "utf-8"
+                            },
+                            FooterSettings = new FooterSettings
+                            {
+                                FontName = "Arial",
+                                FontSize = 7,
+                                Center = "Page [page] of [toPage]",
+                                Line = true
+                            }
                         }
                     }
                 };

@@ -198,7 +198,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_1"]}</strong><br>");
                 sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_2"]}</strong><br>");
                 sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_3"]}</strong><br>");
-        //        sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
+                //        sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
                 sb.AppendLine("                </td>");
                 sb.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
                 sb.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
@@ -261,7 +261,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 if (tabular_ds.Tables[1].Rows.Count > 0)
                 {
                     // table -3(actual-2)
-                    sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;\">");
+                    sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px; border:1px solid black;\">");
 
                     //column table-3(actual-2)
                     // Main Header Row
@@ -279,7 +279,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         sb.AppendLine($"            <tr>");
                         foreach (DataColumn dc in tabular_ds.Tables[1].Columns)
                         {
-                            sb.AppendLine($"                <td>{dr[dc.ColumnName]}</td>");
+                            sb.AppendLine($"                <td style=\"border:1px solid black;\">{dr[dc.ColumnName]}</td>");
                         }
                         sb.AppendLine("            </tr>");
                     }
@@ -303,7 +303,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("</br>");
 
                 // table -3
-                sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;\">");
+                sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px; border:1px solid black;\">");
 
                 //column
                 // Main Header Row
@@ -321,7 +321,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     sb.AppendLine($"            <tr>");
                     foreach (DataColumn dc in consolidate_dt.Columns)
                     {
-                        sb.AppendLine($"                <td>{dr[dc.ColumnName]}</td>");
+                        sb.AppendLine($"                <td style=\"border:1px solid black;\">{dr[dc.ColumnName]}</td>");
                     }
                     sb.AppendLine("            </tr>");
                 }
@@ -831,7 +831,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         #endregion
 
         #region Theory Marks Reports
-        public async Task<StringBuilder> TheoryMarksReports_GetHtml(DataSet ds)
+        public async Task<StringBuilder> TheoryMarksReports_GetHtml(DataSet ds, int? IsReval)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -894,6 +894,8 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         .OrderBy(x => x["RollNo"])
                         .ToList();
 
+                    var revaltext = IsReval == 1 ? "(Revaluation) " : "";
+
                     // pagged data loop 
                     for (int page = 0; page < pageCount; page++)
                     {
@@ -904,9 +906,9 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         sb.Append(@"<!DOCTYPE html>
                         <html lang='en'>
                         <head>
-                        <meta charset='UTF-8'>
-                        <title>Theory Marks Report</title>
-                        <style>
+                        <meta charset='UTF-8'>");
+                        sb.Append($"<title>Theory Marks Report {revaltext}</title>");
+                        sb.Append(@"<style>
                         .page-break { page-break-after: always; }
                         </style>
                         </head>
@@ -916,7 +918,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         sb.Append($"<div style='width: 100%; max-width: 90%; margin: 0 auto; border: 1px solid #000; padding: 20px;'>");
 
                         // Header
-                        sb.Append($"<div style='text-align:center; font-weight:bold; font-size:18px; margin-bottom:20px;'>THEORY MARKS {header.SessionName}</div>");
+                        sb.Append($"<div style='text-align:center; font-weight:bold; font-size:18px; margin-bottom:20px;'>THEORY MARKS {revaltext} {header.SessionName}</div>");
 
                         sb.Append($@"<table style='width: 100%; border-collapse: collapse; font-size: 15px;'>
                             <tr>
