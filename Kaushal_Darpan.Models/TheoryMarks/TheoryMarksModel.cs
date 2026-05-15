@@ -67,6 +67,7 @@
         public int? StudentStatus { get; set; }
         public string? StrKey { get; set; }
         public int? isUFM { get; set; }
+        public int? IsReval { get; set; } = 0;
     }
 
     public class StudentFailTheoryReportModel

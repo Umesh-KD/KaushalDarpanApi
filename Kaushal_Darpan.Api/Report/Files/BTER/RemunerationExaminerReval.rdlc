@@ -1678,7 +1678,24 @@
                 <TextRun>
                   <Value>राजस्थान सरकार
 प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर
-उत्तर पुस्तिका मूल्यांकन पारिश्रमिक विपत्र </Value>
+उत्तर पुस्तिका </Value>
+                  <Style>
+                    <FontSize>12pt</FontSize>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>पुनर्मूल्यांकन</Value>
+                  <Style>
+                    <FontStyle>Normal</FontStyle>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>12pt</FontSize>
+                    <FontWeight>Normal</FontWeight>
+                    <TextDecoration>None</TextDecoration>
+                    <Color>#000000</Color>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value> पारिश्रमिक विपत्र </Value>
                   <Style>
                     <FontSize>12pt</FontSize>
                   </Style>
