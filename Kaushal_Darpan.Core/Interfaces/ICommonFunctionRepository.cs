@@ -354,7 +354,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetSSOIDDetailData(string SSOID,string action);
 
 
-        Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID,int StreamID,int SectionID);
+        Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID,int StreamID,int SectionID,int DayID);
 
         Task<DataTable> GetStaff_InstituteAndWorkWise(StaffMasterDDLDataModel body);
         Task<DataTable> GetStaff_InstituteAcRoster(StaffMasterDDLDataModel body);

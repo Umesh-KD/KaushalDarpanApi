@@ -10983,7 +10983,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID,int StreamID,int SectionID)
+        public async Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID,int StreamID,int SectionID,int DayID)
         {
             _actionName = "GetStudentAttandanceTimeDDL(int StaffID, int SubjectID)";
             try
@@ -10996,6 +10996,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@SubjectID", SubjectID);
                     command.Parameters.AddWithValue("@StreamID", StreamID);
                     command.Parameters.AddWithValue("@SectionID", SectionID);
+                    command.Parameters.AddWithValue("@DayID", DayID);
 
                     _sqlQuery = command.GetSqlExecutableQuery(); // Get SQL query string for logging/debugging
                     var dataTable = await command.FillAsync_DataTable();
