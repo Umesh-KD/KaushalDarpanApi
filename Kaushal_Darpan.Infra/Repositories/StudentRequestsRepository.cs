@@ -800,7 +800,6 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
         public async Task<DataTable> GetAllfinalHostelStudentMeritlist(SearchStudentApplyForHostel SearchReq)
-
         {
             _actionName = "GetAllfinalHostelStudentMeritlist()";
             return await Task.Run(async () =>
@@ -1555,6 +1554,48 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+
+        public async Task<DataTable> GetStudent_By_HostelMeritlist(SearchStudentMerit SearchReq)
+        {
+            _actionName = "GetStudent_By_HostelMeritlist(SearchStudentMerit)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Student_By_HostelMeritlist";
+                    command.Parameters.AddWithValue("@StudentId", SearchReq.StudentId);
+                    command.Parameters.AddWithValue("@HostelId", SearchReq.HostelID);
+                    command.Parameters.AddWithValue("@SemesterId", SearchReq.SemesterId);
+                    command.Parameters.AddWithValue("@BrachId", SearchReq.BrachId);
+                    command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
+                    command.Parameters.AddWithValue("@EndTermId", SearchReq.EndTermId);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+
+                throw new Exception(errordetails, ex);
+            }
         }
 
     }

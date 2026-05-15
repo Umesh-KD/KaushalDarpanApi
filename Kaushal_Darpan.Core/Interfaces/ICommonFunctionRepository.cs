@@ -354,7 +354,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetSSOIDDetailData(string SSOID,string action);
 
 
-        Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID);
+        Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID,int StreamID,int SectionID);
 
         Task<DataTable> GetStaff_InstituteAndWorkWise(StaffMasterDDLDataModel body);
         Task<DataTable> GetStaff_InstituteAcRoster(StaffMasterDDLDataModel body);
@@ -397,5 +397,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<CommonDDLModel>> GetGroupCode_Reval(CommonDDLSubjectMasterModel model);
 
         Task<DataTable> GetAlreadyAssignedOptionalSubject(int StudentExamID);
+        Task<DataTable> GetStudentDeatilsByAction(StudentSearchModel filterModel);
+        Task<EmitraTransactionsModel> CreateEmitraTransationWhatsapp(EmitraTransactionsModel Model);
+        Task<EmitraRequstParametersModel> GetEmitraServiceDetailsWhatsapp(EmitraRequestDetailsModel Model);
+        Task<bool> UpdateEmitraPaymentStatusWhatsApp(EmitraResponseParametersModel request);
     }
 }

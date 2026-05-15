@@ -1486,8 +1486,42 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+        
 
+        [HttpPost("GetStudent_By_HostelMeritlist")]
+        public async Task<ApiResult<DataTable>> GetStudent_By_HostelMeritlist([FromBody] SearchStudentMerit body)
+        {
+            ActionName = "GetStudent_By_HostelMeritlist()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                
+                result.Data = await Task.Run(() => _unitOfWork.iStudentRequestsRepository.GetStudent_By_HostelMeritlist(body));
 
+                result.State = EnumStatus.Success;
+
+                                if (result.Data.Rows.Count == 0)
+                {
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
 
     }
 }

@@ -5111,7 +5111,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_TheoryMasterList";
+                    if (body.IsReval == 1)
+                    {
+                        command.CommandText = "USP_TheoryMasterList_Reval";
+                    }
+                    else
+                    {
+                        command.CommandText = "USP_TheoryMarksReport";
+                    }
 
                     command.Parameters.AddWithValue("@action", "TheorymarksReportPdf");
                     command.Parameters.AddWithValue("@SemesterID", body.SemesterID);

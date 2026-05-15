@@ -8824,7 +8824,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     return result;
                 }
 
-                var sb = await _printHtmlFile.TheoryMarksReports_GetHtml(data);
+                var sb = await _printHtmlFile.TheoryMarksReports_GetHtml(data,filterModel.IsReval);
                 var _html = sb.ToString();
 
                 // remove last blank page
