@@ -53,6 +53,9 @@
         public int? InstituteID { get; set; }
         public int? InspectionConsentID { get; set; }
 
+        public string WhatsappResponseURL { get; set; } = string.Empty;
+        
+
     }
 
     public class EmitraVerifyRequest
