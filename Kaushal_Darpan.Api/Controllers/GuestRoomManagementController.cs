@@ -1598,6 +1598,47 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [HttpPost("UnreserveGuestHouseRoom")]
+        public async Task<ApiResult<bool>> UnreserveGuestHouseRoom([FromBody] UnreserveGuestRoomDataModel request)
+        {
+            ActionName = " UnreserveGuestHouseRoom([FromBody] UnreserveGuestRoomDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.GuestRoomManagementRepository.UnreserveGuestHouseRoom(request);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Reservation Cancellation Success .!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "There was an error deleting data.!";
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }
 
