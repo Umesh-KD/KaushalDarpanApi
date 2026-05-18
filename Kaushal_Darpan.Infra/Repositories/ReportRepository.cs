@@ -237,6 +237,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
                     //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
+                    command.Parameters.AddWithValue("@RoleId", body.RoleID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     ds = await command.FillAsync();
@@ -275,6 +276,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
                     command.Parameters.AddWithValue("@EffectiveEndTermID", body.EffectiveFromEndTermId);
+                    command.Parameters.AddWithValue("@RoleId", body.RoleID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dt = await command.FillAsync_DataTable();
@@ -5111,7 +5113,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_TheoryMasterList";
+                    if (body.IsReval == 1)
+                    {
+                        command.CommandText = "USP_TheoryMasterList_Reval";
+                    }
+                    else
+                    {
+                        command.CommandText = "USP_TheoryMasterList";
+                    }
 
                     command.Parameters.AddWithValue("@action", "TheorymarksReportPdf");
                     command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
@@ -9989,6 +9998,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
                     command.Parameters.AddWithValue("@EffectiveEndTermID", body.EffectiveFromEndTermId);
+                    command.Parameters.AddWithValue("@RoleId", body.RoleID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     ds = await command.FillAsync();

@@ -1834,6 +1834,49 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("UpdateCalendarEventModelBter")]
+        public async Task<ApiResult<int>> UpdateCalendarEventModelBter([FromBody] List<CalendarEventModelITI> model)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    var data = await _unitOfWork.StudentRepository.UpdateCalendarEventModelBter(model);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Data = data;
+                        result.Message = "Set Teacher Calendar Event Mapped Successfully";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Something went wrong";
+                        result.Data = data;
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    await _unitOfWork.DisposeAsync();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
 
 
         [HttpPost("getCalendarEventModel")]
@@ -1955,6 +1998,48 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+
+
+        [HttpPost("getAssignCalendarEventModelBter")]
+        public async Task<ApiResult<DataTable>> getAssignCalendarEventModelBter([FromBody] CalendarEventModelITI request)
+        {
+            ActionName = "getCalendarEventModel()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    result.Data = await _unitOfWork.StudentRepository.getAssignCalendarEventModelBter(request);
+                    if (result.Data.Rows.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    await _unitOfWork.DisposeAsync();
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
 
 
 

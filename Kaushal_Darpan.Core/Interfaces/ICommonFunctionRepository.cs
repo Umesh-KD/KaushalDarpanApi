@@ -9,6 +9,7 @@ using Kaushal_Darpan.Models.CenterSuperitendent;
 using Kaushal_Darpan.Models.CitizenSuggestion;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.CommonFunction;
+using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.EgrassPayment;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
@@ -52,7 +53,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> ItiTradecouncelling(string DesignationID);
         Task<DataTable> ItiShiftUnitDDL(int ID = 0, int FinancialYearID = 0, int CourseTypeID = 0, int InstituteID = 0);
         Task<DataTable> StreamMasterwithcount(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0);
-        Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0);
+        Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0,int SchemeID=0);
         Task<DataTable> MultiStreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, string SemesterID = "", int InstituteId = 0);
         Task<DataTable> HODSemesterMaster(int UserID = 0, int StreamType = 0, int EndTermId = 0);
         Task<DataTable> SemesterRolewise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID=0, int StaffID = 0);
@@ -354,7 +355,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetSSOIDDetailData(string SSOID,string action);
 
 
-        Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID);
+        Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID,int StreamID,int SectionID,int DayID);
 
         Task<DataTable> GetStaff_InstituteAndWorkWise(StaffMasterDDLDataModel body);
         Task<DataTable> GetStaff_InstituteAcRoster(StaffMasterDDLDataModel body);
@@ -397,5 +398,10 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<CommonDDLModel>> GetGroupCode_Reval(CommonDDLSubjectMasterModel model);
 
         Task<DataTable> GetAlreadyAssignedOptionalSubject(int StudentExamID);
+        Task<DataTable> GetStudentDeatilsByAction(StudentSearchModelForWhatsAPP filterModel);
+        Task<EmitraTransactionsModel> CreateEmitraTransationWhatsapp(EmitraTransactionsModel Model);
+        Task<EmitraRequstParametersModel> GetEmitraServiceDetailsWhatsapp(EmitraRequestDetailsModel Model);
+        Task<bool> UpdateEmitraPaymentStatusWhatsApp(EmitraResponseParametersModel request);
+        Task<int> HasResultPublishedForRole(HasResultPublishModel model);
     }
 }

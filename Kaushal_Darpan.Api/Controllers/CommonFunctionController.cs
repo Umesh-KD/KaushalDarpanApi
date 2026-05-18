@@ -772,15 +772,15 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpGet("StreamMasterHOD/{UserID}/{StreamType}/{EndTermId}/{SemesterID}/{InstituteId}")]
-        public async Task<ApiResult<DataTable>> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0)
+        [HttpGet("StreamMasterHOD/{UserID}/{StreamType}/{EndTermId}/{SemesterID}/{InstituteId}/{SchemeID?}")]
+        public async Task<ApiResult<DataTable>> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0,int SchemeID=0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.StreamMasterHOD(UserID, StreamType, EndTermId, SemesterID, InstituteId);
+                    var data = await _unitOfWork.CommonFunctionRepository.StreamMasterHOD(UserID, StreamType, EndTermId, SemesterID, InstituteId, SchemeID);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
@@ -9616,15 +9616,15 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
 
-        [HttpGet("GetStudentAttandanceTimeDDL/{StaffID}/{SubjectID}")]
-        public async Task<ApiResult<DataTable>> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID)
+        [HttpGet("GetStudentAttandanceTimeDDL/{StaffID}/{SubjectID}/{StreamID}/{SectionID}/{DayID}")]
+        public async Task<ApiResult<DataTable>> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID,int StreamID,int SectionID,int DayID)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetStudentAttandanceTimeDDL(StaffID, SubjectID);
+                    var data = await _unitOfWork.CommonFunctionRepository.GetStudentAttandanceTimeDDL(StaffID, SubjectID, StreamID, SectionID, DayID);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
@@ -10805,6 +10805,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+                
     }
 }
 

@@ -43,6 +43,7 @@ namespace Kaushal_Darpan.Models.StudentApplyForHostel
         public int AllotmentStatus { get; set; }
         public string Action { get; set; }
         public List<GenerateStudentMeritList> ReqId { get; set; }
+        public int StudentId { get; set; }
 
     }
     public class GenerateStudentMeritList
@@ -83,6 +84,22 @@ namespace Kaushal_Darpan.Models.StudentApplyForHostel
         public int SupportingDocument { get; set; }
         public int AllotmentStatus { get; set; }
 
+    }
+
+   
+   public class SearchStudentMerit
+    {
+        public int StudentId { get; set; }
+
+        public int HostelID { get; set; }
+
+        public int SemesterId { get; set; }
+
+        public int BrachId { get; set; }
+
+        public int InstituteID { get; set; }
+
+        public int EndTermId { get; set; }
     }
 
 

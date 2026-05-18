@@ -5625,7 +5625,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("PaperCountCustomizeReportColumnsAndList")]
         public async Task<ApiResult<DataTable>> PaperCountCustomizeReportColumnsAndList(ReportCustomizeBaseModel model)
         {
-            ActionName = "PaperCountCustomizeReportColumns()";
+            ActionName = "PaperCountCustomizeReportColumnsAndList(ReportCustomizeBaseModel model)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -8824,7 +8824,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     return result;
                 }
 
-                var sb = await _printHtmlFile.TheoryMarksReports_GetHtml(data);
+                var sb = await _printHtmlFile.TheoryMarksReports_GetHtml(data, filterModel.IsReval);
                 var _html = sb.ToString();
 
                 // remove last blank page
@@ -14733,6 +14733,26 @@ namespace Kaushal_Darpan.Api.Controllers
             var result = new ApiResult<string>();
             try
             {
+                // check for principal role has publish 
+                var hasPublishBody = new HasResultPublishModel
+                {
+                    RoleID = body.RoleID,
+                    ResultTypeId = body.ResultTypeId,
+                    SemesterID = body.SemesterID,
+                    EndTermID = body.EndTermID,
+                    Eng_NonEng = body.Eng_NonEng,
+                    DepartmentID = body.DepartmentID,
+                    SchemeID = body.SchemeID,
+                    EffectiveEndTermId = body.EffectiveFromEndTermId
+                };
+                var haspublished = await Task.Run(() => _unitOfWork.CommonFunctionRepository.HasResultPublishedForRole(hasPublishBody));
+                if (haspublished == 0)
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = "Result not publish yet!";
+                    return result;
+                }
+
                 // get all streams
                 var streams_data = await Task.Run(() => _unitOfWork.ReportRepository.GetStreamResultRptTabulation(body));
 
@@ -14753,6 +14773,9 @@ namespace Kaushal_Darpan.Api.Controllers
                 sb.AppendLine("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
                 sb.AppendLine("    <title>Tabulation Register</title>");
                 sb.AppendLine("</head>");
+                sb.AppendLine("<style>");
+                sb.AppendLine(".page-break {page-break-after: always; }");
+                sb.AppendLine("</style>");
                 sb.AppendLine("<body>");
                 sb.AppendLine("    <div style=\"width: 98%; margin: auto;\">");
 
@@ -14798,8 +14821,20 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 // end
                 sb.AppendLine("    </div>");
+                sb.Append("<div class='page-break'></div>");
                 sb.AppendLine("</body>");
                 sb.AppendLine("</html>");
+
+
+                var htmlContent = sb.ToString();
+
+                // remove last blank page
+                string endTag = "<div class='page-break'></div></body></html>";
+                if (htmlContent.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    htmlContent = htmlContent.Substring(0, htmlContent.Length - endTag.Length)
+                                 + "</body></html>";
+                }
 
                 var doc = new HtmlToPdfDocument()
                 {
@@ -14810,8 +14845,17 @@ namespace Kaushal_Darpan.Api.Controllers
                     Objects = {
                         new ObjectSettings()
                         {
-                            HtmlContent = sb.ToString(),
-                            WebSettings = { DefaultEncoding = "utf-8" }
+                            HtmlContent = htmlContent,
+                            WebSettings = {
+                                DefaultEncoding = "utf-8"
+                            },
+                            FooterSettings = new FooterSettings
+                            {
+                                FontName = "Arial",
+                                FontSize = 7,
+                                Center = "Page [page] of [toPage]",
+                                Line = true
+                            }
                         }
                     }
                 };
@@ -18145,5 +18189,125 @@ namespace Kaushal_Darpan.Api.Controllers
             }
         }
 
+        #region Renumeration Examiner Reval
+        [HttpPost("GenerateAndViewPdf_Reval")]
+        [RoleActionFilter(EnumRole.Examiner_Eng, EnumRole.Examiner_NonEng)]
+        public async Task<IActionResult> GenerateAndViewPdf_Reval([FromBody] RenumerationExaminerRequestModel filterModel)
+        {
+            ActionName = "GenerateAndViewPdf_Reval([FromBody] RenumerationExaminerRequestModel filterModel)";
+            try
+            {
+                var data = await _unitOfWork.RenumerationExaminerRepository.GetDataForGeneratePdf_Reval(filterModel);
+                if (data?.Rows?.Count > 0)
+                {
+                    //rdlc
+                    string rdlcPath = Path.Combine(ConfigurationHelper.RootPath, Constants.RDLCFolderBTER, "RemunerationExaminerReval.rdlc");
+                    //save file
+                    var newFileName = $"RemunerationExaminerReval_{DateTime.Now.ToString("MMMddyyyyhhmmssffffff")}.pdf";
+                    //rpt
+                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                    LocalReport localReport = new LocalReport(rdlcPath);
+                    localReport.AddDataSource("Remuneration", data);
+                    var reportResult = localReport.Execute(RenderType.Pdf);
+                    //file stream
+                    return File(reportResult.MainStream, "application/pdf", newFileName);
+                }
+                else
+                {
+                    return Content("No data available to generate the PDF.");
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //
+                return Content("An error occurred while generating the PDF.");
+            }
+        }
+
+        [HttpPost("SavePDFSubmitAndForwardToJD_Reval")]
+        [RoleActionFilter(EnumRole.Examiner_Eng, EnumRole.Examiner_NonEng)]
+        public async Task<ApiResult<bool>> SavePDFSubmitAndForwardToJD_Reval([FromBody] RenumerationExaminerRequestModel filterModel)
+        {
+            ActionName = "SavePDFSubmitAndForwardToJD_Reval([FromBody] RenumerationExaminerRequestModel filterModel)";
+            var result = new ApiResult<bool>();
+            try
+            {
+                var data = await _unitOfWork.RenumerationExaminerRepository.GetDataForGeneratePdf_Reval(filterModel);
+                var objData = CommonFuncationHelper.ConvertDataTable<RenumerationExaminerPDFModel>(data);
+                if (objData != null)
+                {
+                    //rdlc
+                    string rdlcPath = Path.Combine(ConfigurationHelper.RootPath, Constants.RDLCFolderBTER, "RemunerationExaminerReval.rdlc");
+                    //save file
+                    var newFileName = $"RemunerationExaminerReval_{DateTime.Now.ToString("MMMddyyyyhhmmssffffff")}.pdf";
+                    var folderPath = Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.ReportsFolder);
+                    var filepath = Path.Combine(folderPath, newFileName);
+
+                    //rpt
+                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                    LocalReport localReport = new LocalReport(rdlcPath);
+                    localReport.AddDataSource("Remuneration", data);
+                    var reportResult = localReport.Execute(RenderType.Pdf);
+
+                    //file stream
+                    if (!System.IO.Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
+
+                    //save in folder
+                    System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+
+                    //save in db
+                    objData.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    objData.FileName = newFileName;
+
+                    var isSave = await _unitOfWork.RenumerationExaminerRepository.SaveDataSubmitAndForwardToJD_Reval(objData);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.Message = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+        #endregion
     }
 }

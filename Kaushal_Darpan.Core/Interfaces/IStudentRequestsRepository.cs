@@ -49,6 +49,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStudentdata(GetMeritDataModel_Hostel SearchReq);
         Task<DataTable> GetStudentHostelFeeData(GetMeritDataModel_Hostel SearchReq);
 
-
+        Task<DataTable> GetStudent_By_HostelMeritlist(SearchStudentMerit SearchReq);
     }
 }

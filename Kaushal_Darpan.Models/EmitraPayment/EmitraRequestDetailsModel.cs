@@ -53,6 +53,9 @@
         public int? InstituteID { get; set; }
         public int? InspectionConsentID { get; set; }
 
+        public string WhatsappResponseURL { get; set; } = string.Empty;
+        
+
     }
 
     public class EmitraVerifyRequest
@@ -114,6 +117,26 @@
         public string? TransctionDate { get; set; }
         public string? StudentName { get; set; }
         public string? TransctionStatus { get; set; }
+    }
+
+    public class StudentFeesTransactionItemsWhatsApp
+    {
+        public int TransactionItemID { get; set; }
+        public int TransactionId { get; set; }
+        public int TransactionApplicationID { get; set; }
+        public int Status { get; set; }
+        public int TranSemesterID { get; set; }
+        public int ItemAmount { get; set; }
+        public string? EnrollmentNo { get; set; }
+        public string? Semester { get; set; }
+        public string? StudentName { get; set; }
+        public string? FatherName { get;  set; }
+        public string? Gender { get;  set; }
+        public string? MobileNo { get; set; }
+        public string? StreamName { get;set; }
+        public string? Email { get;set; }
+        public string? EndTermName { get; set; }
+        
     }
 
 }

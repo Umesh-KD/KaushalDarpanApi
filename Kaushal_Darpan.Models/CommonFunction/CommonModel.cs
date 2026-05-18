@@ -186,8 +186,11 @@ namespace Kaushal_Darpan.Models.CommonModel
         public int SchemeID { get; set; }
     }
 
-
-
-
+    public class HasResultPublishModel : RequestBaseModel
+    {
+        public int SemesterID { get; set; }
+        public int? EffectiveEndTermId { get; set; }
+        public int? ResultTypeId { get; set; }
+    }
 
 }

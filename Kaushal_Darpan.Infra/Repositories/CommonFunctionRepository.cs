@@ -12,6 +12,7 @@ using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CenterSuperitendent;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.CommonFunction;
+using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.DTE_Verifier;
 using Kaushal_Darpan.Models.EgrassPayment;
@@ -836,7 +837,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0)
+        public async Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0,int SchemeID=0)
         {
             _actionName = "StreamMaster()";
             return await Task.Run(async () =>
@@ -853,6 +854,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StreamType", StreamType);
                         command.Parameters.AddWithValue("@SemesterID", SemesterID);
                         command.Parameters.AddWithValue("@InstituteId", InstituteId);
+                        command.Parameters.AddWithValue("@SchemeID", SchemeID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -4640,7 +4642,53 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        public async Task<bool> UpdateEmitraPaymentStatusWhatsApp(EmitraResponseParametersModel request)
+        {
+            return await Task.Run(async () =>
+            {
+                _actionName = "UpdateEmitraPaymentStatus(EmitraResponseParametersModel request)";
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_SaveStudentFeeDetail";
+                        command.Parameters.AddWithValue("@ApplicationIdEnc", request.ApplicationIdEnc);
+                        command.Parameters.AddWithValue("@TransactionId", request.TRANSACTIONID);
+                        command.Parameters.AddWithValue("@PRN", request.PRN);
+                        command.Parameters.AddWithValue("@PaidAmount", request.PAIDAMOUNT);
+                        command.Parameters.AddWithValue("@TokenNo", request.RECEIPTNO);
+                        command.Parameters.AddWithValue("@StatusMsg", request.RESPONSEMESSAGE);
+                        command.Parameters.AddWithValue("@ResponseString", JsonConvert.SerializeObject(request));
+                        command.Parameters.AddWithValue("@ReceiptNo", request.RECEIPTNO);
+                        command.Parameters.AddWithValue("@RequestStatus", request.STATUS);
+                        command.Parameters.AddWithValue("@TransactionNo", request.TransactionNo);
+                        command.Parameters.AddWithValue("@ExamStudentStatus", request.ExamStudentStatus);
+                        command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus");
+                        _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
+                        result = await command.ExecuteNonQueryAsync();
+                    }
 
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
         public async Task<Int64> UpdateEmitraApplicationPaymentStatus(EmitraResponseParametersModel request)
         {
@@ -12077,6 +12125,322 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<DataTable> GetStudentDeatilsByAction(StudentSearchModelForWhatsAPP filterModel)
+        {
+            _actionName = "GetStudentDeatilsByAction()";
+            string Action= "PendingFees";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetStudentFeeDetails";
+
+                        // Add parameters to the stored procedure from the model
+                        
+                        command.Parameters.AddWithValue("@Action", Action);                        
+                        command.Parameters.AddWithValue("@ApplicationNo", filterModel.ApplicationNo);
+                        command.Parameters.AddWithValue("@DOB", filterModel.DOB);
+                        command.Parameters.AddWithValue("@MobileNumber", filterModel.MobileNumber);
+                        command.Parameters.AddWithValue("@FeeType", 2);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<EmitraTransactionsModel> CreateEmitraTransationWhatsapp(EmitraTransactionsModel Model)
+        {
+
+            _actionName = "CreateAddEmitraTransation(EmitraTransactionsModel Model)";
+            try
+            {
+                var result = 0;
+                var retval_TransactionId = 0;
+                using (var command = await _dbContext.CreateCommandAsync())// true to control transaction
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_SaveStudentFeeDetail";//USP_InsertEmitraTransactions
+
+                    command.Parameters.AddWithValue("@ApplicationIdEnc", Model.ApplicationIdEnc);
+                    command.Parameters.AddWithValue("@ApplicationNo", Model.ApplicationNo);
+                    command.Parameters.AddWithValue("@KioskID", Model.KioskID);
+                    command.Parameters.AddWithValue("@ReceiptNo", Model.ReceiptNo);
+                    command.Parameters.AddWithValue("@TokenNo", Model.TokenNo);
+                    command.Parameters.AddWithValue("@RequestStatus", Model.RequestStatus);
+                    command.Parameters.AddWithValue("@StatusMsg", Model.StatusMsg);
+                    command.Parameters.AddWithValue("@RequestString", Model.RequestString);
+                    command.Parameters.AddWithValue("@ResponseString", Model.ResponseString);
+                    command.Parameters.AddWithValue("@ActId", Model.ActId);
+                    command.Parameters.AddWithValue("@TransactionId", Model.TransactionId);
+                    command.Parameters.AddWithValue("@PRN", Model.PRN);
+                    command.Parameters.AddWithValue("@SSOID", Model.SSOID);
+                    command.Parameters.AddWithValue("@CreatedIP", Model.CreatedIP);
+                    command.Parameters.AddWithValue("@ServiceID", Model.ServiceID);
+                    command.Parameters.AddWithValue("@Amount", Model.Amount);
+                    command.Parameters.AddWithValue("@AddFeeAmount", Model.EnrollFeeAmount);
+                    command.Parameters.AddWithValue("@StudentID", Model.StudentID);
+                    command.Parameters.AddWithValue("@SemesterID", Model.SemesterID);
+                    command.Parameters.AddWithValue("@action", Model.key);
+                    command.Parameters.AddWithValue("@ExamStudentStatus", Model.ExamStudentStatus);
+                    command.Parameters.AddWithValue("@TransactionApplicationID", Model.TransactionApplicationID);
+                    command.Parameters.AddWithValue("@StudentFeesTransactionItems", JsonConvert.SerializeObject(Model.StudentFeesTransactionItems));
+                    command.Parameters.AddWithValue("@IsEmitra", Model.IsEmitra);
+                    command.Parameters.AddWithValue("@DepartmentID", Model.DepartmentID);
+                    command.Parameters.AddWithValue("@UniqueServiceID", Model.UniqueServiceID);
+                    command.Parameters.AddWithValue("@FeeFor", Model.FeeFor);
+                    command.Parameters.Add("@retval_TransactionId", SqlDbType.Int);// out
+                    command.Parameters["@retval_TransactionId"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
+                    result = await command.ExecuteNonQueryAsync();
+
+                    retval_TransactionId = Convert.ToInt32(command.Parameters["@retval_TransactionId"].Value);// out
+                }
+
+                // class
+                if (result > 0)
+                    Model.TransactionId = retval_TransactionId;
+                else
+                    Model.TransactionId = 0;
+                return Model;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+        }
+
+        public async Task<EmitraRequstParametersModel> GetEmitraServiceDetailsWhatsapp(EmitraRequestDetailsModel Model)
+        {
+
+            _actionName = "GetEmitraServiceDetails(EmitraRequestDetailsModel Model)";
+            try
+            {
+                DataTable dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetEmitraServiceDetails";
+
+                    command.Parameters.AddWithValue("@ServiceId", Model.ServiceID);
+                    command.Parameters.AddWithValue("@IsKiosk", Model.IsKiosk);
+                    command.Parameters.AddWithValue("@ID", Model.ID);
+                    command.Parameters.AddWithValue("@DepartmentID", Model.DepartmentID);
+                    command.Parameters.AddWithValue("@ExamStudentStatus", Model.ExamStudentStatus);
+                    command.Parameters.AddWithValue("@action", "_GetServiceDetails");
+                    _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
+                    dt = await command.FillAsync_DataTable();
+                }
+
+                // class
+                var data = new EmitraRequstParametersModel();
+                data = CommonFuncationHelper.ConvertDataTable<EmitraRequstParametersModel>(dt);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+        }
+
+        public async Task<int> InsertCompanyMoUDetails(CompanyMoUDetailsModel request)
+        {
+            _actionName = "INSERT";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CompanyMoUDetails_IU";
+
+                        command.Parameters.AddWithValue("@Action", request.Action);
+                        command.Parameters.AddWithValue("@ID", request.ID);
+                        command.Parameters.AddWithValue("@CompanyId", request.CompanyId);
+                        command.Parameters.AddWithValue("@MoUStartDate", request.MoUStartDate);
+                        command.Parameters.AddWithValue("@MoUValidTill", request.MoUValidTill);
+                        command.Parameters.AddWithValue("@Remark", request.Remark);
+                        command.Parameters.AddWithValue("@MoUDoc", (object?)request.MoUDoc ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
+                        command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+                        command.Parameters.AddWithValue("@ModifyBy", (object?)request.ModifyBy ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@IPAddress", (object?)request.IPAddress ?? DBNull.Value);
+
+                        result = Convert.ToInt32(await command.ExecuteScalarAsync());
+                    }
+
+                    return result;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            });
+        }
+
+        public async Task<CompanyMoUDetailsModel> GetCompanyMoUDetails(CompanyMoUDetailsModel Model)
+        {
+           
+            try
+            {
+                _actionName = "GetCompanyMoUDetails";
+                DataTable dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {                    
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_CompanyMoUDetails_IU";
+
+                    command.Parameters.AddWithValue("@Action", Model.Action);
+                    command.Parameters.AddWithValue("@ID", Model.ID);
+                    _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
+                    dt = await command.FillAsync_DataTable();
+                }
+
+                // class
+                var data = new CompanyMoUDetailsModel();
+                data = CommonFuncationHelper.ConvertDataTable<CompanyMoUDetailsModel>(dt);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+        }
+
+        public async Task<int> HasResultPublishedForRole(HasResultPublishModel model)
+        {
+            _actionName = "HasResultPublishedForRole(HasResultPublishModel model)";
+            try
+            {
+                int result = 0;
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_HasResultPublishedForRole";
+
+                    command.Parameters.AddWithValue("@action", "_hasResultPublishedForRole");
+                    command.Parameters.AddWithValue("@SemesterId", model.SemesterID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@CourseType", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentId", model.DepartmentID);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                    command.Parameters.AddWithValue("@EffectiveEndTermId", model.EffectiveEndTermId);
+                    command.Parameters.AddWithValue("@RoleId", model.RoleID);
+                    command.Parameters.AddWithValue("@ResultTypeId", model.ResultTypeId);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+
+                    if (dataTable?.Rows?.Count > 0)
+                    {
+                        result = Convert.ToInt32(dataTable.Rows[0]["ResultPublished"]);
+                    }
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID, int StreamID, int SectionID, int DayID)
+        {
+            _actionName = "GetStudentAttandanceTimeDDL(int StaffID, int SubjectID)";
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StudentAttandanceTimeDDL";
+                    command.Parameters.AddWithValue("@StaffID", StaffID);
+                    command.Parameters.AddWithValue("@SubjectID", SubjectID);
+                    command.Parameters.AddWithValue("@StreamID", StreamID);
+                    command.Parameters.AddWithValue("@SectionID", SectionID);
+                    command.Parameters.AddWithValue("@DayID", DayID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery(); // Get SQL query string for logging/debugging
+                    var dataTable = await command.FillAsync_DataTable();
+
+                    return dataTable;
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
     }
 }
 
