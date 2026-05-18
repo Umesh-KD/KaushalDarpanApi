@@ -1552,6 +1552,52 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [HttpPost("ReservedRoomCheckIn")]
+        public async Task<ApiResult<RoomReservationSaveResponse>> ReservedRoomCheckIn([FromBody] GuestApplyForGuestRoomDataModel request)
+        {
+            ActionName = "ReservedRoomCheckIn([FromBody] GuestApplyForGuestRoomDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<RoomReservationSaveResponse>();
+                try
+                {
+
+                    result.Data = await _unitOfWork.GuestRoomManagementRepository.ReservedRoomCheckIn(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data.State == 1)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else if (result.Data.State == -1)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = result.Data.Message;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }
 

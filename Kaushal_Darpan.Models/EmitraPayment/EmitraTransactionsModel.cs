@@ -1,4 +1,6 @@
-﻿namespace Kaushal_Darpan.Models.RPPPayment
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Kaushal_Darpan.Models.RPPPayment
 {
     public class EmitraTransactionsModel
     {
@@ -41,15 +43,13 @@
         public bool IsEmitra { get; set; }
         public string KIOSKCODE { get; set; } = string.Empty;
 
-
         public string TransactionNo { get; set; } = string.Empty;
         public decimal PaidAmount { get; set; }
         public List<StudentFeesTransactionItems> StudentFeesTransactionItems { get; set; }
-
-
         public int? RevalRequestID { get; set; }
         public int? InstituteID { get; set; }
         public int? InspectionConsentID { get; set; }
+        public List<StudentFeesTransactionItemsWhatsApp> StudentFeesTransactionItemsWhatsApp { get; set; }
     }
 
     public class EmitraCollegeTransactionsModel : RequestBaseModel
@@ -81,5 +81,39 @@
         public string STATUS { get; set; }
         public string TRANSACTIONID { get; set; }
         public string RESPONSEMESSAGE { get; set; }
+    }
+
+    public class CompanyMoUDetailsModel
+    {
+        public int ID { get; set; }
+
+        [Required]
+        public int CompanyId { get; set; }
+
+        [Required]
+        public DateTime MoUStartDate { get; set; }
+        
+        public DateTime MoUValidTill { get; set; }
+
+        [Required]
+        public string Remark { get; set; }
+
+        public string MoUDoc { get; set; }
+
+        public bool ActiveStatus { get; set; }
+
+        public bool DeleteStatus { get; set; }
+
+        public DateTime? RTS { get; set; }
+
+        public int CreatedBy { get; set; }
+
+        public int? ModifyBy { get; set; }
+
+        public DateTime? ModifyDate { get; set; }
+
+        public string IPAddress { get; set; }
+
+        public string Action { get; set; }
     }
 }
