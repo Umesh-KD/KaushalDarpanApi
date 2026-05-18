@@ -992,7 +992,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 </tr>
                 <tr>
                     <td>वर्तमान पद का नाम</td>
-                    <td colspan='3' class='full-value'>{model.LastPostName}</td>
+                    <td colspan='3' class='full-value'>{model.TransferPostName}</td>
                 </tr>
                 <tr>
                     <td>आदेश का कारण</td>
@@ -1019,7 +1019,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 <tr>
                     <td>कार्यमुक्ति दिनांक</td>
-                    <td class='value'>{model.RequestDate}</td>
+                    <td class='value'>{model.RelievingDate}</td>
                     <td>समय</td>
                     <td class='value'>{model.RelivingTime}</td>
                 </tr>

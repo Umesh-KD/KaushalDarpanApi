@@ -191,4 +191,15 @@ namespace Kaushal_Darpan.Models.Student
         public string? MessageType { get; set; }
         public string? StudentName { get; set; }
     }
+
+    public class StudentSearchModelForWhatsAPP 
+    {
+   
+        public string? ApplicationNo { get; set; }
+        //public string? EnrollmentNo { get; set; }
+        public string? DOB { get; set; }
+        public string? MobileNumber { get; set; }
+        
+
+    }
 }

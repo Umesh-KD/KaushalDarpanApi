@@ -86,6 +86,96 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<bool> SaveDataOnBoard(ScholarshipOnboardModel request)
+        {
+            _actionName = "SaveDataOnBoard(ScholarshipOnboardModel request)";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Stored Procedure
+                        command.CommandText = "USP_SaveScholarshipOnBoard";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // =========================
+                        // Basic Parameters
+                        // =========================
+
+                        command.Parameters.AddWithValue("@InstCode", request.InstCode);
+                        command.Parameters.AddWithValue("@SSOID", request.SSOID);
+
+                        command.Parameters.AddWithValue("@NODALOFFICERNAME", request.NODALOFFICERNAME);
+                        command.Parameters.AddWithValue("@NODALOFFICEREMAIL", request.NODALOFFICEREMAIL);
+                        command.Parameters.AddWithValue("@NODALOFFICERMOBILE", request.NODALOFFICERMOBILE);
+                        command.Parameters.AddWithValue("@NODALOFFICERAADHAAR", request.NODALOFFICERAADHAAR);
+                        command.Parameters.AddWithValue("@NODALOFFICERAADHAAR_REFNO", request.NODALOFFICERAADHAAR_REFNO);
+
+                        // =========================
+                        // Contact Person 1
+                        // =========================
+
+                        command.Parameters.AddWithValue("@DESIGNATION1", request.DESIGNATION1);
+                        command.Parameters.AddWithValue("@NAME1", request.NAME1);
+                        command.Parameters.AddWithValue("@EMAILADDRESS1", request.EMAILADDRESS1);
+                        command.Parameters.AddWithValue("@MOBILENUMBER1", request.MOBILENUMBER1);
+
+                        // =========================
+                        // Contact Person 2
+                        // =========================
+
+                        command.Parameters.AddWithValue("@DESIGNATION2", request.DESIGNATION2);
+                        command.Parameters.AddWithValue("@NAME2", request.NAME2);
+                        command.Parameters.AddWithValue("@EMAILADDRESS2", request.EMAILADDRESS2);
+                        command.Parameters.AddWithValue("@MOBILENUMBER2", request.MOBILENUMBER2);
+
+                        // =========================
+                        // Extra Parameters
+                        // =========================
+
+
+                        // =========================
+                        // Output Parameter
+                        // =========================
+
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+
+                        // SQL Query Log
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        // Execute Query
+                        result = await command.ExecuteNonQueryAsync();
+
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result > 0;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
         public async Task<DataTable> GetAllData(ScholarshipSearchModel model)
         {
             _actionName = "GetAllData()";
@@ -164,6 +254,49 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<ScholarshipOnboardModel> GetByIdOnBoard(int PK_ID)
+        {
+            _actionName = "GetById(int PK_ID)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        //command.CommandText = " select * from M_StreamMaster Where StreamID='" + PK_ID + "' "; ;
+                        command.CommandText = "USP_GetScholarshipbyIdOnBoard";
+                        command.Parameters.AddWithValue("@ScholarshipID", PK_ID);
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    var data = new ScholarshipOnboardModel();
+                    if (dataTable != null)
+                    {
+                        data = CommonFuncationHelper.ConvertDataTable<ScholarshipOnboardModel>(dataTable);
+                    }
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         public async Task<bool> DeleteDataByID(ScholarshipMaster request)
         {
             _actionName = "DeleteDataByID(SubjectMaster request)";
