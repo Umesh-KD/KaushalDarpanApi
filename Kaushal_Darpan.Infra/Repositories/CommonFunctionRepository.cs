@@ -12,6 +12,7 @@ using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CenterSuperitendent;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.CommonFunction;
+using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.DTE_Verifier;
 using Kaushal_Darpan.Models.EgrassPayment;
@@ -12355,6 +12356,88 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
 
         }
+
+        public async Task<int> HasResultPublishedForRole(HasResultPublishModel model)
+        {
+            _actionName = "HasResultPublishedForRole(HasResultPublishModel model)";
+            try
+            {
+                int result = 0;
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_HasResultPublishedForRole";
+
+                    command.Parameters.AddWithValue("@action", "_hasResultPublishedForRole");
+                    command.Parameters.AddWithValue("@SemesterId", model.SemesterID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@CourseType", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentId", model.DepartmentID);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                    command.Parameters.AddWithValue("@EffectiveEndTermId", model.EffectiveEndTermId);
+                    command.Parameters.AddWithValue("@RoleId", model.RoleID);
+                    command.Parameters.AddWithValue("@ResultTypeId", model.ResultTypeId);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+
+                    if (dataTable?.Rows?.Count > 0)
+                    {
+                        result = Convert.ToInt32(dataTable.Rows[0]["ResultPublished"]);
+                    }
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID, int StreamID, int SectionID, int DayID)
+        {
+            _actionName = "GetStudentAttandanceTimeDDL(int StaffID, int SubjectID)";
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StudentAttandanceTimeDDL";
+                    command.Parameters.AddWithValue("@StaffID", StaffID);
+                    command.Parameters.AddWithValue("@SubjectID", SubjectID);
+                    command.Parameters.AddWithValue("@StreamID", StreamID);
+                    command.Parameters.AddWithValue("@SectionID", SectionID);
+                    command.Parameters.AddWithValue("@DayID", DayID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery(); // Get SQL query string for logging/debugging
+                    var dataTable = await command.FillAsync_DataTable();
+
+                    return dataTable;
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
 
     }
 }
