@@ -112,13 +112,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("SendApplicationMessage")]
         public async Task<ApiResult<string>> SendApplicationMessage(ApplicationMessageDataModel request)
         {
-            string oldmessagetype = request.MessageType;
-            if (request.MessageType == "GuestHouseCheckOut" || request.MessageType == "GuestHouseCheckIn" || request.MessageType == "GuestHouseAdminApprove")
-            {
-                request.MessageType = "Exam_Fee_Reminder";
-                request.MobileNo = "8209098217";
-            }
-           
+            string oldmessagetype = request.MessageType;          
 
             ActionName = "SendApplicationMessage(ApplicationMessageDataModel request)";
 
@@ -230,19 +224,29 @@ namespace Kaushal_Darpan.Api.Controllers
                 else if (request.MessageType == EnumMessageType.GuestHouseCheckIn.GetDescription())
                 {
                   
-                    MessageBody = MessageBody.Replace("{#RoomNo#}", request.ApplicationNo.Replace("{#GuestHouseName#}", request.ApplicantName));
+                    //MessageBody = MessageBody.Replace("{#RoomNo#}", request.ApplicationNo.Replace("{#GuestHouseName#}", request.ApplicantName));
+                    MessageBody = MessageBody.Replace("{#checkIn_CheckOut#}", request.CheckIn_CheckOut)
+                        .Replace("{#RoomNo#}", request.ApplicationNo)
+                        .Replace("{#var#}", "")
+                        .Replace("{#GuestHouseName#}", request.ApplicantName);
                     await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
                 }
                 else if (request.MessageType == EnumMessageType.GuestHouseCheckOut.GetDescription())
                 {
-                  
-                    MessageBody = MessageBody.Replace("{#GuestHouseName#}", request.ApplicantName);
+
+                    MessageBody = MessageBody.Replace("{#checkIn_CheckOut#}", request.CheckIn_CheckOut)
+                        .Replace("{#RoomNo#}", request.ApplicationNo)
+                        .Replace("{#var#}", "")
+                        .Replace("{#GuestHouseName#}", request.ApplicantName);
                     await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
                 }
                 else if (request.MessageType == EnumMessageType.GuestHouseAdminApprove.GetDescription())
                 {
                   
-                    MessageBody = MessageBody.Replace("{#GuestHouseName#}", request.ApplicantName);
+                    MessageBody = MessageBody.Replace("{#room#}", request.ApplicationNo)
+                        .Replace("{#GuestHouseName#}", request.ApplicantName)
+                        .Replace("{#var#}", "")
+                        .Replace("{#status#}", request.Status);
                     await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
                 }
                 else
