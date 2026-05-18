@@ -49,7 +49,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 catch (Exception ex)
                 {
                     var errorDesc = new ErrorDescription
-                    {
+                    { 
                         Message = ex.Message,
                         PageName = _pageName,
                         ActionName = _actionName,

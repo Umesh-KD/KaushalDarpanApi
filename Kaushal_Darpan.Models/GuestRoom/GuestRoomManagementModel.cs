@@ -140,11 +140,11 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
 
     public class GuestApplyForGuestRoomDataModel
     {
-        public int GuestHouseID { get; set; }
-        public int GuestReqID { get; set; }
-        public int UserID { get; set; }
-        public int CollegeID { get; set; }
-        public int DepartmentID { get; set; }
+        public int? GuestHouseID { get; set; }
+        public int? GuestReqID { get; set; }
+        public int? UserID { get; set; }
+        public int? CollegeID { get; set; }
+        public int? DepartmentID { get; set; }
         public string? EmpID { get; set; }
         public string? RequestSSOID { get; set; }
         public string? EmpIDCardPhoto { get; set; }
@@ -156,20 +156,20 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public string? ToDate { get; set; }
         public string? FromTime { get; set; }
         public string? ToTime { get; set; }
-        public int Status { get; set; }
-        public bool ActiveStatus { get; set; }
-        public bool DeleteStatus { get; set; }
+        public int? Status { get; set; }
+        public bool? ActiveStatus { get; set; }
+        public bool? DeleteStatus { get; set; }
 
-        public int CreatedBy { get; set; }
-        public int ModifyBy { get; set; }
-        public int RoleID { get; set; }
+        public int? CreatedBy { get; set; }
+        public int? ModifyBy { get; set; }
+        public int? RoleID { get; set; }
 
         public string? Remark { get; set; }
         public string? Reason { get; set; }
-        public int RoomType { get; set; }
-        public int SeatCapacity { get; set; }
-        public int RoomQuantity { get; set; }
-        public int RoomFee { get; set; }
+        public int? RoomType { get; set; }
+        public int? SeatCapacity { get; set; }
+        public int? RoomQuantity { get; set; }
+        public int? RoomFee { get; set; }
         public string? DepartmentName { get; set; }
         public string? InstituteName { get; set; }
         public string? DisplayName { get; set; }
@@ -181,7 +181,7 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public string? PostalCode { get; set; }
         public string? TelephoneNumber { get; set; }
         public string? State { get; set; }
-        public int EndTermID { get; set; }
+        public int? EndTermID { get; set; }
         public int? Purpose { get; set; }
         public string? Purpose_str { get; set; }
         public string? Dis_PurposeDocPhoto { get; set; }
@@ -190,6 +190,7 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public int? GenderId { get; set; }
         public int? CoolingFacilities { get; set; }
         public int? GuestRoomDetailID { get; set; }
+        public int? GuestCheckInOutID { get; set; }
     }
 
 
@@ -287,6 +288,8 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
     public class GuestHouseDropdownDataModel
     {
         public string? action { get; set; }
+        public string? FromDate { get; set; }
+        public string? ToDate { get; set; }
         public int? Purpose {  get; set; }
         public int? CoolingFacilities { get; set; }
         public int? GuestHouseID { get; set; }

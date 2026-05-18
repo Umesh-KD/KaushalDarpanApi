@@ -26,4 +26,24 @@ namespace Kaushal_Darpan.Models.ScholarshipMaster
         public int SemesterID { get; set; }
     }
 
+    public class ScholarshipOnboardModel
+    {
+        public string NODALOFFICERNAME { get; set; }
+        public string NODALOFFICEREMAIL { get; set; }
+        public string NODALOFFICERMOBILE { get; set; }
+        public string NODALOFFICERAADHAAR { get; set; }
+        public string NODALOFFICERAADHAAR_REFNO { get; set; }
+
+        public string DESIGNATION1 { get; set; }
+        public string NAME1 { get; set; }
+        public string EMAILADDRESS1 { get; set; }
+        public string MOBILENUMBER1 { get; set; }
+
+        public string DESIGNATION2 { get; set; }
+        public string NAME2 { get; set; }
+        public string EMAILADDRESS2 { get; set; }
+        public string MOBILENUMBER2 { get; set; }
+        public string SSOID { get; set; }
+        public string? InstCode { get; set; }
+    }
 }

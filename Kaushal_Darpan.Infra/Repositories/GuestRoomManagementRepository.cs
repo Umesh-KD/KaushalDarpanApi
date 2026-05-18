@@ -1367,6 +1367,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CoolingFacilities", body.CoolingFacilities);
                     command.Parameters.AddWithValue("@RoomType", body.RoomType);
                     command.Parameters.AddWithValue("@GenderId", body.GenderId);
+                    command.Parameters.AddWithValue("@FromDate", body.FromDate);
+                    command.Parameters.AddWithValue("@ToDate", body.ToDate);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
@@ -1464,78 +1466,81 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<int> ReservedRoomCheckIn(GuestApplyForGuestRoomDataModel request)
+        public async Task<RoomReservationSaveResponse> ReservedRoomCheckIn(GuestApplyForGuestRoomDataModel request)
         {
-            return await Task.Run(async () =>
+            _actionName = "updateReqStatusCheckInOut(GuestApplyForGuestRoomDataModel request)";
+            try
             {
-                _actionName = "updateReqStatusCheckInOut(GuestApplyForGuestRoomDataModel request)";
-                try
+                int result = 0;
+                DataTable dataTable = new DataTable();
+                var data = new RoomReservationSaveResponse();
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GH_ReservedRoomCheckIn";
+                    command.Parameters.AddWithValue("@Action", "Insert_Update");
+
+                    command.Parameters.AddWithValue("@GuestReqID", request.GuestReqID);
+                    command.Parameters.AddWithValue("@GuestHouseID", request.GuestHouseID);
+                    command.Parameters.AddWithValue("@UserID", request.UserID);
+                    command.Parameters.AddWithValue("@RequestSSOID", request.RequestSSOID);
+                    command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                    command.Parameters.AddWithValue("@EmpID", request.EmpID);
+                    command.Parameters.AddWithValue("@EmpIDCardPhoto", request.EmpIDCardPhoto);
+                    command.Parameters.AddWithValue("@Dis_EmpIDCardPhoto", request.Dis_EmpIDCardPhoto);
+                    command.Parameters.AddWithValue("@IDProofNo", request.IDProofNo);
+                    command.Parameters.AddWithValue("@IDProofPhoto", request.IDProofPhoto);
+                    command.Parameters.AddWithValue("@Dis_IDProofPhoto", request.Dis_IDProofPhoto);
+                    command.Parameters.AddWithValue("@FromDate", request.FromDate);
+                    command.Parameters.AddWithValue("@ToDate", request.ToDate);
+                    command.Parameters.AddWithValue("@FromTime", request.FromTime);
+                    command.Parameters.AddWithValue("@ToTime", request.ToTime);
+                    command.Parameters.AddWithValue("@Status", request.Status);
+                    command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
+                    command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
+                    command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@Remark", request.Remark);
+                    command.Parameters.AddWithValue("@Reason", request.Reason);
+                    command.Parameters.AddWithValue("@RoomType", request.RoomType);
+                    command.Parameters.AddWithValue("@SeatCapacity", request.SeatCapacity);
+                    command.Parameters.AddWithValue("@RoomQuantity", request.RoomQuantity);
+                    command.Parameters.AddWithValue("@RoomFee", request.RoomFee);
+                    command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                    command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                    command.Parameters.AddWithValue("@Purpose", request.Purpose);
+                    command.Parameters.AddWithValue("@PurposeDocPhoto", request.PurposeDocPhoto);
+                    command.Parameters.AddWithValue("@Dis_PurposeDocPhoto", request.Dis_PurposeDocPhoto);
+                    command.Parameters.AddWithValue("@IsForSelf", request.IsForSelf);
+                    command.Parameters.AddWithValue("@GenderId", request.GenderId);
+                    command.Parameters.AddWithValue("@CoolingFacilities", request.CoolingFacilities);
+                    command.Parameters.AddWithValue("@GuestCheckInOutID", request.GuestCheckInOutID);
+                    command.Parameters.Add("@Return", SqlDbType.Int);// out
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                    if (dataTable.Rows.Count > 0)
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GuestApplyForGuestRoom";
-                        command.Parameters.AddWithValue("@Action", "Insert_Update");
-
-                        command.Parameters.AddWithValue("@GuestReqID", request.GuestReqID);
-                        command.Parameters.AddWithValue("@GuestHouseID", request.GuestHouseID);
-                        command.Parameters.AddWithValue("@UserID", request.UserID);
-                        command.Parameters.AddWithValue("@RequestSSOID", request.RequestSSOID);
-                        command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
-                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
-                        command.Parameters.AddWithValue("@EmpID", request.EmpID);
-                        command.Parameters.AddWithValue("@EmpIDCardPhoto", request.EmpIDCardPhoto);
-                        command.Parameters.AddWithValue("@Dis_EmpIDCardPhoto", request.Dis_EmpIDCardPhoto);
-                        command.Parameters.AddWithValue("@IDProofNo", request.IDProofNo);
-                        command.Parameters.AddWithValue("@IDProofPhoto", request.IDProofPhoto);
-                        command.Parameters.AddWithValue("@Dis_IDProofPhoto", request.Dis_IDProofPhoto);
-                        command.Parameters.AddWithValue("@FromDate", request.FromDate);
-                        command.Parameters.AddWithValue("@ToDate", request.ToDate);
-                        command.Parameters.AddWithValue("@FromTime", request.FromTime);
-                        command.Parameters.AddWithValue("@ToTime", request.ToTime);
-                        command.Parameters.AddWithValue("@Status", request.Status);
-                        command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
-                        command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
-                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
-                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
-                        command.Parameters.AddWithValue("@Remark", request.Remark);
-                        command.Parameters.AddWithValue("@Reason", request.Reason);
-                        command.Parameters.AddWithValue("@RoomType", request.RoomType);
-                        command.Parameters.AddWithValue("@SeatCapacity", request.SeatCapacity);
-                        command.Parameters.AddWithValue("@RoomQuantity", request.RoomQuantity);
-                        command.Parameters.AddWithValue("@RoomFee", request.RoomFee);
-                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
-                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
-                        command.Parameters.AddWithValue("@Purpose", request.Purpose);
-                        command.Parameters.AddWithValue("@PurposeDocPhoto", request.PurposeDocPhoto);
-                        command.Parameters.AddWithValue("@Dis_PurposeDocPhoto", request.Dis_PurposeDocPhoto);
-                        command.Parameters.AddWithValue("@IsForSelf", request.IsForSelf);
-                        command.Parameters.AddWithValue("@GenderId", request.GenderId);
-                        command.Parameters.AddWithValue("@CoolingFacilities", request.CoolingFacilities);
-                        command.Parameters.Add("@Return", SqlDbType.Int);// out
-                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
-
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
-                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                        data = CommonFuncationHelper.ConvertDataTable<RoomReservationSaveResponse>(dataTable);
                     }
+                }
 
-                    return result;
-                }
-                catch (Exception ex)
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
     }
 }
