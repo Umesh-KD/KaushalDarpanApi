@@ -14753,7 +14753,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     return result;
                 }
 
-                // get all streams
+                // get all streams 
                 var streams_data = await Task.Run(() => _unitOfWork.ReportRepository.GetStreamResultRptTabulation(body));
 
                 if (streams_data?.Rows?.Count == 0)
@@ -14763,6 +14763,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     return result;
                 }
 
+                // main
                 StringBuilder sb = new StringBuilder();
 
                 // start
@@ -14779,13 +14780,16 @@ namespace Kaushal_Darpan.Api.Controllers
                 sb.AppendLine("<body>");
                 sb.AppendLine("    <div style=\"width: 98%; margin: auto;\">");
 
+
+                DataTable heading_data = new DataTable();
+                // all streams loop 1 by 1
                 foreach (DataRow dr in streams_data.Rows)
                 {
                     // set streamid
                     body.StreamID = Convert.ToInt32(dr["StreamID"] ?? 0);
 
                     // get main heading of report
-                    var heading_data = await Task.Run(() => _unitOfWork.ReportRepository.GetHeadingResultRptTabulation(body));
+                    heading_data = await Task.Run(() => _unitOfWork.ReportRepository.GetHeadingResultRptTabulation(body));
                     if (heading_data?.Rows.Count == 0)
                     {
                         continue;
@@ -14805,29 +14809,30 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         continue;
                     }
-                    // get html
+
+                    // get detail html
                     var _sb = _printHtmlFile.GetHtmlOfHeadingAndTabularForTabulation(dr, heading_data, tabular_data);
                     sb.AppendJoin("</br>", _sb);
                 }
+                // end stream loop
+
 
                 // get consolidate summary of tabular details
                 var consolidate_data = await Task.Run(() => _unitOfWork.ReportRepository.GetConsolidatedDetailsResultRptTabulation(body));
                 if (consolidate_data?.Rows.Count > 0)
                 {
                     //get html
-                    var _sb1 = _printHtmlFile.GetHtmlOfConsolidateForTabulation(consolidate_data);
+                    var _sb1 = _printHtmlFile.GetHtmlOfConsolidateForTabulation(consolidate_data, heading_data);
                     sb.AppendJoin("</br>", _sb1);
                 }
 
-                // end
+                // end main
                 sb.AppendLine("    </div>");
-                sb.Append("<div class='page-break'></div>");
                 sb.AppendLine("</body>");
                 sb.AppendLine("</html>");
 
 
-                var htmlContent = sb.ToString();
-
+                var htmlContent = sb.ToString();// all contents
                 // remove last blank page
                 string endTag = "<div class='page-break'></div></body></html>";
                 if (htmlContent.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
@@ -14836,6 +14841,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                  + "</body></html>";
                 }
 
+                // page setting
                 var doc = new HtmlToPdfDocument()
                 {
                     GlobalSettings = {
@@ -14854,13 +14860,15 @@ namespace Kaushal_Darpan.Api.Controllers
                                 FontName = "Arial",
                                 FontSize = 7,
                                 Center = "Page [page] of [toPage]",
-                                Line = true
+                                Line = true,
+                                Spacing = 0.5
                             }
                         }
                     }
                 };
 
-                byte[] pdfBytes = _converter.Convert(doc);
+
+                byte[] pdfBytes = await Task.Run(() => _converter.Convert(doc));
 
                 result.Data = Convert.ToBase64String(pdfBytes);
                 result.State = EnumStatus.Success;

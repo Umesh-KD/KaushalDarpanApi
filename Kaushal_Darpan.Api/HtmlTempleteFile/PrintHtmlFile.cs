@@ -189,86 +189,157 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         {
             try
             {
-                StringBuilder sb = new StringBuilder();
+                StringBuilder sb_hm = new StringBuilder();
+                StringBuilder sb_h = new StringBuilder();
 
-                sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"5\" style=\"width:100%; border-collapse:collapse; border: 1px solid #c3c3c3; font-family:Arial, sans-serif; font-size:14px;\">");
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"width:20%;\"></td>");
-                sb.AppendLine("                <td style=\"width:60%; text-align:center; line-height:1.5;\">");
-                sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_1"]}</strong><br>");
-                sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_2"]}</strong><br>");
-                sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_3"]}</strong><br>");
-                //        sb.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
-                sb.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
-                sb.AppendLine("                    <strong></strong>");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("        </table>");
+                // heading
+                sb_hm.AppendLine("        <table cellspacing=\"0\" cellpadding=\"5\" style=\"width:100%; border-collapse:collapse; border: 1px solid #c3c3c3; font-family:Arial, sans-serif; font-size:14px;\">");
+                sb_hm.AppendLine("            <tr>");
+                sb_hm.AppendLine("                <td style=\"width:20%;\"></td>");
+                sb_hm.AppendLine("                <td style=\"width:60%; text-align:center; line-height:1.5;\">");
+                sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_1"]}</strong><br>");
+                sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_2"]}</strong><br>");
+                sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_3"]}</strong><br>");
+                //        sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
+                sb_hm.AppendLine("                </td>");
+                sb_hm.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
+                sb_hm.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
+                sb_hm.AppendLine("                    <strong></strong>");
+                sb_hm.AppendLine("                </td>");
+                sb_hm.AppendLine("            </tr>");
+                sb_hm.AppendLine("        </table>");
 
                 // table -1
-                sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;\">");
-                sb.AppendLine("            <tr style=\"border-bottom: 1px solid #000;\">");
-                sb.AppendLine($"                <td colspan=\"14\" style=\"padding-left: 0;\"><strong>{heading_dt.Rows[0]["Institute"]}</strong></td>");
-                sb.AppendLine($"                <td colspan=\"10\"><strong>PROGRAMME : ({streams_dr["Code"]}){streams_dr["Name"]}</strong></td>");
-                sb.AppendLine("            </tr>");
+                sb_h.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;\">");
+                sb_h.AppendLine("            <tr style=\"border-bottom: 1px solid #000;\">");
+                sb_h.AppendLine($"                <td colspan=\"14\" style=\"padding-left: 0;\"><strong>{heading_dt.Rows[0]["Institute"]}</strong></td>");
+                sb_h.AppendLine($"                <td colspan=\"10\"><strong>PROGRAMME : ({streams_dr["Code"]}){streams_dr["Name"]}</strong></td>");
+                sb_h.AppendLine("            </tr>");
+
+
+                // get top records(header rows) of detail for header block and delete from main details tables
+                int headerRowBlockCount = 5;// get only top header
+                int dataRowBlockCount = 7;//data row block dotted separation line count 
+                int k = 1;
+                string borderSeperationStyle = "";
+
+                // Top rows
+                DataTable dt_h = tabular_ds.Tables[0].AsEnumerable()
+                                          .Take(headerRowBlockCount)
+                                          .CopyToDataTable();
 
                 //column
-                // table -2(actual-1) (heading) 
-                sb.AppendLine("            <tr>");
-                foreach (DataColumn dc in tabular_ds.Tables[0].Columns)
+                // table -1 (heading) 
+                sb_h.AppendLine("            <tr>");
+                foreach (DataColumn dc in dt_h.Columns)
                 {
-                    sb.AppendLine($"                <th style=\"text-align:left;\">{dc.ColumnName}</th>");
+                    sb_h.AppendLine($"                <th style=\"text-align:left;\"> {dc.ColumnName} </th>");
                 }
-                sb.AppendLine("            </tr>");
+                sb_h.AppendLine("            </tr>");
 
-                //row
-                //column data
-                int headerRowBlockCount = 4;//header row block separation line count (start from 0)
-                int dataRowBlockCount = 7;//data row block separation line count 
-                int lineBlockCount = headerRowBlockCount;//set header default 
-                int i = 0;
-                string seprationCls = string.Empty;
-                foreach (DataRow dr in tabular_ds.Tables[0].Rows)
+                // table -1 (heading data) 
+                k = 1;
+                borderSeperationStyle = "";
+                foreach (DataRow dr in dt_h.Rows)
                 {
-                    sb.AppendLine($"            <tr {seprationCls}>");
-                    foreach (DataColumn dc in tabular_ds.Tables[0].Columns)
+                    if (k == headerRowBlockCount)
                     {
-                        sb.AppendLine($"                <td>{dr[dc.ColumnName]}</td>");
+                        borderSeperationStyle = "style=\"border-bottom: 2px solid #000;\"";
+                        k = 0;// reset
                     }
-                    sb.AppendLine("            </tr>");
-
-                    // for block separation line
-                    seprationCls = string.Empty;//reset after print
-                    ++i;
-                    if (i == lineBlockCount)
+                    sb_h.AppendLine($"            <tr {borderSeperationStyle}>");
+                    foreach (DataColumn dc in dt_h.Columns)
                     {
-                        seprationCls = $"style=\"border-bottom: 2px dotted #000;\"";//set to data row block separation line count 
-                        if (lineBlockCount == headerRowBlockCount)
+                        sb_h.AppendLine($"                <td> {dr[dc.ColumnName]} </td>");
+                    }
+                    sb_h.AppendLine("            </tr>");
+                    k++;// increment
+                }
+
+                // (after) Remaining rows
+                DataTable dt_tabluerdet = tabular_ds.Tables[0].AsEnumerable()
+                                          .Skip(headerRowBlockCount)
+                                          .CopyToDataTable();
+
+                // main sb
+                StringBuilder sb = new StringBuilder();
+
+                // page break with pagging
+                int pageSize = 49; // 7 students details
+
+                for (int i = 0; i < dt_tabluerdet.Rows.Count; i += pageSize)
+                {
+                    DataTable dt_tabluerdet1 = dt_tabluerdet.Clone();
+
+                    for (int j = i; j < i + pageSize && j < dt_tabluerdet.Rows.Count; j++)
+                    {
+                        dt_tabluerdet1.ImportRow(dt_tabluerdet.Rows[j]);
+                    }
+
+                    // main heading
+                    sb.Append(sb_hm);
+
+                    // heading
+                    sb.Append(sb_h);
+
+                    // data dynamic
+                    k = 1;
+                    borderSeperationStyle = "";
+                    foreach (DataRow dr in dt_tabluerdet1.Rows)
+                    {
+                        // set seperation
+                        if (k == dataRowBlockCount)
                         {
-                            seprationCls = $"style=\"border-bottom: 2px solid #000;\"";//set to header row block separation line count
+                            borderSeperationStyle = "style=\"border-bottom: 2px dotted #000;\"";
+                            k = 0;// reset
                         }
-                        i = 0;//reset
-                        lineBlockCount = dataRowBlockCount;//shift to data row block separation line count
+                        sb.AppendLine($"            <tr {borderSeperationStyle}>");
+                        foreach (DataColumn dc in dt_tabluerdet1.Columns)
+                        {
+                            sb.AppendLine($"                <td> {dr[dc.ColumnName]} </td>");
+                        }
+                        sb.AppendLine("            </tr>");
+
+                        borderSeperationStyle = "";
+                        // increament
+                        k++;
                     }
+
+                    // data close
+                    sb.AppendLine("        </table>");
+                    sb.AppendLine("</br>");
+
+                    // end pagging
+                    // page break
+                    sb.Append("<div class='page-break'></div>");
                 }
-                sb.AppendLine("        </table>");
 
-                sb.AppendLine("</br>");
 
-                // handle for new scheme
+                // table-2 to handle for new scheme
+                // data
                 if (tabular_ds.Tables[1].Rows.Count > 0)
                 {
-                    // table -3(actual-2)
-                    sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px; border:1px solid black;\">");
+                    // subjects
+                    sb_h = new StringBuilder();
+                    // table -1
+                    sb_h.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;\" border=\"1\">");
+                    sb_h.AppendLine("            <tr>");
+                    sb_h.AppendLine($"                <td colspan=\"5\" style=\"padding-left: 0;\"><strong>{heading_dt.Rows[0]["Institute"]}</strong></td>");
+                    sb_h.AppendLine($"                <td colspan=\"4\"><strong>PROGRAMME : ({streams_dr["Code"]}){streams_dr["Name"]}</strong></td>");
+                    sb_h.AppendLine("            </tr>");
+
+                    // main heading
+                    sb.Append(sb_hm);
+
+                    // heading
+                    sb.Append(sb_h);
 
                     //column table-3(actual-2)
                     // Main Header Row
                     sb.AppendLine("            <tr>");
                     foreach (DataColumn dc in tabular_ds.Tables[1].Columns)
                     {
-                        sb.AppendLine($"                <th style=\"text-align:left;\">{dc.ColumnName}</th>");
+                        sb.AppendLine($"                <th style=\"text-align:left;\"> {dc.ColumnName} </th>");
                     }
                     sb.AppendLine("            </tr>");
 
@@ -279,13 +350,16 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         sb.AppendLine($"            <tr>");
                         foreach (DataColumn dc in tabular_ds.Tables[1].Columns)
                         {
-                            sb.AppendLine($"                <td style=\"border:1px solid black;\">{dr[dc.ColumnName]}</td>");
+                            sb.AppendLine($"                <td> {dr[dc.ColumnName]} </td>");
                         }
                         sb.AppendLine("            </tr>");
                     }
-
+                    // table close
                     sb.AppendLine("        </table>");
                 }
+
+                // page break
+                sb.Append("<div class='page-break'></div>");
 
                 return sb;
             }
@@ -294,16 +368,39 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 throw;
             }
         }
-        public StringBuilder GetHtmlOfConsolidateForTabulation(DataTable consolidate_dt)
+        public StringBuilder GetHtmlOfConsolidateForTabulation(DataTable consolidate_dt, DataTable heading_dt)
         {
             try
             {
+                StringBuilder sb_hm = new StringBuilder();
+
+                // heading
+                sb_hm.AppendLine("        <table cellspacing=\"0\" cellpadding=\"5\" style=\"width:100%; border-collapse:collapse; border: 1px solid #c3c3c3; font-family:Arial, sans-serif; font-size:14px;\" >");
+                sb_hm.AppendLine("            <tr>");
+                sb_hm.AppendLine("                <td style=\"width:20%;\"></td>");
+                sb_hm.AppendLine("                <td style=\"width:60%; text-align:center; line-height:1.5;\">");
+                sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_1"]}</strong><br>");
+                sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_2"]}</strong><br>");
+                sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_3"]}</strong><br>");
+                //        sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
+                sb_hm.AppendLine("                </td>");
+                sb_hm.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
+                sb_hm.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
+                sb_hm.AppendLine("                    <strong></strong>");
+                sb_hm.AppendLine("                </td>");
+                sb_hm.AppendLine("            </tr>");
+                sb_hm.AppendLine("        </table>");
+
+                // 
                 StringBuilder sb = new StringBuilder();
-                sb.AppendLine("</br>");
-                sb.AppendLine("</br>");
+
+                // main heading
+                sb.Append(sb_hm);
+
+                sb.AppendLine("</br>");              
 
                 // table -3
-                sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px; border:1px solid black;\">");
+                sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; font-family:Arial, sans-serif; font-size:14px; \" border=\"1\">");
 
                 //column
                 // Main Header Row
@@ -321,7 +418,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     sb.AppendLine($"            <tr>");
                     foreach (DataColumn dc in consolidate_dt.Columns)
                     {
-                        sb.AppendLine($"                <td style=\"border:1px solid black;\">{dr[dc.ColumnName]}</td>");
+                        sb.AppendLine($"                <td>{dr[dc.ColumnName]}</td>");
                     }
                     sb.AppendLine("            </tr>");
                 }
