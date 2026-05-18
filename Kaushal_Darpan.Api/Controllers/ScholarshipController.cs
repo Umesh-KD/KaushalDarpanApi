@@ -114,6 +114,50 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+
+        [HttpGet("GetByIdOnBoard/{ScholarshipID:int}")]
+        public async Task<ApiResult<ScholarshipOnboardModel>> GetByIdOnBoard(int ScholarshipID)
+        {
+            ActionName = "GetByID(int AppointExaminerID)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<ScholarshipOnboardModel>();
+                try
+                {
+                    var data = await _unitOfWork.ScholarshipRepository.GetByIdOnBoard(ScholarshipID);
+                    if (data != null)
+                    {
+                        var mappedData = _mapper.Map<ScholarshipOnboardModel>(data);
+                        result.Data = mappedData;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
         [HttpPost("SaveData")]
         public async Task<ApiResult<bool>> SaveData([FromBody] ScholarshipMaster request)
         {
@@ -176,6 +220,73 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+        [HttpPost("SaveDataOnBoard")]
+        public async Task<ApiResult<bool>> SaveDataOnBoard([FromBody] ScholarshipOnboardModel request)
+        {
+            ActionName = "SaveData([FromBody] AppointExaminerModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+
+                    //if (!ModelState.IsValid)
+                    //{
+                    //    result.State = EnumStatus.Error;
+                    //    result.ErrorMessage = "Validation failed!";
+                    //    return result;
+                    //}
+
+
+                    result.Data = await _unitOfWork.ScholarshipRepository.SaveDataOnBoard(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (request.InstCode == "")
+                        {
+                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        else
+                        {
+                            result.Message = Constants.MSG_UPDATE_SUCCESS;
+                        }
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (request.InstCode == "")
+                        {
+                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        }
+                        else
+                        {
+                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+
 
 
         [HttpDelete("DeleteByID/{ScholarshipID}/{ModifyBy}")]
