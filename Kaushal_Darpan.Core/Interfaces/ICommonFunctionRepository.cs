@@ -398,7 +398,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<CommonDDLModel>> GetGroupCode_Reval(CommonDDLSubjectMasterModel model);
 
         Task<DataTable> GetAlreadyAssignedOptionalSubject(int StudentExamID);
-        Task<DataTable> GetStudentDeatilsByAction(StudentSearchModel filterModel);
+        Task<DataTable> GetStudentDeatilsByAction(StudentSearchModelForWhatsAPP filterModel);
         Task<EmitraTransactionsModel> CreateEmitraTransationWhatsapp(EmitraTransactionsModel Model);
         Task<EmitraRequstParametersModel> GetEmitraServiceDetailsWhatsapp(EmitraRequestDetailsModel Model);
         Task<bool> UpdateEmitraPaymentStatusWhatsApp(EmitraResponseParametersModel request);

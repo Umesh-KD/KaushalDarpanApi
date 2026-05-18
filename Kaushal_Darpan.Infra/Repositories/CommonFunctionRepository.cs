@@ -12125,10 +12125,10 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<DataTable> GetStudentDeatilsByAction(StudentSearchModel filterModel)
+        public async Task<DataTable> GetStudentDeatilsByAction(StudentSearchModelForWhatsAPP filterModel)
         {
             _actionName = "GetStudentDeatilsByAction()";
-            filterModel.Action= "PendingFees";
+            string Action= "PendingFees";
             return await Task.Run(async () =>
             {
                 try
@@ -12141,7 +12141,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         // Add parameters to the stored procedure from the model
                         
-                        command.Parameters.AddWithValue("@Action", filterModel.Action);                        
+                        command.Parameters.AddWithValue("@Action", Action);                        
                         command.Parameters.AddWithValue("@ApplicationNo", filterModel.ApplicationNo);
                         command.Parameters.AddWithValue("@DOB", filterModel.DOB);
                         command.Parameters.AddWithValue("@MobileNumber", filterModel.MobileNumber);

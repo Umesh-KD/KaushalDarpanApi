@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Cmp;
 using Org.BouncyCastle.Ocsp;
 using RestSharp;
+using System;
 using System.Buffers;
 using System.Data;
 using System.Globalization;
@@ -3789,7 +3790,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("GetStudentDeatilsByActionWhatsapp")]
-        public async Task<ApiResult<dynamic>> GetStudentDeatilsByActionWhatsapp([FromBody] StudentSearchModel body)
+        public async Task<ApiResult<dynamic>> GetStudentDeatilsByActionWhatsapp([FromBody] StudentSearchModelForWhatsAPP body)
         {
             ActionName = "GetStudentDeatilsByActionWhatsapp()";
             var result = new ApiResult<dynamic>();
@@ -3814,14 +3815,14 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     foreach (DataRow Dr in data.Rows)
                     {
-                        FinalAmount = FinalAmount + decimal.Parse(Dr["ItemAmount"].ToString());
+                        FinalAmount = FinalAmount + decimal.Parse(Dr["FeeAmount"].ToString());
                         StudentFeesTransactionItemsWhatsApp objStudentFeesTransactionItems = new StudentFeesTransactionItemsWhatsApp();
 
-                        objStudentFeesTransactionItems.TransactionId = int.Parse(Dr["TransactionId"].ToString());
-                        objStudentFeesTransactionItems.TransactionApplicationID = int.Parse(Dr["TransactionApplicationID"].ToString());
-                        objStudentFeesTransactionItems.Status = int.Parse(Dr["Status"].ToString());
-                        objStudentFeesTransactionItems.TranSemesterID = int.Parse(Dr["TranSemesterID"].ToString());
-                        objStudentFeesTransactionItems.ItemAmount = int.Parse(Dr["ItemAmount"].ToString());
+                        //objStudentFeesTransactionItems.TransactionId = int.Parse(Dr["TransactionId"].ToString());
+                        //objStudentFeesTransactionItems.TransactionApplicationID = int.Parse(Dr["TransactionApplicationID"].ToString());
+                        //objStudentFeesTransactionItems.Status = int.Parse(Dr["Status"].ToString());
+                       // objStudentFeesTransactionItems.TranSemesterID = int.Parse(Dr["TranSemesterID"].ToString());
+                        objStudentFeesTransactionItems.ItemAmount = int.Parse(Dr["FeeAmount"].ToString());
                         objStudentFeesTransactionItems.EnrollmentNo = Dr["EnrollmentNo"].ToString();
                         objStudentFeesTransactionItems.StudentName = Dr["StudentName"].ToString();
                         objStudentFeesTransactionItems.FatherName = Dr["FatherName"].ToString();
@@ -3835,11 +3836,12 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
                     objEmitra.key = "_InsertDetails";
-                    objEmitra.ApplicationIdEnc = (string)row["ApplicationNo"]; ;
+                    objEmitra.ApplicationIdEnc = row["ApplicationIDEnc"].ToString();
                     objEmitra.Amount = FinalAmount; 
                     objEmitra.StudentID = (int)row["StudentID"];
-                    objEmitra.SemesterID = int.Parse((string)row["ApplicationNo"]);
-                    objEmitra.ExamStudentStatus = (int)row["ExamStudentStatus"];
+                    //objEmitra.SemesterID = int.Parse((string)row["SemesterID"]);
+                    //objEmitra.ExamStudentStatus = (int)row["ExamStudentStatus"];
+                    //objEmitra.ApplicationIdEnc= row["ApplicationID"].ToString(); 
                     objEmitra.StudentFeesTransactionItemsWhatsApp = LstStudentFeesTransaction;
                     objEmitra.SSOID = "";
                     objEmitra.IsEmitra = false;
