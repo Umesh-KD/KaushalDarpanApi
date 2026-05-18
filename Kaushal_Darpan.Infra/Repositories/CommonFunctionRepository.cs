@@ -837,7 +837,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0)
+        public async Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0,int SchemeID=0)
         {
             _actionName = "StreamMaster()";
             return await Task.Run(async () =>
@@ -854,6 +854,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StreamType", StreamType);
                         command.Parameters.AddWithValue("@SemesterID", SemesterID);
                         command.Parameters.AddWithValue("@InstituteId", InstituteId);
+                        command.Parameters.AddWithValue("@SchemeID", SchemeID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

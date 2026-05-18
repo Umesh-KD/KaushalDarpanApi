@@ -53,7 +53,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> ItiTradecouncelling(string DesignationID);
         Task<DataTable> ItiShiftUnitDDL(int ID = 0, int FinancialYearID = 0, int CourseTypeID = 0, int InstituteID = 0);
         Task<DataTable> StreamMasterwithcount(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0);
-        Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0);
+        Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0,int SchemeID=0);
         Task<DataTable> MultiStreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, string SemesterID = "", int InstituteId = 0);
         Task<DataTable> HODSemesterMaster(int UserID = 0, int StreamType = 0, int EndTermId = 0);
         Task<DataTable> SemesterRolewise(int UserID = 0, int StreamType = 0, int EndTermId = 0, int RoleID=0, int StaffID = 0);
