@@ -837,7 +837,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0)
+        public async Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0,int SchemeID=0)
         {
             _actionName = "StreamMaster()";
             return await Task.Run(async () =>
@@ -854,6 +854,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StreamType", StreamType);
                         command.Parameters.AddWithValue("@SemesterID", SemesterID);
                         command.Parameters.AddWithValue("@InstituteId", InstituteId);
+                        command.Parameters.AddWithValue("@SchemeID", SchemeID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -4713,7 +4714,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ReceiptNo", request.RECEIPTNO);
                     command.Parameters.AddWithValue("@RequestStatus", request.STATUS);
                     //command.Parameters.AddWithValue("@ExamStudentStatus", request.ExamStudentStatus);
-                    command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus");
+                   // command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus");
+                    command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus_ITI");
                     command.Parameters.Add("@retval_TransactionId", SqlDbType.Int);// out
                     command.Parameters["@retval_TransactionId"].Direction = ParameterDirection.Output;// out
                     _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
@@ -10984,7 +10986,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID,int StreamID,int SectionID,int DayID)
+        public async Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID)
         {
             _actionName = "GetStudentAttandanceTimeDDL(int StaffID, int SubjectID)";
             try
@@ -10995,9 +10997,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandText = "USP_StudentAttandanceTimeDDL";
                     command.Parameters.AddWithValue("@StaffID", StaffID);
                     command.Parameters.AddWithValue("@SubjectID", SubjectID);
-                    command.Parameters.AddWithValue("@StreamID", StreamID);
-                    command.Parameters.AddWithValue("@SectionID", SectionID);
-                    command.Parameters.AddWithValue("@DayID", DayID);
 
                     _sqlQuery = command.GetSqlExecutableQuery(); // Get SQL query string for logging/debugging
                     var dataTable = await command.FillAsync_DataTable();
@@ -12127,9 +12126,10 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<DataTable> GetStudentDeatilsByAction(StudentSearchModel filterModel)
+        public async Task<DataTable> GetStudentDeatilsByAction(StudentSearchModelForWhatsAPP filterModel)
         {
             _actionName = "GetStudentDeatilsByAction()";
+            string Action= "PendingFees";
             return await Task.Run(async () =>
             {
                 try
@@ -12141,15 +12141,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_GetStudentFeeDetails";
 
                         // Add parameters to the stored procedure from the model
-                        command.Parameters.AddWithValue("@RoleId", filterModel.RoleId);
-                        command.Parameters.AddWithValue("@StudentID", filterModel.StudentID);
-                        command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterID);
-                        command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
-                        command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
-                        command.Parameters.AddWithValue("@StudentExamID", filterModel.StudentExamID);
-                        command.Parameters.AddWithValue("@Action", filterModel.Action);
-                        command.Parameters.AddWithValue("@SsoID", filterModel.SsoID ?? string.Empty);
+                        
+                        command.Parameters.AddWithValue("@Action", Action);                        
                         command.Parameters.AddWithValue("@ApplicationNo", filterModel.ApplicationNo);
                         command.Parameters.AddWithValue("@DOB", filterModel.DOB);
                         command.Parameters.AddWithValue("@MobileNumber", filterModel.MobileNumber);
@@ -12288,6 +12281,84 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         }
 
+        public async Task<int> InsertCompanyMoUDetails(CompanyMoUDetailsModel request)
+        {
+            _actionName = "INSERT";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CompanyMoUDetails_IU";
+
+                        command.Parameters.AddWithValue("@Action", request.Action);
+                        command.Parameters.AddWithValue("@ID", request.ID);
+                        command.Parameters.AddWithValue("@CompanyId", request.CompanyId);
+                        command.Parameters.AddWithValue("@MoUStartDate", request.MoUStartDate);
+                        command.Parameters.AddWithValue("@MoUValidTill", request.MoUValidTill);
+                        command.Parameters.AddWithValue("@Remark", request.Remark);
+                        command.Parameters.AddWithValue("@MoUDoc", (object?)request.MoUDoc ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
+                        command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+                        command.Parameters.AddWithValue("@ModifyBy", (object?)request.ModifyBy ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@IPAddress", (object?)request.IPAddress ?? DBNull.Value);
+
+                        result = Convert.ToInt32(await command.ExecuteScalarAsync());
+                    }
+
+                    return result;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            });
+        }
+
+        public async Task<CompanyMoUDetailsModel> GetCompanyMoUDetails(CompanyMoUDetailsModel Model)
+        {
+           
+            try
+            {
+                _actionName = "GetCompanyMoUDetails";
+                DataTable dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {                    
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_CompanyMoUDetails_IU";
+
+                    command.Parameters.AddWithValue("@Action", Model.Action);
+                    command.Parameters.AddWithValue("@ID", Model.ID);
+                    _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
+                    dt = await command.FillAsync_DataTable();
+                }
+
+                // class
+                var data = new CompanyMoUDetailsModel();
+                data = CommonFuncationHelper.ConvertDataTable<CompanyMoUDetailsModel>(dt);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+        }
+
         public async Task<int> HasResultPublishedForRole(HasResultPublishModel model)
         {
             _actionName = "HasResultPublishedForRole(HasResultPublishModel model)";
@@ -12313,7 +12384,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
 
-                    if(dataTable?.Rows?.Count > 0)
+                    if (dataTable?.Rows?.Count > 0)
                     {
                         result = Convert.ToInt32(dataTable.Rows[0]["ResultPublished"]);
                     }
@@ -12333,6 +12404,43 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID, int StreamID, int SectionID, int DayID)
+        {
+            _actionName = "GetStudentAttandanceTimeDDL(int StaffID, int SubjectID)";
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StudentAttandanceTimeDDL";
+                    command.Parameters.AddWithValue("@StaffID", StaffID);
+                    command.Parameters.AddWithValue("@SubjectID", SubjectID);
+                    command.Parameters.AddWithValue("@StreamID", StreamID);
+                    command.Parameters.AddWithValue("@SectionID", SectionID);
+                    command.Parameters.AddWithValue("@DayID", DayID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery(); // Get SQL query string for logging/debugging
+                    var dataTable = await command.FillAsync_DataTable();
+
+                    return dataTable;
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
     }
 }
 

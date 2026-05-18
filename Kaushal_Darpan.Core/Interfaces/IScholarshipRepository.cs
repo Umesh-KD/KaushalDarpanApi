@@ -13,7 +13,9 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetAllData(ScholarshipSearchModel model);
         Task<bool> SaveData(ScholarshipMaster productDetails);
+        Task<bool> SaveDataOnBoard(ScholarshipOnboardModel productDetails);
         Task<ScholarshipMaster> GetById(int PK_ID);
+        Task<ScholarshipOnboardModel> GetByIdOnBoard(int PK_ID);
         Task<bool> DeleteDataByID(ScholarshipMaster productDetails);
     }
 }
