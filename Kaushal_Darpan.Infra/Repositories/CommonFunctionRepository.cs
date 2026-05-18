@@ -4666,7 +4666,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ReceiptNo", request.RECEIPTNO);
                     command.Parameters.AddWithValue("@RequestStatus", request.STATUS);
                     //command.Parameters.AddWithValue("@ExamStudentStatus", request.ExamStudentStatus);
-                    command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus");
+                   // command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus");
+                    command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus_ITI");
                     command.Parameters.Add("@retval_TransactionId", SqlDbType.Int);// out
                     command.Parameters["@retval_TransactionId"].Direction = ParameterDirection.Output;// out
                     _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
