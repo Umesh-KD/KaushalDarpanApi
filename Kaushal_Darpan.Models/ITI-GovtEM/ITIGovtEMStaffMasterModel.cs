@@ -758,6 +758,7 @@
         public string? Name { get; set; }
         public int? BranchID { get; set; }
         public int? BugetHeadTypeID { get; set; }
+        public int? RoleID { get; set; }
     }
 
 

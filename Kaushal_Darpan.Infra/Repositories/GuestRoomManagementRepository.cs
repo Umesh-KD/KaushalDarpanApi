@@ -1542,6 +1542,43 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<bool> UnreserveGuestHouseRoom(UnreserveGuestRoomDataModel request)
+        {
+
+            int result = 0;
+            _actionName = " UnreserveGuestHouseRoom(UnreserveGuestRoomDataModel request)";
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GH_UnreserveGuestHouseRoom";
+
+                    command.Parameters.AddWithValue("@GuestHouseID", request.GuestHouseID);
+                    command.Parameters.AddWithValue("@GuestRoomDetailID", request.GuestRoomDetailID);
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+
+                    result = await command.ExecuteNonQueryAsync();
+                }
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
 

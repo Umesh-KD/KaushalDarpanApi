@@ -15,6 +15,8 @@ namespace Kaushal_Darpan.Models.ApplicationMessageModel
         public string? ApplicationType { get; set; } = string.Empty;
         public int? DepartmentID { get; set; } = 0;
         public string? Scheme { get; set; } = string.Empty;
+        public string? Status { get; set; } = string.Empty;
+        public string? CheckIn_CheckOut { get; set; } = string.Empty;
         public int? MeritId { get; set; }
 
         public List<ApplicationDetails>? ApplicationDetails { get; set; }

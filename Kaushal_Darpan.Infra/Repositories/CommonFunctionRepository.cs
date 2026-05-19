@@ -837,7 +837,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0)
+        public async Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0,int SchemeID=0)
         {
             _actionName = "StreamMaster()";
             return await Task.Run(async () =>
@@ -854,6 +854,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StreamType", StreamType);
                         command.Parameters.AddWithValue("@SemesterID", SemesterID);
                         command.Parameters.AddWithValue("@InstituteId", InstituteId);
+                        command.Parameters.AddWithValue("@SchemeID", SchemeID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -4713,7 +4714,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ReceiptNo", request.RECEIPTNO);
                     command.Parameters.AddWithValue("@RequestStatus", request.STATUS);
                     //command.Parameters.AddWithValue("@ExamStudentStatus", request.ExamStudentStatus);
-                    command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus");
+                   // command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus");
+                    command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus_ITI");
                     command.Parameters.Add("@retval_TransactionId", SqlDbType.Int);// out
                     command.Parameters["@retval_TransactionId"].Direction = ParameterDirection.Output;// out
                     _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
@@ -12124,10 +12126,10 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<DataTable> GetStudentDeatilsByAction(StudentSearchModel filterModel)
+        public async Task<DataTable> GetStudentDeatilsByAction(StudentSearchModelForWhatsAPP filterModel)
         {
             _actionName = "GetStudentDeatilsByAction()";
-            filterModel.Action= "PendingFees";
+            string Action= "PendingFees";
             return await Task.Run(async () =>
             {
                 try
@@ -12140,11 +12142,11 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         // Add parameters to the stored procedure from the model
                         
-                        command.Parameters.AddWithValue("@Action", filterModel.Action);                        
+                        command.Parameters.AddWithValue("@Action", Action);                        
                         command.Parameters.AddWithValue("@ApplicationNo", filterModel.ApplicationNo);
                         command.Parameters.AddWithValue("@DOB", filterModel.DOB);
                         command.Parameters.AddWithValue("@MobileNumber", filterModel.MobileNumber);
-                        command.Parameters.AddWithValue("@FeeType", 2);
+                        command.Parameters.AddWithValue("@FeeType", filterModel.FeeType);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -12201,7 +12203,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@action", Model.key);
                     command.Parameters.AddWithValue("@ExamStudentStatus", Model.ExamStudentStatus);
                     command.Parameters.AddWithValue("@TransactionApplicationID", Model.TransactionApplicationID);
-                    command.Parameters.AddWithValue("@StudentFeesTransactionItems", JsonConvert.SerializeObject(Model.StudentFeesTransactionItems));
+                    command.Parameters.AddWithValue("@StudentFeesTransactionItems", JsonConvert.SerializeObject(Model.StudentFeesTransactionItemsWhatsApp));
                     command.Parameters.AddWithValue("@IsEmitra", Model.IsEmitra);
                     command.Parameters.AddWithValue("@DepartmentID", Model.DepartmentID);
                     command.Parameters.AddWithValue("@UniqueServiceID", Model.UniqueServiceID);
