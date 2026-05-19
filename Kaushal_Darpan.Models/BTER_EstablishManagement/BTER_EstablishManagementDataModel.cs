@@ -198,9 +198,10 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string ToDate { get; set; }
 
         public int DesignationID { get; set; }
+        public int QualificationID { get; set; }
         public string? DesignationName { get; set; }
 
-        public string Qualification { get; set; }
+        public string? Qualification { get; set; }
 
         // Single document for Service History
         public string? DisUploadDoc { get; set; }
