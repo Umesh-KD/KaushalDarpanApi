@@ -530,6 +530,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.CommandText = "USP_GetStaffForLeaveCredit_ADTE_NonGazetted";
                             command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         }
+                        else if (body.RoleID.HasValue && (body.RoleID == (int)EnumRole.EM_ADTE_GAZETTED_STAFF))
+                        {
+                            command.CommandText = "USP_GetStaffForLeaveCredit_ADTE_Gazetted";
+                            command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        }
                         else
                         {
                             command.CommandText = "USP_GetStaffForLeaveCredit";
@@ -595,6 +600,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         else if (body.RoleID.HasValue && (body.RoleID == (int)EnumRole.EM_ADTE_NON_GAZETTED_STAFF ))
                         {
                             command.CommandText = "USP_GetStaffWithLeaveBalance_ADTE_NonGazetted";
+                            command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        }
+                        else if (body.RoleID.HasValue && (body.RoleID == (int)EnumRole.EM_ADTE_GAZETTED_STAFF))
+                        {
+                            command.CommandText = "USP_GetStaffWithLeaveBalance_ADTE_Gazetted";
                             command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         }
                         else
