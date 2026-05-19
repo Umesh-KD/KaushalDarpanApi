@@ -3727,7 +3727,7 @@ namespace Kaushal_Darpan.Api.Controllers
         #region emitra payment by student whatsapp
 
         [HttpPost("EnrollmentExaminationFeePaymentWhatsappResponse")] //IActionResult
-        public async Task<IActionResult> EnrollmentExaminationFeePaymentWhatsappResponse(string UniquerequestId = "", string ServiceID = "", string DepartmentID = "")
+        public async Task<IActionResult> EnrollmentExaminationFeePaymentWhatsappResponse(string UniquerequestId = "", string ServiceID = "", string DepartmentID = "", string FeeType)
         {
             var RetrunUrL = "";
             try
@@ -3794,7 +3794,7 @@ namespace Kaushal_Darpan.Api.Controllers
             var result = new ApiResult<dynamic>();
             try
             {
-                body.FeeType = 2;
+                //body.FeeType = 2;//  Will be remove once move on production
                 var data = await _unitOfWork.CommonFunctionRepository.GetStudentDeatilsByAction(body);
                 if (data != null && data.Rows.Count > 0)
                 {
@@ -3813,14 +3813,9 @@ namespace Kaushal_Darpan.Api.Controllers
                     List<StudentFeesTransactionItemsWhatsApp> LstStudentFeesTransaction = new List<StudentFeesTransactionItemsWhatsApp>();
 
                     foreach (DataRow Dr in data.Rows)
-                    {
-                        FinalAmount = FinalAmount + decimal.Parse(Dr["FeeAmount"].ToString());
+                    {                        
                         StudentFeesTransactionItemsWhatsApp objStudentFeesTransactionItems = new StudentFeesTransactionItemsWhatsApp();
 
-                        //objStudentFeesTransactionItems.TransactionId = int.Parse(Dr["TransactionId"].ToString());
-                        //objStudentFeesTransactionItems.TransactionApplicationID = int.Parse(Dr["TransactionApplicationID"].ToString());
-                        //objStudentFeesTransactionItems.Status = int.Parse(Dr["Status"].ToString());
-                        // objStudentFeesTransactionItems.TranSemesterID = int.Parse(Dr["TranSemesterID"].ToString());
                         objStudentFeesTransactionItems.ItemAmount = int.Parse(Dr["FeeAmount"].ToString());
                         objStudentFeesTransactionItems.EnrollmentNo = Dr["EnrollmentNo"].ToString();
                         objStudentFeesTransactionItems.StudentName = Dr["StudentName"].ToString();
@@ -3832,7 +3827,11 @@ namespace Kaushal_Darpan.Api.Controllers
                         objStudentFeesTransactionItems.Semester = Dr["Semester"].ToString();
                         objStudentFeesTransactionItems.EndTermName = Dr["EndTermName"].ToString();
 
-                        LstStudentFeesTransaction.Add(objStudentFeesTransactionItems);
+                        if (Dr["TransctionStatus"]?.ToString()?.Contains("Sucess") != true)
+                        {
+                            FinalAmount = FinalAmount + decimal.Parse(Dr["FeeAmount"].ToString());
+                            LstStudentFeesTransaction.Add(objStudentFeesTransactionItems);
+                        }
                     }
 
                     EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
@@ -3866,7 +3865,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
 
 
-                    var SUCCESSURL = row["WhatsappResponseURL"] + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(UpdateStatus.TransactionId)) + "&ServiceID=" + (string)row["ServiceID"] + "&DepartmentID=" + emitraRequestDetailsModel.DepartmentID.ToString();
+                    var SUCCESSURL = row["WhatsappResponseURL"] + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(UpdateStatus.TransactionId)) + "&ServiceID=" + (string)row["ServiceID"] + "&DepartmentID=" + emitraRequestDetailsModel.DepartmentID.ToString() + "&FeeType=" + body.FeeType.ToString();
                     // var SUCCESSURL = row["WhatsappResponseURL"] + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(Mo)) + "&ServiceID=" + (string)row["ServiceID"];
 
                     result.Data = new { PRN = objEmitra.PRN, Amount = FinalAmount, CallBackUrl = SUCCESSURL, StudentSemesterList = objEmitra.StudentFeesTransactionItemsWhatsApp };
