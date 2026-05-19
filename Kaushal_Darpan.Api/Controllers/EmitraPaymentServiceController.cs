@@ -2,6 +2,7 @@
 using Azure;
 using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.EMMA;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using EmitraEmitraEncrytDecryptClient;
 using iTextSharp.text.pdf.spatial;
 using Kaushal_Darpan.Api.Models;
@@ -3807,7 +3808,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     emitraRequestDetailsModel.IsKiosk = false;
                     emitraRequestDetailsModel.DepartmentID = 1;
 
-                    var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(emitraRequestDetailsModel);
+                    //var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(emitraRequestDetailsModel);
 
                     Decimal FinalAmount = 0;
                     string TransactionApplicationID = "";
@@ -3876,7 +3877,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
                     else
                     {
-                        result.Data = new { PRN = "", Amount = FinalAmount, CallBackUrl = "", StudentSemesterList = [], Remark = "Fee Already paid" };
+                        result.Data = new { PRN = "", Amount = FinalAmount, CallBackUrl = "", StudentSemesterList = new List(), Remark = "Fee Already paid" };
                     }
                 }
                 else
