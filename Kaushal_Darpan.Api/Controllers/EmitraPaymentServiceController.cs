@@ -3727,7 +3727,7 @@ namespace Kaushal_Darpan.Api.Controllers
         #region emitra payment by student whatsapp
 
         [HttpPost("EnrollmentExaminationFeePaymentWhatsappResponse")] //IActionResult
-        public async Task<IActionResult> EnrollmentExaminationFeePaymentWhatsappResponse(string UniquerequestId = "", string ServiceID = "", string DepartmentID = "", string FeeType)
+        public async Task<IActionResult> EnrollmentExaminationFeePaymentWhatsappResponse(string UniquerequestId = "", string ServiceID = "", string DepartmentID = "", string FeeType="")
         {
             var RetrunUrL = "";
             try
