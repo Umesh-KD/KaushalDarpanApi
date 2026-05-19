@@ -3791,6 +3791,7 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<dynamic>> GetStudentDeatilsByActionWhatsapp([FromBody] StudentSearchModelForWhatsAPP body)
         {
             ActionName = "GetStudentDeatilsByActionWhatsapp()";
+            string Remark = "";
             var result = new ApiResult<dynamic>();
             try
             {
@@ -3834,41 +3835,49 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
                     }
 
-                    EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
-                    objEmitra.key = "_InsertDetails";
-
-                    int RowCount = data.Rows.Count;
-                    if (body.FeeType == 2)
+                    if (LstStudentFeesTransaction.Count > 0)
                     {
-                        objEmitra.ApplicationIdEnc = RowCount == 1 ? row["StudentSemesterID"].ToString() : "0";
+
+                        EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
+                        objEmitra.key = "_InsertDetails";
+
+                        int RowCount = data.Rows.Count;
+                        if (body.FeeType == 2)
+                        {
+                            objEmitra.ApplicationIdEnc = RowCount == 1 ? row["StudentSemesterID"].ToString() : "0";
+                        }
+                        else if (body.FeeType == 1)
+                        {
+                            objEmitra.ApplicationIdEnc = row["StudentID"].ToString();
+                        }
+
+                        objEmitra.Amount = FinalAmount;
+                        objEmitra.StudentID = (int)row["StudentID"];
+
+                        objEmitra.StudentFeesTransactionItemsWhatsApp = LstStudentFeesTransaction;
+                        objEmitra.SSOID = "";
+                        objEmitra.IsEmitra = false;
+                        objEmitra.DepartmentID = 1;
+                        objEmitra.FeeFor = (string)row["ServiceType"];
+
+                        Random rnd = new Random();
+                        objEmitra.PRN = "KD" + rnd.Next(100000, 999999) + rnd.Next(100000, 999999);
+                        var UpdateStatus = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationWhatsapp(objEmitra);
+
+                        await _unitOfWork.SaveChangesAsync();
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+
+                        var SUCCESSURL = row["WhatsappResponseURL"] + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(UpdateStatus.TransactionId)) + "&ServiceID=" + (string)row["ServiceID"] + "&DepartmentID=" + emitraRequestDetailsModel.DepartmentID.ToString() + "&FeeType=" + body.FeeType.ToString();
+                        // var SUCCESSURL = row["WhatsappResponseURL"] + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(Mo)) + "&ServiceID=" + (string)row["ServiceID"];
+
+                        result.Data = new { PRN = objEmitra.PRN, Amount = FinalAmount, CallBackUrl = SUCCESSURL, StudentSemesterList = objEmitra.StudentFeesTransactionItemsWhatsApp, Remark = "" };
                     }
-                    else if (body.FeeType == 1)
+                    else
                     {
-                        objEmitra.ApplicationIdEnc = row["StudentID"].ToString();
+                        result.Data = new { PRN = "", Amount = FinalAmount, CallBackUrl = "", StudentSemesterList = [], Remark = "Fee Already paid" };
                     }
-
-                    objEmitra.Amount = FinalAmount;
-                    objEmitra.StudentID = (int)row["StudentID"];
-
-                    objEmitra.StudentFeesTransactionItemsWhatsApp = LstStudentFeesTransaction;
-                    objEmitra.SSOID = "";
-                    objEmitra.IsEmitra = false;
-                    objEmitra.DepartmentID = 1;
-                    objEmitra.FeeFor = (string)row["ServiceType"];
-
-                    Random rnd = new Random();
-                    objEmitra.PRN = "KD" + rnd.Next(100000, 999999) + rnd.Next(100000, 999999);
-                    var UpdateStatus = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationWhatsapp(objEmitra);
-
-                    await _unitOfWork.SaveChangesAsync();
-                    result.State = EnumStatus.Success;
-                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-
-
-                    var SUCCESSURL = row["WhatsappResponseURL"] + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(UpdateStatus.TransactionId)) + "&ServiceID=" + (string)row["ServiceID"] + "&DepartmentID=" + emitraRequestDetailsModel.DepartmentID.ToString() + "&FeeType=" + body.FeeType.ToString();
-                    // var SUCCESSURL = row["WhatsappResponseURL"] + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(Mo)) + "&ServiceID=" + (string)row["ServiceID"];
-
-                    result.Data = new { PRN = objEmitra.PRN, Amount = FinalAmount, CallBackUrl = SUCCESSURL, StudentSemesterList = objEmitra.StudentFeesTransactionItemsWhatsApp };
                 }
                 else
                 {
