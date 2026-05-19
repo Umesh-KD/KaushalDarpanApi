@@ -12146,7 +12146,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ApplicationNo", filterModel.ApplicationNo);
                         command.Parameters.AddWithValue("@DOB", filterModel.DOB);
                         command.Parameters.AddWithValue("@MobileNumber", filterModel.MobileNumber);
-                        command.Parameters.AddWithValue("@FeeType", 2);
+                        command.Parameters.AddWithValue("@FeeType", filterModel.FeeType);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -12203,7 +12203,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@action", Model.key);
                     command.Parameters.AddWithValue("@ExamStudentStatus", Model.ExamStudentStatus);
                     command.Parameters.AddWithValue("@TransactionApplicationID", Model.TransactionApplicationID);
-                    command.Parameters.AddWithValue("@StudentFeesTransactionItems", JsonConvert.SerializeObject(Model.StudentFeesTransactionItems));
+                    command.Parameters.AddWithValue("@StudentFeesTransactionItems", JsonConvert.SerializeObject(Model.StudentFeesTransactionItemsWhatsApp));
                     command.Parameters.AddWithValue("@IsEmitra", Model.IsEmitra);
                     command.Parameters.AddWithValue("@DepartmentID", Model.DepartmentID);
                     command.Parameters.AddWithValue("@UniqueServiceID", Model.UniqueServiceID);

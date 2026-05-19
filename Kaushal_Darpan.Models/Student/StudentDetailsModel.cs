@@ -199,7 +199,11 @@ namespace Kaushal_Darpan.Models.Student
         //public string? EnrollmentNo { get; set; }
         public string? DOB { get; set; }
         public string? MobileNumber { get; set; }
-        
+
+        public int FeeType { get; set; }
+
+
+
 
     }
 }
