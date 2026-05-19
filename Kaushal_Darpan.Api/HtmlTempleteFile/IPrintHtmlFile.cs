@@ -7,7 +7,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
     {
         StringBuilder Dummy_CreatePDF();
         StringBuilder GetHtmlOfHeadingAndTabularForTabulation(DataRow streams_dr, DataTable heading_dt, DataSet tabular_ds);
-        StringBuilder GetHtmlOfConsolidateForTabulation(DataTable consolidate_dt);
+        StringBuilder GetHtmlOfConsolidateForTabulation(DataTable consolidate_dt, DataTable heading_dt);
         StringBuilder CounsellingAllotmentOrder_GetHtml(DataTable consolidate_dt);
         StringBuilder GetHtmlOfTimeTable(int loopIndex, DataTable dtHeader, DataTable dtDetails);
         StringBuilder InternalAssessmentStudent_GetHtml(DataSet dataSet, int TypeID);

@@ -318,5 +318,12 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public int? State { get; set; }
         public string? Message { get; set; }
     }
+
+    public class UnreserveGuestRoomDataModel
+    {
+        public int? GuestRoomDetailID { get; set; }
+        public int? GuestHouseID { get; set; }
+        public int? ModifyBy{ get; set; }
+    }
 }
 

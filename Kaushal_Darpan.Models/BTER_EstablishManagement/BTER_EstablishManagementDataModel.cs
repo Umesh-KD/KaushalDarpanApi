@@ -58,6 +58,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? Name { get; set; }
         public int? status { get; set; }
         public int? Eng_NonEng { get; set; }
+        public string? GuestHouseID { get; set; }
     }
 
     public class BTER_EM_GetPersonalDetailByUserID
@@ -197,9 +198,10 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string ToDate { get; set; }
 
         public int DesignationID { get; set; }
+        public int QualificationID { get; set; }
         public string? DesignationName { get; set; }
 
-        public string Qualification { get; set; }
+        public string? Qualification { get; set; }
 
         // Single document for Service History
         public string? DisUploadDoc { get; set; }
