@@ -45,6 +45,7 @@ using System.Web;
 using static Kaushal_Darpan.Core.Helper.CommonFuncationHelper;
 using static Kaushal_Darpan.Models.CommonFunction.ItiTradeAndCollegesDDL;
 using static System.Collections.Specialized.BitVector32;
+using CompanyMoUDetailsModel = Kaushal_Darpan.Models.RPPPayment.CompanyMoUDetailsModel;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
