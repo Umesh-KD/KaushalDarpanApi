@@ -416,8 +416,6 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 // main heading
                 sb.Append(sb_hm);
 
-                sb.AppendLine("</br>");
-
                 // table -3
                 sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; font-family:Arial, sans-serif; font-size:14px; \" border=\"1\">");
 
