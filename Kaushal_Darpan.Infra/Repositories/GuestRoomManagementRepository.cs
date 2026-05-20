@@ -44,6 +44,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_GuestHouseMaster_IU";
                         command.Parameters.AddWithValue("@GuestHouseName", body.GuestHouseName);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
                         command.Parameters.AddWithValue("@action", "List");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -93,6 +95,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
                         //command.Parameters.AddWithValue("@IPAddress", _IPAddress ?? (object)DBNull.Value);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
