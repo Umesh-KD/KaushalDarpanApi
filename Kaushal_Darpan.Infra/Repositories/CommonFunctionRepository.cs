@@ -12334,7 +12334,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         }
 
-        public async Task<int> InsertCompanyMoUDetails(CompanyMoUDetailsModel request)
+        public async Task<int> InsertCompanyMoUDetails(Models.CompanyMaster.CompanyMoUDetailsModel request)
         {
             _actionName = "INSERT";
 
@@ -12374,7 +12374,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<CompanyMoUDetailsModel> GetCompanyMoUDetails(CompanyMoUDetailsModel Model)
+        public async Task<Models.CompanyMaster.CompanyMoUDetailsModel> GetCompanyMoUDetails(Models.CompanyMaster.CompanyMoUDetailsModel Model)
         {
            
             try
@@ -12393,8 +12393,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
 
                 // class
-                var data = new CompanyMoUDetailsModel();
-                data = CommonFuncationHelper.ConvertDataTable<CompanyMoUDetailsModel>(dt);
+                var data = new Models.CompanyMaster.CompanyMoUDetailsModel();
+                data = CommonFuncationHelper.ConvertDataTable<Models.CompanyMaster.CompanyMoUDetailsModel>(dt);
                 return data;
             }
             catch (Exception ex)

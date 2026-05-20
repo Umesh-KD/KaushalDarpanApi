@@ -563,6 +563,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandText = "USP_IIP_EventDetails_IU";
 
                     command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                    command.Parameters.AddWithValue("@EventName", request.EventName);
                     command.Parameters.AddWithValue("@EventID", request.EventID);
                     command.Parameters.AddWithValue("@CompanyID", request.CompanyID);
                     command.Parameters.AddWithValue("@EventTypeID", request.EventTypeID);
@@ -585,6 +586,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@TrainingDuration", request.TrainingDuration ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@InstituteID", request.InstituteID ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@DivisionID", request.DivisionID ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@AreaOfDomain", request.AreaOfDomain ?? (object)DBNull.Value);
                     
                     command.Parameters.Add("@Return", SqlDbType.Int); // out
                     command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
