@@ -646,6 +646,45 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+
+        public async Task<DataTable> GetCompanyEventsStaff(CompanyEventSearchModel body)
+        {
+            _actionName = "GetCompanyEvents(CompanyEventSearchModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_IIP_GetCompanyEventStaffList";
+                    command.Parameters.AddWithValue("@Action", "GetByCompanyID");
+
+                    command.Parameters.AddWithValue("@CompanyID", body.CompanyID);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@StaffID", body.StaffID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+
         public async Task<bool> DeleteEvent_ById(IIP_EventDataModel request)
         {
             _actionName = "DeleteEvent_ById(IIP_EventDataModel request)";
@@ -683,6 +722,52 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+
+        public async Task<bool> Savestaffconsent(CompanyEventSearchModel request)
+        {
+            _actionName = "DeleteEvent_ById(IIP_EventDataModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_IIP_savestaffconsent";
+              
+
+                    command.Parameters.AddWithValue("@EventID", request.EventID);
+                    command.Parameters.AddWithValue("@StaffID", request.StaffID);
+                    command.Parameters.AddWithValue("@Remarks", request.Remarks);
+                    command.Parameters.AddWithValue("@InterestedStatus", request.InterestedStatus);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.Add("@Return", SqlDbType.Int); // out
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output; //
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                }
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
 
         public async Task<IIP_EventDataModel> GetEvent_ById(CompanyEventSearchModel request)
         {
