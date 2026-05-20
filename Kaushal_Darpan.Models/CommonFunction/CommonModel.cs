@@ -192,5 +192,16 @@ namespace Kaushal_Darpan.Models.CommonModel
         public int? EffectiveEndTermId { get; set; }
         public int? ResultTypeId { get; set; }
     }
+    public class ResultPublishModel : ResponseBaseModel
+    {
+        public int ResultPublished { get; set; }
+        public int IsPublish_Org { get; set; }
+        public string ResultDeclarationDate { get; set; }
+        public string PublishDate { get; set; }
+        public string DiplomaPrintDate { get; set; }
+        public string ExamType { get; set; }
+        public int SemesterID { get; set; }
+        public int ResultTypeID { get; set; }
+    }
 
 }

@@ -14745,8 +14745,8 @@ namespace Kaushal_Darpan.Api.Controllers
                     SchemeID = body.SchemeID,
                     EffectiveEndTermId = body.EffectiveFromEndTermId
                 };
-                var haspublished = await Task.Run(() => _unitOfWork.CommonFunctionRepository.HasResultPublishedForRole(hasPublishBody));
-                if (haspublished == 0)
+                var resultPublishModel = await Task.Run(() => _unitOfWork.CommonFunctionRepository.HasResultPublishedForRoleAndOtherInfo(hasPublishBody));
+                if (resultPublishModel.ResultPublished == 0)
                 {
                     result.State = EnumStatus.Error;
                     result.Message = "Result not publish yet!";
@@ -14811,7 +14811,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
 
                     // get detail html
-                    var _sb = _printHtmlFile.GetHtmlOfHeadingAndTabularForTabulation(dr, heading_data, tabular_data);
+                    var _sb = _printHtmlFile.GetHtmlOfHeadingAndTabularForTabulation(dr, heading_data, tabular_data, resultPublishModel);
                     sb.AppendJoin("</br>", _sb);
                 }
                 // end stream loop
@@ -14822,7 +14822,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 if (consolidate_data?.Rows.Count > 0)
                 {
                     //get html
-                    var _sb1 = _printHtmlFile.GetHtmlOfConsolidateForTabulation(consolidate_data, heading_data);
+                    var _sb1 = _printHtmlFile.GetHtmlOfConsolidateForTabulation(consolidate_data, heading_data, resultPublishModel);
                     sb.AppendJoin("</br>", _sb1);
                 }
 
@@ -14860,8 +14860,8 @@ namespace Kaushal_Darpan.Api.Controllers
                                 FontName = "Arial",
                                 FontSize = 7,
                                 Center = "Page [page] of [toPage]",
-                                Line = true,
-                                Spacing = 0.5
+                                Line = false,
+                                //Spacing = 1
                             }
                         }
                     }
@@ -16350,7 +16350,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetMiscellaneousReport")]
         public async Task<ApiResult<DataTable>> GetMiscellaneousReport(MiscellaneousModel model)
         {
-            ActionName = "GetMiscellaneousReport()";
+            ActionName = "GetMiscellaneousReport(MiscellaneousModel model)";
             var result = new ApiResult<DataTable>();
             try
             {
