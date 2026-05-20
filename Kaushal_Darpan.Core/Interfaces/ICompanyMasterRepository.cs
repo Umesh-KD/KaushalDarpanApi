@@ -23,6 +23,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetPlacementAllStudentList(PlacementStudentListSearchModel filterModel);
 
         Task<DataTable> GetDataByStudentId(EligibleStudentForPlacement model);
+        Task<int> InsertCompanyMoUDetails(CompanyMoUDetailsModel request);
+        Task<CompanyMoUDetailsModel> GetCompanyMoUDetails(CompanyMoUDetailsModel Model);
+        Task<CompanyMoUDetailsModel> SendForApprove(int CompanyID);
 
     }
 }

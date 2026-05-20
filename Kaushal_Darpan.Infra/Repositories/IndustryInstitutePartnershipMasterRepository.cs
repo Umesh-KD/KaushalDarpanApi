@@ -39,6 +39,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
                     command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                     command.Parameters.AddWithValue("@CompanyStatus", body.CompanyStatus);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     command.Parameters.AddWithValue("@Action", "GetAllData");
 
                     if (body.Name != null)
@@ -47,7 +48,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Status", body.Status);
                     }
                     command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
-                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    //command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }
@@ -582,8 +583,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Email", request.Email ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@Designation", request.Designation ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@TrainingDuration", request.TrainingDuration ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@AreaOfDomain", request.AreaOfDomain ?? (object)DBNull.Value);
-
+                    command.Parameters.AddWithValue("@InstituteID", request.InstituteID ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@DivisionID", request.DivisionID ?? (object)DBNull.Value);
+                    
                     command.Parameters.Add("@Return", SqlDbType.Int); // out
                     command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
 
@@ -622,6 +624,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Action", "GetByCompanyID");
 
                     command.Parameters.AddWithValue("@CompanyID", body.CompanyID);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();

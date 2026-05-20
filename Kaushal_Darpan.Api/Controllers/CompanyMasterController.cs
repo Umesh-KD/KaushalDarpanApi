@@ -329,7 +329,28 @@ namespace Kaushal_Darpan.Api.Controllers
                     if (result.Data)
                     {
                         result.State = EnumStatus.Success;
-                        result.Message = "Updated successfully .!";
+
+                        // Dynamic success message
+                        if (request.Action?.ToLower() == "approved")
+                        {
+                            result.Message = "Approved Successfully .!";
+                        }
+                        else if (request.Action?.ToLower() == "rejected")
+                        {
+                            result.Message = "Rejected Successfully .!";
+                        }
+                        else if (request.Action?.ToLower() == "hold")
+                        {
+                            result.Message = "Hold Successfully .!";
+                        }
+                        else if (request.Action?.ToLower() == "pending")
+                        {
+                            result.Message = "Pending Successfully .!";
+                        }
+                        else
+                        {
+                            result.Message = "Action Completed Successfully .!";
+                        }
                     }
                     else
                     {
@@ -561,6 +582,179 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("InsertCompanyMoUDetails")]
+        public async Task<ApiResult<int>> InsertCompanyMoUDetails([FromBody] CompanyMoUDetailsModel request)
+        {
+            ActionName = "Save_CompanyValidation_NodalAction([FromBody] CompanyMaster_Action request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+
+                    result.Data = await _unitOfWork.CompanyMasterRepository.InsertCompanyMoUDetails(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data>0)
+                    {
+                        result.State = EnumStatus.Success;
+
+                        if (request.Action == "INSERT")
+                        {
+                            result.Message = "MoU Added Successfully.!";
+                        }
+                        else if (request.Action == "UPDATE")
+                        {
+                            result.Message = "MoU Updated Successfully.!";
+                        }
+                        else if (request.Action == "SendForApprove")
+                        {
+                            result.Message = "MoU Sent For Approval Successfully.!";
+                        }
+                        else
+                        {
+                            result.Message = "Operation Completed Successfully.!";
+                        }
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+
+                        result.ErrorMessage = "There was an error updating data.!";
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+        [HttpPost("GetCompanyMoUDetails")]
+        public async Task<ApiResult<CompanyMoUDetailsModel>> GetCompanyMoUDetails([FromBody] CompanyMoUDetailsModel request)
+        {
+            ActionName = "GetCompanyMoUDetails([FromBody] CompanyMoUDetailsModel request)";
+
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<CompanyMoUDetailsModel>();
+
+                try
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+                    result.Data = await _unitOfWork.CompanyMasterRepository.GetCompanyMoUDetails(request);
+
+                    if (result.Data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data fetched successfully.!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "No data found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+
+                return result;
+            });
+        }
+
+
+        [HttpPost("SendForApprove")]
+        public async Task<ApiResult<CompanyMoUDetailsModel>> SendForApprove([FromBody] CompanyMoUDetailsModel request)
+        {
+            ActionName = "SendForApprove([FromBody] CompanyMoUDetailsModel request)";
+
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<CompanyMoUDetailsModel>();
+
+                try
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Validation failed!";
+                        return result;
+                    }
+
+                    result.Data = await _unitOfWork.CompanyMasterRepository.SendForApprove(request.CompanyId);
+
+                    if (result.Data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Mou Sent for Approval";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "No data found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+
+                return result;
+            });
+        }
     }
 
 

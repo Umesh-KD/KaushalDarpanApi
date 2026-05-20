@@ -1,4 +1,6 @@
-﻿namespace Kaushal_Darpan.Models.CompanyMaster
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Kaushal_Darpan.Models.CompanyMaster
 {
     public class CompanyMasterSearchModel
     {
@@ -58,6 +60,39 @@
 
     }
 
+    public class CompanyMoUDetailsModel
+    {
+        public int ID { get; set; }
+
+       
+        public int CompanyId { get; set; }
+
+        
+        public DateTime MoUStartDate { get; set; }
+        public DateTime MoUValidTill { get; set; }
+
+        
+        public string? Remark { get; set; }
+
+        public string? MoUDoc { get; set; }
+        public string? DisMoUDoc { get; set; }
+
+        public bool ActiveStatus { get; set; }
+
+        public bool DeleteStatus { get; set; }
+
+        public DateTime? RTS { get; set; }
+
+        public int CreatedBy { get; set; }
+
+        public int? ModifyBy { get; set; }
+
+        public DateTime? ModifyDate { get; set; }
+
+        public string IPAddress { get; set; }
+
+        public string Action { get; set; }
+    }
 
 
 }

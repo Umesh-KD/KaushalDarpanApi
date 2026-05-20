@@ -4,6 +4,7 @@ using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.HrMaster;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.Cms;
 using System.ComponentModel.Design;
 using System.Data;
 
@@ -96,6 +97,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TierID", request.TierID);
                         command.Parameters.AddWithValue("@PackageID", request.PackageID);
                         command.Parameters.AddWithValue("@ISIIP", request.ISIIP);
+                        command.Parameters.AddWithValue("@ISPlacement", request.ISPlacement);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@MouAdded", 0);
 
                         //command.Parameters.AddWithValue("@HRName", request.HRName);
                         //command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
@@ -644,5 +648,127 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<int> InsertCompanyMoUDetails(CompanyMoUDetailsModel request)
+        {          
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CompanyMoUDetails_IU";
+
+                        command.Parameters.AddWithValue("@Action", request.Action);
+                        command.Parameters.AddWithValue("@ID", request.ID);
+                        command.Parameters.AddWithValue("@CompanyId", request.CompanyId);
+                        command.Parameters.AddWithValue("@MoUStartDate", request.MoUStartDate);
+                        command.Parameters.AddWithValue("@MoUValidTill", request.MoUValidTill);
+                        command.Parameters.AddWithValue("@Remark", request.Remark);
+                        command.Parameters.AddWithValue("@MoUDoc", (object?)request.MoUDoc ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@DisMoUDoc", (object?)request.DisMoUDoc ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
+                        command.Parameters.AddWithValue("@DeleteStatus", request.DeleteStatus);
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+                        command.Parameters.AddWithValue("@ModifyBy", (object?)request.ModifyBy ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@IPAddress", (object?)request.IPAddress ?? DBNull.Value);
+
+                        result = Convert.ToInt32(await command.ExecuteScalarAsync());
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<CompanyMoUDetailsModel> GetCompanyMoUDetails(CompanyMoUDetailsModel Model)
+        {
+            try
+            {
+                _actionName = "GetCompanyMoUDetails";
+                DataTable dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_CompanyMoUDetails_IU";
+
+                    command.Parameters.AddWithValue("@Action", "GETDATA");
+                    command.Parameters.AddWithValue("@ID", Model.CompanyId);
+                    command.Parameters.AddWithValue("@CompanyId", Model.CompanyId);
+                    _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
+                    dt = await command.FillAsync_DataTable();
+                }
+
+                // class
+                var data = new CompanyMoUDetailsModel();
+                data = CommonFuncationHelper.ConvertDataTable<CompanyMoUDetailsModel>(dt);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+        }
+
+        public async Task<CompanyMoUDetailsModel> SendForApprove(int CompanyID)
+        {
+            try
+            {
+                _actionName = "SendForApprove(int CompanyID)";
+                DataTable dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_CompanyMoUDetails_IU";
+
+                    command.Parameters.AddWithValue("@Action", "SendForApprove");
+                    command.Parameters.AddWithValue("@ID", CompanyID);
+                    command.Parameters.AddWithValue("@CompanyId", CompanyID);
+                    _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
+                    dt = await command.FillAsync_DataTable();
+                }
+
+                // class
+                var data = new CompanyMoUDetailsModel();
+                data = CommonFuncationHelper.ConvertDataTable<CompanyMoUDetailsModel>(dt);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+        }
     }
 }

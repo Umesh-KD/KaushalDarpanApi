@@ -112,6 +112,8 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public string? Designation { get; set; }
         public int? TrainingDuration { get; set; }
         public string? AreaOfDomain { get; set; }
+        public int? InstituteID { get; set; }
+        public int? DivisionID { get; set; }
     }
 
     public class BranchList

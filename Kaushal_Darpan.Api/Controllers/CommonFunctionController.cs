@@ -15,6 +15,7 @@ using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CenterSuperitendent;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.CommonFunction;
+using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.DTE_Verifier;
 using Kaushal_Darpan.Models.PreExamStudent;
@@ -2443,13 +2444,54 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        //[HttpGet("PlacementCompanyMaster_IDWise/{ID}/{DepartmentID}")]
+        //public async Task<ApiResult<DataTable>> PlacementCompanyMaster_IDWise(int ID, int DepartmentID)
+        //{
+        //    ActionName = "PlacementCompanyMaster_IDWise(int ID)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        var result = new ApiResult<DataTable>();
+        //        try
+        //        {
+        //            var data = await _unitOfWork.CommonFunctionRepository.PlacementCompanyMaster_IDWise(ID, DepartmentID);
+        //            if (data != null)
+        //            {
+        //                result.Data = data;
+        //                result.State = EnumStatus.Success;
+        //                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+        //            }
+        //            else
+        //            {
+        //                result.State = EnumStatus.Warning;
+        //                result.Message = Constants.MSG_DATA_NOT_FOUND;
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            await _unitOfWork.DisposeAsync();
+        //            result.State = EnumStatus.Error;
+        //            result.ErrorMessage = ex.Message;
+        //            // write error log
+        //            var nex = new NewException
+        //            {
+        //                PageName = PageName,
+        //                ActionName = ActionName,
+        //                Ex = ex,
+        //            };
+        //            await CreateErrorLog(nex, _unitOfWork);
+        //        }
+        //        return result;
+        //    });
+        //}
+
         [HttpGet("PlacementCompanyMaster_IDWise/{ID}/{DepartmentID}")]
-        public async Task<ApiResult<DataTable>> PlacementCompanyMaster_IDWise(int ID, int DepartmentID)
+        public async Task<ApiResult<CompanyMasterModels>> PlacementCompanyMaster_IDWise(int ID, int DepartmentID)
         {
             ActionName = "PlacementCompanyMaster_IDWise(int ID)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<DataTable>();
+                var result = new ApiResult<CompanyMasterModels>();
                 try
                 {
                     var data = await _unitOfWork.CommonFunctionRepository.PlacementCompanyMaster_IDWise(ID, DepartmentID);

@@ -13,9 +13,11 @@ using Kaushal_Darpan.Models.CenterSuperitendent;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.CommonModel;
+using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.DTE_Verifier;
 using Kaushal_Darpan.Models.EgrassPayment;
+using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
 using Kaushal_Darpan.Models.RPPPayment;
@@ -2617,14 +2619,49 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> PlacementCompanyMaster_IDWise(int ID, int DepartmentID)
+        //public async Task<DataTable> PlacementCompanyMaster_IDWise(int ID, int DepartmentID)
+        //{
+        //    _actionName = "PlacementCompanyMaster_IDWise(int ID)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            DataTable dataTable = new DataTable();
+        //            using (var command = await _dbContext.CreateCommandAsync())
+        //            {
+        //                command.CommandType = CommandType.StoredProcedure;
+        //                command.CommandText = "USP_PlacementCompanyMaster_IDWise";
+        //                command.Parameters.AddWithValue("@ID", ID);
+        //                command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+
+        //                _sqlQuery = command.GetSqlExecutableQuery();
+        //                dataTable = await command.FillAsync_DataTable();
+        //            }
+        //            return dataTable;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            var errorDesc = new ErrorDescription
+        //            {
+        //                Message = ex.Message,
+        //                PageName = _pageName,
+        //                ActionName = _actionName,
+        //                SqlExecutableQuery = _sqlQuery
+        //            };
+        //            var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+        //            throw new Exception(errordetails, ex);
+        //        }
+        //    });
+        //}
+
+        public async Task<CompanyMasterModels> PlacementCompanyMaster_IDWise(int ID, int DepartmentID)
         {
             _actionName = "PlacementCompanyMaster_IDWise(int ID)";
             return await Task.Run(async () =>
             {
                 try
                 {
-                    DataTable dataTable = new DataTable();
+                    DataSet ds = new DataSet();
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
@@ -2633,9 +2670,22 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
+                        ds = await command.FillAsync();
                     }
-                    return dataTable;
+                    var data = new CompanyMasterModels();
+                    if (ds != null)
+                    {
+                        if (ds.Tables.Count > 0)
+                        {
+                            data = CommonFuncationHelper.ConvertDataTable<CompanyMasterModels>(ds.Tables[0]);
+                            if (ds.Tables[1].Rows.Count > 0)
+                            {
+                                data.ListCompanyHRDetails = CommonFuncationHelper.ConvertDataTable<List<HRMaster>>(ds.Tables[1]);
+                            }
+                        }
+
+                    }
+                    return data;
                 }
                 catch (Exception ex)
                 {
@@ -2651,6 +2701,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
         public async Task<DataTable> CollegeType()
         {
             _actionName = "StudentType()";
