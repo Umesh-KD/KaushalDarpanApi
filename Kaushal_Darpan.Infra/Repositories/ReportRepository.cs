@@ -9154,150 +9154,161 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetMiscellaneousReport(MiscellaneousModel model)
         {
             string GetAction = "";
-
-
-
             _actionName = "GetMiscellaneousReport()";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    if (model.Type == 2)
                     {
-                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_UFMReport";
+                        command.Parameters.AddWithValue("@action", "_get_UFM_data");
 
-
-                        if (model.Type == 2)
-                        {
-                            command.CommandText = "USP_UFMReport";
-                            command.Parameters.AddWithValue("@action", "_get_UFM_data");
-
-                            command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                            command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                            command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                            command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                            command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                            command.Parameters.AddWithValue("@RoleID", model.RoleID);
-                            command.Parameters.AddWithValue("@UserID", model.UserID);
-                            command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
-                            command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
-                            command.Parameters.AddWithValue("@Type", model.Type);
-                        }
-                        else if (model.Type == 0)
-                        {
-                            command.CommandText = "USP_Single_Present_AbsentReport";
-                            command.Parameters.AddWithValue("@action", "_get_present_or_absent_data");
-
-                            command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                            command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                            command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                            command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                            command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                            command.Parameters.AddWithValue("@RoleID", model.RoleID);
-                            command.Parameters.AddWithValue("@UserID", model.UserID);
-                            command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
-                            command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
-                            command.Parameters.AddWithValue("@Type", model.Type);
-                        }
-                        else if (model.Type == 1)
-                        {
-                            command.CommandText = "USP_Single_Present_AbsentReport";
-                            command.Parameters.AddWithValue("@action", "_get_present_or_absent_data");
-
-                            command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                            command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                            command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                            command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                            command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                            command.Parameters.AddWithValue("@RoleID", model.RoleID);
-                            command.Parameters.AddWithValue("@UserID", model.UserID);
-                            command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
-                            command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
-                            command.Parameters.AddWithValue("@Type", model.Type);
-                        }
-                        else if (model.Type == 3)
-                        {
-                            command.CommandText = "USP_GetConsolatedDetainStudentList";
-                            command.Parameters.AddWithValue("@action", "_Consolated_Detain_Student_List");
-
-                            command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                            command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                            command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                            command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                            command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                            command.Parameters.AddWithValue("@RoleID", model.RoleID);
-                            command.Parameters.AddWithValue("@UserID", model.UserID);
-                            command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
-                            command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
-                            command.Parameters.AddWithValue("@Type", model.Type);
-                        }
-                        else if (model.Type == 4)
-                        {
-                            command.CommandText = "USP_GetExaminersWithGroupCodeAndMarking_Rpt";
-                            command.Parameters.AddWithValue("@action", "_Examiners_With_Group_Code_And_Marking_report");
-
-                            command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
-                            command.Parameters.AddWithValue("@SSOID", model.SSOID);
-                            command.Parameters.AddWithValue("@GroupCode", model.GroupCode);
-                            command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                            command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                            command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                            command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                            command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                            command.Parameters.AddWithValue("@RoleID", model.RoleID);
-                            command.Parameters.AddWithValue("@UserID", model.UserID);
-                            command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
-                            command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
-                            command.Parameters.AddWithValue("@Type", model.Type);
-
-                        }
-                        else if (model.Type == 5)
-                        {
-                            command.CommandText = "USP_Rpt_GetGraceMarksStudent";
-                            command.Parameters.AddWithValue("@action", "_getGraceMarksStudent");
-
-                            command.Parameters.AddWithValue("@CourseType", model.CourseType);
-                            command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                            command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                            command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        }
-                        else if (model.Type == 6)
-                        {
-                            command.CommandText = "USP_Rpt_GetDetainMarksStudent";
-                            command.Parameters.AddWithValue("@action", "_getDetainMarksStudent");
-
-                            command.Parameters.AddWithValue("@CourseType", model.CourseType);
-                            command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                            command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                            command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-
-
-                        }
-                        else
-                        {
-                            throw new Exception("Invalide request!");
-                        }
-
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
+                        command.Parameters.AddWithValue("@Type", model.Type);
                     }
-                    return dataTable;
-                }
-                catch (Exception ex)
-                {
-                    var errorDesc = new ErrorDescription
+                    else if (model.Type == 0)
                     {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                        command.CommandText = "USP_Single_Present_AbsentReport";
+                        command.Parameters.AddWithValue("@action", "_get_present_or_absent_data");
 
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
+                        command.Parameters.AddWithValue("@Type", model.Type);
+                    }
+                    else if (model.Type == 1)
+                    {
+                        command.CommandText = "USP_Single_Present_AbsentReport";
+                        command.Parameters.AddWithValue("@action", "_get_present_or_absent_data");
+
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
+                        command.Parameters.AddWithValue("@Type", model.Type);
+                    }
+                    else if (model.Type == 3)
+                    {
+                        command.CommandText = "USP_GetConsolatedDetainStudentList";
+                        command.Parameters.AddWithValue("@action", "_Consolated_Detain_Student_List");
+
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
+                        command.Parameters.AddWithValue("@Type", model.Type);
+                    }
+                    else if (model.Type == 4)
+                    {
+                        command.CommandText = "USP_GetExaminersWithGroupCodeAndMarking_Rpt"; 
+                        command.Parameters.AddWithValue("@action", "_Examiners_With_Group_Code_And_Marking_report");
+
+                        command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
+                        command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                        command.Parameters.AddWithValue("@GroupCode", model.GroupCode);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
+                        command.Parameters.AddWithValue("@Type", model.Type);
+
+                    }
+                    else if (model.Type == 5)
+                    {
+                        command.CommandText = "USP_Rpt_GetGraceMarksStudent";
+                        command.Parameters.AddWithValue("@action", "_getGraceMarksStudent");
+
+                        command.Parameters.AddWithValue("@CourseType", model.CourseType);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    }
+                    else if (model.Type == 6)
+                    {
+                        command.CommandText = "USP_Rpt_GetDetainMarksStudent";
+                        command.Parameters.AddWithValue("@action", "_getDetainMarksStudent");
+
+                        command.Parameters.AddWithValue("@CourseType", model.CourseType);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+
+
+                    }
+                    else if (model.Type == 7)
+                    {
+                        command.CommandText = "USP_GetExaminersWithGroupCodeAndMarking_Rpt";
+                        command.Parameters.AddWithValue("@action", "_Examiners_With_Group_Code_And_Marking_report_reval");
+
+                        command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
+                        command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                        command.Parameters.AddWithValue("@GroupCode", model.GroupCode);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
+                        command.Parameters.AddWithValue("@Type", model.Type);
+                    }
+                    else
+                    {
+                        throw new Exception("Invalide request!");
+                    }
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         #endregion

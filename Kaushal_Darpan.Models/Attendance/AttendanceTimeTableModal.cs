@@ -228,16 +228,16 @@ namespace Kaushal_Darpan.Models.Attendance
         public int SemesterID { get; set; }
         public int UnitID { get; set; }
         public int ShiftID { get; set; }
-        public string SSOID { get; set; }
+        public string? SSOID { get; set; }
         public int StaffID { get; set; }
         public int TimeDDLID { get; set; }
         public int RoleID { get; set; }
         public DateTime? AttendanceStartDate { get; set; }
         public DateTime? AttendanceEndDate { get; set; }
-        public string EnrollmentNo { get; set; }
+        public string? EnrollmentNo { get; set; }
         public int StudentId { get; set; }
 
-        public string ActionName { get; set; }
+        public string? ActionName { get; set; }
     }
 
     public class PostAttendanceTimeTableTLCModal
