@@ -238,6 +238,7 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public DateTime? CreatedDate { get; set; }
 
         public int? StaffID {get; set;}
+        public int? InstituteId { get; set;}
     }
 
     public class GetAssignedTeacherForSubjectDataModel: RequestBaseModel
