@@ -12359,13 +12359,12 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         }
 
-        public async Task<int> HasResultPublishedForRole(HasResultPublishModel model)
+        public async Task<ResultPublishModel> HasResultPublishedForRoleAndOtherInfo(HasResultPublishModel model)
         {
-            _actionName = "HasResultPublishedForRole(HasResultPublishModel model)";
+            _actionName = "HasResultPublishedForRoleAndOtherInfo(HasResultPublishModel model)";
             try
             {
-                int result = 0;
-                DataTable dataTable = new DataTable();
+                ResultPublishModel data = new ResultPublishModel();
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
@@ -12382,14 +12381,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ResultTypeId", model.ResultTypeId);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
-                    dataTable = await command.FillAsync_DataTable();
+                    var dataTable = await command.FillAsync_DataTable();
 
-                    if (dataTable?.Rows?.Count > 0)
-                    {
-                        result = Convert.ToInt32(dataTable.Rows[0]["ResultPublished"]);
-                    }
+                    data = ConvertDataTable<ResultPublishModel>(dataTable);
                 }
-                return result;
+                return data;
             }
             catch (Exception ex)
             {

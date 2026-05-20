@@ -185,7 +185,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
 
         #region Result Tabulation
-        public StringBuilder GetHtmlOfHeadingAndTabularForTabulation(DataRow streams_dr, DataTable heading_dt, DataSet tabular_ds)
+        public StringBuilder GetHtmlOfHeadingAndTabularForTabulation(DataRow streams_dr, DataTable heading_dt, DataSet tabular_ds, ResultPublishModel resultPublishModel)
         {
             try
             {
@@ -204,7 +204,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb_hm.AppendLine("                </td>");
                 sb_hm.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
                 sb_hm.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
-                sb_hm.AppendLine("                    <strong></strong>");
+                sb_hm.AppendLine($"                    <strong>{resultPublishModel?.ResultDeclarationDate}</strong>");
                 sb_hm.AppendLine("                </td>");
                 sb_hm.AppendLine("            </tr>");
                 sb_hm.AppendLine("        </table>");
@@ -296,7 +296,15 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         sb.AppendLine($"            <tr {borderSeperationStyle}>");
                         foreach (DataColumn dc in dt_tabluerdet1.Columns)
                         {
-                            sb.AppendLine($"                <td> {dr[dc.ColumnName]} </td>");
+                            var colval = dr[dc.ColumnName]?.ToString();
+                            if (colval?.ToLower() == "detained" || colval?.ToLower() == "ufm")
+                            {
+                                sb.AppendLine($"<td> <b>{dr[dc.ColumnName]} </b></td>");
+                            }
+                            else
+                            {
+                                sb.AppendLine($"<td> {dr[dc.ColumnName]} </td>");
+                            }
                         }
                         sb.AppendLine("            </tr>");
 
@@ -350,15 +358,19 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         sb.AppendLine($"            <tr>");
                         foreach (DataColumn dc in tabular_ds.Tables[1].Columns)
                         {
-                            sb.AppendLine($"                <td> {dr[dc.ColumnName]} </td>");
+                            sb.AppendLine($"<td> {dr[dc.ColumnName]} </td>");
                         }
                         sb.AppendLine("            </tr>");
                     }
                     // table close
                     sb.AppendLine("        </table>");
+
+                    // note
+                    sb.Append("</br>");
+                    sb.AppendLine("<div><b>Note : </b> (Student Centered Activity) Grading : A = Very Good, B = Good, C = Average, D = Satisfactory</div>");
                 }
 
-                // page break
+                // page break                
                 sb.Append("<div class='page-break'></div>");
 
                 return sb;
@@ -368,13 +380,13 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 throw;
             }
         }
-        public StringBuilder GetHtmlOfConsolidateForTabulation(DataTable consolidate_dt, DataTable heading_dt)
+        public StringBuilder GetHtmlOfConsolidateForTabulation(DataTable consolidate_dt, DataTable heading_dt, ResultPublishModel resultPublishModel)
         {
             try
             {
                 StringBuilder sb_hm = new StringBuilder();
 
-                // heading
+                // heading main
                 sb_hm.AppendLine("        <table cellspacing=\"0\" cellpadding=\"5\" style=\"width:100%; border-collapse:collapse; border: 1px solid #c3c3c3; font-family:Arial, sans-serif; font-size:14px;\" >");
                 sb_hm.AppendLine("            <tr>");
                 sb_hm.AppendLine("                <td style=\"width:20%;\"></td>");
@@ -386,8 +398,15 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb_hm.AppendLine("                </td>");
                 sb_hm.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
                 sb_hm.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
-                sb_hm.AppendLine("                    <strong></strong>");
+                sb_hm.AppendLine($"                    <strong>{resultPublishModel?.ResultDeclarationDate}</strong>");
                 sb_hm.AppendLine("                </td>");
+                sb_hm.AppendLine("            </tr>");
+                sb_hm.AppendLine("        </table>");
+
+                // heading
+                sb_hm.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;\">");
+                sb_hm.AppendLine("            <tr style=\"border-bottom: 1px solid #000;\">");
+                sb_hm.AppendLine($"                <td style=\"padding-left: 0;\"><strong>{heading_dt.Rows[0]["Institute"]}</strong></td>");
                 sb_hm.AppendLine("            </tr>");
                 sb_hm.AppendLine("        </table>");
 
@@ -397,7 +416,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 // main heading
                 sb.Append(sb_hm);
 
-                sb.AppendLine("</br>");              
+                sb.AppendLine("</br>");
 
                 // table -3
                 sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; font-family:Arial, sans-serif; font-size:14px; \" border=\"1\">");
@@ -423,6 +442,10 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     sb.AppendLine("            </tr>");
                 }
                 sb.AppendLine("        </table>");
+
+                // note
+                sb.Append("</br>");
+                sb.AppendLine("<div><b>Note : </b> R -> FOR REGULATION, F ―> FAIL, P -> PASS, EC -> EARN CREDIT, GP -> GRADE POINT, PT ―> POINT SCORED, N ―>1% of Total Reg, NT -> Total Reg.ln Board Exam, NP -> NOT PROMOTED, BP --> Bridge Pass, BR --> Bridge Regulation, BU -> Bridge Unregistered</div>");
 
                 return sb;
             }
