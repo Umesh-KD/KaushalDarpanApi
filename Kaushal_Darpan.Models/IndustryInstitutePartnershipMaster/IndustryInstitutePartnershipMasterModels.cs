@@ -91,6 +91,7 @@ namespace Kaushal_Darpan.Models.CompanyMaster
 
     public class IIP_EventDataModel: RequestBaseModel
     {
+        public string EventName { get; set; }
         public int? EventID { get; set; } = 0;
         public int? CompanyID { get; set; } = 0;
         public int? EventTypeID { get; set; } = 0;
@@ -112,6 +113,8 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public string? Designation { get; set; }
         public int? TrainingDuration { get; set; }
         public string? AreaOfDomain { get; set; }
+        public int? InstituteID { get; set; }
+        public int? DivisionID { get; set; }
     }
 
     public class BranchList
@@ -130,6 +133,9 @@ namespace Kaushal_Darpan.Models.CompanyMaster
     {
         public int? CompanyID { get; set; } = 0;
         public int? EventID { get; set; } = 0;
+        public int? StaffID { get; set; } = 0;
+        public int? InterestedStatus { get; set; } = 0;
+        public string? Remarks { get; set; } = "";
     }
 
 }
