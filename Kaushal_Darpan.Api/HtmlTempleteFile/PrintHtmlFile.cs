@@ -296,7 +296,15 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         sb.AppendLine($"            <tr {borderSeperationStyle}>");
                         foreach (DataColumn dc in dt_tabluerdet1.Columns)
                         {
-                            sb.AppendLine($"                <td> {dr[dc.ColumnName]} </td>");
+                            var colval = dr[dc.ColumnName]?.ToString();
+                            if (colval?.ToLower() == "detained" || colval?.ToLower() == "ufm")
+                            {
+                                sb.AppendLine($"<td> <b>{dr[dc.ColumnName]} </b></td>");
+                            }
+                            else
+                            {
+                                sb.AppendLine($"<td> {dr[dc.ColumnName]} </td>");
+                            }
                         }
                         sb.AppendLine("            </tr>");
 
@@ -350,15 +358,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         sb.AppendLine($"            <tr>");
                         foreach (DataColumn dc in tabular_ds.Tables[1].Columns)
                         {
-                            var colval = dr[dc.ColumnName]?.ToString();
-                            if (colval?.ToLower() == "detained" || colval?.ToLower() == "ufm")
-                            {
-                                sb.AppendLine($"<td style=\"font-weight:bolder;\"> {dr[dc.ColumnName]} </td>");
-                            }
-                            else
-                            {
-                                sb.AppendLine($"<td> {dr[dc.ColumnName]} </td>");
-                            }
+                            sb.AppendLine($"<td> {dr[dc.ColumnName]} </td>");
                         }
                         sb.AppendLine("            </tr>");
                     }
