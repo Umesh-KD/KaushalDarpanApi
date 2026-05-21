@@ -754,6 +754,50 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+
+        [HttpPost("GetCompanyEventsStaff")]
+        public async Task<ApiResult<DataTable>> GetCompanyEventsStaff([FromBody] CompanyEventSearchModel body)
+        {
+            ActionName = "GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.iIndustryInstitutePartnershipRepository.GetCompanyEventsStaff(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
         [HttpPost("DeleteEvent_ById")]
         public async Task<ApiResult<bool>> DeleteEvent_ById(IIP_EventDataModel req)
         {
@@ -794,6 +838,51 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
+
+        [HttpPost("Savestaffconsent")]
+        public async Task<ApiResult<bool>> Savestaffconsent(CompanyEventSearchModel req)
+        {
+            ActionName = "DeleteEvent_ById(CompanyEventSearchModel req)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    result.Data = await _unitOfWork.iIndustryInstitutePartnershipRepository.Savestaffconsent(req);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    if (result.Data)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
 
         [HttpPost("GetEvent_ById")]
         public async Task<ApiResult<IIP_EventDataModel>> GetEvent_ById(CompanyEventSearchModel req)

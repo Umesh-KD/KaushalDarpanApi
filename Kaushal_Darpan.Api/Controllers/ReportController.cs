@@ -14811,7 +14811,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
 
                     // get detail html
-                    var _sb = _printHtmlFile.GetHtmlOfHeadingAndTabularForTabulation(dr, heading_data, tabular_data, resultPublishModel);
+                    var _sb = _printHtmlFile.GetHtmlOfHeadingAndTabularForTabulation(dr, heading_data, tabular_data, resultPublishModel, body);
                     sb.AppendJoin("</br>", _sb);
                 }
                 // end stream loop
@@ -14822,7 +14822,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 if (consolidate_data?.Rows.Count > 0)
                 {
                     //get html
-                    var _sb1 = _printHtmlFile.GetHtmlOfConsolidateForTabulation(consolidate_data, heading_data, resultPublishModel);
+                    var _sb1 = _printHtmlFile.GetHtmlOfConsolidateForTabulation(consolidate_data, heading_data, resultPublishModel, body);
                     sb.AppendJoin("</br>", _sb1);
                 }
 

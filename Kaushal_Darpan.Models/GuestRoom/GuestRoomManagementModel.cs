@@ -14,6 +14,7 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public int ModifyBy { get; set; }
         public int DistrictID { get; set; }
         public int TehsilID { get; set; }
+        public int? RoleID { get; set; }
 
     }
 
@@ -45,6 +46,8 @@ namespace Kaushal_Darpan.Models.GuestRoomManagementModel
         public int? DepartmentID { get; set; }
         public string? GuestHouseName { get; set; }
         public int? PhoneNumber { get; set; }
+        public int? RoleID { get; set; }
+        public int? UserID { get; set; }
         public int? Address { get; set; }
 
 

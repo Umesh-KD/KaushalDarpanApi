@@ -10,6 +10,7 @@ using Kaushal_Darpan.Models.CitizenSuggestion;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.CommonModel;
+using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.EgrassPayment;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
@@ -99,7 +100,8 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<List<CommonDDLModel>> PlacementCompanyMaster(int DepartmentID);
         Task<List<CommonDDLModel>> PrefentialCategoryMaster(int DepartmentID, int CourseTypeId, int PrefentialCategoryType);
-        Task<DataTable> PlacementCompanyMaster_IDWise(int ID, int DepartmentID);
+        //Task<DataTable> PlacementCompanyMaster_IDWise(int ID, int DepartmentID);
+        Task<CompanyMasterModels> PlacementCompanyMaster_IDWise(int ID, int DepartmentID);
         Task<List<CommonDDLModel>> GetStateMaster();
         Task<DataTable> GetCompanyTierMaster();
         Task<DataTable> GetTierBasedPackageMaster(int TierID);
@@ -283,7 +285,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetApplicationSubmittedSteps(string AppplicationId);
 
         Task<List<CommonDDLModel>> DDL_OfficeMaster(int DepartmentID, int LevelID);
-        Task<List<CommonDDLModel>> DDL_RoleWiseOffice(int DepartmentID, int RoleID);
+        Task<List<CommonDDLModel>> DDL_RoleWiseOffice(int DepartmentID, int RoleID, int UserID);
         Task<DataTable> BTER_BGT_BudgetType(int DepartmentID, int LevelID , int BGTType=0);
         Task<List<CommonDDLModel>> DDL_PostMaster();
 

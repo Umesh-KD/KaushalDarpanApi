@@ -10,7 +10,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         //Task<CompanyMasterResponsiveModel> GetById(int ID);
 
         Task<CompanyMasterModels> GetByID(CompanyMasterSearchModel req);
-        Task<bool> SaveData(CompanyMasterModels productDetails);
+        //Task<bool> SaveData(CompanyMasterModels productDetails);
         Task<bool> Save_CompanyValidation_NodalAction(CompanyMaster_Action model);
         Task<bool> DeleteDataByID(CompanyMasterModels productDetails);
         Task<DataTable> CompanyValidationList(CompanyMasterSearchModel filterModel);
@@ -23,6 +23,10 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetPlacementAllStudentList(PlacementStudentListSearchModel filterModel);
 
         Task<DataTable> GetDataByStudentId(EligibleStudentForPlacement model);
+        Task<int> InsertCompanyMoUDetails(CompanyMoUDetailsModel request);
+        Task<CompanyMoUDetailsModel> GetCompanyMoUDetails(CompanyMoUDetailsModel Model);
+        Task<CompanyMoUDetailsModel> SendForApprove(int CompanyID);
+        Task<int> SaveData(CompanyMasterModels request);
 
     }
 }

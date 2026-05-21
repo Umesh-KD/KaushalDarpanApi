@@ -70,6 +70,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BugetHeadID", request.BugetHeadID);
                         command.Parameters.AddWithValue("@BugetHeadTypeID", request.BugetHeadTypeID);
                         command.Parameters.AddWithValue("@multiGuestHouseIDs", request.MultiGuestHouseIDs);
+                        command.Parameters.AddWithValue("@ParentRoleID", request.ParentRoleID);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
