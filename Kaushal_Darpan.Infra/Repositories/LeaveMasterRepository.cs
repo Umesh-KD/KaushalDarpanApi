@@ -535,7 +535,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.CommandText = "USP_GetStaffForLeaveCredit_ADTE_Gazetted";
                             command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         }
-                        else
+                        else if (body.RoleID.HasValue && ((body.RoleID == (int)EnumRole.Principal) || (body.RoleID == (int)EnumRole.Principal_NonEng)))
                         {
                             command.CommandText = "USP_GetStaffForLeaveCredit";
                         }
