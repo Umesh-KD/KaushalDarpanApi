@@ -31,6 +31,7 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public int? StudentExamTypeID { get; set; }
         public string? AbcId { get; set; }
         public int? OptionalSubjectID { get; set; }
+        public int? PendingCollegeFeeStatus { get; set; }
     }
 
     public class PreExam_UpdateEnrollmentNoModel :RequestBaseModel
