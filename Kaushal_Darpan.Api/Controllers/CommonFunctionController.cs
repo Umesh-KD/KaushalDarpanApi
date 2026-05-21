@@ -7591,8 +7591,8 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpGet("DDL_RoleWiseOffice/{DepartmentID}/{RoleID}")]
-        public async Task<ApiResult<List<CommonDDLModel>>> DDL_RoleWiseOffice(int DepartmentID, int RoleID)
+        [HttpGet("DDL_RoleWiseOffice/{DepartmentID}/{RoleID}/{UserID}")]
+        public async Task<ApiResult<List<CommonDDLModel>>> DDL_RoleWiseOffice(int DepartmentID, int RoleID, int UserID)
         {
             ActionName = "DDL_RoleWiseOffice(int DepartmentID, int RoleID)";
             return await Task.Run(async () =>
@@ -7600,7 +7600,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<List<CommonDDLModel>>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.DDL_RoleWiseOffice(DepartmentID, RoleID);
+                    var data = await _unitOfWork.CommonFunctionRepository.DDL_RoleWiseOffice(DepartmentID, RoleID, UserID);
                     if (data != null)
                     {
                         result.Data = data;

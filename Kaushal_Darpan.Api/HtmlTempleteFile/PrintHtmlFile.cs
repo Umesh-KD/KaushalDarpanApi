@@ -5,6 +5,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.PreExamStudent;
+using Kaushal_Darpan.Models.TheoryMarks;
 using Org.BouncyCastle.Utilities;
 using System.Data;
 using System.Text;
@@ -185,7 +186,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
 
         #region Result Tabulation
-        public StringBuilder GetHtmlOfHeadingAndTabularForTabulation(DataRow streams_dr, DataTable heading_dt, DataSet tabular_ds, ResultPublishModel resultPublishModel)
+        public StringBuilder GetHtmlOfHeadingAndTabularForTabulation(DataRow streams_dr, DataTable heading_dt, DataSet tabular_ds, ResultPublishModel resultPublishModel, TabluationDataModel body)
         {
             try
             {
@@ -200,7 +201,11 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_1"]}</strong><br>");
                 sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_2"]}</strong><br>");
                 sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_3"]}</strong><br>");
-                //        sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
+                // for rwh
+                if (body.ResultTypeId == (int)EnumResultType.RwhResult || body.ResultTypeId == (int)EnumResultType.RwhRevalEffected)
+                {
+                    sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
+                }
                 sb_hm.AppendLine("                </td>");
                 sb_hm.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
                 sb_hm.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
@@ -380,7 +385,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 throw;
             }
         }
-        public StringBuilder GetHtmlOfConsolidateForTabulation(DataTable consolidate_dt, DataTable heading_dt, ResultPublishModel resultPublishModel)
+        public StringBuilder GetHtmlOfConsolidateForTabulation(DataTable consolidate_dt, DataTable heading_dt, ResultPublishModel resultPublishModel, TabluationDataModel body)
         {
             try
             {
@@ -394,7 +399,11 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_1"]}</strong><br>");
                 sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_2"]}</strong><br>");
                 sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_3"]}</strong><br>");
-                //        sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
+                // for rwh
+                if (body.ResultTypeId == (int)EnumResultType.RwhResult || body.ResultTypeId == (int)EnumResultType.RwhRevalEffected)
+                {
+                    sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
+                }
                 sb_hm.AppendLine("                </td>");
                 sb_hm.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
                 sb_hm.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
@@ -415,8 +424,6 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
                 // main heading
                 sb.Append(sb_hm);
-
-                sb.AppendLine("</br>");
 
                 // table -3
                 sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; font-family:Arial, sans-serif; font-size:14px; \" border=\"1\">");

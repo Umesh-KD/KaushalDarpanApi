@@ -201,6 +201,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@MobileNumber", searchModel.MobileNumber);
                         command.Parameters.AddWithValue("@DOB", searchModel.DOB);
                         command.Parameters.AddWithValue("@action", searchModel.Action);
+                        command.Parameters.AddWithValue("@InstituteID", searchModel.InstituteID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

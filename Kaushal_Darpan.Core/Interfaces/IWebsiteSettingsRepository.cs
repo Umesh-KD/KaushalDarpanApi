@@ -24,5 +24,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetDynamicUploadContent(DynamicUploadContentListsModal model);
         Task<DataTable> GetDynamicUploadContentApprenticeship(DynamicUploadContentListsModal model);
         Task<bool> ActiveStatusChange(WebsiteSettingDataModel request);
+        Task<DataTable> GetAllSearchData(WebsiteSettingDataModel request);
     }
 }
