@@ -1,4 +1,5 @@
 ﻿using Kaushal_Darpan.Models.CommonModel;
+using Kaushal_Darpan.Models.TheoryMarks;
 using System.Data;
 using System.Text;
 
@@ -7,8 +8,8 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
     public interface IPrintHtmlFile
     {
         StringBuilder Dummy_CreatePDF();
-        StringBuilder GetHtmlOfHeadingAndTabularForTabulation(DataRow streams_dr, DataTable heading_dt, DataSet tabular_ds, ResultPublishModel resultPublishModel);
-        StringBuilder GetHtmlOfConsolidateForTabulation(DataTable consolidate_dt, DataTable heading_dt, ResultPublishModel resultPublishModel);
+        StringBuilder GetHtmlOfHeadingAndTabularForTabulation(DataRow streams_dr, DataTable heading_dt, DataSet tabular_ds, ResultPublishModel resultPublishModel, TabluationDataModel body);
+        StringBuilder GetHtmlOfConsolidateForTabulation(DataTable consolidate_dt, DataTable heading_dt, ResultPublishModel resultPublishModel, TabluationDataModel body);
         StringBuilder CounsellingAllotmentOrder_GetHtml(DataTable consolidate_dt);
         StringBuilder GetHtmlOfTimeTable(int loopIndex, DataTable dtHeader, DataTable dtDetails);
         StringBuilder InternalAssessmentStudent_GetHtml(DataSet dataSet, int TypeID);
