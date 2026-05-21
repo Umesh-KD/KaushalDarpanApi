@@ -352,5 +352,64 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<DataTable> GetAllSearchData(WebsiteSettingDataModel request)
+        {
+            _actionName = "GetAllSearchData()";
+
+            try
+            {
+                DataTable dataTable = new DataTable();
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_WebsiteSettingsSearch_GetData";
+
+                    command.Parameters.AddWithValue("@Action", "GetAllSearchData");
+
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                    command.Parameters.AddWithValue("@DepartmentSubID", request.DepartmentSubID);
+                    command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                    command.Parameters.AddWithValue("@CourseTypeID", request.Eng_NonEng);
+                    command.Parameters.AddWithValue("@TypeID", request.TypeID);
+
+                
+                    command.Parameters.AddWithValue("@Title", request.Title ?? (object)DBNull.Value);
+
+                    command.Parameters.AddWithValue("@Start_Date",
+                        string.IsNullOrEmpty(request.Start_Date?.ToString())
+                        ? (object)DBNull.Value
+                        : request.Start_Date);
+
+                    command.Parameters.AddWithValue("@End_Date",
+                        string.IsNullOrEmpty(request.End_Date?.ToString())
+                        ? (object)DBNull.Value
+                        : request.End_Date);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+
+                throw new Exception(errordetails, ex);
+            }
+        }
+
     }
 }
