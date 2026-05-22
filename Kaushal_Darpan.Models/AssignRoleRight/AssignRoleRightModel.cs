@@ -21,5 +21,11 @@
         public int Eng_NonEng { get; set; }
     }
 
+    public class GetAssignedRoleDataModel
+    {
+        public int? UserID { get; set; }
+        public int? ParentRoleID { get; set; }
+        public int? ChildRoleID { get; set; }
+    }
 }
 

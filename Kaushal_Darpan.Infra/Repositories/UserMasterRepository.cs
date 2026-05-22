@@ -25,19 +25,16 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetAllData()";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_UserMasterList";
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_UserMasterList";
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
@@ -57,26 +54,25 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetById(int PK_ID)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetUserMasterListData";
+                    command.Parameters.AddWithValue("@Action", "GetById");
+                    command.Parameters.AddWithValue("@UserId", PK_ID);
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                var data = new UserMasterModel();
+                if (dataTable != null)
+                {
+                    if (dataTable.Rows.Count > 0)
                     {
-                        _sqlQuery = $" select * from M_UserMaster Where UserID='{PK_ID}'";
-                        command.CommandText = _sqlQuery;
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
+                        data = CommonFuncationHelper.ConvertDataTable<UserMasterModel>(dataTable);
                     }
-                    var data = new UserMasterModel();
-                    if (dataTable != null)
-                    {
-                        if (dataTable.Rows.Count > 0)
-                        {
-                            data = CommonFuncationHelper.ConvertDataTable<UserMasterModel>(dataTable);
-                        }
-                    }
-                    return data;
-                });
+                }
+                return data;
             }
             catch (Exception ex)
             {
@@ -145,90 +141,84 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<bool> UpdateData(UserMasterModel request)
         {
 
-            return await Task.Run(async () =>
+            _actionName = "UpdateData(UserMasterModel request)";
+            try
             {
-                _actionName = "UpdateData(UserMasterModel request)";
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_UserMaster_IU";
-                        command.Parameters.AddWithValue("@UserID", request.UserID);
-                        command.Parameters.AddWithValue("@LevelID", request.LevelID);
-                        command.Parameters.AddWithValue("@DesignationID", request.DesignationID);
-                        command.Parameters.AddWithValue("@AadhaarID", request.AadhaarID);
-                        command.Parameters.AddWithValue("@Name", request.Name);
-                        command.Parameters.AddWithValue("@SSOID", request.SSOID);
-                        command.Parameters.AddWithValue("@Email", request.Email);
-                        command.Parameters.AddWithValue("@State", request.State);
-                        command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
-                        command.Parameters.AddWithValue("@Gender", request.Gender);
-                        command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
-                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-                        command.Parameters.AddWithValue("@Vertical", request.Vertical);
-                        _sqlQuery = command.GetSqlExecutableQuery();// sql query
-                        result = await command.ExecuteNonQueryAsync();
-                    }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_UserMaster_IU";
+                    command.Parameters.AddWithValue("@UserID", request.UserID);
+                    command.Parameters.AddWithValue("@LevelID", request.LevelID);
+                    command.Parameters.AddWithValue("@DesignationID", request.DesignationID);
+                    command.Parameters.AddWithValue("@AadhaarID", request.AadhaarID);
+                    command.Parameters.AddWithValue("@Name", request.Name);
+                    command.Parameters.AddWithValue("@SSOID", request.SSOID);
+                    command.Parameters.AddWithValue("@Email", request.Email);
+                    command.Parameters.AddWithValue("@State", request.State);
+                    command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
+                    command.Parameters.AddWithValue("@Gender", request.Gender);
+                    command.Parameters.AddWithValue("@ActiveStatus", request.ActiveStatus);
+                    command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@Vertical", request.Vertical);
+                    _sqlQuery = command.GetSqlExecutableQuery();// sql query
+                    result = await command.ExecuteNonQueryAsync();
                 }
-                catch (Exception ex)
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         public async Task<bool> DeleteDataByID(UserMasterModel request)
         {
 
             int result = 0;
             _actionName = "DeleteDataByID(UserMasterModel request)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_UserMaster_DeleteUser";
-                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
-                        command.Parameters.AddWithValue("@UserID", request.UserID);
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_UserMaster_DeleteUser";
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@UserID", request.UserID);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
-                    }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
                 }
-                catch (Exception ex)
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
@@ -237,28 +227,25 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetUserMobileNoForOTP(int RoleID,int DepartmentID)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetUserMobileNoForOTP";
+                    command.Parameters.AddWithValue("@RoleID", RoleID);
+                    command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                var data = new UserMasterModel();
+                if (dataTable != null)
+                {
+                    if (dataTable.Rows.Count > 0)
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetUserMobileNoForOTP";
-                        command.Parameters.AddWithValue("@RoleID", RoleID);
-                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
+                        data = CommonFuncationHelper.ConvertDataTable<UserMasterModel>(dataTable);
                     }
-                    var data = new UserMasterModel();
-                    if (dataTable != null)
-                    {
-                        if (dataTable.Rows.Count > 0)
-                        {
-                            data = CommonFuncationHelper.ConvertDataTable<UserMasterModel>(dataTable);
-                        }
-                    }
-                    return data;
-                });
+                }
+                return data;
             }
             catch (Exception ex)
             {
@@ -280,22 +267,19 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetPrincipleList(int CourseType, int DepartmentID)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_PrincipleList";
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@CourseType", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@RoleID", body.RoleId);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    
-                    return dataTable;
-                });
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_PrincipleList";
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@CourseType", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleId);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
             }
             catch (Exception ex)
             {
@@ -313,39 +297,67 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<bool> UpdatePrincipleData(PrincipleUpdateInstituteIDModel request)
         {
-            return await Task.Run(async () =>
+            _actionName = "UpdatePrincipleData(PrincipleUpdateInstituteIDModel request)";
+            try
             {
-                _actionName = "UpdatePrincipleData(PrincipleUpdateInstituteIDModel request)";
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_PrincipleUpdateInstituteID";
-                        command.Parameters.AddWithValue("@InstituteID_UserID_RowJson", request.json_Data);
-                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
-                    }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_PrincipleUpdateInstituteID";
+                    command.Parameters.AddWithValue("@InstituteID_UserID_RowJson", request.json_Data);
+                    command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
                 }
-                catch (Exception ex)
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetUserData_RoleWise(UserMasterSearchModel body)
+        {
+            _actionName = "GetUserData_RoleWise(UserMasterSearchModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetUserData_RoleWise";
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@ParentRoleID", body.ParentRoleID);
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
                 }
-            });
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
     }

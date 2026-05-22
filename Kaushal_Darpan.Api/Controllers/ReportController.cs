@@ -14804,6 +14804,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     else
                     {
                         tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body));
+
                     }
                     if (tabular_data.Tables?.Count < 2)
                     {

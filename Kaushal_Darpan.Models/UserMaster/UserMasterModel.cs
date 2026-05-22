@@ -32,6 +32,7 @@
     public class UserMasterSearchModel
     {
         public int DepartmentID { get; set; }
+        public int ParentRoleID { get; set; }
     }
 
     public class PrincipleUpdateInstituteIDModel

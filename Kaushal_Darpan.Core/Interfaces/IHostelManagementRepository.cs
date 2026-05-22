@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.CenterObserver;
+﻿using Kaushal_Darpan.Models;
+using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.HostelManagementModel;
@@ -50,7 +51,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetHostelInstituteMappingByID(int PK_ID);
         Task<int> HostelInstituteMappingSaveData(List<InstituteMappingListModel> productDetails);
         Task<bool> SaveHostelFee(HostelFeeModel request);
-        Task<DataTable> getHostelFeeList();
+        Task<DataTable> getHostelFeeList(HostelFeeModel request);
         Task<DataTable> getHostelFeeByID(int id);
         Task<DataTable> GetRoomAllotmentCancelHistory(int reqId);
 

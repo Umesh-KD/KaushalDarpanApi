@@ -3,6 +3,7 @@ using Azure;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Models;
 using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.DTEInventoryModels;
@@ -1452,14 +1453,14 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("getHostelFeeList")]
-        public async Task<ApiResult<DataTable>> getHostelFeeList()
+        [HttpPost("getHostelFeeList")]
+        public async Task<ApiResult<DataTable>> getHostelFeeList([FromBody] HostelFeeModel request)
         {
             ActionName = "getHostelFeeList()";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await _unitOfWork.HostelManagementRepository.getHostelFeeList();
+                result.Data = await _unitOfWork.HostelManagementRepository.getHostelFeeList(request);
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
