@@ -17,5 +17,6 @@
         public int ModifyBy { get; set; }
 
         public string? IPAddress { get; set; }
+        public string? HRStatus { get; set; }
     }
 }
