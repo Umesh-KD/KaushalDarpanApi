@@ -14803,7 +14803,8 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
                     else
                     {
-                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body));
+                        //tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body));
+                        tabular_data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.Dummy_GetTestUspDataByAction("_get_data_to_test"));
                     }
                     if (tabular_data.Tables?.Count < 2)
                     {
