@@ -16,5 +16,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<bool> SaveData(List<AssignRoleRightsModel> productDetails);
         Task<List<AssignRoleRightsModel>> GetAssignedRoleById(int UserID);
+        Task<List<AssignRoleRightsModel>> GetAssignedRole_USerWise(GetAssignedRoleDataModel model);
+        Task<int> SaveAssignedRole_UserWise(List<AssignRoleRightsModel> request);
     }
 }

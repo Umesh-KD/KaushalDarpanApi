@@ -14797,15 +14797,27 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     // get tabular details
                     var tabular_data = new DataSet();
-                    if (body.ResultTypeId == (int)EnumResultType.RwhResult || body.ResultTypeId == (int)EnumResultType.RwhRevalEffected)
-                    {
-                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationRWH(body));
-                    }
-                    else
+                    if (body.ResultTypeId == (int)EnumResultType.MainResult)
                     {
                         tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body));
                     }
-                    if (tabular_data.Tables?.Count < 2)
+                    else if (body.ResultTypeId == (int)EnumResultType.RwhResult || body.ResultTypeId == (int)EnumResultType.RwhRevalEffected)
+                    {
+                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationRWH(body));
+                    }
+                    else if (body.ResultTypeId == (int)EnumResultType.RevaluationResult)
+                    {
+                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationReval(body));
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_INVALID_REQUEST;
+                        return result;
+                    }
+
+                    int headerRowBlockCount = 5;// get only top header 
+                    if (tabular_data?.Tables?.Count < 2 || tabular_data?.Tables[0]?.Rows.Count == 0 || tabular_data?.Tables[0]?.Rows.Count == headerRowBlockCount) 
                     {
                         continue;
                     }

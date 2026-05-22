@@ -3,6 +3,7 @@ using Azure;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Models;
 using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.DTEInventoryModels;
@@ -1405,19 +1406,26 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
 
 
-                    result.Data = await _unitOfWork.HostelManagementRepository.SaveHostelFee(request);
+                     var res = await _unitOfWork.HostelManagementRepository.SaveHostelFee(request);
                     await _unitOfWork.SaveChangesAsync();
-                    if (result.Data)
+                    if (res > 0)
                     {
                         result.State = EnumStatus.Success;
-                        if (request.HostelId == 0)
+
+                       
+                        if (request.HostelId == 0 && res == 1)
                         {
                             result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        else if (request.HostelId == 0 && res == 3)
+                        {
+                            result.Message = Constants.MSG_SAVE_Duplicate;
                         }
                         else
                         {
                             result.Message = Constants.MSG_UPDATE_SUCCESS;
                         }
+
                     }
                     else
                     {
@@ -1452,14 +1460,14 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        [HttpGet("getHostelFeeList")]
-        public async Task<ApiResult<DataTable>> getHostelFeeList()
+        [HttpPost("getHostelFeeList")]
+        public async Task<ApiResult<DataTable>> getHostelFeeList([FromBody] HostelFeeModel request)
         {
             ActionName = "getHostelFeeList()";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await _unitOfWork.HostelManagementRepository.getHostelFeeList();
+                result.Data = await _unitOfWork.HostelManagementRepository.getHostelFeeList(request);
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
