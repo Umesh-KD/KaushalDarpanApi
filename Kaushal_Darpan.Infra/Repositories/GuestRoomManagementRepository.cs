@@ -991,6 +991,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Status", body.Status);
                         command.Parameters.AddWithValue("@GuestHouseIDs", body.GuestHouseIDs);
                         command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@FromDate", body.FromDate);
+                        command.Parameters.AddWithValue("@ToDate", body.ToDate);
                         command.Parameters.AddWithValue("@action", "_GuestRequestReportList");
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
