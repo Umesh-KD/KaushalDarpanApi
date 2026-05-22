@@ -1419,7 +1419,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
                         else if (request.HostelId == 0 && res == 3)
                         {
-                            result.Message = Constants.MSG_SAVE_Duplicate;
+                            result.Message = "Already Exist";
                         }
                         else
                         {
