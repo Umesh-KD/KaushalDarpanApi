@@ -766,5 +766,49 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+        public async Task<int> DeleteStaffTrainingData (StaffTrainingDetailSearchData body)
+        {
+
+
+            _actionName = "TransferSystemRetievingUpdateStatus(TransferSystemUpdateDataModel body)";
+            try
+            {
+
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StaffTrainingDelete";
+                    command.Parameters.AddWithValue("@StaffTrainingDetailID", body.StaffTrainingDetailID);
+                    command.Parameters.AddWithValue("@ActionBy", body.UserID);
+                    command.Parameters.AddWithValue("@StatusID", body.StatusID);
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+
+           
+        }
     }
 }
