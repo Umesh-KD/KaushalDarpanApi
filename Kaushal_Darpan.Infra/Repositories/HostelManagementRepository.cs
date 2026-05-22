@@ -1365,11 +1365,10 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<bool> SaveHostelFee(HostelFeeModel request)
+        public async Task<int> SaveHostelFee(HostelFeeModel request)
         {
             _actionName = "SaveHostelFee(HostelFeeModel request)";
-            return await Task.Run(async () =>
-            {
+
                 try
                 {
                     int result = 0;
@@ -1394,10 +1393,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                             result = await command.ExecuteNonQueryAsync();
                         result = Convert.ToInt32(command.Parameters["@Return"].Value);
                     }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                //if (result > 0)
+                //    return true;
+                //else
+                //    return false;
+                return result;
                 }
                 catch (Exception ex)
                 {
@@ -1411,7 +1411,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+
         }
 
         //InstituteWiseModel request

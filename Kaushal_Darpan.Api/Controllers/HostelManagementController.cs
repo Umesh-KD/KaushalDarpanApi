@@ -1406,19 +1406,26 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
 
 
-                    result.Data = await _unitOfWork.HostelManagementRepository.SaveHostelFee(request);
+                     var res = await _unitOfWork.HostelManagementRepository.SaveHostelFee(request);
                     await _unitOfWork.SaveChangesAsync();
-                    if (result.Data)
+                    if (res > 0)
                     {
                         result.State = EnumStatus.Success;
-                        if (request.HostelId == 0)
+
+                       
+                        if (request.HostelId == 0 && res == 1)
                         {
                             result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                        else if (request.HostelId == 0 && res == 3)
+                        {
+                            result.Message = Constants.MSG_SAVE_Duplicate;
                         }
                         else
                         {
                             result.Message = Constants.MSG_UPDATE_SUCCESS;
                         }
+
                     }
                     else
                     {
