@@ -146,7 +146,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.State = EnumStatus.Error;
                         if (request.HRManagerID == 0)
                         {
-                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                            result.ErrorMessage = "Company Has Already HR Exists.";
                         }
                         else
                         {
@@ -249,7 +249,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         result.State = EnumStatus.Error;
 
-                        result.ErrorMessage = "There was an error updating data.!";
+                        result.ErrorMessage = "HR for the Company Already Exists.!";
                     }
                 }
                 catch (System.Exception ex)

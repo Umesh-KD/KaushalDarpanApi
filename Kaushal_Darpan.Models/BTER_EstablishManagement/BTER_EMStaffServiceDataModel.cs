@@ -35,6 +35,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? ComplitionTrainingDoc { get; set; }
         public string? Dis_complitionTrainingDoc { get; set; }
         public string? Remark { get; set; }
+        public int? RoleID { get; set; }
     }
 
     public class StaffTrainingDetailSearchData
@@ -53,6 +54,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? TrainingStatus { get; set; }
         public string? Remark { get; set; }
         public int? CreatedBy { get; set; }
+        public int? RoleID { get; set; }
         public string? jsonData { get; set; }
     }
 
@@ -90,7 +92,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? EmployeeDesignation { get; set; }
         public string? EmployeeName { get; set; }
         public string? NonGazetteName { get; set; }
-
+        public int RoleID { get; set; }
         public List<BTER_EM_TransferSystemExtModule>? TransferExtDetails { get; set; }
 
     }
@@ -139,6 +141,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? CreatedBy { get; set; }
         public string? jsonData { get; set; }
         public int? ID { get; set; }
+        public int? RoleID { get; set; }
     }
 
 
@@ -171,6 +174,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? To_PostID { get; set; }
         public int? To_ddlDistrictID { get; set; }
         public int? To_ddlCollege { get; set; }
+        public int? RoleID { get; set; }
     }
 
     public class TransferSystemShowDataModel

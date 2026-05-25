@@ -1216,7 +1216,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<DataTable> GetDTEIssueItemListPermanent(int EquipmentsId, int ItemCategoryId)
+        public async Task<DataTable> GetDTEIssueItemListPermanent(int EquipmentsId, int ItemCategoryId,int InstituteID)
         {
             _actionName = "GetAllStoksNew()";
             return await Task.Run(async () =>
@@ -1230,6 +1230,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_DTE_GetIssueItemList_Permanent";
                         command.Parameters.AddWithValue("@EquipmentsId", EquipmentsId);
                         command.Parameters.AddWithValue("@ItemCategoryId", ItemCategoryId);
+                        command.Parameters.AddWithValue("@InstituteID", InstituteID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

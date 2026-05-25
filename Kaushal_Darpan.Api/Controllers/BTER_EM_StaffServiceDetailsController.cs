@@ -1138,5 +1138,51 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
 
         }
+
+
+        
+[HttpPost("DeleteStaffTrainingData")]
+public async Task<ApiResult<int>> DeleteStaffTrainingData([FromBody] StaffTrainingDetailSearchData body)
+        {
+            ActionName = "DeleteStaffTrainingData([FromBody] StaffTrainingDetailSearchData body)";
+
+            var result = new ApiResult<int>();
+
+            try
+            {
+                result.Data = await _unitOfWork
+                    .BTER_EM_StaffServiceDetailsRepository
+                    .DeleteStaffTrainingData(body);
+
+                if (result.Data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DELETE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_ERROR_OCCURRED;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
+
+
     }
 }

@@ -58,6 +58,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@TrainingTypeID", body.TrainingTypeID);
                     command.Parameters.AddWithValue("@ComplitionTrainingDoc", body.ComplitionTrainingDoc);
                     command.Parameters.AddWithValue("@Dis_complitionTrainingDoc", body.Dis_complitionTrainingDoc);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;
@@ -172,6 +173,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@TrainingStatus", body.TrainingStatus);
                     command.Parameters.AddWithValue("@Remark", body.Remark);
                     command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     command.Parameters.AddWithValue("@jsonData", body.jsonData);
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;
@@ -334,6 +336,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
                     command.Parameters.AddWithValue("@UpdatedBy", body.UpdatedBy);
                     command.Parameters.AddWithValue("@TransferStatus", body.TransferStatus);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     //command.Parameters.AddWithValue("@TransferExtJson", jsonParam ?? (object)DBNull.Value);
                     command.Parameters.Add(jsonParam);
                     var returnParam = new SqlParameter("@Return", SqlDbType.Int)
@@ -534,6 +537,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Remark", body.Remark);
                     command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
                     command.Parameters.AddWithValue("@jsonData", body.jsonData);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;
                     _sqlQuery = command.GetSqlExecutableQuery();
@@ -574,6 +578,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
                     command.Parameters.AddWithValue("@ID", body.ID);
                     command.Parameters.AddWithValue("@jsonData", body.jsonData);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;
                     _sqlQuery = command.GetSqlExecutableQuery();
@@ -610,6 +615,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_TransferSystemGenerator";
                     command.Parameters.AddWithValue("@jsonData", body.jsonData);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;
                     _sqlQuery = command.GetSqlExecutableQuery();
@@ -662,6 +668,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@UserID", body.UserID ?? 0);
                     command.Parameters.AddWithValue("@SSOID", body.SSOID ?? "");
                     command.Parameters.AddWithValue("@TransferCategoryID", body.TransfercateID ?? 0);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID ?? 0);
                     command.Parameters.AddWithValue("@ReasonDescription", body.ReasonDescription ?? "");
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;
@@ -744,6 +751,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Remark", body.Remark);
                     command.Parameters.AddWithValue("@CreatedBy", body.ActionBy);
                     command.Parameters.AddWithValue("@RelievingDate", body.RelievingDate);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;
                     _sqlQuery = command.GetSqlExecutableQuery();
@@ -765,6 +773,50 @@ namespace Kaushal_Darpan.Infra.Repositories
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                 throw new Exception(errordetails, ex);
             }
+        }
+
+
+        public async Task<int> DeleteStaffTrainingData (StaffTrainingDetailSearchData body)
+        {
+
+
+            _actionName = "TransferSystemRetievingUpdateStatus(TransferSystemUpdateDataModel body)";
+            try
+            {
+
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StaffTrainingDelete";
+                    command.Parameters.AddWithValue("@StaffTrainingDetailID", body.StaffTrainingDetailID);
+                    command.Parameters.AddWithValue("@ActionBy", body.UserID);
+                    command.Parameters.AddWithValue("@StatusID", body.StatusID);
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+
+           
         }
     }
 }
