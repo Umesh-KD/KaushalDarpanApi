@@ -54,6 +54,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public string? BillFilePath { get; set; }
         public string? Specification { get; set; }
         public bool? IsRequested { get; set; }
+        public int? MappingId { get; set; }
     }
 
     public class DTEItemsSearchModel

@@ -194,7 +194,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
                     command.Parameters.AddWithValue("@CourseType", body.CourseType);
                     command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
-                    //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+                    command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
                     command.Parameters.AddWithValue("@EffectiveEndTermID", body.EffectiveFromEndTermId);
 
@@ -3343,80 +3343,77 @@ namespace Kaushal_Darpan.Infra.Repositories
             GetAction = "_Institue_Branch_Subject_Student_Count_Sem_Wise";
 
             _actionName = "PaperCountCustomizeReportColumnsAndList()";
-            return await Task.Run(async () =>
+
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    if (model.Type == 7)
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-
-                        if (model.Type == 7)
-                        {
-                            command.CommandText = "USP_Get_SemesterSubjectWiseStudentCount";
-                            //command.Parameters.AddWithValue("@Action", GetAction);
-                        }
-                        else if (model.Type == 0 || model.Type == 1 || model.Type == 5 || model.Type == 6)
-                        {
-                            command.CommandText = "USP_Rpt_InstituteSubjectWiseStudentData";
-                            command.Parameters.AddWithValue("@Action", "InstituteSubjectWiseStudentData");
-                        }
-                        else if (model.Type == 2)
-                        {
-                            command.CommandText = "USP_GetStudentSubjectData";
-                            command.Parameters.AddWithValue("@Action", "_getStudentSubjectData");
-
-                        }
-
-                        else if (model.Type == 8)
-                        {
-                            command.CommandText = "USP_Get_center_subject_papercount";
-                            command.Parameters.AddWithValue("@action", "_get_center_subject_papercount_examination");
-
-                        }
-                        else if (model.Type == 9)
-                        {
-                            command.CommandText = "USP_Get_center_subject_papercount_datewise";
-                            command.Parameters.AddWithValue("@action", "_get_center_subject_papercount_examination_datewise");
-
-                        }
-                        else
-                        {
-                            command.CommandText = "USP_ReportsBuilder";
-                            //command.Parameters.AddWithValue("@Action", GetAction);
-                            command.Parameters.AddWithValue("@StreamID", model.StreamID);
-                            command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                            command.Parameters.AddWithValue("@AcademicYearID", model.AcademicYearID);
-                            command.Parameters.AddWithValue("@CasteCategoryID", model.CasteCategoryID);
-                            command.Parameters.AddWithValue("@Action", model.action);
-                        }
-
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@Type", model.Type);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
-
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
+                        command.CommandText = "USP_Get_SemesterSubjectWiseStudentCount";
+                        //command.Parameters.AddWithValue("@Action", GetAction);
                     }
-                    return dataTable;
-                }
-                catch (Exception ex)
-                {
-                    var errorDesc = new ErrorDescription
+                    else if (model.Type == 0 || model.Type == 1 || model.Type == 5 || model.Type == 6)
                     {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                        command.CommandText = "USP_Rpt_InstituteSubjectWiseStudentData";
+                        command.Parameters.AddWithValue("@Action", "InstituteSubjectWiseStudentData");
+                    }
+                    else if (model.Type == 2)
+                    {
+                        command.CommandText = "USP_GetStudentSubjectData";
+                        command.Parameters.AddWithValue("@Action", "_getStudentSubjectData");
 
+                    }
+
+                    else if (model.Type == 8)
+                    {
+                        command.CommandText = "USP_Get_center_subject_papercount";
+                        command.Parameters.AddWithValue("@action", "_get_center_subject_papercount_examination");
+
+                    }
+                    else if (model.Type == 9)
+                    {
+                        command.CommandText = "USP_Get_center_subject_papercount_datewise";
+                        command.Parameters.AddWithValue("@action", "_get_center_subject_papercount_examination_datewise");
+
+                    }
+                    else
+                    {
+                        command.CommandText = "USP_ReportsBuilder";
+                        //command.Parameters.AddWithValue("@Action", GetAction);
+                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@AcademicYearID", model.AcademicYearID);
+                        command.Parameters.AddWithValue("@CasteCategoryID", model.CasteCategoryID);
+                        command.Parameters.AddWithValue("@Action", model.action);
+                    }
+
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Type", model.Type);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.CourseTypeID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         #endregion
@@ -9228,7 +9225,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     }
                     else if (model.Type == 4)
                     {
-                        command.CommandText = "USP_GetExaminersWithGroupCodeAndMarking_Rpt"; 
+                        command.CommandText = "USP_GetExaminersWithGroupCodeAndMarking_Rpt";
                         command.Parameters.AddWithValue("@action", "_Examiners_With_Group_Code_And_Marking_report");
 
                         command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);

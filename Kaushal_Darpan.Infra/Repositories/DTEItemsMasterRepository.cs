@@ -201,6 +201,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BillFileName", request.BillFileName);
                         command.Parameters.AddWithValue("@BillFilePath", request.BillFilePath);
                         command.Parameters.AddWithValue("@Specification", request.Specification);
+                        command.Parameters.AddWithValue("@MappingId", request.MappingId);
                         command.Parameters.AddWithValue("@RoleID", request.RoleID);
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
