@@ -3806,7 +3806,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         RESPONSEPARAMS.PRN = RESPONSEPARAMS.CONSUMERKEY;
                         RESPONSEPARAMS.PAIDAMOUNT = RESPONSEPARAMS.AMT;
                         RESPONSEPARAMS.RESPONSEMESSAGE = RESPONSEPARAMS.MSG;
-                        RESPONSEPARAMS.STATUS = "FAILED";
+                        RESPONSEPARAMS.STATUS = RESPONSEPARAMS.TRANSACTIONSTATUS;
                         await _unitOfWork.CommonFunctionRepository.UpdateITIEmitraPaymentStatus(RESPONSEPARAMS);
                         await _unitOfWork.SaveChangesAsync();
                     }
