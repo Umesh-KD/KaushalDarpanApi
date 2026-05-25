@@ -5630,7 +5630,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 // Pass the entire model to the repository
-                result.Data = await _unitOfWork.ReportRepository.PaperCountCustomizeReportColumnsAndList(model);
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.PaperCountCustomizeReportColumnsAndList(model));
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
