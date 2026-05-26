@@ -1508,27 +1508,24 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetPreExamStudent()";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_Rpt_GetExamEligibleStudentDetailsForAnex2";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Rpt_GetExamEligibleStudentDetailsForAnex2";
 
-                        command.Parameters.AddWithValue("@action", "_GetExamEligibleStudentDetailsForAnex2");
+                    command.Parameters.AddWithValue("@action", "_GetExamEligibleStudentDetailsForAnex2");
 
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@StudentExamType", model.StudentExamType);
-                        command.Parameters.AddWithValue("@InstitueID", model.InstitueID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@StudentExamType", model.StudentExamType);
+                    command.Parameters.AddWithValue("@InstitueID", model.InstitueID);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {

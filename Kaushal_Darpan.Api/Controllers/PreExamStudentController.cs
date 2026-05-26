@@ -1497,7 +1497,8 @@ namespace Kaushal_Darpan.Api.Controllers
                     worksheet.Cell(row, col++).Value = "Paper Code";
                     worksheet.Cell(row, col++).Value = "Status";
                     worksheet.Cell(row, col++).Value = "Program";
-                    worksheet.Cell(row, col++).Value = "Transaction ID";
+                    //worksheet.Cell(row, col++).Value = "Transaction ID";
+                    worksheet.Cell(row, col++).Value = "Receipt No.";
                     worksheet.Cell(row, col++).Value = "Payment Date";
                     worksheet.Cell(row, col++).Value = "Fee Paid";
                     worksheet.Cell(row, col++).Value = "Institute Code";
