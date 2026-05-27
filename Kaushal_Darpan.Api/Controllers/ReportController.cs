@@ -14800,6 +14800,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     if (body.ResultTypeId == (int)EnumResultType.MainResult)
                     {
                         tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body));
+                        //tabular_data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.Dummy_GetTestUspDataByAction("_get_data_to_test"));
                     }
                     else if (body.ResultTypeId == (int)EnumResultType.RwhResult || body.ResultTypeId == (int)EnumResultType.RwhRevalEffected)
                     {

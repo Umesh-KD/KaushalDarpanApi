@@ -1021,7 +1021,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     <td>कार्यमुक्ति दिनांक</td>
                     <td class='value'>{model.RelievingDate}</td>
                     <td>समय</td>
-                    <td class='value'>{model.RelivingTime}</td>
+                    <td class='value'>{model.RelievingTime}</td>
                 </tr>
             </table>
 

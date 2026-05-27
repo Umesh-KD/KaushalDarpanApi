@@ -36,6 +36,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? Dis_complitionTrainingDoc { get; set; }
         public string? Remark { get; set; }
         public int? RoleID { get; set; }
+        public int? InstituteID { get; set; }
     }
 
     public class StaffTrainingDetailSearchData
@@ -129,6 +130,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? RelievingDoc { get; set; }
         public string? RelievingDoc_Dis { get; set; }
         public string? RelievingDate { get; set; }
+        public int RelievingTimeID { get; set; }
 
     }
 
@@ -222,6 +224,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? RelivingTime { get; set; }
         public string? ApproveName { get; set; }
         public string? RelievingDate { get; set; }
+        public string? RelievingTime { get; set; }
+        public string? RelievingApproveByName { get; set; }
     }
 }
 

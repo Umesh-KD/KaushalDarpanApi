@@ -26,8 +26,8 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
         public async Task<DataTable> GetAllData(CenterAllocationSearchFilter filterModel)
-        
-        
+
+
         {
             _actionName = "GetAllData()";
             return await Task.Run(async () =>
@@ -101,7 +101,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        
+
         public async Task<DataSet> DownloadCenterSuperintendent(CenterAllocationSearchFilter filterModel)
         {
             _actionName = "GetAllData()";
@@ -222,39 +222,37 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetInstituteByCenterID(CenterAllocationSearchFilter filterModel)
         {
             _actionName = "GetAllData()";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_DDL_InstitutesByCenterID";
-                        command.Parameters.AddWithValue("@CenterID", filterModel.CenterID);
-                        command.Parameters.AddWithValue("@DistrictID", filterModel.DistrictID);
-                        command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
-                        command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_DDL_InstitutesByCenterID";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
+                    command.Parameters.AddWithValue("@CenterID", filterModel.CenterID);
+                    command.Parameters.AddWithValue("@DistrictID", filterModel.DistrictID);
+                    command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                    command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         public async Task<CenterAllocationtDataModel> GetById(int PK_ID)
         {
