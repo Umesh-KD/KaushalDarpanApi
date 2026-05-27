@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.Examiners;
+using Kaushal_Darpan.Models.GuestRoomManagementModel;
 using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.PaperSetter;
@@ -381,6 +382,43 @@ namespace Kaushal_Darpan.Infra.Repositories
                     ds = await command.FillAsync();
                 }
                 return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> UpdateMarksheetFile(List<StudentDownloadInfo> request)
+        {
+            _actionName = "UpdateMarksheetFile(StudentDownloadInfo request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_UpdateStudentMarksheetFile";
+                    command.Parameters.AddWithValue("@StudentList", JsonConvert.SerializeObject(request));
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+
+                return result;
             }
             catch (Exception ex)
             {

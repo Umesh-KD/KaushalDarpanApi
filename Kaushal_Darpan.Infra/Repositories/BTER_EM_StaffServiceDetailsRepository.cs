@@ -59,6 +59,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ComplitionTrainingDoc", body.ComplitionTrainingDoc);
                     command.Parameters.AddWithValue("@Dis_complitionTrainingDoc", body.Dis_complitionTrainingDoc);
                     command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;
@@ -669,6 +670,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@SSOID", body.SSOID ?? "");
                     command.Parameters.AddWithValue("@TransferCategoryID", body.TransfercateID ?? 0);
                     command.Parameters.AddWithValue("@RoleID", body.RoleID ?? 0);
+                    command.Parameters.AddWithValue("@BranchID", body.BranchID ?? 0);
+                    command.Parameters.AddWithValue("@To_BranchID", body.To_BranchID ?? 0);
                     command.Parameters.AddWithValue("@ReasonDescription", body.ReasonDescription ?? "");
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;
@@ -752,6 +755,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CreatedBy", body.ActionBy);
                     command.Parameters.AddWithValue("@RelievingDate", body.RelievingDate);
                     command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@RelievingTimeID", body.RelievingTimeID);
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;
                     _sqlQuery = command.GetSqlExecutableQuery();
