@@ -362,17 +362,15 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.WebsiteSettingsRepository.GetAllSearchData(request);
-                if (result.Data.Rows.Count > 0)
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
                 {
                     result.State = EnumStatus.Success;
-                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    result.Message = "No record found.!";
+                    return result;
                 }
-                else
-                {
-                    result.State = EnumStatus.Warning;
-                    result.Message = Constants.MSG_DATA_NOT_FOUND;
-                  
-                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
             }
             catch (System.Exception ex)
             {
