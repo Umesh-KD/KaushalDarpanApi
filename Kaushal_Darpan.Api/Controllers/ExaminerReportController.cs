@@ -28,7 +28,6 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-
         [HttpPost("GetAllData")]
         public async Task<ApiResult<DataTable>> GetAllData([FromBody] ExaminerReportDataSearchModel model)
         {

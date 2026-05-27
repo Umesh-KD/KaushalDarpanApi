@@ -419,6 +419,8 @@ namespace Kaushal_Darpan.Api.Controllers
         //            await CreateErrorLog(nex, _unitOfWork);
         //        }
         //        return result;
+
+
         //    });
         //}
 
