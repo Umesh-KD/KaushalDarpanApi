@@ -177,6 +177,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? To_ddlDistrictID { get; set; }
         public int? To_ddlCollege { get; set; }
         public int? RoleID { get; set; }
+        public int? BranchID { get; set; }
+        public int? To_BranchID { get; set; }
     }
 
     public class TransferSystemShowDataModel
