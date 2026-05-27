@@ -753,6 +753,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CreatedBy", body.ActionBy);
                     command.Parameters.AddWithValue("@RelievingDate", body.RelievingDate);
                     command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@RelievingTimeID", body.RelievingTimeID);
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;
                     _sqlQuery = command.GetSqlExecutableQuery();

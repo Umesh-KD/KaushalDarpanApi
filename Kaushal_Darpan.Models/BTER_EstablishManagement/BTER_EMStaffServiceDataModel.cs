@@ -130,6 +130,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? RelievingDoc { get; set; }
         public string? RelievingDoc_Dis { get; set; }
         public string? RelievingDate { get; set; }
+        public int RelievingTimeID { get; set; }
 
     }
 
