@@ -132,6 +132,7 @@ namespace Kaushal_Darpan.Models.CompanyMaster
     public class CompanyEventSearchModel: RequestBaseModel
     {
         public int? CompanyID { get; set; } = 0;
+        public int? StudentID { get; set; } = 0;
         public int? EventID { get; set; } = 0;
         public int? StaffID { get; set; } = 0;
         public int? InterestedStatus { get; set; } = 0;
