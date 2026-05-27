@@ -371,6 +371,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
+                  
                 }
             }
             catch (System.Exception ex)
