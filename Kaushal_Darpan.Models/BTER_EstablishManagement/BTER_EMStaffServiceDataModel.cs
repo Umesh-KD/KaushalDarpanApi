@@ -36,6 +36,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? Dis_complitionTrainingDoc { get; set; }
         public string? Remark { get; set; }
         public int? RoleID { get; set; }
+        public int? InstituteID { get; set; }
     }
 
     public class StaffTrainingDetailSearchData
