@@ -18,5 +18,6 @@
 
         public string? IPAddress { get; set; }
         public string? HRStatus { get; set; }
+        public string? Designation { get; set; }
     }
 }

@@ -77,6 +77,7 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int? PlacementCompanyID { get; set; }
         public string? Name { get; set; }
         public string? EmailId { get; set; }
+        public string? Designation { get; set; }
         public string? MobileNo { get; set; }
         public int? ModifyBy { get; set; }
         public bool? ActiveStatus { get; set; }
