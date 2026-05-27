@@ -840,7 +840,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0,int SchemeID=0)
+        public async Task<DataTable> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0, int SchemeID = 0)
         {
             _actionName = "StreamMaster()";
             return await Task.Run(async () =>
@@ -1038,7 +1038,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        public async Task<DataTable> StaffAttendence(string SSOID = "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int RoleID =0)
+        public async Task<DataTable> StaffAttendence(string SSOID = "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int RoleID = 0)
         {
             _actionName = "SemesterRolewise()";
             return await Task.Run(async () =>
@@ -4767,7 +4767,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ReceiptNo", request.RECEIPTNO);
                     command.Parameters.AddWithValue("@RequestStatus", request.STATUS);
                     //command.Parameters.AddWithValue("@ExamStudentStatus", request.ExamStudentStatus);
-                   // command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus");
+                    // command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus");
                     command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus_ITI");
                     command.Parameters.Add("@retval_TransactionId", SqlDbType.Int);// out
                     command.Parameters["@retval_TransactionId"].Direction = ParameterDirection.Output;// out
@@ -9239,36 +9239,33 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataSet> Dummy_GetTestUspDataByAction(string action)
         {
             _actionName = "Dummy_GetMoveFilesFromStudentFolderToNewFolderStructure()";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataSet ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataSet ds = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_Dummy_Test";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Dummy_Test";
 
-                        command.Parameters.AddWithValue("@action", action);
+                    command.Parameters.AddWithValue("@action", action);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        ds = await command.FillAsync();
-                    }
-                    return ds;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
                 }
-                catch (Exception ex)
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         #endregion
 
@@ -12183,7 +12180,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetStudentDeatilsByAction(StudentSearchModelForWhatsAPP filterModel)
         {
             _actionName = "GetStudentDeatilsByAction()";
-            string Action= "PendingFees";
+            string Action = "PendingFees";
             return await Task.Run(async () =>
             {
                 try
@@ -12195,8 +12192,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_GetStudentFeeDetails";
 
                         // Add parameters to the stored procedure from the model
-                        
-                        command.Parameters.AddWithValue("@Action", Action);                        
+
+                        command.Parameters.AddWithValue("@Action", Action);
                         command.Parameters.AddWithValue("@ApplicationNo", filterModel.ApplicationNo);
                         command.Parameters.AddWithValue("@DOB", filterModel.DOB);
                         command.Parameters.AddWithValue("@MobileNumber", filterModel.MobileNumber);
@@ -12344,7 +12341,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 try
                 {
                     int result = 0;
-                    
+
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
@@ -12377,13 +12374,13 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<Models.CompanyMaster.CompanyMoUDetailsModel> GetCompanyMoUDetails(Models.CompanyMaster.CompanyMoUDetailsModel Model)
         {
-           
+
             try
             {
                 _actionName = "GetCompanyMoUDetails";
                 DataTable dt = new DataTable();
                 using (var command = await _dbContext.CreateCommandAsync())
-                {                    
+                {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_CompanyMoUDetails_IU";
 
