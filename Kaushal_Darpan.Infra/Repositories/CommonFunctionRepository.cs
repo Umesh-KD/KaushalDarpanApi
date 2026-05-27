@@ -8698,7 +8698,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<List<CommonDDLModel>> DDL_RoleWiseOffice(int DepartmentID, int RoleID)
+        public async Task<List<CommonDDLModel>> DDL_RoleWiseOffice(int DepartmentID, int RoleID, int UserID)
         {
             _actionName = "DDL_RoleWiseOffice(int DepartmentID, int RoleID)";
             return await Task.Run(async () =>
@@ -8713,6 +8713,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_GovtEMDDLOffice";
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
                         command.Parameters.AddWithValue("@RoleID", RoleID);
+                        command.Parameters.AddWithValue("@UserID", UserID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -12334,7 +12335,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         }
 
-        public async Task<int> InsertCompanyMoUDetails(CompanyMoUDetailsModel request)
+        public async Task<int> InsertCompanyMoUDetails(Models.CompanyMaster.CompanyMoUDetailsModel request)
         {
             _actionName = "INSERT";
 
@@ -12374,7 +12375,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<CompanyMoUDetailsModel> GetCompanyMoUDetails(CompanyMoUDetailsModel Model)
+        public async Task<Models.CompanyMaster.CompanyMoUDetailsModel> GetCompanyMoUDetails(Models.CompanyMaster.CompanyMoUDetailsModel Model)
         {
            
             try
@@ -12393,8 +12394,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
 
                 // class
-                var data = new CompanyMoUDetailsModel();
-                data = CommonFuncationHelper.ConvertDataTable<CompanyMoUDetailsModel>(dt);
+                var data = new Models.CompanyMaster.CompanyMoUDetailsModel();
+                data = CommonFuncationHelper.ConvertDataTable<Models.CompanyMaster.CompanyMoUDetailsModel>(dt);
                 return data;
             }
             catch (Exception ex)

@@ -66,32 +66,174 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<bool> SaveData(CompanyMasterModels request)
+        //public async Task<bool> SaveData(CompanyMasterModels request)
+        //{
+        //    _actionName = "SaveData(CompanyMasterModels request)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            int result = 0;
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
+        //            {
+        //                // Set the stored procedure name and type
+        //                command.CommandType = CommandType.StoredProcedure;
+        //                command.CommandText = "USP_PlacementCompanyMaster_IU";
+
+
+        //                // Add parameters with appropriate null handling
+        //                command.Parameters.AddWithValue("@ID", request.ID);
+        //                command.Parameters.AddWithValue("@Name", request.Name ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+        //                command.Parameters.AddWithValue("@CompanyTypeId", request.CompanyTypeId);
+        //                command.Parameters.AddWithValue("@StateID", request.StateID);
+        //                command.Parameters.AddWithValue("@Website", request.Website);
+        //                command.Parameters.AddWithValue("@Address", request.Address);
+
+        //                command.Parameters.AddWithValue("@Logo", request.CompanyPhoto);
+        //                command.Parameters.AddWithValue("@Dis_Name", request.Dis_CompanyName);
+        //                command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+        //                command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+        //                command.Parameters.AddWithValue("@TierID", request.TierID);
+        //                command.Parameters.AddWithValue("@PackageID", request.PackageID);
+        //                command.Parameters.AddWithValue("@ISIIP", request.ISIIP);
+        //                command.Parameters.AddWithValue("@ISPlacement", request.ISPlacement);
+        //                command.Parameters.AddWithValue("@RoleID", request.RoleID);
+        //                command.Parameters.AddWithValue("@MouAdded", 0);
+
+        //                //command.Parameters.AddWithValue("@HRName", request.HRName);
+        //                //command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
+        //                //command.Parameters.AddWithValue("@EmailId", request.EmailId);
+
+        //                command.Parameters.AddWithValue("@HrList", JsonConvert.SerializeObject(request.ListCompanyHRDetails));
+
+        //                command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+        //                command.Parameters.Add("@Return", SqlDbType.Int); // out
+        //                command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+
+        //                _sqlQuery = command.GetSqlExecutableQuery();
+        //                // Execute the command
+        //                result = await command.ExecuteNonQueryAsync();
+        //                result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+        //            }
+        //            if (result > 0)
+        //                return true;
+        //            else
+        //                return false;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            var errorDesc = new ErrorDescription
+        //            {
+        //                Message = ex.Message,
+        //                PageName = _pageName,
+        //                ActionName = _actionName,
+        //                SqlExecutableQuery = _sqlQuery
+        //            };
+        //            var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+        //            throw new Exception(errordetails, ex);
+        //        }
+        //    });
+        //}
+
+        //public async Task<bool> SaveData(CompanyMasterModels request)
+        //{
+        //    _actionName = "SaveData(CompanyMasterModels request)";
+        //    return await Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            int result = 0;
+        //            using (var command = await _dbContext.CreateCommandAsync(true))
+        //            {
+        //                // Set the stored procedure name and type
+        //                command.CommandType = CommandType.StoredProcedure;
+        //                command.CommandText = "USP_PlacementCompanyMaster_IU";
+
+
+        //                // Add parameters with appropriate null handling
+        //                command.Parameters.AddWithValue("@ID", request.ID);
+        //                command.Parameters.AddWithValue("@Name", request.Name ?? (object)DBNull.Value);
+        //                command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+        //                command.Parameters.AddWithValue("@CompanyTypeId", request.CompanyTypeId);
+        //                command.Parameters.AddWithValue("@StateID", request.StateID);
+        //                command.Parameters.AddWithValue("@Website", request.Website);
+        //                command.Parameters.AddWithValue("@Address", request.Address);
+
+        //                command.Parameters.AddWithValue("@Logo", request.CompanyPhoto);
+        //                command.Parameters.AddWithValue("@Dis_Name", request.Dis_CompanyName);
+        //                command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+        //                command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+        //                command.Parameters.AddWithValue("@TierID", request.TierID);
+        //                command.Parameters.AddWithValue("@PackageID", request.PackageID);
+        //                command.Parameters.AddWithValue("@ISIIP", request.ISIIP);
+        //                command.Parameters.AddWithValue("@ISPlacement", request.ISPlacement);
+        //                command.Parameters.AddWithValue("@RoleID", request.RoleID);
+        //                command.Parameters.AddWithValue("@MouAdded", 0);
+
+        //                //command.Parameters.AddWithValue("@HRName", request.HRName);
+        //                //command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
+        //                //command.Parameters.AddWithValue("@EmailId", request.EmailId);
+
+        //                command.Parameters.AddWithValue("@HrList", JsonConvert.SerializeObject(request.ListCompanyHRDetails));
+
+        //                command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+        //                command.Parameters.Add("@Return", SqlDbType.Int); // out
+        //                command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+
+        //                _sqlQuery = command.GetSqlExecutableQuery();
+        //                // Execute the command
+        //                result = await command.ExecuteNonQueryAsync();
+        //                result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+        //            }
+        //            if (result > 0)
+        //                return true;
+        //            else
+        //                return false;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            var errorDesc = new ErrorDescription
+        //            {
+        //                Message = ex.Message,
+        //                PageName = _pageName,
+        //                ActionName = _actionName,
+        //                SqlExecutableQuery = _sqlQuery
+        //            };
+        //            var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+        //            throw new Exception(errordetails, ex);
+        //        }
+        //    });
+        //}
+        public async Task<int> SaveData(CompanyMasterModels request)
         {
             _actionName = "SaveData(CompanyMasterModels request)";
+
             return await Task.Run(async () =>
             {
                 try
                 {
                     int result = 0;
+
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
-                        // Set the stored procedure name and type
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_PlacementCompanyMaster_IU";
-                      
 
-                        // Add parameters with appropriate null handling
                         command.Parameters.AddWithValue("@ID", request.ID);
                         command.Parameters.AddWithValue("@Name", request.Name ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
                         command.Parameters.AddWithValue("@CompanyTypeId", request.CompanyTypeId);
                         command.Parameters.AddWithValue("@StateID", request.StateID);
-                        command.Parameters.AddWithValue("@Website", request.Website);
-                        command.Parameters.AddWithValue("@Address", request.Address);
+                        command.Parameters.AddWithValue("@Website", request.Website ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Address", request.Address ?? (object)DBNull.Value);
 
-                        command.Parameters.AddWithValue("@Logo", request.CompanyPhoto);
-                        command.Parameters.AddWithValue("@Dis_Name", request.Dis_CompanyName);
+                        command.Parameters.AddWithValue("@Logo", request.CompanyPhoto ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Dis_Name", request.Dis_CompanyName ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
                         command.Parameters.AddWithValue("@TierID", request.TierID);
@@ -101,27 +243,24 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RoleID", request.RoleID);
                         command.Parameters.AddWithValue("@MouAdded", 0);
 
-                        //command.Parameters.AddWithValue("@HRName", request.HRName);
-                        //command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
-                        //command.Parameters.AddWithValue("@EmailId", request.EmailId);
-
-                        command.Parameters.AddWithValue("@HrList", JsonConvert.SerializeObject(request.ListCompanyHRDetails));
+                        command.Parameters.AddWithValue(
+                            "@HrList",
+                            JsonConvert.SerializeObject(request.ListCompanyHRDetails)
+                        );
 
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
-                        command.Parameters.Add("@Return", SqlDbType.Int); // out
-                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
-
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
 
                         _sqlQuery = command.GetSqlExecutableQuery();
-                        // Execute the command
-                        result = await command.ExecuteNonQueryAsync();
-                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+
+                        await command.ExecuteNonQueryAsync();
+
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
                     }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+
+                    return result;
                 }
                 catch (Exception ex)
                 {
@@ -132,7 +271,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         ActionName = _actionName,
                         SqlExecutableQuery = _sqlQuery
                     };
+
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+
                     throw new Exception(errordetails, ex);
                 }
             });
@@ -186,7 +327,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         //            using (var command = await _dbContext.CreateCommandAsync())
         //            {
-                  
+
         //                command.CommandType = CommandType.StoredProcedure;
         //                command.CommandText = "USP_CompanyUpdateAction";
         //                command.Parameters.AddWithValue("@PK_ID", PK_ID);

@@ -117,5 +117,93 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+        [HttpPost("GetAssignedRole_USerWise")]
+        public async Task<ApiResult<List<AssignRoleRightsModel>>> GetAssignedRole_USerWise(GetAssignedRoleDataModel model)
+        {
+            ActionName = "GetAssignedRole_USerWise(GetAssignedRoleDataModel model)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<AssignRoleRightsModel>>();
+                try
+                {
+                    var data = await _unitOfWork.AssignRoleRightsRepository.GetAssignedRole_USerWise(model);
+                    if (data != null)
+                    {
+                        var mappedData = _mapper.Map<List<AssignRoleRightsModel>>(data);
+                        result.Data = mappedData;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        [HttpPost("SaveAssignedRole_UserWise")]
+        public async Task<ApiResult<int>> SaveAssignedRole_UserWise([FromBody] List<AssignRoleRightsModel> request)
+        {
+            ActionName = "SaveAssignedRole_UserWise([FromBody] List<AssignRoleRightsModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    //
+                    request.ForEach(x =>
+                    {
+                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    });
+
+                    result.Data = await _unitOfWork.AssignRoleRightsRepository.SaveAssignedRole_UserWise(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
     }
 }

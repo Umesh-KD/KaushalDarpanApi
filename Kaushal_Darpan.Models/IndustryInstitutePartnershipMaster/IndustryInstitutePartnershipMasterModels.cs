@@ -91,6 +91,7 @@ namespace Kaushal_Darpan.Models.CompanyMaster
 
     public class IIP_EventDataModel: RequestBaseModel
     {
+        public string EventName { get; set; }
         public int? EventID { get; set; } = 0;
         public int? CompanyID { get; set; } = 0;
         public int? EventTypeID { get; set; } = 0;

@@ -535,7 +535,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.CommandText = "USP_GetStaffForLeaveCredit_ADTE_Gazetted";
                             command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         }
-                        else
+                        else if (body.RoleID.HasValue && ((body.RoleID == (int)EnumRole.Principal) || (body.RoleID == (int)EnumRole.Principal_NonEng)))
                         {
                             command.CommandText = "USP_GetStaffForLeaveCredit";
                         }
@@ -610,6 +610,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         else
                         {
                             command.CommandText = "USP_GetStaffWithLeaveBalance";
+                            command.Parameters.AddWithValue("@RoleID", body.RoleID);
                         }
                         command.Parameters.AddWithValue("@Name", body.Name);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
@@ -773,5 +774,49 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
         #endregion
+
+
+        public async Task<bool> Save_CreditStaffLeave_ADTE_Gazetted(List<CreditLeaveModel> request)
+        {
+            _actionName = "Save_CreditStaffLeave_ADTE_Gazetted(CreditLeaveModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_SaveLeaveCreditForStaff_ADTE_Gazetted";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(request));
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@action", "_addLeaveCreditForStaffData");
+
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                    }
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
     }
 }

@@ -11,13 +11,10 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> SaveData(UserMasterModel productDetails);
         Task<bool> UpdateData(UserMasterModel productDetails);
         Task<bool> DeleteDataByID(UserMasterModel productDetails);
-
         Task<UserMasterModel> GetUserMobileNoForOTP(int RoleID,int DepartmentID);
-
         Task<DataTable> GetPrincipleList(StudentSearchModel body);
-
-
         Task<bool> UpdatePrincipleData(PrincipleUpdateInstituteIDModel principle);
+        Task<DataTable> GetUserData_RoleWise(UserMasterSearchModel body);
 
     }
 }

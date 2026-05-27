@@ -5630,7 +5630,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 // Pass the entire model to the repository
-                result.Data = await _unitOfWork.ReportRepository.PaperCountCustomizeReportColumnsAndList(model);
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.PaperCountCustomizeReportColumnsAndList(model));
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -14797,21 +14797,33 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     // get tabular details
                     var tabular_data = new DataSet();
-                    if (body.ResultTypeId == (int)EnumResultType.RwhResult || body.ResultTypeId == (int)EnumResultType.RwhRevalEffected)
-                    {
-                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationRWH(body));
-                    }
-                    else
+                    if (body.ResultTypeId == (int)EnumResultType.MainResult)
                     {
                         tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body));
                     }
-                    if (tabular_data.Tables?.Count < 2)
+                    else if (body.ResultTypeId == (int)EnumResultType.RwhResult || body.ResultTypeId == (int)EnumResultType.RwhRevalEffected)
+                    {
+                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationRWH(body));
+                    }
+                    else if (body.ResultTypeId == (int)EnumResultType.RevaluationResult)
+                    {
+                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationReval(body));
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_INVALID_REQUEST;
+                        return result;
+                    }
+
+                    int headerRowBlockCount = 5;// get only top header 
+                    if (tabular_data?.Tables?.Count < 2 || tabular_data?.Tables[0]?.Rows.Count == 0 || tabular_data?.Tables[0]?.Rows.Count == headerRowBlockCount) 
                     {
                         continue;
                     }
 
                     // get detail html
-                    var _sb = _printHtmlFile.GetHtmlOfHeadingAndTabularForTabulation(dr, heading_data, tabular_data, resultPublishModel);
+                    var _sb = _printHtmlFile.GetHtmlOfHeadingAndTabularForTabulation(dr, heading_data, tabular_data, resultPublishModel, body);
                     sb.AppendJoin("</br>", _sb);
                 }
                 // end stream loop
@@ -14822,7 +14834,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 if (consolidate_data?.Rows.Count > 0)
                 {
                     //get html
-                    var _sb1 = _printHtmlFile.GetHtmlOfConsolidateForTabulation(consolidate_data, heading_data, resultPublishModel);
+                    var _sb1 = _printHtmlFile.GetHtmlOfConsolidateForTabulation(consolidate_data, heading_data, resultPublishModel, body);
                     sb.AppendJoin("</br>", _sb1);
                 }
 

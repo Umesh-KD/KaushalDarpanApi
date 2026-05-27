@@ -1,6 +1,7 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models;
 using Kaushal_Darpan.Models.CenterObserver;
 using Kaushal_Darpan.Models.CollegeMaster;
 using Kaushal_Darpan.Models.DTEInventoryModels;
@@ -1364,11 +1365,10 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<bool> SaveHostelFee(HostelFeeModel request)
+        public async Task<int> SaveHostelFee(HostelFeeModel request)
         {
             _actionName = "SaveHostelFee(HostelFeeModel request)";
-            return await Task.Run(async () =>
-            {
+
                 try
                 {
                     int result = 0;
@@ -1393,10 +1393,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                             result = await command.ExecuteNonQueryAsync();
                         result = Convert.ToInt32(command.Parameters["@Return"].Value);
                     }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                //if (result > 0)
+                //    return true;
+                //else
+                //    return false;
+                return result;
                 }
                 catch (Exception ex)
                 {
@@ -1410,11 +1411,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+
         }
 
-
-        public async Task<DataTable> getHostelFeeList()
+        //InstituteWiseModel request
+        public async Task<DataTable> getHostelFeeList(HostelFeeModel request)
         {
             _actionName = "GetAllData()";
             return await Task.Run(async () =>
@@ -1426,6 +1427,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "usp_getHostelFee";
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

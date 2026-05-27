@@ -5,6 +5,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.PreExamStudent;
+using Kaushal_Darpan.Models.TheoryMarks;
 using Org.BouncyCastle.Utilities;
 using System.Data;
 using System.Text;
@@ -185,7 +186,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
 
         #region Result Tabulation
-        public StringBuilder GetHtmlOfHeadingAndTabularForTabulation(DataRow streams_dr, DataTable heading_dt, DataSet tabular_ds, ResultPublishModel resultPublishModel)
+        public StringBuilder GetHtmlOfHeadingAndTabularForTabulation(DataRow streams_dr, DataTable heading_dt, DataSet tabular_ds, ResultPublishModel resultPublishModel, TabluationDataModel body)
         {
             try
             {
@@ -200,7 +201,11 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_1"]}</strong><br>");
                 sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_2"]}</strong><br>");
                 sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_3"]}</strong><br>");
-                //        sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
+                // for rwh
+                if (body.ResultTypeId == (int)EnumResultType.RwhResult || body.ResultTypeId == (int)EnumResultType.RwhRevalEffected)
+                {
+                    sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
+                }
                 sb_hm.AppendLine("                </td>");
                 sb_hm.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
                 sb_hm.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
@@ -222,6 +227,8 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 int dataRowBlockCount = 7;//data row block dotted separation line count 
                 int k = 1;
                 string borderSeperationStyle = "";
+
+                bool IsAlreadySubjectTablePrinted = false;
 
                 // Top rows
                 DataTable dt_h = tabular_ds.Tables[0].AsEnumerable()
@@ -267,14 +274,22 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 // page break with pagging
                 int pageSize = 49; // 7 students details
 
-                for (int i = 0; i < dt_tabluerdet.Rows.Count; i += pageSize)
+                int totalRows = dt_tabluerdet.Rows.Count;
+                int totalPages = (int)Math.Ceiling((double)totalRows / pageSize);
+
+                for (int pageNumber = 1; pageNumber <= totalPages; pageNumber++)
                 {
+                    int startIndex = (pageNumber - 1) * pageSize; // from row
+                    int endIndex = Math.Min(startIndex + pageSize, totalRows); // to row
+
                     DataTable dt_tabluerdet1 = dt_tabluerdet.Clone();
 
-                    for (int j = i; j < i + pageSize && j < dt_tabluerdet.Rows.Count; j++)
+                    for (int j = startIndex; j < endIndex; j++)
                     {
                         dt_tabluerdet1.ImportRow(dt_tabluerdet.Rows[j]);
                     }
+
+                    bool isLastPage = (pageNumber == totalPages);// last page
 
                     // main heading
                     sb.Append(sb_hm);
@@ -299,7 +314,16 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             var colval = dr[dc.ColumnName]?.ToString();
                             if (colval?.ToLower() == "detained" || colval?.ToLower() == "ufm")
                             {
-                                sb.AppendLine($"<td> <b>{dr[dc.ColumnName]} </b></td>");
+                                if (k == 1)
+                                {
+                                    sb.AppendLine($"<td rowspan=\"{dataRowBlockCount}\" colspan=\"{dt_tabluerdet1.Columns.Count}\" style=\"text-align:center;font-weight:bolder;text-transform: uppercase;font-size:1.5em;letter-spacing:3px;\"> {dr[dc.ColumnName]} </td>");
+                                }
+                                break;// print one then rest exclude from creation
+                            }
+                            else if (colval?.ToLower()?.StartsWith("regul. sub.") == true)
+                            {
+                                sb.AppendLine($"<td colspan=\"6\" style=\"text-align:left;\"> {dr[dc.ColumnName]} </td>");
+                                break;// print one then rest exclude from creation
                             }
                             else
                             {
@@ -317,6 +341,49 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     sb.AppendLine("        </table>");
                     sb.AppendLine("</br>");
 
+                    // check if possible to print subject table
+                    int totalSubjectsInTable = tabular_ds.Tables[1].Rows.Count + 6; // 6 = extra row margin                    
+                    if (isLastPage && Math.Abs(startIndex - endIndex) + totalSubjectsInTable < pageSize)
+                    {
+                        IsAlreadySubjectTablePrinted = true;
+                        // table-2 to handle for new scheme
+                        // data
+                        if (tabular_ds.Tables[1].Rows.Count > 0)
+                        {
+                            sb.AppendLine("</br>");
+
+                            // table -1
+                            sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;\" border=\"1\">");
+
+                            //column table-3(actual-2)
+                            // Main Header Row
+                            sb.AppendLine("            <tr>");
+                            foreach (DataColumn dc in tabular_ds.Tables[1].Columns)
+                            {
+                                sb.AppendLine($"                <th style=\"text-align:left;\"> {dc.ColumnName} </th>");
+                            }
+                            sb.AppendLine("            </tr>");
+
+                            //row
+                            //column data
+                            foreach (DataRow dr in tabular_ds.Tables[1].Rows)
+                            {
+                                sb.AppendLine($"            <tr>");
+                                foreach (DataColumn dc in tabular_ds.Tables[1].Columns)
+                                {
+                                    sb.AppendLine($"<td> {dr[dc.ColumnName]} </td>");
+                                }
+                                sb.AppendLine("            </tr>");
+                            }
+                            // table close
+                            sb.AppendLine("        </table>");
+
+                            // note
+                            sb.Append("</br>");
+                            sb.AppendLine("<div><b>Note : </b> (Student Centered Activity) Grading : A = Very Good, B = Good, C = Average, D = Satisfactory</div>");
+                        }
+                    }
+
                     // end pagging
                     // page break
                     sb.Append("<div class='page-break'></div>");
@@ -325,7 +392,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
                 // table-2 to handle for new scheme
                 // data
-                if (tabular_ds.Tables[1].Rows.Count > 0)
+                if (IsAlreadySubjectTablePrinted == false && tabular_ds.Tables[1].Rows.Count > 0)
                 {
                     // subjects
                     sb_h = new StringBuilder();
@@ -380,7 +447,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 throw;
             }
         }
-        public StringBuilder GetHtmlOfConsolidateForTabulation(DataTable consolidate_dt, DataTable heading_dt, ResultPublishModel resultPublishModel)
+        public StringBuilder GetHtmlOfConsolidateForTabulation(DataTable consolidate_dt, DataTable heading_dt, ResultPublishModel resultPublishModel, TabluationDataModel body)
         {
             try
             {
@@ -394,7 +461,11 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_1"]}</strong><br>");
                 sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_2"]}</strong><br>");
                 sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_3"]}</strong><br>");
-                //        sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
+                // for rwh
+                if (body.ResultTypeId == (int)EnumResultType.RwhResult || body.ResultTypeId == (int)EnumResultType.RwhRevalEffected)
+                {
+                    sb_hm.AppendLine($"                    <strong>{heading_dt.Rows[0]["Heading_4"]}</strong>");
+                }
                 sb_hm.AppendLine("                </td>");
                 sb_hm.AppendLine("                <td style=\"width:20%; text-align:right; vertical-align:bottom;\">");
                 sb_hm.AppendLine("                    <strong>Date of Result Declaration</strong><br>");
@@ -415,8 +486,6 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
                 // main heading
                 sb.Append(sb_hm);
-
-                sb.AppendLine("</br>");
 
                 // table -3
                 sb.AppendLine("        <table cellspacing=\"0\" cellpadding=\"2\" style=\"width:100%; font-family:Arial, sans-serif; font-size:14px; \" border=\"1\">");
