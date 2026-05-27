@@ -43,8 +43,15 @@
         public string? MarksheetFile { get; set; }
         public int? StudentID { get; set; }
         public int? SemesterID { get; set; }
+        public int? RollNo { get; set; }
+        public int? ResulTypeID { get; set; }
     }
-
+    public class StudentDownloadInfo
+    {
+        public int? RollNo { get; set; }
+        public string? MarksheetFile { get; set; }
+        public string? MarksheetFilePath { get; set; }
+    }
     public class StudentResultSearchModel
     {
         public int? EndTermID { get; set; }

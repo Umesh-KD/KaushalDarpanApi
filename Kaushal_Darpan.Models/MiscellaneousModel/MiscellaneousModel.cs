@@ -21,7 +21,7 @@ namespace Kaushal_Darpan.Models.LeaveMaster
         public int Type { get; set; } = 0;
         public string SubjectCode { get; set; } = string.Empty;
         public string SSOID { get; set; } = string.Empty;
-        public int GroupCode { get; set; } = 0;
+        public string GroupCode { get; set; } = string.Empty;
         public int CourseType { get; set; } = 0;
     }
 }

@@ -14800,6 +14800,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     if (body.ResultTypeId == (int)EnumResultType.MainResult)
                     {
                         tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulation(body));
+                        //tabular_data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.Dummy_GetTestUspDataByAction("_get_data_to_test"));
                     }
                     else if (body.ResultTypeId == (int)EnumResultType.RwhResult || body.ResultTypeId == (int)EnumResultType.RwhRevalEffected)
                     {
@@ -18327,6 +18328,123 @@ namespace Kaushal_Darpan.Api.Controllers
                 await CreateErrorLog(nex, _unitOfWork);
             }
             return result;
+        }
+        #endregion
+
+        #region Bulk Student Marksheet Chunk
+        [HttpPost("StudentMarksheetDownloadChunk")]
+        public async Task<ApiResult<string>> StudentMarksheetDownloadChunk([FromBody] List<MarksheetDownloadSearchModel> Model)
+        {
+            ActionName = "GetStudentMarksheetBulk([FromBody] List<MarksheetDownloadSearchModel> Model)";
+            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/BTER/2026";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    List<GenerateMarksheetModel> ListData = new List<GenerateMarksheetModel>();
+                    List<StudentDownloadInfo> DownloadList = new List<StudentDownloadInfo>();
+
+                    foreach (var student in Model)
+                    {
+                        GenerateMarksheetModel objStudent = new GenerateMarksheetModel();
+                        var data = await _unitOfWork.ReportRepository.GetStudentMarksheet(student);
+                        if (data?.Tables?.Count == 3)
+                        {
+                            string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                            var fileName = $"StudentMarksheet_{student.RollNo}_{timestamp_str}.pdf";
+                            string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/BTER/2026/{fileName}";
+                            string temp_filepath = $"{Constants.StudentsFolder}/BTER/2026/{fileName}";
+                            string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
+
+                            #region "Add Object"
+                            objStudent.StudentID = student.StudentID;
+                            objStudent.MarksheetPath = filepath;
+                            objStudent.MarksheetFile = fileName;
+                            ListData.Add(objStudent);
+                            #endregion
+
+                            student.MarksheetPath = filepath;
+                            student.Marksheet = fileName;
+
+                            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                            LocalReport localReport = new LocalReport(rdlcpath);
+                            localReport.AddDataSource("StudentDetailsForMarksheet", data.Tables[0]);
+                            localReport.AddDataSource("StudentMarksheetSubjectDetails", data.Tables[1]);
+                            localReport.AddDataSource("ResultDetails", data.Tables[2]);
+                            var reportResult = localReport.Execute(RenderType.Pdf);
+
+                            //check file exists
+                            if (!System.IO.Directory.Exists(folderPath))
+                            {
+                                Directory.CreateDirectory(folderPath);
+                            }
+
+                            //save
+                            System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+
+                            StudentDownloadInfo downloadInfo = new StudentDownloadInfo
+                            {
+                                RollNo = student.RollNo,
+                                MarksheetFile = fileName,
+                                MarksheetFilePath = temp_filepath
+                            };
+                            DownloadList.Add(downloadInfo);
+
+                            student.MarksheetPath = filepath;
+                            student.Marksheet = fileName;
+
+                        }
+                        else
+                        {
+                            result.State = EnumStatus.Warning;
+                            result.Message = Constants.MSG_DATA_NOT_FOUND;
+                        }
+                    }
+                    #region "Save Multiple PDF PAGES"
+                    string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                    string outputFile = $"Marksheet_{timestamp}.pdf";
+                    string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                    List<string?> strSoureFiles = ListData.Select(s => s.MarksheetPath).ToList();
+
+                    if (await MergePdfFilesAsync(strSoureFiles, outputPath))
+                    {
+                        var updateData = new ApiResult<int>();
+                        updateData.Data = await _unitOfWork.MarksheetDownloadRepository.UpdateMarksheetFile(DownloadList);
+                        await _unitOfWork.SaveChangesAsync();
+                        if (updateData.Data > 0)
+                        {
+                            result.Data = outputFile;
+                            result.State = EnumStatus.Success;
+                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                        }
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "Something went wrong";
+                    }
+                    #endregion
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+
+            });
         }
         #endregion
     }

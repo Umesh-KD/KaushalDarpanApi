@@ -782,6 +782,15 @@ namespace Kaushal_Darpan.Api.Controllers
                 .ConvertDataTable<List<TransferSystemShowDataModel>>(ds.Tables[0])
                 .FirstOrDefault();
 
+            if (model.RelievingTimeID == 1)
+            {
+                model.RelivingTime = "मध्याह्न पूर्व";
+            }
+            else if (model.RelievingTimeID == 2)
+            {
+                model.RelivingTime = "मध्याह्न पश्चात";
+            }
+
 
             if (model == null)
                 return NotFound("Data mapping failed");
@@ -1037,8 +1046,10 @@ namespace Kaushal_Darpan.Api.Controllers
                     दिनांक
                 </td>
                 <td style='width:50%; text-align:right; vertical-align:top;'>
-                    {model.TransferPostName}<br>
-                   {model.InstituteName}
+                    {model.RelievingApproveByName}<br>
+{model.RelievingApproveByRole}
+                    
+                  
                 </td>
             </tr>
         </table>
