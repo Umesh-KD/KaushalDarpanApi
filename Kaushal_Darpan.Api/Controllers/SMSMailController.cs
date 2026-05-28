@@ -288,7 +288,6 @@ namespace Kaushal_Darpan.Api.Controllers
                 //Bter Placmeent SMS Service CompanyHRApprove
                 else if (request.MessageType == EnumMessageType.Bter_ComapnyHRApprove.GetDescription())
                 {
-
                     MessageBody = MessageBody.Replace("{#ApplicantName#}", request.ApplicantName)
                         .Replace("{#ReferenceID#}", request.ReferenceID)
                         ;
