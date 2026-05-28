@@ -13,6 +13,7 @@ namespace Kaushal_Darpan.Models.PlacementDashboard
        //public int EndTermID { get; set; }
         public int UserId { get; set; }
         public int RoleID { get; set; }
+        public string? EventStatus { get; set; }
     }
 
     public class ITIPlacementDashboardModel

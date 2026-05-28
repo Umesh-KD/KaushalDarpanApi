@@ -1,10 +1,12 @@
-﻿using System.Data;
-using AutoMapper;
+﻿using AutoMapper;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
-
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using System.IO;
+using System.IO.Compression;
+using System.IO.Compression;
 using Constants = Kaushal_Darpan.Core.Helper.Constants;
 
 namespace Kaushal_Darpan.Api.Controllers
@@ -138,6 +140,136 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.State = EnumStatus.Error;
                     result.Message = Constants.MSG_UPDATE_ERROR;
                     result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("SaveReject")]
+        public async Task<ApiResult<bool>> SaveReject([FromBody] List<PlacementShortListStudentResponseModel> request)
+        {
+            ActionName = "SaveAllData([FromBody] List<PlacementShortListStudentResponseModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    request.ForEach(x =>
+                    {
+                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
+
+                    });
+                    // Pass the list to the repository for batch update
+                    var isSave = await _unitOfWork.PlacementShortListStudentRepository.SaveReject(request);
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                    if (isSave == -2)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_NO_DATA_UPDATE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+        [HttpPost("DownloadPlacementShortListedStudents")]
+        public async Task<ApiResult<byte[]>> DownloadPlacementShortListedStudents(List<DownloadPlacementShortListedStudentModel> request)
+        {
+            ActionName = "DownloadPlacementShortListedStudents(List<DownloadPlacementShortListedStudentModel> request)";
+            var result = new ApiResult<byte[]>();
+            try
+            {
+                byte[] bytes = [];
+                //
+                using (var memoryStream = new MemoryStream())
+                {
+                    using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+                    {
+                        foreach (var item in request)
+                        {
+                            if (string.IsNullOrWhiteSpace(item.UploadedResume))
+                                continue;
+
+                            string filePath = Path.Combine(
+                                ConfigurationHelper.StaticFileRootPath,
+                                item.UploadedResume
+                            );
+
+                            // Check file exists
+                            if (!System.IO.File.Exists(filePath))
+                                continue;
+
+                            string fileName = Path.GetFileName(filePath);
+
+                            // Create zip entry
+                            var zipEntry = archive.CreateEntry(fileName, CompressionLevel.Fastest);
+
+                            using (var zipStream = zipEntry.Open())
+                            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                            {
+                                await fileStream.CopyToAsync(zipStream);
+                            }
+                        }
+                    }
+                    memoryStream.Position = 0;
+                    bytes = memoryStream.ToArray();
+                }
+
+                if (bytes?.Length > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_FILE_DOWNLOAD_SUCCESS;
+                    result.Data = bytes;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
             }
             catch (Exception ex)

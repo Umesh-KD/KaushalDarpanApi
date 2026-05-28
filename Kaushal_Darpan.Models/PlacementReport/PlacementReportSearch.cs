@@ -9,6 +9,11 @@
         public int Eng_NonEng { get; set; }
         public int CollegeID { get; set; }
         public int? RoleID { get; set; }
+        public int? StudentID { get; set; }
+        public int? CampusID { get; set; }
+        public int? FromAge { get; set; }
+        public int? ToAge { get; set; }
+        public int? FinancialYearID { get; set; }
 
 
     }

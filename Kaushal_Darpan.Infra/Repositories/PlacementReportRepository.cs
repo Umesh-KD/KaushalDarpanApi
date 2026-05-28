@@ -1,6 +1,7 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models.ITIAllotment;
 using Kaushal_Darpan.Models.PlacementReport;
 using System.Data;
 
@@ -40,7 +41,49 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StudentName", filterModel.StudentName ?? string.Empty);
                         command.Parameters.AddWithValue("@Gender", filterModel.Gender ?? string.Empty);
                         command.Parameters.AddWithValue("@RoleID", filterModel.RoleID);
+                        command.Parameters.AddWithValue("@CampusID", filterModel.CampusID);
+                        command.Parameters.AddWithValue("@FromAge", filterModel.FromAge);
+                        command.Parameters.AddWithValue("@ToAge", filterModel.ToAge);
+                        command.Parameters.AddWithValue("@FinancialYearID", filterModel.FinancialYearID);
                         command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetAllHistory(PlacementReportSearch filterModel)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetCampusStudentHistory";
+                   
+                        command.Parameters.AddWithValue("@StudentID", filterModel.StudentID);
+                        command.Parameters.AddWithValue("@CampusID", filterModel.CampusID);
+  
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

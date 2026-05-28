@@ -144,6 +144,51 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+
+        public async Task<int> SaveReject(List<PlacementShortListStudentResponseModel> entity)
+        {
+            _actionName = "SaveAllData(List<CreateTpoAddEditModel> entity)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        // Set the stored procedure name and type
+                        command.CommandText = "USP_AddRejectedData";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Add parameters with appropriate null handling
+                        command.Parameters.AddWithValue("@action", "_addEditAllData");
+                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(entity));
+
+                        command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
+                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+
+                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
     }
 }
 
