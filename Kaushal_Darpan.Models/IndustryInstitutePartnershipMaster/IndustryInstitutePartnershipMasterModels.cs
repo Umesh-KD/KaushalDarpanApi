@@ -152,4 +152,14 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int? Status { get; set; }
         public string? Remark { get; set; }
     }
+
+    public class EventConsentSearchModel
+    {
+        public int? EventID { get; set; }
+        public int? EventTypeID { get; set; }
+        public int? EventStatusID { get; set; }
+        public int? UserID { get; set; }
+        public int? RoleID { get; set; }
+        public string? Action { get; set; }
+    }
 }
