@@ -138,8 +138,17 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int? EventStatus { get; set; } = 0;
 
         public int? StaffID { get; set; } = 0;
+        public int? UserID { get; set; } = 0;
         public int? InterestedStatus { get; set; } = 0;
         public string? Remarks { get; set; } = "";
+        public string? Action { get; set; } = "";
     }
 
+    public class UpdateConsentStatusDataModel
+    {
+        public int? ConsentID { get; set; }
+        public int? ModifyBy { get; set; }
+        public int? Status { get; set; }
+        public string? Remark { get; set; }
+    }
 }

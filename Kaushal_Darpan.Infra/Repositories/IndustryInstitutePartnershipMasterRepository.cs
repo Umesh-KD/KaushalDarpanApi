@@ -920,5 +920,80 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
         #endregion
+
+        public async Task<DataTable> GetEventConsentData(CompanyEventSearchModel body)
+        {
+            _actionName = "GetEventConsentData(CompanyEventSearchModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_IIP_GetConsentData";
+                    command.Parameters.AddWithValue("@Action", body.Action);
+
+                    command.Parameters.AddWithValue("@EventID", body.EventID);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> UpdateConsentStatus(List<UpdateConsentStatusDataModel> request)
+        {
+            _actionName = "UpdateConsentStatus(List<UpdateConsentStatusDataModel> request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    // Set the stored procedure name and type
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_IIP_UpdateConsentStatus";
+
+                    command.Parameters.AddWithValue("@ConsentList", JsonConvert.SerializeObject(request));
+
+                    command.Parameters.Add("@Return", SqlDbType.Int); // out
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
