@@ -31,5 +31,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> Savestaffconsent(CompanyEventSearchModel request);
         Task<IIP_EventDataModel> GetEvent_ById(CompanyEventSearchModel request);
         Task<int> ApproveCompanyEvents(List<IndustryInstitutePartnershipMasterModels> model);
+        Task<DataTable> GetEventConsentData(CompanyEventSearchModel body);
+        Task<int> UpdateConsentStatus(List<UpdateConsentStatusDataModel> request);
     }
 }
