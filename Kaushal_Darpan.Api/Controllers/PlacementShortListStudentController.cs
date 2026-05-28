@@ -161,6 +161,62 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("SaveReject")]
+        public async Task<ApiResult<bool>> SaveReject([FromBody] List<PlacementShortListStudentResponseModel> request)
+        {
+            ActionName = "SaveAllData([FromBody] List<PlacementShortListStudentResponseModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    request.ForEach(x =>
+                    {
+                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
+
+                    });
+                    // Pass the list to the repository for batch update
+                    var isSave = await _unitOfWork.PlacementShortListStudentRepository.SaveReject(request);
+                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                    if (isSave == -2)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_NO_DATA_UPDATE;
+                    }
+                    else if (isSave > 0)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    // Log the error
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
     }
 }
 

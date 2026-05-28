@@ -12,6 +12,7 @@ namespace Kaushal_Darpan.Models.PlacementShortListStudentMaster
         public string FatherName { get; set; }
         public string DOB { get; set; }
         public int Age { get; set; }
+        public int CampusPostID { get; set; }
 
         public string HiringRoleName { get; set; }
         public bool Marked { get; set; }

@@ -9,6 +9,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetPlacedStudentsCountList();
         Task<int> SaveAllData(List<PlacementShortListStudentResponseModel> productDetails);
+        Task<int> SaveReject(List<PlacementShortListStudentResponseModel> productDetails);
 
     }
 }
