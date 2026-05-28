@@ -144,6 +144,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                     command.Parameters.AddWithValue("@UploadedResume", entity.UploadedResume);
                     command.Parameters.AddWithValue("@Dis_UploadedResume", entity.Dis_UploadedResume);
+                    command.Parameters.AddWithValue("@InterestedStatus", entity.InterestedStatus);
+    
 
                     command.Parameters.Add("@Return", SqlDbType.Int);// out
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;// out

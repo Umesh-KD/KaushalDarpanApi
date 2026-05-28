@@ -28,9 +28,11 @@ namespace Kaushal_Darpan.Models.PlacementStudentMaster
         public bool DeleteStatus { get; set; }
         public int CreatedBy { get; set; }
         public int ModifyBy { get; set; }
+        public int InterestedStatus { get; set; }   
         public string? IPAddress { get; set; }
         public string? UploadedResume { get; set; }
         public string? Dis_UploadedResume { get; set; }
+
     }
 
     public class StudentConsentSearchmodel {
