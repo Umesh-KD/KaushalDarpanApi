@@ -25,6 +25,13 @@ namespace Kaushal_Darpan.Models.PlacementShortListStudentMaster
         public string? PostNo { get; set; }
         public string? UploadedResume { get; set; }
 
+    }
 
+    public class DownloadPlacementShortListedStudentModel : RequestBaseModel
+    {
+        public int StudentID { get; set; }
+        public int CampusPostID { get; set; }
+        public string PostNo { get; set; }
+        public string UploadedResume { get; set; }
     }
 }
