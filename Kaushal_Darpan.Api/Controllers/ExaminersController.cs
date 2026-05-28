@@ -6,6 +6,7 @@ using Kaushal_Darpan.Models;
 using Kaushal_Darpan.Models.DateConfiguration;
 using Kaushal_Darpan.Models.Examiners;
 using Kaushal_Darpan.Models.HrMaster;
+using Kaushal_Darpan.Models.LeaveMaster;
 using Kaushal_Darpan.Models.SetExamAttendanceMaster;
 using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.UserMaster;
@@ -246,9 +247,6 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-
-
-
         [HttpGet("GetByID/{PK_ID}/{StaffSubjectID}/{DepartmentID}/{EndTermID}/{CourseTypeID}")]
         public async Task<ApiResult<ExaminerMaster>> GetByID(int PK_ID, int StaffSubjectID, int DepartmentID, int EndTermID, int CourseTypeID)
         {
@@ -286,9 +284,6 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
-
-
-
 
         [HttpPost("ExaminerInchargeDashboard")]
         public async Task<ApiResult<DataTable>> ExaminerInchargeDashboard(ExaminerDashboardSearchModel model)
@@ -498,7 +493,6 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-
         [HttpPost("StoreKeeperDashboard")]
         public async Task<ApiResult<DataTable>> StoreKeeperDashboard(ExaminerDashboardSearchModel model)
         {
@@ -570,7 +564,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        //-----------------------------------------------------------------------REVAL---------------------------------------------------------------------------------------------
+
         #region Reval Examiner
         [HttpGet("Getexaminer_byID_Reval/{PK_ID}/{StaffSubjectID}/{DepartmentID}/{EndTermID}/{CourseTypeID}")]
         public async Task<ApiResult<ExaminerMaster>> Getexaminer_byID_Reval(int PK_ID, int StaffSubjectID, int DepartmentID, int EndTermID, int CourseTypeID)
@@ -792,6 +786,84 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [HttpPost("GetExaminerWithGroupCode_Reval")]
+        public async Task<ApiResult<DataTable>> GetExaminerWithGroupCode_Reval([FromBody] MiscellaneousModel body)
+        {
+
+            ActionName = "GetExaminerWithGroupCode_Reval([FromBody] MiscellaneousModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                // Pass the entire model to the repository
+                result.Data = await Task.Run(() => _unitOfWork.ExaminersRepository.GetExaminerWithGroupCode_Reval(body));
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("UnlockExaminerWithGroupCode_Reval")]
+        public async Task<ApiResult<bool>> UnlockExaminerWithGroupCode_Reval([FromBody] MiscellaneousModel request)
+        {
+            ActionName = "UnlockExaminerWithGroupCode_Reval([FromBody] MiscellaneousModel request)";
+            var result = new ApiResult<bool>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ExaminersRepository.UnlockExaminerWithGroupCode_Reval(request));
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // write error log
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
         #endregion
     }
 }

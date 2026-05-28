@@ -309,8 +309,9 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             k = 0;// reset
                         }
                         sb.AppendLine($"            <tr {borderSeperationStyle}>");
-                        foreach (DataColumn dc in dt_tabluerdet1.Columns)
+                        for (int i = 0; i < dt_tabluerdet1.Columns.Count; i++)
                         {
+                            DataColumn dc = dt_tabluerdet1.Columns[i];
                             var colval = dr[dc.ColumnName]?.ToString();
                             if (colval?.ToLower() == "detained" || colval?.ToLower() == "ufm")
                             {
@@ -322,8 +323,11 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             }
                             else if (colval?.ToLower()?.StartsWith("regul. sub.") == true)
                             {
-                                sb.AppendLine($"<td colspan=\"6\" style=\"text-align:left;\"> {dr[dc.ColumnName]} </td>");
-                                break;// print one then rest exclude from creation
+                                sb.AppendLine($"<td colspan=\"4\" style=\"text-align:left;\"> {dr[dc.ColumnName]} </td>");
+                                // skip next 3 columns,
+                                // print one then exclude for colspan=4, rest as it is from creation 
+                                i += 3;
+                                continue;
                             }
                             else
                             {

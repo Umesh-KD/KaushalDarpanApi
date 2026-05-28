@@ -126,6 +126,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@MobileNo", request.MobileNo);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                        command.Parameters.AddWithValue("@Designation", request.Designation);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
 
 

@@ -587,7 +587,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@InstituteID", request.InstituteID ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@DivisionID", request.DivisionID ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@AreaOfDomain", request.AreaOfDomain ?? (object)DBNull.Value);
-                    
+                    command.Parameters.AddWithValue("@UserID", request.UserID);
                     command.Parameters.Add("@Return", SqlDbType.Int); // out
                     command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
 
@@ -627,6 +627,8 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     command.Parameters.AddWithValue("@CompanyID", body.CompanyID);
                     command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@EventStatus", body.EventStatus);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
@@ -664,6 +666,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CompanyID", body.CompanyID);
                     command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                    command.Parameters.AddWithValue("@EventStatus", body.EventStatus);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
@@ -742,6 +745,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@EventID", request.EventID);
                     command.Parameters.AddWithValue("@StaffID", request.StaffID);
                     command.Parameters.AddWithValue("@Remarks", request.Remarks);
+                    command.Parameters.AddWithValue("@StudentID", request.StudentID);
                     command.Parameters.AddWithValue("@InterestedStatus", request.InterestedStatus);
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                     command.Parameters.Add("@Return", SqlDbType.Int); // out
@@ -841,6 +845,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Event", request.Event);
                     command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
                     command.Parameters.AddWithValue("@EventForID", request.EventForID);
+                    //command.Parameters.AddWithValue("@UserID", request.UserID);
                     command.Parameters.AddWithValue("@EventStartDate", Convert.ToDateTime(request.EventStartDate));
                     command.Parameters.AddWithValue("@EventEndDate", Convert.ToDateTime(request.EventEndDate));
 
@@ -916,5 +921,118 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
         #endregion
+
+        public async Task<DataTable> GetEventConsentData(CompanyEventSearchModel body)
+        {
+            _actionName = "GetEventConsentData(CompanyEventSearchModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_IIP_GetConsentData";
+                    command.Parameters.AddWithValue("@Action", body.Action);
+
+                    command.Parameters.AddWithValue("@EventID", body.EventID);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> UpdateConsentStatus(List<UpdateConsentStatusDataModel> request)
+        {
+            _actionName = "UpdateConsentStatus(List<UpdateConsentStatusDataModel> request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    // Set the stored procedure name and type
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_IIP_UpdateConsentStatus";
+
+                    command.Parameters.AddWithValue("@ConsentList", JsonConvert.SerializeObject(request));
+
+                    command.Parameters.Add("@Return", SqlDbType.Int); // out
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetIIPEventConsentReportData(EventConsentSearchModel body)
+        {
+            _actionName = "GetIIPEventConsentReportData(CompanyEventSearchModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_IIP_GetConsentReportData";
+                    command.Parameters.AddWithValue("@Action", body.Action);
+
+                    command.Parameters.AddWithValue("@EventID", body.EventID);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@EventTypeID", body.EventTypeID);
+                    command.Parameters.AddWithValue("@EventStatusID", body.EventStatusID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }

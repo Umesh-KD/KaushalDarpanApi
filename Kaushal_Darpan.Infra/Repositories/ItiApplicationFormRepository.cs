@@ -306,6 +306,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TradeLevel", request[0].TradeLevel);
                         command.Parameters.AddWithValue("@AcademicYear", request[0].AcademicYear);
                         command.Parameters.AddWithValue("@TradeCategory", request[0].TradeCategory);
+                        command.Parameters.AddWithValue("@StudentPriority", request[0].StudentPriority);
                         // Add IP Address parameter
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         // Add the return parameter
