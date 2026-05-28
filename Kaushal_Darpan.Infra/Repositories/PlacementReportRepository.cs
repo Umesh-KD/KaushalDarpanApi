@@ -44,6 +44,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CampusID", filterModel.CampusID);
                         command.Parameters.AddWithValue("@FromAge", filterModel.FromAge);
                         command.Parameters.AddWithValue("@ToAge", filterModel.ToAge);
+                        command.Parameters.AddWithValue("@FinancialYearID", filterModel.FinancialYearID);
                         command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
 
                         _sqlQuery = command.GetSqlExecutableQuery();
