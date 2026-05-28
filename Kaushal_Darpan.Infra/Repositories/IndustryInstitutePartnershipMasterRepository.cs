@@ -937,6 +937,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@EventID", body.EventID);
                     command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@EventTypeID", body.EventTypeID);
+                    command.Parameters.AddWithValue("@EventStatusID", body.EventStatusID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();

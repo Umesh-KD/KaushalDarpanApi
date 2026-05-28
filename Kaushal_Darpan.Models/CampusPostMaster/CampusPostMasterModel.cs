@@ -78,6 +78,9 @@
         public string? SalaryName { get; set; }
         public int EligibleInstitutesID { get; set; }
         public string? appointmentLocation { get; set; }
+        public string? AgeCalculationDate { get; set; }
+        public int? MinimunAge { get; set; }
+        public int? MaximumAge { get; set; }
     }
 
     public class CampusPostMaster_Action
