@@ -1013,6 +1013,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@UserID", body.UserID);
                     command.Parameters.AddWithValue("@EventTypeID", body.EventTypeID);
                     command.Parameters.AddWithValue("@EventStatusID", body.EventStatusID);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();

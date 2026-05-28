@@ -159,6 +159,7 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int? EventStatusID { get; set; }
         public int? UserID { get; set; }
         public int? RoleID { get; set; }
+        public int? InstituteID { get; set; }
         public string? Action { get; set; }
     }
 }
