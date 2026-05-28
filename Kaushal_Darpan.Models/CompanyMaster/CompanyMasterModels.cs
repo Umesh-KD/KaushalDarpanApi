@@ -6,6 +6,7 @@ namespace Kaushal_Darpan.Models.CompanyMaster
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public string CompanyRegNo { get; set; }
         public string? Website { get; set; }
         public string Address { get; set; }
         public int StateID { get; set; }
@@ -26,6 +27,7 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public bool ISIIP { get; set; }
         public bool ISPlacement { get; set; }
         public int RoleID { get; set; }
+        public string CompanyStatus { get; set; }
 
         public List<HRMaster> ListCompanyHRDetails { get; set; }
         //public string? MobileNo { get; set; }

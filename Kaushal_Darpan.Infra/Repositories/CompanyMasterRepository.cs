@@ -226,12 +226,12 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         command.Parameters.AddWithValue("@ID", request.ID);
                         command.Parameters.AddWithValue("@Name", request.Name ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@CompanyRegNo", request.CompanyRegNo);
                         command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
                         command.Parameters.AddWithValue("@CompanyTypeId", request.CompanyTypeId);
                         command.Parameters.AddWithValue("@StateID", request.StateID);
                         command.Parameters.AddWithValue("@Website", request.Website ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Address", request.Address ?? (object)DBNull.Value);
-
                         command.Parameters.AddWithValue("@Logo", request.CompanyPhoto ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Dis_Name", request.Dis_CompanyName ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);

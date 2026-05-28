@@ -8,6 +8,7 @@ using Kaushal_Darpan.Models.CampusPostMaster;
 using Kaushal_Darpan.Models.CommonSubjectMaster;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using System.Data;
 using System.Net;
 
@@ -393,40 +394,47 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+    
 
-
-        [HttpGet("CampusValidationList/{CompanyID}/{CollegeID}/{Status}/{DepartmentID}/{CompanyTypeID?}/{Flag?}")]
-        public async Task<ApiResult<DataTable>> CampusValidationList(int CompanyID, int CollegeID, string Status, int DepartmentID, int CompanyTypeID = 0, string Flag="")
+        [HttpGet("CampusValidationList/{CompanyID}/{CollegeID}/{Status}/{DepartmentID}/{CompanyTypeID?}/{Flag?}/{FinancialYearID?}/{post?}")]
+        public async Task<ApiResult<DataTable>> CampusValidationList(int CompanyID, int CollegeID, string Status, int DepartmentID, int CompanyTypeID = 0, string Flag = "", int FinancialYearID = 0, int postId = 0)
         {
-            ActionName = "CampusValidationList(int CollegeID,string Status)";
+            ActionName = "CampusValidationList";
+
             var result = new ApiResult<DataTable>();
+
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.CampusPostMasterRepository.CampusValidationList(CompanyID, CollegeID, Status, DepartmentID, CompanyTypeID, Flag));
-                result.State = EnumStatus.Success;
+                result.Data = await Task.Run(() =>
+                    _unitOfWork.CampusPostMasterRepository.CampusValidationList( CompanyID, CollegeID,Status,DepartmentID, CompanyTypeID,Flag, FinancialYearID, postId));
+
                 if (result.Data.Rows.Count == 0)
                 {
                     result.State = EnumStatus.Success;
                     result.Message = "No record found.!";
                     return result;
                 }
+
                 result.State = EnumStatus.Success;
-                result.Message = "Data load successfully .!";
+                result.Message = "Data load successfully.!";
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 await _unitOfWork.DisposeAsync();
+
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
-                // write error log
+
                 var nex = new NewException
                 {
                     PageName = PageName,
                     ActionName = ActionName,
                     Ex = ex,
                 };
+
                 await CreateErrorLog(nex, _unitOfWork);
             }
+
             return result;
         }
 

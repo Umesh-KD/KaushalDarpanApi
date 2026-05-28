@@ -17,7 +17,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         private readonly string _pageName;
         private string _actionName;
         private string _sqlQuery;
-        private string _IPAddress;  
+        private string _IPAddress;
         public PlacementSelectedStudentRepository(DBContext dbContext)
         {
             _dbContext = dbContext;
@@ -28,94 +28,90 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<List<PlacementSelectedStudentResponseModel>> GetAllData(PlacementSelectedStudentSearchModel searchModel)
         {
             _actionName = "GetAllData(PlacementSelectedStudentSearchModel searchModel)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetPlacementSelectedStudents";
-                        //command.Parameters.AddWithValue("@DepartmentID", 1);
-                        //command.Parameters.AddWithValue("@Eng_NonEng", searchModel.Eng_NonEng);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetPlacementSelectedStudents";
 
-                        // Add parameters to the stored procedure from the model
-                        command.Parameters.AddWithValue("@action", "_getAllData");
-                       // command.Parameters.AddWithValue("@RoleId", searchModel.RoleId);
-                        //command.Parameters.AddWithValue("@UserId", searchModel.UserId);
-                        command.Parameters.AddWithValue("@BranchID", searchModel.BranchID);
-                        command.Parameters.AddWithValue("@DepartmentID", searchModel.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", searchModel.Eng_NonEng);
-                        command.Parameters.AddWithValue("@CampusPostID", searchModel.CampusPostID);
-                        command.Parameters.AddWithValue("@HiringRoleID", searchModel.HiringRoleID);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    var data = new List<PlacementSelectedStudentResponseModel>();
-                    if (dataTable != null)
-                    {
-                        data = CommonFuncationHelper.ConvertDataTable<List<PlacementSelectedStudentResponseModel>>(dataTable);
-                    }
-                    return data;
+                    // Add parameters to the stored procedure from the model
+                    command.Parameters.AddWithValue("@action", "_getAllData");
+                    //command.Parameters.AddWithValue("@DepartmentID", 1);
+                    //command.Parameters.AddWithValue("@Eng_NonEng", searchModel.Eng_NonEng);
+                    // command.Parameters.AddWithValue("@RoleId", searchModel.RoleId);
+                    //command.Parameters.AddWithValue("@UserId", searchModel.UserId);
+                    command.Parameters.AddWithValue("@BranchID", searchModel.BranchID);
+                    command.Parameters.AddWithValue("@DepartmentID", searchModel.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", searchModel.Eng_NonEng);
+                    command.Parameters.AddWithValue("@CampusPostID", searchModel.CampusPostID);
+                    command.Parameters.AddWithValue("@HiringRoleID", searchModel.HiringRoleID);
+                    command.Parameters.AddWithValue("@InstituteID", searchModel.InstituteID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                var data = new List<PlacementSelectedStudentResponseModel>();
+                if (dataTable != null)
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
+                    data = CommonFuncationHelper.ConvertDataTable<List<PlacementSelectedStudentResponseModel>>(dataTable);
                 }
-            });
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
         public async Task<int> SaveAllData(List<PlacementSelectedStudentResponseModel> entity)
         {
             _actionName = "SaveAllData(List<CreateTpoAddEditModel> entity)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_AddSelectedData";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_AddSelectedData";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_addEditAllData");
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(entity));
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_addEditAllData");
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(entity));
 
-                        command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
-                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
+                    command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
-                    }
-                    return result;
+                    result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
                 }
-                catch (Exception ex)
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetStudentPlacedCount()

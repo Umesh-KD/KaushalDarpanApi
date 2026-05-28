@@ -289,6 +289,12 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_UPDATE_SUCCESS;
                     }
+                    else if (saveResult == 3)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Company With Same Name or Regiatration no. Alredy Exist";
+                    }
                     else if (saveResult == -1)
                     {
                         result.Data = false;

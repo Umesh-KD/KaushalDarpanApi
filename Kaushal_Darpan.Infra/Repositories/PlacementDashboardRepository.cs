@@ -136,6 +136,48 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<DataTable> GetIIPDashboardListData(PlacementDashboardModel model)
+        {
+            _actionName = "GetAllData()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_IIPDashboardListData";
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@CollegeID", model.CollegeID);
+                        command.Parameters.AddWithValue("@UserId", model.UserId);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+
+
+
     }
 }
 
