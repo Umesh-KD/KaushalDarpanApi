@@ -22,8 +22,11 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int ModifyBy { get; set; }
         public string? IPAddress { get; set; }
         public int EventTypeID { get; set; }
+        public int EventID { get; set; }
         public string? Logo { get; set; }
         public string? Dis_Logo { get; set; }
+
+
         public List<ConcernPersonDetailsDataModel>? ConcernPersonDetails { get; set; }
     }
 
