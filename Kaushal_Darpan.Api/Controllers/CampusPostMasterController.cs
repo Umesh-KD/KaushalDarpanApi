@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Bibliography;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Api.Email;
 using Kaushal_Darpan.Core.Helper;
@@ -143,20 +144,20 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("SaveData")]
-        public async Task<ApiResult<bool>> SaveData([FromBody] CampusPostMasterModel request)
+        public async Task<ApiResult<DataTable>> SaveData([FromBody] CampusPostMasterModel request)
         {
             ActionName = "SaveData([FromBody] CampusPostMasterModel request)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<bool>();
+                var result = new ApiResult<DataTable>();
                 try
                 {
                     result.Data = await _unitOfWork.CampusPostMasterRepository.SaveData(request);
                     await _unitOfWork.SaveChangesAsync();
-                    if (result.Data)
+                    if (result.Data.Rows.Count>0)
                     {
                         result.State = EnumStatus.Success;
-                        if (request.RoleID == 0)
+                        if (request.PostID == 0)
                             result.Message = "Saved successfully .!";
                         else
                             result.Message = "Updated successfully .!";
@@ -164,11 +165,12 @@ namespace Kaushal_Darpan.Api.Controllers
                     else
                     {
                         result.State = EnumStatus.Error;
-                        if (request.RoleID == 0)
+                        if (request.PostID == 0)
                             result.ErrorMessage = "There was an error adding data.!";
                         else
                             result.ErrorMessage = "There was an error updating data.!";
                     }
+
                 }
                 catch (System.Exception ex)
                 {
@@ -407,6 +409,41 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.State = EnumStatus.Success;
                     result.Message = "No record found.!";
                     return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("GetCampusSMSDataByID")]
+        public async Task<ApiResult<DataTable>> GetCampusSMSDataByID(SmsDataModel reuqest )
+        {
+            ActionName = "GetCampusSMSDataByID(SmsDataModel reuqest)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.CampusPostMasterRepository.GetCampusSMSDataByID(reuqest));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result; 
                 }
                 result.State = EnumStatus.Success;
                 result.Message = "Data load successfully .!";

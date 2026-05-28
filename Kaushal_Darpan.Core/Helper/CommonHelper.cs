@@ -544,6 +544,18 @@ namespace Kaushal_Darpan.Core.Helper
 
         [Description("GuestHouseAdminApprove")]
         GuestHouseAdminApprove,
+
+        //bter placement
+        [Description("Bter_CampusApprove")]
+        Bter_CampusApprove,
+        [Description("Bter_StudentConsent")]
+        Bter_StudentConsent,
+        [Description("Bter_StudentShortList")]
+        Bter_StudentShortList,
+        [Description("Bter_ComapnyHRApprove")]
+        Bter_ComapnyHRApprove,
+        [Description("Bter_CampusPostCreation")]
+        Bter_CampusPostCreation,
     }
 
     public enum EnumStudentType

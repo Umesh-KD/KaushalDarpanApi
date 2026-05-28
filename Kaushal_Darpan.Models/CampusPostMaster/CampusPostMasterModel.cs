@@ -94,6 +94,14 @@
 
     }
 
+    public class SmsDataModel
+    {
+        public int PostID { get; set; }
+        public int StudentID { get; set; }
+        public int CompanyID { get; set; }
+        public string Flag { get; set; }
+
+    }
     public class SignedCopyOfResultModel
     {
         public int SignedCopyOfResultID { get; set; }
