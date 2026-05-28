@@ -59,6 +59,7 @@ namespace Kaushal_Darpan.Core.Helper
         public const string MSG_FILE_UPLOAD_SUCCESS = "File Uploaded successfully.";
         public const string MSG_FILE_DELETE_SUCCESS = "File deleted successfully.";
         public const string MSG_DUPLICATE_POST = "Post Name Already exist!";
+        public const string MSG_FILE_DOWNLOAD_SUCCESS = "File Download Successfully.";
 
 
         public const string Login_DefaultPassword = "KD@1230";

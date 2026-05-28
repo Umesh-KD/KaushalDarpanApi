@@ -13,6 +13,7 @@
         public int? CampusID { get; set; }
         public int? FromAge { get; set; }
         public int? ToAge { get; set; }
+        public int? FinancialYearID { get; set; }
 
 
     }
