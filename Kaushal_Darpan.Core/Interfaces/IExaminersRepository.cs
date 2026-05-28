@@ -1,5 +1,6 @@
 ﻿using Kaushal_Darpan.Models.Examiners;
 using Kaushal_Darpan.Models.HrMaster;
+using Kaushal_Darpan.Models.LeaveMaster;
 using Kaushal_Darpan.Models.SetExamAttendanceMaster;
 using Kaushal_Darpan.Models.StaffMaster;
 using System;
@@ -34,5 +35,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetExaminerData_Reval(TeacherForExaminerSearchModel filterModel);
         Task<bool> DeleteByID_Reval(ExaminerMaster productDetails);
         Task<DataTable> GetExaminerByCode_Reval(ExaminerCodeLoginModel model);
+        Task<DataTable> GetExaminerWithGroupCode_Reval(MiscellaneousModel model);
+        Task<bool> UnlockExaminerWithGroupCode_Reval(MiscellaneousModel request);
     }
 }

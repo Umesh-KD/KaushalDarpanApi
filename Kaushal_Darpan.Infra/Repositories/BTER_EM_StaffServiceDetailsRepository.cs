@@ -670,6 +670,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@SSOID", body.SSOID ?? "");
                     command.Parameters.AddWithValue("@TransferCategoryID", body.TransfercateID ?? 0);
                     command.Parameters.AddWithValue("@RoleID", body.RoleID ?? 0);
+                    command.Parameters.AddWithValue("@BranchID", body.BranchID ?? 0);
+                    command.Parameters.AddWithValue("@To_BranchID", body.To_BranchID ?? 0);
                     command.Parameters.AddWithValue("@ReasonDescription", body.ReasonDescription ?? "");
                     command.Parameters.Add("@Return", SqlDbType.Int);
                     command.Parameters["@Return"].Direction = ParameterDirection.Output;

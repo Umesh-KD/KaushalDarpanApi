@@ -77,6 +77,7 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int? PlacementCompanyID { get; set; }
         public string? Name { get; set; }
         public string? EmailId { get; set; }
+        public string? Designation { get; set; }
         public string? MobileNo { get; set; }
         public int? ModifyBy { get; set; }
         public bool? ActiveStatus { get; set; }
@@ -132,7 +133,10 @@ namespace Kaushal_Darpan.Models.CompanyMaster
     public class CompanyEventSearchModel: RequestBaseModel
     {
         public int? CompanyID { get; set; } = 0;
+        public int? StudentID { get; set; } = 0;
         public int? EventID { get; set; } = 0;
+        public int? EventStatus { get; set; } = 0;
+
         public int? StaffID { get; set; } = 0;
         public int? UserID { get; set; } = 0;
         public int? InterestedStatus { get; set; } = 0;

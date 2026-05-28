@@ -4,6 +4,7 @@ using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.DateConfiguration;
 using Kaushal_Darpan.Models.Examiners;
 using Kaushal_Darpan.Models.HrMaster;
+using Kaushal_Darpan.Models.LeaveMaster;
 using Kaushal_Darpan.Models.SetExamAttendanceMaster;
 using Kaushal_Darpan.Models.StaffMaster;
 using System;
@@ -623,8 +624,8 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        //-----------------------------------------------------------------------REVAL---------------------------------------------------------------------------------------------
 
+        #region Reval Examiner
         public async Task<ExaminerMaster> Getexaminer_byID_Reval(int PK_ID, int StaffSubjectID, int DepartmentID, int EndTermID, int CourseTypeID)
         {
             _actionName = "Getexaminer_byID_Reval(int PK_ID, int StaffSubjectID, int DepartmentID, int EndTermID, int CourseTypeID)";
@@ -858,5 +859,94 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<DataTable> GetExaminerWithGroupCode_Reval(MiscellaneousModel model)
+        {
+            _actionName = "GetExaminerWithGroupCode_Reval(MiscellaneousModel model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetExaminersWithGroupCodeAndMarking_Reval";
+
+                    command.Parameters.AddWithValue("@action", "_get_Examiners_With_Group_Code_And_Marking");
+                    command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
+                    command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                    command.Parameters.AddWithValue("@GroupCode", model.GroupCode);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                    command.Parameters.AddWithValue("@UserID", model.UserID);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                    command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
+                    command.Parameters.AddWithValue("@Type", model.Type);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+        }
+
+        public async Task<bool> UnlockExaminerWithGroupCode_Reval(MiscellaneousModel request)
+        {
+            _actionName = "UnlockExaminerWithGroupCode_Reval(MiscellaneousModel request)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_SaveUnlockExaminersWithGroupCode_Reval";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_save_UnlockExamierWithGroupCode");
+                    command.Parameters.AddWithValue("@GroupCode", request.GroupCode);
+                    command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", request.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    // Execute the command
+                    result = await command.ExecuteNonQueryAsync();
+                }
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        #endregion
     }
 }

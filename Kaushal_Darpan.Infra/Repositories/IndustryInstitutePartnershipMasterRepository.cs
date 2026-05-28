@@ -627,6 +627,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     command.Parameters.AddWithValue("@CompanyID", body.CompanyID);
                     command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@EventStatus", body.EventStatus);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
@@ -742,6 +743,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@EventID", request.EventID);
                     command.Parameters.AddWithValue("@StaffID", request.StaffID);
                     command.Parameters.AddWithValue("@Remarks", request.Remarks);
+                    command.Parameters.AddWithValue("@StudentID", request.StudentID);
                     command.Parameters.AddWithValue("@InterestedStatus", request.InterestedStatus);
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                     command.Parameters.Add("@Return", SqlDbType.Int); // out

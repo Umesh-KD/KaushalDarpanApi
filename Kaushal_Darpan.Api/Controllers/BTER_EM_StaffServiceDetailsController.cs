@@ -1046,8 +1046,10 @@ namespace Kaushal_Darpan.Api.Controllers
                     दिनांक
                 </td>
                 <td style='width:50%; text-align:right; vertical-align:top;'>
-                    {model.TransferPostName}<br>
-                   {model.InstituteName}
+                    {model.RelievingApproveByName}<br>
+{model.RelievingApproveByRole}
+                    
+                  
                 </td>
             </tr>
         </table>
