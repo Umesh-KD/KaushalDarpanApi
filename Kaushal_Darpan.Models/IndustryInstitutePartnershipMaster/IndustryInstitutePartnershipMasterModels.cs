@@ -146,6 +146,7 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public string? Remarks { get; set; } = "";
         public string? Action { get; set; } = "";
         public int? InstituteID { get; set; } = 0;
+        public int? ApproveStatus { get; set; } = 0;
     }
 
     public class UpdateConsentStatusDataModel
