@@ -104,63 +104,69 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("SaveData")]
-        public async Task<ApiResult<int>> SaveData([FromBody] CampusStudentConsentModel request)
+        public async Task<ApiResult<string>> SaveData([FromBody] CampusStudentConsentModel request)
         {
-            ActionName = " SaveAllData([FromBody] CampusStudentConsentModel request)";
-            return await Task.Run(async () =>
+            ActionName = "SaveData([FromBody] CampusStudentConsentModel request)";
+            var result = new ApiResult<string>();
+            try
             {
-                var result = new ApiResult<int>();
-                try 
-                { 
-                    request.IPAddress = CommonFuncationHelper.GetIpAddress();
-                    result.Data = await _unitOfWork.PlacementStudentRepository.SaveData(request);
-                    await _unitOfWork.SaveChangesAsync();
-                    if (result.Data > 0)
+                request.IPAddress = CommonFuncationHelper.GetIpAddress();
+
+                var (_result, _registrationNo) = await Task.Run(() => _unitOfWork.PlacementStudentRepository.SaveData(request));
+                await _unitOfWork.SaveChangesAsync();
+
+                // registration
+                result.Data = _registrationNo;
+                // result
+                if (_result > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    if (request.ConsentID == 0)
                     {
-                        result.State = EnumStatus.Success;
-                        if (request.ConsentID == 0)
-                        {
-                            result.Message = Constants.MSG_SAVE_SUCCESS;
-                        }
-                        else
-                        {
-                            result.Message = Constants.MSG_UPDATE_SUCCESS;
-                        }
-                    }
-                    else if (result.Data == -2)
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
                     }
                     else
                     {
-                        result.State = EnumStatus.Error;
-                        if (request.ConsentID == 0)
-                        {
-                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                        }
-                        else
-                        {
-                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
-                        }
+                        result.Message = Constants.MSG_UPDATE_SUCCESS;
                     }
                 }
-                catch (Exception ex)
+                else if (_result == -2)
                 {
-                    await _unitOfWork.DisposeAsync();
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_SAVE_Duplicate;
                 }
-                return result;
-            });
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (request.ConsentID == 0)
+                    {
+                        result.Message = Constants.MSG_ADD_ERROR;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.Message = Constants.MSG_UPDATE_ERROR;
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
         [HttpGet("GetStudentConsentCount/{StudentID}")]
