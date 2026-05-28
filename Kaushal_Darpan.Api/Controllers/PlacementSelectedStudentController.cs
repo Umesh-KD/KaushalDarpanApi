@@ -35,7 +35,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 // Pass the entire model to the repository
-                result.Data = await _unitOfWork.PlacementSelectedStudentRepository.GetAllData(searchModel);
+                result.Data = await Task.Run(() => _unitOfWork.PlacementSelectedStudentRepository.GetAllData(searchModel));
 
                 if (result.Data.Count > 0)
                 {
@@ -51,6 +51,7 @@ namespace Kaushal_Darpan.Api.Controllers
             catch (Exception ex)
             {
                 result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
                 result.ErrorMessage = ex.Message;
 
                 // Log the error
@@ -71,54 +72,52 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<bool>> SaveAllData([FromBody] List<PlacementSelectedStudentResponseModel> request)
         {
             ActionName = "SaveAllData([FromBody] List<CreateTpoAddEditModel> request)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<bool>();
+            try
             {
-                var result = new ApiResult<bool>();
-                try
+                request.ForEach(x =>
                 {
-                    request.ForEach(x =>
-                    {
-                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
-                    });
-                    // Pass the list to the repository for batch update
-                    var isSave = await _unitOfWork.PlacementSelectedStudentRepository.SaveAllData(request);
-                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+                    x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                });
+                // Pass the list to the repository for batch update
+                var isSave = await Task.Run(() => _unitOfWork.PlacementSelectedStudentRepository.SaveAllData(request));
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
-                    if (isSave == -2)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_NO_DATA_UPDATE;
-                    }
-                    else if (isSave > 0)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_UPDATE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
-                    }
-                }
-                catch (Exception ex)
+                if (isSave == -2)
                 {
-                    await _unitOfWork.DisposeAsync();
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_NO_DATA_UPDATE;
+                }
+                else if (isSave > 0)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_UPDATE_SUCCESS;
+                }
+                else
+                {
                     result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
         }
 
         [HttpGet("GetStudentPlacedCount")]

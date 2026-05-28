@@ -8,6 +8,9 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetAllData(IndustryInstitutePartnershipMasterSearchModel filterModel);
 
+
+        Task<DataTable> GetAllDataEvent(IndustryInstitutePartnershipMasterSearchModel filterModel);
+
         Task<IndustryInstitutePartnershipMasterResponsiveModel> GetById(int ID);
         Task<int> SaveData(IndustryInstitutePartnershipMasterModels productDetails);
         Task<bool> Save_IndustryInstitutePartnershipValidation_NodalAction(IndustryInstitutePartnershipMaster_Action model);
@@ -33,5 +36,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> ApproveCompanyEvents(List<IndustryInstitutePartnershipMasterModels> model);
         Task<DataTable> GetEventConsentData(CompanyEventSearchModel body);
         Task<int> UpdateConsentStatus(List<UpdateConsentStatusDataModel> request);
+        Task<DataTable> GetIIPEventConsentReportData(EventConsentSearchModel body);
     }
 }

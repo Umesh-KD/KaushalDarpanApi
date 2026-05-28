@@ -22,8 +22,11 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int ModifyBy { get; set; }
         public string? IPAddress { get; set; }
         public int EventTypeID { get; set; }
+        public int EventID { get; set; }
         public string? Logo { get; set; }
         public string? Dis_Logo { get; set; }
+
+
         public List<ConcernPersonDetailsDataModel>? ConcernPersonDetails { get; set; }
     }
 
@@ -136,12 +139,16 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int? StudentID { get; set; } = 0;
         public int? EventID { get; set; } = 0;
         public int? EventStatus { get; set; } = 0;
+        public int? EventTypeID { get; set; } = 0;
+        public int? EventStatusID { get; set; } = 0;
 
         public int? StaffID { get; set; } = 0;
         public int? UserID { get; set; } = 0;
         public int? InterestedStatus { get; set; } = 0;
         public string? Remarks { get; set; } = "";
         public string? Action { get; set; } = "";
+        public int? InstituteID { get; set; } = 0;
+        public int? ApproveStatus { get; set; } = 0;
     }
 
     public class UpdateConsentStatusDataModel
@@ -150,5 +157,16 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int? ModifyBy { get; set; }
         public int? Status { get; set; }
         public string? Remark { get; set; }
+    }
+
+    public class EventConsentSearchModel
+    {
+        public int? EventID { get; set; }
+        public int? EventTypeID { get; set; }
+        public int? EventStatusID { get; set; }
+        public int? UserID { get; set; }
+        public int? RoleID { get; set; }
+        public int? InstituteID { get; set; }
+        public string? Action { get; set; }
     }
 }

@@ -19,6 +19,14 @@ namespace Kaushal_Darpan.Models.ApplicationMessageModel
         public string? CheckIn_CheckOut { get; set; } = string.Empty;
         public int? MeritId { get; set; }
 
+        public string? CampusID { get; set; } = string.Empty;
+        public string? ReferenceID { get; set; } = string.Empty;
+        public string? NodalType { get; set; } = string.Empty;
+        public string? ActionDate { get; set; } = string.Empty;
+        public string? CampusLocationURL { get; set; } = string.Empty;
+        public string? RegNo { get; set; } = string.Empty;
+        public string? EnrollmentNo { get; set; } = string.Empty;
+
         public List<ApplicationDetails>? ApplicationDetails { get; set; }
 
     }

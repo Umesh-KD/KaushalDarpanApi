@@ -135,14 +135,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-        public async Task<bool> SaveData(CampusPostMasterModel request)
+        public async Task<DataTable> SaveData(CampusPostMasterModel request)
         {
-            return await Task.Run(async () =>
-            {
+           
                 _actionName = "SaveData(CampusPostMasterModel request)";
                 try
                 {
-                    int result = 0;
+                // int result = 0;
+                    DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync(true))
                     {
                         command.CommandType = CommandType.StoredProcedure;
@@ -182,12 +182,10 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();// sql query
-                        result = await command.ExecuteNonQueryAsync();
+                                                                    // result = await command.ExecuteNonQueryAsync();                        
+                        dataTable = await command.FillAsync_DataTable();
                     }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    return dataTable;
                 }
                 catch (Exception ex)
                 {
@@ -201,7 +199,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errordetails, ex);
                 }
-            });
+           
         }
 
         public async Task<bool> Save_CampusValidation_NodalAction(CampusPostMaster_Action request)
@@ -346,7 +344,8 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<DataTable> CampusValidationList(int CompanyID, int CollegeID, string Status, int DepartmentID, int CompanyTypeID = 0, string Flag = "")
+        public async Task<DataTable> CampusValidationList(int CompanyID, int CollegeID, string Status, int DepartmentID, int CompanyTypeID = 0, string Flag = "", int FinancialYearID=0, int postId=0)
+
         {
             _actionName = "CampusValidationList(int CollegeID, string Status)";
             try
@@ -364,6 +363,45 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
                         command.Parameters.AddWithValue("@Flag", Flag);
                         command.Parameters.AddWithValue("@CompanyTypeID", CompanyTypeID);
+                        command.Parameters.AddWithValue("@Academicyear", FinancialYearID);
+                        command.Parameters.AddWithValue("@postId", postId);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+        public async Task<DataTable> GetCampusSMSDataByID(SmsDataModel reuqest)
+        {
+            _actionName = "GetCampusSMSDataByID(int PostID)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CampusSMSDataByID";
+                        command.Parameters.AddWithValue("@PostID", reuqest.PostID);
+                        command.Parameters.AddWithValue("@Flag", reuqest.Flag);
+                        command.Parameters.AddWithValue("@StudentID", reuqest.StudentID);
+                        command.Parameters.AddWithValue("@CompanyID", reuqest.CompanyID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }

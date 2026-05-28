@@ -26,46 +26,47 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<List<PlacementShortListStudentResponseModel>> GetAllData(PlacementShortlistedStuSearch searchModel)
         {
             _actionName = "GetAllData(PlacementShortListStudentSearchModel searchModel)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetPlacementShortListStudents";
-                        command.Parameters.AddWithValue("@RoleId", searchModel.RoleId);
-                        command.Parameters.AddWithValue("@UserId", searchModel.UserId);
-                        command.Parameters.AddWithValue("@BranchID", searchModel.BranchID);
-                        command.Parameters.AddWithValue("@DepartmentID", searchModel.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", searchModel.Eng_NonEng);
-                        command.Parameters.AddWithValue("@CampusPostID", searchModel.CampusPostID);
-                        // Add parameters to the stored procedure from the model
-                        command.Parameters.AddWithValue("@action", "_getAllData");
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    var data = new List<PlacementShortListStudentResponseModel>();
-                    if (dataTable != null)
-                    {
-                        data = CommonFuncationHelper.ConvertDataTable<List<PlacementShortListStudentResponseModel>>(dataTable);
-                    }
-                    return data;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetPlacementShortListStudents";
+
+                    // Add parameters to the stored procedure from the model
+                    command.Parameters.AddWithValue("@action", "_getAllData");
+                    command.Parameters.AddWithValue("@RoleId", searchModel.RoleId);
+                    command.Parameters.AddWithValue("@UserId", searchModel.UserId);
+                    command.Parameters.AddWithValue("@BranchID", searchModel.BranchID);
+                    command.Parameters.AddWithValue("@DepartmentID", searchModel.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", searchModel.Eng_NonEng);
+                    command.Parameters.AddWithValue("@CampusPostID", searchModel.CampusPostID);
+                    command.Parameters.AddWithValue("@InstituteId", searchModel.InstituteId);
+                    command.Parameters.AddWithValue("@HiringRoleID", searchModel.HiringRoleID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                var data = new List<PlacementShortListStudentResponseModel>();
+                if (dataTable != null)
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
+                    data = CommonFuncationHelper.ConvertDataTable<List<PlacementShortListStudentResponseModel>>(dataTable);
                 }
-            });
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
@@ -106,44 +107,41 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> SaveAllData(List<PlacementShortListStudentResponseModel> entity)
         {
             _actionName = "SaveAllData(List<CreateTpoAddEditModel> entity)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_AddShortlistData";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_AddShortlistData";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@action", "_addEditAllData");
-                        command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(entity));
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_addEditAllData");
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(entity));
 
-                        command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
-                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
+                    command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
 
-                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
-                    }
-                    return result;
+                    result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
                 }
-                catch (Exception ex)
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 

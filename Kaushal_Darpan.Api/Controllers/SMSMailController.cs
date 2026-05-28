@@ -249,6 +249,51 @@ namespace Kaushal_Darpan.Api.Controllers
                         .Replace("{#status#}", request.Status);
                     await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
                 }
+                //Bter Placmeent SMS Service campus creatrion
+                else if (request.MessageType == EnumMessageType.Bter_CampusPostCreation.GetDescription())
+                {
+                  
+                    MessageBody = MessageBody.Replace("{#ApplicantName#}", request.ApplicantName)
+                        .Replace("{#CampusID#}", request.CampusID)
+                        .Replace("{#var#}", "")
+                        .Replace("{#ActionDate#}", request.ActionDate)
+                        .Replace("{#CampusLocationURL#}", request.CampusLocationURL)
+                        .Replace("{#NodalType#}", request.NodalType);
+                    await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
+                }
+                //Bter Placmeent SMS Service campus approval
+                else if (request.MessageType == EnumMessageType.Bter_CampusApprove.GetDescription())
+                {
+
+                    MessageBody = MessageBody.Replace("{#ApplicantName#}", request.ApplicantName)
+                        .Replace("{#CampusID#}", request.CampusID)
+                        .Replace("{#var#}", "")
+                        .Replace("{#ActionDate#}", request.ActionDate)
+                        .Replace("{#ReferenceID#}", request.ReferenceID)
+                        .Replace("{#CampusLocationURL#}", request.CampusLocationURL)
+                        .Replace("{#NodalType#}", request.NodalType);
+                    await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
+                }
+                //Bter Placmeent SMS Service student consent
+                else if (request.MessageType == EnumMessageType.Bter_StudentConsent.GetDescription())
+                {
+
+                    MessageBody = MessageBody.Replace("{#EnrollmentNo#}", request.EnrollmentNo)
+                        .Replace("{#CampusID#}", request.CampusID)
+                        .Replace("{#var#}", "")                 
+                        .Replace("{#RegNo#}", request.RegNo)
+                        ;
+                    await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
+                }
+                //Bter Placmeent SMS Service CompanyHRApprove
+                else if (request.MessageType == EnumMessageType.Bter_ComapnyHRApprove.GetDescription())
+                {
+
+                    MessageBody = MessageBody.Replace("{#ApplicantName#}", request.ApplicantName)
+                        .Replace("{#ReferenceID#}", request.ReferenceID)
+                        ;
+                    await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
+                }
                 else
                 {
                     //Like Templet

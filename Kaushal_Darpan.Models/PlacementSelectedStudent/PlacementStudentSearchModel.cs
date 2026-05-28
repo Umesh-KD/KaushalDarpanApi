@@ -20,15 +20,15 @@ namespace Kaushal_Darpan.Models.PlacementSelectedStudentMaster
     
     }
 
-    public class StudentSelectedModel
+    public class StudentSelectedModel : RequestBaseModel
     {
-        public int UserID { get; set; }
         public int StudentID { get; set; }
         public int CampusID { get; set; }
         public bool IsShortListed { get; set; }
         public bool IsIsPlaced { get; set; }
         public int ModifyBy { get; set; }
         public string IPAddress { get; set; }
+        public int InstituteID { get; set; }
     }
 
 

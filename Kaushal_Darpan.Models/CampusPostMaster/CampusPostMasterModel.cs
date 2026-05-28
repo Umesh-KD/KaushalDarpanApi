@@ -78,6 +78,9 @@
         public string? SalaryName { get; set; }
         public int EligibleInstitutesID { get; set; }
         public string? appointmentLocation { get; set; }
+        public string? AgeCalculationDate { get; set; }
+        public int? MinimunAge { get; set; }
+        public int? MaximumAge { get; set; }
     }
 
     public class CampusPostMaster_Action
@@ -94,6 +97,14 @@
 
     }
 
+    public class SmsDataModel
+    {
+        public int PostID { get; set; }
+        public int StudentID { get; set; }
+        public int CompanyID { get; set; }
+        public string Flag { get; set; }
+
+    }
     public class SignedCopyOfResultModel
     {
         public int SignedCopyOfResultID { get; set; }
