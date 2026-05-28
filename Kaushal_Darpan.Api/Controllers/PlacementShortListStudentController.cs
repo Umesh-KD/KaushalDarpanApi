@@ -1,10 +1,12 @@
-﻿using System.Data;
-using AutoMapper;
+﻿using AutoMapper;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
-
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using System.IO;
+using System.IO.Compression;
+using System.IO.Compression;
 using Constants = Kaushal_Darpan.Core.Helper.Constants;
 
 namespace Kaushal_Darpan.Api.Controllers
@@ -214,6 +216,80 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+
+        [HttpPost("DownloadPlacementShortListedStudents")]
+        public async Task<ApiResult<byte[]>> DownloadPlacementShortListedStudents(List<DownloadPlacementShortListedStudentModel> request)
+        {
+            ActionName = "DownloadPlacementShortListedStudents(List<DownloadPlacementShortListedStudentModel> request)";
+            var result = new ApiResult<byte[]>();
+            try
+            {
+                byte[] bytes = [];
+                //
+                using (var memoryStream = new MemoryStream())
+                {
+                    using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+                    {
+                        foreach (var item in request)
+                        {
+                            if (string.IsNullOrWhiteSpace(item.UploadedResume))
+                                continue;
+
+                            string filePath = Path.Combine(
+                                ConfigurationHelper.StaticFileRootPath,
+                                item.UploadedResume
+                            );
+
+                            // Check file exists
+                            if (!System.IO.File.Exists(filePath))
+                                continue;
+
+                            string fileName = Path.GetFileName(filePath);
+
+                            // Create zip entry
+                            var zipEntry = archive.CreateEntry(fileName, CompressionLevel.Fastest);
+
+                            using (var zipStream = zipEntry.Open())
+                            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                            {
+                                await fileStream.CopyToAsync(zipStream);
+                            }
+                        }
+                    }
+                    memoryStream.Position = 0;
+                    bytes = memoryStream.ToArray();
+                }
+
+                if (bytes?.Length > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_FILE_DOWNLOAD_SUCCESS;
+                    result.Data = bytes;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
 
     }
 }

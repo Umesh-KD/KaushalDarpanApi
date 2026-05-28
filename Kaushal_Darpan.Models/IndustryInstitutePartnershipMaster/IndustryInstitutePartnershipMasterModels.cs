@@ -140,6 +140,7 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int? EventID { get; set; } = 0;
         public int? EventStatus { get; set; } = 0;
         public int? EventTypeID { get; set; } = 0;
+        public int? Event { get; set; } = 0;
         public int? EventStatusID { get; set; } = 0;
 
         public int? StaffID { get; set; } = 0;
@@ -162,6 +163,7 @@ namespace Kaushal_Darpan.Models.CompanyMaster
     public class EventConsentSearchModel
     {
         public int? EventID { get; set; }
+        public int? Event { get; set; }
         public int? EventTypeID { get; set; }
         public int? EventStatusID { get; set; }
         public int? UserID { get; set; }

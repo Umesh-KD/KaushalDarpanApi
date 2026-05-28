@@ -37,6 +37,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CollegeID", model.CollegeID);
                         command.Parameters.AddWithValue("@UserId", model.UserId);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

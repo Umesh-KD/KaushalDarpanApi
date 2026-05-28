@@ -206,4 +206,15 @@ namespace Kaushal_Darpan.Models.Student
 
 
     }
+
+    public class ForSMSNotifyStudentPlacementShorlistModel
+    {
+        public int? StudentId { get; set; }
+        public int? CampusPostID { get; set; }
+        public int? RoundNo { get; set; }
+        public string? MobileNo { get; set; }
+        public string? EnrollmentNo { get; set; }
+        public string? MessageType { get; set; }
+        public string? StudentName { get; set; }
+    }
 }
