@@ -119,53 +119,56 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<int> SaveData(CampusStudentConsentModel entity)
+        public async Task<(int Result, string RegistrationNo)> SaveData(CampusStudentConsentModel entity)
         {
-            _actionName = "SaveAllData(CampusStudentConsentModel entity)";
-            return await Task.Run(async () =>
+            _actionName = "SaveData(CampusStudentConsentModel entity)";
+            try
             {
-                try
+                int result = 0;
+                string registrationNo = string.Empty;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        // Set the stored procedure name and type
-                        command.CommandText = "USP_CampusStudentConsent_IU";
-                        command.CommandType = CommandType.StoredProcedure;
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_CampusStudentConsent_IU";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters with appropriate null handling
-                        command.Parameters.AddWithValue("@PostID", entity.PostID);
-                        command.Parameters.AddWithValue("@StudentID", entity.StudentID);
-                        command.Parameters.AddWithValue("@SSOID", entity.SSOID);
-                        command.Parameters.AddWithValue("@Remarks", entity.Remarks);
-                        command.Parameters.AddWithValue("@ActiveStatus", entity.ActiveStatus);
-                        command.Parameters.AddWithValue("@DeleteStatus", entity.DeleteStatus);
-                        command.Parameters.AddWithValue("@CreatedBy", entity.CreatedBy);
-                        command.Parameters.AddWithValue("@ModifyBy", entity.ModifyBy);
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-                        command.Parameters.AddWithValue("@UploadedResume", entity.UploadedResume);
-                        command.Parameters.AddWithValue("@Dis_UploadedResume", entity.Dis_UploadedResume);
-                        command.Parameters.Add("@Return", SqlDbType.Int);// out
-                        command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        result = await command.ExecuteNonQueryAsync();
-                        result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
-                    }
-                    return result;
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@PostID", entity.PostID);
+                    command.Parameters.AddWithValue("@StudentID", entity.StudentID);
+                    command.Parameters.AddWithValue("@SSOID", entity.SSOID);
+                    command.Parameters.AddWithValue("@Remarks", entity.Remarks);
+                    command.Parameters.AddWithValue("@ActiveStatus", entity.ActiveStatus);
+                    command.Parameters.AddWithValue("@DeleteStatus", entity.DeleteStatus);
+                    command.Parameters.AddWithValue("@CreatedBy", entity.CreatedBy);
+                    command.Parameters.AddWithValue("@ModifyBy", entity.ModifyBy);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@UploadedResume", entity.UploadedResume);
+                    command.Parameters.AddWithValue("@Dis_UploadedResume", entity.Dis_UploadedResume);
+
+                    command.Parameters.Add("@Return", SqlDbType.Int);// out
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
+                    command.Parameters.Add("@Return_Str", SqlDbType.VarChar, 50);// out
+                    command.Parameters["@Return_Str"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);// out
+                    registrationNo = (Convert.ToString(command.Parameters["@Return_Str"].Value) ?? string.Empty);// out
                 }
-                catch (Exception ex)
+                return (result, registrationNo);
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetStudentConsentCount(int StudentID)
@@ -180,8 +183,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_DDL_CampusPostMaster";
-                        command.Parameters.AddWithValue("@Action","_getStudentconsentCount");
-                        command.Parameters.AddWithValue("@StudentID",StudentID);
+                        command.Parameters.AddWithValue("@Action", "_getStudentconsentCount");
+                        command.Parameters.AddWithValue("@StudentID", StudentID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

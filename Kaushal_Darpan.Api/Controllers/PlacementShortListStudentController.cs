@@ -30,12 +30,12 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetAllData")]
         public async Task<ApiResult<List<PlacementShortListStudentResponseModel>>> GetAllData(PlacementShortlistedStuSearch searchModel)
         {
-            ActionName = "GetAllData()";
+            ActionName = "GetAllData(PlacementShortlistedStuSearch searchModel)";
             var result = new ApiResult<List<PlacementShortListStudentResponseModel>>();
             try
             {
                 // Pass the entire model to the repository
-                result.Data = await _unitOfWork.PlacementShortListStudentRepository.GetAllData(searchModel);
+                result.Data = await Task.Run(() => _unitOfWork.PlacementShortListStudentRepository.GetAllData(searchModel));
                 if (result.Data.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -67,7 +67,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("GetPlacedStudentsCountList")]
-        public async Task<ApiResult<DataTable>> GetPlacedStudentsCountList( )
+        public async Task<ApiResult<DataTable>> GetPlacedStudentsCountList()
         {
             ActionName = "GetPlacedStudentsCountList()";
             var result = new ApiResult<DataTable>();
@@ -109,57 +109,55 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<bool>> SaveAllData([FromBody] List<PlacementShortListStudentResponseModel> request)
         {
             ActionName = "SaveAllData([FromBody] List<PlacementShortListStudentResponseModel> request)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<bool>();
+            try
             {
-                var result = new ApiResult<bool>();
-                try
+                request.ForEach(x =>
                 {
-                    request.ForEach(x =>
-                    {
-                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    x.IPAddress = CommonFuncationHelper.GetIpAddress();
 
-                    });
-                    // Pass the list to the repository for batch update
-                    var isSave = await _unitOfWork.PlacementShortListStudentRepository.SaveAllData(request);
-                    await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+                });
+                // Pass the list to the repository for batch update
+                var isSave = await Task.Run(() => _unitOfWork.PlacementShortListStudentRepository.SaveAllData(request));
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
 
-                    if (isSave == -2)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_NO_DATA_UPDATE;
-                    }
-                    else if (isSave > 0)
-                    {
-                        result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_UPDATE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
-                    }
+                if (isSave == -2)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_NO_DATA_UPDATE;
                 }
-                catch (Exception ex)
+                else if (isSave > 0)
                 {
-                    await _unitOfWork.DisposeAsync();
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_UPDATE_SUCCESS;
+                }
+                else
+                {
                     result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-
-                    // Log the error
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
+                    result.Message = Constants.MSG_UPDATE_ERROR;
+                    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
                 }
-                return result;
-            });
-        }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
 
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
 
     }
 }

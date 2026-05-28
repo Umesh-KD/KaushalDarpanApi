@@ -11,5 +11,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetITIAllData(ITIPlacementDashboardModel model);
         Task<DataTable> GetIIPDashboardData(PlacementDashboardModel model);
+        Task<DataTable> GetIIPDashboardListData(PlacementDashboardModel model);
     }
 }
