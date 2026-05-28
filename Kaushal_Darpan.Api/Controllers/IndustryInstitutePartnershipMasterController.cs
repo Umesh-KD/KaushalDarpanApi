@@ -1057,7 +1057,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("GetIIPEventConsentReportData")]
-        public async Task<ApiResult<DataTable>> GetIIPEventConsentReportData([FromBody] CompanyEventSearchModel body)
+        public async Task<ApiResult<DataTable>> GetIIPEventConsentReportData([FromBody] EventConsentSearchModel body)
         {
             ActionName = "GetIIPEventConsentReportData([FromBody] CompanyEventSearchModel body)";
             var result = new ApiResult<DataTable>();

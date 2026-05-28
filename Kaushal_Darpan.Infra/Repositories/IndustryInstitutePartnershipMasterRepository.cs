@@ -996,7 +996,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<DataTable> GetIIPEventConsentReportData(CompanyEventSearchModel body)
+        public async Task<DataTable> GetIIPEventConsentReportData(EventConsentSearchModel body)
         {
             _actionName = "GetIIPEventConsentReportData(CompanyEventSearchModel body)";
             try
@@ -1005,12 +1005,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_IIP_GetConsentData";
+                    command.CommandText = "USP_IIP_GetConsentReportData";
                     command.Parameters.AddWithValue("@Action", body.Action);
 
                     command.Parameters.AddWithValue("@EventID", body.EventID);
                     command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@EventTypeID", body.EventTypeID);
+                    command.Parameters.AddWithValue("@EventStatusID", body.EventStatusID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
