@@ -587,7 +587,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@InstituteID", request.InstituteID ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@DivisionID", request.DivisionID ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@AreaOfDomain", request.AreaOfDomain ?? (object)DBNull.Value);
-                    
+                    command.Parameters.AddWithValue("@UserID", request.UserID);
                     command.Parameters.Add("@Return", SqlDbType.Int); // out
                     command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
 
@@ -665,6 +665,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CompanyID", body.CompanyID);
                     command.Parameters.AddWithValue("@RoleID", body.RoleID);
                     command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                    command.Parameters.AddWithValue("@EventStatus", body.EventStatus);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
@@ -843,6 +844,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Event", request.Event);
                     command.Parameters.AddWithValue("@SemesterID", request.SemesterID);
                     command.Parameters.AddWithValue("@EventForID", request.EventForID);
+                    //command.Parameters.AddWithValue("@UserID", request.UserID);
                     command.Parameters.AddWithValue("@EventStartDate", Convert.ToDateTime(request.EventStartDate));
                     command.Parameters.AddWithValue("@EventEndDate", Convert.ToDateTime(request.EventEndDate));
 
