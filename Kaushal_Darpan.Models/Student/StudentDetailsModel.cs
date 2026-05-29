@@ -211,7 +211,7 @@ namespace Kaushal_Darpan.Models.Student
     {
         public int? StudentId { get; set; }
         public int? CampusPostID { get; set; }
-        public int? RoundNo { get; set; }
+        public string? RoundNo { get; set; }
         public string? MobileNo { get; set; }
         public string? EnrollmentNo { get; set; }
         public string? MessageType { get; set; }

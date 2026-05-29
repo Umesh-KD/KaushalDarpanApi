@@ -25,6 +25,7 @@ namespace Kaushal_Darpan.Models.PlacementShortListStudentMaster
         public string ModifyBy { get; set; }
         public string? UploadedResume { get; set; }
         public string? Dis_UploadedResume { get; set; }
+        public string? RoundNo { get; set; }
 
 
 
