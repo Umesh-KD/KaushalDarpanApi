@@ -187,6 +187,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.State = EnumStatus.Success;
                 if (result.Data.Tables[0].Rows.Count == 0)
                 {
+                    result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
                     return result;
                 }
