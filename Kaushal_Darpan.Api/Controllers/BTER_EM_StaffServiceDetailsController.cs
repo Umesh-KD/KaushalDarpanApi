@@ -722,8 +722,19 @@ namespace Kaushal_Darpan.Api.Controllers
                 await _unitOfWork.SaveChangesAsync();
                 if (result.Data > 0)
                 {
-                    result.State = EnumStatus.Success;
-                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                    
+
+                     if (result.Data == 1)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.Message = "This Staff Transfer Request Already Under Process !";
+                    }
+
                 }
                 else if (result.Data == -1)
                 {
