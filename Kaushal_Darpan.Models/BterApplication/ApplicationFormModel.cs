@@ -163,8 +163,14 @@ namespace Kaushal_Darpan.Models.ApplicationData
         public int? InstituteID { get; set; }
         public int? DepartmentID { get; set; }
         public int? RoleID { get; set; }
+        public int? Gender { get; set; }
+        public int? CourseTypeID { get; set; }
 
         public string? Action { get; set; }
+        public string? JanAadharNo { get; set; }
+        public string? AadharNo { get; set; }
+        public string? FinancialYearName { get; set; }
+        public List<DocumentDetailsModel>? DocumentDetails { get; set; }
     }
 
     public class HighestQualificationModel
