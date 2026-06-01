@@ -273,7 +273,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         .Replace("{#CampusLocationURL#}", request.CampusLocationURL)
                         .Replace("{#NodalType#}", request.NodalType);
                     await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
-                    await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, "8003781633", MessageBody, TempletID);
+                    //await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, "8003781633", MessageBody, TempletID);
                 }
                 //Bter Placmeent SMS Service student consent
                 else if (request.MessageType == EnumMessageType.Bter_StudentConsent.GetDescription())
@@ -285,7 +285,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         .Replace("{#RegNo#}", request.RegNo)
                         ;
                     await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
-                    await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, "8003781633", MessageBody, TempletID);
+                   // await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, "8003781633", MessageBody, TempletID);
                 }
                 //Bter Placmeent SMS Service CompanyHRApprove
                 else if (request.MessageType == EnumMessageType.Bter_ComapnyHRApprove.GetDescription())
@@ -294,7 +294,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         .Replace("{#ReferenceID#}", request.ReferenceID)
                         ;
                     await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
-                    await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, "8003781633", MessageBody, TempletID);
+                   // await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, "8003781633", MessageBody, TempletID);
 
                 }
                 else

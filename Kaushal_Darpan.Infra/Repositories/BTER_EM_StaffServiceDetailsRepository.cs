@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
-    public class BTER_EM_StaffServiceDetailsRepository: IBTER_EM_StaffServiceDetailsRepository
+    public class BTER_EM_StaffServiceDetailsRepository : IBTER_EM_StaffServiceDetailsRepository
     {
         private readonly DBContext _dbContext;
         private readonly string _pageName;
@@ -164,7 +164,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "StaffTrainingStatusUpdate(StaffTrainingStatusUpdateDataModel body)";
             try
             {
-                
+
                 int result = 0;
 
                 using (var command = await _dbContext.CreateCommandAsync())
@@ -314,8 +314,8 @@ namespace Kaushal_Darpan.Infra.Repositories
             {
                 int result = 0;
 
-                    var json = body.TransferExtDetails != 
-                    null && body.TransferExtDetails.Any()? System.Text.Json.JsonSerializer.Serialize(body.TransferExtDetails): null;
+                var json = body.TransferExtDetails !=
+                null && body.TransferExtDetails.Any() ? System.Text.Json.JsonSerializer.Serialize(body.TransferExtDetails) : null;
 
                 var jsonParam = new SqlParameter("@TransferExtJson", SqlDbType.NVarChar, -1)
                 {
@@ -780,7 +780,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<int> DeleteStaffTrainingData (StaffTrainingDetailSearchData body)
+        public async Task<int> DeleteStaffTrainingData(StaffTrainingDetailSearchData body)
         {
 
 
@@ -820,7 +820,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
 
 
-           
+
         }
 
         public async Task<DataTable> GetTransferRequestReport(EM_TransferSystemSearchModel filterModel)
@@ -904,6 +904,38 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<DataTable> GetTransferSystem_PostWiseBranchCheck(EM_TransferSystemSearchModel filterModel)
+        {
+            _actionName = "GetTransferSystem_PostWiseBranchCheck()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_TransferSystem_PostWiseBranchCheck";
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
 
     }
 }

@@ -131,6 +131,8 @@ namespace Kaushal_Darpan.Models.ITI_DataMasterModel
         public string? DateOfBirth { get; set; }
 
         public int EngNonEng { get; set; }
+        public int FileNameWithDynamicPath { get; set; }
+        public int EndTermID { get; set; }
     }
 
     public class NCVT_APIDetailsModel

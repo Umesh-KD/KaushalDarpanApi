@@ -722,8 +722,19 @@ namespace Kaushal_Darpan.Api.Controllers
                 await _unitOfWork.SaveChangesAsync();
                 if (result.Data > 0)
                 {
-                    result.State = EnumStatus.Success;
-                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                    
+
+                     if (result.Data == 1)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.Message = "This Staff Transfer Request Already Under Process !";
+                    }
+
                 }
                 else if (result.Data == -1)
                 {
@@ -1152,8 +1163,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         
-[HttpPost("DeleteStaffTrainingData")]
-public async Task<ApiResult<int>> DeleteStaffTrainingData([FromBody] StaffTrainingDetailSearchData body)
+       [HttpPost("DeleteStaffTrainingData")]
+       public async Task<ApiResult<int>> DeleteStaffTrainingData([FromBody] StaffTrainingDetailSearchData body)
         {
             ActionName = "DeleteStaffTrainingData([FromBody] StaffTrainingDetailSearchData body)";
 
@@ -1191,6 +1202,45 @@ public async Task<ApiResult<int>> DeleteStaffTrainingData([FromBody] StaffTraini
                 await CreateErrorLog(nex, _unitOfWork);
             }
 
+            return result;
+        }
+
+        [HttpPost("GetTransferSystem_PostWiseBranchCheck")]
+        public async Task<ApiResult<DataTable>> GetTransferSystem_PostWiseBranchCheck([FromBody] EM_TransferSystemSearchModel body)
+        {
+
+            ActionName = "GetTransferSystem_PostWiseBranchCheck([FromBody] EM_TransferSystemSearchModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.BTER_EM_StaffServiceDetailsRepository.GetTransferSystem_PostWiseBranchCheck(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
             return result;
         }
 

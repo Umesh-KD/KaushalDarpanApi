@@ -1,6 +1,7 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models.CampusDetailsWeb;
 using Kaushal_Darpan.Models.CampusPostMaster;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Newtonsoft.Json;
@@ -672,6 +673,49 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+        public async Task<MinMaxAgeDateDataModel> GetMinMaxAgeDate(MinMaxAgeDateDataModel model)
+        {
+            _actionName = "GetMinMaxAgeDate(MinMaxAgeDateDataModel model)";
+            try
+            {
+                DataSet dataSet = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetMinMaxAgeDate";
+
+                    command.Parameters.AddWithValue("@MinAge", model.MinAge);
+                    command.Parameters.AddWithValue("@MaxAge", model.MaxAge);
+                    command.Parameters.AddWithValue("@CalculationDate", model.CalculationDate);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataSet = await command.FillAsync();
+                }
+                var data = new MinMaxAgeDateDataModel();
+                if (dataSet != null)
+                {
+                    if (dataSet.Tables.Count > 0)
+                    {
+                        data = CommonFuncationHelper.ConvertDataTable<MinMaxAgeDateDataModel>(dataSet.Tables[0]);
+
+                    }
+                }
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
     }
 }

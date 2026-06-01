@@ -550,24 +550,20 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         command.Parameters.AddWithValue("@DateOfBirth", request.DOB);
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
-                        //command.Parameters.AddWithValue("@InstituteID", request.StudentID);
                         command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
                         command.Parameters.AddWithValue("@SupportingDocument", request.SupportingDocument);
                         command.Parameters.AddWithValue("@SupportingRemark", request.SupportingRemark);
                         command.Parameters.AddWithValue("@action", request.Action);
-                        //command.Parameters.AddWithValue("@OtherDoc", request.OtherDoc);
-                        //command.Parameters.AddWithValue("@QualificationList", JsonConvert.SerializeObject(request.QualificationList));
+                        command.Parameters.AddWithValue("@JanAadharNo", request.JanAadharNo);
+                        command.Parameters.AddWithValue("@AadharNo", request.AadharNo);
+                        command.Parameters.AddWithValue("@Gender", request.Gender);
+                        command.Parameters.AddWithValue("@DocumentDetails", JsonConvert.SerializeObject(request.DocumentDetails));
 
-                        //command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-
-                        //command.Parameters.Add("@Return", SqlDbType.Int); // out
-                        //command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();
-                        // Execute the command
                         result = await command.ExecuteNonQueryAsync();
-                        //result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
                     }
                     if (result > 0)
                         return true;

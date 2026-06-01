@@ -27,7 +27,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetBTERStudentDetailsList(BTERStudentDetailsMasterSearchModel filterModel);
 
-        Task<DataTable> GetStudentDetailsBYID(BTERStudentDetailsMasterSearchModel filterModel);
+        Task<DataSet> GetStudentDetailsBYID(BTERStudentDetailsMasterSearchModel filterModel);
 
 
         Task<DataTable> GetStudentCorrectionDataByID(StudentCorrectionMasterSearchModel filterModel);
