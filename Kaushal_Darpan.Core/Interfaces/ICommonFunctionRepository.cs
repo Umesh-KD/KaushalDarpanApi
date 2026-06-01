@@ -405,5 +405,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<EmitraRequstParametersModel> GetEmitraServiceDetailsWhatsapp(EmitraRequestDetailsModel Model);
         Task<bool> UpdateEmitraPaymentStatusWhatsApp(EmitraResponseParametersModel request);
         Task<ResultPublishModel> HasResultPublishedForRoleAndOtherInfo(HasResultPublishModel model);
+        Task<ValidateOrStudentsWithMsgResponseModel> GetValidateOrStudentsWithMsg(ValidateOrStudentsWithMsgRequestModel model);
     }
 }
