@@ -34,6 +34,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<BTER_EM_AddStaffDetailsDataModel> BTER_EM_GetBterStaffSubjectListModelStaffID(int PK_ID, int DepartmentID);
         Task<List<BTER_EM_AddServiceHistoryDataModel>> BTER_EM_GetBterServiceListData(int PK_ID, int DepartmentID);
         Task<StaffDetailsPreviewDataModel_ServiceHistory> StaffDetailsPreview_ServiceHistory(StaffDetailsPreviewDataModel_ServiceHistory model);
+        Task<DataSet> StaffDetailsPreview_ServiceHistorypdf(int Id);
         Task<DataTable> GetStaff_HostelIDs(StaffHostelSearchModel body);
         Task<bool> SaveStaff_HostelIDs(StaffHostelSearchModel body);
 

@@ -1352,6 +1352,75 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+
+        public async Task<DataSet> StaffDetailsPreview_ServiceHistorypdf(int Id)
+        {
+            _actionName = "GetById(int PK_ID)";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var dataSet = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetStaffDetailsPreview_ServiceHistory";
+
+                        command.Parameters.AddWithValue("@StaffID", Id);
+                        //command.Parameters.AddWithValue("@UserID", model.UserID);
+                        //command.Parameters.AddWithValue("@StaffUserID", model.StaffUserID);
+   
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataSet = await command.FillAsync();
+                    }
+                    return dataSet;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+                //var data = new ITI_PlanningColleges();
+                //if (dataSet != null)
+                //{
+                //    if (dataSet.Tables.Count > 0)
+                //    {
+                //        data = CommonFuncationHelper.ConvertDataTable<ITI_PlanningColleges>(dataSet.Tables[0]);
+
+                //        if (dataSet.Tables[1].Rows.Count > 0)
+                //        {
+
+                //            data.ItiMembersModel = CommonFuncationHelper.ConvertDataTable<List<ItiMembersModel>>(dataSet.Tables[1]);
+
+                //        }
+                //        if (dataSet.Tables[2].Rows.Count > 0)
+                //        {
+
+                //            data.ItiAffiliationList = CommonFuncationHelper.ConvertDataTable<List<ItiAffiliationList>>(dataSet.Tables[2]);
+
+                //        }
+
+                //    }
+                //}
+
+            });
+
+
+
+
+        }
+
+
+
         public async Task<DataTable> GetStaff_HostelIDs(StaffHostelSearchModel body)
         {
             _actionName = "GetStaff_HostelIDs(StaffHostelSearchModel body)";
