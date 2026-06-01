@@ -29,6 +29,7 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public int RoleID { get; set; }
         public string CompanyStatus { get; set; }
 
+        public int InstituteID { get; set; }
         public List<HRMaster> ListCompanyHRDetails { get; set; }
         //public string? MobileNo { get; set; }
         //public string? EmailId { get; set; }

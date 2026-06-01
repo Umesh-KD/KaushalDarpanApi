@@ -45,6 +45,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Status", body.Status);
                         command.Parameters.AddWithValue("@ModifyBy", body.ModifyBy);
                         command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -241,6 +243,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ISIIP", request.ISIIP);
                         command.Parameters.AddWithValue("@ISPlacement", request.ISPlacement);
                         command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
                         command.Parameters.AddWithValue("@MouAdded", 0);
 
                         command.Parameters.AddWithValue(
