@@ -18,6 +18,7 @@ using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.DTE_Verifier;
 using Kaushal_Darpan.Models.EgrassPayment;
 using Kaushal_Darpan.Models.HrMaster;
+using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
 using Kaushal_Darpan.Models.RPPPayment;
@@ -12487,7 +12488,47 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<ValidateOrStudentsWithMsgResponseModel> GetValidateOrStudentsWithMsg(ValidateOrStudentsWithMsgRequestModel model)
+        {
+            _actionName = "GetValidateOrStudentsWithMsg(ValidateOrStudentsWithMsgModel model)";
+            try
+            {
+                var data = new ValidateOrStudentsWithMsgResponseModel();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetValidateOrStudentsWithMsg";
 
+                    command.Parameters.AddWithValue("@action", "_validatestudentresult");
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentId", model.DepartmentID);
+                    command.Parameters.AddWithValue("@CourseTypeId", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@RollNo", model.RollNo);
+                    command.Parameters.AddWithValue("@DOB", model.DOB);
+                    command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    var dt = await command.FillAsync_DataTable();
+                    data = CommonFuncationHelper.ConvertDataTable<ValidateOrStudentsWithMsgResponseModel>(dt);
+                }
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
 

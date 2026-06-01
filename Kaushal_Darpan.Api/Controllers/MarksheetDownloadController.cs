@@ -4,6 +4,7 @@ using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra;
+using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.Examiners;
 using Kaushal_Darpan.Models.GuestRoomManagementModel;
 using Kaushal_Darpan.Models.HrMaster;
@@ -175,22 +176,52 @@ namespace Kaushal_Darpan.Api.Controllers
             var result = new ApiResult<DataSet>();
             try
             {
-                result.Data = new DataSet();
-                if (model.ResultType == (int)EnumResultType.RwhResult || model.ResultType == (int)EnumResultType.RwhRevalEffected)
+                // handle to show result or not
+                var ValidateModel = new ValidateOrStudentsWithMsgRequestModel
                 {
-                    result.Data = await Task.Run(() => _unitOfWork.MarksheetDownloadRepository.GetStudentResultRWH_public(model));
+                    SemesterID = model.SemesterID,
+                    EndTermID = model.EndTermID,
+                    RollNo = model.RollNo,
+                    DOB = model.DOB,
+                    ResultTypeID = model.ResultType
+                };
+                var validateResult = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetValidateOrStudentsWithMsg(ValidateModel));
+                if (validateResult.ValidateStatus != 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = validateResult.Msg;
+                    return result;
                 }
-                else
+
+                result.Data = new DataSet();
+                // different type of result
+                if (model.ResultType == (int)EnumResultType.MainResult)
                 {
                     result.Data = await Task.Run(() => _unitOfWork.MarksheetDownloadRepository.GetStudentResult_public(model));
                 }
-                result.State = EnumStatus.Success;
+                else if (model.ResultType == (int)EnumResultType.RwhResult || model.ResultType == (int)EnumResultType.RwhRevalEffected)
+                {
+                    result.Data = await Task.Run(() => _unitOfWork.MarksheetDownloadRepository.GetStudentResultRWH_public(model));
+                }
+                else if (model.ResultType == (int)EnumResultType.RevaluationResult)
+                {
+                    result.Data = await Task.Run(() => _unitOfWork.MarksheetDownloadRepository.GetStudentResultReval_public(model));
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_INVALID_REQUEST;
+                    return result;
+                }
+                // check data found or not
                 if (result.Data.Tables[0].Rows.Count == 0)
                 {
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
                     return result;
                 }
+                //success
+                result.State = EnumStatus.Success;
                 result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
             }
             catch (System.Exception ex)

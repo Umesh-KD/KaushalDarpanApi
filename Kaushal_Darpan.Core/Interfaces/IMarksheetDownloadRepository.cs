@@ -20,5 +20,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetResultEndTermDDLList();
         Task<DataSet> GetStudentResultRWH_public(StudentResultSearchModel model);
         Task<int> UpdateMarksheetFile(List<StudentDownloadInfo> request);
+        Task<DataSet> GetStudentResultReval_public(StudentResultSearchModel model);
     }
 }
