@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.CampusPostMaster;
+﻿using Kaushal_Darpan.Models.CampusDetailsWeb;
+using Kaushal_Darpan.Models.CampusPostMaster;
 using Kaushal_Darpan.Models.CompanyMaster;
 using System.Data;
 using static Kaushal_Darpan.Core.Helper.CommonFuncationHelper;
@@ -23,7 +24,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveSignedCopyData(SignedCopyOfResultModel productDetails);
         Task<bool> DeleteSignedCopyDataByID(SignedCopyOfResultSearchModel signedCopy);
         Task<int> CampusPost_UpdateStatus(CampusPost_UpdateStatus_Model request);
-
+        Task<MinMaxAgeDateDataModel> GetMinMaxAgeDate(MinMaxAgeDateDataModel model);
 
 
     }

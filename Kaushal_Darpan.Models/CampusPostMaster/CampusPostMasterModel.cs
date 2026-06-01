@@ -185,4 +185,13 @@
         public string SSOID { get; set; }
         public string Action { get; set; }
     }
+
+    public class MinMaxAgeDateDataModel
+    {
+        public int? MinAge { get; set; } = 0;
+        public int? MaxAge { get; set; } = 0;
+        public string? CalculationDate { get; set; } = "";
+        public string? MinAgeDate { get; set; } = "";
+        public string? MaxAgeDate { get; set; } = "";
+    }
 }
