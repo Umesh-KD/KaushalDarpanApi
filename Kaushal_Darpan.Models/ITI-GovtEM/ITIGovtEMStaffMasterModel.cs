@@ -860,6 +860,7 @@
         public int? OfficeID { get; set; }
         public int? LevelID { get; set; }
         public int? NodalDistrictID { get; set; }
+        public string? SSOID { get; set; }
     }
 
     public class RelievingLetterResponseModel
@@ -930,5 +931,23 @@
         public string? College { get; set; }
         public string? Division { get; set; }
         public string? CurrentPost { get; set; }
+    }
+
+    public class AdditionUserOfficeModel
+    {
+        public int? UserId { get; set; }
+        public int? OfficeID { get; set; }
+        public int? PostID { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? LevelID { get; set; }
+        public int? DesignationID { get; set; }
+        public int? InstituteID { get; set; }
+        public int? CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public string? IPAddress { get; set; }
+        public int? NodalStateID { get; set; }
+        public int? NodalDistrictID { get; set; }
+        public int? StaffPostTypeID { get; set; }
+        public bool IsAdditionPost { get; set; }
     }
 }

@@ -6837,40 +6837,39 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetDateSetting(DateSettingConfigModel request)
         {
-            _actionName = "USP_GetDateSetting(StreamDDL_InstituteWiseModel request)";
-            return await Task.Run(async () =>
+            _actionName = "GetDateSetting(DateSettingConfigModel request)";
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetDateSetting";
-                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
-                        command.Parameters.AddWithValue("@CourseTypeId", request.CourseTypeId);
-                        command.Parameters.AddWithValue("@AcademicYearID", request.AcademicYearID);
-                        command.Parameters.AddWithValue("@EndTermID", request.EndtermID);
-                        command.Parameters.AddWithValue("@Key", request.Key);
-                        command.Parameters.AddWithValue("@SSOID", request.SSOID);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetDateSetting";
+
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                    command.Parameters.AddWithValue("@CourseTypeId", request.CourseTypeId);
+                    command.Parameters.AddWithValue("@AcademicYearID", request.AcademicYearID);
+                    command.Parameters.AddWithValue("@EndTermID", request.EndtermID);
+                    command.Parameters.AddWithValue("@Key", request.Key);
+                    command.Parameters.AddWithValue("@SSOID", request.SSOID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> QualificationDDL(QualificationDDLDataModel request)
