@@ -273,56 +273,55 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> GetStudentDetailsBYID(BTERStudentDetailsMasterSearchModel body)
+        public async Task<DataSet> GetStudentDetailsBYID(BTERStudentDetailsMasterSearchModel body)
         {
             _actionName = "GetStudentDetailsBYID(BTERStudentDetailsMasterSearchModel body)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataSet dataTable = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StudentDetails";
+                    //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
+
+
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    if (body.Name != null || body.Name != "")
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_StudentDetails";
-                        //command.Parameters.AddWithValue("@action", "_getAllData"); // Assuming you are using the action filter
-
-
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        if (body.Name != null || body.Name != "")
-                        {
-                            command.Parameters.AddWithValue("@Name", body.Name);
-                        }
-                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
-                        command.Parameters.AddWithValue("@StudentID", body.StudentID);
-                        command.Parameters.AddWithValue("@Eng_nonEng", body.EngNonEng);
-                        command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
-                        command.Parameters.AddWithValue("@PageSize", body.PageSize);
-                        command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
-                        command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
-                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
-                        command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
-                        command.Parameters.AddWithValue("@UserID", body.UserID);
-                        command.Parameters.AddWithValue("@action", body.action);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
+                        command.Parameters.AddWithValue("@Name", body.Name);
                     }
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@StudentID", body.StudentID);
+                    command.Parameters.AddWithValue("@Eng_nonEng", body.EngNonEng);
+                    command.Parameters.AddWithValue("@PageNumber", body.PageNumber);
+                    command.Parameters.AddWithValue("@PageSize", body.PageSize);
+                    command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
+                    command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@action", body.action);
+                    command.Parameters.AddWithValue("@FileNameWithDynamicPath", body.FileNameWithDynamicPath);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync();
+                }
 
-                    return dataTable;
-                }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetStudentCorrectionDataByID(StudentCorrectionMasterSearchModel body)

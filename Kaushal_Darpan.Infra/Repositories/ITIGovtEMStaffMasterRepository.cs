@@ -1787,6 +1787,28 @@ namespace Kaushal_Darpan.Infra.Repositories
                             }
                         }
                     }
+                    if (body.Action == "GetDataFromIFMS_EducationalQualification")
+                    {
+                        using (var command = await _dbContext.CreateCommandAsync())
+                        {
+                            command.CommandType = CommandType.StoredProcedure;
+                            command.CommandText = "USP_ITI_Govt_Em_PersonalDetailByUserID";
+                            command.Parameters.AddWithValue("@Action", body.Action);
+                            command.Parameters.AddWithValue("@StaffUserID", body.StaffUserID);
+                            command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                            command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                            _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                            dataSet = await command.FillAsync();
+                        }
+
+                        if (dataSet != null)
+                        {
+                            if (dataSet.Tables.Count > 0)
+                            {
+                                data.EducationalList = CommonFuncationHelper.ConvertDataTable<List<ITIGovtEMStaff_EducationalQualificationAndTechnicalQualificationModel>>(dataSet.Tables[0]);
+                            }
+                        }
+                    }
                     if (body.Action == "ServiceDetailsOfPersonnel")
                     {
                         using (var command = await _dbContext.CreateCommandAsync())
@@ -3140,6 +3162,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DivisionID", model.DivisionID);
                     command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
                     command.Parameters.AddWithValue("@NodalDistrictID", model.NodalDistrictID);
+                    command.Parameters.AddWithValue("@SSOID", model.SSOID);
 
 
                     _sqlQuery = command.GetSqlExecutableQuery();
@@ -3324,6 +3347,64 @@ namespace Kaushal_Darpan.Infra.Repositories
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                 throw new Exception(errordetails, ex);
             }
+        }
+
+
+        public async Task<int> ITI_IsAdditionUserOfficeSave(AdditionUserOfficeModel body)
+        {
+            _actionName = "ITI_IsAdditionUserOfficeSave(AdditionUserOfficeModel body)";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_IsAdditionUserOfficeSave";
+
+                        command.Parameters.AddWithValue("@UserId", body.UserId);
+                        command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
+                        command.Parameters.AddWithValue("@PostID", body.PostID);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@LevelID", body.LevelID);
+                        command.Parameters.AddWithValue("@DesignationID", body.DesignationID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                        command.Parameters.AddWithValue("@CreatedDate", DBNull.Value);
+                        command.Parameters.AddWithValue("@IPAddress", body.IPAddress ?? "");
+                        command.Parameters.AddWithValue("@NodalStateID", body.NodalStateID);
+                        command.Parameters.AddWithValue("@NodalDistrictID", body.NodalDistrictID);
+                        command.Parameters.AddWithValue("@StaffPostTypeID", body.StaffPostTypeID);
+                        command.Parameters.AddWithValue("@IsAdditionPost", body.IsAdditionPost);
+
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
         }
     }
 

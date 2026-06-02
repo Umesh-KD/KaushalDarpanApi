@@ -380,17 +380,17 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("GetStudentDetailsBYID")]
-        public async Task<ApiResult<DataTable>> GetStudentDetailsBYID([FromBody] BTERStudentDetailsMasterSearchModel body)
+        public async Task<ApiResult<DataSet>> GetStudentDetailsBYID([FromBody] BTERStudentDetailsMasterSearchModel body)
         {
             ActionName = "GetStudentDetailsBYID([FromBody] BTERStudentDetailsMasterSearchModel body)";
-            var result = new ApiResult<DataTable>();
+            var result = new ApiResult<DataSet>();
             try
             {
 
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ITIDataMasterRepository.GetStudentDetailsBYID(body);
 
-                if (result.Data.Rows.Count > 0)
+                if (result.Data.Tables.Count > 0)
                 {
                     result.State = EnumStatus.Success;
                     result.Message = Constants.MSG_DATA_LOAD_SUCCESS;

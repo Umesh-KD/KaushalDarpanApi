@@ -273,6 +273,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         .Replace("{#CampusLocationURL#}", request.CampusLocationURL)
                         .Replace("{#NodalType#}", request.NodalType);
                     await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
+                    //await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, "8003781633", MessageBody, TempletID);
                 }
                 //Bter Placmeent SMS Service student consent
                 else if (request.MessageType == EnumMessageType.Bter_StudentConsent.GetDescription())
@@ -284,6 +285,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         .Replace("{#RegNo#}", request.RegNo)
                         ;
                     await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
+                   // await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, "8003781633", MessageBody, TempletID);
                 }
                 //Bter Placmeent SMS Service CompanyHRApprove
                 else if (request.MessageType == EnumMessageType.Bter_ComapnyHRApprove.GetDescription())
@@ -292,6 +294,8 @@ namespace Kaushal_Darpan.Api.Controllers
                         .Replace("{#ReferenceID#}", request.ReferenceID)
                         ;
                     await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, request.MobileNo, MessageBody, TempletID);
+                   // await CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, "8003781633", MessageBody, TempletID);
+
                 }
                 else
                 {
@@ -619,5 +623,163 @@ namespace Kaushal_Darpan.Api.Controllers
             });
 
         }
+
+        [HttpPost("NorifyStudent_PlacementShortlist")]
+        public async Task<ApiResult<bool>> NorifyStudent_PlacementShortlist([FromBody] List<ForSMSNotifyStudentPlacementShorlistModel> request)
+        {
+            ActionName = "NorifyStudent_PlacementShortlist([FromBody] List<ForSMSNotifyStudentPlacementShorlistModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    DataTable dataTable = await _unitOfWork.SMSMailRepository.GetSMSTemplateByMessageType(request[0].MessageType);
+                    foreach (var item in request)
+                    {
+                        try
+                        {
+                            string ReturnOTP = "";
+                            string MessageBody = "";
+                            string TempletID = "";
+                            string DepartmentName = "Bter";
+                            string var = "";
+                            if (dataTable.Rows.Count > 0)
+                            {
+                                MessageBody = Convert.ToString(dataTable.Rows[0]["MessageBody"]);
+                                TempletID = Convert.ToString(dataTable.Rows[0]["TemplateID"]);
+                            }
+                            if (item.MessageType == EnumMessageType.Bter_StudentShortList.GetDescription())
+                            {
+                                try
+                                {
+                                    var mobile = Convert.ToString(item.MobileNo);
+                                    if (mobile != null)
+                                    {
+                                        MessageBody = MessageBody.Replace("{#EnrollmentNo#}", item.EnrollmentNo)
+                                            .Replace("{#RoundNo#}", item.RoundNo.ToString());
+
+                                        CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, mobile, MessageBody, TempletID);//add in que
+                                    }
+                                }
+                                catch
+                                {
+                                }
+                            }
+                        }
+                        catch { }
+                    }
+
+                    //result.Data = ReturnOTP;
+                    if (result.Data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+
+            });
+
+        }
+
+
+        [HttpPost("NorifyStudent_PlacementSelected")]
+        public async Task<ApiResult<bool>> NorifyStudent_PlacementSelected([FromBody] List<ForSMSNotifyStudentPlacementShorlistModel> request)
+        {
+            ActionName = "NorifyStudent_PlacementSelected([FromBody] List<ForSMSNotifyStudentPlacementShorlistModel> request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<bool>();
+                try
+                {
+                    DataTable dataTable = await _unitOfWork.SMSMailRepository.GetSMSTemplateByMessageType(request[0].MessageType);
+                    foreach (var item in request)
+                    {
+                        try
+                        {
+                            string ReturnOTP = "";
+                            string MessageBody = "";
+                            string TempletID = "";
+                            string DepartmentName = "Bter";
+                            string var = "";
+                            if (dataTable.Rows.Count > 0)
+                            {
+                                MessageBody = Convert.ToString(dataTable.Rows[0]["MessageBody"]);
+                                TempletID = Convert.ToString(dataTable.Rows[0]["TemplateID"]);
+                            }
+                            if (item.MessageType == EnumMessageType.Bter_StudentShortList.GetDescription())
+                            {
+                                try
+                                {
+                                    var mobile = Convert.ToString(item.MobileNo);
+                                    if (mobile != null)
+                                    {
+                                        MessageBody = MessageBody.Replace("{#EnrollmentNo#}", item.EnrollmentNo)
+                                            .Replace("{#RoundNo#}", item.RoundNo.ToString());
+
+                                        CommonFuncationHelper.SendSMS(_sMSConfigurationSetting, mobile, MessageBody, TempletID);//add in que
+                                    }
+                                }
+                                catch
+                                {
+                                }
+                            }
+                        }
+                        catch { }
+                    }
+
+                    //result.Data = ReturnOTP;
+                    if (result.Data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+
+            });
+
+        }
+
+
+
     }
 }

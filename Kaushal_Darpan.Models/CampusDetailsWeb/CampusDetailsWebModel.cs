@@ -1,4 +1,6 @@
-﻿namespace Kaushal_Darpan.Models.CampusDetailsWeb
+﻿using Kaushal_Darpan.Models.CampusPostMaster;
+
+namespace Kaushal_Darpan.Models.CampusDetailsWeb
 {
     public class CampusDetailsWebModel
     {
@@ -30,43 +32,43 @@
         public string ModifyDate { get; set; }
         public string? IPAddress { get; set; }
         public string? Remark { get; set; }
-        public List<CampusPostMaster_EligibilityCriteria> EligibilityCriteriaModel { get; set; }
+        public List<CampusPostMaster_EligibilityCriteria>? EligibilityCriteriaModel { get; set; }
     }
-    public class CampusPostMaster_EligibilityCriteria
-    {
+    //public class CampusPostMaster_EligibilityCriteria
+    //{
 
-        public int AID { get; set; }
-        public int PostID { get; set; }
-        public int BranchID { get; set; }
-        public string BranchName { get; set; }
-        public int PassingYear { get; set; }
-        public int SemesterID { get; set; }
-        public string SemesterName { get; set; }
-        public float MinPre_10 { get; set; }
-        public float MinPre_12 { get; set; }
-        public float MinPre_Diploma { get; set; }
-        public int NoofBackPapersAllowed { get; set; }
-        public string AgeAllowedFrom { get; set; }
-        public string AgeAllowedTo { get; set; }
-        public int HiringRoleID { get; set; }
-        public string HiringRoleName { get; set; }
-        public int NoofPositions { get; set; }
-        public string CTC { get; set; }
-        public string OtherBenefit { get; set; }
-        public string CampusType { get; set; }
-        public string InterviewType { get; set; }
-        public int NoOfInterviewRound { get; set; }
-        public bool ActiveStatus { get; set; }
-        public bool DeleteStatus { get; set; }
-        public string Dis_AgeAllowedFrom { get; set; }
-        public string Dis_AgeAllowedTo { get; set; }
-    }
+    //    public int AID { get; set; }
+    //    public int PostID { get; set; }
+    //    public int BranchID { get; set; }
+    //    public string BranchName { get; set; }
+    //    public int PassingYear { get; set; }
+    //    public int SemesterID { get; set; }
+    //    public string SemesterName { get; set; }
+    //    public float MinPre_10 { get; set; }
+    //    public float MinPre_12 { get; set; }
+    //    public float MinPre_Diploma { get; set; }
+    //    public int NoofBackPapersAllowed { get; set; }
+    //    public string AgeAllowedFrom { get; set; }
+    //    public string AgeAllowedTo { get; set; }
+    //    public int HiringRoleID { get; set; }
+    //    public string HiringRoleName { get; set; }
+    //    public int NoofPositions { get; set; }
+    //    public string CTC { get; set; }
+    //    public string OtherBenefit { get; set; }
+    //    public string CampusType { get; set; }
+    //    public string InterviewType { get; set; }
+    //    public int NoOfInterviewRound { get; set; }
+    //    public bool ActiveStatus { get; set; }
+    //    public bool DeleteStatus { get; set; }
+    //    public string Dis_AgeAllowedFrom { get; set; }
+    //    public string Dis_AgeAllowedTo { get; set; }
+    //}
 
-    public class CampusPostMaster_Action
-    {
-        public int PostID { get; set; }
-        public string Action { get; set; }
-        public string ActionRemarks { get; set; }
-        public int ActionBy { get; set; }
-    }
+    //public class CampusPostMaster_Action
+    //{
+    //    public int PostID { get; set; }
+    //    public string Action { get; set; }
+    //    public string ActionRemarks { get; set; }
+    //    public int ActionBy { get; set; }
+    //}
 }
