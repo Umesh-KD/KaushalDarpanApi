@@ -337,7 +337,6 @@
                   <TextRun>
                     <Value>=First(Fields!RollNo.Value, "AdmitCard")</Value>
                     <Style>
-                      <FontSize>8pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
