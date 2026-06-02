@@ -8,7 +8,7 @@ using System.Data;
 
 namespace Kaushal_Darpan.Infra.Repositories
 {
-    public class MasterConfigurationBterRepository: IMasterConfigurationBterRepository
+    public class MasterConfigurationBterRepository : IMasterConfigurationBterRepository
     {
         private readonly DBContext _dbContext;
         private readonly string _pageName;
@@ -259,43 +259,42 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetAllSerialData(SerialMasterBterModel request)
         {
             _actionName = "GetAllSerialData(SerialMasterModel request)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_MasterConfiguration";
-                        command.Parameters.AddWithValue("@Action", "GetAllSerialData");
-                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
-                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
-                        command.Parameters.AddWithValue("@CourseTypeID", request.CourseTypeID);
-                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
-                        command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_MasterConfiguration";
+
+                    command.Parameters.AddWithValue("@Action", "GetAllSerialData");
+                    command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                    command.Parameters.AddWithValue("@CourseTypeID", request.CourseTypeID);
+                    command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                    command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         public async Task<SerialMasterBterModel> GetSerialByID(int PK_ID)
         {
-            
+
             _actionName = "GetSerialByID(int PK_ID)";
             return await Task.Run(async () =>
             {

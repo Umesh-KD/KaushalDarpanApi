@@ -774,7 +774,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("StreamMasterHOD/{UserID}/{StreamType}/{EndTermId}/{SemesterID}/{InstituteId}/{SchemeID?}")]
-        public async Task<ApiResult<DataTable>> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0,int SchemeID=0)
+        public async Task<ApiResult<DataTable>> StreamMasterHOD(int UserID = 0, int StreamType = 0, int EndTermId = 0, int SemesterID = 0, int InstituteId = 0, int SchemeID = 0)
         {
             return await Task.Run(async () =>
             {
@@ -986,14 +986,14 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("StaffAttendence/{SSOID}/{StreamType}/{EndTermId}/{InstituteID}/{RoleID}")]
-        public async Task<ApiResult<DataTable>> StaffAttendence(string SSOID = "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0,int RoleID=0)
+        public async Task<ApiResult<DataTable>> StaffAttendence(string SSOID = "", int StreamType = 0, int EndTermId = 0, int InstituteID = 0, int RoleID = 0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.StaffAttendence(SSOID, StreamType, EndTermId, InstituteID,RoleID);
+                    var data = await _unitOfWork.CommonFunctionRepository.StaffAttendence(SSOID, StreamType, EndTermId, InstituteID, RoleID);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
@@ -5816,31 +5816,28 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetDateConfigSetting")]
         public async Task<ApiResult<DataTable>> GetDateConfigSetting(DateSettingConfigModel request)
         {
-            return await Task.Run(async () =>
+            var result = new ApiResult<DataTable>();
+            try
             {
-                var result = new ApiResult<DataTable>();
-                try
+                var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetDateSetting(request));
+                if (data.Rows.Count > 0)
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetDateSetting(request);
-                    if (data.Rows.Count > 0)
-                    {
-                        result.Data = data;
-                        result.State = EnumStatus.Success;
-                        result.Message = "Data load successfully .!";
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = "No record found.!";
-                    }
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                 }
-                catch (Exception ex)
+                else
                 {
                     result.State = EnumStatus.Warning;
-                    result.ErrorMessage = ex.Message;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Warning;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
 
         [HttpPost("QualificationDDL")]
@@ -9659,7 +9656,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("GetStudentAttandanceTimeDDL/{StaffID}/{SubjectID}/{StreamID}/{SectionID}/{DayID}")]
-        public async Task<ApiResult<DataTable>> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID,int StreamID,int SectionID,int DayID)
+        public async Task<ApiResult<DataTable>> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID, int StreamID, int SectionID, int DayID)
         {
             return await Task.Run(async () =>
             {
@@ -10847,7 +10844,7 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
-                
+
     }
 }
 
