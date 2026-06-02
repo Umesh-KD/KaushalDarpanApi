@@ -858,6 +858,7 @@
         public int? OfficeID { get; set; }
         public int? LevelID { get; set; }
         public int? NodalDistrictID { get; set; }
+        public string? SSOID { get; set; }
     }
 
     public class RelievingLetterResponseModel

@@ -3140,6 +3140,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DivisionID", model.DivisionID);
                     command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
                     command.Parameters.AddWithValue("@NodalDistrictID", model.NodalDistrictID);
+                    command.Parameters.AddWithValue("@SSOID", model.SSOID);
 
 
                     _sqlQuery = command.GetSqlExecutableQuery();
