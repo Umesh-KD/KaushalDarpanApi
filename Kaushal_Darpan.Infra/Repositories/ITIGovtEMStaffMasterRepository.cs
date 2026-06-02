@@ -3380,7 +3380,13 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffPostTypeID", body.StaffPostTypeID);
                         command.Parameters.AddWithValue("@IsAdditionPost", body.IsAdditionPost);
 
-                        result = await command.ExecuteNonQueryAsync();
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
                     }
 
                     return result;
