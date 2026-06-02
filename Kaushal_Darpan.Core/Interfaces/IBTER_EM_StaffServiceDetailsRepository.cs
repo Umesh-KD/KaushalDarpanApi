@@ -47,5 +47,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> DeleteStaffTrainingData(StaffTrainingDetailSearchData body);
 
         Task<DataTable> GetTransferSystem_PostWiseBranchCheck(EM_TransferSystemSearchModel Model);
+
+        Task<DataTable> GetTransferRequestReport(EM_TransferSystemSearchModel filterModel);
+        Task<DataTable> GetRelievingTransferRequestList(EM_TransferSystemSearchModel filterModel);
     }
 }

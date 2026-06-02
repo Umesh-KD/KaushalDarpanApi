@@ -238,6 +238,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
 
     public class StaffDetailsPreviewDataModel_ServiceHistory
     {
+        public int SrNo { get; set; }
         public string? SSOID { get; set; }
         public string? Office { get; set; }
         public string? ServiceBookDesignation { get; set; }

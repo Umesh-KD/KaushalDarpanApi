@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kaushal_Darpan.Models.Report;
+using System;
 using System.Net;
 
 namespace Kaushal_Darpan.Models.CommonModel
@@ -202,6 +203,20 @@ namespace Kaushal_Darpan.Models.CommonModel
         public string ExamType { get; set; }
         public int SemesterID { get; set; }
         public int ResultTypeID { get; set; }
+    }
+    public class ValidateOrStudentsWithMsgRequestModel : RequestBaseModel
+    {
+        public int? SemesterID { get; set; } = 0;
+        public int? StreamID { get; set; } = 0;
+        public int? InstituteID { get; set; } = 0;
+        public int? ResultTypeID { get; set; } = 0;
+        public string? RollNo { get; set; }
+        public string? DOB { get; set; }
+    }
+    public class ValidateOrStudentsWithMsgResponseModel : ReportBaseModel
+    {
+        public int ValidateStatus { get; set; }
+        public string Msg { get; set; }
     }
 
 }
