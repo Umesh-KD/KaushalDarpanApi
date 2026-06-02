@@ -1787,6 +1787,28 @@ namespace Kaushal_Darpan.Infra.Repositories
                             }
                         }
                     }
+                    if (body.Action == "GetDataFromIFMS_EducationalQualification")
+                    {
+                        using (var command = await _dbContext.CreateCommandAsync())
+                        {
+                            command.CommandType = CommandType.StoredProcedure;
+                            command.CommandText = "USP_ITI_Govt_Em_PersonalDetailByUserID";
+                            command.Parameters.AddWithValue("@Action", body.Action);
+                            command.Parameters.AddWithValue("@StaffUserID", body.StaffUserID);
+                            command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                            command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                            _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                            dataSet = await command.FillAsync();
+                        }
+
+                        if (dataSet != null)
+                        {
+                            if (dataSet.Tables.Count > 0)
+                            {
+                                data.EducationalList = CommonFuncationHelper.ConvertDataTable<List<ITIGovtEMStaff_EducationalQualificationAndTechnicalQualificationModel>>(dataSet.Tables[0]);
+                            }
+                        }
+                    }
                     if (body.Action == "ServiceDetailsOfPersonnel")
                     {
                         using (var command = await _dbContext.CreateCommandAsync())
