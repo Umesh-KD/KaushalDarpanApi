@@ -4463,5 +4463,69 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
 
+        [HttpPost("ITI_IsAdditionUserOfficeSave")]
+        public async Task<ApiResult<int>> ITI_IsAdditionUserOfficeSave([FromBody] AdditionUserOfficeModel body)
+        {
+
+            ActionName = "ITI_IsAdditionUserOfficeSave([FromBody] AdditionUserOfficeModel body)";
+            var result = new ApiResult<int>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITI_IsAdditionUserOfficeSave(body);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+
+
+                    result.State = EnumStatus.Success;
+                    if (result.Data == 1)
+                    {
+                        result.Message = Constants.MSG_DELETE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.Message = Constants.MSG_DELETE_ERROR;
+                    }
+                }
+                else if (result.Data == -1)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (result.Data == 0)
+                    {
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
+
+
     }
 }
