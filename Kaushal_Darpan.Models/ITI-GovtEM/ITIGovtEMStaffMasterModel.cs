@@ -321,6 +321,8 @@
         public int PostID { get; set; }
         public int DepartmentID { get; set; }
         public int CreatedBy { get; set; }
+        public int InstituteID { get; set; }
+        public int DistrictID { get; set; }
         public string? SSOID { get; set; }
         public string? Name { get; set; }
 

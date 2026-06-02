@@ -1367,6 +1367,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
                         command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
                         command.Parameters.AddWithValue("@RoleId", body.RoleId);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
