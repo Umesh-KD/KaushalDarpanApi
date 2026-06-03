@@ -4477,34 +4477,18 @@ namespace Kaushal_Darpan.Api.Controllers
                 await _unitOfWork.SaveChangesAsync();
                 if (result.Data > 0)
                 {
-
-
                     result.State = EnumStatus.Success;
-                    if (result.Data == 1)
-                    {
-                        result.Message = Constants.MSG_DELETE_SUCCESS;
-                    }
-                    else
-                    {
-                        result.Message = Constants.MSG_DELETE_ERROR;
-                    }
+                    result.Message = "Record Saved Successfully";
                 }
                 else if (result.Data == -1)
                 {
                     result.State = EnumStatus.Warning;
-                    result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    result.ErrorMessage = "Duplicate record already exists.";
                 }
                 else
                 {
                     result.State = EnumStatus.Error;
-                    if (result.Data == 0)
-                    {
-                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
-                    }
-                    else
-                    {
-                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
-                    }
+                    result.ErrorMessage = "Some error occurred while saving record.";
                 }
             }
             catch (Exception ex)

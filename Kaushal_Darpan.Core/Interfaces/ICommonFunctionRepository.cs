@@ -385,7 +385,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetEmployeeQualificationDDL();
 
         Task<DataTable> GetCalenderYearList();
-
+        Task<DataTable> GetUFMCategoryTypeList();
         Task<DataTable> ITI_DeirectAdmissionOptionFormData_Private(ItiTradeSearch_PrivateModel request);
 
         Task<DataTable> GetEventCommonMaster(string? type);
@@ -407,6 +407,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> UpdateEmitraPaymentStatusWhatsApp(EmitraResponseParametersModel request);
         Task<ResultPublishModel> HasResultPublishedForRoleAndOtherInfo(HasResultPublishModel model);
         Task<ValidateOrStudentsWithMsgResponseModel> GetValidateOrStudentsWithMsg(ValidateOrStudentsWithMsgRequestModel model);
+
+        Task<DataTable> GetTestUspDataByAction();
+        Task<int> UpdateResumeFileNames(string json);
 
         Task<DataTable> joining_VacantPostEmployee(ITI_Relieving_joining_CheckVacantPostModel model);
     }

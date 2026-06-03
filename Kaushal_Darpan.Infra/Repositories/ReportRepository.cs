@@ -379,7 +379,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
                     command.CommandText = "USP_Rpt_GetStudentAdmitCardBulk";
+
                     command.Parameters.AddWithValue("@action", "_getStudentAdmitCardBulk");
                     command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
                     command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
@@ -1783,12 +1785,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
                     command.CommandText = "USP_Rpt_GetStudentRollList";
+
                     command.Parameters.AddWithValue("@action", "_getStudentRollList");
                     command.Parameters.AddWithValue("@StreamID", model.StreamID);
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                     command.Parameters.AddWithValue("@StudentTypeID", model.StudentTypeID);
                     command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dt = await command.FillAsync_DataTable();
@@ -1822,6 +1827,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync(true))
                 {
                     command.CommandText = "USP_RollNumberPDFData_IU";
+                    command.CommandTimeout = 0;
                     command.CommandType = CommandType.StoredProcedure;
 
                     command.Parameters.AddWithValue("@RollListID", request.RollListID);
@@ -3273,46 +3279,44 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetBlankReport(BlankReportModel model)
         {
             _actionName = "GetBlankReport(ReportBaseModel model)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+
+                var dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
+                    command.CommandTimeout = 0;
 
-                    var dt = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandTimeout = 0;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Rpt_GetBlankReport";
 
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_Rpt_GetBlankReport";
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
-                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@BranchID", model.BranchID);
-                        command.Parameters.AddWithValue("@ExamDate", model.ExamDate);
-                        command.Parameters.AddWithValue("@ShiftID", model.ShiftID);
-                        command.Parameters.AddWithValue("@ExamCategoryID", model.ExamCategoryID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@BranchID", model.BranchID);
+                    command.Parameters.AddWithValue("@ExamDate", model.ExamDate);
+                    command.Parameters.AddWithValue("@ShiftID", model.ShiftID);
+                    command.Parameters.AddWithValue("@ExamCategoryID", model.ExamCategoryID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dt = await command.FillAsync_DataTable();
-                    }
-                    return dt;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dt = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         #endregion
@@ -4221,46 +4225,45 @@ namespace Kaushal_Darpan.Infra.Repositories
         #region AttendanceReport13B
         public async Task<DataTable> AttendanceReport13B(AttendanceReport13BDataModel model)
         {
-            _actionName = "_AttendanceReport13B";
-            return await Task.Run(async () =>
+            _actionName = "_AttendanceReport13B(AttendanceReport13BDataModel model)";
+            try
             {
-                try
+                var dt = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var dt = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_Rpt_AttendanceReport13B";
-                        command.Parameters.AddWithValue("@action", _actionName);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@ExamDate", model.ExamDate);
-                        command.Parameters.AddWithValue("@ShiftID", model.ShiftID);
-                        command.Parameters.AddWithValue("@StudentExamType", model.StudentExamType);
-                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dt = await command.FillAsync_DataTable();
-                    }
-                    return dt;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Rpt_AttendanceReport13B";
+
+                    command.Parameters.AddWithValue("@action", _actionName);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@ExamDate", model.ExamDate);
+                    command.Parameters.AddWithValue("@ShiftID", model.ShiftID);
+                    command.Parameters.AddWithValue("@StudentExamType", model.StudentExamType);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@RoleID", model.RoleID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dt = await command.FillAsync_DataTable();
                 }
+                return dt;
+            }
 
-                catch (Exception ex)
+            catch (Exception ex)
 
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
 
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
 
         }
 
@@ -5228,50 +5231,48 @@ namespace Kaushal_Darpan.Infra.Repositories
         #region Report23
         public async Task<DataSet> Report23(AttendanceReport23DataModel model)
         {
-            _actionName = "_Rpt_33";
-            return await Task.Run(async () =>
+            _actionName = "Report23(AttendanceReport23DataModel model)";
+            try
             {
-                try
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var ds = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_Report_23";
-                        command.Parameters.AddWithValue("@action", "Rpt_23");
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@ExamDate", model.ExamDate);
-                        command.Parameters.AddWithValue("@ShiftID", model.ShiftID);
-                        command.Parameters.AddWithValue("@StudentExamType", model.StudentExamType);
-                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
-                        command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
-                        command.Parameters.AddWithValue("@BranchID", model.StreamID);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Report_23";
+                    command.Parameters.AddWithValue("@action", "Rpt_23");
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        ds = await command.FillAsync();
-                    }
-                    return ds;
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@ExamDate", model.ExamDate);
+                    command.Parameters.AddWithValue("@ShiftID", model.ShiftID);
+                    command.Parameters.AddWithValue("@StudentExamType", model.StudentExamType);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
+                    command.Parameters.AddWithValue("@SubjectCode", model.SubjectCode);
+                    command.Parameters.AddWithValue("@BranchID", model.StreamID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
                 }
+                return ds;
+            }
 
-                catch (Exception ex)
+            catch (Exception ex)
 
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
 
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
 
         }
 

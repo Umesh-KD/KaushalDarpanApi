@@ -190,6 +190,7 @@ namespace Kaushal_Darpan.Models.Student
         public string? MobileNo { get; set; }
         public string? MessageType { get; set; }
         public string? StudentName { get; set; }
+        
     }
 
     public class StudentSearchModelForWhatsAPP 
@@ -216,5 +217,13 @@ namespace Kaushal_Darpan.Models.Student
         public string? EnrollmentNo { get; set; }
         public string? MessageType { get; set; }
         public string? StudentName { get; set; }
+        public string? IPAddress { get; set; }
+        public string? UserID { get; set; }
+        public string? NotifyFor { get; set; }
+
+        public int? FinancialYearID {  get; set; }
+        public int? EndTermID {  get; set; }
+        public string? RegistrationNo {  get; set; }
+
     }
 }

@@ -39,6 +39,10 @@ namespace Kaushal_Darpan.Models.PlacementShortListStudentMaster
         public int CampusPostID { get; set; }
         public int? InstituteId { get; set; }
         public int? HiringRoleID { get; set; }
+
+        public string? NotifyStatus {  get; set; }
+        public int? FinancialYearID {  get; set; }
+        
     }
 
 }

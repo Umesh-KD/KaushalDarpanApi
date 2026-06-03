@@ -4653,7 +4653,16 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     // save the file on Path
                     //var FileName = $"{System.DateTime.Now.ToString("MMMddyyyyhhmmssffffff")}{Path.GetExtension(OrgfileName)}";
-                    var FileName = $"{model.FileName}_{System.DateTime.Now:MMMddyyyyhhmmssffffff}{Path.GetExtension(OrgfileName)}";
+                    //var FileName = "";
+                    //if (model.Flag=="IsForStudentconsent")
+                    //{
+                        var FileName = $"{model.FileName}_{System.DateTime.Now:MMMddyyyyhhmmssffffff}{Path.GetExtension(OrgfileName)}";
+                    //}
+                    //else
+                    //{
+                    //     FileName = $"{model.FileName}_{System.DateTime.Now:MMMddyyyyhhmmssffffff}{Path.GetExtension(OrgfileName)}";
+                    //}
+                    
                     var finalPathSave = Path.Combine(uploadFolder, FileName);
 
                     //model
@@ -10335,6 +10344,48 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.CommonFunctionRepository.GetCalenderYearList();
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+        [HttpGet("GetUFMCategoryTypeList")]
+        public async Task<ApiResult<DataTable>> GetUFMCategoryTypeList()
+        {
+            ActionName = "GetUFMCategoryTypeList()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.GetUFMCategoryTypeList();
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;

@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
+using Kaushal_Darpan.Models.Student;
 using Newtonsoft.Json;
 using System.Data;
 
@@ -44,6 +45,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@CampusPostID", searchModel.CampusPostID);
                     command.Parameters.AddWithValue("@InstituteId", searchModel.InstituteId);
                     command.Parameters.AddWithValue("@HiringRoleID", searchModel.HiringRoleID);
+                    command.Parameters.AddWithValue("@NotifyStatus", searchModel.NotifyStatus);
+                    command.Parameters.AddWithValue("@FinancialYearID", searchModel.FinancialYearID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
@@ -118,6 +121,46 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     // Add parameters with appropriate null handling
                     command.Parameters.AddWithValue("@action", "_addEditAllData");
+                    command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(entity));
+
+                    command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
+                    command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+
+                    result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> SaveShortlistNotifyHistory(List<ForSMSNotifyStudentPlacementShorlistModel> entity)
+        {
+            _actionName = "SaveShortlistNotifyHistory(List<CreateTpoAddEditModel> entity)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_PlacementNotifyData";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    // Add parameters with appropriate null handling
+                    command.Parameters.AddWithValue("@action", "_shortlistNotifyHistory");
                     command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(entity));
 
                     command.Parameters.Add("@retval_ID", SqlDbType.Int);// out

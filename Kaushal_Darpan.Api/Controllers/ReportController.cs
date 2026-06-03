@@ -5563,62 +5563,59 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<string>> GetBlankReport(BlankReportModel model)
         {
             ActionName = "GetBlankReport(string EnrollmentNo)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<string>();
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                var data = await Task.Run(() => _unitOfWork.ReportRepository.GetBlankReport(model));
+                if (data.Rows?.Count >= 1)
                 {
-                    var data = await _unitOfWork.ReportRepository.GetBlankReport(model);
-                    if (data.Rows?.Count >= 1)
+                    //report
+                    var fileName = $"BlankReport{model.InstituteID}.pdf";
+                    var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                    string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                    string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/Blank_Report.rdlc";
+
+                    LocalReport localReport = new LocalReport(rdlcpath);
+                    localReport.AddDataSource("Blank_Report", data);
+                    var reportResult = localReport.Execute(RenderType.Pdf);
+
+                    //check file exists
+                    if (!System.IO.Directory.Exists(folderPath))
                     {
-                        //report
-                        var fileName = $"BlankReport{model.InstituteID}.pdf";
-                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/Blank_Report.rdlc";
-
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("Blank_Report", data);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
-
-                        //check file exists
-                        if (!System.IO.Directory.Exists(folderPath))
-                        {
-                            Directory.CreateDirectory(folderPath);
-                        }
-                        //save
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        //end report
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-
+                        Directory.CreateDirectory(folderPath);
                     }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.ErrorMessage = Constants.MSG_DATA_NOT_FOUND;
-                    }
-
+                    //save
+                    System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                    //end report
+                    result.Data = fileName;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
 
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+
+
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
         #endregion
 
@@ -7254,56 +7251,53 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("AttendanceReport13B")]
         public async Task<ApiResult<string>> AttendanceReport13B(AttendanceReport13BDataModel model)
         {
-            ActionName = "AttendanceReport13B()";
-            return await Task.Run(async () =>
+            ActionName = "AttendanceReport13B(AttendanceReport13BDataModel model)";
+            var result = new ApiResult<string>();
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                var data = await Task.Run(() => _unitOfWork.ReportRepository.AttendanceReport13B(model));
+
+                if (data != null)
                 {
-                    var data = await _unitOfWork.ReportRepository.AttendanceReport13B(model);
+                    //report
+                    var fileName = $"Report_13-B(attendance_report).pdf";
+                    string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                    string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/Report_13-B(attendance_report).rdlc";
 
-                    if (data != null)
-                    {
-                        //report
-                        var fileName = $"Report_13-B(attendance_report).pdf";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/Report_13-B(attendance_report).rdlc";
+                    LocalReport localReport = new LocalReport(rdlcpath);
+                    localReport.AddDataSource("Report_13_B", data);
+                    var reportResult = localReport.Execute(RenderType.Pdf);
 
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("Report_13_B", data);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
+                    System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                    //end report
 
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        //end report
+                    result.Data = fileName;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
 
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
         #endregion
 
@@ -9504,57 +9498,54 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("Report23")]
         public async Task<ApiResult<string>> Report23(AttendanceReport23DataModel model)
         {
-            ActionName = "Report33";
-            return await Task.Run(async () =>
+            ActionName = "Report33(AttendanceReport23DataModel model)";
+            var result = new ApiResult<string>();
+            try
             {
-                var result = new ApiResult<string>();
-                try
+                var data = await Task.Run(() => _unitOfWork.ReportRepository.Report23(model));
+
+                if (data == null || data?.Tables?.Count < 2 || data?.Tables[0]?.Rows?.Count == 0)
                 {
-                    var data = await _unitOfWork.ReportRepository.Report23(model);
-
-                    if (data != null)
-                    {
-                        //report
-                        var fileName = $"BTERExam_{data.Tables[0].Rows[0]["CenterCode"]}_{data.Tables[0].Rows[0]["PaperCode"]}_Report_23.pdf";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/Report_23.rdlc";
-
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("Report23_Header", data.Tables[0]);
-                        localReport.AddDataSource("Report23_DataTable", data.Tables[1]);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
-
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        //end report
-
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
                 }
-                catch (Exception ex)
+                //report
+                var fileName = $"BTERExam_{data.Tables[0].Rows[0]["CenterCode"]}_{data.Tables[0].Rows[0]["PaperCode"]}_Report_23.pdf";
+                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/Report_23.rdlc";
+
+                LocalReport localReport = new LocalReport(rdlcpath);
+                localReport.AddDataSource("Report23_Header", data.Tables[0]);
+                localReport.AddDataSource("Report23_DataTable", data.Tables[1]);
+                var reportResult = localReport.Execute(RenderType.Pdf);
+
+                System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                //end report
+
+                result.Data = fileName;
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                //
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // Write error log
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                }
-                return result;
-            });
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+
+            }
+            return result;
         }
         #endregion
 
@@ -14819,7 +14810,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     }
 
                     int headerRowBlockCount = 5;// get only top header 
-                    if (tabular_data?.Tables?.Count < 2 || tabular_data?.Tables[0]?.Rows.Count == 0 || tabular_data?.Tables[0]?.Rows.Count == headerRowBlockCount) 
+                    if (tabular_data?.Tables?.Count < 2 || tabular_data?.Tables[0]?.Rows.Count == 0 || tabular_data?.Tables[0]?.Rows.Count == headerRowBlockCount)
                     {
                         continue;
                     }
@@ -18339,7 +18330,7 @@ namespace Kaushal_Darpan.Api.Controllers
             ActionName = "GetStudentMarksheetBulk([FromBody] List<MarksheetDownloadSearchModel> Model)";
             var Session = Model[0].SessionName;
             var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/BTER/Marksheet/{Session}";
-            
+
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
@@ -18363,12 +18354,12 @@ namespace Kaushal_Darpan.Api.Controllers
                             //DownloadList.Add(downloadInfo_exists);
 
                             objStudent.StudentID = student.StudentID;
-                            objStudent.MarksheetPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/BTER/Marksheet/{student.MarksheetFilePath}"; 
+                            objStudent.MarksheetPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/BTER/Marksheet/{student.MarksheetFilePath}";
                             objStudent.MarksheetFile = student.MarksheetFile;
                             ListData.Add(objStudent);
 
-                            student.MarksheetPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/BTER/Marksheet/{student.MarksheetFilePath}"; 
-                            student.Marksheet = student.MarksheetFile; 
+                            student.MarksheetPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/BTER/Marksheet/{student.MarksheetFilePath}";
+                            student.Marksheet = student.MarksheetFile;
                         }
                         else
                         {

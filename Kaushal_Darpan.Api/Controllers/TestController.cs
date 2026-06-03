@@ -8,6 +8,7 @@ using Kaushal_Darpan.Api.Code.Helper;
 using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Infra;
 using Kaushal_Darpan.Models.DateConfiguration;
 using Kaushal_Darpan.Models.SMSConfigurationSetting;
 using Kaushal_Darpan.Models.Test;
@@ -697,18 +698,14 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 //new (destination):\year\coursetype\applicationid\filename
                 //All = \StaticFiles\Students\BTER\2025\1\20\filename
-
-
                 //log
                 CommonFuncationHelper.WriteTextLog("Dummy_SaveAndMoveStudentImages start:");
-
                 //data
                 var action = "_Dummy_getNewAdmittedEngStudentImages";
                 var ds = await _unitOfWork.CommonFunctionRepository.Dummy_GetTestUspDataByAction(action);
                 DataTable dataTable = ds.Tables[0];
                 //log
                 CommonFuncationHelper.WriteTextLog($"Dummy_GetTestUspDataByAction getdata count = {dataTable.Rows.Count}");
-
                 //source path
                 string sourceRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, "old-bter-student-images", "SemEng_NewAddmission");
                 string destinationRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsFolder, Constants.DepartmentBterFolder);
@@ -828,6 +825,80 @@ namespace Kaushal_Darpan.Api.Controllers
             }
         }
 
+
+        #region  placemnt resumes shift test
+
+        [HttpPost("MovePlacementResumes")]
+        public async Task<string> MovePlacementResumes()
+        {
+            try
+            {
+                string sourceRootPath = ConfigurationHelper.StaticFileRootPath;
+
+                string destinationRootPath = Path.Combine(
+                    ConfigurationHelper.StaticFileRootPath,
+                    "BTER",
+                    "StudentPlacementResumesss");
+
+                if (!Directory.Exists(destinationRootPath))
+                {
+                    Directory.CreateDirectory(destinationRootPath);
+                }
+
+
+                var ds = await _unitOfWork.CommonFunctionRepository
+                    .GetTestUspDataByAction();
+
+                DataTable dt = ds;
+
+                int movedCount = 0;
+
+                DataTable updateDt = new DataTable();
+                updateDt.Columns.Add("ConsentID", typeof(int));
+                updateDt.Columns.Add("NewFileName", typeof(string));
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    int consentId = Convert.ToInt32(row["ConsentID"]);
+                    string oldFileName = row["UploadedResume"].ToString();
+                    string newFileName = row["NewFileName"].ToString();
+
+                    string sourceFile = Path.Combine(sourceRootPath, oldFileName);
+                    string destinationFile = Path.Combine(destinationRootPath, newFileName);
+
+                    if (!System.IO.File.Exists(sourceFile))
+                        continue;
+
+                    System.IO.File.Copy(sourceFile, destinationFile, true);
+
+                    // Add for DB update
+                    DataRow dr = updateDt.NewRow();
+                    dr["ConsentID"] = consentId;
+                    dr["NewFileName"] = newFileName;
+                    updateDt.Rows.Add(dr);
+
+                    movedCount++;
+                }
+                if (updateDt.Rows.Count > 0)
+                {
+                    string json = JsonConvert.SerializeObject(updateDt);
+
+                    await _unitOfWork.CommonFunctionRepository
+                        .UpdateResumeFileNames(json);
+
+                    await _unitOfWork.SaveChangesAsync();
+                }
+                return $"Success. Total Moved = {movedCount}";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+        
+        
+        #endregion
+
     }
     public class Test
     {
@@ -852,5 +923,9 @@ namespace Kaushal_Darpan.Api.Controllers
         public string OldPath { get; set; }
         public string NewPath { get; set; }
     }
+
+
+
+
 
 }

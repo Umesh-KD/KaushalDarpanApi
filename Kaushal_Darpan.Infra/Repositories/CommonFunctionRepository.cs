@@ -19,6 +19,7 @@ using Kaushal_Darpan.Models.DTE_Verifier;
 using Kaushal_Darpan.Models.EgrassPayment;
 using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
+using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
 using Kaushal_Darpan.Models.RPPPayment;
@@ -45,6 +46,7 @@ using System.Text;
 using System.Web;
 using static Kaushal_Darpan.Core.Helper.CommonFuncationHelper;
 using static Kaushal_Darpan.Models.CommonFunction.ItiTradeAndCollegesDDL;
+using static Kaushal_Darpan.Models.PlacementShortListStudentMaster.PlacementSelectedStudentResponseModel;
 using static System.Collections.Specialized.BitVector32;
 using CompanyMoUDetailsModel = Kaushal_Darpan.Models.CompanyMaster.CompanyMoUDetailsModel;
 
@@ -11843,6 +11845,50 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<DataTable> GetUFMCategoryTypeList()
+        {
+            _actionName = "GetUFMCategoryTypeList()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetUFMCategoryTypeList";
+
+                        command.Parameters.AddWithValue("@action", "_getUFMCategoryTypeList");
+                        command.Parameters.AddWithValue("@Type", "UFMCategoryType");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    //class
+                    //List<CommonDDLModel> dataModels = new List<CommonDDLModel>();
+                    //if (dataTable != null)
+                    //{
+                    //    dataModels = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    //}
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         //For Private
         public async Task<DataTable> ITI_DeirectAdmissionOptionFormData_Private(ItiTradeSearch_PrivateModel request)
         {
@@ -12487,6 +12533,93 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+
+        public async Task<DataTable> GetTestUspDataByAction()
+        {
+            _actionName = "GetUFMCategoryTypeList()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_PlacementUtility";
+
+                        command.Parameters.AddWithValue("@action", "_GetPlacementResumeFiles");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    //class
+                    //List<CommonDDLModel> dataModels = new List<CommonDDLModel>();
+                    //if (dataTable != null)
+                    //{
+                    //    dataModels = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    //}
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> UpdateResumeFileNames(string json)
+        {
+            _actionName = "UpdateResumeFileNames";
+
+            try
+            {
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandText = "USP_PlacementUtility";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@action", "_UpdateResumeFileNames");
+                    command.Parameters.AddWithValue("@Json", json);
+
+                    SqlParameter outputParam = new SqlParameter("@retval_ID", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+
+                    command.Parameters.Add(outputParam);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    await command.ExecuteNonQueryAsync();
+
+                    result = outputParam.Value != DBNull.Value
+                        ? Convert.ToInt32(outputParam.Value)
+                        : 0;
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
         public async Task<ValidateOrStudentsWithMsgResponseModel> GetValidateOrStudentsWithMsg(ValidateOrStudentsWithMsgRequestModel model)
         {
             _actionName = "GetValidateOrStudentsWithMsg(ValidateOrStudentsWithMsgModel model)";
@@ -12508,6 +12641,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RollNo", model.RollNo);
                     command.Parameters.AddWithValue("@DOB", model.DOB);
                     command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);
+                throw new Exception(CommonFuncationHelper.MakeError(errorDesc), ex);
+            }
+        }
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     var dt = await command.FillAsync_DataTable();

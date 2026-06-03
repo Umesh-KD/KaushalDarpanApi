@@ -79,9 +79,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync(true))
                 {
                     // Set the stored procedure name and type
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
                     command.CommandText = "USP_UpdateAdmitCard";
                     command.Parameters.AddWithValue("@DepartmentID", model.FirstOrDefault()?.DepartmentID);// out
-                    command.CommandType = CommandType.StoredProcedure;
 
                     // Add parameters with appropriate null handling
                     command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
@@ -209,8 +210,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                 DataTable dataTable = new DataTable();
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
+                    command.CommandTimeout = 0;
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_GetGenerateAdmitCardDataBulk_InsituteWise";
+
                     command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
