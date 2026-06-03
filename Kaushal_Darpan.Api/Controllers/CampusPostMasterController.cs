@@ -775,5 +775,44 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("GetMinMaxAgeDate")]
+        public async Task<ApiResult<MinMaxAgeDateDataModel>> GetMinMaxAgeDate(MinMaxAgeDateDataModel model)
+        {
+            ActionName = "GetMinMaxAgeDate(MinMaxAgeDateDataModel model)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<MinMaxAgeDateDataModel>();
+                try
+                {
+                    var data = await _unitOfWork.CampusPostMasterRepository.GetMinMaxAgeDate(model);
+                    result.Data = data;
+                    if (data != null)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
     }
 }

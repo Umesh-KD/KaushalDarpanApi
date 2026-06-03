@@ -589,6 +589,47 @@ namespace Kaushal_Darpan.Core.Helper
         Ufm = 4,
         RwhRevalEffected = 5
     }
+
+    public enum EnumConfigurationType
+    {
+        Admission = 1,
+        Enrollment = 2,
+        Examination = 3,
+        Enrolled_Fee = 4,
+        Examination_Fee = 5,
+        Reval = 6,
+        RollNo = 7,
+        CCCode = 8,
+        GroupCode = 9,
+        Provisonal = 10,
+        Certificate = 11,
+        Marksheet = 12,
+        Migration = 13,
+        ApplicationNo = 27,
+        SeatAllotment = 50,
+        ChallanNo = 28,
+        BackFee = 68,
+        DuplicateDocument = 105,
+        ExaminationFeeYearly = 107,
+        BackFeeYearly = 108,
+        AllotmentFee = 111,
+        ApplicationProcessingFee = 147,
+        StudentAgeCalculationDate = 148,
+        RemunerationExaminerFee = 149,
+        ApplicationNo_DirectAdmission = 153,
+        ChallanNo_DirectAdmission = 154,
+        Bter_CollegeFee = 155,
+        Registrar = 40,
+        Registrar_NonEng = 55,
+        Reval_GroupCode = 160,
+        JailAdmission = 164,
+        DirectAdmission = 79,
+        Counselling = 167,
+        DIRECT_ADDMISSSION_PRIVATE = 171,
+        Reval_Date = 172,
+        Revaluation_Fee = 15,
+        Common_Subject_Master = 174
+    }
     #endregion
 
     #region extensions

@@ -433,5 +433,42 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<DataSet> GetStudentResultReval_public(StudentResultSearchModel model)
+        {
+            _actionName = "GetStudentResultReval_public(StudentResultSearchModel model)";
+            try
+            {
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Rpt_GetStudentResult_Reval";
+
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@RollNo", model.RollNo);
+                    command.Parameters.AddWithValue("@DOB", model.DOB);
+                    command.Parameters.AddWithValue("@ResultTypeID", model.ResultType);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
     }
 }

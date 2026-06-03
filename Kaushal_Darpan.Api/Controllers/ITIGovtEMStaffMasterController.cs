@@ -4463,5 +4463,53 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
 
+        [HttpPost("ITI_IsAdditionUserOfficeSave")]
+        public async Task<ApiResult<int>> ITI_IsAdditionUserOfficeSave([FromBody] AdditionUserOfficeModel body)
+        {
+
+            ActionName = "ITI_IsAdditionUserOfficeSave([FromBody] AdditionUserOfficeModel body)";
+            var result = new ApiResult<int>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.ITI_IsAdditionUserOfficeSave(body);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Record Saved Successfully";
+                }
+                else if (result.Data == -1)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.ErrorMessage = "Duplicate record already exists.";
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Some error occurred while saving record.";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
+
+
     }
 }

@@ -10,6 +10,7 @@ using Kaushal_Darpan.Models.Test;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data;
+using System.Text;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -1111,6 +1112,110 @@ namespace Kaushal_Darpan.Api.Controllers
                 await CreateErrorLog(nex, _unitOfWork);
             }
             return result;
+        }
+
+        [HttpGet("DownloadStaffDetailsPreview_ServiceHistorypdf/{Id}")]
+        public async Task<IActionResult> DownloadStaffDetailsPreview_ServiceHistorypdf(int Id)
+        {
+            try
+            {
+                var data = await _unitOfWork.BTER_EstablishManagementRepository
+                                            .StaffDetailsPreview_ServiceHistorypdf(Id);
+
+                if (data?.Tables?.Count == 0 || data.Tables[0].Rows.Count == 0)
+                {
+                    return NotFound("Data not found.");
+                }
+
+                System.Text.Encoding.RegisterProvider(
+                    System.Text.CodePagesEncodingProvider.Instance);
+
+                // Table Names
+                data.Tables[0].TableName = "Staff_Details";
+
+                if (data.Tables.Count > 1)
+                    data.Tables[1].TableName = "ServiceHistoryList";
+
+                if (data.Tables.Count > 2)
+                    data.Tables[2].TableName = "TrainingDetailsList";
+
+                // Service History SrNo
+                if (data.Tables.Count > 1 &&
+                    data.Tables[1] != null &&
+                    data.Tables[1].Rows.Count > 0)
+                {
+                    if (!data.Tables[1].Columns.Contains("SrNo"))
+                    {
+                        data.Tables[1].Columns.Add("SrNo", typeof(int));
+                    }
+
+                    int i = 1;
+
+                    foreach (DataRow row in data.Tables[1].Rows)
+                    {
+                        row["SrNo"] = i++;
+                    }
+                }
+
+                // Training Details SrNo
+                if (data.Tables.Count > 2 &&
+                    data.Tables[2] != null &&
+                    data.Tables[2].Rows.Count > 0)
+                {
+                    if (!data.Tables[2].Columns.Contains("SrNo"))
+                    {
+                        data.Tables[2].Columns.Add("SrNo", typeof(int));
+                    }
+
+                    int i = 1;
+
+                    foreach (DataRow row in data.Tables[2].Rows)
+                    {
+                        row["SrNo"] = i++;
+                    }
+                }
+
+                string htmlTemplatePath =
+                    $"{ConfigurationHelper.RootPath}" +
+                    $"{Constants.GetRosterDisplay_PDFTimeTableReport}/EstablishmentProfileStaff.html";
+
+                string html = Utility.PDFWorks.GetHtml(
+                    htmlTemplatePath,
+                    data);
+
+                html = Utility.PDFWorks.ReplaceCustomTag(html);
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append(html);
+
+                var watermarkImagePath =
+                    $"{ConfigurationHelper.StaticFileRootPath}/bter_logo.png";
+
+                byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(
+                    sb,
+                    "",
+                    watermarkImagePath);
+
+                return File(
+                    pdfBytes,
+                    "application/pdf",
+                    $"StaffProfile_{Id}.pdf");
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = "DownloadStaffDetailsPreview_ServiceHistorypdf",
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+
+                return BadRequest(ex.Message);
+            }
         }
 
 

@@ -1,0 +1,192 @@
+﻿<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11px;
+        color: #222;
+        line-height: 1.4;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+    }
+
+    td {
+        padding: 4px;
+        vertical-align: top;
+    }
+
+    th {
+        padding: 6px;
+        font-weight: bold;
+        border: 1px solid #aaa;
+        background: #f2f2f2;
+    }
+
+    .section-header {
+        background: #eef1f4;
+        padding: 7px 10px;
+        font-size: 13px;
+        font-weight: bold;
+        margin: 10px 0 8px;
+    }
+
+    .border-table td {
+        border: 1px solid #aaa;
+    }
+</style>
+
+<div style="padding:24px;">
+
+    <!-- Header -->
+    <table style="margin-bottom:20px;">
+        <tr>
+            <td align="center">
+                <h2>Staff Service History Report</h2>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Personal Details -->
+    <div class="section-header">
+        1. Staff Details
+    </div>
+
+    <table cellpadding="4">
+        <tr>
+            <td width="20%"><b>Name</b></td>
+            <td width="30%">{#=Staff_Details.Name=#}</td>
+
+            <td width="20%"><b>SSOID</b></td>
+            <td width="30%">{#=Staff_Details.SSOID=#}</td>
+        </tr>
+
+        <tr>
+            <td><b>Employee ID</b></td>
+            <td>{#=Staff_Details.EmployeeID=#}</td>
+
+            <td><b>Mobile No</b></td>
+            <td>{#=Staff_Details.MobileNumber=#}</td>
+        </tr>
+
+        <tr>
+            <td><b>Gender</b></td>
+            <td>{#=Staff_Details.Gender=#}</td>
+
+            <td><b>Date of Birth</b></td>
+            <td>{#=Staff_Details.DateofBirth=#}</td>
+        </tr>
+
+        <tr>
+            <td><b>Office</b></td>
+            <td>{#=Staff_Details.Office=#}</td>
+
+            <td><b>Institute</b></td>
+            <td>{#=Staff_Details.InstituteName=#}</td>
+        </tr>
+
+        <tr>
+            <td><b>Current Designation</b></td>
+            <td>{#=Staff_Details.CurrentDesignation=#}</td>
+
+            <td><b>Current Branch</b></td>
+            <td>{#=Staff_Details.CurrentBranch=#}</td>
+        </tr>
+
+        <tr>
+            <td><b>Experience</b></td>
+            <td>{#=Staff_Details.Experience=#}</td>
+
+            <td><b>Date of Retirement</b></td>
+            <td>{#=Staff_Details.DateOfRetirement=#}</td>
+        </tr>
+    </table>
+
+    <!-- Qualification -->
+    <div class="section-header">
+        2. Qualification Details
+    </div>
+
+    <table cellpadding="4">
+        <tr>
+            <td width="20%"><b>Qualification At Joining</b></td>
+            <td width="30%">{#=Staff_Details.QualificationAtJoining=#}</td>
+
+            <td width="20%"><b>Qualification After Joining</b></td>
+            <td width="30%">{#=Staff_Details.QualificationAfterJoining=#}</td>
+        </tr>
+    </table>
+
+    <!-- Service History -->
+    <div class="section-header">
+        3. Service History
+    </div>
+
+    <table class="border-table">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Office</th>
+                <th>Institute</th>
+                <th>Designation</th>
+                <th>Qualification</th>
+                <th>From Date</th>
+                <th>To Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {#LOOP.ServiceHistoryList#}
+            <tr>
+                <td>{#=ServiceHistoryList.SrNo=#}</td>
+                <td>{#=ServiceHistoryList.OfficeName=#}</td>
+                <td>{#=ServiceHistoryList.InstituteName=#}</td>
+                <td>{#=ServiceHistoryList.DesignationName=#}</td>
+                <td>{#=ServiceHistoryList.Qualification=#}</td>
+                <td>{#=ServiceHistoryList.FromDate=#}</td>
+                <td>{#=ServiceHistoryList.ToDate=#}</td>
+            </tr>
+            {#ENDLOOP.ServiceHistoryList#}
+        </tbody>
+    </table>
+
+    <!-- Training Details -->
+    <div class="section-header">
+        4. Training Details
+    </div>
+
+    <table class="border-table">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Institute</th>
+                <th>Course</th>
+                <th>Course Type</th>
+                <th>Duration</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Mode</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {#LOOP.TrainingDetailsList#}
+            <tr>
+                <td>{#=TrainingDetailsList.SrNo=#}</td>
+                <td>{#=TrainingDetailsList.OrganizinglnstituteName=#}</td>
+                <td>{#=TrainingDetailsList.CourseName=#}</td>
+                <td>{#=TrainingDetailsList.TrainingCourseType_str=#}</td>
+                <td>
+                    {#=TrainingDetailsList.Duration=#}
+                    {#=TrainingDetailsList.DurationUnit_str=#}
+                </td>
+                <td>{#=TrainingDetailsList.StartDate=#}</td>
+                <td>{#=TrainingDetailsList.EndDate=#}</td>
+                <td>{#=TrainingDetailsList.ModeOfTraining_str=#}</td>
+            </tr>
+            {#ENDLOOP.TrainingDetailsList#}
+        </tbody>
+    </table>
+
+</div>
