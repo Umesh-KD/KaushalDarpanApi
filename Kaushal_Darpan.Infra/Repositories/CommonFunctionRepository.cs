@@ -12579,19 +12579,15 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<int> UpdateResumeFileNames(string json)
         {
             _actionName = "UpdateResumeFileNames";
-
+            int result = 0;
             try
             {
-                int result = 0;
-
                 using (var command = await _dbContext.CreateCommandAsync(true))
                 {
                     command.CommandText = "USP_PlacementUtility";
                     command.CommandType = CommandType.StoredProcedure;
-
                     command.Parameters.AddWithValue("@action", "_UpdateResumeFileNames");
                     command.Parameters.AddWithValue("@Json", json);
-
                     SqlParameter outputParam = new SqlParameter("@retval_ID", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
@@ -12607,8 +12603,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         ? Convert.ToInt32(outputParam.Value)
                         : 0;
                 }
-
-                return result;
             }
             catch (Exception ex)
             {
@@ -12620,49 +12614,87 @@ namespace Kaushal_Darpan.Infra.Repositories
                     SqlExecutableQuery = _sqlQuery
                 };
 
+            }
+            return result;
+        }
+
+
         public async Task<ValidateOrStudentsWithMsgResponseModel> GetValidateOrStudentsWithMsg(ValidateOrStudentsWithMsgRequestModel model)
+
         {
+
             _actionName = "GetValidateOrStudentsWithMsg(ValidateOrStudentsWithMsgModel model)";
+
             try
+
             {
+
                 var data = new ValidateOrStudentsWithMsgResponseModel();
+
                 using (var command = await _dbContext.CreateCommandAsync())
+
                 {
+
                     command.CommandType = CommandType.StoredProcedure;
+
                     command.CommandText = "USP_GetValidateOrStudentsWithMsg";
 
                     command.Parameters.AddWithValue("@action", "_validatestudentresult");
+
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+
                     command.Parameters.AddWithValue("@DepartmentId", model.DepartmentID);
+
                     command.Parameters.AddWithValue("@CourseTypeId", model.Eng_NonEng);
+
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+
                     command.Parameters.AddWithValue("@StreamID", model.StreamID);
+
                     command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+
                     command.Parameters.AddWithValue("@RollNo", model.RollNo);
+
                     command.Parameters.AddWithValue("@DOB", model.DOB);
+
                     command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);
-                throw new Exception(CommonFuncationHelper.MakeError(errorDesc), ex);
-            }
-        }
 
                     _sqlQuery = command.GetSqlExecutableQuery();
+
                     var dt = await command.FillAsync_DataTable();
+
                     data = CommonFuncationHelper.ConvertDataTable<ValidateOrStudentsWithMsgResponseModel>(dt);
+
                 }
+
                 return data;
+
             }
+
             catch (Exception ex)
+
             {
+
                 var errorDesc = new ErrorDescription
+
                 {
+
                     Message = ex.Message,
+
                     PageName = _pageName,
+
                     ActionName = _actionName,
+
                     SqlExecutableQuery = _sqlQuery
+
                 };
+
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+
                 throw new Exception(errordetails, ex);
+
             }
+
         }
 
         public async Task<DataTable> joining_VacantPostEmployee(ITI_Relieving_joining_CheckVacantPostModel filterModel)
