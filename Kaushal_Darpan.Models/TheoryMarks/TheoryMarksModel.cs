@@ -227,4 +227,11 @@
         public string? BundleSendDate { get; set; }
         public string? Date2 { get; set; }
     }
+
+    public class UFMCategoryUpdateModel : ResponseBaseModel
+    {
+        public int UFMCategory { get; set; } = 0;
+        public int StudentExamID { get; set; } = 0;
+
+    }
 }

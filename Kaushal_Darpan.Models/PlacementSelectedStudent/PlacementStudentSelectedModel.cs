@@ -28,6 +28,11 @@ namespace Kaushal_Darpan.Models.PlacementShortListStudentMaster
         public string? RoundNo { get; set; }
 
 
+        public string? CompanyName { get; set; }
+        public string? RegistrationNo { get; set; }
+
+        public string? NotifyStatus { get; set; }
+        public int? FinancialYearID { get; set; }
 
         //public string BranchName { get; set; }
         //public string DistrictName { get; set; }
@@ -66,5 +71,6 @@ namespace Kaushal_Darpan.Models.PlacementShortListStudentMaster
         //public int TotalExperience { get; set; }
         //public float Salary_CTC { get; set; }
         //public string ApprenticeCompleted { get; set; }
+
     }
 }
