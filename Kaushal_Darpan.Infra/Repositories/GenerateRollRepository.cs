@@ -333,8 +333,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                 DataTable dataTable = new DataTable();
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
+                    command.CommandTimeout = 0;
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_GetGenerateRollNoDataBulk_Insitute";
+
                     command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                     command.Parameters.AddWithValue("@StreamID", model.StreamID);
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
@@ -342,6 +344,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                     command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
                     command.Parameters.AddWithValue("@InstituteIds", model.InstituteIds);
+
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();
                 }

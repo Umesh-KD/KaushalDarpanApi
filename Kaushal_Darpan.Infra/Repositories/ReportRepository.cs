@@ -379,7 +379,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
                     command.CommandText = "USP_Rpt_GetStudentAdmitCardBulk";
+
                     command.Parameters.AddWithValue("@action", "_getStudentAdmitCardBulk");
                     command.Parameters.AddWithValue("@StudentExamID", StudentExamID);
                     command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
@@ -1783,12 +1785,15 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
                     command.CommandText = "USP_Rpt_GetStudentRollList";
+
                     command.Parameters.AddWithValue("@action", "_getStudentRollList");
                     command.Parameters.AddWithValue("@StreamID", model.StreamID);
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                     command.Parameters.AddWithValue("@StudentTypeID", model.StudentTypeID);
                     command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dt = await command.FillAsync_DataTable();
@@ -1822,6 +1827,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync(true))
                 {
                     command.CommandText = "USP_RollNumberPDFData_IU";
+                    command.CommandTimeout = 0;
                     command.CommandType = CommandType.StoredProcedure;
 
                     command.Parameters.AddWithValue("@RollListID", request.RollListID);
