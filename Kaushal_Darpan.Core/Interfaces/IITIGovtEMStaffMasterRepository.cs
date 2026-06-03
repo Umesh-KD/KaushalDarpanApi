@@ -122,5 +122,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetEmployeeServiceDetails_ITI_EM(ITI_Govt_EM_UserRequestHistoryListSearchDataModel Model);
 
         Task<int> ITI_IsAdditionUserOfficeSave(AdditionUserOfficeModel body);
+
+        Task<int> Relieving_joining_CheckVacantPostModel(ITI_Relieving_joining_CheckVacantPostModel model);
+        
     }
 }

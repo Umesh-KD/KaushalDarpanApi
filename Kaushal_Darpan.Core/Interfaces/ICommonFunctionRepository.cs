@@ -15,6 +15,7 @@ using Kaushal_Darpan.Models.EgrassPayment;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
 using Kaushal_Darpan.Models.RPPPayment;
+using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
 using Kaushal_Darpan.Models.SubjectMaster;
@@ -406,5 +407,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> UpdateEmitraPaymentStatusWhatsApp(EmitraResponseParametersModel request);
         Task<ResultPublishModel> HasResultPublishedForRoleAndOtherInfo(HasResultPublishModel model);
         Task<ValidateOrStudentsWithMsgResponseModel> GetValidateOrStudentsWithMsg(ValidateOrStudentsWithMsgRequestModel model);
+
+        Task<DataTable> joining_VacantPostEmployee(ITI_Relieving_joining_CheckVacantPostModel model);
     }
 }

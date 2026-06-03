@@ -4527,5 +4527,78 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("Relieving_joining_CheckVacantPostModel")]
+        public async Task<ApiResult<int>> Relieving_joining_CheckVacantPostModel([FromBody] ITI_Relieving_joining_CheckVacantPostModel body)
+        {
+
+            ActionName = "Relieving_joining_CheckVacantPostModel([FromBody] ITI_Relieving_joining_CheckVacantPostModel body)";
+            var result = new ApiResult<int>();
+            try
+            {
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.Relieving_joining_CheckVacantPostModel(body);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.Data > 0)
+                {
+                    if (body.Action == "Relieving_CheckVacantPost")
+                    {
+                        if (result.Data == 2)
+                        {
+                            result.State = EnumStatus.Warning;
+                            result.Message = "No vacant seat this Designation";
+                        }
+                        if (result.Data == 1)
+                        {
+                            result.State = EnumStatus.Success;
+                            result.Message = "Vacant seat available this Designation";
+                        }
+                    }
+                    if (body.Action == "joining_CheckVacantPost")
+                    {
+                        if (result.Data == 2)
+                        {
+                            result.State = EnumStatus.Warning;
+                            result.Message = "No vacant seat this Designation before this Designation seat hold after joining";
+                        }
+                        if (result.Data == 1)
+                        {
+                            result.State = EnumStatus.Success;
+                            result.Message = "Vacant seat available this Designation joining";
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (result.Data == 0)
+                    {
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                    else
+                    {
+                        result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
+
     }
 }
