@@ -838,7 +838,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 string destinationRootPath = Path.Combine(
                     ConfigurationHelper.StaticFileRootPath,
                     "BTER",
-                    "StudentPlacementResumesss");
+                    "StudentPlacementResumes");
 
                 if (!Directory.Exists(destinationRootPath))
                 {
