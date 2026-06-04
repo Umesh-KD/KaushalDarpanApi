@@ -1,4 +1,6 @@
-﻿namespace Kaushal_Darpan.Models.TheoryMarks
+﻿using System.Numerics;
+
+namespace Kaushal_Darpan.Models.TheoryMarks
 
 {
     public class TheoryMarksModel
@@ -232,6 +234,8 @@
     {
         public int UFMCategory { get; set; } = 0;
         public int StudentExamID { get; set; } = 0;
+        public int? FinancialYearID { get; set; } = 0;
+        //public BigInteger? RollNo { get; set; } = 0;
 
     }
 }
