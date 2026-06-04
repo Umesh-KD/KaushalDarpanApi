@@ -829,12 +829,12 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #region  placemnt resumes shift test
 
-        [HttpPost("MovePlacementResumes")]
+        [HttpGet("MovePlacementResumes")]
         public async Task<string> MovePlacementResumes()
         {
             try
             {
-                CommonFuncationHelper.WriteTextLog("MovePlacementResumes start:");
+                CommonFuncationHelper.WriteTextLog("MovePlacementResumes start:" , "TestMovePlacementResumes");
 
                 string sourceRootPath = ConfigurationHelper.StaticFileRootPath;
 
@@ -844,7 +844,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     "BTER",
                     "StudentPlacementResumes");
 
-                CommonFuncationHelper.WriteTextLog($"destinationrootpath : {destinationRootPath}");
+                CommonFuncationHelper.WriteTextLog($"destinationrootpath : {destinationRootPath}", "TestMovePlacementResumes");
 
                 if (!Directory.Exists(destinationRootPath))
                 {
@@ -856,7 +856,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 DataTable dt = ds;
 
-                CommonFuncationHelper.WriteTextLog($"Table Resumes data and fileformat = {dt.Rows.Count}");
+                CommonFuncationHelper.WriteTextLog($"Table Resumes data and fileformat = {dt.Rows.Count}", "TestMovePlacementResumes");
 
                 int movedCount = 0;
 
@@ -864,24 +864,24 @@ namespace Kaushal_Darpan.Api.Controllers
                 updateDt.Columns.Add("ConsentID", typeof(int));
                 updateDt.Columns.Add("NewFileName", typeof(string));
 
-                CommonFuncationHelper.WriteTextLog($"Files copy structure record  = {updateDt}");
+                CommonFuncationHelper.WriteTextLog($"Files copy structure record  = {updateDt}", "TestMovePlacementResumes");
 
-                CommonFuncationHelper.WriteTextLog("table LOOP START:");
-                CommonFuncationHelper.WriteTextLog("all file COPY START:");
+                CommonFuncationHelper.WriteTextLog("table LOOP START:", "TestMovePlacementResumes");
+                CommonFuncationHelper.WriteTextLog("all file COPY START:", "TestMovePlacementResumes");
                 foreach (DataRow row in dt.Rows)
                 {
-                    CommonFuncationHelper.WriteTextLog($" loop count = {row}");
+                    CommonFuncationHelper.WriteTextLog($" loop count = {row}", "TestMovePlacementResumes");
 
                     int consentId = Convert.ToInt32(row["ConsentID"]);
                     string oldFileName = row["UploadedResume"].ToString();
                     string newFileName = row["NewFileName"].ToString();
 
-                    CommonFuncationHelper.WriteTextLog($"oldfilename  = {oldFileName}  , newfilename = {newFileName}");
+                    CommonFuncationHelper.WriteTextLog($"oldfilename  = {oldFileName}  , newfilename = {newFileName}", "TestMovePlacementResumes");
 
                     string sourceFile = Path.Combine(sourceRootPath, oldFileName);
                     string destinationFile = Path.Combine(destinationRootPath, newFileName);
 
-                    CommonFuncationHelper.WriteTextLog($"sourcefile path  = {sourceFile}  , destinationfile path = {destinationFile}");
+                    CommonFuncationHelper.WriteTextLog($"sourcefile path  = {sourceFile}  , destinationfile path = {destinationFile}", "TestMovePlacementResumes");
 
                     if (!System.IO.File.Exists(sourceFile))
                         continue;
@@ -894,21 +894,21 @@ namespace Kaushal_Darpan.Api.Controllers
                     dr["NewFileName"] = newFileName;
                     updateDt.Rows.Add(dr);
 
-                    CommonFuncationHelper.WriteTextLog($"ConsentID === {consentId} ");
-                    CommonFuncationHelper.WriteTextLog($"NewFileName === {newFileName}");
+                    CommonFuncationHelper.WriteTextLog($"ConsentID === {consentId} ", "TestMovePlacementResumes");
+                    CommonFuncationHelper.WriteTextLog($"NewFileName === {newFileName}", "TestMovePlacementResumes");
 
                     movedCount++;
                 }
 
-                CommonFuncationHelper.WriteTextLog($"Files COPY UPDATED and moved successfully");
+                CommonFuncationHelper.WriteTextLog($"Files COPY UPDATED and moved successfully", "TestMovePlacementResumes");
 
-                CommonFuncationHelper.WriteTextLog($"Now Rename Updating in the table STARTS");
+                CommonFuncationHelper.WriteTextLog($"Now Rename Updating in the table STARTS", "TestMovePlacementResumes");
 
                 if (updateDt.Rows.Count > 0)
                 {
                     string json = JsonConvert.SerializeObject(updateDt);
 
-                    CommonFuncationHelper.WriteTextLog($"JSON to Update/Rename files in the table {json}");
+                    CommonFuncationHelper.WriteTextLog($"JSON to Update/Rename files in the table {json}", "TestMovePlacementResumes");
 
                     await _unitOfWork.CommonFunctionRepository
                         .UpdateResumeFileNames(json);
@@ -916,16 +916,16 @@ namespace Kaushal_Darpan.Api.Controllers
                     await _unitOfWork.SaveChangesAsync();
                 }
 
-                CommonFuncationHelper.WriteTextLog($"Rename Updating is END successfully !!");                
+                CommonFuncationHelper.WriteTextLog($"Rename Updating is END successfully !!", "TestMovePlacementResumes");                
 
 
-                CommonFuncationHelper.WriteTextLog($"Successfully moved count {movedCount} !!");
+                CommonFuncationHelper.WriteTextLog($"Successfully moved count {movedCount} !!", "TestMovePlacementResumes");
 
                 return $"Success. Total Moved = {movedCount}";
             }
             catch (Exception ex)
             {
-                CommonFuncationHelper.WriteTextLog($"Error: {ex.Message}");
+                CommonFuncationHelper.WriteTextLog($"Error: {ex.Message}", "TestMovePlacementResumes");
                 return $"Error: {ex.Message}";
             }
         }
