@@ -35,11 +35,11 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetPreExamStudent")]
         public async Task<ApiResult<DataTable>> GetPreExamStudent(PreExamStudentModel model)
         {
-            ActionName = "GetPreExamStudent()";
+            ActionName = "GetPreExamStudent(PreExamStudentModel model)";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await _unitOfWork.PreExamStudentRepository.GetPreExamStudent(model);
+                result.Data = await Task.Run(() => _unitOfWork.PreExamStudentRepository.GetPreExamStudent(model));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
