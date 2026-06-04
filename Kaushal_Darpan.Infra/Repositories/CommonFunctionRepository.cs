@@ -1827,6 +1827,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
                         command.Parameters.AddWithValue("@NodalDistrictID", model.NodalDistrictID);
+                        command.Parameters.AddWithValue("@Action", model.Action);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
