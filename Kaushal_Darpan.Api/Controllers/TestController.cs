@@ -15,6 +15,7 @@ using Kaushal_Darpan.Models.Test;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Data;
+using System.Diagnostics;
 
 
 namespace Kaushal_Darpan.Api.Controllers
@@ -833,23 +834,29 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             try
             {
+                CommonFuncationHelper.WriteTextLog("MovePlacementResumes start:");
+
                 string sourceRootPath = ConfigurationHelper.StaticFileRootPath;
+
 
                 string destinationRootPath = Path.Combine(
                     ConfigurationHelper.StaticFileRootPath,
                     "BTER",
-                    "StudentPlacementResumesss");
+                    "StudentPlacementResumes");
+
+                CommonFuncationHelper.WriteTextLog($"destinationrootpath : {destinationRootPath}");
 
                 if (!Directory.Exists(destinationRootPath))
                 {
                     Directory.CreateDirectory(destinationRootPath);
                 }
 
-
                 var ds = await _unitOfWork.CommonFunctionRepository
                     .GetTestUspDataByAction();
 
                 DataTable dt = ds;
+
+                CommonFuncationHelper.WriteTextLog($"Table Resumes data and fileformat = {dt.Rows.Count}");
 
                 int movedCount = 0;
 
@@ -857,14 +864,24 @@ namespace Kaushal_Darpan.Api.Controllers
                 updateDt.Columns.Add("ConsentID", typeof(int));
                 updateDt.Columns.Add("NewFileName", typeof(string));
 
+                CommonFuncationHelper.WriteTextLog($"Files copy structure record  = {updateDt}");
+
+                CommonFuncationHelper.WriteTextLog("table LOOP START:");
+                CommonFuncationHelper.WriteTextLog("all file COPY START:");
                 foreach (DataRow row in dt.Rows)
                 {
+                    CommonFuncationHelper.WriteTextLog($" loop count = {row}");
+
                     int consentId = Convert.ToInt32(row["ConsentID"]);
                     string oldFileName = row["UploadedResume"].ToString();
                     string newFileName = row["NewFileName"].ToString();
 
+                    CommonFuncationHelper.WriteTextLog($"oldfilename  = {oldFileName}  , newfilename = {newFileName}");
+
                     string sourceFile = Path.Combine(sourceRootPath, oldFileName);
                     string destinationFile = Path.Combine(destinationRootPath, newFileName);
+
+                    CommonFuncationHelper.WriteTextLog($"sourcefile path  = {sourceFile}  , destinationfile path = {destinationFile}");
 
                     if (!System.IO.File.Exists(sourceFile))
                         continue;
@@ -877,22 +894,39 @@ namespace Kaushal_Darpan.Api.Controllers
                     dr["NewFileName"] = newFileName;
                     updateDt.Rows.Add(dr);
 
+                    CommonFuncationHelper.WriteTextLog($"ConsentID === {consentId} ");
+                    CommonFuncationHelper.WriteTextLog($"NewFileName === {newFileName}");
+
                     movedCount++;
                 }
+
+                CommonFuncationHelper.WriteTextLog($"Files COPY UPDATED and moved successfully");
+
+                CommonFuncationHelper.WriteTextLog($"Now Rename Updating in the table STARTS");
+
                 if (updateDt.Rows.Count > 0)
                 {
                     string json = JsonConvert.SerializeObject(updateDt);
+
+                    CommonFuncationHelper.WriteTextLog($"JSON to Update/Rename files in the table {json}");
 
                     await _unitOfWork.CommonFunctionRepository
                         .UpdateResumeFileNames(json);
 
                     await _unitOfWork.SaveChangesAsync();
                 }
+
+                CommonFuncationHelper.WriteTextLog($"Rename Updating is END successfully !!");                
+
+
+                CommonFuncationHelper.WriteTextLog($"Successfully moved count {movedCount} !!");
+
                 return $"Success. Total Moved = {movedCount}";
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                CommonFuncationHelper.WriteTextLog($"Error: {ex.Message}");
+                return $"Error: {ex.Message}";
             }
         }
         
