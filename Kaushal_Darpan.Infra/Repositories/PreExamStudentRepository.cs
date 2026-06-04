@@ -32,64 +32,61 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         public async Task<DataTable> GetPreExamStudent(PreExamStudentModel model)
         {
-            _actionName = "GetPreExamStudent()";
+            _actionName = "GetPreExamStudent(PreExamStudentModel model)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 120;//2 min.
+                    command.CommandText = "USP_PreExamStudentData";
+
+                    if (model.StudentFilterStatusId == (int)EnumExamStudentStatus.RejectatBTER)
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandTimeout = 120;//2 min.
-                        command.CommandText = "USP_PreExamStudentData";
-
-                        if (model.StudentFilterStatusId == (int)EnumExamStudentStatus.RejectatBTER)
-                        {
-                            command.Parameters.AddWithValue("@action", "getStudentRejectAtBter");
-                        }
-                        else if (model.StudentFilterStatusId == (int)EnumExamStudentStatus.Dropout)
-                        {
-                            command.Parameters.AddWithValue("@action", "getDropoutStudent");
-                        }
-                        else if (model.StudentFilterStatusId == (int)EnumExamStudentStatus.Detained)
-                        {
-                            command.Parameters.AddWithValue("@action", "getDetainedStudent");
-                        }
-                        else
-                        {
-                            command.Parameters.AddWithValue("@action", "getStudentExamData");
-                        }
-
-                        command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
-                        command.Parameters.AddWithValue("@Name", model.Name);
-                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@ManagementTypeID", model.ManagementTypeID);
-                        command.Parameters.AddWithValue("@FinacialYearID", model.FinacialYearID);
-                        command.Parameters.AddWithValue("@MobileNo", model.MobileNo);
-                        command.Parameters.AddWithValue("@BranchID", model.BranchID);
-                        command.Parameters.AddWithValue("@Year_SemID", model.Year_SemID);
-                        command.Parameters.AddWithValue("@StudentTypeID", model.StudentTypeID);
-                        command.Parameters.AddWithValue("@StudentStatusID", model.StudentStatusID);
-                        command.Parameters.AddWithValue("@StudentFilterStatusId", model.StudentFilterStatusId);
-                        command.Parameters.AddWithValue("@ExamCategoryID", model.ExamCategoryID);
-                        command.Parameters.AddWithValue("@OptionalSubjectStatus", model.OptionalSubjectStatus);
-                        command.Parameters.AddWithValue("@BridgeCourseID", model.BridgeCourseID);
-                        command.Parameters.AddWithValue("@ApplicationNo", model.ApplicationNo);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@IsYearly", model.IsYearly);
-                        command.Parameters.AddWithValue("@PromoteStatus", model.PromoteStatus);
-                        command.Parameters.AddWithValue("@StudentExamTypeID", model.StudentExamTypeID);
-                        command.Parameters.AddWithValue("@AbcId", model.AbcId);
-                        command.Parameters.AddWithValue("@OptionalSubjectID", model.OptionalSubjectID);
-
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
+                        command.Parameters.AddWithValue("@action", "getStudentRejectAtBter");
                     }
-                    return dataTable;
-                });
+                    else if (model.StudentFilterStatusId == (int)EnumExamStudentStatus.Dropout)
+                    {
+                        command.Parameters.AddWithValue("@action", "getDropoutStudent");
+                    }
+                    else if (model.StudentFilterStatusId == (int)EnumExamStudentStatus.Detained)
+                    {
+                        command.Parameters.AddWithValue("@action", "getDetainedStudent");
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@action", "getStudentExamData");
+                    }
+
+                    command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                    command.Parameters.AddWithValue("@Name", model.Name);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@ManagementTypeID", model.ManagementTypeID);
+                    command.Parameters.AddWithValue("@FinacialYearID", model.FinacialYearID);
+                    command.Parameters.AddWithValue("@MobileNo", model.MobileNo);
+                    command.Parameters.AddWithValue("@BranchID", model.BranchID);
+                    command.Parameters.AddWithValue("@Year_SemID", model.Year_SemID);
+                    command.Parameters.AddWithValue("@StudentTypeID", model.StudentTypeID);
+                    command.Parameters.AddWithValue("@StudentStatusID", model.StudentStatusID);
+                    command.Parameters.AddWithValue("@StudentFilterStatusId", model.StudentFilterStatusId);
+                    command.Parameters.AddWithValue("@ExamCategoryID", model.ExamCategoryID);
+                    command.Parameters.AddWithValue("@OptionalSubjectStatus", model.OptionalSubjectStatus);
+                    command.Parameters.AddWithValue("@BridgeCourseID", model.BridgeCourseID);
+                    command.Parameters.AddWithValue("@ApplicationNo", model.ApplicationNo);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@IsYearly", model.IsYearly);
+                    command.Parameters.AddWithValue("@PromoteStatus", model.PromoteStatus);
+                    command.Parameters.AddWithValue("@StudentExamTypeID", model.StudentExamTypeID);
+                    command.Parameters.AddWithValue("@AbcId", model.AbcId);
+                    command.Parameters.AddWithValue("@OptionalSubjectID", model.OptionalSubjectID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
