@@ -11082,7 +11082,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var nex = new NewException
                 {
                     PageName = PageName,
-                    ActionName = "DeletePostByID",
+                    ActionName = "DeleteOrderCategoryId",
                     Ex = ex,
                 };
 
