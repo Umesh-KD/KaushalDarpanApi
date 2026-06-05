@@ -61,6 +61,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CreatedByRoleID", request.CreatedByRoleID);
                         command.Parameters.AddWithValue("@LevelID", request.LevelID);
                         command.Parameters.AddWithValue("@IsPrivate", request.IsPrivate);
+                        command.Parameters.AddWithValue("@DocCategoryID", request.DocCategoryID);
+                        command.Parameters.AddWithValue("@ViewTypeIDs", request.ViewTypeIDs);
+                        command.Parameters.AddWithValue("@DesignationID", request.DesignationID);
+                        command.Parameters.AddWithValue("@StaffTypeID", request.StaffTypeID);
 
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -138,6 +142,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentSubID", request.DepartmentSubID);
                         command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
                         command.Parameters.AddWithValue("@CourseTypeID", request.Eng_NonEng);
+                        command.Parameters.AddWithValue("@TypeID", request.TypeID);
+                        command.Parameters.AddWithValue("@ViewTypeIDs", request.ViewTypeIDs);
+                        command.Parameters.AddWithValue("@DocCategoryID", request.DocCategoryID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
@@ -213,7 +220,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_WebsiteSettings_GetData";
                         command.Parameters.AddWithValue("@Action", "GetById");
-                        command.Parameters.AddWithValue("@DUTC_Id", body.DUTC_ID);
+                        command.Parameters.AddWithValue("@WS_ID", body.WS_ID);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -412,6 +419,52 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+
+        public async Task<DataTable> GetAllDataOrders(WebsiteSettingDataModel request)
+        {
+            _actionName = "GetAllData()";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_WebsiteSettings_GetDataorders";
+                        command.Parameters.AddWithValue("@Action", "GetAllData");
+
+                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                        command.Parameters.AddWithValue("@DepartmentSubID", request.DepartmentSubID);
+                        command.Parameters.AddWithValue("@EndTermID", request.EndTermID);
+                        command.Parameters.AddWithValue("@CourseTypeID", request.Eng_NonEng);
+                        command.Parameters.AddWithValue("@TypeID", request.TypeID);
+                        command.Parameters.AddWithValue("@ViewTypeIDs", request.ViewTypeIDs);
+                        command.Parameters.AddWithValue("@DocCategoryID", request.DocCategoryID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
 
     }
 }
