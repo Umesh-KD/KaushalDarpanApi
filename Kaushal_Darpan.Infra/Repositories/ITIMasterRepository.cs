@@ -344,6 +344,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TradeID", body.TradeID);
                         command.Parameters.AddWithValue("@PaperID", body.PaperID);
                         command.Parameters.AddWithValue("@PaperUploadID", body.PaperUploadID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
                         // command.Parameters.AddWithValue("@Action", "getTradetblListList");
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
