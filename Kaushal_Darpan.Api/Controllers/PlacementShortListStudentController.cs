@@ -237,6 +237,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             string filePath = Path.Combine(
                                 ConfigurationHelper.StaticFileRootPath,
+                                "BTER",
+                                "StudentPlacementResumes",
                                 item.UploadedResume
                             );
 

@@ -959,5 +959,6 @@
         public int InstituteID { get; set; }
         public int StaffTypeID { get; set; }
         public int? DesignationID { get; set; }
+        public int? TradeID { get; set; }
     }
     }

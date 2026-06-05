@@ -412,5 +412,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> UpdateResumeFileNames(string json);
 
         Task<DataTable> joining_VacantPostEmployee(ITI_Relieving_joining_CheckVacantPostModel model);
+        Task<DataTable> GetUserManualByRoleId(int roleId);
     }
 }
