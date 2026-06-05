@@ -54,7 +54,7 @@ namespace Kaushal_Darpan.Models.CollegeMaster
         public string? Remark { get; set; }
         public string? StatusName { get; set; }
         public int CityID { get; set; }
-        public int Ward { get; set; }
+        public string? Ward { get; set; }
         public int VillageId { get; set; }
         public int PanchayatsamityId { get; set; }
         public int GrampanchayatId { get; set; }

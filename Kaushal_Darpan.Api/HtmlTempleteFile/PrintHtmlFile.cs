@@ -1204,5 +1204,330 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         }
         #endregion
 
+
+        #region UFM category Reports
+        //public async Task<StringBuilder> UFMCategoryReportPdf_BTER_GetHtml(DataSet ds)
+        //{
+        //    StringBuilder sb = new StringBuilder();
+
+        //    try
+        //    {
+        //        DataTable dt = ds.Tables[0];
+
+        //        // GROUPING (Better than Distinct + Where)
+        //        var groupedData = dt.AsEnumerable()
+        //                                .GroupBy(row => new
+        //                                {
+        //                                    StudentID = row["StudentID"],
+        //                                    UFMCategory = row["UFMCategory"],
+        //                                    UFMCategoryName = row["UFMCategoryName"],
+        //                                    RollNo = row["RollNo"]
+        //                                    //CenterCode = row["CenterCode"],
+        //                                    //BranchName = row["BranchName"],
+        //                                    //SubjectName = row["SubjectName"],
+        //                                    //SubjectCode = row["SubjectCode"],
+        //                                    //MaximumMarks = row["MAXIMUM_MARKS"], // FIXED
+        //                                    //ExaminerName = row["ExaminerName"],
+        //                                    //MobileNo = row["MobileNo"],
+        //                                    //Designation = row["Designation"],
+        //                                    //SessionName = row["SessionName"]
+        //                                })
+        //                                .OrderBy(g => g.Key.UFMCategory)
+        //                                .ThenBy(g => g.Key.RollNo)
+        //                                //.ThenBy(g => g.Key.CenterCode)
+        //                                //.ThenBy(g => g.Key.BranchName)
+        //                                //.ThenBy(g => g.Key.SubjectName)
+        //                                //.ThenBy(g => g.Key.SubjectCode)
+        //                                //.ThenBy(g => g.Key.MaximumMarks)
+        //                                //.ThenBy(g => g.Key.ExaminerName)
+        //                                //.ThenBy(g => g.Key.MobileNo)
+        //                                //.ThenBy(g => g.Key.Designation)
+        //                                //.ThenBy(g => g.Key.SessionName)
+        //                                .ToList();
+
+        //        int sno = 1; // by group code and cccode
+        //        string _snoKeyCodeDiff = "";
+        //        string _snoKeyCodeOrg = "";
+
+        //        // grouped data loop
+        //        foreach (var group in groupedData)
+        //        {
+        //            var header = group.Key;
+
+        //            //_snoKeyCodeOrg = $"{header.GroupCode}-{header.CenterCode}";
+        //            // group code different then reset
+        //            if (_snoKeyCodeOrg != _snoKeyCodeDiff)
+        //            {
+        //                sno = 1;
+        //            }
+        //            _snoKeyCodeDiff = _snoKeyCodeOrg;
+
+        //            // pagging
+        //            int pageSize = 20;
+        //            int totalRecords = group.Count();
+        //            int pageCount = (int)Math.Ceiling((double)totalRecords / pageSize);
+
+        //            var orderedData = group
+        //                .OrderBy(x => x["RollNo"])
+        //                .ToList();
+
+        //            //var revaltext = IsReval == 1 ? "(Revaluation) " : "";
+        //            var revaltext ="(Revaluation) ";
+
+        //            // pagged data loop 
+        //            for (int page = 0; page < pageCount; page++)
+        //            {
+        //                var pageData = orderedData
+        //                    .Skip(page * pageSize)
+        //                    .Take(pageSize);
+
+        //                sb.Append(@"<!DOCTYPE html>
+        //                <html lang='en'>
+        //                <head>
+        //                <meta charset='UTF-8'>");
+        //                sb.Append($"<title>Theory Marks Report {revaltext}</title>");
+        //                sb.Append(@"<style>
+        //                .page-break { page-break-after: always; }
+        //                </style>
+        //                </head>
+        //                <body style='font-family: Arial, sans-serif; margin: 20px; color: #000; line-height: 1.0;'>");
+
+        //                // repeat header every page
+        //                sb.Append($"<div style='width: 100%; max-width: 90%; margin: 0 auto; border: 1px solid #000; padding: 20px;'>");
+
+        //                // Header
+        //                sb.Append($"<div style='text-align:center; font-weight:bold; font-size:18px; margin-bottom:20px;'>THEORY MARKS {revaltext} {header.StudentID}</div>");
+
+        //                sb.Append($@"<table style='width: 100%; border-collapse: collapse; font-size: 15px;'>
+        //                    <tr>
+        //                    <td style='display: flex; justify-content: space-between; margin-bottom: 10px;>
+        //                    <div style='width: 45%;'>                           
+        //                    <div style='text-decoration: underline; font-weight: bold; font-size: 16px; margin-bottom: 5px;'>Theory Exam Reports</div>
+        //                    <div>Branch : <b>{header.StudentID}</b></div>
+        //                    <div>Examiner Code : <b>{header.StudentID}</b></div>
+        //                    <div>Group Code : <b>{header.StudentID}</b></div>
+        //                    </div>
+        //                    </td>
+        //                    <td style='display: flex; justify-content: space-between; margin-bottom: 10px;>
+        //                    <div style='width: 45%; float: right;'>
+        //                    <div>CC Code : <b>{header.StudentID}</b></div>
+        //                    <div>Subject : <b>{header.StudentID}</b></div>
+        //                    <div>Subject Code : <b>{header.StudentID}</b></div>
+        //                    <div>Maximum Marks : <b>{header.StudentID}</b></div>
+        //                    </div>
+        //                    </td>
+        //                    </tr>
+        //                    </table>");
+
+        //                // TABLE START (Only once per group)
+        //                sb.Append(@"
+        //                    <table style='width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 50px; text-align: center; font-size: 14px;'>
+        //                    <thead>
+        //                    <tr>
+        //                    <th style='border: 1px solid #ccc; padding: 5px; width: 40px;'>S.No</th>
+        //                    <th style='border: 1px solid #ccc; padding: 5px; width: 150px;'>Roll No</th>
+        //                    <th colspan='2' style='border: 1px solid #ccc; padding: 5px;'>MARKS OBTAINED</th>
+        //                    </tr>
+        //                    <tr>
+        //                    <th style='border: 1px solid #ccc; padding: 5px;'></th>
+        //                    <th style='border: 1px solid #ccc; padding: 5px;'></th>
+        //                    <th style='border: 1px solid #ccc; padding: 5px; width: 50%;'>In Words</th>
+        //                    <th style='border: 1px solid #ccc; padding: 5px;'>In Fig.</th>
+        //                    </tr>
+        //                    </thead>
+        //                    <tbody>");
+
+        //                // table data loop
+        //                foreach (var row in pageData)
+        //                {
+        //                    sb.Append($@"
+        //                            <tr>
+        //                                <td style='border:1px solid #ccc; padding:8px;'>{sno++}</td>
+        //                                <td style='border:1px solid #ccc; padding:8px;'>{row["RollNo"]}</td>
+        //                                <td style='border:1px solid #ccc; padding:8px;'>{row["ObtainedTheoryInword"]}</td>
+        //                                <td style='border:1px solid #ccc; padding:8px;'>{row["ObtainedTheory"]}</td>
+        //                            </tr>");
+        //                }
+
+        //                sb.Append("</tbody></table>");
+
+        //                // Footer
+        //                sb.Append($@"
+        //                    <div style='border: 1px solid #ccc; padding: 10px; font-size: 13px;'>
+        //                     <p style='margin: 0 0 10px 0;'>
+        //                        I have gone through all the examiner instructions & I certify that I have followed them. Also, the
+        //                        answer books are accessed by me as per direction of BTER, Jodhpur.
+        //                    </p>
+        //                    <div style='display:flex; justify-content:space-between;'>
+        //                    <div>
+        //                    <div>Name: {header.StudentID}</div>
+        //                    <div>Post: {header.StudentID}</div>
+        //                    <div>Mobile No: {header.StudentID}</div>
+        //                    </div>
+        //                    <div style='width: 300px; padding-top: 20px;'>
+        //                    <div style='margin-bottom: 15px;'>Date: _____________</div>
+        //                    <div>Signature: _____________</div>
+        //                    </div>
+        //                    </div>
+        //                    </div>");
+
+        //                sb.Append("<div class='page-break'></div>");
+
+        //                sb.Append("</div>");
+
+        //                sb.Append("</body></html>");
+        //            }
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Error generating HTML", ex);
+        //    }
+
+        //    return sb;
+        //}
+
+        public async Task<StringBuilder> UFMCategoryReportPdf_BTER_GetHtml(DataSet ds)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                DataTable dt = ds.Tables[0];
+
+                var groupedData = dt.AsEnumerable()
+                    .GroupBy(x => new
+                    {
+                        UFMCategory = x["UFMCategory"].ToString(),
+                        UFMCategoryName = x["UFMCategoryName"].ToString()
+                    })
+                    .OrderBy(x => Convert.ToInt32(x.Key.UFMCategory))
+                    .ToList();
+
+                sb.Append(@"
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset='utf-8'>
+                        <style>
+                            body{
+                                font-family:'Nirmala UI','Mangal',Arial;
+                                font-size:14px;
+                                margin:30px;
+                                line-height:1.7;
+                            }
+
+                            .header{
+                                text-align:center;
+                                font-weight:bold;
+                                font-size:18px;
+                            }
+
+                            .office-order{
+                                text-align:center;
+                                font-weight:bold;
+                                font-size:20px;
+                                margin-top:20px;
+                                margin-bottom:20px;
+                            }
+
+                            .roll-table{
+                                width:100%;
+                                border-collapse:collapse;
+                                margin-top:10px;
+                                margin-bottom:20px;
+                            }
+
+                            .roll-table td{
+                                padding:6px;
+                                text-align:center;
+                                font-weight:bold;
+                                width:25%;
+                            }
+
+                            .signature{
+                                text-align:right;
+                                margin-top:40px;
+                                font-weight:bold;
+                            }
+                        </style>
+                    </head>
+                    <body>");
+
+                // Header
+                sb.Append(@"
+                            <div class='header'>
+                                राजस्थान सरकार<br/>
+                                प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर
+                            </div>
+
+                            <div class='office-order'>
+                                कार्यालय आदेश
+                            </div>");
+
+                // Category Wise Data
+                foreach (var group in groupedData)
+                {
+                    sb.Append($@"
+                            <div style='margin-top:20px; text-align:justify;'>
+                                सत्र 2024-25 के अनुचित साधन के मामलों की समिति द्वारा लिये गये
+                                निर्णयानुसार निम्नांकित परीक्षार्थियों को दण्ड सारणी श्रेणी
+                                <b>{group.Key.UFMCategoryName}</b>
+                                के अन्तर्गत दण्डित किया जाता है :-
+                            </div>");
+
+                    sb.Append("<table class='roll-table'>");
+
+                    int count = 0;
+
+                    foreach (var row in group)
+                    {
+                        if (count % 4 == 0)
+                        {
+                            sb.Append("<tr>");
+                        }
+
+                        sb.Append($@"
+                        <td>
+                            {row["RollNo"]}
+                        </td>");
+
+                        count++;
+
+                        if (count % 4 == 0)
+                        {
+                            sb.Append("</tr>");
+                        }
+                    }
+
+                    if (count % 4 != 0)
+                    {
+                        sb.Append("</tr>");
+                    }
+
+                    sb.Append("</table>");
+                }
+
+                // Signature
+                sb.Append(@"
+                    <div class='signature'>
+                        <br/><br/>
+                        (रघुनाथ सिंह)<br/>
+                        संयुक्त निदेशक (गोपनीय)
+                    </div>
+
+                    </body>
+                    </html>");
+
+                return sb;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating UFM Officer Order HTML", ex);
+            }
+        }
+        #endregion
+
     }
 }
