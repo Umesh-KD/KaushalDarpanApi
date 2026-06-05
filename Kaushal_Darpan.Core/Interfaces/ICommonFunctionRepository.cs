@@ -12,6 +12,7 @@ using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.EgrassPayment;
+using Kaushal_Darpan.Models.PostMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
 using Kaushal_Darpan.Models.RPPPayment;
@@ -413,5 +414,13 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> joining_VacantPostEmployee(ITI_Relieving_joining_CheckVacantPostModel model);
         Task<DataTable> GetUserManualByRoleId(int roleId);
+
+        Task<DataTable> GetAllOrderCategory(OrderCategoryMasterModel request);
+
+        Task<bool> SaveOrderCategory(OrderCategoryMasterModel request);
+        Task<bool> DeleteOrderCategoryId(OrderCategoryMasterModel request);
+        Task<OrderCategoryMasterModel> GetOrderCategoryById(int orderCategoryID);
+        Task<bool> UpdateOrderCategoryStatus(OrderCategoryMasterModel request);
+        Task<int> InsertUserManual(UserManualModel model);
     }
 }
