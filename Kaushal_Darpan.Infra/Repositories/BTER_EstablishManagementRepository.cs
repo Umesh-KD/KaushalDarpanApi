@@ -125,6 +125,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@status", body.status);
                         command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
                         command.Parameters.AddWithValue("@GuestHouseID", body.GuestHouseID);
+                        command.Parameters.AddWithValue("@InstitutionManagementTypeID", body.InstitutionManagementTypeID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
