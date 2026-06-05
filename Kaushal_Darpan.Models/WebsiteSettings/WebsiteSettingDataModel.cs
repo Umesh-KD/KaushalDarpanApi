@@ -14,6 +14,7 @@ namespace Kaushal_Darpan.Models.WebsiteSettings
         public string? Start_Date { get; set; }
         public string? End_Date { get; set; }
         public string? FileName { get; set; }
+        public string? DesignationNames { get; set; }
         public string? Dis_FileName { get; set; }
         public int? CourseSubTypeID { get; set; }
         public bool? ActiveStatus { get; set; }
@@ -23,7 +24,14 @@ namespace Kaushal_Darpan.Models.WebsiteSettings
         public bool? IsActive { get; set; }
         public bool? IsPrivate { get; set; }
         public string? IPAddress { get; set; }
+        public string? DesignationID { get; set; }
+        public string? ViewTypeIDs { get; set; }
         public int? CreatedByRoleID { get; set; }
         public int? LevelID { get; set; }
+        public int? StaffTypeID { get; set; }
+        public int? DocCategoryID { get; set; }
+ 
+
+
     }
 }

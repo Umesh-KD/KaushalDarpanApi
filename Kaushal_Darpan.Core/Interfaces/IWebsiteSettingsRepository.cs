@@ -17,6 +17,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<int> SaveData(WebsiteSettingDataModel request);
         Task<DataTable> GetAllData(WebsiteSettingDataModel request);
+        Task<DataTable> GetAllDataOrders(WebsiteSettingDataModel request);
         Task<DataTable> GetDynamicUploadTypeDDL(RequestBaseModel body);
         Task<bool> DeleteDataByID(WebsiteSettingDataModel request);
         Task<WebsiteSettingDataModel> GetById(WebsiteSettingDataModel body);
