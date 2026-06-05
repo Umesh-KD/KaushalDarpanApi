@@ -15,5 +15,6 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         StringBuilder InternalAssessmentStudent_GetHtml(DataSet dataSet, int TypeID);
         StringBuilder GetHtmlOfApplicationGenrateOrderDteTHTE(DataSet ds);
         Task<StringBuilder> TheoryMarksReports_GetHtml(DataSet ds, int? IsReval);
+        Task<StringBuilder> UFMCategoryReportPdf_BTER_GetHtml(DataSet ds);
     }
 }

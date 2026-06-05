@@ -3408,6 +3408,51 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+        public async Task<int> Relieving_joining_CheckVacantPostModel(ITI_Relieving_joining_CheckVacantPostModel body)
+        {
+            _actionName = "Relieving_joining_CheckVacantPostModel(ITI_Relieving_joining_CheckVacantPostModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    var jsonData = JsonConvert.SerializeObject(body);
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Relieving_joining_CheckVacantPost";
+                        command.Parameters.AddWithValue("@Action", body.Action);
+                        command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        command.Parameters.AddWithValue("@DesignationID", body.DesignationID);
+                        command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
+                        command.Parameters.AddWithValue("@TradeID", body.TradeID);
+                        command.Parameters.Add("@Return", SqlDbType.Int);
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output;
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 
 

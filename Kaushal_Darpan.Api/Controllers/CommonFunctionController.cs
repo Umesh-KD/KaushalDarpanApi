@@ -22,6 +22,7 @@ using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
 using Kaushal_Darpan.Models.RPPPayment;
 using Kaushal_Darpan.Models.SSOUserDetails;
+using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
 using Kaushal_Darpan.Models.StudentRequestsModel;
@@ -3225,15 +3226,15 @@ namespace Kaushal_Darpan.Api.Controllers
         //        return result;
         //    });
         //}
-        [HttpGet("GetExamName")]
-        public async Task<ApiResult<DataTable>> GetExamName()
+        [HttpGet("GetExamName/{Eng_NonEng}")]
+        public async Task<ApiResult<DataTable>> GetExamName(int Eng_NonEng=0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetExamName();
+                    var data = await _unitOfWork.CommonFunctionRepository.GetExamName(Eng_NonEng);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
@@ -4652,7 +4653,16 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     // save the file on Path
                     //var FileName = $"{System.DateTime.Now.ToString("MMMddyyyyhhmmssffffff")}{Path.GetExtension(OrgfileName)}";
-                    var FileName = $"{model.FileName}_{System.DateTime.Now:MMMddyyyyhhmmssffffff}{Path.GetExtension(OrgfileName)}";
+                    //var FileName = "";
+                    //if (model.Flag=="IsForStudentconsent")
+                    //{
+                        var FileName = $"{model.FileName}_{System.DateTime.Now:MMMddyyyyhhmmssffffff}{Path.GetExtension(OrgfileName)}";
+                    //}
+                    //else
+                    //{
+                    //     FileName = $"{model.FileName}_{System.DateTime.Now:MMMddyyyyhhmmssffffff}{Path.GetExtension(OrgfileName)}";
+                    //}
+                    
                     var finalPathSave = Path.Combine(uploadFolder, FileName);
 
                     //model
@@ -10366,6 +10376,48 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpGet("GetUFMCategoryTypeList")]
+        public async Task<ApiResult<DataTable>> GetUFMCategoryTypeList()
+        {
+            ActionName = "GetUFMCategoryTypeList()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.GetUFMCategoryTypeList();
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
 
         [HttpPost("GetActiveTradeList")]
         public async Task<ApiResult<DataTable>> GetActiveTradeList(ItiTradeSearchModel request)
@@ -10845,6 +10897,125 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+
+        [HttpPost("joining_VacantPostEmployee")]
+        public async Task<ApiResult<DataTable>> joining_VacantPostEmployee([FromBody] ITI_Relieving_joining_CheckVacantPostModel body)
+        {
+            ActionName = "GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.joining_VacantPostEmployee(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpGet("GetUserManualByRoleId/{roleId}")]
+        public async Task<ApiResult<DataTable>> GetUserManualByRoleId(int roleId)
+        {
+            ActionName = "GetUserManualByRoleId()";
+
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                result.Data = await Task.Run(() =>
+                    _unitOfWork.CommonFunctionRepository.GetUserManualByRoleId(roleId));
+
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+
+                result.State = EnumStatus.Success;
+                result.Message = "Data loaded successfully.!";
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
+
+        [HttpPost("InsertUserManual")]
+        public async Task<ApiResult<int>> InsertUserManual([FromBody] UserManualModel model)
+        {
+            ActionName = "InsertUserManual()";
+
+            var result = new ApiResult<int>();
+
+            try
+            {
+                result.Data = await _unitOfWork.CommonFunctionRepository
+                                .InsertUserManual(model);
+
+                if (result.Data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "User Manual Added Successfully.";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "Failed to save record.";
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
     }
 }
 

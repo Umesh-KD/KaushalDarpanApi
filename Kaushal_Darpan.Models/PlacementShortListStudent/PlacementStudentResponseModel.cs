@@ -25,6 +25,11 @@ namespace Kaushal_Darpan.Models.PlacementShortListStudentMaster
         public string? PostNo { get; set; }
         public string? UploadedResume { get; set; }
         public string? RoundNo { get; set; }
+        public string? CompanyName { get; set; }
+        public string? RegistrationNo { get; set; }
+
+        public string? NotifyStatus { get; set; }
+        public int? FinancialYearID { get; set; }
 
     }
 

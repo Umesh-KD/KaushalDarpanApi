@@ -261,6 +261,8 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataSet> RelievingLetterReport(RelievingLetterSearchModel model);
         Task<DataSet> TheorymarksReportPdf_BTER(TheorySearchModel body);
+
+        Task<DataSet> UFMCategoryReportPdf_BTER(UFMCategoryUpdateModel body);
         Task<DataSet> ApprenticeshipFresherReport(ApprenticeshipRegistrationSearchModal model);
         Task<DataSet> ApprenticeshipPassoutReport(ApprenticeshipRegistrationSearchModal model);
         Task<DataSet> QuarterlyProgressReport(ITIApprenticeshipWorkshop model);

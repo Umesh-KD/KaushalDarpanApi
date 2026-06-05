@@ -17,7 +17,9 @@ namespace Kaushal_Darpan.Models.PlacementSelectedStudentMaster
         public int AgeTo { get; set; }
         public int DepartmentID { get; set; }
         public int Eng_NonEng {  get; set; }
-    
+
+        public string? NotifyStatus { get; set; }
+
     }
 
     public class StudentSelectedModel : RequestBaseModel

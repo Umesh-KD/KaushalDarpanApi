@@ -1,4 +1,6 @@
-﻿namespace Kaushal_Darpan.Models.TheoryMarks
+﻿using System.Numerics;
+
+namespace Kaushal_Darpan.Models.TheoryMarks
 
 {
     public class TheoryMarksModel
@@ -226,5 +228,14 @@
         public string? IssueDate { get; set; }
         public string? BundleSendDate { get; set; }
         public string? Date2 { get; set; }
+    }
+
+    public class UFMCategoryUpdateModel : ResponseBaseModel
+    {
+        public int UFMCategory { get; set; } = 0;
+        public int StudentExamID { get; set; } = 0;
+        public int? FinancialYearID { get; set; } = 0;
+        //public BigInteger? RollNo { get; set; } = 0;
+
     }
 }

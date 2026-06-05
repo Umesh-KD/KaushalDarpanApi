@@ -32,6 +32,8 @@ namespace Kaushal_Darpan.Models.PlacementStudentMaster
         public string? IPAddress { get; set; }
         public string? UploadedResume { get; set; }
         public string? Dis_UploadedResume { get; set; }
+        public string? MobileNo { get; set; }
+        public string? EmailId { get; set; }
 
     }
 

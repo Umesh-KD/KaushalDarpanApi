@@ -15,4 +15,17 @@
         public int SubjectType { get; set; }
 
     }
+
+    public class UserManualModel
+    {
+        public int RoleId { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public int DisplayOrder { get; set; }
+
+        public string FilePath { get; set; }
+    }
 }

@@ -2254,6 +2254,17 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
         }
+
+        private IAPIforStatePortalRepository _APIforStatePortalRepository;
+        public IAPIforStatePortalRepository APIforStatePortalRepository
+        {
+            get
+            {
+                return _APIforStatePortalRepository ??= new APIforStatePortalRepository(_dbContext);
+            }
+
+
+        }
         #endregion
 
 

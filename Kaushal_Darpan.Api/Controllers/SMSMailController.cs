@@ -475,6 +475,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<bool>();
                 try
                 {
+
                     DataTable dataTable = await _unitOfWork.SMSMailRepository.GetSMSTemplateByMessageType(request[0].MessageType);
                     foreach (var item in request)
                     {
@@ -633,6 +634,12 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<bool>();
                 try
                 {
+                    request.ForEach(x =>
+                    {
+                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    });
+                    // Pass the list to the repository for batch update
+                    var isSave = await Task.Run(() => _unitOfWork.PlacementShortListStudentRepository.SaveShortlistNotifyHistory(request));
                     DataTable dataTable = await _unitOfWork.SMSMailRepository.GetSMSTemplateByMessageType(request[0].MessageType);
                     foreach (var item in request)
                     {
@@ -711,6 +718,13 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<bool>();
                 try
                 {
+                    request.ForEach(x =>
+                    {
+                        x.IPAddress = CommonFuncationHelper.GetIpAddress();
+                    });
+                    // Pass the list to the repository for batch update
+                    var isSave = await Task.Run(() => _unitOfWork.PlacementSelectedStudentRepository.SaveNotifyHistory(request));
+                    await _unitOfWork.SaveChangesAsync();
                     DataTable dataTable = await _unitOfWork.SMSMailRepository.GetSMSTemplateByMessageType(request[0].MessageType);
                     foreach (var item in request)
                     {

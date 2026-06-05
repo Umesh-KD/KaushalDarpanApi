@@ -302,5 +302,9 @@ namespace Kaushal_Darpan.Core.Interfaces
         IQualificationMasterRepository QualificationMasterRepository { get; }
         I_ITI_AdmissionReports ITI_AdmissionReports { get; }
         IPostMasterRepository PostMasterRepository { get; }
+
+        IAPIforStatePortalRepository APIforStatePortalRepository { get; }
+
+
     }
 }

@@ -18,7 +18,9 @@ using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.DTE_Verifier;
 using Kaushal_Darpan.Models.EgrassPayment;
 using Kaushal_Darpan.Models.HrMaster;
+using Kaushal_Darpan.Models.ITIIIPManageDataModel;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
+using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
 using Kaushal_Darpan.Models.RPPPayment;
@@ -45,6 +47,7 @@ using System.Text;
 using System.Web;
 using static Kaushal_Darpan.Core.Helper.CommonFuncationHelper;
 using static Kaushal_Darpan.Models.CommonFunction.ItiTradeAndCollegesDDL;
+using static Kaushal_Darpan.Models.PlacementShortListStudentMaster.PlacementSelectedStudentResponseModel;
 using static System.Collections.Specialized.BitVector32;
 using CompanyMoUDetailsModel = Kaushal_Darpan.Models.CompanyMaster.CompanyMoUDetailsModel;
 
@@ -1825,6 +1828,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
                         command.Parameters.AddWithValue("@NodalDistrictID", model.NodalDistrictID);
+                        command.Parameters.AddWithValue("@Action", model.Action);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -3463,7 +3467,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-        public async Task<DataTable> GetExamName()
+        public async Task<DataTable> GetExamName(int Eng_NonEng=0)
         {
             _actionName = "StudentType()";
             return await Task.Run(async () =>
@@ -3475,7 +3479,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ExamMasterList";
-
+                        command.Parameters.AddWithValue("@Eng_NonEng", Eng_NonEng);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -11843,6 +11847,50 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        public async Task<DataTable> GetUFMCategoryTypeList()
+        {
+            _actionName = "GetUFMCategoryTypeList()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetUFMCategoryTypeList";
+
+                        command.Parameters.AddWithValue("@action", "_getUFMCategoryTypeList");
+                        command.Parameters.AddWithValue("@Type", "UFMCategoryType");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    //class
+                    //List<CommonDDLModel> dataModels = new List<CommonDDLModel>();
+                    //if (dataTable != null)
+                    //{
+                    //    dataModels = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    //}
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
         //For Private
         public async Task<DataTable> ITI_DeirectAdmissionOptionFormData_Private(ItiTradeSearch_PrivateModel request)
         {
@@ -12487,33 +12535,76 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<ValidateOrStudentsWithMsgResponseModel> GetValidateOrStudentsWithMsg(ValidateOrStudentsWithMsgRequestModel model)
+
+        public async Task<DataTable> GetTestUspDataByAction()
         {
-            _actionName = "GetValidateOrStudentsWithMsg(ValidateOrStudentsWithMsgModel model)";
+            _actionName = "GetUFMCategoryTypeList()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_PlacementUtility";
+
+                        command.Parameters.AddWithValue("@action", "_GetPlacementResumeFiles");
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    //class
+                    //List<CommonDDLModel> dataModels = new List<CommonDDLModel>();
+                    //if (dataTable != null)
+                    //{
+                    //    dataModels = CommonFuncationHelper.ConvertDataTable<List<CommonDDLModel>>(dataTable);
+                    //}
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> UpdateResumeFileNames(string json)
+        {
+            _actionName = "UpdateResumeFileNames";
+            int result = 0;
             try
             {
-                var data = new ValidateOrStudentsWithMsgResponseModel();
-                using (var command = await _dbContext.CreateCommandAsync())
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
+                    command.CommandText = "USP_PlacementUtility";
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_GetValidateOrStudentsWithMsg";
+                    command.Parameters.AddWithValue("@action", "_UpdateResumeFileNames");
+                    command.Parameters.AddWithValue("@Json", json);
+                    SqlParameter outputParam = new SqlParameter("@retval_ID", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
 
-                    command.Parameters.AddWithValue("@action", "_validatestudentresult");
-                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                    command.Parameters.AddWithValue("@DepartmentId", model.DepartmentID);
-                    command.Parameters.AddWithValue("@CourseTypeId", model.Eng_NonEng);
-                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                    command.Parameters.AddWithValue("@StreamID", model.StreamID);
-                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                    command.Parameters.AddWithValue("@RollNo", model.RollNo);
-                    command.Parameters.AddWithValue("@DOB", model.DOB);
-                    command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);
+                    command.Parameters.Add(outputParam);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
-                    var dt = await command.FillAsync_DataTable();
-                    data = CommonFuncationHelper.ConvertDataTable<ValidateOrStudentsWithMsgResponseModel>(dt);
+
+                    await command.ExecuteNonQueryAsync();
+
+                    result = outputParam.Value != DBNull.Value
+                        ? Convert.ToInt32(outputParam.Value)
+                        : 0;
                 }
-                return data;
             }
             catch (Exception ex)
             {
@@ -12524,8 +12615,189 @@ namespace Kaushal_Darpan.Infra.Repositories
                     ActionName = _actionName,
                     SqlExecutableQuery = _sqlQuery
                 };
+
+            }
+            return result;
+        }
+
+
+        public async Task<ValidateOrStudentsWithMsgResponseModel> GetValidateOrStudentsWithMsg(ValidateOrStudentsWithMsgRequestModel model)
+
+        {
+
+            _actionName = "GetValidateOrStudentsWithMsg(ValidateOrStudentsWithMsgModel model)";
+
+            try
+
+            {
+
+                var data = new ValidateOrStudentsWithMsgResponseModel();
+
+                using (var command = await _dbContext.CreateCommandAsync())
+
+                {
+
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.CommandText = "USP_GetValidateOrStudentsWithMsg";
+
+                    command.Parameters.AddWithValue("@action", "_validatestudentresult");
+
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+
+                    command.Parameters.AddWithValue("@DepartmentId", model.DepartmentID);
+
+                    command.Parameters.AddWithValue("@CourseTypeId", model.Eng_NonEng);
+
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+
+                    command.Parameters.AddWithValue("@StreamID", model.StreamID);
+
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+
+                    command.Parameters.AddWithValue("@RollNo", model.RollNo);
+
+                    command.Parameters.AddWithValue("@DOB", model.DOB);
+
+                    command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    var dt = await command.FillAsync_DataTable();
+
+                    data = CommonFuncationHelper.ConvertDataTable<ValidateOrStudentsWithMsgResponseModel>(dt);
+
+                }
+
+                return data;
+
+            }
+
+            catch (Exception ex)
+
+            {
+
+                var errorDesc = new ErrorDescription
+
+                {
+
+                    Message = ex.Message,
+
+                    PageName = _pageName,
+
+                    ActionName = _actionName,
+
+                    SqlExecutableQuery = _sqlQuery
+
+                };
+
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+
                 throw new Exception(errordetails, ex);
+
+            }
+
+        }
+
+        public async Task<DataTable> joining_VacantPostEmployee(ITI_Relieving_joining_CheckVacantPostModel filterModel)
+        {
+            _actionName = "joining_VacantPostEmployee()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_DDLJoining_VacantPostEmployee";
+                        command.Parameters.AddWithValue("@OfficeID", filterModel.OfficeID);
+                        command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);
+                        command.Parameters.AddWithValue("@DesignationID", filterModel.DesignationID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<DataTable> GetUserManualByRoleId(int roleId)
+        {
+            _actionName = "GetUserManualByRoleId()";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_GetUserManualByRoleId";
+
+                        command.Parameters.AddWithValue("@RoleId", roleId);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> InsertUserManual(UserManualModel model)
+        {
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_InsertUserManual";
+
+                    command.Parameters.AddWithValue("@RoleId", model.RoleId);
+                    command.Parameters.AddWithValue("@Title", model.Title);
+                    command.Parameters.AddWithValue("@Description", model.Description);
+                    command.Parameters.AddWithValue("@DisplayOrder", model.DisplayOrder);
+                    command.Parameters.AddWithValue("@FilePath", model.FilePath);
+
+                    var result = await command.ExecuteScalarAsync();
+
+                    return Convert.ToInt32(result);
+                }
+            }
+            catch
+            {
+                throw;
             }
         }
     }

@@ -504,7 +504,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetITIAdmit_RollListPdf")]
         public async Task<ApiResult<DataTable>> GetITIAdmit_RollListPdf(GenerateRollSearchModel model)
         {
-            ActionName = "GetVerifyRollListPdf(GenerateRollSearchModel model)";
+            ActionName = "GetITIAdmit_RollListPdf(GenerateRollSearchModel model)";
             var result = new ApiResult<DataTable>();
             try
             {

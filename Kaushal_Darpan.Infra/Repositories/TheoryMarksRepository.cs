@@ -440,5 +440,48 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<int> UpdateUFMCategory(UFMCategoryUpdateModel model)
+        {
+            _actionName = "UpdateUFMCategory(UFMCategoryUpdateModel model)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    // Set the stored procedure name and type
+                    command.CommandText = "USP_Update_UFMCategoryInfo";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@action", "_updateUFMCategoryInfo");                    
+                    command.Parameters.AddWithValue("@UFMCategory", model.UFMCategory);
+                    command.Parameters.AddWithValue("@StudentExamID", model.StudentExamID);
+                    command.Parameters.AddWithValue("@ModifyBy", model.ModifyBy);
+                    command.Parameters.AddWithValue("@IPAddress", CommonFuncationHelper.GetIpAddress());
+
+                    command.Parameters.Add("@Ret_Val", SqlDbType.Int);// out
+                    command.Parameters["@Ret_Val"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+
+                    result = Convert.ToInt32(command.Parameters["@Ret_Val"].Value);// out
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
     }
 }

@@ -8,12 +8,14 @@ using Kaushal_Darpan.Api.Code.Helper;
 using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Infra;
 using Kaushal_Darpan.Models.DateConfiguration;
 using Kaushal_Darpan.Models.SMSConfigurationSetting;
 using Kaushal_Darpan.Models.Test;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Data;
+using System.Diagnostics;
 
 
 namespace Kaushal_Darpan.Api.Controllers
@@ -697,18 +699,14 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 //new (destination):\year\coursetype\applicationid\filename
                 //All = \StaticFiles\Students\BTER\2025\1\20\filename
-
-
                 //log
                 CommonFuncationHelper.WriteTextLog("Dummy_SaveAndMoveStudentImages start:");
-
                 //data
                 var action = "_Dummy_getNewAdmittedEngStudentImages";
                 var ds = await _unitOfWork.CommonFunctionRepository.Dummy_GetTestUspDataByAction(action);
                 DataTable dataTable = ds.Tables[0];
                 //log
                 CommonFuncationHelper.WriteTextLog($"Dummy_GetTestUspDataByAction getdata count = {dataTable.Rows.Count}");
-
                 //source path
                 string sourceRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, "old-bter-student-images", "SemEng_NewAddmission");
                 string destinationRootPath = System.IO.Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsFolder, Constants.DepartmentBterFolder);
@@ -828,6 +826,113 @@ namespace Kaushal_Darpan.Api.Controllers
             }
         }
 
+
+        #region  placemnt resumes shift test
+
+        [HttpGet("MovePlacementResumes")]
+        public async Task<string> MovePlacementResumes()
+        {
+            try
+            {
+                CommonFuncationHelper.WriteTextLog("MovePlacementResumes start:" , "TestMovePlacementResumes");
+
+                string sourceRootPath = ConfigurationHelper.StaticFileRootPath;
+
+
+                string destinationRootPath = Path.Combine(
+                    ConfigurationHelper.StaticFileRootPath,
+                    "BTER",
+                    "StudentPlacementResumes");
+
+                CommonFuncationHelper.WriteTextLog($"destinationrootpath : {destinationRootPath}", "TestMovePlacementResumes");
+
+                if (!Directory.Exists(destinationRootPath))
+                {
+                    Directory.CreateDirectory(destinationRootPath);
+                }
+
+                var ds = await _unitOfWork.CommonFunctionRepository
+                    .GetTestUspDataByAction();
+
+                DataTable dt = ds;
+
+                CommonFuncationHelper.WriteTextLog($"Table Resumes data and fileformat = {dt.Rows.Count}", "TestMovePlacementResumes");
+
+                int movedCount = 0;
+
+                DataTable updateDt = new DataTable();
+                updateDt.Columns.Add("ConsentID", typeof(int));
+                updateDt.Columns.Add("NewFileName", typeof(string));
+
+                CommonFuncationHelper.WriteTextLog($"Files copy structure record  = {updateDt}", "TestMovePlacementResumes");
+
+                CommonFuncationHelper.WriteTextLog("table LOOP START:", "TestMovePlacementResumes");
+                CommonFuncationHelper.WriteTextLog("all file COPY START:", "TestMovePlacementResumes");
+                foreach (DataRow row in dt.Rows)
+                {
+                    CommonFuncationHelper.WriteTextLog($" loop count = {row}", "TestMovePlacementResumes");
+
+                    int consentId = Convert.ToInt32(row["ConsentID"]);
+                    string oldFileName = row["UploadedResume"].ToString();
+                    string newFileName = row["NewFileName"].ToString();
+
+                    CommonFuncationHelper.WriteTextLog($"oldfilename  = {oldFileName}  , newfilename = {newFileName}", "TestMovePlacementResumes");
+
+                    string sourceFile = Path.Combine(sourceRootPath, oldFileName);
+                    string destinationFile = Path.Combine(destinationRootPath, newFileName);
+
+                    CommonFuncationHelper.WriteTextLog($"sourcefile path  = {sourceFile}  , destinationfile path = {destinationFile}", "TestMovePlacementResumes");
+
+                    if (!System.IO.File.Exists(sourceFile))
+                        continue;
+
+                    System.IO.File.Copy(sourceFile, destinationFile, true);
+
+                    // Add for DB update
+                    DataRow dr = updateDt.NewRow();
+                    dr["ConsentID"] = consentId;
+                    dr["NewFileName"] = newFileName;
+                    updateDt.Rows.Add(dr);
+
+                    CommonFuncationHelper.WriteTextLog($"ConsentID === {consentId} ", "TestMovePlacementResumes");
+                    CommonFuncationHelper.WriteTextLog($"NewFileName === {newFileName}", "TestMovePlacementResumes");
+
+                    movedCount++;
+                }
+
+                CommonFuncationHelper.WriteTextLog($"Files COPY UPDATED and moved successfully", "TestMovePlacementResumes");
+
+                CommonFuncationHelper.WriteTextLog($"Now Rename Updating in the table STARTS", "TestMovePlacementResumes");
+
+                if (updateDt.Rows.Count > 0)
+                {
+                    string json = JsonConvert.SerializeObject(updateDt);
+
+                    CommonFuncationHelper.WriteTextLog($"JSON to Update/Rename files in the table {json}", "TestMovePlacementResumes");
+
+                    await _unitOfWork.CommonFunctionRepository
+                        .UpdateResumeFileNames(json);
+
+                    await _unitOfWork.SaveChangesAsync();
+                }
+
+                CommonFuncationHelper.WriteTextLog($"Rename Updating is END successfully !!", "TestMovePlacementResumes");                
+
+
+                CommonFuncationHelper.WriteTextLog($"Successfully moved count {movedCount} !!", "TestMovePlacementResumes");
+
+                return $"Success. Total Moved = {movedCount}";
+            }
+            catch (Exception ex)
+            {
+                CommonFuncationHelper.WriteTextLog($"Error: {ex.Message}", "TestMovePlacementResumes");
+                return $"Error: {ex.Message}";
+            }
+        }
+        
+        
+        #endregion
+
     }
     public class Test
     {
@@ -852,5 +957,9 @@ namespace Kaushal_Darpan.Api.Controllers
         public string OldPath { get; set; }
         public string NewPath { get; set; }
     }
+
+
+
+
 
 }

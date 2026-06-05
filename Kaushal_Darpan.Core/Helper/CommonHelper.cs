@@ -300,6 +300,7 @@ namespace Kaushal_Darpan.Core.Helper
         public string? Password { get; set; }
 
         public int? ChunkSize { get; set; }
+        public string? FileName { get; set; }
 
     }
     public class UploadBTERFileModel
@@ -321,6 +322,8 @@ namespace Kaushal_Darpan.Core.Helper
         public bool? IsRejectAtBter { get; set; }
         public int? FileNameWithDynamicPath { get; set; }
         public string? FilePrefix { get; set; }
+
+        public string? Flag { get; set; }
     }
 
     public class UploadCounsellingFileModel

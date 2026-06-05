@@ -15,6 +15,7 @@ using Kaushal_Darpan.Models.EgrassPayment;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
 using Kaushal_Darpan.Models.RPPPayment;
+using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.Student;
 using Kaushal_Darpan.Models.StudentMaster;
 using Kaushal_Darpan.Models.SubjectMaster;
@@ -164,7 +165,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetExaminerGroupCode_Reval(CommonDDLExaminerGroupCodeModel model);
         Task<List<CommonDDLModel>> GetConfigurationType(int RoleId = 0, int TypeID = 0);
 
-        Task<DataTable> GetExamName();
+        Task<DataTable> GetExamName(int Eng_NonEng);
         Task<DataTable> DDL_InvigilatorSSOID(DDL_InvigilatorSSOID_DataModel model);
         Task<List<CommonDDLModel>> GetParentSubjectDDL(SubjectSearchModel req);
         Task<List<CommonDDLModel>> SubjectMaster_SemesterIDWise(int SemesterID, int DepartmentID);
@@ -384,7 +385,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetEmployeeQualificationDDL();
 
         Task<DataTable> GetCalenderYearList();
-
+        Task<DataTable> GetUFMCategoryTypeList();
         Task<DataTable> ITI_DeirectAdmissionOptionFormData_Private(ItiTradeSearch_PrivateModel request);
 
         Task<DataTable> GetEventCommonMaster(string? type);
@@ -406,5 +407,12 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> UpdateEmitraPaymentStatusWhatsApp(EmitraResponseParametersModel request);
         Task<ResultPublishModel> HasResultPublishedForRoleAndOtherInfo(HasResultPublishModel model);
         Task<ValidateOrStudentsWithMsgResponseModel> GetValidateOrStudentsWithMsg(ValidateOrStudentsWithMsgRequestModel model);
+
+        Task<DataTable> GetTestUspDataByAction();
+        Task<int> UpdateResumeFileNames(string json);
+
+        Task<DataTable> joining_VacantPostEmployee(ITI_Relieving_joining_CheckVacantPostModel model);
+        Task<DataTable> GetUserManualByRoleId(int roleId);
+        Task<int> InsertUserManual(UserManualModel model);
     }
 }

@@ -533,6 +533,7 @@
         public int JoiningTimeID { get; set; }
         public string? OnHoldDoc { get; set; }
         public string? Dis_OnHoldDoc { get; set; }
+        public int EmployeeID { get; set; }
 
     }
 
@@ -950,4 +951,14 @@
         public int? StaffPostTypeID { get; set; }
         public bool IsAdditionPost { get; set; }
     }
-}
+
+    public class ITI_Relieving_joining_CheckVacantPostModel
+    {
+        public string Action { get; set; }
+        public int OfficeID { get; set; }
+        public int InstituteID { get; set; }
+        public int StaffTypeID { get; set; }
+        public int? DesignationID { get; set; }
+        public int? TradeID { get; set; }
+    }
+    }
