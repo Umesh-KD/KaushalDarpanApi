@@ -5159,7 +5159,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        #region Theory Marks Report Pdf BTER
+        #region UFM CATEGORY Report Pdf BTER
         public async Task<DataSet> UFMCategoryReportPdf_BTER(UFMCategoryUpdateModel body)
         {
             _actionName = "UFMCategoryReportPdf_BTER(TheorySearchModel body)";
