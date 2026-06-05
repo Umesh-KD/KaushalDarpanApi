@@ -38,6 +38,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> UserRequest_GetData(RequestSearchModel Model);
         Task<int> UserRequestJoiningApprove_ITI_EM(RequestUpdateStatus request);
         Task<DataTable> GetUserRequestList_DDO(RequestSearchModel Model);
-
+        Task<DataTable> GetRelievingJoiningRequestReportData(RequestSearchModel Model);
     }
 }
