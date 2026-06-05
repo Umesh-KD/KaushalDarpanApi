@@ -10973,6 +10973,49 @@ namespace Kaushal_Darpan.Api.Controllers
 
             return result;
         }
+
+        [HttpPost("InsertUserManual")]
+        public async Task<ApiResult<int>> InsertUserManual([FromBody] UserManualModel model)
+        {
+            ActionName = "InsertUserManual()";
+
+            var result = new ApiResult<int>();
+
+            try
+            {
+                result.Data = await _unitOfWork.CommonFunctionRepository
+                                .InsertUserManual(model);
+
+                if (result.Data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "User Manual Added Successfully.";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "Failed to save record.";
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
     }
 }
 

@@ -12774,6 +12774,32 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<int> InsertUserManual(UserManualModel model)
+        {
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_InsertUserManual";
+
+                    command.Parameters.AddWithValue("@RoleId", model.RoleId);
+                    command.Parameters.AddWithValue("@Title", model.Title);
+                    command.Parameters.AddWithValue("@Description", model.Description);
+                    command.Parameters.AddWithValue("@DisplayOrder", model.DisplayOrder);
+                    command.Parameters.AddWithValue("@FilePath", model.FilePath);
+
+                    var result = await command.ExecuteScalarAsync();
+
+                    return Convert.ToInt32(result);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }
 
