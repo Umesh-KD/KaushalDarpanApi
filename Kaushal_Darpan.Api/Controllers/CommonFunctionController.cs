@@ -3227,15 +3227,15 @@ namespace Kaushal_Darpan.Api.Controllers
         //        return result;
         //    });
         //}
-        [HttpGet("GetExamName")]
-        public async Task<ApiResult<DataTable>> GetExamName()
+        [HttpGet("GetExamName/{Eng_NonEng}")]
+        public async Task<ApiResult<DataTable>> GetExamName(int Eng_NonEng=0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetExamName();
+                    var data = await _unitOfWork.CommonFunctionRepository.GetExamName(Eng_NonEng);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
@@ -11151,6 +11151,49 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        [HttpPost("InsertUserManual")]
+        public async Task<ApiResult<int>> InsertUserManual([FromBody] UserManualModel model)
+        {
+            ActionName = "InsertUserManual()";
+
+            var result = new ApiResult<int>();
+
+            try
+            {
+                result.Data = await _unitOfWork.CommonFunctionRepository
+                                .InsertUserManual(model);
+
+                if (result.Data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "User Manual Added Successfully.";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "Failed to save record.";
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
             }
 
             return result;
