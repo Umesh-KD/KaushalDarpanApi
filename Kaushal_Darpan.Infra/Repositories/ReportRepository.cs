@@ -273,7 +273,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
                     command.Parameters.AddWithValue("@CourseType", body.CourseType);
                     command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
-                    //command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+                    command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
                     command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
                     command.Parameters.AddWithValue("@EffectiveEndTermID", body.EffectiveFromEndTermId);
                     command.Parameters.AddWithValue("@RoleId", body.RoleID);

@@ -18,6 +18,7 @@ using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.DTE_Verifier;
 using Kaushal_Darpan.Models.EgrassPayment;
 using Kaushal_Darpan.Models.HrMaster;
+using Kaushal_Darpan.Models.ITIIIPManageDataModel;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
@@ -3466,7 +3467,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-        public async Task<DataTable> GetExamName()
+        public async Task<DataTable> GetExamName(int Eng_NonEng=0)
         {
             _actionName = "StudentType()";
             return await Task.Run(async () =>
@@ -3478,7 +3479,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ExamMasterList";
-
+                        command.Parameters.AddWithValue("@Eng_NonEng", Eng_NonEng);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -12772,6 +12773,32 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+        public async Task<int> InsertUserManual(UserManualModel model)
+        {
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_InsertUserManual";
+
+                    command.Parameters.AddWithValue("@RoleId", model.RoleId);
+                    command.Parameters.AddWithValue("@Title", model.Title);
+                    command.Parameters.AddWithValue("@Description", model.Description);
+                    command.Parameters.AddWithValue("@DisplayOrder", model.DisplayOrder);
+                    command.Parameters.AddWithValue("@FilePath", model.FilePath);
+
+                    var result = await command.ExecuteScalarAsync();
+
+                    return Convert.ToInt32(result);
+                }
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

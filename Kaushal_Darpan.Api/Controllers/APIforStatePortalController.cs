@@ -8,6 +8,8 @@ using System.Data;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class APIforStatePortalController : BaseController
     {
         public override string PageName => "APIforStatePortalController";
