@@ -18,6 +18,7 @@ using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.DTE_Verifier;
 using Kaushal_Darpan.Models.EgrassPayment;
 using Kaushal_Darpan.Models.HrMaster;
+using Kaushal_Darpan.Models.ITIIIPManageDataModel;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
@@ -3465,7 +3466,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-        public async Task<DataTable> GetExamName()
+        public async Task<DataTable> GetExamName(int Eng_NonEng=0)
         {
             _actionName = "StudentType()";
             return await Task.Run(async () =>
@@ -3477,7 +3478,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ExamMasterList";
-
+                        command.Parameters.AddWithValue("@Eng_NonEng", Eng_NonEng);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

@@ -165,7 +165,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetExaminerGroupCode_Reval(CommonDDLExaminerGroupCodeModel model);
         Task<List<CommonDDLModel>> GetConfigurationType(int RoleId = 0, int TypeID = 0);
 
-        Task<DataTable> GetExamName();
+        Task<DataTable> GetExamName(int Eng_NonEng);
         Task<DataTable> DDL_InvigilatorSSOID(DDL_InvigilatorSSOID_DataModel model);
         Task<List<CommonDDLModel>> GetParentSubjectDDL(SubjectSearchModel req);
         Task<List<CommonDDLModel>> SubjectMaster_SemesterIDWise(int SemesterID, int DepartmentID);

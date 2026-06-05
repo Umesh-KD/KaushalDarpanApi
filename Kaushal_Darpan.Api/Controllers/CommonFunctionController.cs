@@ -3226,15 +3226,15 @@ namespace Kaushal_Darpan.Api.Controllers
         //        return result;
         //    });
         //}
-        [HttpGet("GetExamName")]
-        public async Task<ApiResult<DataTable>> GetExamName()
+        [HttpGet("GetExamName/{Eng_NonEng}")]
+        public async Task<ApiResult<DataTable>> GetExamName(int Eng_NonEng=0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.GetExamName();
+                    var data = await _unitOfWork.CommonFunctionRepository.GetExamName(Eng_NonEng);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
