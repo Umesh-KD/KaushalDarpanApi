@@ -8989,7 +8989,101 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
-        
+
+
+        [HttpPost("UFM_Collegwise_CategoryReportPdf_BTER")]
+        public async Task<ApiResult<string>> UFM_Collegwise_CategoryReportPdf_BTER(UFMCategoryUpdateModel filterModel)
+        {
+            ActionName = "UFM_Collegwise_CategoryReportPdf_BTER(TheorySearchModel filterModel)";
+            var result = new ApiResult<string>();
+            try
+            {
+                var data = await _unitOfWork.ReportRepository.UFM_Collegwise_CategoryReportPdf_BTER(filterModel);
+
+                if (data == null || data.Tables.Count == 0 || data.Tables[0].Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+
+                var sb = await _printHtmlFile.Collegwise_UFMCategoryReportPdf_BTER_GetHtml(data);
+                var _html = sb.ToString();
+
+                // remove last blank page
+                string endTag = "<div class='page-break'></div></body></html>";
+                if (_html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    _html = _html.Substring(0, _html.Length - endTag.Length)
+                                 + "</body></html>";
+                }
+
+                // pdf document setting
+                var doc = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+                    {
+                        PaperSize = PaperKind.A4,
+                        Orientation = Orientation.Portrait,
+                        Margins = new MarginSettings
+                        {
+                            Top = 10,
+                            Bottom = 10,
+                            Left = 5,
+                            Right = 5
+                        }
+                    },
+                    Objects =
+                    {
+                        new ObjectSettings
+                        {
+                            HtmlContent = _html,
+                            WebSettings = { DefaultEncoding = "utf-8" },
+
+                            //HeaderSettings = new HeaderSettings
+                            //{
+                            //    HtmUrl = headerFilePath,
+                            //    Spacing = 3
+                            //},
+
+                            FooterSettings = new FooterSettings
+                            {
+                                FontName = "Arial",
+                                FontSize = 7,
+                                Center = "Page [page] of [toPage]",
+                                Line = true
+                            }
+                        }
+                    }
+                };
+
+                // return
+                byte[] pdfBytes = await Task.Run(() => _converter.Convert(doc));
+
+                result.Data = Convert.ToBase64String(pdfBytes);
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+
+
         #endregion
 
 

@@ -393,6 +393,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetEventTypes();
         Task<DataTable> GetEventCommonMasterList(string type);
         Task<List<EndTermFinYearModel>> GetEffectiveFinYear();
+        Task<List<EndTermFinYearModel>> GetFinYearWiseEndterm(int FinancialYearID);
 
         Task<List<CommonDDLModel>> GetCommonMasterDDLByAction(string Action);
 

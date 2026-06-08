@@ -12074,6 +12074,43 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
+        #region  Finacial year ID wise Endterm
+        public async Task<List<EndTermFinYearModel>> GetFinYearWiseEndterm( int FinancialYearID)
+        {
+            _actionName = "GetFinYearWiseEndterm()";
+            try
+            {
+                List<EndTermFinYearModel> data = new List<EndTermFinYearModel>();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "Usp_GetFinYearWiseEndterm";
+
+                    command.Parameters.AddWithValue("@action", "_getGetFinYearWiseEndterm");
+                    command.Parameters.AddWithValue("@FinancialYearID", FinancialYearID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    var dt = await command.FillAsync_DataTable();
+
+                    data = CommonFuncationHelper.ConvertDataTable<List<EndTermFinYearModel>>(dt);
+                }
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        #endregion
+
 
         public async Task<List<CommonDDLModel>> GetCommonMasterDDLByAction(string Action)
         {
