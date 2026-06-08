@@ -15,5 +15,6 @@ namespace Kaushal_Darpan.Models.CommonFunction
         public int ModifyBy { get; set; }
         public DateTime? ModifyDate { get; set; }
         public bool IsActive { get; set; }
+
     }
 }

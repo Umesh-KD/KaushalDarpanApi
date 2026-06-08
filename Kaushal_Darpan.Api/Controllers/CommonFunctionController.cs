@@ -11077,6 +11077,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.ErrorMessage = "Delete failed!";
                 }
             }
+
             catch (Exception ex)
             {
                 var nex = new NewException

@@ -422,5 +422,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<OrderCategoryMasterModel> GetOrderCategoryById(int orderCategoryID);
         Task<bool> UpdateOrderCategoryStatus(OrderCategoryMasterModel request);
         Task<int> InsertUserManual(UserManualModel model);
+
     }
 }
