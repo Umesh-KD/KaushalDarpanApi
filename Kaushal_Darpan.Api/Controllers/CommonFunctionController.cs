@@ -7834,7 +7834,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("CenterSuperitendentDDL")]
         public async Task<ApiResult<DataTable>> CenterSuperitendentDDL([FromBody] CenterSuperitendentDDL body)
         {
-            ActionName = "GetAllData()";
+            ActionName = "CenterSuperitendentDDL([FromBody] CenterSuperitendentDDL body)";
             var result = new ApiResult<DataTable>();
             try
             {

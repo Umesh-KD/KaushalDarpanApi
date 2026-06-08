@@ -3469,7 +3469,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-        public async Task<DataTable> GetExamName(int Eng_NonEng=0)
+        public async Task<DataTable> GetExamName(int Eng_NonEng = 0)
         {
             _actionName = "StudentType()";
             return await Task.Run(async () =>
@@ -8940,25 +8940,24 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> CenterSuperitendentDDL(CenterSuperitendentDDL body)
         {
-            _actionName = "CenterSuperitendentDDL()";
+            _actionName = "CenterSuperitendentDDL(CenterSuperitendentDDL body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_CenterSuperitendentDDL";
-                        command.Parameters.AddWithValue("@Action", "GetCenterSuperitendentDDL");
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_CenterSuperitendentDDL";
+
+                    command.Parameters.AddWithValue("@Action", "GetCenterSuperitendentDDL");
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
