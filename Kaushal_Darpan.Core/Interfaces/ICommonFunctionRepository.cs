@@ -394,6 +394,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetEventTypes();
         Task<DataTable> GetEventCommonMasterList(string type);
         Task<List<EndTermFinYearModel>> GetEffectiveFinYear();
+        Task<List<EndTermFinYearModel>> GetFinYearWiseEndterm(int FinancialYearID);
 
         Task<List<CommonDDLModel>> GetCommonMasterDDLByAction(string Action);
 
@@ -422,5 +423,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<OrderCategoryMasterModel> GetOrderCategoryById(int orderCategoryID);
         Task<bool> UpdateOrderCategoryStatus(OrderCategoryMasterModel request);
         Task<int> InsertUserManual(UserManualModel model);
+
     }
 }
