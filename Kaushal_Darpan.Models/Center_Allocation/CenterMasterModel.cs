@@ -23,3 +23,8 @@ public class CenterAllocationSearchFilter : RequestBaseModel
     public string? CenterName { get; set; }
 
 }
+public class CenterSuperintendentOrderStatusModel : RequestBaseModel
+{
+    public int PDFType { get; set; }
+
+}

@@ -597,6 +597,80 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        [HttpPost("GetPostPlanningDashboardTableData")]
+        public async Task<ApiResult<DataTable>> GetPostPlanningDashboardTableData([FromBody] PostPlanningDashboardDataModel model)
+
+        {
+            ActionName = "GetPostPlanningDashboardTableData([FromBody] PostPlanningDashboardDataModel model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.ITIAdminDashboardRepository.GetPostPlanningDashboardTableData(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+        
+        [HttpPost("GetPostPlanningDashboardTilesData")]
+        public async Task<ApiResult<DataTable>> GetPostPlanningDashboardTilesData([FromBody] PostPlanningDashboardDataModel model)
+
+        {
+            ActionName = "GetPostPlanningDashboardTilesData([FromBody] PostPlanningDashboardDataModel model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.ITIAdminDashboardRepository.GetPostPlanningDashboardTilesData(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }
 

@@ -214,7 +214,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     return result;
                 }
                 // check data found or not
-                if (result.Data.Tables[0].Rows.Count == 0)
+                if (result.Data.Tables.Count < 3 || result.Data.Tables[0].Rows.Count == 0)
                 {
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_DATA_NOT_FOUND;

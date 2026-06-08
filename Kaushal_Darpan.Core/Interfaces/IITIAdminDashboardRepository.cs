@@ -22,5 +22,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetItiJailDashApplicationData(ItiAdminDashApplicationSearchModel model);
         Task<DataTable> GetExaminationCollegeTrade(ITIAdminDashboardSearchModel model);
         Task<DataTable> GetITIEstablishmentDashboard(ITIEstablishmentDashboardSearchModel model);
+        Task<DataTable> GetPostPlanningDashboardTableData(PostPlanningDashboardDataModel model);
+        Task<DataTable> GetPostPlanningDashboardTilesData(PostPlanningDashboardDataModel model);
     }
 }

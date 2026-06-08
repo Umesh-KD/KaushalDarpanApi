@@ -5159,7 +5159,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
 
-        #region Theory Marks Report Pdf BTER
+        #region UFM CATEGORY Report Pdf BTER
         public async Task<DataSet> UFMCategoryReportPdf_BTER(UFMCategoryUpdateModel body)
         {
             _actionName = "UFMCategoryReportPdf_BTER(TheorySearchModel body)";
@@ -5177,6 +5177,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
                     command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
                     command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
                     //command.Parameters.AddWithValue("@SSOID", body.SSOID);
                     command.Parameters.AddWithValue("@RoleID", body.RoleID);
 
@@ -5198,6 +5199,50 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+        public async Task<DataSet> UFM_Collegwise_CategoryReportPdf_BTER(UFMCategoryUpdateModel body)
+        {
+            _actionName = "UFM_Collegwise_CategoryReportPdf_BTER(TheorySearchModel body)";
+            try
+            {
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetUFMCategoryTypeList";
+
+                    command.Parameters.AddWithValue("@action", "_getCollegwise_UFMCategoryStudentData");
+                    //command.Parameters.AddWithValue("@StudentID", body.StudentID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    //command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+
         #endregion
 
         public async Task<DataSet> TheoryMarkListPDFReport(ReportCustomizeBaseModel model)

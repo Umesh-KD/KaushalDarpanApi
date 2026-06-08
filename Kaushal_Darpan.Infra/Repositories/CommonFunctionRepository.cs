@@ -21,6 +21,7 @@ using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.ITIIIPManageDataModel;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.PlacementShortListStudentMaster;
+using Kaushal_Darpan.Models.PostMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
 using Kaushal_Darpan.Models.RPPPayment;
@@ -1828,6 +1829,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
                         command.Parameters.AddWithValue("@NodalDistrictID", model.NodalDistrictID);
+                        command.Parameters.AddWithValue("@Serviceid", model.Serviceid);
                         command.Parameters.AddWithValue("@Action", model.Action);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -3467,7 +3469,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-        public async Task<DataTable> GetExamName(int Eng_NonEng=0)
+        public async Task<DataTable> GetExamName(int Eng_NonEng = 0)
         {
             _actionName = "StudentType()";
             return await Task.Run(async () =>
@@ -8938,25 +8940,24 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> CenterSuperitendentDDL(CenterSuperitendentDDL body)
         {
-            _actionName = "CenterSuperitendentDDL()";
+            _actionName = "CenterSuperitendentDDL(CenterSuperitendentDDL body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_CenterSuperitendentDDL";
-                        command.Parameters.AddWithValue("@Action", "GetCenterSuperitendentDDL");
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_CenterSuperitendentDDL";
+
+                    command.Parameters.AddWithValue("@Action", "GetCenterSuperitendentDDL");
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
@@ -12074,6 +12075,43 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         #endregion
 
+        #region  Finacial year ID wise Endterm
+        public async Task<List<EndTermFinYearModel>> GetFinYearWiseEndterm( int FinancialYearID)
+        {
+            _actionName = "GetFinYearWiseEndterm()";
+            try
+            {
+                List<EndTermFinYearModel> data = new List<EndTermFinYearModel>();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "Usp_GetFinYearWiseEndterm";
+
+                    command.Parameters.AddWithValue("@action", "_getGetFinYearWiseEndterm");
+                    command.Parameters.AddWithValue("@FinancialYearID", FinancialYearID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    var dt = await command.FillAsync_DataTable();
+
+                    data = CommonFuncationHelper.ConvertDataTable<List<EndTermFinYearModel>>(dt);
+                }
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+        #endregion
+
 
         public async Task<List<CommonDDLModel>> GetCommonMasterDDLByAction(string Action)
         {
@@ -12775,6 +12813,175 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetAllOrderCategory(OrderCategoryMasterModel request)
+        {
+            _actionName = "GetAllOrderCategory()";
+
+            try
+            {
+                DataTable dataTable;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_OrderCategoryMaster_IU";
+
+                    command.Parameters.AddWithValue("@OrderCategoryID", 0);
+                    command.Parameters.AddWithValue("@CategoryName", "");
+                    command.Parameters.AddWithValue("@CreatedBy", 0);
+                    command.Parameters.AddWithValue("@ModifyBy", 0);
+                    command.Parameters.AddWithValue("@IsActive", true);
+                    command.Parameters.AddWithValue("@Key", "GetAll");
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+
+        public async Task<bool> SaveOrderCategory(OrderCategoryMasterModel request)
+        {
+            using (var command = await _dbContext.CreateCommandAsync())
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "USP_OrderCategoryMaster_IU";
+
+                command.Parameters.AddWithValue("@OrderCategoryID", request.OrderCategoryID);
+                command.Parameters.AddWithValue("@CategoryName", request.CategoryName ?? "");
+                command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+                command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                command.Parameters.AddWithValue("@IsActive", request.IsActive);
+                command.Parameters.AddWithValue("@Key",
+                    request.OrderCategoryID == 0 ? "ADD" : "Update");
+
+                var result = await command.ExecuteScalarAsync();
+
+                return result != null;
+            }
+        }
+
+        public async Task<bool> DeleteOrderCategoryId(OrderCategoryMasterModel request)
+        {
+            _actionName = "DeleteOrderCategoryId(OrderCategoryMasterModel request)";
+            try
+            {
+                int result;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    var query = @"UPDATE OrderCategoryMaster
+              SET IsActive = 0,
+                  ModifyBy = @ModifyBy,
+                  ModifyDate = GETDATE()
+              WHERE OrderCategoryID = @OrderCategoryID";
+
+                    command.CommandText = query;
+
+                    command.Parameters.AddWithValue("@OrderCategoryID", request.OrderCategoryID);
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                   
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+                }
+
+                return result > 0;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<OrderCategoryMasterModel> GetOrderCategoryById(int orderCategoryID)
+        {
+            _actionName = "GetOrderCategoryById(int orderCategoryID)";
+            try
+            {
+                DataTable dataTable;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_OrderCategoryMaster_IU";
+
+                    command.Parameters.AddWithValue("@Key", "GetByID");
+                    command.Parameters.AddWithValue("@OrderCategoryID", orderCategoryID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                var data = new OrderCategoryMasterModel();
+
+                if (dataTable != null)
+                {
+                    data = CommonFuncationHelper.ConvertDataTable<OrderCategoryMasterModel>(dataTable);
+                }
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<bool> UpdateOrderCategoryStatus(OrderCategoryMasterModel request)
+        {
+            _actionName = "UpdateOrderCategoryStatus()";
+
+            try
+            {
+                int result;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_OrderCategoryMaster_IU";
+
+                    command.Parameters.AddWithValue("@OrderCategoryID", request.OrderCategoryID);
+                    command.Parameters.AddWithValue("@CategoryName", DBNull.Value);
+                    command.Parameters.AddWithValue("@CreatedBy", 0);
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@IsActive", request.IsActive);
+                    command.Parameters.AddWithValue("@Key", "STATUS");
+
+                    result = await command.ExecuteNonQueryAsync();
+                }
+
+                return result > 0;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
         public async Task<int> InsertUserManual(UserManualModel model)
         {
             try
@@ -12801,5 +13008,6 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
     }
-}
+
+} 
 

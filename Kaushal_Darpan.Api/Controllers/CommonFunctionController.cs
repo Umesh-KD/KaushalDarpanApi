@@ -18,6 +18,7 @@ using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.DTE_Verifier;
+using Kaushal_Darpan.Models.PostMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
 using Kaushal_Darpan.Models.RPPPayment;
@@ -7833,7 +7834,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("CenterSuperitendentDDL")]
         public async Task<ApiResult<DataTable>> CenterSuperitendentDDL([FromBody] CenterSuperitendentDDL body)
         {
-            ActionName = "GetAllData()";
+            ActionName = "CenterSuperitendentDDL([FromBody] CenterSuperitendentDDL body)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -10738,6 +10739,48 @@ namespace Kaushal_Darpan.Api.Controllers
         #endregion
 
 
+        #region FinancialyearID wise End Terms
+        [HttpGet("GetFinYearWiseEndterm/{FinancialYearID}")]
+        public async Task<ApiResult<List<EndTermFinYearModel>>> GetFinYearWiseEndterm(int FinancialYearID)
+        {
+            ActionName = "GetFinYearWiseEndterm(FinancialYearID)";
+            var result = new ApiResult<List<EndTermFinYearModel>>();
+            try
+            {
+                var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetFinYearWiseEndterm(FinancialYearID));
+                if (data.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+
+                result.Data = data;
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+        #endregion
+
+
 
         [HttpGet("GetCommonMasterDDLByAction1/{ActionType}")]
         public async Task<ApiResult<List<CommonDDLModel>>> GetCommonMasterDDLByAction1(string ActionType)
@@ -10969,6 +11012,188 @@ namespace Kaushal_Darpan.Api.Controllers
                 };
 
                 await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
+
+        
+        [HttpPost("GetAllOrderCategory")]
+        public async Task<ApiResult<DataTable>> GetAllOrderCategory( [FromBody] OrderCategoryMasterModel request)
+        {
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                var data = await _unitOfWork.CommonFunctionRepository.GetAllOrderCategory(request);
+
+                result.Data = data;
+
+                if (data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data loaded successfully!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No records found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        [HttpPost("SaveOrderCategory")]
+        public async Task<ApiResult<bool>> SaveOrderCategory( [FromBody] OrderCategoryMasterModel request)
+        {
+            var result = new ApiResult<bool>();
+
+            try
+            {
+                result.Data = await _unitOfWork.CommonFunctionRepository .SaveOrderCategory(request);
+
+                await _unitOfWork.SaveChangesAsync();
+
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+                    if (request.OrderCategoryID == 0)
+                    {
+                        result.Message = "Saved successfully!";
+                    }
+                    else
+                    {
+                        result.Message = "Updated successfully!";
+                    }
+
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    if (request.OrderCategoryID == 0)
+                        result.ErrorMessage = "Error adding data!";
+                    else
+                        result.ErrorMessage = "Error updating data!";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+
+        [HttpPost("DeleteOrderCategoryId/{orderCategoryID}/{modifyBy}")]
+        public async Task<ApiResult<bool>> DeleteOrderCategoryId(int orderCategoryID, int modifyBy)
+        {
+            var result = new ApiResult<bool>();
+
+            try
+            {
+                var request = new OrderCategoryMasterModel
+                {
+                    OrderCategoryID = orderCategoryID,
+                    ModifyBy = modifyBy
+                };
+
+                result.Data = await _unitOfWork.CommonFunctionRepository.DeleteOrderCategoryId(request);
+                await _unitOfWork.SaveChangesAsync();
+
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Deleted successfully!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Delete failed!";
+                }
+            }
+
+            catch (Exception ex)
+            {
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = "DeleteOrderCategoryId",
+                    Ex = ex,
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+
+            return result;
+        }
+
+
+        [HttpGet("GetOrderCategoryById/{orderCategoryID}")]
+        public async Task<ApiResult<OrderCategoryMasterModel>> GetOrderCategoryById(int orderCategoryID)
+        {
+            var result = new ApiResult<OrderCategoryMasterModel>();
+
+            try
+            {
+                var data = await _unitOfWork.CommonFunctionRepository.GetOrderCategoryById(orderCategoryID);
+
+                if (data != null)
+                {
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data loaded successfully!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+
+            return result;
+        }
+
+        [HttpPost("UpdateOrderCategoryStatus")]
+        public async Task<ApiResult<bool>> UpdateOrderCategoryStatus([FromBody] OrderCategoryMasterModel request)
+        {
+            var result = new ApiResult<bool>();
+
+            try
+            {
+                result.Data = await _unitOfWork.CommonFunctionRepository
+                    .UpdateOrderCategoryStatus(request);
+
+                result.State = EnumStatus.Success;
+                result.Message = "Status updated successfully";
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
             }
 
             return result;
