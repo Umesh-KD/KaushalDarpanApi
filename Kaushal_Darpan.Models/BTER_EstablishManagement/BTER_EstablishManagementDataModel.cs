@@ -543,4 +543,15 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? UserID { get; set; }
         public string? Action { get; set; }
     }
+
+    public class EM_CommonDropdownDataModel
+    {
+        public string? Action { get; set; }
+        public int? DesignationID { get; set; }
+        public int? OfficeID { get; set; }
+        public int? InstituteID { get; set; }
+        public int? StaffTypeID { get; set; }
+        public int? UserID { get; set; }
+        public int? RoleID { get; set; }
+    }
 }

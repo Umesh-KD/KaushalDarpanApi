@@ -2333,5 +2333,46 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> Bter_EM_GetCommonDropdownData(EM_CommonDropdownDataModel body)
+        {
+            _actionName = "Bter_EM_GetCommonDropdownData(EM_CommonDropdownDataModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "Bter_EM_GetCommonDropdownData";
+                        command.Parameters.AddWithValue("@Action", body.Action);
+                        command.Parameters.AddWithValue("@DesignationID", body.DesignationID);
+                        command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
+                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                        command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
+                        command.Parameters.AddWithValue("@UserID", body.UserID);
+                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }
