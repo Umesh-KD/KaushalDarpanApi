@@ -12552,6 +12552,40 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@StreamID", StreamID);
                     command.Parameters.AddWithValue("@SectionID", SectionID);
                     command.Parameters.AddWithValue("@DayID", DayID);
+                    _sqlQuery = command.GetSqlExecutableQuery(); // Get SQL query string for logging/debugging
+                    var dataTable = await command.FillAsync_DataTable();
+
+                    return dataTable;
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetStudentAttandanceDayDDL(int StaffID, int SubjectID, int StreamID, int SectionID)
+        {
+            _actionName = "GetStudentAttandanceDayDDL(int StaffID, int SubjectID)";
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StudentAttandanceDayDDL";
+                    command.Parameters.AddWithValue("@StaffID", StaffID);
+                    command.Parameters.AddWithValue("@SubjectID", SubjectID);
+                    command.Parameters.AddWithValue("@StreamID", StreamID);
+                    command.Parameters.AddWithValue("@SectionID", SectionID);
+                   // command.Parameters.AddWithValue("@DayID", DayID);
 
                     _sqlQuery = command.GetSqlExecutableQuery(); // Get SQL query string for logging/debugging
                     var dataTable = await command.FillAsync_DataTable();

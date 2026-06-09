@@ -9706,6 +9706,46 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpGet("GetStudentAttandanceDayDDL/{StaffID}/{SubjectID}/{StreamID}/{SectionID}")]
+        public async Task<ApiResult<DataTable>> GetStudentAttandanceDayDDL(int StaffID, int SubjectID, int StreamID, int SectionID)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.GetStudentAttandanceDayDDL(StaffID, SubjectID, StreamID, SectionID);
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
 
         [HttpPost("GetStaff_InstituteAndWorkWise")]
         public async Task<ApiResult<DataTable>> GetStaff_InstituteAndWorkWise([FromBody] StaffMasterDDLDataModel body)
