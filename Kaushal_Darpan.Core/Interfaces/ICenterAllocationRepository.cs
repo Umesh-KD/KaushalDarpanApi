@@ -11,7 +11,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> CenterSuperintendent(CenterAllocationSearchFilter filterModel);
         Task<DataSet> DownloadCenterSuperintendent(CenterAllocationSearchFilter filterModel);
         Task<int> SaveRollNumbePDFData(DownloadnRollNoModel request);
-        Task<DataTable> GetRollCenterSuperintendentOrder(int status,int coursetype);
+        Task<DataTable> GetRollCenterSuperintendentOrder(CenterSuperintendentOrderStatusModel model);
         Task<CenterAllocationtDataModel> GetById(int PK_ID);
         Task<int> SaveData(List<CenterAllocationtDataModel> productDetails);
         Task<bool> DeleteDataByID(CenterAllocationtDataModel productDetails);

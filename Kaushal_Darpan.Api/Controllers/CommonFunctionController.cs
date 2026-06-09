@@ -7834,7 +7834,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("CenterSuperitendentDDL")]
         public async Task<ApiResult<DataTable>> CenterSuperitendentDDL([FromBody] CenterSuperitendentDDL body)
         {
-            ActionName = "GetAllData()";
+            ActionName = "CenterSuperitendentDDL([FromBody] CenterSuperitendentDDL body)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -10706,6 +10706,48 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetEffectiveFinYear());
+                if (data.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+
+                result.Data = data;
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+        #endregion
+
+
+        #region FinancialyearID wise End Terms
+        [HttpGet("GetFinYearWiseEndterm/{FinancialYearID}")]
+        public async Task<ApiResult<List<EndTermFinYearModel>>> GetFinYearWiseEndterm(int FinancialYearID)
+        {
+            ActionName = "GetFinYearWiseEndterm(FinancialYearID)";
+            var result = new ApiResult<List<EndTermFinYearModel>>();
+            try
+            {
+                var data = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetFinYearWiseEndterm(FinancialYearID));
                 if (data.Count == 0)
                 {
                     result.State = EnumStatus.Warning;

@@ -202,67 +202,65 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<int> CancelEnrolment(StudentEnrolmentCancelModel filterModel)
         {
-            return await Task.Run(async () =>
+            _actionName = "CancelEnrolment(StudentEnrolmentCancelModel request)";
+            try
             {
-                _actionName = "CancelEnrolment(StudentEnrolmentCancelModel request)";
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_StudentEnrollmentCancelation_IU";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StudentEnrollmentCancelation_IU";
 
-                        // Add parameters to the stored procedure from the model
-                        command.Parameters.AddWithValue("@StudentID", filterModel.StudentID);
-                        command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterID);
-                        command.Parameters.AddWithValue("@IsRequestedForEnrCancel", filterModel.IsRequestedForEnrCancel);
-                        command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
-                        command.Parameters.AddWithValue("@NextRoleId", filterModel.NextRoleId);
-                        command.Parameters.AddWithValue("@StudentName", filterModel.StudentName);
-                        command.Parameters.AddWithValue("@MotherName", filterModel.MotherName);
-                        command.Parameters.AddWithValue("@FatherName", filterModel.FatherName);
-                        command.Parameters.AddWithValue("@InstituteName", filterModel.InstituteName);
-                        command.Parameters.AddWithValue("@StreamName", filterModel.StreamName);
-                        command.Parameters.AddWithValue("@DOB", filterModel.DOB);
-                        command.Parameters.AddWithValue("@Dis_ENRCancelDoc", filterModel.Dis_ENRCancelDoc);
-                        command.Parameters.AddWithValue("@ENRCancelDoc", filterModel.ENRCancelDoc);
+                    // Add parameters to the stored procedure from the model
+                    command.Parameters.AddWithValue("@StudentID", filterModel.StudentID);
+                    command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterID);
+                    command.Parameters.AddWithValue("@IsRequestedForEnrCancel", filterModel.IsRequestedForEnrCancel);
+                    command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                    command.Parameters.AddWithValue("@NextRoleId", filterModel.NextRoleId);
+                    command.Parameters.AddWithValue("@StudentName", filterModel.StudentName);
+                    command.Parameters.AddWithValue("@MotherName", filterModel.MotherName);
+                    command.Parameters.AddWithValue("@FatherName", filterModel.FatherName);
+                    command.Parameters.AddWithValue("@InstituteName", filterModel.InstituteName);
+                    command.Parameters.AddWithValue("@StreamName", filterModel.StreamName);
+                    command.Parameters.AddWithValue("@DOB", filterModel.DOB);
+                    command.Parameters.AddWithValue("@Dis_ENRCancelDoc", filterModel.Dis_ENRCancelDoc);
+                    command.Parameters.AddWithValue("@ENRCancelDoc", filterModel.ENRCancelDoc);
+                    command.Parameters.AddWithValue("@EnrollmentNo", filterModel.EnrollmentNo);
+                    command.Parameters.AddWithValue("@EndTermType", filterModel.EndTermType);
+                    command.Parameters.AddWithValue("@EndTermName", filterModel.EndTermName);
+                    command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                    command.Parameters.AddWithValue("@ActionId", filterModel.ActionId);
+                    command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);
+                    command.Parameters.AddWithValue("@CourseType", filterModel.CourseType);
+                    command.Parameters.AddWithValue("@Status", filterModel.Status);
+                    command.Parameters.AddWithValue("@Remark", " ");
+                    command.Parameters.AddWithValue("@ModuleID", 1);
+                    command.Parameters.AddWithValue("@ModifyBy", filterModel.UserId);
+                    command.Parameters.AddWithValue("@CreatedBy", filterModel.UserId);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@RoleID", filterModel.RoleID);
 
-                        command.Parameters.AddWithValue("@EnrollmentNo", filterModel.EnrollmentNo);
-                        command.Parameters.AddWithValue("@EndTermType", filterModel.EndTermType);
-                        command.Parameters.AddWithValue("@EndTermName", filterModel.EndTermName);
-                        command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
-                        command.Parameters.AddWithValue("@ActionId", filterModel.ActionId);
-                        command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);
-                        command.Parameters.AddWithValue("@CourseType", filterModel.CourseType);
-                        command.Parameters.AddWithValue("@Status", filterModel.Status);
-                        command.Parameters.AddWithValue("@Remark", " ");
-                        command.Parameters.AddWithValue("@ModuleID", 1);
-                        command.Parameters.AddWithValue("@ModifyBy", filterModel.UserId);
-                        command.Parameters.AddWithValue("@CreatedBy", filterModel.UserId);
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-                        command.Parameters.AddWithValue("@RoleID", filterModel.RoleID);
-                        command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
-                        command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
-                        _sqlQuery = command.GetSqlExecutableQuery();// sql query
-                        await command.ExecuteNonQueryAsync();
-                        result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
-                    }
-                    return result;
+                    command.Parameters.Add("@retval_ID", SqlDbType.Int);// out
+                    command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// sql query
+                    await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);// out
                 }
-                catch (Exception ex)
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
     }

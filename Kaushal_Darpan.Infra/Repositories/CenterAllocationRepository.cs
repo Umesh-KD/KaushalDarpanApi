@@ -66,40 +66,37 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> CenterSuperintendent(CenterAllocationSearchFilter filterModel)
         {
-            _actionName = "GetAllData()";
-            return await Task.Run(async () =>
+            _actionName = "CenterSuperintendent(CenterAllocationSearchFilter filterModel)";
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_CenterSuperintendentAllocation";
-                        command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
-                        command.Parameters.AddWithValue("@Name", filterModel.CenterName);
-                        command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
-                        command.Parameters.AddWithValue("@CenterCode", filterModel.CenterCode);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_CenterSuperintendentAllocation";
+                    command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                    command.Parameters.AddWithValue("@Name", filterModel.CenterName);
+                    command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                    command.Parameters.AddWithValue("@CenterCode", filterModel.CenterCode);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataSet> DownloadCenterSuperintendent(CenterAllocationSearchFilter filterModel)
@@ -185,38 +182,38 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<DataTable> GetRollCenterSuperintendentOrder(int status, int coursetype)
+        public async Task<DataTable> GetRollCenterSuperintendentOrder(CenterSuperintendentOrderStatusModel model)
         {
-            _actionName = "USP_GetRollCenterSuperintendentOrder";
-            return await Task.Run(async () =>
+            _actionName = "GetRollCenterSuperintendentOrder(CenterSuperintendentOrderStatusModel model)";
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        command.CommandText = "USP_GetRollCenterSuperintendentOrder";
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@PDFType", status);
-                        command.Parameters.AddWithValue("@coursetype", coursetype);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetRollCenterSuperintendentOrder";
+
+                    command.Parameters.AddWithValue("@PDFType", model.PDFType);
+                    command.Parameters.AddWithValue("@coursetype", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@Endtermid", model.EndTermID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         #endregion
         public async Task<DataTable> GetInstituteByCenterID(CenterAllocationSearchFilter filterModel)

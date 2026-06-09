@@ -1732,6 +1732,224 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         //    }
         //}
 
+
+        //----------------------------------------------------------------------------------------------------
+        //public async Task<StringBuilder> UFMCategoryReportPdf_BTER_GetHtml(DataSet ds)
+        //{
+        //    StringBuilder sb = new StringBuilder();
+
+        //    try
+        //    {
+        //        DataTable dt = ds.Tables[0];
+
+        //        string financialYear = dt.AsEnumerable()
+        //            .Select(x => Convert.ToString(x["FinancialYearName"]))
+        //            .FirstOrDefault() ?? "";
+
+
+        //        string EndTermName = dt.AsEnumerable()
+        //            .Select(x => Convert.ToString(x["EndTermName"]))
+        //            .FirstOrDefault() ?? "";
+
+        //        var groupedData = dt.AsEnumerable()
+        //            .GroupBy(x => new
+        //            {
+        //                UFMCategory = x["UFMCategory"].ToString(),
+        //                UFMCategoryName = x["UFMCategoryName"].ToString(),
+        //                CodeID = x["CodeID"].ToString(),
+        //                ShortCode = x["ShortCode"].ToString(),
+        //                SemesterID = x["SemesterID"].ToString()
+
+        //            })
+        //            .OrderBy(x => Convert.ToInt32(x.Key.UFMCategory))
+        //            .ThenBy(x=> Convert.ToInt32(x.Key.SemesterID))
+        //            .ToList();
+
+        //        sb.AppendLine("<!DOCTYPE html>");
+        //        sb.AppendLine("<html lang='hi'>");
+        //        sb.AppendLine("<head>");
+        //        sb.AppendLine("<meta charset='UTF-8' />");
+        //        sb.AppendLine("<title>UFM Office Order</title>");
+
+        //        sb.AppendLine("<style>");
+        //        //'Nirmala UI','Mangal','Noto Sans Devanagari';
+        //        sb.AppendLine("@font-face {");
+        //        sb.AppendLine("font-family: 'Mangal','Noto Sans Devanagari';");
+        //        sb.AppendLine($"src: local('Noto Sans Devanagari'), url('{ConfigurationHelper.FontPath_Noto_Sans_Devanagari}') format('truetype');");
+        //        sb.AppendLine("}");
+
+        //        sb.AppendLine("body {");
+        //        sb.AppendLine("font-family: Arial, sans-serif;");
+        //        sb.AppendLine("font-size: 14pt;");
+        //        sb.AppendLine("line-height: 1.6;");
+        //        sb.AppendLine("color: #000;");
+        //        sb.AppendLine("margin: 30px;");
+        //        sb.AppendLine("}");
+
+        //        sb.AppendLine(".hindi {");
+        //        sb.AppendLine("font-family: 'Noto Sans Devanagari', serif;");
+        //        sb.AppendLine("}");
+
+        //        sb.AppendLine(".header {");
+        //        sb.AppendLine("font-family: 'Noto Sans Devanagari', serif;");
+        //        sb.AppendLine("text-align:center;");
+        //        sb.AppendLine("font-weight:bold;");
+        //        sb.AppendLine("font-size:18pt;");
+        //        sb.AppendLine("}");
+
+        //        sb.AppendLine(".office-order {");
+        //        sb.AppendLine("font-family: 'Noto Sans Devanagari', serif;");
+        //        sb.AppendLine("text-align:center;");
+        //        sb.AppendLine("font-weight:bold;");
+        //        sb.AppendLine("font-size:18pt;");
+        //        sb.AppendLine("margin-top:20px;");
+        //        sb.AppendLine("margin-bottom:20px;");
+        //        sb.AppendLine("}");
+
+        //        sb.AppendLine(".roll-table {");
+        //        sb.AppendLine("width:100%;");
+        //        sb.AppendLine("border-collapse:collapse;");
+        //        sb.AppendLine("margin-top:10px;");
+        //        sb.AppendLine("margin-bottom:15px;");
+        //        sb.AppendLine("}");
+
+        //        sb.AppendLine(".roll-table td {");
+        //        sb.AppendLine("width:20%;");
+        //        sb.AppendLine("text-align:center;");
+        //        sb.AppendLine("padding:5px;");
+        //        sb.AppendLine("font-weight:bold;");
+        //        sb.AppendLine("font-size:11pt;");
+        //        sb.AppendLine("}");
+
+        //        sb.AppendLine(".signature {");
+        //        sb.AppendLine("font-family: 'Noto Sans Devanagari', serif;");
+        //        sb.AppendLine("text-align:right;");
+        //        sb.AppendLine("margin-top:25px;");
+        //        sb.AppendLine("font-weight:bold;");
+        //        sb.AppendLine("}");
+
+        //        sb.AppendLine(".copy-section {");
+        //        sb.AppendLine("font-family: 'Noto Sans Devanagari', serif;");
+        //        sb.AppendLine("margin-top:25px;");
+        //        sb.AppendLine("line-height:1.8;");
+        //        sb.AppendLine("}");
+
+        //        sb.AppendLine("</style>");
+        //        sb.AppendLine("</head>");
+        //        sb.AppendLine("<body>");
+
+        //        // Header
+        //        sb.AppendLine("<div class='header'>राजस्थान सरकार</div>");
+        //        sb.AppendLine("<div class='header'>प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर</div>");
+
+        //        sb.AppendLine("<table style='width:100%;margin-top:15px;'>");
+        //        sb.AppendLine("<tr>");
+        //        sb.AppendLine("<td class='hindi' style='text-align:left;font-weight:bold;'>");
+        //        sb.AppendLine("क्रमांकः एफ(12) प्राशिम/गोप./2026/");
+        //        sb.AppendLine("</td>");
+        //        sb.AppendLine("<td class='hindi' style='text-align:right;font-weight:bold;'>");
+        //        sb.AppendLine($"दिनांकः");
+        //        sb.AppendLine("</td>");
+        //        sb.AppendLine("</tr>");
+        //        sb.AppendLine("</table>");
+
+        //        //{ DateTime.Now:dd / MM / yyyy}
+
+        //        sb.AppendLine("<div class='office-order'>कार्यालय आदेश</div>");
+
+        //        // Category Wise Data
+        //        foreach (var group in groupedData)
+        //        {
+        //            //सत्र 2024 - 2025(छठे सेमेस्टर, नवंबर 2024) के अनुचित साधनों के मामलों पर गठित समिति ने 09 / 10 / 2025 को 
+        //            //    आयोजित अपनी बैठक में संपूर्ण रिकॉर्ड का अवलोकन, अध्ययन और विचार - विमर्श करने के बाद 
+        //            //    निम्नलिखित रोल नंबर वाले छात्रों को बोर्ड की दंड अनुसूची की धारा 2(दो) के तहत दंडित करने का निर्णय लिया है
+
+        //            sb.AppendLine($@"
+        //    <div class='hindi' style='text-align:justify;margin-top:15px;'>
+        //        सत्र {financialYear} ({group.Key.ShortCode} सेमेस्टर, {EndTermName}) के अनुचित साधन के मामलों पर गठित समिति ने {DateTime.Now:dd/MM/yyyy} को 
+        //                आयोजित अपनी बैठक में संपूर्ण रिकॉर्ड का अवलोकन,अध्ययन और विचार - विमर्श करने के बाद 
+        //                निम्नलिखित रोल नंबर वाले छात्रों को बोर्ड की दंड अनुसूची की धारा <b>{group.Key.CodeID}</b>  की समिति द्वारा लिये गये
+        //        निर्णयानुसार निम्नांकित परीक्षार्थियों को दण्ड सारणी श्रेणी
+        //        <b>{group.Key.UFMCategoryName}</b>
+        //        के अन्तर्गत दण्डित किया जाता है :-
+        //    </div>");
+
+        //            sb.AppendLine("<table class='roll-table'>");
+
+        //            int count = 0;
+
+        //            foreach (var row in group)
+        //            {
+        //                if (count % 5 == 0)
+        //                {
+        //                    sb.AppendLine("<tr>");
+        //                }
+
+        //                sb.AppendLine($@"<td>{row["RollNo"]}</td>");
+
+        //                count++;
+
+        //                if (count % 5 == 0)
+        //                {
+        //                    sb.AppendLine("</tr>");
+        //                }
+        //            }
+
+        //            if (count % 5 != 0)
+        //            {
+        //                while (count % 5 != 0)
+        //                {
+        //                    sb.AppendLine("<td></td>");
+        //                    count++;
+        //                }
+
+        //                sb.AppendLine("</tr>");
+        //            }
+
+        //            sb.AppendLine("</table>");
+                 
+        //        }
+
+        //        sb.AppendLine($@"
+        //    <div class='hindi' style='text-align:justify;margin-bottom:25px;'>
+        //        उपरोक्त रोल नम्बर के परीक्षार्थियों की सत्र {EndTermName}
+        //        में आयोजित परीक्षा की समस्त सैद्धान्तिक एवं प्रायोगिक विषयों की
+        //        परीक्षाएं (जिसमें छात्र बैठा) निरस्त की जाती हैं।
+        //    </div>");
+
+        //        // Signature
+        //        sb.AppendLine("<div class='signature'>");
+        //        //sb.AppendLine("(रघुनाथ सिंह)<br/>");
+        //        sb.AppendLine("संयुक्त निदेशक (गोपनीय)");
+        //        sb.AppendLine("</div>");
+
+        //        // Copy Section
+        //        sb.AppendLine("<div class='copy-section'>");
+        //        sb.AppendLine("<br/><br/>");
+        //        sb.AppendLine("<b>प्रतिलिपिः</b><br/>");
+        //        sb.AppendLine("01. निदेशक एवं अध्यक्ष, प्रा.शि.मं. जोधपुर<br/>");
+        //        sb.AppendLine("02. संयुक्त निदेशक (रजिस्ट्रार), प्रा.शि.मं. जोधपुर<br/>");
+        //        sb.AppendLine("03. प्रभारी, कम्प्यूटर, परीक्षा प्रा.शि.मं. जोधपुर<br/>");
+        //        sb.AppendLine("04. सम्बन्धित संस्थान");
+        //        sb.AppendLine("</div>");
+
+        //        sb.AppendLine("<div class='signature'>");
+        //        sb.AppendLine("(रघुनाथ सिंह)<br/>");
+        //        sb.AppendLine("संयुक्त निदेशक (गोपनीय)");
+        //        sb.AppendLine("</div>");
+
+        //        sb.AppendLine("</body>");
+        //        sb.AppendLine("</html>");
+
+        //        return sb;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Error generating UFM Category Report HTML", ex);
+        //    }
+        //}
+
+
         public async Task<StringBuilder> UFMCategoryReportPdf_BTER_GetHtml(DataSet ds)
         {
             StringBuilder sb = new StringBuilder();
@@ -1760,7 +1978,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
                     })
                     .OrderBy(x => Convert.ToInt32(x.Key.UFMCategory))
-                    .ThenBy(x=> Convert.ToInt32(x.Key.SemesterID))
+                    .ThenBy(x => Convert.ToInt32(x.Key.SemesterID))
                     .ToList();
 
                 sb.AppendLine("<!DOCTYPE html>");
@@ -1774,32 +1992,36 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("@font-face {");
                 sb.AppendLine("font-family: 'Mangal','Noto Sans Devanagari';");
                 sb.AppendLine($"src: local('Noto Sans Devanagari'), url('{ConfigurationHelper.FontPath_Noto_Sans_Devanagari}') format('truetype');");
+                sb.AppendLine("font-weight: normal;");
+                sb.AppendLine("font-style: normal;");
                 sb.AppendLine("}");
 
                 sb.AppendLine("body {");
-                sb.AppendLine("font-family: Arial, sans-serif;");
-                sb.AppendLine("font-size: 14pt;");
-                sb.AppendLine("line-height: 1.6;");
+                sb.AppendLine("font-family: 'Noto Sans Devanagari';");
+                sb.AppendLine("font-size: 11pt;");
+                sb.AppendLine("font-weight: normal;");
+                sb.AppendLine("line-height: 1.4;");
                 sb.AppendLine("color: #000;");
-                sb.AppendLine("margin: 30px;");
+                sb.AppendLine("margin: 20px;");
                 sb.AppendLine("}");
 
                 sb.AppendLine(".hindi {");
-                sb.AppendLine("font-family: 'Noto Sans Devanagari', serif;");
+                sb.AppendLine("font-family: 'Noto Sans Devanagari';");
+                sb.AppendLine("font-weight: normal;");
                 sb.AppendLine("}");
 
                 sb.AppendLine(".header {");
                 sb.AppendLine("font-family: 'Noto Sans Devanagari', serif;");
                 sb.AppendLine("text-align:center;");
                 sb.AppendLine("font-weight:bold;");
-                sb.AppendLine("font-size:18pt;");
+                sb.AppendLine("font-size:13pt;");
                 sb.AppendLine("}");
 
                 sb.AppendLine(".office-order {");
                 sb.AppendLine("font-family: 'Noto Sans Devanagari', serif;");
                 sb.AppendLine("text-align:center;");
                 sb.AppendLine("font-weight:bold;");
-                sb.AppendLine("font-size:18pt;");
+                sb.AppendLine("font-size:12pt;");
                 sb.AppendLine("margin-top:20px;");
                 sb.AppendLine("margin-bottom:20px;");
                 sb.AppendLine("}");
@@ -1815,8 +2037,8 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("width:20%;");
                 sb.AppendLine("text-align:center;");
                 sb.AppendLine("padding:5px;");
-                sb.AppendLine("font-weight:bold;");
-                sb.AppendLine("font-size:13pt;");
+                sb.AppendLine("font-weight:normal;");
+                sb.AppendLine("font-size:10pt;");
                 sb.AppendLine("}");
 
                 sb.AppendLine(".signature {");
@@ -1845,7 +2067,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 sb.AppendLine("<td class='hindi' style='text-align:left;font-weight:bold;'>");
                 sb.AppendLine("क्रमांकः एफ(12) प्राशिम/गोप./2026/");
                 sb.AppendLine("</td>");
-                sb.AppendLine("<td class='hindi' style='text-align:right;font-weight:bold;'>");
+                sb.AppendLine("<td class='hindi' style='text-align:right;padding-right:40px;font-weight:bold;'>");
                 sb.AppendLine($"दिनांकः");
                 sb.AppendLine("</td>");
                 sb.AppendLine("</tr>");
@@ -1864,11 +2086,11 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
                     sb.AppendLine($@"
             <div class='hindi' style='text-align:justify;margin-top:15px;'>
-                सत्र {financialYear} ({group.Key.ShortCode} सेमेस्टर, {EndTermName}) के अनुचित साधन के मामलों पर गठित समिति ने _____________ को 
+                सत्र {financialYear} ({group.Key.ShortCode} सेमेस्टर, {EndTermName}) के अनुचित साधन के मामलों पर गठित समिति ने {DateTime.Now:dd/MM/yyyy} को 
                         आयोजित अपनी बैठक में संपूर्ण रिकॉर्ड का अवलोकन,अध्ययन और विचार - विमर्श करने के बाद 
-                        निम्नलिखित रोल नंबर वाले छात्रों को बोर्ड की दंड अनुसूची की धारा <b>{group.Key.CodeID}</b>  की समिति द्वारा लिये गये
+                        निम्नलिखित रोल नंबर वाले छात्रों को बोर्ड की दंड अनुसूची की धारा {group.Key.CodeID}  की समिति द्वारा लिये गये
                 निर्णयानुसार निम्नांकित परीक्षार्थियों को दण्ड सारणी श्रेणी
-                <b>{group.Key.UFMCategoryName}</b>
+                {group.Key.UFMCategoryName}
                 के अन्तर्गत दण्डित किया जाता है :-
             </div>");
 
@@ -1905,7 +2127,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     }
 
                     sb.AppendLine("</table>");
-                 
+
                 }
 
                 sb.AppendLine($@"
@@ -1917,7 +2139,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
                 // Signature
                 sb.AppendLine("<div class='signature'>");
-                sb.AppendLine("(रघुनाथ सिंह)<br/>");
+                //sb.AppendLine("(रघुनाथ सिंह)<br/>");
                 sb.AppendLine("संयुक्त निदेशक (गोपनीय)");
                 sb.AppendLine("</div>");
 
@@ -1947,6 +2169,96 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             }
         }
 
+
+        public async Task<StringBuilder> Collegwise_UFMCategoryReportPdf_BTER_GetHtml(DataSet ds)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            DataTable dt = ds.Tables[0];
+
+            string financialYear = dt.Rows.Count > 0
+                ? Convert.ToString(dt.Rows[0]["FinancialYearName"])
+                : "";
+
+            string SemesterName = dt.Rows.Count > 0 ? Convert.ToString(dt.Rows[0]["SemesterName"]) : "";
+            string endTermName = dt.Rows.Count > 0
+                ? Convert.ToString(dt.Rows[0]["EndTermName"])
+                : "";
+
+            sb.AppendLine("<html>");
+            sb.AppendLine("<head>");
+            sb.AppendLine("<style>");
+            sb.AppendLine("body{font-family:Arial;font-size:12px;}");
+            sb.AppendLine("table{width:100%;border-collapse:collapse;}");
+            sb.AppendLine("th,td{border:1px solid #000;padding:5px;text-align:center;}");
+            sb.AppendLine(".header{text-align:center;font-weight:bold;font-size:18px;}");
+            sb.AppendLine(".subheader{text-align:center;font-weight:bold;font-size:14px;margin-bottom:10px;}");
+            sb.AppendLine("</style>");
+            sb.AppendLine("</head>");
+            sb.AppendLine("<body>");
+            sb.AppendLine("<div class='header'>राजस्थान सरकार</div>");
+            sb.AppendLine("<div class='header'>प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर</div>");
+            sb.AppendLine(
+                $"<div class='subheader'>{SemesterName} UFM Student Exam. {endTermName} Session {financialYear}</div>");
+            sb.AppendLine("<table>");
+            sb.AppendLine("<tr>");
+            sb.AppendLine("<th rowspan='2'>S.No.</th>");
+            sb.AppendLine("<th rowspan='2'>Instt. Code</th>");
+            sb.AppendLine("<th rowspan='2'>Name</th>");
+            sb.AppendLine("<th colspan='2'>Registered</th>");
+            sb.AppendLine("<th colspan='2'>Result Declared Cat. 1</th>");
+            sb.AppendLine("<th colspan='2'>Result Declared Cat. 2</th>");
+            sb.AppendLine("</tr>");
+            sb.AppendLine("<tr>");
+            sb.AppendLine("<th>Regular</th>");
+            sb.AppendLine("<th>Ex.</th>");
+            sb.AppendLine("<th>Regular</th>");
+            sb.AppendLine("<th>Ex.</th>");
+            sb.AppendLine("<th>Regular</th>");
+            sb.AppendLine("<th>Ex.</th>");
+            sb.AppendLine("</tr>");
+            int sno = 1;
+            int totalRegRegular = 0;
+            int totalRegEx = 0;
+            int totalCat1Regular = 0;
+            int totalCat1Ex = 0;
+            int totalCat2Regular = 0;
+            int totalCat2Ex = 0;
+            foreach (DataRow row in dt.Rows)
+            {
+                sb.AppendLine("<tr>");
+                sb.AppendLine($"<td>{sno++}</td>");
+                sb.AppendLine($"<td>{row["InstituteCode"]}</td>");
+                sb.AppendLine($"<td style='text-align:left'>{row["InstituteName"]}</td>");
+                sb.AppendLine($"<td>{row["RegisteredRegular"]}</td>");
+                sb.AppendLine($"<td>{row["RegisteredEx"]}</td>");
+                sb.AppendLine($"<td>{row["Cat1Regular"]}</td>");
+                sb.AppendLine($"<td>{row["Cat1Ex"]}</td>");
+                sb.AppendLine($"<td>{row["Cat2Regular"]}</td>");
+                sb.AppendLine($"<td>{row["Cat2Ex"]}</td>");
+                sb.AppendLine("</tr>");
+                totalRegRegular += Convert.ToInt32(row["RegisteredRegular"]);
+                totalRegEx += Convert.ToInt32(row["RegisteredEx"]);
+                totalCat1Regular += Convert.ToInt32(row["Cat1Regular"]);
+                totalCat1Ex += Convert.ToInt32(row["Cat1Ex"]);
+                totalCat2Regular += Convert.ToInt32(row["Cat2Regular"]);
+                totalCat2Ex += Convert.ToInt32(row["Cat2Ex"]);
+            }
+            sb.AppendLine("<tr style='font-weight:bold'>");
+            sb.AppendLine("<td colspan='3'>Total</td>");
+            sb.AppendLine($"<td>{totalRegRegular}</td>");
+            sb.AppendLine($"<td>{totalRegEx}</td>");
+            sb.AppendLine($"<td>{totalCat1Regular}</td>");
+            sb.AppendLine($"<td>{totalCat1Ex}</td>");
+            sb.AppendLine($"<td>{totalCat2Regular}</td>");
+            sb.AppendLine($"<td>{totalCat2Ex}</td>");
+            sb.AppendLine("</tr>");
+            sb.AppendLine("</table>");
+            sb.AppendLine("</body>");
+            sb.AppendLine("</html>");
+
+            return sb;
+        }
         #endregion
 
     }

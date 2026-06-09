@@ -61,6 +61,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? Eng_NonEng { get; set; }
         public string? GuestHouseID { get; set; }
         public int? InstitutionManagementTypeID { get; set; }
+        public int? InstituteID { get; set; }
+        public int? ProfileStatus { get; set; }
     }
 
     public class BTER_EM_GetPersonalDetailByUserID
@@ -542,5 +544,16 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public string? IPAddress { get; set; }
         public int? UserID { get; set; }
         public string? Action { get; set; }
+    }
+
+    public class EM_CommonDropdownDataModel
+    {
+        public string? Action { get; set; }
+        public int? DesignationID { get; set; }
+        public int? OfficeID { get; set; }
+        public int? InstituteID { get; set; }
+        public int? StaffTypeID { get; set; }
+        public int? UserID { get; set; }
+        public int? RoleID { get; set; }
     }
 }

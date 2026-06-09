@@ -71,11 +71,11 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetCenterSuperintendent")]
         public async Task<ApiResult<DataTable>> GetCenterSuperintendent([FromBody] CenterAllocationSearchFilter filterModel)
         {
-            ActionName = "GetAllData()";
+            ActionName = "GetCenterSuperintendent([FromBody] CenterAllocationSearchFilter filterModel)";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await _unitOfWork.CenterAllocationRepository.CenterSuperintendent(filterModel);
+                result.Data = await Task.Run(() => _unitOfWork.CenterAllocationRepository.CenterSuperintendent(filterModel));
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -112,7 +112,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<string>();
                 try
                 {
-                    var data = await _unitOfWork.CenterAllocationRepository.DownloadCenterSuperintendent(filterModel); 
+                    var data = await _unitOfWork.CenterAllocationRepository.DownloadCenterSuperintendent(filterModel);
                     if (data != null)
                     {
                         //report
@@ -136,10 +136,10 @@ namespace Kaushal_Darpan.Api.Controllers
                         ModInsert.FileName = fileName;
                         ModInsert.PDFType = (int)EnumPdfType.CenterSuperintendent;
                         ModInsert.Status = 11;
-                        ModInsert.DepartmentID=1;
-                        ModInsert.Eng_NonEng=filterModel.Eng_NonEng;
-                        ModInsert.EndTermID=filterModel.EndTermID;
-                      
+                        ModInsert.DepartmentID = 1;
+                        ModInsert.Eng_NonEng = filterModel.Eng_NonEng;
+                        ModInsert.EndTermID = filterModel.EndTermID;
+
 
 
                         var isSave = await _unitOfWork.ReportRepository.SaveRollNumbePDFData(ModInsert);
@@ -209,35 +209,34 @@ namespace Kaushal_Darpan.Api.Controllers
 
         }
 
-        [HttpGet("GetStatusCenterSuperintendentOrder/{status}/{coursetype}")]
-        public async Task<ApiResult<DataTable>> GetStatusCenterSuperintendentOrder(int status,int coursetype)
+        [HttpPost("GetStatusCenterSuperintendentOrder")]
+        public async Task<ApiResult<DataTable>> GetStatusCenterSuperintendentOrder(CenterSuperintendentOrderStatusModel model)
         {
-            return await Task.Run(async () =>
+            ActionName = "GetStatusCenterSuperintendentOrder(CenterSuperintendentOrderStatusModel model)";
+            var result = new ApiResult<DataTable>();
+            try
             {
-                var result = new ApiResult<DataTable>();
-                try
+                result.Data = await Task.Run(() => _unitOfWork.CenterAllocationRepository.GetRollCenterSuperintendentOrder(model));
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
                 {
-                    result.Data = await _unitOfWork.CenterAllocationRepository.GetRollCenterSuperintendentOrder(status,coursetype);
-                    result.State = EnumStatus.Success;
-                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                }
-                catch (Exception ex)
-                {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
-                }
-                return result;
-            });
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                //
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
 
 
