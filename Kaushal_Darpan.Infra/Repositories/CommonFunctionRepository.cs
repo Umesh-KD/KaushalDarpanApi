@@ -12538,6 +12538,42 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataTable> GetStudentAttandanceTimeDDL_MultipleSub(int StaffID, string SubjectID, int StreamID, int SectionID, int DayID)
+        {
+            _actionName = "GetStudentAttandanceTimeDDL_MultipleSub(int StaffID, int SubjectID)";
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Bter_GetBranchSectionAcRosterData_Reports";
+                    command.Parameters.AddWithValue("@StaffID", StaffID);
+                    command.Parameters.AddWithValue("@SubjectIDs", SubjectID);
+                    command.Parameters.AddWithValue("@StreamID", StreamID);
+                    command.Parameters.AddWithValue("@SectionID", SectionID);
+                    command.Parameters.AddWithValue("@DayID", DayID);
+                    command.Parameters.AddWithValue("@action", "_getStudentAttandanceTimeDDL_MulitpleSub");
+                    _sqlQuery = command.GetSqlExecutableQuery(); // Get SQL query string for logging/debugging
+                    var dataTable = await command.FillAsync_DataTable();
+
+                    return dataTable;
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
         public async Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID, int StreamID, int SectionID, int DayID)
         {
             _actionName = "GetStudentAttandanceTimeDDL(int StaffID, int SubjectID)";

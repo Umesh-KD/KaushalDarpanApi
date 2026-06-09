@@ -733,7 +733,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StreamID", model.StreamID);
                         command.Parameters.AddWithValue("@SectionID", model.SectionID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
+                        //command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
+                        command.Parameters.AddWithValue("@SubjectIDs", model.SubjectIDs);
                         command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                         command.Parameters.AddWithValue("@ShiftNo", model.ShiftID);
                         command.Parameters.AddWithValue("@UnitNo", model.UnitID);
