@@ -2181,7 +2181,6 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 : "";
 
             string SemesterName = dt.Rows.Count > 0 ? Convert.ToString(dt.Rows[0]["SemesterName"]) : "";
-
             string endTermName = dt.Rows.Count > 0
                 ? Convert.ToString(dt.Rows[0]["EndTermName"])
                 : "";
@@ -2189,35 +2188,27 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             sb.AppendLine("<html>");
             sb.AppendLine("<head>");
             sb.AppendLine("<style>");
-
             sb.AppendLine("body{font-family:Arial;font-size:12px;}");
             sb.AppendLine("table{width:100%;border-collapse:collapse;}");
             sb.AppendLine("th,td{border:1px solid #000;padding:5px;text-align:center;}");
             sb.AppendLine(".header{text-align:center;font-weight:bold;font-size:18px;}");
             sb.AppendLine(".subheader{text-align:center;font-weight:bold;font-size:14px;margin-bottom:10px;}");
-
             sb.AppendLine("</style>");
             sb.AppendLine("</head>");
             sb.AppendLine("<body>");
-
             sb.AppendLine("<div class='header'>राजस्थान सरकार</div>");
             sb.AppendLine("<div class='header'>प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर</div>");
-
             sb.AppendLine(
                 $"<div class='subheader'>{SemesterName} UFM Student Exam. {endTermName} Session {financialYear}</div>");
-
             sb.AppendLine("<table>");
-
             sb.AppendLine("<tr>");
             sb.AppendLine("<th rowspan='2'>S.No.</th>");
             sb.AppendLine("<th rowspan='2'>Instt. Code</th>");
             sb.AppendLine("<th rowspan='2'>Name</th>");
-
             sb.AppendLine("<th colspan='2'>Registered</th>");
             sb.AppendLine("<th colspan='2'>Result Declared Cat. 1</th>");
             sb.AppendLine("<th colspan='2'>Result Declared Cat. 2</th>");
             sb.AppendLine("</tr>");
-
             sb.AppendLine("<tr>");
             sb.AppendLine("<th>Regular</th>");
             sb.AppendLine("<th>Ex.</th>");
@@ -2226,59 +2217,42 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             sb.AppendLine("<th>Regular</th>");
             sb.AppendLine("<th>Ex.</th>");
             sb.AppendLine("</tr>");
-
             int sno = 1;
-
             int totalRegRegular = 0;
             int totalRegEx = 0;
             int totalCat1Regular = 0;
             int totalCat1Ex = 0;
             int totalCat2Regular = 0;
             int totalCat2Ex = 0;
-
             foreach (DataRow row in dt.Rows)
             {
                 sb.AppendLine("<tr>");
-
                 sb.AppendLine($"<td>{sno++}</td>");
                 sb.AppendLine($"<td>{row["InstituteCode"]}</td>");
                 sb.AppendLine($"<td style='text-align:left'>{row["InstituteName"]}</td>");
-
                 sb.AppendLine($"<td>{row["RegisteredRegular"]}</td>");
                 sb.AppendLine($"<td>{row["RegisteredEx"]}</td>");
-
                 sb.AppendLine($"<td>{row["Cat1Regular"]}</td>");
                 sb.AppendLine($"<td>{row["Cat1Ex"]}</td>");
-
                 sb.AppendLine($"<td>{row["Cat2Regular"]}</td>");
                 sb.AppendLine($"<td>{row["Cat2Ex"]}</td>");
-
                 sb.AppendLine("</tr>");
-
                 totalRegRegular += Convert.ToInt32(row["RegisteredRegular"]);
                 totalRegEx += Convert.ToInt32(row["RegisteredEx"]);
-
                 totalCat1Regular += Convert.ToInt32(row["Cat1Regular"]);
                 totalCat1Ex += Convert.ToInt32(row["Cat1Ex"]);
-
                 totalCat2Regular += Convert.ToInt32(row["Cat2Regular"]);
                 totalCat2Ex += Convert.ToInt32(row["Cat2Ex"]);
             }
-
             sb.AppendLine("<tr style='font-weight:bold'>");
             sb.AppendLine("<td colspan='3'>Total</td>");
-
             sb.AppendLine($"<td>{totalRegRegular}</td>");
             sb.AppendLine($"<td>{totalRegEx}</td>");
-
             sb.AppendLine($"<td>{totalCat1Regular}</td>");
             sb.AppendLine($"<td>{totalCat1Ex}</td>");
-
             sb.AppendLine($"<td>{totalCat2Regular}</td>");
             sb.AppendLine($"<td>{totalCat2Ex}</td>");
-
             sb.AppendLine("</tr>");
-
             sb.AppendLine("</table>");
             sb.AppendLine("</body>");
             sb.AppendLine("</html>");
