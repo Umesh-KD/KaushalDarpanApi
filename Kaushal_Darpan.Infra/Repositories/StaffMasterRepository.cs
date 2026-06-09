@@ -1541,6 +1541,49 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        public async Task<DataTable> GetBranchSectionAcRosterData_MulitpleSub(GetDDlSectionDataModel body)
+        {
+            _actionName = "GetBranchSectionAcRosterData_MulitpleSub()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Bter_GetBranchSectionAcRosterData_Reports";
+                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                        //command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
+                        command.Parameters.AddWithValue("@SubjectIDs", body.SubjectIDs);
+                        command.Parameters.AddWithValue("@StaffID", body.StaffID);
+                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
+                        command.Parameters.AddWithValue("@action", "_getBranchSectionAcRosterData_MulitpleSub");
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
         public async Task<DataTable> GetAssignedTeacher_SSOData(GetDDlSectionDataModel body)
         {
             _actionName = "GetAssignedTeacher_SSOData()";

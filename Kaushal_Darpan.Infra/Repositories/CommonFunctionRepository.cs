@@ -12538,6 +12538,42 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataTable> GetStudentAttandanceTimeDDL_MultipleSub(int StaffID, string SubjectID, int StreamID, int SectionID, int DayID)
+        {
+            _actionName = "GetStudentAttandanceTimeDDL_MultipleSub(int StaffID, int SubjectID)";
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_Bter_GetBranchSectionAcRosterData_Reports";
+                    command.Parameters.AddWithValue("@StaffID", StaffID);
+                    command.Parameters.AddWithValue("@SubjectIDs", SubjectID);
+                    command.Parameters.AddWithValue("@StreamID", StreamID);
+                    command.Parameters.AddWithValue("@SectionID", SectionID);
+                    command.Parameters.AddWithValue("@DayID", DayID);
+                    command.Parameters.AddWithValue("@action", "_getStudentAttandanceTimeDDL_MulitpleSub");
+                    _sqlQuery = command.GetSqlExecutableQuery(); // Get SQL query string for logging/debugging
+                    var dataTable = await command.FillAsync_DataTable();
+
+                    return dataTable;
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
         public async Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID, int StreamID, int SectionID, int DayID)
         {
             _actionName = "GetStudentAttandanceTimeDDL(int StaffID, int SubjectID)";
@@ -12552,6 +12588,40 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@StreamID", StreamID);
                     command.Parameters.AddWithValue("@SectionID", SectionID);
                     command.Parameters.AddWithValue("@DayID", DayID);
+                    _sqlQuery = command.GetSqlExecutableQuery(); // Get SQL query string for logging/debugging
+                    var dataTable = await command.FillAsync_DataTable();
+
+                    return dataTable;
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetStudentAttandanceDayDDL(int StaffID, int SubjectID, int StreamID, int SectionID)
+        {
+            _actionName = "GetStudentAttandanceDayDDL(int StaffID, int SubjectID)";
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_StudentAttandanceDayDDL";
+                    command.Parameters.AddWithValue("@StaffID", StaffID);
+                    command.Parameters.AddWithValue("@SubjectID", SubjectID);
+                    command.Parameters.AddWithValue("@StreamID", StreamID);
+                    command.Parameters.AddWithValue("@SectionID", SectionID);
+                   // command.Parameters.AddWithValue("@DayID", DayID);
 
                     _sqlQuery = command.GetSqlExecutableQuery(); // Get SQL query string for logging/debugging
                     var dataTable = await command.FillAsync_DataTable();
@@ -12773,7 +12843,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> GetUserManualByRoleId(int roleId)
+        public async Task<DataTable> GetUserManualByRoleId(int roleId , int CreatedBy, string Action)
         {
             _actionName = "GetUserManualByRoleId()";
 
@@ -12789,6 +12859,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_GetUserManualByRoleId";
 
                         command.Parameters.AddWithValue("@RoleId", roleId);
+                        command.Parameters.AddWithValue("@CreatedBy", CreatedBy);
+                        command.Parameters.AddWithValue("@Action", Action);
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
 
@@ -12996,6 +13069,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Description", model.Description);
                     command.Parameters.AddWithValue("@DisplayOrder", model.DisplayOrder);
                     command.Parameters.AddWithValue("@FilePath", model.FilePath);
+                    command.Parameters.AddWithValue("@Dis_FilePath", model.Dis_FilePath);
+                    command.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
+                    command.Parameters.AddWithValue("@CreatedByRoleId", model.CreatedByRoleId);
+
+
 
                     var result = await command.ExecuteScalarAsync();
 
@@ -13005,6 +13083,49 @@ namespace Kaushal_Darpan.Infra.Repositories
             catch
             {
                 throw;
+            }
+        }
+
+        public async Task<int> UpdateUserManual(UserManualModel model)
+        {
+            using (var command = await _dbContext.CreateCommandAsync())
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "USP_UpdateUserManual";
+
+                command.Parameters.AddWithValue("@ManualId", model.ManualId);
+                command.Parameters.AddWithValue("@RoleId", model.RoleId);
+                command.Parameters.AddWithValue("@Title", model.Title);
+                command.Parameters.AddWithValue("@Description", model.Description);
+                command.Parameters.AddWithValue("@DisplayOrder", model.DisplayOrder);
+                command.Parameters.AddWithValue("@FilePath", model.FilePath);
+                command.Parameters.AddWithValue("@Dis_FilePath", model.Dis_FilePath);
+                command.Parameters.AddWithValue("@ModifiedBy", model.ModifiedBy);
+                command.Parameters.AddWithValue("@ModifiedByRoleId", model.ModifiedByRoleId);
+
+                var result = await command.ExecuteScalarAsync();
+
+                return Convert.ToInt32(result);
+            }
+        }
+
+        public async Task<int> DeleteUserManual(
+    int manualId,
+    int modifiedBy,
+    int modifiedByRoleId)
+        {
+            using (var command = await _dbContext.CreateCommandAsync())
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "USP_DeleteUserManual";
+
+                command.Parameters.AddWithValue("@ManualId", manualId);
+                command.Parameters.AddWithValue("@ModifiedBy", modifiedBy);
+                command.Parameters.AddWithValue("@ModifiedByRoleId", modifiedByRoleId);
+
+                var result = await command.ExecuteScalarAsync();
+
+                return Convert.ToInt32(result);
             }
         }
     }
