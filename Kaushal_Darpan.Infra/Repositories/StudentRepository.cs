@@ -687,10 +687,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@StreamID", model.StreamID);
-                        command.Parameters.AddWithValue("@SectionID", model.SectionID);                        
+                        command.Parameters.AddWithValue("@SectionID", model.SectionID);
                         command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);                        
-                        command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);                        
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@TimeDDLID", model.TimeDDLID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -2006,10 +2006,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Action", "View");
                         command.Parameters.AddWithValue("@CurrentMonth", model.CurrentMonth);
                         command.Parameters.AddWithValue("@CurrentYear", model.CurrentYear);
-                
+
                         command.Parameters.AddWithValue("@SubjectID", model.SubjectID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-              
+
                         command.Parameters.AddWithValue("@SectionID", model.SectionID);
                         command.Parameters.AddWithValue("@StaffID", model.StaffID);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
@@ -2258,8 +2258,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_Bter_Delete_AssignTeacherForSubject";
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@ID", model.ID);
-               
-                    
+
+
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -2466,6 +2466,45 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<int> ResetStudentSsoMapping(StudentSearchModel request)
+        {
+            try
+            {
+                int result = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ResetStudentSsoMapping";
+
+                    command.Parameters.AddWithValue("@StudentID", request.StudentID);
+                    command.Parameters.AddWithValue("@SSOID", request.SsoID);
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                    //command.Parameters.AddWithValue("@ModifyBy", request.UserID);
+
+                    command.Parameters.Add("@retval_ID", SqlDbType.Int);
+                    command.Parameters["@retval_ID"].Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    await command.ExecuteNonQueryAsync();
+
+                    result = Convert.ToInt32(command.Parameters["@retval_ID"].Value);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 }
 
