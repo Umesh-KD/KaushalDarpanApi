@@ -12807,7 +12807,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> GetUserManualByRoleId(int roleId)
+        public async Task<DataTable> GetUserManualByRoleId(int roleId , int CreatedBy, string Action)
         {
             _actionName = "GetUserManualByRoleId()";
 
@@ -12823,6 +12823,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_GetUserManualByRoleId";
 
                         command.Parameters.AddWithValue("@RoleId", roleId);
+                        command.Parameters.AddWithValue("@CreatedBy", CreatedBy);
+                        command.Parameters.AddWithValue("@Action", Action);
+
 
                         _sqlQuery = command.GetSqlExecutableQuery();
 
@@ -13030,6 +13033,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@Description", model.Description);
                     command.Parameters.AddWithValue("@DisplayOrder", model.DisplayOrder);
                     command.Parameters.AddWithValue("@FilePath", model.FilePath);
+                    command.Parameters.AddWithValue("@Dis_FilePath", model.Dis_FilePath);
+                    command.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
+                    command.Parameters.AddWithValue("@CreatedByRoleId", model.CreatedByRoleId);
+
+
 
                     var result = await command.ExecuteScalarAsync();
 
@@ -13039,6 +13047,49 @@ namespace Kaushal_Darpan.Infra.Repositories
             catch
             {
                 throw;
+            }
+        }
+
+        public async Task<int> UpdateUserManual(UserManualModel model)
+        {
+            using (var command = await _dbContext.CreateCommandAsync())
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "USP_UpdateUserManual";
+
+                command.Parameters.AddWithValue("@ManualId", model.ManualId);
+                command.Parameters.AddWithValue("@RoleId", model.RoleId);
+                command.Parameters.AddWithValue("@Title", model.Title);
+                command.Parameters.AddWithValue("@Description", model.Description);
+                command.Parameters.AddWithValue("@DisplayOrder", model.DisplayOrder);
+                command.Parameters.AddWithValue("@FilePath", model.FilePath);
+                command.Parameters.AddWithValue("@Dis_FilePath", model.Dis_FilePath);
+                command.Parameters.AddWithValue("@ModifiedBy", model.ModifiedBy);
+                command.Parameters.AddWithValue("@ModifiedByRoleId", model.ModifiedByRoleId);
+
+                var result = await command.ExecuteScalarAsync();
+
+                return Convert.ToInt32(result);
+            }
+        }
+
+        public async Task<int> DeleteUserManual(
+    int manualId,
+    int modifiedBy,
+    int modifiedByRoleId)
+        {
+            using (var command = await _dbContext.CreateCommandAsync())
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "USP_DeleteUserManual";
+
+                command.Parameters.AddWithValue("@ManualId", manualId);
+                command.Parameters.AddWithValue("@ModifiedBy", modifiedBy);
+                command.Parameters.AddWithValue("@ModifiedByRoleId", modifiedByRoleId);
+
+                var result = await command.ExecuteScalarAsync();
+
+                return Convert.ToInt32(result);
             }
         }
     }
