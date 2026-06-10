@@ -74,10 +74,13 @@ namespace Kaushal_Darpan.Models.ITIAdminDashboard
 
     public class ITIEstablishmentDashboardSearchModel
     {
-        public int DepartmentID { get; set; } = 2;
-        public int RoleID { get; set; } = 0;
-        public int EndTermID { get; set; } = 0;
-        public int Eng_NonEng { get; set; } = 0;
+        public int? DepartmentID { get; set; } = 2;
+        public int? RoleID { get; set; } = 0;
+        public int? EndTermID { get; set; } = 0;
+        public int? Eng_NonEng { get; set; } = 0;
+        public int? InstituteID { get; set; } = 0;
+        public int? UserID { get; set; } = 0;
+        public int? OfficeID { get; set; } = 0;
     }
 
     public class PostPlanningDashboardDataModel
