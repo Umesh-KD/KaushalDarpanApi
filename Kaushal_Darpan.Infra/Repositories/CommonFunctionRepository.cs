@@ -4349,6 +4349,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@UniqueServiceID", Model.UniqueServiceID);
                     command.Parameters.AddWithValue("@FeeFor", Model.FeeFor);
                     command.Parameters.AddWithValue("@PaidAmount", Model.PaidAmount);
+                    command.Parameters.AddWithValue("@TransactionNo", Model.TransactionNo);
 
                     command.Parameters.AddWithValue("@RevalRequestID", Model.RevalRequestID);
 
@@ -6496,6 +6497,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ReceiptNo", request.RECEIPTNO);
                         command.Parameters.AddWithValue("@RequestStatus", request.STATUS);
                         command.Parameters.AddWithValue("@ExamStudentStatus", request.ExamStudentStatus);
+                        command.Parameters.AddWithValue("@TransactionNo", request.TransactionNo);
                         command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus");
                         _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
                         result = await command.ExecuteNonQueryAsync();
