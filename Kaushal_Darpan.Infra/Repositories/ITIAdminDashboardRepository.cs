@@ -38,7 +38,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-          
+
                         command.Parameters.AddWithValue("@action", "DashboardCounts");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -49,7 +49,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 catch (Exception ex)
                 {
                     var errorDesc = new ErrorDescription
-                    { 
+                    {
                         Message = ex.Message,
                         PageName = _pageName,
                         ActionName = _actionName,
@@ -60,7 +60,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        
+
         public async Task<DataTable> GetITINodalDashboard(ITIAdminDashboardSearchModel model)
         {
             _actionName = "GetAllData()";
@@ -77,7 +77,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-          
+
                         command.Parameters.AddWithValue("@action", "DashboardCounts");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -99,7 +99,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        
+
         public async Task<DataTable> GetRegistrarDashData(ITIDashboardSearchModel model)
         {
             _actionName = "GetAllData()";
@@ -226,7 +226,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetITIProfileStatus";
-                        command.Parameters.AddWithValue("@InstitutId", InstitutId);                       
+                        command.Parameters.AddWithValue("@InstitutId", InstitutId);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -765,7 +765,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-        
+
         public async Task<DataTable> GetPostPlanningDashboardTilesData(PostPlanningDashboardDataModel model)
         {
             _actionName = "GetPostPlanningDashboardTilesData(PostPlanningDashboardDataModel model)";
@@ -802,6 +802,51 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+
+        public async Task<DataSet> GetAdmissionMasterDashboard(ITIAdminDashboardSearchModel model)
+        {
+            _actionName = "GetAdmissionMasterDashboard()";
+
+            try
+            {
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_AdmissionMasterDashboard";
+                    command.Parameters.AddWithValue("@ActionName", model.ActionName);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@CourseType", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@UserID", model.UserID);
+                    command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+                    //more filter will be aded 
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
+                }
+                return ds;
+                ;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+        }
+
+
     }
 }
 
