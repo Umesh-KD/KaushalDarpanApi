@@ -327,5 +327,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> DownloadResultStatisticsReportRWH(StatisticsBridgeCourseModel model);
         Task<DataSet> downloadResultAppearedPassedStatisticsReportRWH(ResultAppearedPassedStatisticsReportModel model);
         Task<DataSet> GetTabularDetailsResultRptTabulationReval(TabluationDataModel body);
+
+        Task<int> SaveTrn_ITI_StudentExamsFeeMark(Trn_ITI_StudentExamsFeeMarkDataModel request);
     }
 }

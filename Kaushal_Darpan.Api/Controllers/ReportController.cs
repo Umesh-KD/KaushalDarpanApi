@@ -18651,5 +18651,50 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
         #endregion
+
+
+        #region Trn ITI StudentExamsFeeMark
+
+        [HttpPost("SaveTrn_ITI_StudentExamsFeeMark")]
+        public async Task<ApiResult<int>> SaveTrn_ITI_StudentExamsFeeMark([FromBody] Trn_ITI_StudentExamsFeeMarkDataModel request)
+        {
+            ActionName = "SaveTrn_ITI_StudentExamsFeeMark([FromBody] Trn_ITI_StudentExamsFeeMarkDataModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.ReportRepository.SaveTrn_ITI_StudentExamsFeeMark(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_SAVE_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        #endregion
     }
 }

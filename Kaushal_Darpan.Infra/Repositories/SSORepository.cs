@@ -309,42 +309,41 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> GetUserRoleList(RoleListRequestModel request)
         {
             _actionName = "GetUserRoleList(RoleListRequestModel request)";
-
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetUserRole";
-                        command.Parameters.AddWithValue("@SSOID", request.SSOID);
-                        command.Parameters.AddWithValue("@IsWeb", request.IsWeb);
-                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
-                        command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
-                        command.Parameters.AddWithValue("@CourseType", request.Eng_NonEng);
-                        command.Parameters.AddWithValue("@InstituteID", request.InstituteId);
-                        command.Parameters.AddWithValue("@SelectedInstituteId", request.SelectedInsituteID);
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetUserRole";
 
+                    command.Parameters.AddWithValue("@SSOID", request.SSOID);
+                    command.Parameters.AddWithValue("@IsWeb", request.IsWeb);
+                    command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                    command.Parameters.AddWithValue("@DepartmentID", request.DepartmentID);
+                    command.Parameters.AddWithValue("@CourseType", request.Eng_NonEng);
+                    command.Parameters.AddWithValue("@InstituteID", request.InstituteId);
+                    command.Parameters.AddWithValue("@SelectedInstituteId", request.SelectedInsituteID);
+                    command.Parameters.AddWithValue("@EndTermId", request.EndTermID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+                return dataTable;
+
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<DataTable> GetAcedmicYearList(int RoleID = 0, int DepartmentID = 0, int SessionTypeID = 0)
