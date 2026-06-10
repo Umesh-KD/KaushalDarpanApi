@@ -709,6 +709,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_ITI_EM_EstablishmentDashboard";
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                    command.Parameters.AddWithValue("@OfficeID", model.OfficeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
