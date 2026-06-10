@@ -10233,5 +10233,47 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        #region Trn_ITI_StudentExamsFeeMark
+
+        public async Task<int> SaveTrn_ITI_StudentExamsFeeMark(Trn_ITI_StudentExamsFeeMarkDataModel request)
+        {
+            _actionName = "SaveTrn_ITI_StudentExamsFeeMark(Trn_ITI_StudentExamsFeeMarkDataModel request)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandText = "USP_Trn_ITI_StudentExamsFeeMark";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@StudentExamIDs", request.StudentExamIDs);
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                    }
+
+                    return result;
+
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        #endregion
     }
 }
