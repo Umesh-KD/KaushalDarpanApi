@@ -9,8 +9,12 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAdminDashReportsData(AdminDashReportsModel model);
 
         Task<DataTable> GetITI_TeacherDashboard(AdminDashboardSearchModel model);
+        Task<DataTable> GetITI_TeacherDashboardNew(TeachearDashboardSearchModel model);
+        Task<DataTable> GetBter_TeacherDashboardNew(TeachearDashboardSearchModel model);
 
         Task<DataTable> GetEM_JDTEDashData(EM_JDTEDashboardSearchModel model);
+        Task<DataTable> GetTransferRelievingDashData(EM_TransferRelievingDashSearchModel model);
+        Task<DataTable> GetStaffTrainingDashboardData(EM_StaffTrainingDashboardSearchModel model);
 
     }
 }

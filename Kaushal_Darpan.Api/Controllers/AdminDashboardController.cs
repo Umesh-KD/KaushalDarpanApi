@@ -136,6 +136,85 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+
+        [HttpPost("GetITI_TeacherDashboardNew")]
+        public async Task<ApiResult<DataTable>> GetITI_TeacherDashboardNew([FromBody] TeachearDashboardSearchModel model)
+        {
+            ActionName = "GetITI_TeacherDashboard()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.AdminDashboardRepository.GetITI_TeacherDashboardNew(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+
+        [HttpPost("GetBter_TeacherDashboardNew")]
+        public async Task<ApiResult<DataTable>> GetBter_TeacherDashboardNew([FromBody] TeachearDashboardSearchModel model)
+        {
+            ActionName = "GetITI_TeacherDashboard()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.AdminDashboardRepository.GetBter_TeacherDashboardNew(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+
         [HttpPost("GetEM_JDTEDashData")]
         public async Task<ApiResult<DataTable>> GetEM_JDTEDashData([FromBody] EM_JDTEDashboardSearchModel model)
 
@@ -145,6 +224,82 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await _unitOfWork.AdminDashboardRepository.GetEM_JDTEDashData(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+
+        //TransferRelievingDash API
+
+        [HttpPost("GetTransferRelievingDashData")]
+        public async Task<ApiResult<DataTable>> GetTransferRelievingDashData([FromBody] EM_TransferRelievingDashSearchModel model)
+        {
+            ActionName = "GetTransferRelievingDashData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.AdminDashboardRepository.GetTransferRelievingDashData(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("GetStaffTrainingDashboardData")]
+        public async Task<ApiResult<DataTable>> GetStaffTrainingDashboardData([FromBody] EM_StaffTrainingDashboardSearchModel model)
+        {
+            ActionName = "GetStaffTrainingDashboardData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.AdminDashboardRepository.GetStaffTrainingDashboardData(model);
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;

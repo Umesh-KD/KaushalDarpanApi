@@ -42,4 +42,56 @@ namespace Kaushal_Darpan.Models.AdminDashboard
         public int StaffID { get; set; }
         public int IsYearly { get; set; }
     }
+
+    public class EM_TransferRelievingDashSearchModel
+    {
+        public int DepartmentID { get; set; }
+        public int EndTermID { get; set; }
+        public int Eng_NonEng { get; set; }
+        public int FinancialYearID { get; set; }
+        public int RoleID { get; set; }
+        public int CommonID { get; set; }
+        public int UserID { get; set; }
+        public int InstituteID { get; set; }
+        public int StaffID { get; set; }
+        public int IsYearly { get; set; }
+
+    }
+
+    public class EM_StaffTrainingDashboardSearchModel
+    {
+        public int DepartmentID { get; set; }
+        public int EndTermID { get; set; }
+        public int Eng_NonEng { get; set; }
+        public int FinancialYearID { get; set; }
+        public int RoleID { get; set; }
+        public int CommonID { get; set; }
+        public int UserID { get; set; }
+        public int InstituteID { get; set; }
+        public int StaffID { get; set; }
+        public int IsYearly { get; set; }
+        public int ISNonGazetted { get; set; }
+
+    }
+
+    public class TeachearDashboardSearchModel
+    {
+        public int DepartmentID { get; set; }
+        public int EndTermID { get; set; }
+        public int Eng_NonEng { get; set; }
+        public int FinancialYearID { get; set; }
+        public int RoleID { get; set; }
+        public int CommonID { get; set; }
+        public int UserID { get; set; }
+        public int StaffID { get; set; }
+        public int IsYearly { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
+        public int InstituteID { get; set; }
+
+        public string? SSOID { get; set; }
+
+    }
+
+
 }

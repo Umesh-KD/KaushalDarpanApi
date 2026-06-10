@@ -33,6 +33,7 @@ namespace Kaushal_Darpan.Models.Attendance
         public string? TodayDate { get; set; }
         public int? Percent { get; set; }
         public int? DayID { get; set; }
+        public string? SubjectIDs { get; set; }
     }
 
     public class BasePostAttendanceTimeTableModal

@@ -272,6 +272,8 @@ namespace Kaushal_Darpan.Models.StaffMaster
         public int ModifyBy { get; set; }
         public int InstituteId { get; set; }
 
+        public string? SubjectIDs { get; set; }
+
         public DateTime? CreatedDate { get; set; }
     }
 

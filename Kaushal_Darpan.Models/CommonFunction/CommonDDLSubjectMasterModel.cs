@@ -27,5 +27,33 @@
         public int DisplayOrder { get; set; }
 
         public string FilePath { get; set; }
+
+        public string Dis_FilePath { get; set; }
+        
+        public int CreatedBy { get; set; }
+
+        public int CreatedByRoleId { get;set; }
+
+        public int ManualId { get; set; }
+
+        public int ModifiedBy { get; set; }
+
+        public int ModifiedByRoleId { get; set; }
+    }
+
+    public class UserManualRequestModel
+    {
+        public int RoleId { get; set; }
+        public int CreatedBy { get; set; }
+        public string? Action { get; set; }
+    }
+
+    public class UserManualDeleteModel
+    {
+        public int ManualId { get; set; }
+
+        public int ModifiedBy { get; set; }
+
+        public int ModifiedByRoleId { get; set; }
     }
 }

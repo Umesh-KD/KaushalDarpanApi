@@ -360,6 +360,8 @@ namespace Kaushal_Darpan.Core.Interfaces
 
 
         Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID,int StreamID,int SectionID,int DayID);
+        Task<DataTable> GetStudentAttandanceTimeDDL_MultipleSub(int StaffID, string SubjectID,int StreamID,int SectionID,int DayID);
+        Task<DataTable> GetStudentAttandanceDayDDL(int StaffID, int SubjectID,int StreamID,int SectionID);
 
         Task<DataTable> GetStaff_InstituteAndWorkWise(StaffMasterDDLDataModel body);
         Task<DataTable> GetStaff_InstituteAcRoster(StaffMasterDDLDataModel body);
@@ -414,7 +416,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> UpdateResumeFileNames(string json);
 
         Task<DataTable> joining_VacantPostEmployee(ITI_Relieving_joining_CheckVacantPostModel model);
-        Task<DataTable> GetUserManualByRoleId(int roleId);
+        Task<DataTable> GetUserManualByRoleId(int roleId, int CreatedBy,string Action);
 
         Task<DataTable> GetAllOrderCategory(OrderCategoryMasterModel request);
 
@@ -423,6 +425,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<OrderCategoryMasterModel> GetOrderCategoryById(int orderCategoryID);
         Task<bool> UpdateOrderCategoryStatus(OrderCategoryMasterModel request);
         Task<int> InsertUserManual(UserManualModel model);
+        Task<int> UpdateUserManual(UserManualModel model);
+        Task<int> DeleteUserManual(int manualId, int modifiedBy, int modifiedByRoleId);
 
     }
 }

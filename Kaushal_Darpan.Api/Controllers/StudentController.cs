@@ -2971,5 +2971,38 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        [HttpPost("ResetStudentSsoMapping")]
+        public async Task<ApiResult<int>> ResetStudentSsoMapping([FromBody] StudentSearchModel model)
+        {
+            var result = new ApiResult<int>();
+
+            try
+            {
+                var data = await _unitOfWork.StudentRepository.ResetStudentSsoMapping(model);
+
+                await _unitOfWork.SaveChangesAsync();
+
+                if (data > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Data = data;
+                    result.Message = "Student SSO Unmapped Successfully";
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "No record updated";
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                return result;
+            }
+        }
+
     }
-    }
+  }
