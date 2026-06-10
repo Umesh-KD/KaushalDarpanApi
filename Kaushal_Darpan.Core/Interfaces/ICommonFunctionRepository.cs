@@ -360,6 +360,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
 
         Task<DataTable> GetStudentAttandanceTimeDDL(int StaffID, int SubjectID,int StreamID,int SectionID,int DayID);
+        Task<DataTable> GetStudentAttandanceTimeDDL_MultipleSub(int StaffID, string SubjectID,int StreamID,int SectionID,int DayID);
         Task<DataTable> GetStudentAttandanceDayDDL(int StaffID, int SubjectID,int StreamID,int SectionID);
 
         Task<DataTable> GetStaff_InstituteAndWorkWise(StaffMasterDDLDataModel body);

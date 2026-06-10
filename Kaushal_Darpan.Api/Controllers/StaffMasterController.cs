@@ -1747,6 +1747,46 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("GetBranchSectionAcRosterData_MulitpleSub")]
+        public async Task<ApiResult<DataTable>> GetBranchSectionAcRosterData_MulitpleSub([FromBody] GetDDlSectionDataModel body)
+        {
+            ActionName = "GetBranchSectionAcRosterData_MulitpleSub()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.StaffMasterRepository.GetBranchSectionAcRosterData_MulitpleSub(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
         [HttpPost("GetAssignedTeacher_SSOData")]
         public async Task<ApiResult<DataTable>> GetAssignedTeacher_SSOData([FromBody] GetDDlSectionDataModel body)
         {

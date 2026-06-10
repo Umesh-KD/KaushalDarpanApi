@@ -9706,6 +9706,7 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+       
         [HttpGet("GetStudentAttandanceDayDDL/{StaffID}/{SubjectID}/{StreamID}/{SectionID}")]
         public async Task<ApiResult<DataTable>> GetStudentAttandanceDayDDL(int StaffID, int SubjectID, int StreamID, int SectionID)
         {
@@ -9715,6 +9716,47 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {
                     var data = await _unitOfWork.CommonFunctionRepository.GetStudentAttandanceDayDDL(StaffID, SubjectID, StreamID, SectionID);
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+
+        [HttpGet("GetStudentAttandanceTimeDDL_MultipleSub/{StaffID}/{SubjectID}/{StreamID}/{SectionID}/{DayID}")]
+        public async Task<ApiResult<DataTable>> GetStudentAttandanceTimeDDL_MultipleSub(int StaffID, string SubjectID, int StreamID, int SectionID, int DayID)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.GetStudentAttandanceTimeDDL_MultipleSub(StaffID, SubjectID, StreamID, SectionID, DayID);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;
