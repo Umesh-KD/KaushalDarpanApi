@@ -712,6 +712,46 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
 
         }
+
+
+
+
+        [HttpPost("GetAdmissionDashboardData")]
+        public async Task<ApiResult<DataSet>> GetAdmissionDashboardData([FromBody] ITIAdminDashboardSearchModel model)
+        {
+            ActionName = "GetAdmissionDashboardData";
+            var result = new ApiResult<DataSet>();
+            try
+            {
+                result.Data = await _unitOfWork.ITIAdminDashboardRepository.GetAdmissionDashboardData(model);
+                if (result.Data != null)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+
+        }
     }
 }
 
