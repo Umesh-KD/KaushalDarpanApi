@@ -2467,6 +2467,122 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<List<StudentRecentActivity>> GetStudentRecentActivity(int studentId)
+        {
+            _actionName = "GetStudentRecentActivity()";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var list = new List<StudentRecentActivity>();
+
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandText = "USP_StudentRecentActivity";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@StudentID", studentId);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                list.Add(new StudentRecentActivity
+                                {
+                                    RecentID = Convert.ToInt32(reader["RecentID"]),
+                                    Title = Convert.ToString(reader["Title"]),
+                                    Icon = Convert.ToString(reader["Icon"]),
+                                    Ago = Convert.ToString(reader["Ago"]),
+                                    Date = Convert.ToDateTime(reader["Date"]),
+                                    StudentID = Convert.ToInt32(reader["StudentID"]),
+                                    DepartmentID = Convert.ToInt32(reader["DepartmentID"]),
+                                    EndTermID = Convert.ToInt32(reader["EndTermID"]),
+                                    SemesterID = Convert.ToInt32(reader["SemesterID"])
+                                });
+                            }
+                        }
+                    }
+
+                    return list;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+
+                    var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errorDetails, ex);
+                }
+            });
+        }
+
+        public async Task<List<StudentMarksheetModel>> GetStudentMarksheetList(int studentId)
+        {
+            _actionName = "GetStudentMarksheetList()";
+
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    List<StudentMarksheetModel> list = new();
+
+                    using (var command = await _dbContext.CreateCommandAsync(true))
+                    {
+                        command.CommandText = "USP_StudentMarksheetList_st";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@StudentID", studentId);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                list.Add(new StudentMarksheetModel
+                                {
+                                    StudentID = Convert.ToInt32(reader["StudentID"]),
+                                    SemesterID = Convert.ToInt32(reader["SemesterID"]),
+                                    EndTermID = Convert.ToInt32(reader["EndTermID"]),
+                                    Semester = Convert.ToString(reader["Semester"]),
+                                    Result_str = Convert.ToString(reader["Result_str"]),
+                                    CGPA = Convert.ToString(reader["CGPA"]),
+                                    ResultDate = reader["ResultDate"] == DBNull.Value
+                                        ? null
+                                        : Convert.ToDateTime(reader["ResultDate"]),
+                                    MarksheetFile = Convert.ToString(reader["MarksheetFile"]),
+                                    MarksheetFilePath = Convert.ToString(reader["MarksheetFilePath"]),
+                                    MarksheetID = Convert.ToInt32(reader["MarksheetID"])
+                                });
+                            }
+                        }
+                    }
+
+                    return list;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+
+                    var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errorDetails, ex);
+                }
+            });
+        }
         public async Task<int> ResetStudentSsoMapping(StudentSearchModel request)
         {
             try

@@ -226,4 +226,30 @@ namespace Kaushal_Darpan.Models.Student
         public string? RegistrationNo {  get; set; }
 
     }
+    public class StudentRecentActivity
+    {
+        public int RecentID { get; set; }
+        public string Title { get; set; }
+        public string Icon { get; set; }
+        public string Ago { get; set; }
+        public DateTime Date { get; set; }
+        public int StudentID { get; set; }
+        public int DepartmentID { get; set; }
+        public int EndTermID { get; set; }
+        public int SemesterID { get; set; }
+    }
+
+    public class StudentMarksheetModel
+    {
+        public int StudentID { get; set; }
+        public int SemesterID { get; set; }
+        public int EndTermID { get; set; }
+        public string? Semester { get; set; }
+        public string? Result_str { get; set; }
+        public string? CGPA { get; set; }
+        public DateTime? ResultDate { get; set; }
+        public string? MarksheetFile { get; set; }
+        public string? MarksheetFilePath { get; set; }
+        public int MarksheetID { get; set; }
+    }
 }

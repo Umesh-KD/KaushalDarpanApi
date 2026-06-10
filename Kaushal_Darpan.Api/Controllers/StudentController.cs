@@ -2970,7 +2970,74 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+        [HttpGet("GetStudentRecentActivity/{studentId}")]
+        public async Task<ApiResult<List<StudentRecentActivity>>> GetStudentRecentActivity(int studentId)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<List<StudentRecentActivity>>();
 
+                try
+                {
+                    var data = await _unitOfWork.StudentRepository.GetStudentRecentActivity(studentId);
+
+                    if (data != null && data.Count > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        result.Data = data;
+                        result.Message = "Record fetched successfully";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        result.ErrorMessage = "No record found";
+                        result.Data = new List<StudentRecentActivity>();
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+
+                    await _unitOfWork.DisposeAsync();
+
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex
+                    };
+
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+
+                return result;
+            });
+        }
+
+        [HttpGet("GetStudentMarksheetList/{studentId}")]
+        public async Task<ApiResult<List<StudentMarksheetModel>>> GetStudentMarksheetList(int studentId)
+        {
+            var result = new ApiResult<List<StudentMarksheetModel>>();
+
+            try
+            {
+                var data = await _unitOfWork.StudentRepository.GetStudentMarksheetList(studentId);
+
+                result.State = EnumStatus.Success;
+                result.Data = data;
+                result.Message = "Record fetched successfully";
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
         [HttpPost("ResetStudentSsoMapping")]
         public async Task<ApiResult<int>> ResetStudentSsoMapping([FromBody] StudentSearchModel model)
         {
