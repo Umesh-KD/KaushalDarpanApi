@@ -24,5 +24,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetITIEstablishmentDashboard(ITIEstablishmentDashboardSearchModel model);
         Task<DataTable> GetPostPlanningDashboardTableData(PostPlanningDashboardDataModel model);
         Task<DataTable> GetPostPlanningDashboardTilesData(PostPlanningDashboardDataModel model);
+        Task<DataSet> GetAdmissionMasterDashboard(ITIAdminDashboardSearchModel model);
+
     }
 }

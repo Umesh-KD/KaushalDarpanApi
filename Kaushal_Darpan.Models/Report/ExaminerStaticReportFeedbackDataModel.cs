@@ -37,4 +37,9 @@ namespace Kaushal_Darpan.Models.Report
         public string? Dis_MassCopyDocument { get; set; }
         public int? Status { get; set; }
     }
+
+    public class Trn_ITI_StudentExamsFeeMarkDataModel
+    {
+        public string StudentExamIDs { get; set; }
+    }
 }

@@ -86,5 +86,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAssignedLCStream(PostAttendanceTimeTable model);
 
         Task<int> ResetStudentSsoMapping(StudentSearchModel request);
+        Task<List<StudentRecentActivity>> GetStudentRecentActivity(int studentId);
+        Task<List<StudentMarksheetModel>> GetStudentMarksheetList(int studentId);
     }
 }
