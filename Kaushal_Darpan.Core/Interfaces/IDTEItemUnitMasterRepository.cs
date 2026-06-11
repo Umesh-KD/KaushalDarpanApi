@@ -14,5 +14,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DTEItemUnitModel> GetById(int PK_ID);
         Task<bool> SaveData(DTEItemUnitModel productDetails);
         Task<bool> DeleteDataByID(DTEItemUnitModel productDetails);
+        Task<DataTable> GetBter_InventoryDashboard(DashboardRequestModel model);
     }
 }

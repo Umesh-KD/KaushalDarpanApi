@@ -284,6 +284,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_ITI_GetSeatIntakeDataAdmission";
+                    command.Parameters.AddWithValue("@DivisionId", request.DivisionId);
                     command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
                     command.Parameters.AddWithValue("@CollegeTypeID", request.CollegeTypeID);
                     command.Parameters.AddWithValue("@CollegeID", request.CollegeID);

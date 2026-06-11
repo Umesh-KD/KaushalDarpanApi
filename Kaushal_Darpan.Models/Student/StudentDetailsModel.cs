@@ -251,5 +251,8 @@ namespace Kaushal_Darpan.Models.Student
         public string? MarksheetFile { get; set; }
         public string? MarksheetFilePath { get; set; }
         public int MarksheetID { get; set; }
+        public int ResultTypeID { get; set; }
+        public int IsReval { get; set; }
+        public int IsRevised { get; set; }
     }
 }
