@@ -614,6 +614,12 @@
         public int StaffID { get; set; } = 0;
     }
 
+    public class ServiceRequestModel
+    {
+        public string? Action { get; set; } 
+        public int StaffUserID { get; set; } 
+    }
+
     public class ITIGovtEM_OfficeDeleteModel
     {
         public int ID { get; set; }
