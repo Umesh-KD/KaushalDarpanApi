@@ -8950,6 +8950,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_GetReportedStudentReport";
                         command.Parameters.AddWithValue("@AcademicYearID", model.AcademicYearID);
+                        command.Parameters.AddWithValue("@ApplicationID", model.ApplicationID);
+                        command.Parameters.AddWithValue("@ManagementTypeId", model.ManagementTypeId);
+                        command.Parameters.AddWithValue("@StateRegNo", model.StateRegNo);
+                        command.Parameters.AddWithValue("@PRNStatus", model.PRNStatus);
+                        command.Parameters.AddWithValue("@PrnNo", model.PrnNo);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }

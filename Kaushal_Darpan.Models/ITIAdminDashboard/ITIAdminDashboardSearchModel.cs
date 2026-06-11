@@ -59,6 +59,9 @@ namespace Kaushal_Darpan.Models.ITIAdminDashboard
 
         public string? ITICode { get; set; }
         public string? TradeCode { get; set; }          
+        public string? AadharNo { get; set; }          
+        public int? MaxRange { get; set; }          
+        public int? MinRange { get; set; }          
 
 
     }
