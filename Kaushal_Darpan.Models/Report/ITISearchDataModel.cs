@@ -291,6 +291,16 @@ namespace Kaushal_Darpan.Models.Report
     public class ReportedStudentReport
     {
         public int AcademicYearID { get; set; }
+        public int? ApplicationID { get; set; }
+        public int? ManagementTypeId { get; set; }
+        public string? StateRegNo { get; set; }
+        public string? PRNStatus { get; set; }
+        public string? PrnNo { get; set; }
+
+        //public ApplicationID?: number = 0;
+        //public ManagementTypeId?: number = 0;
+        //public StateRegNo?: string = '';
+        //public PRNStatus?: string = '0';
 
     }
 

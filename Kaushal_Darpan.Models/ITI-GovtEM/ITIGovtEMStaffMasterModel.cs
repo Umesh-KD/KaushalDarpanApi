@@ -950,6 +950,7 @@
         public int? NodalStateID { get; set; }
         public int? NodalDistrictID { get; set; }
         public int? StaffPostTypeID { get; set; }
+        public int? EmployeeType { get; set; }
         public bool IsAdditionPost { get; set; }
     }
 

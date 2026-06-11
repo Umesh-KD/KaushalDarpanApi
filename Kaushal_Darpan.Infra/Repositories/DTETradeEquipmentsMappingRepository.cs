@@ -3,6 +3,7 @@ using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
 using Kaushal_Darpan.Models.DispatchFormDataModel;
 using Kaushal_Darpan.Models.DTEInventoryModels;
+using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using System.Data;
 
@@ -614,7 +615,26 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        public async Task<DataSet> GetDynamicReportData(int categoryId, int equipmentId)
+        {
+            DataSet ds = new DataSet();
 
+            using (var command = await _dbContext.CreateCommandAsync())
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "USP_CategoryItems";
+                command.Parameters.AddWithValue("@CategoryId", categoryId);
+                command.Parameters.AddWithValue("@EquipmentId", equipmentId);
+                command.Parameters.AddWithValue("@Action", "LIST");
+
+                using (SqlDataAdapter adapter = new SqlDataAdapter((SqlCommand)command))
+                {
+                    await Task.Run(() => adapter.Fill(ds));
+                }
+            }
+
+            return ds;
+        }
 
     }
 }

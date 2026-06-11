@@ -383,9 +383,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.CommandText = "USP_GetLeaveMasterValidation";
                         }
-
                         command.Parameters.AddWithValue("@action", "_getPrincipalLeaveRequestData");
-
                         command.Parameters.AddWithValue("@Name", body.Name);
                         command.Parameters.AddWithValue("@Status", body.Status);
                         command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);

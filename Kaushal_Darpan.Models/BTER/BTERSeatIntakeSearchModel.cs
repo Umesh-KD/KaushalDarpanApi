@@ -8,6 +8,7 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
 {
     public class BTERSeatIntakeSearchModel
     {
+        public int? DivisionId { get; set; }
         public int DistrictID { get; set; }
         public int CollegeTypeID { get; set; }
         public int CollegeID { get; set; }

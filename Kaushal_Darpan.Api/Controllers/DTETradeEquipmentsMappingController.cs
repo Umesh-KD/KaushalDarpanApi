@@ -688,6 +688,36 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+        [HttpPost("GetDynamicReportData")]
+        public async Task<ApiResult<DataSet>> GetDynamicReportData(DTESearchTradeEquipmentsMapping model)
+        {
+            ActionName = "GetDynamicReportData()";
+
+            var result = new ApiResult<DataSet>();
+
+            try
+            {
+                result.Data = await _unitOfWork.iDTETradeEquipmentsMappingRepository.GetDynamicReportData(model.CategoryId,model.EquipmentId);
+
+                if (result.Data.Tables.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data Loaded Successfully";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No Data Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
 
     }
 }

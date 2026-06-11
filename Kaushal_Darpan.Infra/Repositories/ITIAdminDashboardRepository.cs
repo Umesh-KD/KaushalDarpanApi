@@ -399,6 +399,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
                         command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
 
+                        command.Parameters.AddWithValue("@AadharNo", body.AadharNo);
+                        command.Parameters.AddWithValue("@MaxRange", body.MaxRange);
+                        command.Parameters.AddWithValue("@MinRange", body.MinRange);
+
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
