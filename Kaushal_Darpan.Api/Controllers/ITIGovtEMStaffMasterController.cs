@@ -4529,7 +4529,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         if (result.Data == 2)
                         {
                             result.State = EnumStatus.Warning;
-                            result.Message = "No vacant seat this Designation";
+                            result.Message = "No vacant seat this Designation before this Designation seat hold after joining Employee";
                         }
                         if (result.Data == 1)
                         {
@@ -4542,7 +4542,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         if (result.Data == 2)
                         {
                             result.State = EnumStatus.Warning;
-                            result.Message = "No vacant seat this Designation before this Designation seat hold after joining";
+                            result.Message = "Existing employee will be marked on hold for this designation due to no vacant seats availability.";
                         }
                         if (result.Data == 1)
                         {
