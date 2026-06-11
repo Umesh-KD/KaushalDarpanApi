@@ -444,6 +444,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ViewTypeIDs", request.ViewTypeIDs);
                         command.Parameters.AddWithValue("@DocCategoryID", request.DocCategoryID);
                         command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();

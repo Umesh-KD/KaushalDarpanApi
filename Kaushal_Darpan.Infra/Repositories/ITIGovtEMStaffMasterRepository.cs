@@ -3382,6 +3382,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@NodalDistrictID", body.NodalDistrictID);
                         command.Parameters.AddWithValue("@StaffPostTypeID", body.StaffPostTypeID);
                         command.Parameters.AddWithValue("@IsAdditionPost", body.IsAdditionPost);
+                        command.Parameters.AddWithValue("@EmployeeType", body.EmployeeType);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;
