@@ -23,6 +23,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> SaveRequestData(DTETEquipmentsRequestMapping request);
 
         Task<int> UpdateStatusRevert(DTETEquipmentsRequestMappingRevert request);
+       Task<DataSet> GetDynamicReportData(int categoryId, int equipmentId);
 
     }
 }
