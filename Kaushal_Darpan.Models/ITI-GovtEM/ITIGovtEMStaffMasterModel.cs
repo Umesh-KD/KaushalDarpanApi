@@ -962,4 +962,13 @@
         public int? DesignationID { get; set; }
         public int? TradeID { get; set; }
     }
+
+    public class VacancyReportPostWiseDataModel
+    {
+        public int PostID { get; set; }
+        public int InstituteID { get; set; }
+        public int OfficeID { get; set; }
+        public int RoleID { get; set; }
+        public int UserID { get; set; }
+    }
     }

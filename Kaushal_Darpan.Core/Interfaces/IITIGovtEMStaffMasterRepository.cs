@@ -124,6 +124,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> ITI_IsAdditionUserOfficeSave(AdditionUserOfficeModel body);
 
         Task<int> Relieving_joining_CheckVacantPostModel(ITI_Relieving_joining_CheckVacantPostModel model);
-        
+        Task<DataTable> GetVacancyReportPostWise(VacancyReportPostWiseDataModel Model);
     }
 }

@@ -3319,7 +3319,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetEmployeeServiceDetails_ITI_EM(ITI_Govt_EM_UserRequestHistoryListSearchDataModel Model)
         {
-            _actionName = "GetAllData()";
+            _actionName = " GetEmployeeServiceDetails_ITI_EM(ITI_Govt_EM_UserRequestHistoryListSearchDataModel Model)";
             try
             {
                 DataTable dataTable = new DataTable();
@@ -3454,10 +3454,44 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> GetVacancyReportPostWise(VacancyReportPostWiseDataModel Model)
+        {
+            _actionName = " GetVacancyReportPostWise(VacancyReportPostWiseDataModel Model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "usp_ITI_EM_GetVacancyReportPostWise";
+
+                    command.Parameters.AddWithValue("@PostID", Model.PostID);
+                    command.Parameters.AddWithValue("@InstituteID", Model.InstituteID);
+                    command.Parameters.AddWithValue("@OfficeID", Model.OfficeID);
+                    command.Parameters.AddWithValue("@RoleID", Model.RoleID);
+                    command.Parameters.AddWithValue("@UserID", Model.UserID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
-
-
-
 }
 
 
