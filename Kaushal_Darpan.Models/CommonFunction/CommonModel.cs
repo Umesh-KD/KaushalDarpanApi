@@ -143,6 +143,7 @@ namespace Kaushal_Darpan.Models.CommonModel
         public int EndTermID { get; set; }
         public int streamID { get; set; }
         public int Eng_NonEng { get; set; }
+        public int ResultType { get; set; }
     }
 
 
