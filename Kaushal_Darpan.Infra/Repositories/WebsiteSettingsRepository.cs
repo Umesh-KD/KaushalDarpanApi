@@ -297,6 +297,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_GetDynamicUploadContent_Apprenticeship";
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Key", model.Key);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();

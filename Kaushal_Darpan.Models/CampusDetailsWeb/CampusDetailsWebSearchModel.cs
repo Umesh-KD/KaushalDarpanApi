@@ -17,6 +17,7 @@ namespace Kaushal_Darpan.Models.CampusDetailsWeb
         public int DepartmentID { get; set; }
         public int DynamicUploadTypeID { get; set; }
         public int DepartmentSubID { get; set; }
+        public int RoleID { get; set; }
         public string Key { get; set; }
     }
 
