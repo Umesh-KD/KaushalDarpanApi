@@ -2555,6 +2555,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                                     Semester = Convert.ToString(reader["Semester"]),
                                     Result_str = Convert.ToString(reader["Result_str"]),
                                     CGPA = Convert.ToString(reader["CGPA"]),
+                                    ResultTypeID = Convert.ToInt32(reader["ResultTypeID"]),
+                                    IsReval = Convert.ToInt32(reader["IsReval"]),
+                                    IsRevised = Convert.ToInt32(reader["IsRevised"]),
                                     ResultDate = reader["ResultDate"] == DBNull.Value
                                         ? null
                                         : Convert.ToDateTime(reader["ResultDate"]),

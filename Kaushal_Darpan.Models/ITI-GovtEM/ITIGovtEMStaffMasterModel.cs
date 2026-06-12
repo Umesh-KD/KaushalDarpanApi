@@ -328,6 +328,7 @@
 
         public int RoleId { get; set; }
         public int ProfileStatus { get; set; }
+        public int IsAdditionalStaff { get; set; }
 
     }
 
@@ -612,6 +613,12 @@
         public int DepartmentID { get; set; } = 0;
         public int StaffUserID { get; set; } = 0;
         public int StaffID { get; set; } = 0;
+    }
+
+    public class ServiceRequestModel
+    {
+        public string? Action { get; set; } 
+        public int StaffUserID { get; set; } 
     }
 
     public class ITIGovtEM_OfficeDeleteModel
@@ -950,6 +957,7 @@
         public int? NodalStateID { get; set; }
         public int? NodalDistrictID { get; set; }
         public int? StaffPostTypeID { get; set; }
+        public int? EmployeeType { get; set; }
         public bool IsAdditionPost { get; set; }
     }
 
@@ -962,12 +970,21 @@
         public int? DesignationID { get; set; }
         public int? TradeID { get; set; }
     }
+
+    public class VacancyReportPostWiseDataModel
+    {
+        public int PostID { get; set; }
+        public int InstituteID { get; set; }
+        public int OfficeID { get; set; }
+        public int RoleID { get; set; }
+        public int UserID { get; set; }
+        public int DepartmentID { get; set; }
+    }
+
     public class Iti_Update_Relieved_RevertModel
     {
         public int ServiceRequestId { get; set; }
         public int ActionBy { get; set; }
         public string Remarks { get; set; }
     }
-
-
-    }
+}

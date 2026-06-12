@@ -2,6 +2,7 @@
 using AutoMapper;
 using DinkToPdf;
 using DinkToPdf.Contracts;
+using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Api.HtmlTempleteFile;
@@ -4584,5 +4585,126 @@ namespace Kaushal_Darpan.Api.Controllers
 
         }
 
+        [HttpPost("GetServiceDetails")]
+        public async Task<ApiResult<DataTable>> GetServiceDetails([FromBody] ServiceRequestModel body)
+        {
+
+            ActionName = "ITIGovtEM_Govt_RoleOfficeMapping_GetAllData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.GetServiceDetails(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("GetVacancyReportPostWise")]
+        public async Task<ApiResult<DataTable>> GetVacancyReportPostWise(VacancyReportPostWiseDataModel model)
+        {
+            ActionName = " GetVacancyReportPostWise(VacancyReportPostWiseDataModel model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.GetVacancyReportPostWise(model);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("GetITIEstablishmentReportData")]
+        public async Task<ApiResult<DataTable>> GetITIEstablishmentReportData([FromBody] ITI_Govt_EM_ZonalOFFICERSSearchDataModel body)
+        {
+
+            ActionName = "GetITIEstablishmentReportData([FromBody] ITI_Govt_EM_ZonalOFFICERSSearchDataModel body)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ITIGovtEMStaffMasterRepository.GetITIEstablishmentReportData(body);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }
