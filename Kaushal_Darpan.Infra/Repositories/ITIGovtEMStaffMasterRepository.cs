@@ -239,6 +239,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EMTypeID", request.EMTypeID);
                         command.Parameters.AddWithValue("@OfficeID", request.OfficeID);
                         command.Parameters.AddWithValue("@StaffPostTypeID", request.StaffPostTypeID);
+                        command.Parameters.AddWithValue("@SeatIntakeID", request.SeatIntakeID);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 

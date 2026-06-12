@@ -34,7 +34,7 @@ namespace Kaushal_Darpan.Api.Controllers
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await _unitOfWork.InternalPracticalStudentRepository.GetAllData(body);
+                result.Data = await Task.Run(() => _unitOfWork.InternalPracticalStudentRepository.GetAllData(body));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
@@ -212,7 +212,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetAllUnlockInternalMarksList")]
         public async Task<ApiResult<DataTable>> GetAllUnlockInternalMarksList([FromBody] UnlockInternalMarksModel body)
         {
-            ActionName = "GetAllUnlockInternalMarksList()";
+            ActionName = "GetAllUnlockInternalMarksList([FromBody] UnlockInternalMarksModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -221,11 +221,11 @@ namespace Kaushal_Darpan.Api.Controllers
                 if (result.Data.Rows.Count == 0)
                 {
                     result.State = EnumStatus.Success;
-                    result.Message = "No record found.!";
+                    result.Message = "No record found!";
                     return result;
                 }
                 result.State = EnumStatus.Success;
-                result.Message = "Data load successfully .!";
+                result.Message = "Data load successfully!";
             }
             catch (System.Exception ex)
             {

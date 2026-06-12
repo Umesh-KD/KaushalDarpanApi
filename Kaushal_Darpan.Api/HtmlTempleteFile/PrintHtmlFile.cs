@@ -1962,9 +1962,25 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     .Select(x => Convert.ToString(x["FinancialYearName"]))
                     .FirstOrDefault() ?? "";
 
+                string FinancialYearName = dt.AsEnumerable()
+                    .Select(x => Convert.ToString(x["FinancialYearName"]))
+                    .FirstOrDefault() ?? "";
+
 
                 string EndTermName = dt.AsEnumerable()
                     .Select(x => Convert.ToString(x["EndTermName"]))
+                    .FirstOrDefault() ?? "";
+
+                string YearName = dt.AsEnumerable()
+                    .Select(x => Convert.ToString(x["YearName"]))
+                    .FirstOrDefault() ?? "";
+
+                string TermNameHindi = dt.AsEnumerable()
+                    .Select(x => Convert.ToString(x["TermNameHindi"]))
+                    .FirstOrDefault() ?? "";
+
+                string CourseTypeHindiName = dt.AsEnumerable()
+                    .Select(x => Convert.ToString(x["CourseTypeHindiName"]))
                     .FirstOrDefault() ?? "";
 
                 var groupedData = dt.AsEnumerable()
@@ -1974,11 +1990,14 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         UFMCategoryName = x["UFMCategoryName"].ToString(),
                         CodeID = x["CodeID"].ToString(),
                         ShortCode = x["ShortCode"].ToString(),
-                        SemesterID = x["SemesterID"].ToString()
+                        SemesterID = x["SemesterID"].ToString(),
+                        SemesterNameHindi= x["SemesterNameHindi"].ToString(),
+                        TermNameHindi = x["TermNameHindi"].ToString(),
+                       // RollNo = x["RollNo"].ToString()
 
                     })
                     .OrderBy(x => Convert.ToInt32(x.Key.UFMCategory))
-                    .ThenBy(x => Convert.ToInt32(x.Key.SemesterID))
+                    //.ThenBy(x => Convert.ToInt32(x.Key.RollNo))
                     .ToList();
 
                 sb.AppendLine("<!DOCTYPE html>");
@@ -2043,9 +2062,12 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
                 sb.AppendLine(".signature {");
                 sb.AppendLine("font-family: 'Noto Sans Devanagari', serif;");
-                sb.AppendLine("text-align:right;");
+                sb.AppendLine("width:250px;");
+                sb.AppendLine("text-align:center;");   // Center text within the block
                 sb.AppendLine("margin-top:25px;");
                 sb.AppendLine("font-weight:bold;");
+                sb.AppendLine("margin-left:auto;");       // Keep block on left side
+                sb.AppendLine("margin-right:0;");
                 sb.AppendLine("}");
 
                 sb.AppendLine(".copy-section {");
@@ -2083,15 +2105,13 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     //सत्र 2024 - 2025(छठे सेमेस्टर, नवंबर 2024) के अनुचित साधनों के मामलों पर गठित समिति ने 09 / 10 / 2025 को 
                     //    आयोजित अपनी बैठक में संपूर्ण रिकॉर्ड का अवलोकन, अध्ययन और विचार - विमर्श करने के बाद 
                     //    निम्नलिखित रोल नंबर वाले छात्रों को बोर्ड की दंड अनुसूची की धारा 2(दो) के तहत दंडित करने का निर्णय लिया है
+                    //{ group.Key.CodeID}
 
                     sb.AppendLine($@"
             <div class='hindi' style='text-align:justify;margin-top:15px;'>
-                सत्र {financialYear} ({group.Key.ShortCode} सेमेस्टर, {EndTermName}) के अनुचित साधन के मामलों पर गठित समिति ने {DateTime.Now:dd/MM/yyyy} को 
-                        आयोजित अपनी बैठक में संपूर्ण रिकॉर्ड का अवलोकन,अध्ययन और विचार - विमर्श करने के बाद 
-                        निम्नलिखित रोल नंबर वाले छात्रों को बोर्ड की दंड अनुसूची की धारा {group.Key.CodeID}  की समिति द्वारा लिये गये
-                निर्णयानुसार निम्नांकित परीक्षार्थियों को दण्ड सारणी श्रेणी
-                {group.Key.UFMCategoryName}
-                के अन्तर्गत दण्डित किया जाता है :-
+                सत्र {financialYear} (सेमेस्टर पद्धति {group.Key.SemesterNameHindi} {group.Key.TermNameHindi}, {YearName}) के अनुचित साधन के मामलों की समिति ने 
+                    {DateTime.Now:dd/MM/yyyy} को हुई बैठक में संपूर्ण रिकॉर्ड के अवलोकन,अध्ययन एवं विचार विमर्श के पश्चात् निम्न रोल नंबर के विद्यार्थियों को मंडल की दण्ड सारणी की
+                    श्रेणी {group.Key.UFMCategoryName} के अन्तर्गत दण्डित करने का निर्णय दिया गया है :-
             </div>");
 
                     sb.AppendLine("<table class='roll-table'>");
@@ -2105,7 +2125,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             sb.AppendLine("<tr>");
                         }
 
-                        sb.AppendLine($@"<td>{row["RollNo"]}</td>");
+                        sb.AppendLine($@"<td style='font-size:18px;'>{row["RollNo"]}</td>");
 
                         count++;
 
@@ -2132,20 +2152,22 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
                 sb.AppendLine($@"
             <div class='hindi' style='text-align:justify;margin-bottom:25px;'>
-                उपरोक्त रोल नम्बर के परीक्षार्थियों की सत्र {EndTermName}
-                में आयोजित परीक्षा की समस्त सैद्धान्तिक एवं प्रायोगिक विषयों की
+                उपरोक्त रोल नम्बर के परीक्षार्थियों की सत्र {FinancialYearName}
+                में दी गयी डिप्लोमा {CourseTypeHindiName} {TermNameHindi}, {YearName} की समस्त सैद्धान्तिक एवं प्रायोगिक विषयों की
                 परीक्षाएं (जिसमें छात्र बैठा) निरस्त की जाती हैं।
             </div>");
 
                 // Signature
                 sb.AppendLine("<div class='signature'>");
-                //sb.AppendLine("(रघुनाथ सिंह)<br/>");
-                sb.AppendLine("संयुक्त निदेशक (गोपनीय)");
+                sb.AppendLine("(रघुनाथ सिंह)<br/><br/>");
+                sb.AppendLine("संयुक्त निदेशक (गोपनीय)<br/><br/>");
+                sb.AppendLine("दिनांक:");
                 sb.AppendLine("</div>");
 
                 // Copy Section
                 sb.AppendLine("<div class='copy-section'>");
-                sb.AppendLine("<br/><br/>");
+                //sb.AppendLine("<br/><br/>");
+                sb.AppendLine("<b>क्रमांक : एफ6(12)प्रशिम/गोप./2026/ </b><br/>");
                 sb.AppendLine("<b>प्रतिलिपिः</b><br/>");
                 sb.AppendLine("01. निदेशक एवं अध्यक्ष, प्रा.शि.मं. जोधपुर<br/>");
                 sb.AppendLine("02. संयुक्त निदेशक (रजिस्ट्रार), प्रा.शि.मं. जोधपुर<br/>");
