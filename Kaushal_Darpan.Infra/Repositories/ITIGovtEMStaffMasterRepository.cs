@@ -3503,6 +3503,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RoleID", Model.RoleID);
                     command.Parameters.AddWithValue("@UserID", Model.UserID);
                     command.Parameters.AddWithValue("@DepartmentID", Model.DepartmentID);
+                    command.Parameters.AddWithValue("@PostTypeID", Model.PostTypeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
@@ -3533,7 +3534,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_ITI_EM_GetEstablishmentReportDate";
+                    command.CommandText = "USP_ITI_EM_GetEstablishmentReportData";
                     command.Parameters.AddWithValue("@Action", "GetData");
                     command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
                     command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
