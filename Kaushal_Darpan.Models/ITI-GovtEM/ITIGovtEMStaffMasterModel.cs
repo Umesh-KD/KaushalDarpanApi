@@ -328,6 +328,7 @@
 
         public int RoleId { get; set; }
         public int ProfileStatus { get; set; }
+        public int IsAdditionalStaff { get; set; }
 
     }
 
@@ -971,5 +972,6 @@
         public int OfficeID { get; set; }
         public int RoleID { get; set; }
         public int UserID { get; set; }
+        public int DepartmentID { get; set; }
     }
-    }
+ }
