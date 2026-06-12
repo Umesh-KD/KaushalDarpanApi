@@ -329,6 +329,7 @@
         public int RoleId { get; set; }
         public int ProfileStatus { get; set; }
         public int IsAdditionalStaff { get; set; }
+        public string? act { get; set; }
 
     }
 

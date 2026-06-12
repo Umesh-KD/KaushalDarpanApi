@@ -3549,6 +3549,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ProfileStatus", body.ProfileStatus);
                     command.Parameters.AddWithValue("@PostID", body.PostID);
                     command.Parameters.AddWithValue("@IsAdditionalStaff", body.IsAdditionalStaff);
+                    command.Parameters.AddWithValue("@act", body.act);
+
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }
