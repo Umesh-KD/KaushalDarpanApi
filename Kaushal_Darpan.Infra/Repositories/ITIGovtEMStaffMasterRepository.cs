@@ -1349,47 +1349,44 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> ITIGovtEM_Govt_AdminT2Zonal_GetAllData(ITI_Govt_EM_ZonalOFFICERSSearchDataModel body)
         {
-            _actionName = "ITIGovtEM_Govt_AdminT2Zonal_GetAllData()";
-            return await Task.Run(async () =>
+            _actionName = "ITIGovtEM_Govt_AdminT2Zonal_GetAllData(ITI_Govt_EM_ZonalOFFICERSSearchDataModel)";
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_ITI_Govt_GetAdminT2Zonal";
-                        command.Parameters.AddWithValue("@action", "GetData");
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
-                        command.Parameters.AddWithValue("@SSOID", body.SSOID);
-                        command.Parameters.AddWithValue("@Name", body.Name);
-                        command.Parameters.AddWithValue("@LevelID", body.LevelID);
-                        command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
-                        command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
-                        command.Parameters.AddWithValue("@RoleId", body.RoleId);
-                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
-                        command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
-                        command.Parameters.AddWithValue("@ProfileStatus", body.ProfileStatus);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_Govt_GetAdminT2Zonal";
+                    command.Parameters.AddWithValue("@action", "GetData");
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                    command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                    command.Parameters.AddWithValue("@Name", body.Name);
+                    command.Parameters.AddWithValue("@LevelID", body.LevelID);
+                    command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
+                    command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
+                    command.Parameters.AddWithValue("@RoleId", body.RoleId);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
+                    command.Parameters.AddWithValue("@ProfileStatus", body.ProfileStatus);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
 
-                    return dataTable;
-                }
-                catch (Exception ex)
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
 
@@ -3320,7 +3317,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<DataTable> GetEmployeeServiceDetails_ITI_EM(ITI_Govt_EM_UserRequestHistoryListSearchDataModel Model)
         {
-            _actionName = "GetAllData()";
+            _actionName = " GetEmployeeServiceDetails_ITI_EM(ITI_Govt_EM_UserRequestHistoryListSearchDataModel Model)";
             try
             {
                 DataTable dataTable = new DataTable();
@@ -3456,10 +3453,123 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+        public async Task<DataTable> GetServiceDetails(ServiceRequestModel Model)
+        {
+            _actionName = "GetServiceDetails(ServiceRequestModel Model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ServiceDetailsOfPersonnel";
+                    command.Parameters.AddWithValue("@Action", Model.Action);
+                    command.Parameters.AddWithValue("@StaffUserID", Model.StaffUserID);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+    
+
+        public async Task<DataTable> GetVacancyReportPostWise(VacancyReportPostWiseDataModel Model)
+        {
+            _actionName = " GetVacancyReportPostWise(VacancyReportPostWiseDataModel Model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "usp_ITI_EM_GetVacancyReportPostWise";
+
+                    command.Parameters.AddWithValue("@PostID", Model.PostID);
+                    command.Parameters.AddWithValue("@InstituteID", Model.InstituteID);
+                    command.Parameters.AddWithValue("@OfficeID", Model.OfficeID);
+                    command.Parameters.AddWithValue("@RoleID", Model.RoleID);
+                    command.Parameters.AddWithValue("@UserID", Model.UserID);
+                    command.Parameters.AddWithValue("@DepartmentID", Model.DepartmentID);
+                    command.Parameters.AddWithValue("@PostTypeID", Model.PostTypeID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<DataTable> GetITIEstablishmentReportData(ITI_Govt_EM_ZonalOFFICERSSearchDataModel body)
+        {
+            _actionName = "GetITIEstablishmentReportData(ITI_Govt_EM_ZonalOFFICERSSearchDataModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_EM_GetEstablishmentReportData";
+                    command.Parameters.AddWithValue("@Action", "GetData");
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                    command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                    command.Parameters.AddWithValue("@Name", body.Name);
+                    command.Parameters.AddWithValue("@LevelID", body.LevelID);
+                    command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
+                    command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
+                    command.Parameters.AddWithValue("@RoleId", body.RoleId);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@DistrictID", body.DistrictID);
+                    command.Parameters.AddWithValue("@ProfileStatus", body.ProfileStatus);
+                    command.Parameters.AddWithValue("@PostID", body.PostID);
+                    command.Parameters.AddWithValue("@IsAdditionalStaff", body.IsAdditionalStaff);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
-
-
-
 }
 
 

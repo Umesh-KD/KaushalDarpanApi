@@ -39,5 +39,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> UserRequestJoiningApprove_ITI_EM(RequestUpdateStatus request);
         Task<DataTable> GetUserRequestList_DDO(RequestSearchModel Model);
         Task<DataTable> GetRelievingJoiningRequestReportData(RequestSearchModel Model);
+
+
+        Task<int> Iti_Update_Relieved_Revert(Iti_Update_Relieved_RevertModel Details);
     }
 }

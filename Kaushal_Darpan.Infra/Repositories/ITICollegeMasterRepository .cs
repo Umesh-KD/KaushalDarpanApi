@@ -1392,6 +1392,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@status", body.status);
                         command.Parameters.AddWithValue("@CollageId", body.CollageId);
                         command.Parameters.AddWithValue("@dayWise", body.dayWise);
+                        command.Parameters.AddWithValue("@GauranteeNo", body.GauranteeNo);
 
 
                         _sqlQuery = command.GetSqlExecutableQuery();
