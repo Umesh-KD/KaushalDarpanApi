@@ -841,5 +841,47 @@ namespace Kaushal_Darpan.Infra.Repositories
 
 
         #endregion
+
+
+        public async Task<int> Iti_Update_Relieved_Revert(Iti_Update_Relieved_RevertModel request)
+        {
+            _actionName = "Iti_Update_Relieved_Revert(Iti_Update_Relieved_RevertModel request)";
+            return await Task.Run(async () =>
+            {
+
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+
+                        command.CommandText = "USP_Iti_Update_Relieved_Revert";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@ServiceRequestId", request.ServiceRequestId);
+                        command.Parameters.AddWithValue("@ActionBy", request.ActionBy);
+                        command.Parameters.AddWithValue("@Remarks", request.Remarks);
+                        command.Parameters.Add("@Return", SqlDbType.Int); // out
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        // Execute the command
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
     }
 }

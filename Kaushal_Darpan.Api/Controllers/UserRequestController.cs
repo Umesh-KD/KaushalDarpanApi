@@ -1020,10 +1020,58 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-
-
-
-
         #endregion divya's code end
+
+
+        [HttpPost("Iti_Update_Relieved_Revert")]
+        public async Task<ApiResult<int>> Iti_Update_Relieved_Revert([FromBody] Iti_Update_Relieved_RevertModel request)
+        {
+            ActionName = "Iti_Update_Relieved_Revert([FromBody] Iti_Update_Relieved_RevertModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.UsersRequest.Iti_Update_Relieved_Revert(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+                        if (result.Data == 1)
+                        {
+                            result.Message = Constants.MSG_SAVE_SUCCESS;
+                        }
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+                        if (result.Data == -1)
+                        {
+                            result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                        }
+                        else
+                        {
+                            result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
     }
 }

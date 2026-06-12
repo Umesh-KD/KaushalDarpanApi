@@ -981,4 +981,11 @@
         public int DepartmentID { get; set; }
         public int PostTypeID { get; set; }
     }
- }
+
+    public class Iti_Update_Relieved_RevertModel
+    {
+        public int ServiceRequestId { get; set; }
+        public int ActionBy { get; set; }
+        public string Remarks { get; set; }
+    }
+}
