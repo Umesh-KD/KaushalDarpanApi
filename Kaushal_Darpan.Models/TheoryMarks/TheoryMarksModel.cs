@@ -128,7 +128,7 @@ namespace Kaushal_Darpan.Models.TheoryMarks
 
     }
 
-    public class UnlockInternalMarksModel
+    public class UnlockInternalMarksModel : RequestBaseModel
     {
         public int InstituteID { get; set; }
         public string? InstituteCode { get; set; }
@@ -165,8 +165,6 @@ namespace Kaushal_Darpan.Models.TheoryMarks
 
         public int TypeID { get; set; }
         public int? InstituteID_Old { get; set; }
-        public int DepartmentID { get; set; }
-        public int FinancialYearID { get; set; }
 
         public bool IsENG { get; set; }
         public bool IsNonENG { get; set; }
@@ -183,7 +181,6 @@ namespace Kaushal_Darpan.Models.TheoryMarks
         public bool IsPayment { get; set; }
 
         public int CollegeTypeID { get; set; }
-        public int EndTermID { get; set; }
         public bool IsProfileComplete { get; set; }
     }
     public class updateUnlockInternalMarksModel

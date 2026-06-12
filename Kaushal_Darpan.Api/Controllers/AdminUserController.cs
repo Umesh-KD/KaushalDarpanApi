@@ -19,7 +19,7 @@ namespace Kaushal_Darpan.Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [ValidationActionFilter]
-//    [RoleActionFilter(EnumRole.Principal, EnumRole.Principal_NonEng)]
+    //    [RoleActionFilter(EnumRole.Principal, EnumRole.Principal_NonEng)]
     public class AdminUserController : BaseController
     {
         public override string PageName => "AdminUser";
@@ -37,7 +37,7 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("GetAllData")]
         public async Task<ApiResult<DataTable>> GetAllData([FromBody] AdminUserSearchModel body)
         {
-            ActionName = "GetAllData()";
+            ActionName = "GetAllData([FromBody] AdminUserSearchModel body)";
             var result = new ApiResult<DataTable>();
             try
             {
@@ -320,40 +320,37 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<List<Branchlist>>> GetHodBranch([FromBody] AdminUserSearchModel body)
         {
             ActionName = "GetHodBranch([FromBody] AdminUserSearchModel body)";
-            return await Task.Run(async () =>
+            var result = new ApiResult<List<Branchlist>>();
+            try
             {
-                var result = new ApiResult<List<Branchlist>>();
-                try
+                var data = await Task.Run(() => _unitOfWork.AdminUserRepository.GetHodBranch(body));
+                result.Data = data;
+                if (data != null)
                 {
-                    var data = await _unitOfWork.AdminUserRepository.GetHodBranch(body);
-                    result.Data = data;
-                    if (data != null)
-                    {
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                    }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                 }
-                catch (Exception ex)
+                else
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
-                    {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
-                return result;
-            });
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
         }
 
         [HttpPost("GetStreamMasterForHod")]

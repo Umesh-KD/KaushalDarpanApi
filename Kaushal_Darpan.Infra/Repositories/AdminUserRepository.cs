@@ -28,31 +28,29 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         public async Task<DataTable> GetAllData(AdminUserSearchModel body)
         {
-            _actionName = "GetAllData()";
+            _actionName = "GetAllData(AdminUserSearchModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_AdminUserList";
-                        command.Parameters.AddWithValue("@Name", body.Name);
-                        command.Parameters.AddWithValue("@MobileNo", body.MobileNo);
-                        command.Parameters.AddWithValue("@Email", body.Email);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
-                        command.Parameters.AddWithValue("@RoleID", body.UserRole);
-                        command.Parameters.AddWithValue("@UserID", body.ModifyBy);
-                        command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_AdminUserList";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    command.Parameters.AddWithValue("@Name", body.Name);
+                    command.Parameters.AddWithValue("@MobileNo", body.MobileNo);
+                    command.Parameters.AddWithValue("@Email", body.Email);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@RoleID", body.UserRole);
+                    command.Parameters.AddWithValue("@UserID", body.ModifyBy);
+                    command.Parameters.AddWithValue("@SSOID", body.SSOID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {
@@ -69,35 +67,33 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
         public async Task<List<Branchlist>> GetHodBranch(AdminUserSearchModel body)
         {
-            _actionName = "GetById(int PK_ID)";
+            _actionName = "GetHodBranch(AdminUserSearchModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_gethodbranch";
-                        command.Parameters.AddWithValue("@UserID", body.UserID);
-                        command.Parameters.AddWithValue("@UserAdditionID", body.UserAdditionID);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermId", body.EndTermID);
-                        command.Parameters.AddWithValue("@CourseTypeId", body.Eng_NonEng);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_gethodbranch";
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    var data = new List<Branchlist>();
-                    if (dataTable != null)
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@UserAdditionID", body.UserAdditionID);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermId", body.EndTermID);
+                    command.Parameters.AddWithValue("@CourseTypeId", body.Eng_NonEng);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                var data = new List<Branchlist>();
+                if (dataTable != null)
+                {
+                    if (dataTable.Rows.Count > 0)
                     {
-                        if (dataTable.Rows.Count > 0)
-                        {
-                            data = CommonFuncationHelper.ConvertDataTable<List<Branchlist>>(dataTable);
-                        }
+                        data = CommonFuncationHelper.ConvertDataTable<List<Branchlist>>(dataTable);
                     }
-                    return data;
-                });
+                }
+                return data;
             }
             catch (Exception ex)
             {
@@ -272,7 +268,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     result = await command.ExecuteNonQueryAsync();
-                    
+
                     result = Convert.ToInt32(command.Parameters["@Ret_Val"].Value);// out
                 }
                 if (result > 0)
