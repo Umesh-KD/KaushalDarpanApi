@@ -962,4 +962,12 @@
         public int? DesignationID { get; set; }
         public int? TradeID { get; set; }
     }
+    public class Iti_Update_Relieved_RevertModel
+    {
+        public int ServiceRequestId { get; set; }
+        public int ActionBy { get; set; }
+        public string Remarks { get; set; }
+    }
+
+
     }
