@@ -175,6 +175,7 @@ public class ITIPlanningBankGuaranteeSearchList
     public int status { get; set; }
     public int CollageId { get; set; }
     public int dayWise { get; set; }
+    public string? GauranteeNo { get; set; }
 
 
 }
