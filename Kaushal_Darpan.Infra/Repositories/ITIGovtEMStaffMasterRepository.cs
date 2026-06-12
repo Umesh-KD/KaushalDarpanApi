@@ -3487,7 +3487,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
-    }
+    
 
         public async Task<DataTable> GetVacancyReportPostWise(VacancyReportPostWiseDataModel Model)
         {
