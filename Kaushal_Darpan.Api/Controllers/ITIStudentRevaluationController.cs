@@ -588,11 +588,13 @@ namespace Kaushal_Darpan.Api.Controllers
                         int chunksize =model.ChunkSize.HasValue ? model.ChunkSize.Value : 100;
                         int processed = 0;
                         bool allChunksSucceeded = true;
+                        int intRowCounter = 1;
                         while (processed < totalrows)
                         {
                             var chunk = dynamicDataList.Skip(processed).Take(chunksize).ToList();
-                            result.Data = await _unitOfWork.ITIStudentRevaluationRepository.DynamicUpdateExcelData(chunk, action);
+                            result.Data = await _unitOfWork.ITIStudentRevaluationRepository.DynamicUpdateExcelData(chunk, action, intRowCounter);
                             await _unitOfWork.SaveChangesAsync();
+                            intRowCounter++;
                             if (result.Data)
                             {
                                 processed += chunk.Count;
