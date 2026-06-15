@@ -27,7 +27,7 @@
         public int StreamID { get; set; }
         public int StudentID { get; set; }
         public int SubjectID { get; set; }
-        public int UserID { get; set; }
+        public int? UserID { get; set; }
         public int MarkEnter { get; set; }
         public string? RollNo { get; set; }
         public int InstituteID { get; set; }
