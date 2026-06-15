@@ -24,8 +24,7 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-        
-
+        }
 
         [HttpPost("GetAllData")]
         public async Task<ApiResult<DataTable>> GetAllData([FromBody] CompanyMasterSearchModel body)
