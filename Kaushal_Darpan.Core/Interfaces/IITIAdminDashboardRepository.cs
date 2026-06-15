@@ -27,6 +27,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetAdmissionMasterDashboard(ITIAdminDashboardSearchModel model);
 
         Task<DataSet> GetAdmissionDashboardData(ITIAdminDashboardSearchModel model);
+        Task<DataSet> GetAllItidashboard(ITIAdminDashboardSearchModel model);
 
     }
 }
