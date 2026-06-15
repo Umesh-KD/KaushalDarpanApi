@@ -468,7 +468,8 @@ namespace Kaushal_Darpan.Core.Helper
         Detained = 230,
         DetainedRevoke = 233,
         ReturnByAcp = 316,
-        ApproveByAcp = 317
+        ApproveByAcp = 317,
+        PartiallyDetained = 10368,
     }
 
 
