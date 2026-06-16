@@ -54,6 +54,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.Parameters.AddWithValue("@action", "getDetainedStudent");
                     }
+                    else if (model.StudentFilterStatusId == (int)EnumExamStudentStatus.PartiallyDetained)
+                    {
+                        command.Parameters.AddWithValue("@action", "getPartiallyDetainedStudent");
+                    }
                     else
                     {
                         command.Parameters.AddWithValue("@action", "getStudentExamData");

@@ -630,6 +630,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@DivisionID", request.DivisionID ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@AreaOfDomain", request.AreaOfDomain ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@UserID", request.UserID);
+
+                    command.Parameters.AddWithValue("@EventURL", request.EventURL);
+                    command.Parameters.AddWithValue("@UploadEventPosterFile", request.UploadEventPosterFile);
+                    command.Parameters.AddWithValue("@Dis_UploadEventPosterFile", request.Dis_UploadEventPosterFile);
+
                     command.Parameters.Add("@Return", SqlDbType.Int); // out
                     command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
 

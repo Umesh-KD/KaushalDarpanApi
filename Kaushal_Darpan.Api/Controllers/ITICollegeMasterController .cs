@@ -1426,6 +1426,42 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpGet("ITIReportedStudentGetByID/{ApplicationID}")]
+        public async Task<ApiResult<DataTable>> ITIReportedStudentGetByID(int ApplicationID)
+        {
+            ActionName = "ITIReportedStudentGetByID(int ApplicationID)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ITICollegeMasterRepository.ITIReportedStudentGetByID(ApplicationID));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
         [HttpPost("statusUpdateById")]
         public async Task<ApiResult<DataTable>> statusUpdateById([FromBody] ITIPlanningStatusUpdateByIdModel body)
         {
@@ -1547,6 +1583,45 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [HttpPost("UpdateCampusStatusByID")]
+        public async Task<ApiResult<bool>> UpdateCampusStatusByID([FromBody] ITICampusStatusModel model)
+        {
+            ActionName = "UpdateCampusStatusByID";
+
+            var result = new ApiResult<bool>();
+            try
+            {
+                result.Data = await _unitOfWork.ITICollegeMasterRepository.UpdateCampusStatusByID(model);
+                await _unitOfWork.SaveChangesAsync();
+
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_UPDATE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+
+        }
     }
 }
 

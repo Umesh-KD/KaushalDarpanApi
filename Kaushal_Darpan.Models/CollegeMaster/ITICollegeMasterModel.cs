@@ -194,3 +194,20 @@ public class DgtOrdersMasterModel
 
     public bool ActiveStatus { get; set; }
 }
+public class ITICampusStatusModel
+{
+
+    public int Id { get; set; }
+    public int ModifyBy { get; set; }
+    public string? CampusRemovedRemark { get; set; }
+
+    public string? CampusRemovedOrderNo { get; set; }
+
+    public string? CampusRemovedOrderDate { get; set; }
+
+    public string? CampusRemovedFilePath { get; set; }
+    public string? CampusRemovedDisFilePath { get; set; }
+
+
+
+}

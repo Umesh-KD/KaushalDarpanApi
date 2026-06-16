@@ -34,6 +34,7 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
 
+
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.CompanyMasterRepository.GetAllData(body);
 

@@ -184,4 +184,33 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         
     }
 
+    public class ItemsDataModels
+    {
+        public string? Action { get; set; }
+        public int CategoryId { get; set; }
+        public int EquipmentId { get; set; }
+        public int InstituteID { get; set; }
+        public int RoleID { get; set; }
+    }
+
+
+    public class CategoryListModel
+    {
+        public int SNo { get; set; }
+        public string CategoryName { get; set; }
+    }
+    public class EquipmentListModel
+    {
+        public int SNo { get; set; }
+        public string Name { get; set; }
+        public string UnitName { get; set; }
+        public string CategoryName { get; set; }
+    }
+
+    public class DynamicReportResponseModel
+    {
+        public List<CategoryListModel> CategoryList { get; set; } = new();
+        public List<EquipmentListModel> EquipmentList { get; set; } = new();
+    }
+
 }

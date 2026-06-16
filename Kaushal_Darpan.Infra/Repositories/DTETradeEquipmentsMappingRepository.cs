@@ -615,27 +615,45 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<DataSet> GetDynamicReportData(int categoryId, int equipmentId)
+        public async Task<DataSet> GetDynamicReportData(ItemsDataModels model)
         {
             DataSet ds = new DataSet();
 
-            using (var command = await _dbContext.CreateCommandAsync())
+            try
             {
-                command.CommandType = CommandType.StoredProcedure;
-                command.CommandText = "USP_CategoryItems";
-                command.Parameters.AddWithValue("@CategoryId", categoryId);
-                command.Parameters.AddWithValue("@EquipmentId", equipmentId);
-                command.Parameters.AddWithValue("@Action", "LIST");
-
-                using (SqlDataAdapter adapter = new SqlDataAdapter((SqlCommand)command))
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    await Task.Run(() => adapter.Fill(ds));
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_CategoryItems";
+                   
+                    command.Parameters.AddWithValue("@Action", model.Action);
+                    command.Parameters.AddWithValue("@CategoryId", model.CategoryId);
+                    command.Parameters.AddWithValue("@EquipmentId", model.EquipmentId);
+                    command.Parameters.AddWithValue("@InstituteId", model.InstituteID);
+                    command.Parameters.AddWithValue("@RoleId", model.RoleID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    ds = await command.FillAsync();
                 }
+
+                return ds;
             }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
 
-            return ds;
+                var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+
+                throw new Exception(errorDetails, ex);
+            }
         }
-
     }
 }
 

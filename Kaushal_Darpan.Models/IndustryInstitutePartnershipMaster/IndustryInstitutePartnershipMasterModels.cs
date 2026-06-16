@@ -119,6 +119,10 @@ namespace Kaushal_Darpan.Models.CompanyMaster
         public string? AreaOfDomain { get; set; }
         public int? InstituteID { get; set; }
         public int? DivisionID { get; set; }
+
+        public string? EventURL { get; set; } = string.Empty;
+        public string? UploadEventPosterFile { get; set; } = string.Empty;
+        public string? Dis_UploadEventPosterFile { get; set; } = string.Empty;
     }
 
     public class BranchList

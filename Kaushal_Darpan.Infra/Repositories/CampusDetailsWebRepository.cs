@@ -220,5 +220,45 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+
+        public async Task<DataTable> GetAllIIPEventDetailsForWeb(int CompanyId,int DepartmentID)
+        {
+            _actionName = "GetAllIIPEventDetailsForWeb(int CompanyId)";
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_IIP_EventDetailsForWebSite";
+                        command.Parameters.AddWithValue("@CompanyId", CompanyId);
+                        command.Parameters.AddWithValue("@Action", "_getIIPEventsDetails");
+                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        //command.Parameters.AddWithValue("@Academicyear", FinancialYearID);
+                        //command.Parameters.AddWithValue("@CampusFromDate", CampusFromDate);
+                        //command.Parameters.AddWithValue("@CampusToDate", CampusToDate);
+                        //command.Parameters.AddWithValue("@InstituteID", InstituteID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
     }
 }

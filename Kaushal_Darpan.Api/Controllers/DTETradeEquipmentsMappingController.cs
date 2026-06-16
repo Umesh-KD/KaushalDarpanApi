@@ -392,7 +392,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
         [HttpGet("GetByID/{PK_ID}")]
         public async Task<ApiResult<DTETradeEquipmentsMapping>> GetByID(int PK_ID)
-            {
+        {
             ActionName = "GetByID(int PK_ID)";
             return await Task.Run(async () =>
             {
@@ -477,7 +477,7 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("HOD_EquipmentVerifications/{PK_ID}/{ModifyBy}/{Status}")]
-        public async Task<ApiResult<bool>> HOD_EquipmentVerifications(int PK_ID, int ModifyBy,int Status)
+        public async Task<ApiResult<bool>> HOD_EquipmentVerifications(int PK_ID, int ModifyBy, int Status)
         {
             ActionName = "HOD_EquipmentVerifications(int PK_ID, int ModifyBy,int Status)";
             return await Task.Run(async () =>
@@ -489,7 +489,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         TE_MappingId = PK_ID,
                         ModifyBy = ModifyBy,
-                        Status= Status,
+                        Status = Status,
                     };
                     result.Data = await _unitOfWork.iDTETradeEquipmentsMappingRepository.HOD_EquipmentVerifications(DeleteData_Request);
                     await _unitOfWork.SaveChangesAsync();
@@ -641,7 +641,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     result.Data = await _unitOfWork.iDTETradeEquipmentsMappingRepository.UpdateStatusRevert(request);
                     await _unitOfWork.SaveChangesAsync();
-                    if (result.Data>0)
+                    if (result.Data > 0)
                     {
                         result.State = EnumStatus.Success;
                         if (request.Id == 1)
@@ -688,27 +688,84 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-        [HttpPost("GetDynamicReportData")]
-        public async Task<ApiResult<DataSet>> GetDynamicReportData(DTESearchTradeEquipmentsMapping model)
-        {
-            ActionName = "GetDynamicReportData()";
 
-            var result = new ApiResult<DataSet>();
+        //public async Task<ApiResult<DataSet>> GetDynamicReportData(ItemsDataModels model)
+        //{
+        //    ActionName = "GetDynamicReportData()";
+
+        //    var result = new ApiResult<DataSet>();
+
+        //    try
+        //    {
+        //        result.Data = await _unitOfWork
+        //            .iDTETradeEquipmentsMappingRepository
+        //            .GetDynamicReportData(model);
+
+        //        if (result.Data.Tables.Count > 0 &&
+        //            result.Data.Tables[0].Rows.Count > 0)
+        //        {
+        //            result.State = EnumStatus.Success;
+        //            result.Message = "Data Loaded Successfully";
+        //        }
+        //        else
+        //        {
+        //            result.State = EnumStatus.Warning;
+        //            result.Message = "No Data Found";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.State = EnumStatus.Error;
+        //        result.ErrorMessage = ex.Message;
+        //    }
+
+        //    return result;
+        //}
+
+        [HttpPost("GetDynamicReportData")]
+        public async Task<ApiResult<DynamicReportResponseModel>> GetDynamicReportData(ItemsDataModels model)
+        {
+            var result = new ApiResult<DynamicReportResponseModel>();
 
             try
             {
-                result.Data = await _unitOfWork.iDTETradeEquipmentsMappingRepository.GetDynamicReportData(model.CategoryId,model.EquipmentId);
+                DataSet ds = await _unitOfWork
+                    .iDTETradeEquipmentsMappingRepository
+                    .GetDynamicReportData(model);
 
-                if (result.Data.Tables.Count > 0)
+                var response = new DynamicReportResponseModel();
+
+                if (ds != null && ds.Tables.Count > 1)
                 {
-                    result.State = EnumStatus.Success;
-                    result.Message = "Data Loaded Successfully";
+                    DataTable dt = ds.Tables[1]; // Actual data table
+
+                    if (model.Action == "CategoryLIST")
+                    {
+                        response.CategoryList = dt.AsEnumerable()
+                            .Select(x => new CategoryListModel
+                            {
+                                SNo = Convert.ToInt32(x["SNo"]),
+                                CategoryName = x["CategoryName"]?.ToString()
+                            }).ToList();
+                    }
+                    else if (model.Action == "ItemEquipmentsLIST")
+                    {
+                        response.EquipmentList = dt.AsEnumerable()
+                            .Select(x => new EquipmentListModel
+                            {
+                                SNo = Convert.ToInt32(x["SNo"]),
+                                Name = x["Name"]?.ToString(),
+                                UnitName = x["UnitName"]?.ToString(),
+                                CategoryName = dt.Columns.Contains("CategoryName")
+                                    ? x["CategoryName"]?.ToString()
+                                    : x["ItemCategoryName"]?.ToString()
+                            }).ToList();
+                    }
                 }
-                else
-                {
-                    result.State = EnumStatus.Warning;
-                    result.Message = "No Data Found";
-                }
+
+                result.Data = response;
+                result.State = EnumStatus.Success;
+                result.Message = "Data Loaded Successfully";
             }
             catch (Exception ex)
             {
@@ -718,7 +775,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
             return result;
         }
-
     }
 }
 

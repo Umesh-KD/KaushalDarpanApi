@@ -32,7 +32,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> ImportExcelFile(List<UpdateEnrollResponseBulkExcelModel> model);
 
         //dynamic Update data through BulkExcel
-        Task<bool> DynamicUpdateExcelData(List<Dictionary<string,object>> model , string action);
+        Task<bool> DynamicUpdateExcelData(List<Dictionary<string,object>> model , string action,int rowCount);
 
 
     }
