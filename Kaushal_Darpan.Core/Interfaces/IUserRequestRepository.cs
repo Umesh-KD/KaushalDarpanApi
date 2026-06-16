@@ -42,5 +42,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
 
         Task<int> Iti_Update_Relieved_Revert(Iti_Update_Relieved_RevertModel Details);
+        Task<int> ReliveingCheckInstitute(ReliveingCheckInstituteModel Details);
     }
 }

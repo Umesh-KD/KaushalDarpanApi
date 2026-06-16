@@ -558,46 +558,43 @@ namespace Kaushal_Darpan.Infra.Repositories
         #region Internal Assessment Student Report
         public async Task<DataSet> GetInternalAssessmentStudentReport(InternalAssessmentStudentReport model)
         {
-            _actionName = "GetInternalAssessmentStudentReport()";
-            return await Task.Run(async () =>
+            _actionName = "GetInternalAssessmentStudentReport(InternalAssessmentStudentReport model)";
+            try
             {
-                try
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    var ds = new DataSet();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_InternalMarksReportCollegeWise";
-                        //command.Parameters.AddWithValue("@action", "_getStudentAllotmentFeesReceipt");
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@StreamID", model.StreamID);
-                        command.Parameters.AddWithValue("@Type", model.TypeID);
-                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
-                        command.Parameters.AddWithValue("@TermPart", model.TermPart);
-                        command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_InternalMarksReportCollegeWise";
+                    //command.Parameters.AddWithValue("@action", "_getStudentAllotmentFeesReceipt");
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@StreamID", model.StreamID);
+                    command.Parameters.AddWithValue("@Type", model.TypeID);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                    command.Parameters.AddWithValue("@TermPart", model.TermPart);
+                    command.Parameters.AddWithValue("@PresentStatus", model.PresentStatus);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        ds = await command.FillAsync();
-                    }
-                    return ds;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
                 }
-                catch (Exception ex)
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
         #endregion
 

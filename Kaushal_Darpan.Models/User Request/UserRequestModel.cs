@@ -89,7 +89,7 @@ namespace Kaushal_Darpan.Models.UserMaster
         public int? OrderID { get; set; }
         public int? RelievingTimeID { get; set; }
         public int? RequestStatus { get; set; }
-        public string? act { get; set; }
+        public int? oldInstitute { get; set; }
     }
 
 

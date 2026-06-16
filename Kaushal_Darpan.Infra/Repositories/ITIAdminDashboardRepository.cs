@@ -913,6 +913,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RoleID", model.RoleID);
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                     command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                     //more filter will be aded 
 
                     _sqlQuery = command.GetSqlExecutableQuery();
