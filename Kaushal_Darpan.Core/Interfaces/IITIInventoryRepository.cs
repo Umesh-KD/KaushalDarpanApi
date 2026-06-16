@@ -29,6 +29,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveCategoryMaster(DTEItemCategoryModel request);
         Task<bool> DeleteCategoryMasterByID(DTEItemCategoryModel request);
         Task<DataTable> GetAllItemsMaster(DTEItemsSearchModel SearchReq);
+        Task<DataTable> GetAllItemsMasterReport(DTEItemsSearchModel SearchReq);
         Task<DTEItemsModel> GetItemsMasterByID(int PK_ID);
         Task<int> UpdateStatusItemsData(DTEItemsModel request);
         Task<int> SaveItemsMaster(DTEItemsModel request);
