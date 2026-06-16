@@ -73,6 +73,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int IsConsumable { get; set; }
         public int? TradeId { get; set; }
         public int? ItemFor { get; set; }
+        public int? ConditionID { get; set; }
+        public int? IsAuction { get; set; }
     }
     public class DTEItemsDetailsModel
     {

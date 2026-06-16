@@ -30,7 +30,6 @@ namespace Kaushal_Darpan.Api.Controllers
         }
         [HttpPost("GetAdminDashData")]
         public async Task<ApiResult<DataTable>> GetAdminDashData([FromBody] ITIAdminDashboardSearchModel model)
-
         {
             if (model == null)
             {
