@@ -56,4 +56,20 @@
 
         public int ModifiedByRoleId { get; set; }
     }
+
+    public class EndTermVisibilitySettingModel
+    {
+        public int SettingID { get; set; }
+        public string? SettingName { get; set; }
+        public int SettingValue { get; set; }
+        public string? EndTermName { get; set; }
+    }
+
+    public class ContentVisibilitySettingModel
+    {
+        public int EndTermID { get; set; }
+        public int SettingID { get; set; }
+        public int SettingValue { get; set; }
+        public string? SSOID { get; set; }
+    }
 }

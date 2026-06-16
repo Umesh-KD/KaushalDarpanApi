@@ -427,6 +427,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> InsertUserManual(UserManualModel model);
         Task<int> UpdateUserManual(UserManualModel model);
         Task<int> DeleteUserManual(int manualId, int modifiedBy, int modifiedByRoleId);
+        Task<List<EndTermVisibilitySettingModel>> GetEndTermVisibilitySettings(int endTermID);
+        Task<bool> UpdateContentVisibilitySettings(ContentVisibilitySettingModel model);
 
     }
 }

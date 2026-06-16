@@ -13130,6 +13130,97 @@ namespace Kaushal_Darpan.Infra.Repositories
                 return Convert.ToInt32(result);
             }
         }
+
+        public async Task<List<EndTermVisibilitySettingModel>> GetEndTermVisibilitySettings(int endTermID)
+        {
+            _actionName = "GetEndTermVisibilitySettings(int endTermID)";
+
+            try
+            {
+                DataTable dataTable;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetContentVisibilitySettings";
+
+                    command.Parameters.AddWithValue("@EndTermID", endTermID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                var data = new List<EndTermVisibilitySettingModel>();
+
+                if (dataTable != null && dataTable.Rows.Count > 0)
+                {
+                    data = CommonFuncationHelper.ConvertDataTable<List<EndTermVisibilitySettingModel>>(dataTable);
+                }
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<bool> UpdateContentVisibilitySettings(ContentVisibilitySettingModel model)
+        {
+            _actionName = "UpdateContentVisibilitySettings(ContentVisibilitySettingModel model)";
+
+            try
+            {
+                DataTable dataTable;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_UpdateContentVisibilitySettings";
+
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@SettingID", model.SettingID);
+                    command.Parameters.AddWithValue("@SettingValue", model.SettingValue);
+                    command.Parameters.AddWithValue("@SSOID", model.SSOID);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                if (dataTable != null &&
+                    dataTable.Rows.Count > 0 &&
+                    Convert.ToInt32(dataTable.Rows[0]["Status"]) == 1)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
     }
 
 } 

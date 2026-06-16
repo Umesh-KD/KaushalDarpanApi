@@ -11392,6 +11392,75 @@ namespace Kaushal_Darpan.Api.Controllers
 
             return result;
         }
+
+        [HttpGet("GetEndTermVisibilitySettings/{endTermID}")]
+        public async Task<ApiResult<List<EndTermVisibilitySettingModel>>> GetEndTermVisibilitySettings(int endTermID)
+        {
+            var result = new ApiResult<List<EndTermVisibilitySettingModel>>();
+
+            try
+            {
+                var data = await _unitOfWork.CommonFunctionRepository.GetEndTermVisibilitySettings(endTermID);
+
+                if (data != null && data.Any())
+                {
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data loaded successfully!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+
+            return result;
+        }
+
+        [HttpPost("UpdateContentVisibilitySettings")]
+        public async Task<ApiResult<bool>> UpdateContentVisibilitySettings(ContentVisibilitySettingModel model)
+        {
+            var result = new ApiResult<bool>();
+
+            try
+            {
+                var data = await _unitOfWork.CommonFunctionRepository
+                    .UpdateContentVisibilitySettings(model);
+
+                if (data)
+                {
+                    result.Data = true;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Updated successfully!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "Update failed!";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+
+            return result;
+        }
     }
 }
 
