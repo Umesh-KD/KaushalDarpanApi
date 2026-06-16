@@ -76,6 +76,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@LastworkingDate", Model.LastworkingDate);
                     command.Parameters.AddWithValue("@RelievingTimeID", Model.RelievingTimeID);
                     command.Parameters.AddWithValue("@OrderID", Model.OrderID);
+                    command.Parameters.AddWithValue("@oldInstitute", Model.oldInstitute);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }
@@ -646,7 +647,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@PostID", Model.PostID);
                     command.Parameters.AddWithValue("@OfficeID", Model.OfficeID);
                     command.Parameters.AddWithValue("@OrderNo", Model.OrderNo);
-
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }
@@ -866,6 +866,45 @@ namespace Kaushal_Darpan.Infra.Repositories
                         // Execute the command
                         result = await command.ExecuteNonQueryAsync();
                         result = Convert.ToInt32(command.Parameters["@Return"].Value); // out
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        public async Task<int> ReliveingCheckInstitute(ReliveingCheckInstituteModel request)
+        {
+            _actionName = "ReliveingCheckInstitute(ReliveingCheckInstituteModel request)";
+            return await Task.Run(async () =>
+            {
+
+                try
+                {
+                    int result = 0;
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandText = "USP_ReliveingCheckInstitute";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@OfficeID", request.OfficeID);
+                        command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+                        command.Parameters.AddWithValue("@StaffId", request.StaffId);
+                        command.Parameters.Add("@Return", SqlDbType.Int); 
+                        command.Parameters["@Return"].Direction = ParameterDirection.Output; 
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        result = await command.ExecuteNonQueryAsync();
+                        result = Convert.ToInt32(command.Parameters["@Return"].Value);
                     }
                     return result;
                 }

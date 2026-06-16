@@ -989,4 +989,12 @@
         public int ActionBy { get; set; }
         public string Remarks { get; set; }
     }
+
+    public class ReliveingCheckInstituteModel
+    {
+        public int OfficeID { get; set; }
+        public int InstituteID { get; set; }
+        public int StaffId { get; set; }
+       
+    }
 }
