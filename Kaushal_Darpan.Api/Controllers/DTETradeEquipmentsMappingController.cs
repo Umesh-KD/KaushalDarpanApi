@@ -688,7 +688,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
-        [HttpPost("GetDynamicReportData")]
+
         //public async Task<ApiResult<DataSet>> GetDynamicReportData(ItemsDataModels model)
         //{
         //    ActionName = "GetDynamicReportData()";
@@ -722,7 +722,7 @@ namespace Kaushal_Darpan.Api.Controllers
         //    return result;
         //}
 
-        
+        [HttpPost("GetDynamicReportData")]
         public async Task<ApiResult<DynamicReportResponseModel>> GetDynamicReportData(ItemsDataModels model)
         {
             var result = new ApiResult<DynamicReportResponseModel>();
@@ -744,7 +744,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         response.CategoryList = dt.AsEnumerable()
                             .Select(x => new CategoryListModel
                             {
-                                S_No = Convert.ToInt32(x["S_No"]),
+                                SNo = Convert.ToInt32(x["SNo"]),
                                 CategoryName = x["CategoryName"]?.ToString()
                             }).ToList();
                     }
@@ -753,7 +753,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         response.EquipmentList = dt.AsEnumerable()
                             .Select(x => new EquipmentListModel
                             {
-                                S_No = Convert.ToInt32(x["S_No"]),
+                                SNo = Convert.ToInt32(x["SNo"]),
                                 Name = x["Name"]?.ToString(),
                                 UnitName = x["UnitName"]?.ToString(),
                                 CategoryName = dt.Columns.Contains("CategoryName")

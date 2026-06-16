@@ -196,12 +196,12 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
 
     public class CategoryListModel
     {
-        public int S_No { get; set; }
+        public int SNo { get; set; }
         public string CategoryName { get; set; }
     }
     public class EquipmentListModel
     {
-        public int S_No { get; set; }
+        public int SNo { get; set; }
         public string Name { get; set; }
         public string UnitName { get; set; }
         public string CategoryName { get; set; }
