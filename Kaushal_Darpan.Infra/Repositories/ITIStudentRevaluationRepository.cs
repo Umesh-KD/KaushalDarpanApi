@@ -404,7 +404,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         #region update excel data dynamically
 
-        public async Task<bool> DynamicUpdateExcelData(List<Dictionary<string,object>> model , string action)
+        public async Task<bool> DynamicUpdateExcelData(List<Dictionary<string,object>> model , string action,int rowcount)
         {
             _actionName = "ImportExcelFile(TimeTableModel model)";
             return await Task.Run(async () =>
@@ -419,6 +419,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_Excel_operation";
                         command.Parameters.AddWithValue("@rowJson", JsonConvert.SerializeObject(model));
                         command.Parameters.AddWithValue("@action", action);
+                        command.Parameters.AddWithValue("@rowcount", rowcount);
 
                         command.Parameters.Add("@Retval", SqlDbType.Int); // out
                         command.Parameters["@Retval"].Direction = ParameterDirection.Output; // out
