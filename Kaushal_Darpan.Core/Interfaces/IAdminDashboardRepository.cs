@@ -15,6 +15,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetEM_JDTEDashData(EM_JDTEDashboardSearchModel model);
         Task<DataTable> GetTransferRelievingDashData(EM_TransferRelievingDashSearchModel model);
         Task<DataTable> GetStaffTrainingDashboardData(EM_StaffTrainingDashboardSearchModel model);
-
+        Task<DataTable> GetBTEREstablishmentDashboard(EstablishmentDashboardBTERDataModel model);
     }
 }

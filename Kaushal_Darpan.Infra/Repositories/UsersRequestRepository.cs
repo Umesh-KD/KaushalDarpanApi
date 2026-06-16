@@ -781,6 +781,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RoleID", Model.RoleID);
                     command.Parameters.AddWithValue("@UserId", Model.UserId);
                     command.Parameters.AddWithValue("@InstituteID", Model.InstituteID);
+                    command.Parameters.AddWithValue("@act", Model.act);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
