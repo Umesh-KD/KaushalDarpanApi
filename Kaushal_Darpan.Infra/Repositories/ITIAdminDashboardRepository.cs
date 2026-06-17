@@ -173,8 +173,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-
-
         public async Task<DataTable> GetITIPrincipalDashboard(ITIAdminDashboardSearchModel model)
         {
             _actionName = "GetAllData()";
