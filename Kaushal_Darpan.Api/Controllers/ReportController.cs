@@ -220,8 +220,6 @@ namespace Kaushal_Darpan.Api.Controllers
         //}
         #endregion
 
-
-
         #region "GetStudentAdmitCard"
         [HttpPost("GetStudentAdmitCard")]
         //public async Task<ApiResult<string>> GetStudentAdmitCard([FromBody] GenerateAdmitCardSearchModel model)
@@ -458,10 +456,6 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         #endregion
-
-
-
-
 
         [HttpPost("GetStudentAdmitCardBulk")]
         public async Task<ApiResult<string>> GetStudentAdmitCardBulk([FromBody] DownloadDataPagingListModel Model)
