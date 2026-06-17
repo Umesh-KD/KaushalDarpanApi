@@ -61,6 +61,7 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
         public int? FinancialSanctionID { get; set; }
         public int? AdminSanctionedID { get; set; }
         public string? Action { get; set; }
+        public string? IntakeStatus { get; set; }
 
 
     }
