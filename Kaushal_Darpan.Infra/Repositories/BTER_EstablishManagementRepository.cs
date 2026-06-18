@@ -101,52 +101,49 @@ namespace Kaushal_Darpan.Infra.Repositories
         public async Task<DataTable> BTER_EM_GetStaffList(BTER_EM_GetStaffListDataModel body)
         {
             _actionName = " BTER_EM_GetStaffList(BTER_EM_GetStaffListDataModel body)";
-            return await Task.Run(async () =>
+            try
             {
-                try
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        
-                        //command.CommandText = "USP_BTER_EM_GetStaffList";
-                        command.CommandText = "USP_BTER_EM_GetStaffList_Report";
-                        command.Parameters.AddWithValue("@action", "GetData");
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
-                        command.Parameters.AddWithValue("@SSOID", body.SSOID);
-                        command.Parameters.AddWithValue("@Name", body.Name);
-                        command.Parameters.AddWithValue("@LevelID", body.LevelID);
-                        command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
-                        command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
-                        command.Parameters.AddWithValue("@UserID", body.UserID);
-                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
-                        command.Parameters.AddWithValue("@status", body.status);
-                        command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@GuestHouseID", body.GuestHouseID);
-                        command.Parameters.AddWithValue("@InstitutionManagementTypeID", body.InstitutionManagementTypeID);
-                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
-                        command.Parameters.AddWithValue("@ProfileStatus", body.ProfileStatus);
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        dataTable = await command.FillAsync_DataTable();
-                    }
+                    command.CommandType = CommandType.StoredProcedure;
 
-                    return dataTable;
+                    //command.CommandText = "USP_BTER_EM_GetStaffList";
+                    command.CommandText = "USP_BTER_EM_GetStaffList_Report";
+                    command.Parameters.AddWithValue("@action", "GetData");
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                    command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                    command.Parameters.AddWithValue("@Name", body.Name);
+                    command.Parameters.AddWithValue("@LevelID", body.LevelID);
+                    command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
+                    command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@status", body.status);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@GuestHouseID", body.GuestHouseID);
+                    command.Parameters.AddWithValue("@InstitutionManagementTypeID", body.InstitutionManagementTypeID);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@ProfileStatus", body.ProfileStatus);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
                 }
-                catch (Exception ex)
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<int> BTER_EM_AddStaffPrinciple(BTER_EM_AddStaffPrincipleDataModel request)
@@ -2375,6 +2372,55 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+        public async Task<DataTable> GetEstablishmentReportData(BTER_EM_GetStaffListDataModel body)
+        {
+            _actionName = " BTER_EM_GetStaffList(BTER_EM_GetStaffListDataModel body)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    //command.CommandText = "USP_BTER_EM_GetStaffList";
+                    command.CommandText = "USP_BTER_EM_GetEstablishmentReportData";
+                    command.Parameters.AddWithValue("@action", "GetData");
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@CreatedBy", body.CreatedBy);
+                    command.Parameters.AddWithValue("@SSOID", body.SSOID);
+                    command.Parameters.AddWithValue("@Name", body.Name);
+                    command.Parameters.AddWithValue("@LevelID", body.LevelID);
+                    command.Parameters.AddWithValue("@OfficeID", body.OfficeID);
+                    command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@status", body.status);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@GuestHouseID", body.GuestHouseID);
+                    command.Parameters.AddWithValue("@InstitutionManagementTypeID", body.InstitutionManagementTypeID);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@ProfileStatus", body.ProfileStatus);
+                    command.Parameters.AddWithValue("@act", body.act);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
     }
 }
