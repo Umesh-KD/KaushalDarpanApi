@@ -473,7 +473,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", SearchReq.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", SearchReq.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", SearchReq.EndTermID);
-                        //command.Parameters.AddWithValue("@CategoryId", SearchReq.CategoryId);
+                        command.Parameters.AddWithValue("@CategoryId", SearchReq.CategoryId);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
