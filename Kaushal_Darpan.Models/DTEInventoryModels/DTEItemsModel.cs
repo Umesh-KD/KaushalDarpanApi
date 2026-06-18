@@ -75,6 +75,8 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? ItemFor { get; set; }
         public int? ConditionID { get; set; }
         public int? IsAuction { get; set; }
+        public int CategoryId { get; set; }
+
     }
     public class DTEItemsDetailsModel
     {

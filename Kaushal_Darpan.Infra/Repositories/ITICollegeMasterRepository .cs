@@ -1298,13 +1298,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_ITICollegeEstablishmentList";
                         command.Parameters.AddWithValue("@IsNewCollege", model.IsNewCollege);
-
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
                         command.Parameters.AddWithValue("@UserID", model.UserID);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@Name", model.CollegeName ?? (object)DBNull.Value);
-
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
