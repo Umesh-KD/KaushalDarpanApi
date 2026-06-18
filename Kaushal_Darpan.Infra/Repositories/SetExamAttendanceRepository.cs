@@ -33,7 +33,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetExamStudentData()";
             try
             {
-                return await Task.Run(async () =>   
+                return await Task.Run(async () =>
                 {
                     DataTable dataTable = new DataTable();
                     using (var command = await _dbContext.CreateCommandAsync())
@@ -140,7 +140,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
-                        }
+                    }
 
                     return dataTable;
                 });
@@ -176,7 +176,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.Parameters.AddWithValue("@Action", "InternalPractical");
                         }
-                        if(body.InternalPracticalID == 2)
+                        if (body.InternalPracticalID == 2)
                         {
                             command.Parameters.AddWithValue("@Action", "InternalAssesment");
                         }
@@ -216,30 +216,28 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetTimeTableBranchesData(SetExamAttendanceSearchModel body)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_TimeTableBranchDataGet";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_TimeTableBranchDataGet";
 
-                        command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
-                        command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
-                        command.Parameters.AddWithValue("@StreamID", body.StreamID);
-                        command.Parameters.AddWithValue("@InvigilatorAppointmentID", body.InvigilatorAppointmentID);
-                        command.Parameters.AddWithValue("@UserID", body.UserID);
-                        command.Parameters.AddWithValue("@RoleID", body.RoleID);
-                        command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
-                        command.Parameters.AddWithValue("@CourseTypeID", body.Eng_NonEng);
-                        command.Parameters.AddWithValue("@TimeTableID", body.TimeTableID);
-                        command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@SubjectID", body.SubjectID);
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                    command.Parameters.AddWithValue("@InvigilatorAppointmentID", body.InvigilatorAppointmentID);
+                    command.Parameters.AddWithValue("@UserID", body.UserID);
+                    command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@CourseTypeID", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@TimeTableID", body.TimeTableID);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
             }
             catch (Exception ex)
             {

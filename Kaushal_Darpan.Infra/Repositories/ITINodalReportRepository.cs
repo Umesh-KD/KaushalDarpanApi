@@ -1,11 +1,13 @@
 ﻿using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra.Helper;
+using Kaushal_Darpan.Models;
 using Kaushal_Darpan.Models.AppointExaminer;
 using Kaushal_Darpan.Models.ItiExaminer;
 using Kaushal_Darpan.Models.ITIPapperSetter;
 using Kaushal_Darpan.Models.ITITimeTable;
 using Kaushal_Darpan.Models.NodalApperentship;
+using Kaushal_Darpan.Models.PlacementReport;
 using Kaushal_Darpan.Models.ScholarshipMaster;
 using Newtonsoft.Json;
 using System;
@@ -1235,6 +1237,52 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+
+
+
+        #region ITI Student Allotment Report
+
+        public async Task<DataTable> GetITIStudentAllotmentReport(RequestBaseModel filterModel)
+        {
+            _actionName = "GetITIStudentAllotmentReport()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ITIStudentAllotmentReport";
+                        command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                        command.Parameters.AddWithValue("@RoleID", filterModel.RoleID);
+                        command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+
+                        command.Parameters.AddWithValue("@action", "_getStudentAllotmentReport"); // Assuming you are using the action filter
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        #endregion
+
     }
 }
 

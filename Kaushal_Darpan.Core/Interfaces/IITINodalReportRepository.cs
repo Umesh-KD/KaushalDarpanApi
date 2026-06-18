@@ -1,4 +1,5 @@
-﻿using Kaushal_Darpan.Models.AppointExaminer;
+﻿using Kaushal_Darpan.Models;
+using Kaushal_Darpan.Models.AppointExaminer;
 using Kaushal_Darpan.Models.ITITimeTable;
 using Kaushal_Darpan.Models.NodalApperentship;
 using Kaushal_Darpan.Models.ScholarshipMaster;
@@ -47,5 +48,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetSamplePassoutStudent(ITITimeTableSearchModel request);
         Task<DataTable> SampleImportExcelFileFresher(ITITimeTableSearchModel request);
         Task<DataTable> MelaSampleImportExcelFile(ITITimeTableSearchModel request);
+        Task<DataTable> GetITIStudentAllotmentReport(RequestBaseModel request);
     }
 }
