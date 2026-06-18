@@ -162,7 +162,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? IssueStatus { get; set; }
         public string? actionName { get; set; }
         public int? CategoryFor { get; set; }
-        public int CategoryId { get; set; }
+        
 
         // ✅ NEW FILTERS 070526
         public int? EquipmentsId { get; set; }

@@ -897,7 +897,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@status", SearchReq.status);
                         command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
                         command.Parameters.AddWithValue("@IssueStatus", SearchReq.IssueStatus);
-                        command.Parameters.AddWithValue("@CategoryId", SearchReq.CategoryId);
+                       
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
