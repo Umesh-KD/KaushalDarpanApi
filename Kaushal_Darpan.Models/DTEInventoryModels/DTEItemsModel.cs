@@ -162,7 +162,7 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? IssueStatus { get; set; }
         public string? actionName { get; set; }
         public int? CategoryFor { get; set; }
-
+        public int CategoryId { get; set; }
 
         // ✅ NEW FILTERS 070526
         public int? EquipmentsId { get; set; }
@@ -291,6 +291,33 @@ namespace Kaushal_Darpan.Models.DTEInventoryModels
         public int? TradeId { get; set; }
         public int? ItemFor { get; set; }
         public int? UserId { get; set; }
+    }
+
+    public class NotWorkingItemReportSearchModel
+    {
+        public int InstituteID { get; set; }
+        public int CollegeId { get; set; }
+        public string? TypeName { get; set; }
+        public int TradeId { get; set; }
+        public int StaffID { get; set; }
+        public int UserID { get; set; }
+        public int ItemID { get; set; }
+        public int? IssuedId { get; set; }
+        public int? ItemDetailsId { get; set; }
+        public int? RoleID { get; set; }
+        public int? status { get; set; }
+        public int ItemType { get; set; }
+        public bool? IsStaff { get; set; }
+        public int? ReturnStatus { get; set; }
+        public int? IssueStatus { get; set; }
+        public string? actionName { get; set; }
+        public int? CategoryFor { get; set; }
+        public int CategoryId { get; set; }
+
+        public int? EquipmentsId { get; set; }
+        public int? ItemCategoryId { get; set; }
+        public int? IsConsume { get; set; }        // -1 = All
+        public int? EquipmentWorking { get; set; } // -1 = All, 0/1 = both
     }
 }
 
