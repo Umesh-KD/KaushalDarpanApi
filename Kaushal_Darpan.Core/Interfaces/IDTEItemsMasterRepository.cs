@@ -64,5 +64,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAllData4LabIncharge(DTEItemsSearchModel4Lab SearchReq);
         Task<int> MarkAuctionedItems_SR6(AuctionDetailsModel request);
         Task<DataTable> GetAllNotWorkingItemReport(NotWorkingItemReportSearchModel SearchReq);
+        Task<DataTable> GetInventoryAllIssueItemList(inventoryIssueHistorySearchModel SearchReq);
     }
 }
