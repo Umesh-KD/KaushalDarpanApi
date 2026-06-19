@@ -27,6 +27,7 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
         public string? CollegeCode { get; set; }
         public string? TradeCode { get; set; }
         public string? Action { get; set; }
+        public int? CourseTypeID { get; set; }
 
 
     }
