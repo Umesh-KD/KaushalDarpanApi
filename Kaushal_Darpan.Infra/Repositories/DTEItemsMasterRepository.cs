@@ -1163,6 +1163,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffID", SearchReq.StaffId);
                         command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
                         command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
+                        command.Parameters.AddWithValue("@LabID", SearchReq.StreamID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
