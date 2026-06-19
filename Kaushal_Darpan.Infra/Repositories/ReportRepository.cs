@@ -10237,6 +10237,48 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+
+        public async Task<DataSet> GetTabularDetailsResultRptTabulationufm(TabluationDataModel body)
+        {
+            _actionName = "GetTabularDetailsResultRptTabulationufm(TabluationDataModel body)";
+            try
+            {
+                DataSet ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
+                    command.CommandText = "USP_GetTabularDetails_ResultRpt_TabulationUFM";
+
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@InstituteId", body.InstituteId);
+                    command.Parameters.AddWithValue("@CourseType", body.CourseType);
+                    command.Parameters.AddWithValue("@DepartmentId", body.DepartmentID);
+                    command.Parameters.AddWithValue("@ResultTypeId", body.ResultTypeId);
+                    command.Parameters.AddWithValue("@SchemeID", body.SchemeID);
+                    command.Parameters.AddWithValue("@RoleId", body.RoleID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    ds = await command.FillAsync();
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
         #region Trn_ITI_StudentExamsFeeMark
 
         public async Task<int> SaveTrn_ITI_StudentExamsFeeMark(Trn_ITI_StudentExamsFeeMarkDataModel request)

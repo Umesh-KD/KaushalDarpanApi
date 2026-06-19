@@ -14986,6 +14986,10 @@ namespace Kaushal_Darpan.Api.Controllers
                     {
                         tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationReval(body));
                     }
+                    else if (body.ResultTypeId == (int)EnumResultType.Ufm)
+                    {
+                        tabular_data = await Task.Run(() => _unitOfWork.ReportRepository.GetTabularDetailsResultRptTabulationufm(body));
+                    }
                     else
                     {
                         result.State = EnumStatus.Warning;
