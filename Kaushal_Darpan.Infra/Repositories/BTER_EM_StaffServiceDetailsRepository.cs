@@ -884,6 +884,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CategoryID", filterModel.CategoryID);
                         command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);
                         command.Parameters.AddWithValue("@EmployeeType", filterModel.EmployeeType);
+                        command.Parameters.AddWithValue("@act", filterModel.act);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
