@@ -1836,9 +1836,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_Bter_GetInventoryAllIssueItemList";
+                        command.Parameters.AddWithValue("@EquipmentsId", SearchReq.EquipmentsId);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
                         command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
                         command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
-                        command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                       
                         command.Parameters.AddWithValue("@ActionName", SearchReq.actionName);
                         command.Parameters.AddWithValue("@ReturnStatus", SearchReq.ReturnStatus);
                         _sqlQuery = command.GetSqlExecutableQuery();
