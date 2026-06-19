@@ -2,6 +2,7 @@
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
+using Kaushal_Darpan.Models;
 using Kaushal_Darpan.Models.AppointExaminer;
 using Kaushal_Darpan.Models.CommonSubjectMaster;
 using Kaushal_Darpan.Models.Examiners;
@@ -9,6 +10,7 @@ using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.ItiExaminer;
 using Kaushal_Darpan.Models.ITITimeTable;
 using Kaushal_Darpan.Models.NodalApperentship;
+using Kaushal_Darpan.Models.PlacementReport;
 using Kaushal_Darpan.Models.ScholarshipMaster;
 using Kaushal_Darpan.Models.SubjectMaster;
 using Microsoft.AspNetCore.Mvc;
@@ -1195,6 +1197,52 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+
+        #region  ITI Student Allotment Report
+
+        [HttpPost("GetITIStudentAllotmentReport")]
+        public async Task<ApiResult<DataTable>> GetITIStudentAllotmentReport([FromBody] RequestBaseModel filterModel)
+        {
+            ActionName = "GetITIStudentAllotmentReport()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+
+                // Pass the entire model to the repository
+                result.Data = await _unitOfWork.ITINodalReportRepository.GetITIStudentAllotmentReport(filterModel);
+
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                await _unitOfWork.DisposeAsync();
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+
+        #endregion
 
     }
 }

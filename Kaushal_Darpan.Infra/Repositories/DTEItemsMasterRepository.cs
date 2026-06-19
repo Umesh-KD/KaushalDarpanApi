@@ -473,6 +473,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", SearchReq.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", SearchReq.Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermID", SearchReq.EndTermID);
+                        command.Parameters.AddWithValue("@CategoryId", SearchReq.CategoryId);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -896,6 +897,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@status", SearchReq.status);
                         command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
                         command.Parameters.AddWithValue("@IssueStatus", SearchReq.IssueStatus);
+                       
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
@@ -1778,6 +1780,47 @@ namespace Kaushal_Darpan.Infra.Repositories
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
                 throw new Exception(errordetails, ex);
             }
+        }
+
+        public async Task<DataTable> GetAllNotWorkingItemReport(NotWorkingItemReportSearchModel SearchReq)
+        {
+            _actionName = "GetAllNotWorkingItemReport(NotWorkingItemReportSearchModel SearchReq)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Bter_GetAllNotWorkingItemReport";
+                        command.Parameters.AddWithValue("@StaffID", SearchReq.StaffID);
+                        command.Parameters.AddWithValue("@InstituteID", SearchReq.InstituteID);
+                        command.Parameters.AddWithValue("@ItemID", SearchReq.ItemID);
+                        command.Parameters.AddWithValue("@UserID", SearchReq.UserID);
+                        command.Parameters.AddWithValue("@RoleID", SearchReq.RoleID);
+                        command.Parameters.AddWithValue("@status", SearchReq.status);
+                        command.Parameters.AddWithValue("@IsStaff", SearchReq.IsStaff);
+                        command.Parameters.AddWithValue("@IssueStatus", SearchReq.IssueStatus);
+                        command.Parameters.AddWithValue("@CategoryId", SearchReq.CategoryId);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
         }
     }
 }

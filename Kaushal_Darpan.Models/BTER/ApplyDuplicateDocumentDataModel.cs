@@ -10,7 +10,7 @@ namespace Kaushal_Darpan.Models.BTER
     { 
         public int ID { get; set; }
         public int DocumentID { get; set; }
-        public int SemesterID { get; set; }
+        public int? SemesterID { get; set; }
         public int DepartmentID { get; set; } 
         public int FeeAmount { get; set; }
         public int ServiceID { get; set; }

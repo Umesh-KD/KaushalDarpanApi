@@ -1063,6 +1063,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@FinancialSanctionID", request.FinancialSanctionID);
                         command.Parameters.AddWithValue("@AdmSanctionDate", request.AdminOrderDate);
                         command.Parameters.AddWithValue("@FinancialOrderDate", request.FinancialOrderDate);
+                        command.Parameters.AddWithValue("@IntakeStatus", request.Status);
 
 
 

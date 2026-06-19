@@ -105,7 +105,7 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int InstituteID { get; set; }
         public string? PNMMelaDocumentreport { get; set; }
         public string? provisionLetterDocumentreport { get; set; }
-        public DateTime PmnamMelaDate { get; set; }
+        public DateTime? PmnamMelaDate { get; set; }
         public int FinancialYearID { get; set; }
         public string? BeforeMonth { get; set; }
         public int DistrictID { get; set; }
@@ -205,6 +205,7 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int DistrictID { get; set; }
         public int TypeID { get; set; }
         public int MonthID { get; set; }
+        public int FinancialYearID { get; set; }
     }
 
     public class ITIApprenticeshipRegPassOutModel : RequestBaseModel

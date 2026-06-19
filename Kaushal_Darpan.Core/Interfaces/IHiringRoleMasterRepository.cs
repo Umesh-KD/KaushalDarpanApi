@@ -15,6 +15,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetAllData();
         Task<DataTable> GetsanctionOrder(OrderDetailsList body);
+        Task<DataTable> GetOrderDetailsList_ByDate(OrderDetailsList body);
         Task<DataTable> GetsanctionOrderNotAssign(OrderDetailsList body);
         Task<DataTable> GetAllSanction();
         Task<HiringRoleMasterModel> GetById(int PK_ID);
