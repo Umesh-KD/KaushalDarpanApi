@@ -250,6 +250,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StatusID", request.StatusID);
                         command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
                         command.Parameters.AddWithValue("@TradeCode", request.TradeCode);
+                        command.Parameters.AddWithValue("@CourseTypeID", request.CourseTypeID);
                         command.Parameters.AddWithValue("@action", "_getAllData");
 
                         _sqlQuery = command.GetSqlExecutableQuery();
