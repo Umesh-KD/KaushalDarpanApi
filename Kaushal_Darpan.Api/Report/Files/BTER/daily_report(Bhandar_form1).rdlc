@@ -3217,7 +3217,7 @@
                 </TextRun>
                 <TextRun>
                   <Label>EndTermName</Label>
-                  <Value>=First(Fields!EndTermName.Value, "Daily_Report_Bhandar_Form1")</Value>
+                  <Value>=First(Fields!FinancialYearName.Value, "Daily_Report_Bhandar_Form1")</Value>
                   <ToolTip>=First(Fields!EndTermName.Value, "Daily_Report_Bhandar_Form1")</ToolTip>
                   <Style />
                 </TextRun>
@@ -3300,6 +3300,42 @@
           <Height>0.66026cm</Height>
           <Width>13.89849cm</Width>
           <ZIndex>7</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox8">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value> Shift : </Value>
+                  <Style />
+                </TextRun>
+                <TextRun>
+                  <Label>ExamShift</Label>
+                  <Value>=First(Fields!ExamShift.Value, "Daily_Report_Bhandar_Form1")</Value>
+                  <ToolTip>=First(Fields!EndTermName.Value, "Daily_Report_Bhandar_Form1")</ToolTip>
+                  <Style />
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox3</rd:DefaultName>
+          <Top>4.08238cm</Top>
+          <Left>0.42822cm</Left>
+          <Height>0.68353cm</Height>
+          <Width>13.91612cm</Width>
+          <ZIndex>8</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
@@ -3494,6 +3530,14 @@
         </Field>
         <Field Name="moharImg">
           <DataField>moharImg</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FinancialYearName">
+          <DataField>FinancialYearName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ExamShift">
+          <DataField>ExamShift</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
