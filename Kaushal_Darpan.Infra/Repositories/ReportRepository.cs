@@ -8005,6 +8005,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PKID", model.PKID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@TypeID", model.TypeID);
+                        command.Parameters.AddWithValue("@ZoneID", model.ZoneID);
+                        command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
 
@@ -8089,6 +8092,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@CreateBy", model.Createdby);
                         command.Parameters.AddWithValue("@PKID", model.PKID);
+                        command.Parameters.AddWithValue("@TypeID", model.TypeID);
+                        command.Parameters.AddWithValue("@ZoneID", model.ZoneID);
+                        command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
 
@@ -8131,6 +8137,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CreatedBy", model.Createdby);
                         command.Parameters.AddWithValue("@PKID", model.PKID);
                         command.Parameters.AddWithValue("@OrganisedDistrictID", model.SearchDistrictID);
+                        command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+                        command.Parameters.AddWithValue("@BeforeMonth", model.BeforeMonth);
+                        command.Parameters.AddWithValue("@ZoneID", model.ZoneID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
@@ -8172,6 +8181,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermId", model.EndTermID);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@CreatedBy", model.Createdby);
+                        command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
+                        command.Parameters.AddWithValue("@BeforeMonth", model.BeforeMonth);
+                        command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+                        command.Parameters.AddWithValue("@ZoneID", model.ZoneID);
                         //command.Parameters.AddWithValue("@DistrictID", DistrictID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
@@ -8213,6 +8226,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CreatedBy", model.Createdby);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
+                        command.Parameters.AddWithValue("@BeforeMonth", model.BeforeMonth);
+                        command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+                        command.Parameters.AddWithValue("@ZoneID", model.ZoneID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
 
@@ -8252,6 +8269,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@CreatedBy", model.Createdby);
                         command.Parameters.AddWithValue("@PKID", model.PKID);
+                        command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
+                        command.Parameters.AddWithValue("@BeforeMonth", model.BeforeMonth);
+                        command.Parameters.AddWithValue("@FinancialYearID", model.FinancialYearID);
+                        //command.Parameters.AddWithValue("@ZoneID", model.ZoneID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
 

@@ -44,6 +44,8 @@ namespace Kaushal_Darpan.Models.ITIMaster
         public string Syllabuslink { get; set; } = string.Empty;
         public int CourseTypeID { get; set; }
         public int FinancialYearID { get; set; }
+        public string ActionName { get; set; } = string.Empty;
+        public string RoleID { get; set; } = string.Empty;
 
     }
 
