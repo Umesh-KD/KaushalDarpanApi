@@ -149,7 +149,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CourseTypeID", body.CourseTypeID);
                         command.Parameters.AddWithValue("@TradeId", body.TradeId);
                         command.Parameters.AddWithValue("@Syllabuslink", body.Syllabuslink);
-                        command.Parameters.AddWithValue("@Action", "getTradetblListList");
+                        command.Parameters.AddWithValue("@Action", string.IsNullOrEmpty(body.ActionName)==true?"getTradetblListList": body.ActionName);
 
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
