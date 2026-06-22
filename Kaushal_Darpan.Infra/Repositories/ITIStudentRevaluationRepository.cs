@@ -424,12 +424,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.Add("@Retval", SqlDbType.Int); // out
                         command.Parameters["@Retval"].Direction = ParameterDirection.Output; // out
 
-
                         _sqlQuery = command.GetSqlExecutableQuery();
                         // Execute the command
                         result = await command.ExecuteNonQueryAsync();
                         result = Convert.ToInt32(command.Parameters["@Retval"].Value); // out
-
                         //_sqlQuery = command.GetSqlExecutableQuery();
                         //dataTable = await command.FillAsync_DataTable();
 
