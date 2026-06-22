@@ -475,10 +475,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         {
             _actionName = "GetAllData()";
             try
-            {
-              
-
-
+            {              
                 return await Task.Run(async () =>
                 {
                     DataTable dataTable = new DataTable();
@@ -566,6 +563,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@OrderNo", body.OrderNo);
                         command.Parameters.AddWithValue("@OrderDate", body.OrderDate);
                         command.Parameters.AddWithValue("@SanctionID", body.SanctionID);
+                        command.Parameters.AddWithValue("@ParentID", body.ParentID);
                         command.Parameters.AddWithValue("@action", "GetNotAssign");
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
