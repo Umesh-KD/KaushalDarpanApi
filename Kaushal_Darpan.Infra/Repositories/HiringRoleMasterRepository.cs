@@ -475,10 +475,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         {
             _actionName = "GetAllData()";
             try
-            {
-              
-
-
+            {              
                 return await Task.Run(async () =>
                 {
                     DataTable dataTable = new DataTable();

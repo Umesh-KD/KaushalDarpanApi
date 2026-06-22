@@ -1775,6 +1775,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@Name", model.Name);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@BranchID", model.BranchID);
                         //command.Parameters.AddWithValue("@StaffTypeID", model.StaffTypeID);
 
 
