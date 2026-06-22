@@ -134,10 +134,7 @@ namespace Kaushal_Darpan.Models.ITIPlanning
         public string? AmountAvailable { get; set; }
         public string? BuildingPlan { get; set; }
         public string? DisBuildingPlan { get; set; }
-
-
-
-
+        public bool IsCampus { get; set; }
     }
 
         public class ItiAffiliationList
