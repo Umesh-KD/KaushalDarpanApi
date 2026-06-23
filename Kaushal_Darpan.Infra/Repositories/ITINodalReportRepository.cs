@@ -1255,7 +1255,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         #region ITI Student Allotment Report
 
-        public async Task<DataTable> GetITIStudentAllotmentReport(RequestBaseModel filterModel)
+        public async Task<DataTable> GetITIStudentAllotmentReport(ITIStudentAllotmentReportSearchModels filterModel)
         {
             _actionName = "GetITIStudentAllotmentReport()";
             return await Task.Run(async () =>
@@ -1271,6 +1271,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
                         command.Parameters.AddWithValue("@RoleID", filterModel.RoleID);
                         command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                        command.Parameters.AddWithValue("@DGTCode", filterModel.DGTCode);
+                        command.Parameters.AddWithValue("@StudentName", filterModel.StudentName);
+                        command.Parameters.AddWithValue("@CollegeID", filterModel.CollegeID);
 
                         command.Parameters.AddWithValue("@action", "_getStudentAllotmentReport"); // Assuming you are using the action filter
                         _sqlQuery = command.GetSqlExecutableQuery();

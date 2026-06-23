@@ -1202,7 +1202,7 @@ namespace Kaushal_Darpan.Api.Controllers
         #region  ITI Student Allotment Report
 
         [HttpPost("GetITIStudentAllotmentReport")]
-        public async Task<ApiResult<DataTable>> GetITIStudentAllotmentReport([FromBody] RequestBaseModel filterModel)
+        public async Task<ApiResult<DataTable>> GetITIStudentAllotmentReport([FromBody] ITIStudentAllotmentReportSearchModels filterModel)
         {
             ActionName = "GetITIStudentAllotmentReport()";
             var result = new ApiResult<DataTable>();

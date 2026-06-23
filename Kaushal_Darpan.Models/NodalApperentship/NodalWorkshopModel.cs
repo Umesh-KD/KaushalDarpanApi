@@ -240,4 +240,12 @@ namespace Kaushal_Darpan.Models.NodalApperentship
     }
 
 
+    public class ITIStudentAllotmentReportSearchModels:RequestBaseModel
+    {
+        public string StudentName { get; set; }
+        public int CollegeID { get; set; }
+        public string? DGTCode { get; set; }
+        //public string Name { get; set; }
+    }
+
 }

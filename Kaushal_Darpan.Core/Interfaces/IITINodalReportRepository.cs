@@ -48,6 +48,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetSamplePassoutStudent(ITITimeTableSearchModel request);
         Task<DataTable> SampleImportExcelFileFresher(ITITimeTableSearchModel request);
         Task<DataTable> MelaSampleImportExcelFile(ITITimeTableSearchModel request);
-        Task<DataTable> GetITIStudentAllotmentReport(RequestBaseModel request);
+        Task<DataTable> GetITIStudentAllotmentReport(ITIStudentAllotmentReportSearchModels request);
     }
 }
