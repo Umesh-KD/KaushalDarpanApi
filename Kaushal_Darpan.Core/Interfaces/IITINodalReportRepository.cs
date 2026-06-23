@@ -24,7 +24,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetAAADetailsById(int PKID);
         Task<DataTable> SaveDataMelaReportCount(ITIPMNAMAppApprenticeshipReportEntity body);
         //Task<DataTable> GetAllData(int UserID,int DistrictID);
-        Task<DataTable> GetAllData(int UserID, int DistrictID, int FinancialYearID, int BeforeMonth,int ZoneID);
+        Task<DataTable> GetAllData(int UserID, int DistrictID, int FinancialYearID, int BeforeMonth,int ZoneID, int RoleID = 0);
         Task<DataTable> DeleteData_Pmnam_mela_Report(ITIPMNAMAppApprenticeshipReportEntity body);
         Task<int> Save_QuaterReport(ITIApprenticeshipWorkshop body);
         Task<int> SavePassoutReport(ITIApprenticeshipRegPassOutModel body);
@@ -48,6 +48,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetSamplePassoutStudent(ITITimeTableSearchModel request);
         Task<DataTable> SampleImportExcelFileFresher(ITITimeTableSearchModel request);
         Task<DataTable> MelaSampleImportExcelFile(ITITimeTableSearchModel request);
-        Task<DataTable> GetITIStudentAllotmentReport(RequestBaseModel request);
+        Task<DataTable> GetITIStudentAllotmentReport(ITIStudentAllotmentReportSearchModels request);
     }
 }
