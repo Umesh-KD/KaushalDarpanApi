@@ -108,6 +108,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
                         command.Parameters.AddWithValue("@BeforeMonth", request.BeforeMonth);
                         command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -354,6 +356,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.AddWithValue("@ZoneID", request.ZoneID);
                         command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
+
               
 
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -492,7 +497,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
         //   int UserID,int DistrictID , int FinancialYearID, int BeforeMonth
-        public async Task<DataTable> GetAllData(int UserID,int DistrictID , int FinancialYearID, int BeforeMonth, int ZoneID)
+        public async Task<DataTable> GetAllData(int UserID,int DistrictID , int FinancialYearID, int BeforeMonth, int ZoneID,int RoleID=0)
         {
             _actionName = "GetAllData()";
             return await Task.Run(async () =>
@@ -513,6 +518,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@FinancialYearID", FinancialYearID);
                         command.Parameters.AddWithValue("@BeforeMonth", BeforeMonth);
                         command.Parameters.AddWithValue("@ZoneID", ZoneID);
+                        command.Parameters.AddWithValue("@RoleID", RoleID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -707,6 +713,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
                         command.Parameters.AddWithValue("@BeforeMonth", request.BeforeMonth);
                         command.Parameters.AddWithValue("@ZoneID", request.ZoneID);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                        command.Parameters.AddWithValue("@UserID", request.UserID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -1009,6 +1017,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TypeID", request.TypeID);
                         command.Parameters.AddWithValue("@ZoneID", request.ZoneID);
                         command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+                        command.Parameters.AddWithValue("@roleid", request.RoleID);
+                        command.Parameters.AddWithValue("@UserId", request.UserID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -1091,6 +1101,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PKID", request.PKID);
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
                         command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -1135,6 +1146,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PKID", request.PKID);
                         command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
                         command.Parameters.AddWithValue("@UserID", request.UserID);
+                        command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

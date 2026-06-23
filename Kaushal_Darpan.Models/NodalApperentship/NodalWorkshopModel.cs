@@ -43,6 +43,8 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public List<ITIAAA_SSODetailsModel>? ApprenticeshipWorkshopMembersList { get; set; }
 
         public int ZoneID { get; set; } 
+        public int RoleID { get; set; } 
+        public int UserID { get; set; } 
 
     }
 
@@ -190,6 +192,7 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int BeforeMonth { get; set; }
         public int FinancialYearID { get; set; }
         public int ZoneID { get; set; }
+        public int UserID { get; set; }
     }
 
     public class ApprenticeshipRegistrationSearchModal
