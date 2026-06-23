@@ -97,6 +97,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@AffidavitDoc", SearchReq.AffidavitDoc);
                         command.Parameters.AddWithValue("@SupportingDocument", SearchReq.SupportingDocument);
                         command.Parameters.AddWithValue("@AllotmentStatus", SearchReq.AllotmentStatus);
+                        command.Parameters.AddWithValue("@HostelRequestNo", SearchReq.HostelRequestNo);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }
