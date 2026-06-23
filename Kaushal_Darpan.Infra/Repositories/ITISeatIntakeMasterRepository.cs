@@ -1260,6 +1260,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 
                         command.Parameters.AddWithValue("@Action", request.Action);
+                        command.Parameters.AddWithValue("@OrderDate", request.OrderDate);
+                        command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
+                        command.Parameters.AddWithValue("@Remark", request.Remark);
                         // Add the return parameter
                         command.Parameters.Add("@Return", SqlDbType.Int); // out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output; // out
