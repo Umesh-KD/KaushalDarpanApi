@@ -2188,6 +2188,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
         [HttpPost("GetPartiallyDetainedStudentList")]
         public async Task<ApiResult<DataTable>> GetPartiallyDetainedStudentList(GetPartiallyDetainedStudentDataModel model)
         {
@@ -2223,6 +2224,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
         [HttpPost("RevokePartiallyDetainedStudent")]
         public async Task<ApiResult<int>> RevokePartiallyDetainedStudent([FromBody] List<RevokePartiallyDetainedStudentDataModel> request)
         {
