@@ -104,6 +104,59 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<DataTable> GetDuplicateDocFeeAmount(ApplyDuplicateDocumentDataModel body)
+        {
+
+            _actionName = "GetDuplicateDocFeeAmount(ApplyDuplicateDocumentDataModel body)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ApplyDuplicateDocumentDetails";
+                        command.Parameters.AddWithValue("@ActionName", "_GetDuplicateDocFeeAmount"); // Assuming you are using the action filter  
+                        command.Parameters.AddWithValue("@Student_Id", body.StudentID);
+                        //command.Parameters.AddWithValue("@ID", body.ID);
+                        //command.Parameters.AddWithValue("@Document_ID", body.DocumentID);
+                        command.Parameters.AddWithValue("@Semester_ID", body.SemesterID);
+                        command.Parameters.AddWithValue("@Department_ID", body.DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        command.Parameters.AddWithValue("@FinancialYearID", body.FinancialYearID);
+                        command.Parameters.AddWithValue("@CourseTypeID", body.CourseTypeID);
+                        command.Parameters.AddWithValue("@FeesTypeID", body.FeesTypeID);
+                        command.Parameters.AddWithValue("@Institute_ID", body.InstituteID);
+                        command.Parameters.AddWithValue("@ConfigurationTypeID", body.ConfigurationTypeID);
+                        //command.Parameters.AddWithValue("@Institute_ID", body.InstituteID);
+                        //command.Parameters.AddWithValue("@IsPayment", body.IsPayment);
+                        //command.Parameters.AddWithValue("@IsActive", body.IsActive);
+                        //command.Parameters.AddWithValue("@IsDelete", body.IsDelete);
+                        //command.Parameters.AddWithValue("@CreatedBy", body.createdBy);
+                        //command.Parameters.AddWithValue("@ModifyBy", body.modifyBy); 
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
 
         public async Task<DataTable> GetDuplicateDocInstituteWise(DuplicateDocumentSearchModel body)
         {
@@ -186,6 +239,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RequestEndTerm", model.RequestEndTerm);
                         command.Parameters.AddWithValue("@FianancialYearID", model.FianancialYearID);
                         command.Parameters.AddWithValue("@DepartmentTypeID", model.DepartmentTypeID);
+                        command.Parameters.AddWithValue("@FeeID", model.FeeID);
 
                         command.Parameters.AddWithValue("@data", JsonConvert.SerializeObject(model));
 

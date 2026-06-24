@@ -34,6 +34,9 @@ namespace Kaushal_Darpan.Models.BTER
 
         public int FianancialYearID { get; set; }
 
+        public int? FeesTypeID { get; set; }
+        public int? FeeID { get; set; }
+
 
 
     }

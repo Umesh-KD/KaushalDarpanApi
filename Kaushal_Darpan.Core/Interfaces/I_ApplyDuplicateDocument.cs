@@ -9,6 +9,7 @@ namespace Kaushal_Darpan.Core.Interfaces
     {
         Task<DataTable> GetApplyDuplicateDocumentTypeList();
         Task<DataTable> GetApplyDuplicateDocumentList(ApplyDuplicateDocumentDataModel filterModel);
+        Task<DataTable> GetDuplicateDocFeeAmount(ApplyDuplicateDocumentDataModel filtermodel);
 
         Task<DataTable> GetDuplicateDocInstituteWise(DuplicateDocumentSearchModel filterModel);
         Task<bool> SaveDuplicateDocumentDetails(ApplyDuplicateDocumentDataModel model);

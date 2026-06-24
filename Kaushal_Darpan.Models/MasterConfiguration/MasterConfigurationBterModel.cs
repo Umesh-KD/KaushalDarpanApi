@@ -23,6 +23,7 @@ namespace Kaushal_Darpan.Models.MasterConfiguration
 
         public int BackSubjectCount { get; set; }
         public int SchemeID { get; set; }
+        public int? DeliverTypeID { get; set; }
         public decimal BackFeeAmount { get; set; }
 
         public List<CasteCatogaryBterList>? CasteCatogaryList {  get; set; }

@@ -53,6 +53,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IPAddress", _IPAddress);
                         command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
                         command.Parameters.AddWithValue("@SchemeID", request.SchemeID);
+                        command.Parameters.AddWithValue("@DeliverTypeID", request.DeliverTypeID);
                         command.Parameters.AddWithValue("@Child_Json", JsonConvert.SerializeObject(request.CasteCatogaryList));
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -99,7 +100,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
                         command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
                         command.Parameters.AddWithValue("@TypeID", request.TypeID);
-
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
