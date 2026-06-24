@@ -234,4 +234,15 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public int? StudentExamID { get; set; }
         public int? StudentID { get; set; }
     }
+
+    public class GetPartiallyDetainedStudentDataModel: RequestBaseModel
+    {
+        public string? Name { get; set; }
+        public string? EnrollmentNo { get; set; }
+        public string? Action { get; set; }
+        public int? InstituteID { get; set; }
+        public int? Year_SemID { get; set; }
+        public int? BranchID { get; set; }
+        public int? StudentExamID { get; set; }
+    }
 }
