@@ -84,6 +84,7 @@ namespace Kaushal_Darpan.Models.StudentApplyForHostel
         public int SupportingDocument { get; set; }
         public int AllotmentStatus { get; set; }
 
+        public int HostelRequestNo { get; set; }
     }
 
    

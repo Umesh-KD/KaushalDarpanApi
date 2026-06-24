@@ -111,6 +111,9 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
         public int TradeSchemeId { get; set; } = 0;
         public int TradeId { get; set; } = 0;
         public string Action { get; set; } = string.Empty;
+        public int OrderNo { get; set; } = 0;
+        public DateTime? OrderDate { get; set; }
+        public string Remark { get; set; } = string.Empty;
 
 
     }

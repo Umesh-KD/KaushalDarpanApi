@@ -240,15 +240,15 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
         //    int UserID,int DistrictID , int FinancialYearID, int BeforeMonth
-        [HttpGet("GetAllData/{UserID}/{DistrictID}/{FinancialYearID}/{BeforeMonth}/{ZoneID}")]
-        public async Task<ApiResult<DataTable>> GetAllData(int UserID, int DistrictID, int FinancialYearID, int BeforeMonth,int ZoneID)
+        [HttpGet("GetAllData/{UserID}/{DistrictID}/{FinancialYearID}/{BeforeMonth}/{ZoneID}/{RoleID}")]
+        public async Task<ApiResult<DataTable>> GetAllData(int UserID, int DistrictID, int FinancialYearID, int BeforeMonth,int ZoneID,int RoleID=0)
         {
 
             ActionName = "GetAllData()";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await _unitOfWork.ITINodalReportRepository.GetAllData(UserID, DistrictID , FinancialYearID,  BeforeMonth, ZoneID);
+                result.Data = await _unitOfWork.ITINodalReportRepository.GetAllData(UserID, DistrictID , FinancialYearID,  BeforeMonth, ZoneID,RoleID);
                 await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
                 {
