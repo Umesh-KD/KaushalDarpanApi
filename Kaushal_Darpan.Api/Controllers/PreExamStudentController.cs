@@ -2222,5 +2222,45 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        [HttpPost("RevokePartiallyDetainedStudent")]
+        public async Task<ApiResult<int>> RevokePartiallyDetainedStudent([FromBody] List<RevokePartiallyDetainedStudentDataModel> request)
+        {
+            ActionName = "RevokePartiallyDetainedStudent([FromBody] List<RevokePartiallyDetainedStudentDataModel> request)";
+            var result = new ApiResult<int>();
+            try
+            {
+                var isSave = await Task.Run(() => _unitOfWork.PreExamStudentRepository.RevokePartiallyDetainedStudent(request));
+                await _unitOfWork.SaveChangesAsync();  // Commit changes if everything is successful
+
+                if (isSave > 0)
+                {
+                    result.Data = isSave;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_SAVE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_ADD_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+
+                // Log the error
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
     }
 }

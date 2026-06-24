@@ -56,5 +56,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetRejectAtBter_StudentDetails(RejectAtBterStudentDataModel model);
         Task<int> UpdateOptionalSubjectAfterEligibleStudent(OptionalSubjectModel optionalSubject);
         Task<DataTable> GetPartiallyDetainedStudentList(GetPartiallyDetainedStudentDataModel model);
+        Task<int> RevokePartiallyDetainedStudent(List<RevokePartiallyDetainedStudentDataModel> model);
     }
 }

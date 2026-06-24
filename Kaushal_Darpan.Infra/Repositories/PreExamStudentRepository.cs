@@ -1976,32 +1976,68 @@ namespace Kaushal_Darpan.Infra.Repositories
             _actionName = "GetPartiallyDetainedStudentList(GetPartiallyDetainedStudentDataModel model)";
             try
             {
-                return await Task.Run(async () =>
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    DataTable dataTable = new DataTable();
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_GetPartiallyDetainedStudentList";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetPartiallyDetainedStudentList";
 
-                        command.Parameters.AddWithValue("@Action", model.Action);
-                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
-                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
-                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-                        command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
-                        command.Parameters.AddWithValue("@Year_SemID", model.Year_SemID);
-                        command.Parameters.AddWithValue("@BranchID", model.BranchID);
-                        command.Parameters.AddWithValue("@Name", model.Name);
-                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
-                        command.Parameters.AddWithValue("@UserID", model.UserID);
-                        command.Parameters.AddWithValue("@StudentExamID", model.StudentExamID);
+                    command.Parameters.AddWithValue("@Action", model.Action);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@EnrollmentNo", model.EnrollmentNo);
+                    command.Parameters.AddWithValue("@Year_SemID", model.Year_SemID);
+                    command.Parameters.AddWithValue("@BranchID", model.BranchID);
+                    command.Parameters.AddWithValue("@Name", model.Name);
+                    command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                    command.Parameters.AddWithValue("@UserID", model.UserID);
+                    command.Parameters.AddWithValue("@StudentExamID", model.StudentExamID);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
-                        dataTable = await command.FillAsync_DataTable();
-                    }
-                    return dataTable;
-                });
+                    _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<int> RevokePartiallyDetainedStudent(List<RevokePartiallyDetainedStudentDataModel> model)
+        {
+            _actionName = "RevokePartiallyDetainedStudent(RevokePartiallyDetainedStudentDataModel model)";
+            try
+            {
+                int result = 0;
+                int retval = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_RevokePartiallyDetainedStudent";
+
+                    command.Parameters.AddWithValue("@StudentPaperData", JsonConvert.SerializeObject(model));
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress); 
+
+                    command.Parameters.Add("@Retval", SqlDbType.Int);// out
+                    command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    result = await command.ExecuteNonQueryAsync();
+
+                    retval = Convert.ToInt32(command.Parameters["@Retval"].Value);// out
+                }
+                return retval;
             }
             catch (Exception ex)
             {

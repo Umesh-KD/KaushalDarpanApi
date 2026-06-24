@@ -245,4 +245,12 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public int? BranchID { get; set; }
         public int? StudentExamID { get; set; }
     }
+
+    public class RevokePartiallyDetainedStudentDataModel
+    {
+        public int? StudentExamID { get; set; }
+        public int? StudentExamPaperID { get; set; }
+        public int? StudentExamPaperMarksID { get; set; }
+        public int? UserID { get; set; }
+    }
 }
