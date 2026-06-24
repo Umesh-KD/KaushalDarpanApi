@@ -46,7 +46,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> ManagementType(int DepartmentID = 0);
         Task<DataTable> StreamType();
-        Task<DataTable> InstituteMaster(int DepartmentID, int Eng_NonEng, int EndTermId);
+        Task<DataTable> InstituteMaster(int DepartmentID, int Eng_NonEng, int EndTermId , int ManagementTypeID);
         Task<DataTable> Iticollege(int DepartmentID, int Eng_NonEng, int EndTermId, int InsutiteId);
         Task<DataTable> IticenterColleges(int DepartmentID, int Eng_NonEng, int EndTermId, int InstituteID);
         Task<DataTable> StreamMaster(int DepartmentID = 0, int StreamType = 0, int EndTermId = 0);

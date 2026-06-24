@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ExcelDataReader;
+using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.BTEReatsDistributionsMaster;
@@ -1477,9 +1478,9 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("ChangeStatusSeatIntake")]
         public async Task<ApiResult<int>> ChangeStatusSeatIntake([FromBody] SeatIntakeChangeStatusModel request)
         {
-            ActionName = "ChangeStatusSeatIntake([FromBody] BTERSeatIntakeDataModel request)";
-            return await Task.Run(async () =>
-            {
+            ActionName = "ChangeStatusSeatIntake([FromBody] SeatIntakeChangeStatusModel request)";
+            //return await Task.Run(async () =>
+            //{
                 var result = new ApiResult<int>();
                 try
                 {
@@ -1530,7 +1531,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     await CreateErrorLog(nex, _unitOfWork);
                 }
                 return result;
-            });
+            //});
         }
 
 
