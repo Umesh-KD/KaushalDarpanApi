@@ -488,15 +488,15 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpGet("InstituteMaster/{DepartmentID}/{Eng_NonEng}/{EndTermId}")]
-        public async Task<ApiResult<DataTable>> InstituteMaster(int DepartmentID, int Eng_NonEng, int EndTermId)
+        [HttpGet("InstituteMaster/{DepartmentID}/{Eng_NonEng}/{EndTermId}/{ManagementTypeID?}")]
+        public async Task<ApiResult<DataTable>> InstituteMaster(int DepartmentID, int Eng_NonEng, int EndTermId,int ManagementTypeID=0)
         {
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<DataTable>();
                 try
                 {
-                    var data = await _unitOfWork.CommonFunctionRepository.InstituteMaster(DepartmentID, Eng_NonEng, EndTermId);
+                    var data = await _unitOfWork.CommonFunctionRepository.InstituteMaster(DepartmentID, Eng_NonEng, EndTermId, ManagementTypeID);
                     if (data.Rows.Count > 0)
                     {
                         result.Data = data;

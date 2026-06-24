@@ -185,6 +185,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@RequestEndTerm", model.RequestEndTerm);
                         command.Parameters.AddWithValue("@FianancialYearID", model.FianancialYearID);
+                        command.Parameters.AddWithValue("@DepartmentTypeID", model.DepartmentTypeID);
 
                         command.Parameters.AddWithValue("@data", JsonConvert.SerializeObject(model));
 

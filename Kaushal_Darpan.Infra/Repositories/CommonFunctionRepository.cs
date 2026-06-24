@@ -436,7 +436,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> InstituteMaster(int DepartmentID, int Eng_NonEng, int EndTermId)
+        public async Task<DataTable> InstituteMaster(int DepartmentID, int Eng_NonEng, int EndTermId,int ManagementTypeID=0)
 
         {
             _actionName = "InstituteMaster()";
@@ -461,6 +461,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Eng_NonEng", Eng_NonEng);
                         command.Parameters.AddWithValue("@EndTermId", EndTermId);
                         command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@ManagementTypeID", ManagementTypeID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

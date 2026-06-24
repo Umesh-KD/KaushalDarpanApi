@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Kaushal_Darpan.Models.BTER
 {
-    public class ApplyDuplicateDocumentDataModel
+    public class ApplyDuplicateDocumentDataModel : RequestBaseModel
     { 
         public int ID { get; set; }
         public int DocumentID { get; set; }
         public int? SemesterID { get; set; }
-        public int DepartmentID { get; set; } 
+        public int DepartmentTypeID { get; set; } 
         public int FeeAmount { get; set; }
         public int ServiceID { get; set; }
         public int StudentID { get; set; }
@@ -29,8 +29,6 @@ namespace Kaushal_Darpan.Models.BTER
         public bool IsDelete { get; set; } 
 
         public int? ConfigurationTypeID { get; set; }
-
-        public int EndTermID { get; set; }
 
         public int RequestEndTerm { get; set; }
 
