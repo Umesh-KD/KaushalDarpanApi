@@ -1237,9 +1237,9 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<int> ChangeStatusSeatIntake(SeatIntakeChangeStatusModel request)
         {
-            _actionName = "ChangeStatusActiveIntake(BTERSeatIntakeDataModel request)";
-            return await Task.Run(async () =>
-            {
+            _actionName = "ChangeStatusSeatIntake(SeatIntakeChangeStatusModel request)";
+            //return await Task.Run(async () =>
+            //{
                 try
                 {
                     int result = 0;
@@ -1286,7 +1286,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
                     throw new Exception(errorDetails, ex);
                 }
-            });
+            //});
         }
 
 
