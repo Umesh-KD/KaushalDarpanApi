@@ -188,7 +188,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         } 
                         else
                         {
-                            command.CommandText = "USP_ApplicationQualificationMaster_IU";
+                            command.CommandText = "USP_QualificationMaster_IU";
                         }
                         // Set the stored procedure name and type
                         

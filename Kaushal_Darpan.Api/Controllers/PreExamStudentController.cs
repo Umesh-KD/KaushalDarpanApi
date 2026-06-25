@@ -2188,7 +2188,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        [RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng)]
+        [RoleActionFilter(EnumRole.Admin, EnumRole.Admin_NonEng, EnumRole.JDConfidential_Eng, EnumRole.JDConfidential_NonEng)]
         [HttpPost("GetPartiallyDetainedStudentList")]
         public async Task<ApiResult<DataTable>> GetPartiallyDetainedStudentList(GetPartiallyDetainedStudentDataModel model)
         {

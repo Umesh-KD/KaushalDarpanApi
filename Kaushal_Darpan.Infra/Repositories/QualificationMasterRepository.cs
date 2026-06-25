@@ -69,7 +69,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_QualificationMaster_IU";
+                    command.CommandText = "USP_QualificationMaster_IU_master";
 
                     command.Parameters.AddWithValue("@Action", body.Action);
                     command.Parameters.AddWithValue("@QualificationID", body.QualificationID);
