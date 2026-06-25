@@ -1622,6 +1622,53 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
 
         }
+
+        [HttpPost("GetBankGuaranteeConsolidatedReport")]
+        public async Task<ApiResult<List<BankGuaranteeConsolidatedReportModel>>>
+    GetBankGuaranteeConsolidatedReport(
+        [FromBody] BankGuaranteeConsolidatedReportRequest request)
+        {
+            ActionName = "GetBankGuaranteeConsolidatedReport";
+
+            var result = new ApiResult<List<BankGuaranteeConsolidatedReportModel>>();
+
+            try
+            {
+                var data = await _unitOfWork
+                    .ITICollegeMasterRepository
+                    .GetBankGuaranteeConsolidatedReport(request);
+
+                if (data != null && data.Count > 0)
+                {
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
     }
 }
 
