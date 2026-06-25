@@ -10125,6 +10125,54 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataSet> GetCenterStudents(CenterStudentSearchModel body)
+        {
+            _actionName = "GetRevalGroupCodeMasterReport(GroupCodeAllocationAddEditModel_Reval filterModel)";
+
+            try
+            {
+                var ds = new DataSet();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_GetCenterStudentpdf";
+
+                    command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                    command.Parameters.AddWithValue("@StreamID", body.StreamID);
+
+                    command.Parameters.AddWithValue("@RollNo", body.RollNo);
+
+                    command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEng);
+                    command.Parameters.AddWithValue("@DepartmentID", body.DepartmentID);
+
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
+                    command.Parameters.AddWithValue("@StudentName", body.StudentName);
+                    command.Parameters.AddWithValue("@CenterID", body.CenterID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    ds = await command.FillAsync();
+                }
+
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
         public async Task<DataSet> GetTabularDetailsResultRptTabulationRWH(TabluationDataModel body)
         {
             _actionName = "GetTabularDetailsResultRptTabulationRWH(TabluationDataModel body)";

@@ -323,6 +323,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetRevalExamLetterReport(ExamLetterReport model);
         Task<DataSet> GetRevalGroupCodeMasterReportBranchwise(GroupCodeAllocationAddEditModel_Reval filterModel);
         Task<DataSet> GetRevalGroupCodeMasterReport(GroupCodeAllocationAddEditModel_Reval filterModel);
+        Task<DataSet> GetCenterStudents(CenterStudentSearchModel filterModel);
         Task<DataSet> GetTabularDetailsResultRptTabulationRWH(TabluationDataModel body);
         Task<DataSet> DownloadResultStatisticsReportRWH(StatisticsBridgeCourseModel model);
         Task<DataSet> downloadResultAppearedPassedStatisticsReportRWH(ResultAppearedPassedStatisticsReportModel model);
