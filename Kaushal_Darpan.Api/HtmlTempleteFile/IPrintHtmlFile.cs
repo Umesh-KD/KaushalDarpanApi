@@ -17,5 +17,6 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         Task<StringBuilder> TheoryMarksReports_GetHtml(DataSet ds, int? IsReval);
         Task<StringBuilder> UFMCategoryReportPdf_BTER_GetHtml(DataSet ds);
         Task<StringBuilder> Collegwise_UFMCategoryReportPdf_BTER_GetHtml(DataSet ds);
+        Task<StringBuilder> StudentResult_Public_GetHtml(DataSet dataSet, int ResultType);
     }
 }
