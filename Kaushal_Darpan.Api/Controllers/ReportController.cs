@@ -14739,12 +14739,12 @@ namespace Kaushal_Darpan.Api.Controllers
                         htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderBTER}/MigrationCertificate.html";
                         //model.Action = "duplicate-migration-certificate-download";
                     }
-                    if (model.Action == "duplicate-diploma-report")
-                    {
-                        devFontSize = "20px";
-                        htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderBTER}/DiplomaReport.html";
-                       // model.Action = "diploma-report-download";
-                    }
+                    //if (model.Action == "duplicate-diploma-report")
+                    //{
+                    //    devFontSize = "20px";
+                    //    htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderBTER}/DiplomaReport.html";
+                    //   // model.Action = "diploma-report-download";
+                    //}
 
                     var data = await _unitOfWork.ReportRepository.BterDuplicateCertificateDownload(model);
                     if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
@@ -14774,6 +14774,65 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.Data = Convert.ToBase64String(pdfBytes);
                         result.State = EnumStatus.Success;
                         result.Message = "Success";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        #endregion
+
+        #region Duplicate Diploma Certificate
+        [HttpPost("GetDuplicateDiplomaCertificate")]
+        public async Task<ApiResult<string>> GetDuplicateDiplomaCertificate(BterDuplicateCertificateReportDataModel model)
+        {
+            ActionName = "GetDuplicateDiplomaCertificate()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    
+                    var data = await _unitOfWork.ReportRepository.BterDuplicateCertificateDownload(model);
+                    if (data != null)
+                    {
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        var fileName = $"DiplomaCertificate.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/DiplomaCertificate.rdlc";
+                        //var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+                        localReport.AddDataSource("DiplomaCertificate", data.Tables[0]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                     }
                     else
                     {
