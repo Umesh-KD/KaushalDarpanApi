@@ -6890,6 +6890,90 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        #region Student duplicate document certificate download
+
+        public async Task<DataSet> BterDuplicateCertificateDownload(BterDuplicateCertificateReportDataModel filterModel)
+        {
+            _actionName = "BterDuplicateCertificateDownload(BterCertificateReportDataModel filterModel)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var ds = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        if (filterModel.Action == "duplicate-provisional-certificate")
+                        {
+                            command.CommandText = "Usp_Bter_DuplicateCertificate_Download";
+                            command.Parameters.AddWithValue("@Action", filterModel.Action);
+
+                        }
+
+                        else if (filterModel.Action == "duplicate-migration-certificate")
+                        {
+                            command.CommandText = "Usp_Bter_DuplicateCertificate_Download";
+                            //command.Parameters.AddWithValue("@MigrationType", filterModel.MigrationType);
+                            command.Parameters.AddWithValue("@Action", filterModel.Action);
+                        }
+                        else if (filterModel.Action == "duplicate-diploma-report")
+                        {
+                            command.CommandText = "Usp_Bter_DuplicateCertificate_Download";
+                            //command.Parameters.AddWithValue("@MigrationType", filterModel.MigrationType);
+                            command.Parameters.AddWithValue("@Action", filterModel.Action);
+                        }
+
+                            //else if (filterModel.Action == "Cancel-Enrollment-migration-certificate-download")
+                            //{
+                            //    command.CommandText = "Usp_Bter_MigrationCertificate_Report";
+                            //    command.Parameters.AddWithValue("@MigrationType", filterModel.MigrationType);
+                            //    command.Parameters.AddWithValue("@Action", filterModel.Action);
+                            //}
+                            //else if (filterModel.Action == "certificate-letter")
+                            //{
+                            //    command.CommandText = "Usp_Bter_ProvisionalCertificate_Report";
+                            //    command.Parameters.AddWithValue("@Action", "provisional-certificate-download");
+                            //}
+
+                            // Add parameters to the stored procedure from the model
+
+                            //command.CommandText = "Usp_Bter_Diploma_Report1";
+
+                        command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);
+                        command.Parameters.AddWithValue("@SemesterID", filterModel.SemesterID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", filterModel.Eng_NonEng);
+                        command.Parameters.AddWithValue("@DepartmentID", filterModel.DepartmentID);
+                        command.Parameters.AddWithValue("@EndTermID", filterModel.EndTermID);
+                        command.Parameters.AddWithValue("@EnrollmentNo", filterModel.EnrollmentNo);
+                        command.Parameters.AddWithValue("@RevisedType", filterModel.RevisedType);
+                        command.Parameters.AddWithValue("@ResultType", filterModel.ResultType);
+                        command.Parameters.AddWithValue("@StudentID", filterModel.StudentID);
+                        command.Parameters.AddWithValue("@Document_ID", filterModel.Document_ID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        ds = await command.FillAsync();
+                    }
+                    return ds;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+
+        #endregion
+
         //public async Task<DataSet> BterDiplomaReportDownload(BterCertificateReportDataModel filterModel)
         //{
         //    _actionName = "BterDiplomaReportDownload(BterCertificateReportDataModel filterModel)";
@@ -8830,7 +8914,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        #region Student Duplicate Marksheet
+        #region Student Duplicate Document
         public async Task<DataSet> GetStudentDuplicateMarksheet(MarksheetDownloadSearchModel model)
         {
             _actionName = " GetStudentDuplicateMarksheet(MarksheetDownloadSearchModel model)";
@@ -8872,6 +8956,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+       
+        
         #endregion
 
         #region Student Duplicate Provisional Certificate

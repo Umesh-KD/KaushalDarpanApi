@@ -14653,45 +14653,46 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<string>();
                 try
                 {
-                    var data = await _unitOfWork.ReportRepository.GetStudentDuplicateMarksheet(student);
-                    if (data?.Tables?.Count == 3)
+                    if(student.DocumentID.HasValue && student.DocumentID.Value == (int)EnumDuplicateDocumentType.Duplicate_Marksheet)
                     {
-                        //report
-                        var fileName = $"StudentMarksheet_{student.StudentID}.pdf";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
-
-                        student.MarksheetPath = filepath;
-                        student.Marksheet = fileName;
-                        //provider                      
-                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-
-
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("StudentDetailsForMarksheet", data.Tables[0]);
-                        localReport.AddDataSource("StudentMarksheetSubjectDetails", data.Tables[1]);
-                        localReport.AddDataSource("ResultDetails", data.Tables[2]);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
-
-                        //check file exists
-                        if (!System.IO.Directory.Exists(folderPath))
+                        var data = await _unitOfWork.ReportRepository.GetStudentDuplicateMarksheet(student);
+                        if (data?.Tables?.Count == 3)
                         {
-                            Directory.CreateDirectory(folderPath);
+                            //report
+                            var fileName = $"StudentMarksheet_{student.StudentID}.pdf";
+                            string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                            string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
+
+                            student.MarksheetPath = filepath;
+                            student.Marksheet = fileName;
+                            //provider                      
+                            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                            LocalReport localReport = new LocalReport(rdlcpath);
+                            localReport.AddDataSource("StudentDetailsForMarksheet", data.Tables[0]);
+                            localReport.AddDataSource("StudentMarksheetSubjectDetails", data.Tables[1]);
+                            localReport.AddDataSource("ResultDetails", data.Tables[2]);
+                            var reportResult = localReport.Execute(RenderType.Pdf);
+
+                            //check file exists
+                            if (!System.IO.Directory.Exists(folderPath))
+                            {
+                                Directory.CreateDirectory(folderPath);
+                            }
+
+                            //save
+                            System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                            result.Data = fileName;
+                            result.State = EnumStatus.Success;
+                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                            //end report
                         }
-
-                        //save
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                        //end report
+                        else
+                        {
+                            result.State = EnumStatus.Warning;
+                            result.Message = Constants.MSG_DATA_NOT_FOUND;
+                        }
                     }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
-
                 }
                 catch (Exception ex)
                 {
@@ -14712,6 +14713,94 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
         #endregion
+
+        #region Student Duplicate document Certificate download
+        [HttpPost("BterDuplicateCertificateDownload")]
+        public async Task<ApiResult<string>> BterDuplicateCertificateDownload([FromBody] BterDuplicateCertificateReportDataModel model)
+        {
+            ActionName = "BterDuplicateCertificateDownload([FromBody] BterCertificateReportDataModel model)";
+
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    string htmlTemplatePath = "";
+                    string devFontSize = "15px";
+                    if (model.Action == "duplicate-provisional-certificate")
+                    {
+                        devFontSize = "20px";
+                        htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderBTER}/ProvisionalCertificate.html";
+                        //model.Action = "duplicate-provisional-certificate-download";
+                    }
+                    if (model.Action == "duplicate-migration-certificate")
+                    {
+                        devFontSize = "20px";
+                        htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderBTER}/MigrationCertificate.html";
+                        //model.Action = "duplicate-migration-certificate-download";
+                    }
+                    if (model.Action == "duplicate-diploma-report")
+                    {
+                        devFontSize = "20px";
+                        htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderBTER}/DiplomaReport.html";
+                       // model.Action = "diploma-report-download";
+                    }
+
+                    var data = await _unitOfWork.ReportRepository.BterDuplicateCertificateDownload(model);
+                    if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+                    {
+
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        data.Tables[0].TableName = "BterCertificate";
+
+                        data.Tables[0].Rows[0]["logo"] = $"{ConfigurationHelper.StaticFileRootPath}/BTER-logo-black.jpg";
+                        //data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
+
+
+                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+                        string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+
+                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+                        html = Utility.PDFWorks.ReplaceCustomTag(html);
+
+                        sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+
+                        var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/BTER-logo-black.jpg";
+
+                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "", watermarkImagePath);
+
+                        result.Data = Convert.ToBase64String(pdfBytes);
+                        result.State = EnumStatus.Success;
+                        result.Message = "Success";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+        #endregion
+
 
         #region Student Duplicate Provisional Certificate
         [HttpPost("BterDuplicateProvisionalCertificateDownload")]

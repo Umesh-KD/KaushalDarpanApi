@@ -220,6 +220,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> GetAllotmentReportCollegeForAdmin(AllotmentReportCollegeForAdminRequestModel model);
         Task<DataTable> GetBterCertificateReport(BterCertificateReportDataModel filterModel);
         Task<DataSet> BterCertificateReportDownload(BterCertificateReportDataModel filterModel);
+        Task<DataSet> BterDuplicateCertificateDownload(BterDuplicateCertificateReportDataModel filterModel);
         Task<DataSet> BterDiplomaReportDownload(BterCertificateReportDataModel filterModel);
         Task<DataSet> AppearedPassedStatisticsReportDownload(BterCertificateReportDataModel filterModel);
         Task<DataSet> AppearedPassedInstituteWiseDownload(BterCertificateReportDataModel filterModel);
@@ -290,7 +291,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         //Task<DataSet> GetStudentFailTheoryReport(StudentFailTheoryReportModel model);
         Task<DataTable> GetITIEstablishManagementStaffReport(BTER_EstablishManagementReportSearchModel model);
         Task<DataTable> GetBterDuplicateCertificateReport(BterCertificateReportDataModel filterModel);
-        Task<DataSet> GetStudentDuplicateMarksheet(MarksheetDownloadSearchModel model);
+        Task<DataSet> GetStudentDuplicateMarksheet(MarksheetDownloadSearchModel model);        
         Task<DataSet> BterDuplicateProvisionalCertificateDownload(BterCertificateReportDataModel filterModel);
         Task<DataSet> GetApplicantReportForAdmin(ApplicantStudentReport model);
         Task<DataSet> ReportedStudentReport(ReportedStudentReport model);

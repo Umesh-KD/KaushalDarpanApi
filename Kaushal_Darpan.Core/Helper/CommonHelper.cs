@@ -591,6 +591,14 @@ namespace Kaushal_Darpan.Core.Helper
         RwhRevalEffected = 5
     }
 
+    public enum EnumDuplicateDocumentType
+    {
+        Provisional_Diploma = 1,
+        Final_Diploma = 2,
+        Duplicate_Marksheet = 3,
+        Migration = 4
+    }
+
     public enum EnumConfigurationType
     {
         Admission = 1,
