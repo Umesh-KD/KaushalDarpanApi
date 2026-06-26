@@ -12753,29 +12753,18 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandText = "USP_GetValidateOrStudentsWithMsg";
 
                     command.Parameters.AddWithValue("@action", "_validatestudentresult");
-
                     command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-
                     command.Parameters.AddWithValue("@DepartmentId", model.DepartmentID);
-
                     command.Parameters.AddWithValue("@CourseTypeId", model.Eng_NonEng);
-
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-
                     command.Parameters.AddWithValue("@StreamID", model.StreamID);
-
                     command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
-
                     command.Parameters.AddWithValue("@RollNo", model.RollNo);
-
                     command.Parameters.AddWithValue("@DOB", model.DOB);
-
                     command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
-
                     var dt = await command.FillAsync_DataTable();
-
                     data = CommonFuncationHelper.ConvertDataTable<ValidateOrStudentsWithMsgResponseModel>(dt);
 
                 }

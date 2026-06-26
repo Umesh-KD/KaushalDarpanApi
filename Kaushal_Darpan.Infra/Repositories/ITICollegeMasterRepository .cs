@@ -1729,6 +1729,61 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<List<BankGuaranteeConsolidatedReportModel>>
+    GetBankGuaranteeConsolidatedReport(BankGuaranteeConsolidatedReportRequest request)
+        {
+            _actionName = "GetBankGuaranteeConsolidatedReport";
+
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataSet dataSet = new DataSet();
+
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_BankGuaranteeConsolidatedReport";
+
+                        command.Parameters.AddWithValue("@action", request.Action ?? "_getAllData");
+                        command.Parameters.AddWithValue("@Id", request.Id);
+                        command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+
+                        dataSet = await command.FillAsync();
+                    }
+
+                    var data = new List<BankGuaranteeConsolidatedReportModel>();
+
+                    if (dataSet != null &&
+                        dataSet.Tables.Count > 0 &&
+                        dataSet.Tables[0].Rows.Count > 0)
+                    {
+                        data = CommonFuncationHelper
+                            .ConvertDataTable<List<BankGuaranteeConsolidatedReportModel>>
+                            (dataSet.Tables[0]);
+                    }
+
+                    return data;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+
+                throw new Exception(errordetails, ex);
+            }
+        }
+
     }
 }
 
