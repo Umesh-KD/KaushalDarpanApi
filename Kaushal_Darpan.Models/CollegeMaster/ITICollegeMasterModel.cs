@@ -237,4 +237,6 @@ public class BankGuaranteeConsolidatedReportModel
     public string HighCourtName { get; set; }
 
     public string CourtDocumernt { get; set; }
+    public string BankStatus { get; set; }
+    public string BankRemark { get; set; }
 }
