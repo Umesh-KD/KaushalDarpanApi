@@ -19,7 +19,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>3.24759cm</Top>
+        <Top>1.91409cm</Top>
         <Left>0.25725cm</Left>
         <Height>0.77639cm</Height>
         <Width>3.64243cm</Width>
@@ -48,7 +48,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>4.34148cm</Top>
+        <Top>2.84923cm</Top>
         <Left>4.35829cm</Left>
         <Height>0.94148cm</Height>
         <Width>11.76301cm</Width>
@@ -80,7 +80,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>4.34148cm</Top>
+        <Top>2.84923cm</Top>
         <Left>0.25725cm</Left>
         <Height>0.94148cm</Height>
         <Width>3.64243cm</Width>
@@ -110,7 +110,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>5.60046cm</Top>
+        <Top>3.98121cm</Top>
         <Left>4.35829cm</Left>
         <Height>0.77639cm</Height>
         <Width>11.76301cm</Width>
@@ -142,7 +142,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>5.60046cm</Top>
+        <Top>3.98121cm</Top>
         <Left>0.25725cm</Left>
         <Height>0.77639cm</Height>
         <Width>3.64243cm</Width>
@@ -164,7 +164,8 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!Fee.Value, "StudentFeeReceipt")</Value>
+                <Label>totalFee</Label>
+                <Value>=First(Fields!EnrollmentFeeInWords.Value, "StudentFeeReceipt")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -174,7 +175,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>6.70453cm</Top>
+        <Top>6.99028cm</Top>
         <Left>4.35829cm</Left>
         <Height>0.82407cm</Height>
         <Width>11.76301cm</Width>
@@ -196,7 +197,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Fee</Value>
+                <Value>Total Fee</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -206,7 +207,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>6.70453cm</Top>
+        <Top>6.99028cm</Top>
         <Left>0.25725cm</Left>
         <Height>0.82407cm</Height>
         <Width>3.64243cm</Width>
@@ -238,7 +239,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>7.84416cm</Top>
+        <Top>8.00291cm</Top>
         <Left>4.35829cm</Left>
         <Height>0.78991cm</Height>
         <Width>11.76301cm</Width>
@@ -270,7 +271,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>7.84416cm</Top>
+        <Top>8.00291cm</Top>
         <Left>0.25725cm</Left>
         <Height>0.78991cm</Height>
         <Width>3.64243cm</Width>
@@ -302,7 +303,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>8.93805cm</Top>
+        <Top>8.9698cm</Top>
         <Left>4.35829cm</Left>
         <Height>0.78991cm</Height>
         <Width>11.76301cm</Width>
@@ -334,7 +335,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>8.93805cm</Top>
+        <Top>8.9698cm</Top>
         <Left>0.25725cm</Left>
         <Height>0.78991cm</Height>
         <Width>3.64243cm</Width>
@@ -366,7 +367,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>10.03194cm</Top>
+        <Top>9.93669cm</Top>
         <Left>4.35829cm</Left>
         <Height>0.75463cm</Height>
         <Width>11.76301cm</Width>
@@ -398,7 +399,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>10.03194cm</Top>
+        <Top>9.93669cm</Top>
         <Left>0.25725cm</Left>
         <Height>0.75463cm</Height>
         <Width>3.64243cm</Width>
@@ -430,7 +431,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>11.12583cm</Top>
+        <Top>10.84008cm</Top>
         <Left>0.25725cm</Left>
         <Height>0.955cm</Height>
         <Width>3.64243cm</Width>
@@ -462,7 +463,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>11.12583cm</Top>
+        <Top>10.84008cm</Top>
         <Left>4.35829cm</Left>
         <Height>0.955cm</Height>
         <Width>11.76301cm</Width>
@@ -492,7 +493,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>3.28287cm</Top>
+        <Top>1.94937cm</Top>
         <Left>4.35829cm</Left>
         <Height>0.74111cm</Height>
         <Width>11.76301cm</Width>
@@ -508,7 +509,7 @@
         </Style>
       </Textbox>
       <Line Name="Line1">
-        <Top>3.10648cm</Top>
+        <Top>1.70419cm</Top>
         <Left>0.00002cm</Left>
         <Height>0cm</Height>
         <Width>18.99568cm</Width>
@@ -519,65 +520,17 @@
           </Border>
         </Style>
       </Line>
-      <Image Name="Image2">
-        <Source>Embedded</Source>
-        <Value>Mar312025050856209560</Value>
-        <Sizing>FitProportional</Sizing>
-        <Height>2.81544cm</Height>
-        <Width>4.675cm</Width>
-        <ZIndex>17</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-        </Style>
-      </Image>
-      <Textbox Name="Textbox33">
+      <Textbox Name="Textbox1">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>राजस्थान सरकार </Value>
+                <Value>FEE RECEIPT</Value>
                 <Style>
-                  <FontStyle>Normal</FontStyle>
+                  <FontSize>14pt</FontSize>
                   <FontWeight>Bold</FontWeight>
-                  <TextDecoration>None</TextDecoration>
-                  <Color>#000000</Color>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
-          </Paragraph>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>कौशल, नियोजन एवं उधामिता विभाग </Value>
-                <Style>
-                  <FontStyle>Normal</FontStyle>
-                  <FontWeight>Bold</FontWeight>
-                  <TextDecoration>None</TextDecoration>
-                  <Color>#000000</Color>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
-          </Paragraph>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>प्राविधिक शिक्षा निदेशालय राजस्थान, जोधपुर
-W-6, रेजीडेन्सी रोड, जोधपुर 342011</Value>
-                <Style>
-                  <FontStyle>Normal</FontStyle>
-                  <FontWeight>Bold</FontWeight>
-                  <TextDecoration>None</TextDecoration>
-                  <Color>#000000</Color>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -586,40 +539,152 @@ W-6, रेजीडेन्सी रोड, जोधपुर 342011</Value>
             </Style>
           </Paragraph>
         </Paragraphs>
-        <rd:DefaultName>Textbox33</rd:DefaultName>
-        <Height>3.10648cm</Height>
-        <Width>18.99569cm</Width>
-        <ZIndex>18</ZIndex>
+        <rd:DefaultName>Textbox1</rd:DefaultName>
+        <Top>0.60537cm</Top>
+        <Left>3.9085cm</Left>
+        <Height>0.92243cm</Height>
+        <Width>11.23541cm</Width>
+        <ZIndex>17</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
-          <BottomBorder>
-            <Color>Black</Color>
-            <Style>Solid</Style>
-            <Width>1pt</Width>
-          </BottomBorder>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Image Name="Image4">
-        <Source>Embedded</Source>
-        <Value>ss</Value>
-        <Sizing>FitProportional</Sizing>
-        <Top>0.3175cm</Top>
-        <Left>15.47005cm</Left>
-        <Height>2.61259cm</Height>
-        <Width>3.52565cm</Width>
+      <Textbox Name="Textbox23">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Label>processingFee</Label>
+                <Value>=First(Fields!ProcessingFee.Value, "StudentFeeReceipt")</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>4.96574cm</Top>
+        <Left>4.35829cm</Left>
+        <Height>0.82407cm</Height>
+        <Width>11.76301cm</Width>
+        <ZIndex>18</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox24">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Processing Fee</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>4.96574cm</Top>
+        <Left>0.25725cm</Left>
+        <Height>0.82407cm</Height>
+        <Width>3.64243cm</Width>
         <ZIndex>19</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
         </Style>
-      </Image>
+      </Textbox>
+      <Textbox Name="Textbox25">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Label>applicationFee</Label>
+                <Value>=First(Fields!ApplicationFee.Value, "StudentFeeReceipt")</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>5.97971cm</Top>
+        <Left>4.35829cm</Left>
+        <Height>0.82407cm</Height>
+        <Width>11.76301cm</Width>
+        <ZIndex>20</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox26">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Application Fee</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>5.97971cm</Top>
+        <Left>0.25725cm</Left>
+        <Height>0.82407cm</Height>
+        <Width>3.64243cm</Width>
+        <ZIndex>21</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>7.9037in</Height>
     <Style>
@@ -736,10 +801,94 @@ W-6, रेजीडेन्सी रोड, जोधपुर 342011</Value>
           <DataField>PRN</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="ChallanNo">
+          <DataField>ChallanNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MotherName">
+          <DataField>MotherName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Gender">
+          <DataField>Gender</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CasteCategoryName">
+          <DataField>CasteCategoryName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MobileNo">
+          <DataField>MobileNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CourseType">
+          <DataField>CourseType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AllotmentId">
+          <DataField>AllotmentId</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApplicationNo">
+          <DataField>ApplicationNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PrefrencialCategory">
+          <DataField>PrefrencialCategory</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AllotedCategory">
+          <DataField>AllotedCategory</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AllotmentType">
+          <DataField>AllotmentType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="URL">
+          <DataField>URL</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportingDate">
+          <DataField>ReportingDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportingStatus">
+          <DataField>ReportingStatus</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Convener">
+          <DataField>Convener</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EnrollFeeAmount">
+          <DataField>EnrollFeeAmount</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ExamFeeAmount">
+          <DataField>ExamFeeAmount</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RevalRequestNo">
+          <DataField>RevalRequestNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProcessingFee">
+          <DataField>ProcessingFee</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApplicationFee">
+          <DataField>ApplicationFee</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EnrollmentFeeInWords">
+          <DataField>EnrollmentFeeInWords</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KD_DBScript</rd:DataSetName>
-        <rd:SchemaPath>D:\Project\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Kausal_Darpan\Kaushal_Darpan_API\Kaushal_Darpan.Api\Report\DataSource\KD_DBScript.xsd</rd:SchemaPath>
         <rd:TableName>StudentFeeReceipt</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
