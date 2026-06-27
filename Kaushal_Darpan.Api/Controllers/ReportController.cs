@@ -14811,8 +14811,7 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 var result = new ApiResult<string>();
                 try
-                {
-                    
+                {                    
                     var data = await _unitOfWork.ReportRepository.BterDuplicateCertificateDownload(model);
                     if (data != null)
                     {
