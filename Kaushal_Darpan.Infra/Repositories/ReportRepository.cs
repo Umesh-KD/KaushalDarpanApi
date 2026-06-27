@@ -6917,11 +6917,12 @@ namespace Kaushal_Darpan.Infra.Repositories
                             //command.Parameters.AddWithValue("@MigrationType", filterModel.MigrationType);
                             command.Parameters.AddWithValue("@Action", filterModel.Action);
                         }
-                        else if (filterModel.Action == "duplicate-diploma-report")
+                        else 
+                        //if (filterModel.Action == "duplicate-diploma-report")
                         {
                             command.CommandText = "Usp_Bter_DuplicateCertificate_Download";
                             //command.Parameters.AddWithValue("@MigrationType", filterModel.MigrationType);
-                            command.Parameters.AddWithValue("@Action", filterModel.Action);
+                            command.Parameters.AddWithValue("@Action", "duplicate-diploma-report");
                         }
 
                             //else if (filterModel.Action == "Cancel-Enrollment-migration-certificate-download")
@@ -6937,7 +6938,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                             //}
 
                             // Add parameters to the stored procedure from the model
-
                             //command.CommandText = "Usp_Bter_Diploma_Report1";
 
                         command.Parameters.AddWithValue("@InstituteID", filterModel.InstituteID);
@@ -6950,7 +6950,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ResultType", filterModel.ResultType);
                         command.Parameters.AddWithValue("@StudentID", filterModel.StudentID);
                         command.Parameters.AddWithValue("@Document_ID", filterModel.Document_ID);
-
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
