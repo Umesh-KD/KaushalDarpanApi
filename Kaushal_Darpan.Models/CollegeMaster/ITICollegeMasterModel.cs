@@ -217,6 +217,7 @@ public class BankGuaranteeConsolidatedReportRequest
     public int Id { get; set; }
     public string Action { get; set; } = "_getAllData";
     public int FinancialYearID { get; set; }
+    public int Status { get; set; }
 }
 
 public class BankGuaranteeConsolidatedReportModel
@@ -239,4 +240,6 @@ public class BankGuaranteeConsolidatedReportModel
     public string CourtDocumernt { get; set; }
     public string BankStatus { get; set; }
     public string BankRemark { get; set; }
+    public string NumberOfUnit { get; set; }
+    public string WritNoDate { get; set; }
 }
