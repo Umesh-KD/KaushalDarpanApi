@@ -32,6 +32,7 @@
         public int RequestEndTerm { get; set; }
 
         public int? FianancialYearID { get; set; }
+        public int? DocumentID { get; set; }
 
     }
 

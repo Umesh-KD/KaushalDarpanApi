@@ -1,6 +1,10 @@
 ﻿using AspNetCore.Reporting;
 using AutoMapper;
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using DocumentFormat.OpenXml.EMMA;
 using Kaushal_Darpan.Api.Code.Attribute;
+using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Infra;
@@ -12,7 +16,9 @@ using Kaushal_Darpan.Models.MarksheetDownloadModel;
 using Kaushal_Darpan.Models.PaperSetter;
 using Kaushal_Darpan.Models.Report;
 using Kaushal_Darpan.Models.SetExamAttendanceMaster;
+using Kaushal_Darpan.Models.TheoryMarks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System.Data;
 
 namespace Kaushal_Darpan.Api.Controllers
@@ -27,11 +33,15 @@ namespace Kaushal_Darpan.Api.Controllers
 
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IConverter _converter;
+        private readonly IPrintHtmlFile _printHtmlFile;
 
-        public MarksheetDownloadController(IMapper mapper, IUnitOfWork unitOfWork)
+        public MarksheetDownloadController(IMapper mapper, IUnitOfWork unitOfWork, IConverter converter, IPrintHtmlFile printHtmlFile)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _converter = converter;
+            _printHtmlFile = printHtmlFile;
         }
 
         [HttpPost("GetStudents")]
@@ -277,5 +287,129 @@ namespace Kaushal_Darpan.Api.Controllers
             }
             return result;
         }
+
+        #region Theory Marks Report BTER
+        [HttpPost("DownloadStudentResult_Public")]
+        public async Task<ApiResult<string>> DownloadStudentResult_Public(StudentResultSearchModel model)
+        {
+            ActionName = "DownloadStudentResult_Public(StudentResultSearchModel model)";
+            var result = new ApiResult<string>();
+            try
+            {
+                // handle to show result or not
+                var ValidateModel = new ValidateOrStudentsWithMsgRequestModel
+                {
+                    SemesterID = model.SemesterID,
+                    EndTermID = model.EndTermID,
+                    RollNo = model.RollNo,
+                    DOB = model.DOB,
+                    ResultTypeID = model.ResultType
+                };
+                var validateResult = await Task.Run(() => _unitOfWork.CommonFunctionRepository.GetValidateOrStudentsWithMsg(ValidateModel));
+                if (validateResult.ValidateStatus != 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = validateResult.Msg;
+                    return result;
+                }
+
+                var data = new DataSet();
+                // different type of result
+                if (model.ResultType == (int)EnumResultType.MainResult)
+                {
+                    data = await Task.Run(() => _unitOfWork.MarksheetDownloadRepository.GetStudentResult_public(model));
+                }
+                else if (model.ResultType == (int)EnumResultType.RwhResult || model.ResultType == (int)EnumResultType.RwhRevalEffected)
+                {
+                    data = await Task.Run(() => _unitOfWork.MarksheetDownloadRepository.GetStudentResultRWH_public(model));
+                }
+                else if (model.ResultType == (int)EnumResultType.RevaluationResult)
+                {
+                    data = await Task.Run(() => _unitOfWork.MarksheetDownloadRepository.GetStudentResultReval_public(model));
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_INVALID_REQUEST;
+                    return result;
+                }
+                // check data found or not
+                if (data.Tables.Count < 3 || data.Tables[0].Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+
+                var sb = await _printHtmlFile.StudentResult_Public_GetHtml(data , (int)model.ResultType);
+                var _html = sb.ToString();
+
+                // remove last blank page
+                string endTag = "<div class='page-break'></div></body></html>";
+                if (_html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    _html = _html.Substring(0, _html.Length - endTag.Length)
+                                 + "</body></html>";
+                }
+
+                // pdf document setting
+                var doc = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+                    {
+                        PaperSize = PaperKind.A4,
+                        Orientation = Orientation.Portrait,
+                        Margins = new MarginSettings
+                        {
+                            Top = 10,
+                            Bottom = 10,
+                            Left = 5,
+                            Right = 5
+                        }
+                    },
+                    Objects =
+                    {
+                        new ObjectSettings
+                        {
+                            HtmlContent = _html,
+                            WebSettings = { DefaultEncoding = "utf-8" },
+
+                            FooterSettings = new FooterSettings
+                            {
+                                FontName = "Arial",
+                                FontSize = 7,
+                                Center = "Page [page] of [toPage]",
+                                Line = true
+                            }
+                        }
+                    }
+                };
+
+                // return
+                byte[] pdfBytes = await Task.Run(() => _converter.Convert(doc));
+
+                result.Data = Convert.ToBase64String(pdfBytes);
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+        #endregion
     }
 }

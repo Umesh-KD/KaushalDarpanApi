@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.PreExamStudent;
@@ -2280,6 +2281,463 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
             sb.AppendLine("</html>");
 
             return sb;
+        }
+        #endregion
+
+        #region Student Marksheet public
+        public async Task<StringBuilder> StudentResult_Public_GetHtml(DataSet dataSet, int ResultType)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                DataTable dtStudent = dataSet.Tables[0];
+                DataTable dtSubjects = dataSet.Tables[1];
+                DataTable dtSummary = dataSet.Tables[2];
+
+                DataRow result = dtSummary.Rows[0];
+
+                if (dtStudent.Rows.Count == 0)
+                    return sb;
+
+                int streamId = Convert.ToInt32(dtStudent.Rows[0]["StreamId"]);
+                DataRow student = dtStudent.Rows[0];
+
+                sb.Append(@"
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                    <meta charset='utf-8'>                    
+                    <style>                    
+                    body{
+                        font-family: ""Segoe UI"", Arial, Helvetica, sans-serif;
+                        font-size:13px;
+                        line-height:1.6;
+                        color:#000;
+                        letter-spacing:0.2px;
+                    }
+                    
+                    .header{
+                        text-align:center;
+                        margin-bottom:15px;
+                    }
+                    
+                    .header h2{
+                        margin:0;
+                        font-size:18px;
+                    }
+                    
+                    .header h3{
+                        margin:3px;
+                        font-size:16px;
+                    }
+                    
+                    .header p{
+                        margin:3px;
+                    }
+                    
+                    table{
+                        width:100%;
+                        border-collapse:collapse;
+                        table-layout:fixed;
+                        margin-top:12px;
+                    }
+                    
+                    th{
+                        border:1px solid #444;
+                        padding:8px 10px;
+                        font-size:13px;
+                        line-height:1.5;
+                        font-weight:bold;
+                        vertical-align:middle;
+                    }
+                    
+                    td{
+                        border:1px solid #444;
+                        padding:7px 8px;
+                        font-size:12px;
+                        line-height:1.5;
+                        vertical-align:middle;
+                        word-wrap:break-word;
+                        overflow-wrap:break-word;
+                    }
+                    
+                    .info td{
+                        border:none;
+                        padding:4px;
+                    }
+                    
+                    .subjectTable th{
+                        background:#efefef;
+                    }
+                    
+                    .summaryTable th{
+                        background:#efefef;
+                    }
+                    
+                    .title{
+                        font-weight:bold;
+                        margin-top:15px;
+                        margin-bottom:5px;
+                        font-size:13px;
+                    }
+                    
+                    .footer{
+                        margin-top:20px;
+                        font-size:11px;
+                    }
+
+                    .subjectTable{
+                        table-layout:fixed;
+                        width:100%;
+                    }
+                    
+                    .subjectTable td,
+                    .subjectTable th{
+                        padding:8px;
+                        line-height:1.5;
+                    }
+                    
+                    .subjectTable td:nth-child(2){
+                        white-space:normal;
+                        word-break:break-word;
+                    }
+                    
+                    </style>                    
+                    </head>                    
+                    <body>");
+
+                //Header
+                sb.Append($@"
+                    <div class='header'>                    
+                    <h2>{student["HeaderLine1"]}</h2>                    
+                    <h3>{student["HeaderLine2"]}</h3>                    
+                    <p>{student["HeaderLine3"]}</p>                    
+                    </div>");
+
+                //Student Details
+                sb.Append("<table class='info'>");
+                sb.Append($@"
+                    <tr>
+                    <td><b>Name</b></td>
+                    <td>{student["StudentName"]}</td>
+
+                    <td><b>Enrollment No.</b></td>
+                    <td>{student["EnrollmentNo"]}</td>
+                    </tr>
+                    
+                    <tr>
+                    <td><b>Father's Name</b></td>
+                    <td>{student["FatherName"]}</td>
+                    
+                    <td><b>Roll No.</b></td>
+                    <td>{student["RollNo"]}</td>
+                    </tr>
+                    
+                    <tr>
+                    <td><b>Mother's Name</b></td>
+                    <td>{student["MotherName"]}</td>
+                    
+                    <td><b>Course</b></td>
+                    <td>{student["Branch"]}</td>
+                    </tr>
+                    
+                    <tr>
+                    <td><b>Branch</b></td>
+                    <td>{student["StreamName"]}</td>
+                    
+                    <td><b>Class</b></td>
+                    <td>{student["YearSemester"]}</td>
+                    </tr>
+                    
+                    <tr>
+                    <td><b>College</b></td>
+                    <td colspan='3'>{student["InstituteName"]}</td>
+                    </tr>");
+
+                sb.Append("</table>");
+
+                //Subject Table
+
+                sb.Append(@"
+                    <table class='subjectTable' style='width:100%; border-collapse:collapse; table-layout:fixed;'>
+                    
+                    <tr>
+                        <th style='width:8%;'>Code</th>
+                        <th style='width:52%;'>Subject</th>
+                        <th style='width:12%;'>Registered Credits</th>
+                        <th style='width:12%;'>Earned Credits</th>
+                        <th style='width:8%;'>Grade</th>
+                        <th style='width:8%;'>Remarks</th>
+                    </tr>");
+                foreach (DataRow dr in dtSubjects.Rows)
+                {
+                    if (Convert.ToInt32(dr["IsStudentCenteredActivity"]) == 1)
+                    {
+                        sb.Append($@"
+                            <tr>                            
+                                <td style='text-align:center;'>{dr["SubjectCode"]}</td>                            
+                                <td style='text-align:left;padding-left:8px;word-wrap:break-word;'>{dr["SubjectName"]}</td>                            
+                                <td colspan='4' style='text-align:center;'>{dr["EarnedCredits"]}</td>                        
+                            </tr>");
+                    }
+                    else
+                    {
+                        sb.Append($@"
+                            <tr>                            
+                                <td style='text-align:center;'>{dr["SubjectCode"]}</td>                            
+                                <td style='text-align:left;padding-left:8px;word-wrap:break-word;'>{dr["SubjectName"]}</td>
+                                <td style='text-align:center;'>{dr["SubjectCredits"]}</td>
+                                <td style='text-align:center;'>{dr["EarnedCredits"]}</td>
+                                <td style='text-align:center;'>{dr["Grade"]}</td>
+                                <td style='text-align:center;'>{dr["Remarks"]}</td>                           
+                            </tr>");
+                    }
+                }
+                sb.Append("</table>");
+
+                //Result Summary
+                sb.Append(@"
+                    <div style='padding:10px;font-weight:bold;font-size:13px;'>
+                        DETAILS UP TO THIS END TERM EXAMINATION RESULT
+                    </div>
+                    
+                    <table style='width:100%;border-collapse:collapse;font-size:12px;text-align:center;'>");
+
+                #region Header
+
+                sb.Append("<tr>");
+
+                sb.Append("<th style='padding:8px;border:1px solid #444;text-align:left;width:180px;'>Semester</th>");
+
+                sb.Append("<th style='padding:8px;border:1px solid #444;'>1</th>");
+                sb.Append("<th style='padding:8px;border:1px solid #444;'>2</th>");
+                sb.Append("<th style='padding:8px;border:1px solid #444;'>3</th>");
+                sb.Append("<th style='padding:8px;border:1px solid #444;'>4</th>");
+
+                if (streamId != 43)
+                {
+                    sb.Append("<th style='padding:8px;border:1px solid #444;'>5</th>");
+                    sb.Append("<th style='padding:8px;border:1px solid #444;'>6</th>");
+                    sb.Append("<th style='padding:8px;border:1px solid #444;'>Semester Result</th>");
+                }
+                else
+                {
+                    sb.Append("<th colspan='3' style='padding:8px;border:1px solid #444;'>Semester Result</th>");
+                }
+
+                sb.Append("</tr>");
+
+                #endregion
+
+
+                #region Credit Registered
+
+                sb.Append("<tr>");
+
+                sb.Append("<td style='text-align:left;border:1px solid #444;'>Credit Registered</td>");
+
+                sb.Append($"<td>{FormatNumber(result["SubjectCreditsSem1"])}</td>");
+                sb.Append($"<td>{FormatNumber(result["SubjectCreditsSem2"])}</td>");
+                sb.Append($"<td>{FormatNumber(result["SubjectCreditsSem3"])}</td>");
+                sb.Append($"<td>{FormatNumber(result["SubjectCreditsSem4"])}</td>");
+
+                if (streamId != 43)
+                {
+                    sb.Append($"<td>{FormatNumber(result["SubjectCreditsSem5"])}</td>");
+                    sb.Append($"<td>{FormatNumber(result["SubjectCreditsSem6"])}</td>");
+
+                    sb.Append($@"
+                        <td rowspan='4'
+                            style='border:1px solid #444;
+                                   vertical-align:middle;'>
+                            {result["Result"]}
+                        </td>");
+                }
+                else
+                {
+                    sb.Append($@"
+                        <td colspan='3'
+                            rowspan='4'
+                            style='border:1px solid #444;
+                                   vertical-align:middle;'>
+                            {result["Result"]}
+                        </td>");
+                }
+
+                sb.Append("</tr>");
+                #endregion
+
+                #region Credit Earned
+
+                sb.Append("<tr>");
+                sb.Append("<td style='text-align:left;border:1px solid #444;'>Credit Earned</td>");
+                sb.Append($"<td>{FormatNumber(result["EarnedCreditsSem1"])}</td>");
+                sb.Append($"<td>{FormatNumber(result["EarnedCreditsSem2"])}</td>");
+                sb.Append($"<td>{FormatNumber(result["EarnedCreditsSem3"])}</td>");
+                sb.Append($"<td>{FormatNumber(result["EarnedCreditsSem4"])}</td>");
+                if (streamId != 43)
+                {
+                    sb.Append($"<td>{FormatNumber(result["EarnedCreditsSem5"])}</td>");
+                    sb.Append($"<td>{FormatNumber(result["EarnedCreditsSem6"])}</td>");
+                }
+                sb.Append("</tr>");
+                #endregion
+
+
+                #region SGPA
+
+                sb.Append("<tr>");
+                sb.Append("<td style='text-align:left;border:1px solid #444;'>SGPA</td>");
+                sb.Append($"<td>{FormatNumber(result["SGPASem1"])}</td>");
+                sb.Append($"<td>{FormatNumber(result["SGPASem2"])}</td>");
+                sb.Append($"<td>{FormatNumber(result["SGPASem3"])}</td>");
+                sb.Append($"<td>{FormatNumber(result["SGPASem4"])}</td>");
+
+                if (streamId != 43)
+                {
+                    sb.Append($"<td>{FormatNumber(result["SGPASem5"])}</td>");
+                    sb.Append($"<td>{FormatNumber(result["SGPASem6"])}</td>");
+                }
+                sb.Append("</tr>");
+
+                #endregion
+
+
+                #region CGPA
+
+                sb.Append("<tr>");
+                sb.Append("<td style='text-align:left;border:1px solid #444;'>CGPA</td>");
+                sb.Append($"<td>{FormatNumber(result["CGPASem1"])}</td>");
+                sb.Append($"<td>{FormatNumber(result["CGPASem2"])}</td>");
+                sb.Append($"<td>{FormatNumber(result["CGPASem3"])}</td>");
+                sb.Append($"<td>{FormatNumber(result["CGPASem4"])}</td>");
+                if (streamId != 43)
+                {
+                    sb.Append($"<td>{FormatNumber(result["CGPASem5"])}</td>");
+                    sb.Append($"<td>{FormatNumber(result["CGPASem6"])}</td>");
+                }
+                sb.Append("</tr>");
+
+                #endregion
+
+
+                #region Division
+
+                sb.Append($@"
+                    <tr>                    
+                    <td rowspan='2' style='border:1px solid #444; text-align:left; vertical-align:middle;'>Division Award Details </td>      
+
+                    <td style='border:1px solid #444;text-align:left;'>Total Credit Earned</td>                    
+                    <td style='border:1px solid #444;'>{result["TotalEarnedCredits"]}</td>    
+
+                    <td rowspan='2'style='border:1px solid #444;'>Final CGPA</td>
+                    <td rowspan='2' style='border:1px solid #444;'>{result["Percentage"]}</td>
+                    
+                    <td rowspan='2' colspan='2' style='border:1px solid #444;'>Division</td>
+                    <td rowspan='2' style='border:1px solid #444;'>{result["Division"]}</td>
+                    
+                    </tr>
+                    
+                    <tr>
+                    
+                    <td style='border:1px solid #444;text-align:left;'>Total Credit Registered</td>
+                    <td style='border:1px solid #444;'>{result["TotalSubjectCredits"]}</td>
+                    
+                    </tr>");
+
+                #endregion
+
+                sb.Append("</table>");
+
+                //Footer
+                sb.Append(@"
+                    <div style='padding:20px 10px;font-size:11px;line-height:1.6;'>");
+                    
+                                    // District
+                                    sb.Append($@"
+                    <div style='margin-bottom:5px;'>
+                        {student["District"]}
+                    </div>");
+                    
+                                    // Result Declaration Date
+                                    sb.Append($@"
+                    <div style='margin-bottom:15px;'>
+                        DATE OF RESULT DECLARATION :
+                        {student["ResultDeclarationDate"]}
+                    </div>");
+
+                if (ResultType == (int)EnumResultType.MainResult)
+                {
+                    sb.Append($@"
+                        <div style='margin-bottom:3px;'>                        
+                        <strong>NOTE:</strong>                        
+                        LAST DATE FOR APPLYING ONLINE RE-EVALUATION FORM IS
+                        {student["ReEvaluationDate"]}.                        
+                        </div>
+                        
+                        <div style='margin-bottom:3px;'>                        
+                        <strong>NOTE:</strong>                        
+                        If student applying for Revaluation in final semester,
+                        then his/her mark-sheet will be issued after declaration
+                        of Revaluation result.                        
+                        </div>");
+                }
+
+                if (ResultType == (int)EnumResultType.RevaluationResult)
+                {
+                    if (!string.IsNullOrWhiteSpace(student["ResultDeclarationDate_Reval"].ToString()))
+                    {
+                        sb.Append($@"
+                            <div style='margin-bottom:15px;'>                            
+                            Date Of Issue :
+                            {student["ResultDeclarationDate_Reval"]}                            
+                            </div>                            
+                            ");
+                    }
+                            
+                    sb.Append(@"                            
+                        <div style='margin-bottom:10px;'>                        
+                        <strong>NOTE:</strong>                        
+                        Student appeared as Ex student in * marked subject in current session.                        
+                        </div>");
+                }
+
+                sb.Append(@"
+                    <div style='color:#444;text-align:justify;'>                    
+                    <strong>Disclaimer:</strong>                    
+                    Though utmost care has been taken in providing information about result
+                    on this web portal, even if in case of any inadvertent error the
+                    information provided from Board of Technical Education Rajasthan,
+                    Jodhpur office will be treated as authentic and final.                    
+                    </div>                    
+                    </div>");
+
+                //Close HTML
+                sb.Append(@"
+                    </body>
+                    </html>");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating Diploma Result HTML.", ex);
+            }
+
+            return sb;
+        }
+
+        private string FormatNumber(object value)
+        {
+            if (value == null || value == DBNull.Value)
+                return "-";
+
+            if (string.IsNullOrWhiteSpace(value.ToString()))
+                return "-";
+
+            if (decimal.TryParse(value.ToString(), out decimal d))
+                return d.ToString("0.00");
+
+            return "-";
         }
         #endregion
 

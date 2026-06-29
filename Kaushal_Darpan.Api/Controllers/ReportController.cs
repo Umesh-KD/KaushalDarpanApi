@@ -14653,45 +14653,46 @@ namespace Kaushal_Darpan.Api.Controllers
                 var result = new ApiResult<string>();
                 try
                 {
-                    var data = await _unitOfWork.ReportRepository.GetStudentDuplicateMarksheet(student);
-                    if (data?.Tables?.Count == 3)
+                    if(student.DocumentID.HasValue && student.DocumentID.Value == (int)EnumDuplicateDocumentType.Duplicate_Marksheet)
                     {
-                        //report
-                        var fileName = $"StudentMarksheet_{student.StudentID}.pdf";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
-                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
-
-                        student.MarksheetPath = filepath;
-                        student.Marksheet = fileName;
-                        //provider                      
-                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-
-
-                        LocalReport localReport = new LocalReport(rdlcpath);
-                        localReport.AddDataSource("StudentDetailsForMarksheet", data.Tables[0]);
-                        localReport.AddDataSource("StudentMarksheetSubjectDetails", data.Tables[1]);
-                        localReport.AddDataSource("ResultDetails", data.Tables[2]);
-                        var reportResult = localReport.Execute(RenderType.Pdf);
-
-                        //check file exists
-                        if (!System.IO.Directory.Exists(folderPath))
+                        var data = await _unitOfWork.ReportRepository.GetStudentDuplicateMarksheet(student);
+                        if (data?.Tables?.Count == 3)
                         {
-                            Directory.CreateDirectory(folderPath);
+                            //report
+                            var fileName = $"StudentMarksheet_{student.StudentID}.pdf";
+                            string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                            string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
+
+                            student.MarksheetPath = filepath;
+                            student.Marksheet = fileName;
+                            //provider                      
+                            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                            LocalReport localReport = new LocalReport(rdlcpath);
+                            localReport.AddDataSource("StudentDetailsForMarksheet", data.Tables[0]);
+                            localReport.AddDataSource("StudentMarksheetSubjectDetails", data.Tables[1]);
+                            localReport.AddDataSource("ResultDetails", data.Tables[2]);
+                            var reportResult = localReport.Execute(RenderType.Pdf);
+
+                            //check file exists
+                            if (!System.IO.Directory.Exists(folderPath))
+                            {
+                                Directory.CreateDirectory(folderPath);
+                            }
+
+                            //save
+                            System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                            result.Data = fileName;
+                            result.State = EnumStatus.Success;
+                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                            //end report
                         }
-
-                        //save
-                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                        //end report
+                        else
+                        {
+                            result.State = EnumStatus.Warning;
+                            result.Message = Constants.MSG_DATA_NOT_FOUND;
+                        }
                     }
-                    else
-                    {
-                        result.State = EnumStatus.Warning;
-                        result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    }
-
                 }
                 catch (Exception ex)
                 {
@@ -14712,6 +14713,152 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
         #endregion
+
+        #region Student Duplicate document Certificate download
+        [HttpPost("BterDuplicateCertificateDownload")]
+        public async Task<ApiResult<string>> BterDuplicateCertificateDownload([FromBody] BterDuplicateCertificateReportDataModel model)
+        {
+            ActionName = "BterDuplicateCertificateDownload([FromBody] BterCertificateReportDataModel model)";
+
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    string htmlTemplatePath = "";
+                    string devFontSize = "15px";
+                    if (model.Action == "duplicate-provisional-certificate")
+                    {
+                        devFontSize = "20px";
+                        htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderBTER}/ProvisionalCertificate.html";
+                        //model.Action = "duplicate-provisional-certificate-download";
+                    }
+                    if (model.Action == "duplicate-migration-certificate")
+                    {
+                        devFontSize = "20px";
+                        htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderBTER}/MigrationCertificate.html";
+                        //model.Action = "duplicate-migration-certificate-download";
+                    }
+                    //if (model.Action == "duplicate-diploma-report")
+                    //{
+                    //    devFontSize = "20px";
+                    //    htmlTemplatePath = $"{ConfigurationHelper.RootPath}{Constants.ReportFolderBTER}/DiplomaReport.html";
+                    //   // model.Action = "diploma-report-download";
+                    //}
+
+                    var data = await _unitOfWork.ReportRepository.BterDuplicateCertificateDownload(model);
+                    if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+                    {
+
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        data.Tables[0].TableName = "BterCertificate";
+
+                        data.Tables[0].Rows[0]["logo"] = $"{ConfigurationHelper.StaticFileRootPath}/BTER-logo-black.jpg";
+                        //data.Tables[0].Rows[0]["signlogo"] = $"{ConfigurationHelper.StaticFileRootPath}/" + data.Tables[0].Rows[0]["signlogo"];
+
+
+                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+                        string html = Utility.PDFWorks.GetHtml(htmlTemplatePath, data);
+
+                        System.Text.StringBuilder sb1 = new System.Text.StringBuilder();
+
+                        html = Utility.PDFWorks.ReplaceCustomTag(html);
+
+                        sb1.Append(UnicodeToKrutidev.FindAndReplaceKrutidev(html.Replace("<br>", "<br/>"), true, devFontSize));
+
+                        var watermarkImagePath = $"{ConfigurationHelper.StaticFileRootPath}/BTER-logo-black.jpg";
+
+                        byte[] pdfBytes = Utility.PDFWorks.GeneratePDFGetByte(sb1, "", watermarkImagePath);
+
+                        result.Data = Convert.ToBase64String(pdfBytes);
+                        result.State = EnumStatus.Success;
+                        result.Message = "Success";
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+        #endregion
+
+        #region Duplicate Diploma Certificate
+        [HttpPost("GetDuplicateDiplomaCertificate")]
+        public async Task<ApiResult<string>> GetDuplicateDiplomaCertificate(BterDuplicateCertificateReportDataModel model)
+        {
+            ActionName = "GetDuplicateDiplomaCertificate()";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {                    
+                    var data = await _unitOfWork.ReportRepository.BterDuplicateCertificateDownload(model);
+                    if (data != null)
+                    {
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+                        var fileName = $"DiplomaCertificate.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/DiplomaCertificate.rdlc";
+                        //var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
+                        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                        LocalReport localReport = new LocalReport(rdlcpath);
+                        localReport.AddDataSource("DiplomaCertificate", data.Tables[0]);
+                        var reportResult = localReport.Execute(RenderType.Pdf);
+                        if (!System.IO.Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                        result.Data = fileName;
+                        result.State = EnumStatus.Success;
+                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+        #endregion
+
 
         #region Student Duplicate Provisional Certificate
         [HttpPost("BterDuplicateProvisionalCertificateDownload")]
@@ -18694,5 +18841,265 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         #endregion
+
+        [HttpPost("GetCenterStudents")]
+        public async Task<IActionResult> GetCenterStudents([FromBody] CenterStudentSearchModel body)
+        {
+            try
+            {
+                DataSet ds = await _unitOfWork.ReportRepository.GetCenterStudents(body);
+
+                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                    return BadRequest("No data found.");
+
+                DataTable dt = ds.Tables[0];
+
+                // ── Extract common header values from first row ──────────────────────
+                string centerName = dt.Rows[0]["InstituteName"]?.ToString() ?? "";
+                string centerCode = dt.Rows[0]["DgetCode"]?.ToString() ?? "";
+                string examMonth = dt.Rows[0]["examMonth"]?.ToString() ?? "";
+
+                // ── Group students by StreamName (Trade) ─────────────────────────────
+                var tradeGroups = dt.AsEnumerable()
+                    .GroupBy(r => new
+                    {
+                        StreamName = r["StreamName"]?.ToString() ?? "",
+                        SemesterName = r["SemesterName"]?.ToString() ?? ""
+                    })
+                    .ToList();
+
+                // ── Build one score-sheet block per trade ────────────────────────────
+                var allSheets = new StringBuilder();
+
+                foreach (var group in tradeGroups)
+                {
+                    string tradeName = group.Key.StreamName;
+                    string semesterName = group.Key.SemesterName;
+                    var rows = group.ToList();
+
+                    // Build student rows (fixed 35 rows per sheet for blank lines)
+                    var studentRows = new StringBuilder();
+                    int totalRows = Math.Max(35, rows.Count);
+
+                    for (int i = 0; i < totalRows; i++)
+                    {
+                        string sNo = (i + 1).ToString();
+                        string rollNo = i < rows.Count ? rows[i]["RollNo"]?.ToString() ?? "" : "";
+                        studentRows.AppendLine($@"
+                    <tr>
+                        <td style='height:18px'>{sNo}</td>
+                        <td>{rollNo}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>");
+                    }
+
+                    string headerBlock = $@"
+                <table class='header-table'>
+                    <tr>
+                        <td colspan='4'><b>Center Name:</b> {centerName}</td>
+                    </tr>
+                    <tr>
+                        <td colspan='4'>
+                            <b>NCVT CTS Main Exam</b> {semesterName}
+                            <b>Trade</b> {examMonth}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Trade Name</b></td>
+                        <td>{tradeName}</td>
+                        <td><b>Subject:</b></td>
+                        <td>Practical</td>
+                    </tr>
+                    <tr>
+                        <td><b>Center_Code</b></td>
+                        <td>{centerCode}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>Examiner Code:</b></td>
+                        <td>____________</td>
+                        <td><b>Maximum Marks:</b></td>
+                        <td>250</td>
+                    </tr>
+                </table>";
+
+                    string marksTable = $@"
+                <table class='marks-table'>
+                    <tr>
+                        <th rowspan='2' style='width:40px'>S.No.</th>
+                        <th rowspan='2' style='width:110px'>Roll No</th>
+                        <th colspan='2'>Marks Obtained</th>
+                    </tr>
+                    <tr>
+                        <th>In Words</th>
+                        <th>In Fig.</th>
+                    </tr>
+                    {studentRows}
+                </table>";
+
+                    // ── Left sheet = Practical Examiner footer ────────────────────────
+                    string leftSheet = $@"
+                <div class='sheet sheet-left'>
+                    {headerBlock}
+                    {marksTable}
+                    <table class='footer-table'>
+                        <tr>
+                            <td colspan='2' class='center'>
+                                <b><u>Practical Examiner</u></b>
+                            </td>
+                        </tr>
+                        <tr><td>Name: __________________</td><td>Date: __________________</td></tr>
+                        <tr><td>Post: __________________</td><td></td></tr>
+                        <tr><td>Mobile No: __________________</td><td>Signature: __________________</td></tr>
+                    </table>
+                </div>";
+
+                    // ── Right sheet = Center Superintendent footer ────────────────────
+                    string rightSheet = $@"
+                <div class='sheet sheet-right'>
+                    {headerBlock}
+                    {marksTable}
+                    <table class='footer-table'>
+                        <tr>
+                            <td colspan='2' class='center'>
+                                <b><u>Center Superintendent/Co-ordinator</u></b>
+                            </td>
+                        </tr>
+                        <tr><td>Name: __________________</td><td>Date: __________________</td></tr>
+                        <tr><td>Post: __________________</td><td></td></tr>
+                        <tr><td>Mobile No: __________________</td><td>Signature: __________________</td></tr>
+                    </table>
+                </div>";
+
+                    allSheets.AppendLine($@"
+                <div class='page-block'>
+                    {leftSheet}
+                    <div class='divider'></div>
+                    {rightSheet}
+                    <div class='clear'></div>
+                </div>");
+                }
+
+                // ── Full HTML ─────────────────────────────────────────────────────────
+                string html = $@"
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='utf-8'/>
+            <style>
+                body {{
+                    font-family: Arial, sans-serif;
+                    font-size: 9px;
+                    margin: 0;
+                    padding: 0;
+                }}
+                .page-block {{
+                    width: 100%;
+                    overflow: hidden;
+                    page-break-after: always;
+                    margin-bottom: 10px;
+                }}
+                .sheet {{
+                    width: 48%;
+                    float: left;
+                    box-sizing: border-box;
+                }}
+                .sheet-left  {{ padding-right: 4px; }}
+                .sheet-right {{ padding-left: 4px;  }}
+                .divider {{
+                    float: left;
+                    width: 2px;
+                    background: #000;
+                    margin: 0 3px;
+                    min-height: 400px;
+                }}
+                .clear {{ clear: both; }}
+
+                /* Header info table */
+                .header-table {{
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 4px;
+                }}
+                .header-table td {{
+                    border: none;
+                    padding: 2px 3px;
+                }}
+
+                /* Marks table */
+                .marks-table {{
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 6px;
+                }}
+                .marks-table th,
+                .marks-table td {{
+                    border: 1px solid #000;
+                    padding: 2px 3px;
+                    text-align: center;
+                }}
+                .marks-table td:nth-child(2) {{
+                    text-align: left;
+                }}
+                .marks-table tr td {{
+                    height: 16px;
+                }}
+
+                /* Footer table */
+                .footer-table {{
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 6px;
+                }}
+                .footer-table td {{
+                    border: none;
+                    padding: 3px 2px;
+                }}
+                .center {{ text-align: center; }}
+            </style>
+        </head>
+        <body>
+            {allSheets}
+        </body>
+        </html>";
+
+                // ── Convert to PDF ────────────────────────────────────────────────────
+                var doc = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+            {
+                PaperSize   = PaperKind.A4,
+                Orientation = Orientation.Portrait,
+                Margins     = new MarginSettings { Top = 8, Bottom = 8, Left = 6, Right = 6 }
+            },
+                    Objects =
+            {
+                new ObjectSettings
+                {
+                    HtmlContent  = html,
+                    WebSettings  = { DefaultEncoding = "utf-8" },
+                    FooterSettings =
+                    {
+                        FontSize = 7,
+                        Center   = "Page [page] of [toPage]",
+                        Line     = true
+                    }
+                }
+            }
+                };
+
+                byte[] pdfBytes = _converter.Convert(doc);
+
+                return File(pdfBytes, "application/pdf",
+                    $"ScoreSheet_{DateTime.Now:yyyyMMddHHmmss}.pdf");  // ← must return application/pdf
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
     }
 }

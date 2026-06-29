@@ -211,3 +211,32 @@ public class ITICampusStatusModel
 
 
 }
+
+public class BankGuaranteeConsolidatedReportRequest
+{
+    public int Id { get; set; }
+    public string Action { get; set; } = "_getAllData";
+    public int FinancialYearID { get; set; }
+}
+
+public class BankGuaranteeConsolidatedReportModel
+{
+    public int Id { get; set; }
+    public string CollegeName { get; set; }
+    public string CollegeCode { get; set; }
+
+    public decimal AmountAvailable { get; set; }
+    public decimal AmountRequired { get; set; }
+    public decimal AmountDifference { get; set; }
+
+    public DateTime? CourtDate { get; set; }
+    public string WritNo { get; set; }
+
+    public bool? IsCourt { get; set; }
+    public int? HighCourt { get; set; }
+    public string HighCourtName { get; set; }
+
+    public string CourtDocumernt { get; set; }
+    public string BankStatus { get; set; }
+    public string BankRemark { get; set; }
+}

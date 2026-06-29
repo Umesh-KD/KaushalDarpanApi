@@ -101,6 +101,9 @@
               <xs:element name="EnrollFeeAmount" msprop:Generator_ColumnPropNameInTable="EnrollFeeAmountColumn" msprop:Generator_ColumnPropNameInRow="EnrollFeeAmount" msprop:Generator_UserColumnName="EnrollFeeAmount" msprop:Generator_ColumnVarNameInTable="columnEnrollFeeAmount" type="xs:string" minOccurs="0" />
               <xs:element name="ExamFeeAmount" msprop:Generator_ColumnPropNameInTable="ExamFeeAmountColumn" msprop:Generator_ColumnPropNameInRow="ExamFeeAmount" msprop:Generator_UserColumnName="ExamFeeAmount" msprop:Generator_ColumnVarNameInTable="columnExamFeeAmount" type="xs:string" minOccurs="0" />
               <xs:element name="RevalRequestNo" msprop:Generator_ColumnPropNameInTable="RevalRequestNoColumn" msprop:Generator_ColumnPropNameInRow="RevalRequestNo" msprop:Generator_UserColumnName="RevalRequestNo" msprop:Generator_ColumnVarNameInTable="columnRevalRequestNo" type="xs:string" minOccurs="0" />
+              <xs:element name="ProcessingFee" msprop:Generator_UserColumnName="ProcessingFee" msprop:Generator_ColumnPropNameInTable="ProcessingFeeColumn" msprop:Generator_ColumnPropNameInRow="ProcessingFee" msprop:Generator_ColumnVarNameInTable="columnProcessingFee" type="xs:string" minOccurs="0" />
+              <xs:element name="ApplicationFee" msprop:Generator_UserColumnName="ApplicationFee" msprop:Generator_ColumnPropNameInTable="ApplicationFeeColumn" msprop:Generator_ColumnPropNameInRow="ApplicationFee" msprop:Generator_ColumnVarNameInTable="columnApplicationFee" type="xs:string" minOccurs="0" />
+              <xs:element name="EnrollmentFeeInWords" msprop:Generator_ColumnPropNameInRow="EnrollmentFeeInWords" msprop:Generator_ColumnPropNameInTable="EnrollmentFeeInWordsColumn" msprop:Generator_ColumnVarNameInTable="columnEnrollmentFeeInWords" msprop:Generator_UserColumnName="EnrollmentFeeInWords" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -1095,8 +1098,8 @@
               <xs:element name="CenterName" msprop:Generator_ColumnPropNameInTable="CenterNameColumn" msprop:Generator_ColumnPropNameInRow="CenterName" msprop:Generator_UserColumnName="CenterName" msprop:Generator_ColumnVarNameInTable="columnCenterName" type="xs:string" minOccurs="0" />
               <xs:element name="MoharID" msprop:Generator_ColumnPropNameInTable="MoharIDColumn" msprop:Generator_ColumnPropNameInRow="MoharID" msprop:Generator_UserColumnName="MoharID" msprop:Generator_ColumnVarNameInTable="columnMoharID" type="xs:string" minOccurs="0" />
               <xs:element name="moharImg" msprop:Generator_ColumnPropNameInTable="moharImgColumn" msprop:Generator_ColumnPropNameInRow="moharImg" msprop:Generator_UserColumnName="moharImg" msprop:Generator_ColumnVarNameInTable="columnmoharImg" type="xs:string" minOccurs="0" />
-              <xs:element name="FinancialYearName" msprop:Generator_ColumnPropNameInRow="FinancialYearName" msprop:Generator_ColumnPropNameInTable="FinancialYearNameColumn" msprop:Generator_ColumnVarNameInTable="columnFinancialYearName" msprop:Generator_UserColumnName="FinancialYearName" type="xs:string" minOccurs="0" />
-              <xs:element name="ExamShift" msprop:Generator_ColumnPropNameInRow="ExamShift" msprop:Generator_ColumnPropNameInTable="ExamShiftColumn" msprop:Generator_ColumnVarNameInTable="columnExamShift" msprop:Generator_UserColumnName="ExamShift" type="xs:string" minOccurs="0" />
+              <xs:element name="FinancialYearName" msprop:Generator_ColumnPropNameInTable="FinancialYearNameColumn" msprop:Generator_ColumnPropNameInRow="FinancialYearName" msprop:Generator_UserColumnName="FinancialYearName" msprop:Generator_ColumnVarNameInTable="columnFinancialYearName" type="xs:string" minOccurs="0" />
+              <xs:element name="ExamShift" msprop:Generator_ColumnPropNameInTable="ExamShiftColumn" msprop:Generator_ColumnPropNameInRow="ExamShift" msprop:Generator_UserColumnName="ExamShift" msprop:Generator_ColumnVarNameInTable="columnExamShift" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -2346,7 +2349,7 @@
               <xs:element name="BundleSendDate" msprop:Generator_ColumnPropNameInTable="BundleSendDateColumn" msprop:Generator_ColumnPropNameInRow="BundleSendDate" msprop:Generator_UserColumnName="BundleSendDate" msprop:Generator_ColumnVarNameInTable="columnBundleSendDate" type="xs:string" minOccurs="0" />
               <xs:element name="Date2" msprop:Generator_ColumnPropNameInTable="Date2Column" msprop:Generator_ColumnPropNameInRow="Date2" msprop:Generator_UserColumnName="Date2" msprop:Generator_ColumnVarNameInTable="columnDate2" type="xs:string" minOccurs="0" />
               <xs:element name="StudentExamTypeName" msprop:Generator_ColumnPropNameInTable="StudentExamTypeNameColumn" msprop:Generator_ColumnPropNameInRow="StudentExamTypeName" msprop:Generator_UserColumnName="StudentExamTypeName" msprop:Generator_ColumnVarNameInTable="columnStudentExamTypeName" type="xs:string" minOccurs="0" />
-              <xs:element name="JDSign" msprop:Generator_UserColumnName="JDSign" msprop:Generator_ColumnPropNameInTable="JDSignColumn" msprop:Generator_ColumnPropNameInRow="JDSign" msprop:Generator_ColumnVarNameInTable="columnJDSign" type="xs:string" minOccurs="0" />
+              <xs:element name="JDSign" msprop:Generator_ColumnPropNameInTable="JDSignColumn" msprop:Generator_ColumnPropNameInRow="JDSign" msprop:Generator_UserColumnName="JDSign" msprop:Generator_ColumnVarNameInTable="columnJDSign" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

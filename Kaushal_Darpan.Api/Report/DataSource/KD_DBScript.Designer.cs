@@ -6164,6 +6164,12 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             private global::System.Data.DataColumn columnRevalRequestNo;
             
+            private global::System.Data.DataColumn columnProcessingFee;
+            
+            private global::System.Data.DataColumn columnApplicationFee;
+            
+            private global::System.Data.DataColumn columnEnrollmentFeeInWords;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public StudentFeeReceiptDataTable() {
@@ -6503,6 +6509,30 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ProcessingFeeColumn {
+                get {
+                    return this.columnProcessingFee;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ApplicationFeeColumn {
+                get {
+                    return this.columnApplicationFee;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EnrollmentFeeInWordsColumn {
+                get {
+                    return this.columnEnrollmentFeeInWords;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -6576,7 +6606,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         string Convener, 
                         string EnrollFeeAmount, 
                         string ExamFeeAmount, 
-                        string RevalRequestNo) {
+                        string RevalRequestNo, 
+                        string ProcessingFee, 
+                        string ApplicationFee, 
+                        string EnrollmentFeeInWords) {
                 StudentFeeReceiptRow rowStudentFeeReceiptRow = ((StudentFeeReceiptRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         StudentName,
@@ -6616,7 +6649,10 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                         Convener,
                         EnrollFeeAmount,
                         ExamFeeAmount,
-                        RevalRequestNo};
+                        RevalRequestNo,
+                        ProcessingFee,
+                        ApplicationFee,
+                        EnrollmentFeeInWords};
                 rowStudentFeeReceiptRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStudentFeeReceiptRow);
                 return rowStudentFeeReceiptRow;
@@ -6677,6 +6713,9 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 this.columnEnrollFeeAmount = base.Columns["EnrollFeeAmount"];
                 this.columnExamFeeAmount = base.Columns["ExamFeeAmount"];
                 this.columnRevalRequestNo = base.Columns["RevalRequestNo"];
+                this.columnProcessingFee = base.Columns["ProcessingFee"];
+                this.columnApplicationFee = base.Columns["ApplicationFee"];
+                this.columnEnrollmentFeeInWords = base.Columns["EnrollmentFeeInWords"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6758,6 +6797,12 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
                 base.Columns.Add(this.columnExamFeeAmount);
                 this.columnRevalRequestNo = new global::System.Data.DataColumn("RevalRequestNo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRevalRequestNo);
+                this.columnProcessingFee = new global::System.Data.DataColumn("ProcessingFee", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnProcessingFee);
+                this.columnApplicationFee = new global::System.Data.DataColumn("ApplicationFee", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnApplicationFee);
+                this.columnEnrollmentFeeInWords = new global::System.Data.DataColumn("EnrollmentFeeInWords", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEnrollmentFeeInWords);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -61073,6 +61118,55 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ProcessingFee {
+                get {
+                    try {
+                        return ((string)(this[this.tableStudentFeeReceipt.ProcessingFeeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ProcessingFee\' in table \'StudentFeeReceipt\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStudentFeeReceipt.ProcessingFeeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ApplicationFee {
+                get {
+                    try {
+                        return ((string)(this[this.tableStudentFeeReceipt.ApplicationFeeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ApplicationFee\' in table \'StudentFeeReceipt\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStudentFeeReceipt.ApplicationFeeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string EnrollmentFeeInWords {
+                get {
+                    try {
+                        return ((string)(this[this.tableStudentFeeReceipt.EnrollmentFeeInWordsColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EnrollmentFeeInWords\' in table \'StudentFeeReceipt\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableStudentFeeReceipt.EnrollmentFeeInWordsColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsStudentNameNull() {
                 return this.IsNull(this.tableStudentFeeReceipt.StudentNameColumn);
             }
@@ -61525,6 +61619,42 @@ namespace Kaushal_Darpan.Api.Report.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetRevalRequestNoNull() {
                 this[this.tableStudentFeeReceipt.RevalRequestNoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsProcessingFeeNull() {
+                return this.IsNull(this.tableStudentFeeReceipt.ProcessingFeeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetProcessingFeeNull() {
+                this[this.tableStudentFeeReceipt.ProcessingFeeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsApplicationFeeNull() {
+                return this.IsNull(this.tableStudentFeeReceipt.ApplicationFeeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetApplicationFeeNull() {
+                this[this.tableStudentFeeReceipt.ApplicationFeeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEnrollmentFeeInWordsNull() {
+                return this.IsNull(this.tableStudentFeeReceipt.EnrollmentFeeInWordsColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEnrollmentFeeInWordsNull() {
+                this[this.tableStudentFeeReceipt.EnrollmentFeeInWordsColumn] = global::System.Convert.DBNull;
             }
         }
         
