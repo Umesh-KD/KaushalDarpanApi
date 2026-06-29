@@ -182,6 +182,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
                         command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
                         command.Parameters.AddWithValue("@CourseTypeID", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        //command.Parameters.AddWithValue("@RequestID", body.ID);
                         //command.Parameters.AddWithValue("@IsPayment", body.IsPayment);
                         //command.Parameters.AddWithValue("@IsActive", body.IsActive);
                         //command.Parameters.AddWithValue("@IsDelete", body.IsDelete);

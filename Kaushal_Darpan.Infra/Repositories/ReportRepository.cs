@@ -6922,7 +6922,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         {
                             command.CommandText = "Usp_Bter_DuplicateCertificate_Download";
                             //command.Parameters.AddWithValue("@MigrationType", filterModel.MigrationType);
-                            command.Parameters.AddWithValue("@Action", "duplicate-diploma-report");
+                            command.Parameters.AddWithValue("@Action", filterModel.Action);
                         }
 
                             //else if (filterModel.Action == "Cancel-Enrollment-migration-certificate-download")
@@ -6950,6 +6950,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ResultType", filterModel.ResultType);
                         command.Parameters.AddWithValue("@StudentID", filterModel.StudentID);
                         command.Parameters.AddWithValue("@Document_ID", filterModel.Document_ID);
+                        command.Parameters.AddWithValue("@RequestID", filterModel.ReqId);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
@@ -8935,6 +8936,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsRevised", model.IsRevised);
                         command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);
                         command.Parameters.AddWithValue("@IsReval", model.IsReval);
+                        command.Parameters.AddWithValue("@RequestID", model.ReqId);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();

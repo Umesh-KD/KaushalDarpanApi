@@ -47,6 +47,7 @@ namespace Kaushal_Darpan.Models.BterCertificateReport
         public int RWHEffectedEndTerm { get; set; }
         public int? IsBridge { get; set; }
         public int? Document_ID { get; set; }
+        public int? ReqId { get; set; }
 
     }
     public class BterStatisticsReportDataModel

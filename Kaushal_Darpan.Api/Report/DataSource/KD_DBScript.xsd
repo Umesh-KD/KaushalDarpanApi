@@ -1739,6 +1739,7 @@
               <xs:element name="DiplomaDate" msprop:Generator_ColumnPropNameInTable="DiplomaDateColumn" msprop:Generator_ColumnPropNameInRow="DiplomaDate" msprop:Generator_UserColumnName="DiplomaDate" msprop:Generator_ColumnVarNameInTable="columnDiplomaDate" type="xs:string" minOccurs="0" />
               <xs:element name="Sign" msprop:Generator_ColumnPropNameInTable="SignColumn" msprop:Generator_ColumnPropNameInRow="Sign" msprop:Generator_UserColumnName="Sign" msprop:Generator_ColumnVarNameInTable="columnSign" type="xs:string" minOccurs="0" />
               <xs:element name="IssuDate" msprop:Generator_ColumnPropNameInTable="IssuDateColumn" msprop:Generator_ColumnPropNameInRow="IssuDate" msprop:Generator_UserColumnName="IssuDate" msprop:Generator_ColumnVarNameInTable="columnIssuDate" type="xs:string" minOccurs="0" />
+              <xs:element name="SrNo" msprop:Generator_ColumnPropNameInRow="SrNo" msprop:Generator_ColumnPropNameInTable="SrNoColumn" msprop:Generator_ColumnVarNameInTable="columnSrNo" msprop:Generator_UserColumnName="SrNo" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
