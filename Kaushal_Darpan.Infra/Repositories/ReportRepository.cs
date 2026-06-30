@@ -9508,7 +9508,17 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Action", model.Action);
                     }
 
-
+                    else if (model.Type == 9)
+                    {
+                        command.CommandText = "USP_GetStudentDataForDigiLocker";
+                        //command.Parameters.AddWithValue("@action", "_Examiners_With_Group_Code_And_Marking_report_reval");
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@Streamid", 0);
+                    }
 
                     else
                     {

@@ -16695,7 +16695,10 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 // Pass the entire model to the repository
-                result.Data = await _unitOfWork.ReportRepository.GetMiscellaneousReport(model);
+                //result.Data = await _unitOfWork.ReportRepository.GetMiscellaneousReport(model);
+                var action = "_get_data_to_test";
+                var ds = await _unitOfWork.CommonFunctionRepository.Dummy_GetTestUspDataByAction(action);
+                result.Data = ds.Tables[0];
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
