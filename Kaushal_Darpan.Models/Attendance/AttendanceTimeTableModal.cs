@@ -262,4 +262,10 @@ namespace Kaushal_Darpan.Models.Attendance
 
         public int StaffID { get; set; }
     }
+
+    public class StudentMarksheetListDataModel
+    {
+        public int StudentID { get; set; }
+        public int DepartmentID { get; set; }
+    }
 }

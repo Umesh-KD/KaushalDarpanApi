@@ -87,6 +87,6 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<int> ResetStudentSsoMapping(StudentSearchModel request);
         Task<List<StudentRecentActivity>> GetStudentRecentActivity(int studentId);
-        Task<List<StudentMarksheetModel>> GetStudentMarksheetList(int studentId);
+        Task<List<StudentMarksheetModel>> GetStudentMarksheetList(StudentMarksheetListDataModel model);
     }
 }
