@@ -48,6 +48,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Pkcs;
+using PdfSharpCore.Pdf.IO;
 using QRCoder;
 using System;
 using System.Data;
@@ -2403,27 +2404,47 @@ namespace Kaushal_Darpan.Api.Controllers
                 if (sourceFiles == null || sourceFiles.Count == 0)
                     throw new ArgumentException("No source files provided.");
 
-                await Task.Run(() =>
-                {
-                    using (FileStream stream = new FileStream(poutputPath, FileMode.Create))
-                    using (iTextSharp.text.Document document = new iTextSharp.text.Document())
-                    using (PdfCopy pdfCopy = new PdfCopy(document, stream))
-                    {
-                        document.Open();
+                //await Task.Run(() =>
+                //{
+                //    using (FileStream stream = new FileStream(poutputPath, FileMode.Create))
+                //    using (iTextSharp.text.Document document = new iTextSharp.text.Document())
+                //    using (PdfCopy pdfCopy = new PdfCopy(document, stream))
+                //    {
+                //        document.Open();
 
-                        foreach (var file in sourceFiles)
-                        {
-                            using (PdfReader reader = new PdfReader(file))
-                            {
-                                for (int i = 1; i <= reader.NumberOfPages; i++)
-                                {
-                                    PdfImportedPage page = pdfCopy.GetImportedPage(reader, i);
-                                    pdfCopy.AddPage(page);
-                                }
-                            }
-                        }
+                //        foreach (var file in sourceFiles)
+                //        {
+                //            using (PdfReader reader = new PdfReader(file))
+                //            {
+                //                for (int i = 1; i <= reader.NumberOfPages; i++)
+                //                {
+                //                    PdfImportedPage page = pdfCopy.GetImportedPage(reader, i);
+                //                    pdfCopy.AddPage(page);
+                //                }
+                //            }
+                //        }
+                //    }
+                //});
+
+
+                using PdfSharpCore.Pdf.PdfDocument outputDocument = new PdfSharpCore.Pdf.PdfDocument();
+
+                foreach (var file in sourceFiles)
+                {
+                    if (!System.IO.File.Exists(file))
+                        throw new System.IO.FileNotFoundException($"File not found: {file}");
+
+                    using PdfSharpCore.Pdf.PdfDocument inputDocument =
+                        PdfSharpCore.Pdf.IO.PdfReader.Open(file, PdfSharpCore.Pdf.IO.PdfDocumentOpenMode.Import);
+
+                    for (int i = 0; i < inputDocument.PageCount; i++)
+                    {
+                        outputDocument.AddPage(inputDocument.Pages[i]);
                     }
-                });
+                }
+
+                outputDocument.Save(poutputPath);
+
                 bRetValue = true;
             }
             catch (Exception ex)
