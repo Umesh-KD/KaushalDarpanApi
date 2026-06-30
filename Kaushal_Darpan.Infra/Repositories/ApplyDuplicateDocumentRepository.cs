@@ -360,5 +360,46 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
+        #region Duplicate Marksheet path update
+        public async Task<int> UpdateDuplicateMarksheetPath(int requestId, string path, string fileName,string action)
+        {
+            _actionName = "UpdateDuplicateMarksheetPath(int requestId, string path, string fileName)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandText = "USP_UpdateDuplicateDocumentPath";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ReqID", requestId);
+                    command.Parameters.AddWithValue("@DuplicateMarksheetPath", path);
+                    command.Parameters.AddWithValue("@DuplicateMarksheetFileName", fileName);
+                    command.Parameters.AddWithValue("@action", action);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// sql query
+                    result = await command.ExecuteNonQueryAsync();
+
+                    if(result > 0)
+                        return result;
+                    else
+                        return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+        }
+        #endregion
+
     }
 }

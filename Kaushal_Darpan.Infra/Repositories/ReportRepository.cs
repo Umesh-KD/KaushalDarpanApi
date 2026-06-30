@@ -6918,7 +6918,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.Parameters.AddWithValue("@Action", filterModel.Action);
                         }
                         else 
-                        //if (filterModel.Action == "duplicate-diploma-report")
+                        if (filterModel.Action == "duplicate-diploma-report")
                         {
                             command.CommandText = "Usp_Bter_DuplicateCertificate_Download";
                             //command.Parameters.AddWithValue("@MigrationType", filterModel.MigrationType);
@@ -8957,9 +8957,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-       
-        
+
         #endregion
+
 
         #region Student Duplicate Provisional Certificate
         public async Task<DataSet> BterDuplicateProvisionalCertificateDownload(BterCertificateReportDataModel filterModel)
