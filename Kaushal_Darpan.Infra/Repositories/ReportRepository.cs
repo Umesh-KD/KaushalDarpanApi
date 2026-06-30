@@ -9359,7 +9359,6 @@ namespace Kaushal_Darpan.Infra.Repositories
         #region "GetMiscellaneousReport"
         public async Task<DataTable> GetMiscellaneousReport(MiscellaneousModel model)
         {
-            string GetAction = "";
             _actionName = "GetMiscellaneousReport()";
             try
             {
@@ -9505,6 +9504,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", 1);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@CourseTypeID", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@Semesterid", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
                         command.Parameters.AddWithValue("@Action", model.Action);
                     }
 
@@ -9545,6 +9546,38 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserID", model.UserID);
                         command.Parameters.AddWithValue("@action", "Zero_Marks_Practical_Record");
                     }
+                    else if (model.Type == 12)
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "Minimum_MaximumMarksReportIA_Or_Practical";
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@Action", "Minimum_MaximumMarks_IA_Report");
+                       
+                        
+                    }
+                    else if (model.Type == 13)
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "Minimum_MaximumMarksReportIA_Or_Practical";
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@Action", "Minimum_MaximumMarks_Practical_Report");
+                    }
+
+
                     else
                     {
                         throw new Exception("Invalide request!");
