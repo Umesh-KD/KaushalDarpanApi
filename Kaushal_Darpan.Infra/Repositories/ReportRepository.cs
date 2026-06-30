@@ -9506,6 +9506,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@CourseTypeID", model.Eng_NonEng);
                         command.Parameters.AddWithValue("@Semesterid", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
                         command.Parameters.AddWithValue("@Action", model.Action);
                     }
 
