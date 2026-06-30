@@ -9359,7 +9359,6 @@ namespace Kaushal_Darpan.Infra.Repositories
         #region "GetMiscellaneousReport"
         public async Task<DataTable> GetMiscellaneousReport(MiscellaneousModel model)
         {
-            string GetAction = "";
             _actionName = "GetMiscellaneousReport()";
             try
             {
