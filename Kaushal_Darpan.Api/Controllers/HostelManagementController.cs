@@ -1575,6 +1575,53 @@ namespace Kaushal_Darpan.Api.Controllers
 
             return result;
         }
+
+
+
+        [HttpPost("VerifyStudentHostelEligibility")]
+        public async Task<ApiResult<int>> VerifyStudentHostelEligibility([FromBody] VerifyStudentHostelEligibilityModel request)
+        {
+            ActionName = "VerifyStudentHostelEligibility([FromBody] VerifyStudentHostelEligibilityModel request)";
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<int>();
+                try
+                {
+                    result.Data = await _unitOfWork.HostelManagementRepository.VerifyStudentHostelEligibility(request);
+                    await _unitOfWork.SaveChangesAsync();
+                    if (result.Data > 0)
+                    {
+                        result.State = EnumStatus.Success;
+
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.ErrorMessage = Constants.MSG_SAVE_Duplicate;
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Error;
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
     }
 }
 

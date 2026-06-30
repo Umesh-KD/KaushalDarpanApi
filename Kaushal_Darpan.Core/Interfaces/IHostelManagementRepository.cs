@@ -55,6 +55,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> getHostelFeeByID(int id);
         Task<DataTable> GetRoomAllotmentCancelHistory(int reqId);
 
-
+        Task<int> VerifyStudentHostelEligibility(VerifyStudentHostelEligibilityModel hostelManagement);
     }
 }

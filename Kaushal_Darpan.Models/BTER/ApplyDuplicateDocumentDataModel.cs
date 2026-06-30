@@ -75,6 +75,7 @@ namespace Kaushal_Darpan.Models.BTER
         public string SortOrder { get; set; }
         public string SortColumn { get; set; }
         public int Eng_NonEng { get; set; }
+        public int? EndTermID { get; set; }
     }
 
 

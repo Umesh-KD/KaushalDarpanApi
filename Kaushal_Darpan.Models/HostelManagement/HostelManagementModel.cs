@@ -276,6 +276,13 @@ namespace Kaushal_Darpan.Models.HostelManagementModel
         public int HIMappingID { get; set; }
     }
 
+    public class VerifyStudentHostelEligibilityModel
+    {
+        public int StudentID { get; set; }
+        public int EndTermId { get; set; }
+        public int DepartmentID { get; set; }
+        
+    }
 
 }
 

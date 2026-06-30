@@ -1525,6 +1525,38 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        public async Task<int> VerifyStudentHostelEligibility(VerifyStudentHostelEligibilityModel model)
+        {
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_VerifyStudentHostelEligibility";
+                    command.Parameters.AddWithValue("@StudentID", model.StudentID);
+                    command.Parameters.AddWithValue("@EndTermId", model.EndTermId);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.Add("@Return", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    await command.ExecuteNonQueryAsync();
+                     result = Convert.ToInt32(command.Parameters["@Return"].Value);
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
 
 
     }

@@ -5084,27 +5084,26 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<string>> GetStudentMarksheet([FromBody] MarksheetDownloadSearchModel student)
         {
             ActionName = "GetStudentMarksheet([FromBody] MarksheetDownloadSearchModel student)";
-            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+            var Session = student.SessionName;
+            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/BTER/Marksheet/{Session}";
+            //var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
                 try
                 {
-                    //ListData.ForEach(x =>
-                    //{
-                    //    x.IPAddress = CommonFuncationHelper.GetIpAddress();
-                    //});
+                    List<StudentDownloadInfo> DownloadList = new List<StudentDownloadInfo>();
 
-                    //foreach (var student in ListData)
-                    //{
                     var data = await _unitOfWork.ReportRepository.GetStudentMarksheet(student);
                     if (data?.Tables?.Count == 3)
                     {
                         //report
-                        var fileName = $"StudentMarksheet_{student.StudentID}.pdf";
+                        string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                        var fileName = $"StudentMarksheet_{student.RollNo}_{timestamp_str}.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/BTER/Marksheet/{Session}/{fileName}";
                         string strmName = data.Tables[0].Rows[0]["StreamName"].ToString();
                         string rdlcpath = "";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        //string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
                         if (strmName.Length > 37)
                         {
                             rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheetOther.rdlc";
@@ -5113,21 +5112,11 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
                         }
+
                         student.MarksheetPath = filepath;
-                        student.Marksheet = fileName;
-                        //provider                      
+                        student.Marksheet = fileName;       
+
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        //images
-
-                        //string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
-                        //data.Tables[0].Rows[0]["StudentImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
-
-                        //string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
-                        //data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
-
-                        //string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
-                        //data.Tables[0].Rows[0]["RegistrarSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(registrar_signFilepath));
-                        ////rdlc
 
                         LocalReport localReport = new LocalReport(rdlcpath);
                         localReport.AddDataSource("StudentDetailsForMarksheet", data.Tables[0]);
@@ -5141,32 +5130,38 @@ namespace Kaushal_Darpan.Api.Controllers
                             Directory.CreateDirectory(folderPath);
                         }
 
+                        StudentDownloadInfo downloadInfo = new StudentDownloadInfo
+                        {
+                            RollNo = student.RollNo,
+                            MarksheetID = student.MarksheetID,
+                            MarksheetFile = fileName,
+                            MarksheetFilePath = filepath
+                        };
+                        DownloadList.Add(downloadInfo);
+
                         //save
                         System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                        //result.Data = fileName;
+                        //result.State = EnumStatus.Success;
+                        //result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                         //end report
+
+                        if(DownloadList.Count > 0)
+                        {
+                            var updateData = new ApiResult<int>();
+                            updateData.Data = await _unitOfWork.MarksheetDownloadRepository.UpdateMarksheetFile(DownloadList);
+                            await _unitOfWork.SaveChangesAsync();
+
+                            result.Data = fileName;
+                            result.State = EnumStatus.Success;
+                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                        }
                     }
                     else
                     {
                         result.State = EnumStatus.Warning;
                         result.Message = Constants.MSG_DATA_NOT_FOUND;
                     }
-                    //}
-
-                    //var Issuccess = await _unitOfWork.GenerateAdmitCardRepository.UpdateAdmitCard(student);
-                    //if (Issuccess > 0)
-                    //{
-                    //    result.Data = Issuccess.ToString();
-                    //    result.State = EnumStatus.Success;
-                    //    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                    //}
-                    //else
-                    //{
-                    //    result.State = EnumStatus.Warning;
-                    //    result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    //}
 
                 }
                 catch (Exception ex)
@@ -16696,6 +16691,9 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ReportRepository.GetMiscellaneousReport(model);
+                //var action = "_get_data_to_test";
+                //var ds = await _unitOfWork.CommonFunctionRepository.Dummy_GetTestUspDataByAction(action);
+                //result.Data = ds.Tables[0];
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -18759,12 +18757,12 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     if (await MergePdfFilesAsync(strSoureFiles, outputPath))
                     {
-                        //if(DownloadList.Length > 0)
-                        //{
-                        //    var updateData = new ApiResult<int>();
-                        //    updateData.Data = await _unitOfWork.MarksheetDownloadRepository.UpdateMarksheetFile(DownloadList);
-                        //    await _unitOfWork.SaveChangesAsync();
-                        //}
+                        if (DownloadList.Count > 0)
+                        {
+                            var updateData = new ApiResult<int>();
+                            updateData.Data = await _unitOfWork.MarksheetDownloadRepository.UpdateMarksheetFile(DownloadList);
+                            await _unitOfWork.SaveChangesAsync();
+                        }
                         result.Data = outputFile;
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_DATA_LOAD_SUCCESS;

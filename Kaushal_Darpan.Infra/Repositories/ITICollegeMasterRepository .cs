@@ -1799,6 +1799,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@action", request.Action ?? "_getAllData");
                         command.Parameters.AddWithValue("@Id", request.Id);
                         command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
+                        command.Parameters.AddWithValue("@Status", request.Status);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
 
