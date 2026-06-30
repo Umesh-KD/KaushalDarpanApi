@@ -173,7 +173,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ApplyDuplicateDocumentDetails";
                         command.Parameters.AddWithValue("@ActionName", body.action); // Assuming you are using the action filter                     
                         command.Parameters.AddWithValue("@Name", body.Name);
-                        //command.Parameters.AddWithValue("@Document_ID", body.DocumentID);
+                        command.Parameters.AddWithValue("@Document_ID", body.DocumentID);
                         //command.Parameters.AddWithValue("@Semester_ID", body.SemesterID);
                         command.Parameters.AddWithValue("@Department_ID", body.StudentID);
                         command.Parameters.AddWithValue("@Institute_ID", body.InstituteID);
