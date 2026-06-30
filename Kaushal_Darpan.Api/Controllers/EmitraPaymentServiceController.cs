@@ -2549,7 +2549,6 @@ namespace Kaushal_Darpan.Api.Controllers
             var requestDetailsModel = new ApiResult<EmitraRequestDetailsModel>();
             try
             {
-
                 var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(Model);
                 if (EmitraServiceDetail == null)
                 {
@@ -2558,7 +2557,6 @@ namespace Kaushal_Darpan.Api.Controllers
                     requestDetailsModel.ErrorMessage = "Service Id Not Mapped";
                     return requestDetailsModel;
                 }
-
                 EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
                 objEmitra.key = "_InsertDetails";
                 objEmitra.ApplicationIdEnc = Model.ApplicationIdEnc;
