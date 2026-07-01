@@ -43,6 +43,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<DgtOrdersMasterModel>> GetAllActiveDgtOrders();
         Task<bool> UpdateCampusStatusByID(ITICampusStatusModel request);
         Task<List<BankGuaranteeConsolidatedReportModel>>
-    GetBankGuaranteeConsolidatedReport(BankGuaranteeConsolidatedReportRequest request);
+         GetBankGuaranteeConsolidatedReport(BankGuaranteeConsolidatedReportRequest request);
+        Task<DataTable> ITICollegeCampusRemovalReport(ITICollegeCampusRemovalModel model);
     }
 }

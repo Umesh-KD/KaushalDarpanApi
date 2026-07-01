@@ -48,6 +48,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Pkcs;
+using PdfSharpCore.Pdf.IO;
 using QRCoder;
 using System;
 using System.Data;
@@ -2403,27 +2404,47 @@ namespace Kaushal_Darpan.Api.Controllers
                 if (sourceFiles == null || sourceFiles.Count == 0)
                     throw new ArgumentException("No source files provided.");
 
-                await Task.Run(() =>
-                {
-                    using (FileStream stream = new FileStream(poutputPath, FileMode.Create))
-                    using (iTextSharp.text.Document document = new iTextSharp.text.Document())
-                    using (PdfCopy pdfCopy = new PdfCopy(document, stream))
-                    {
-                        document.Open();
+                //await Task.Run(() =>
+                //{
+                //    using (FileStream stream = new FileStream(poutputPath, FileMode.Create))
+                //    using (iTextSharp.text.Document document = new iTextSharp.text.Document())
+                //    using (PdfCopy pdfCopy = new PdfCopy(document, stream))
+                //    {
+                //        document.Open();
 
-                        foreach (var file in sourceFiles)
-                        {
-                            using (PdfReader reader = new PdfReader(file))
-                            {
-                                for (int i = 1; i <= reader.NumberOfPages; i++)
-                                {
-                                    PdfImportedPage page = pdfCopy.GetImportedPage(reader, i);
-                                    pdfCopy.AddPage(page);
-                                }
-                            }
-                        }
+                //        foreach (var file in sourceFiles)
+                //        {
+                //            using (PdfReader reader = new PdfReader(file))
+                //            {
+                //                for (int i = 1; i <= reader.NumberOfPages; i++)
+                //                {
+                //                    PdfImportedPage page = pdfCopy.GetImportedPage(reader, i);
+                //                    pdfCopy.AddPage(page);
+                //                }
+                //            }
+                //        }
+                //    }
+                //});
+
+
+                using PdfSharpCore.Pdf.PdfDocument outputDocument = new PdfSharpCore.Pdf.PdfDocument();
+
+                foreach (var file in sourceFiles)
+                {
+                    if (!System.IO.File.Exists(file))
+                        throw new System.IO.FileNotFoundException($"File not found: {file}");
+
+                    using PdfSharpCore.Pdf.PdfDocument inputDocument =
+                        PdfSharpCore.Pdf.IO.PdfReader.Open(file, PdfSharpCore.Pdf.IO.PdfDocumentOpenMode.Import);
+
+                    for (int i = 0; i < inputDocument.PageCount; i++)
+                    {
+                        outputDocument.AddPage(inputDocument.Pages[i]);
                     }
-                });
+                }
+
+                outputDocument.Save(poutputPath);
+
                 bRetValue = true;
             }
             catch (Exception ex)
@@ -5084,27 +5105,26 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<string>> GetStudentMarksheet([FromBody] MarksheetDownloadSearchModel student)
         {
             ActionName = "GetStudentMarksheet([FromBody] MarksheetDownloadSearchModel student)";
-            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+            var Session = student.SessionName;
+            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/BTER/Marksheet/{Session}";
+            //var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
                 try
                 {
-                    //ListData.ForEach(x =>
-                    //{
-                    //    x.IPAddress = CommonFuncationHelper.GetIpAddress();
-                    //});
+                    List<StudentDownloadInfo> DownloadList = new List<StudentDownloadInfo>();
 
-                    //foreach (var student in ListData)
-                    //{
                     var data = await _unitOfWork.ReportRepository.GetStudentMarksheet(student);
                     if (data?.Tables?.Count == 3)
                     {
                         //report
-                        var fileName = $"StudentMarksheet_{student.StudentID}.pdf";
+                        string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                        var fileName = $"StudentMarksheet_{student.RollNo}_{timestamp_str}.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/BTER/Marksheet/{Session}/{fileName}";
                         string strmName = data.Tables[0].Rows[0]["StreamName"].ToString();
                         string rdlcpath = "";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        //string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
                         if (strmName.Length > 37)
                         {
                             rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheetOther.rdlc";
@@ -5113,21 +5133,11 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
                         }
+
                         student.MarksheetPath = filepath;
-                        student.Marksheet = fileName;
-                        //provider                      
+                        student.Marksheet = fileName;       
+
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                        //images
-
-                        //string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentImgFileName"]}";
-                        //data.Tables[0].Rows[0]["StudentImg"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath));
-
-                        //string stusignFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{data.Tables[0].Rows[0]["StudentSignFileName"]}";
-                        //data.Tables[0].Rows[0]["StudentSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stusignFilepath));
-
-                        //string registrar_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[0].Rows[0]["RegistrarSignFileName"]}";
-                        //data.Tables[0].Rows[0]["RegistrarSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(registrar_signFilepath));
-                        ////rdlc
 
                         LocalReport localReport = new LocalReport(rdlcpath);
                         localReport.AddDataSource("StudentDetailsForMarksheet", data.Tables[0]);
@@ -5141,32 +5151,38 @@ namespace Kaushal_Darpan.Api.Controllers
                             Directory.CreateDirectory(folderPath);
                         }
 
+                        StudentDownloadInfo downloadInfo = new StudentDownloadInfo
+                        {
+                            RollNo = student.RollNo,
+                            MarksheetID = student.MarksheetID,
+                            MarksheetFile = fileName,
+                            MarksheetFilePath = filepath
+                        };
+                        DownloadList.Add(downloadInfo);
+
                         //save
                         System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                        //result.Data = fileName;
+                        //result.State = EnumStatus.Success;
+                        //result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                         //end report
+
+                        if(DownloadList.Count > 0)
+                        {
+                            var updateData = new ApiResult<int>();
+                            updateData.Data = await _unitOfWork.MarksheetDownloadRepository.UpdateMarksheetFile(DownloadList);
+                            await _unitOfWork.SaveChangesAsync();
+
+                            result.Data = fileName;
+                            result.State = EnumStatus.Success;
+                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                        }
                     }
                     else
                     {
                         result.State = EnumStatus.Warning;
                         result.Message = Constants.MSG_DATA_NOT_FOUND;
                     }
-                    //}
-
-                    //var Issuccess = await _unitOfWork.GenerateAdmitCardRepository.UpdateAdmitCard(student);
-                    //if (Issuccess > 0)
-                    //{
-                    //    result.Data = Issuccess.ToString();
-                    //    result.State = EnumStatus.Success;
-                    //    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                    //}
-                    //else
-                    //{
-                    //    result.State = EnumStatus.Warning;
-                    //    result.Message = Constants.MSG_DATA_NOT_FOUND;
-                    //}
 
                 }
                 catch (Exception ex)
@@ -14647,7 +14663,8 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<string>> GetStudentDuplicateMarksheet([FromBody] MarksheetDownloadSearchModel student)
         {
             ActionName = "GetStudentDuplicateMarksheet([FromBody] MarksheetDownloadSearchModel student)";
-            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
+            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/BTER/DuplicateDocument";            
+
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
@@ -14655,12 +14672,48 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     if(student.DocumentID.HasValue && student.DocumentID.Value == (int)EnumDuplicateDocumentType.Duplicate_Marksheet)
                     {
+                      
                         var data = await _unitOfWork.ReportRepository.GetStudentDuplicateMarksheet(student);
+                        //if (!string.IsNullOrWhiteSpace(data.Tables[0].MarksheetFile))
+                        //{
+                        //    string physicalPath = Path.Combine(ConfigurationHelper.StaticFileRootPath, data.Tables[0].MarksheetPath.TrimStart('/', '\\'));
+
+                        //    if (System.IO.File.Exists(physicalPath))
+                        //    {
+                        //        result.Data = data.Tables[0].MarksheetFile;   // File name
+                        //        result.State = EnumStatus.Success;
+                        //        result.Message = "Duplicate marksheet already generated.";
+
+                        //        return result;
+                        //    }
+                        //}
+
+                        if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+                        {
+                            string marksheetFile = Convert.ToString(data.Tables[0].Rows[0]["MarksheetFile"]);
+                            string marksheetPath = Convert.ToString(data.Tables[0].Rows[0]["MarksheetPath"]);
+                            if (!string.IsNullOrWhiteSpace(marksheetPath))
+                            {
+                                string physicalPath = Path.Combine(
+                                    ConfigurationHelper.StaticFileRootPath,
+                                    marksheetPath.TrimStart('/', '\\'));
+                                if (System.IO.File.Exists(physicalPath))
+                                {
+                                    result.Data = marksheetFile;
+                                    result.State = EnumStatus.Success;
+                                    result.Message = "Duplicate marksheet already generated.";
+                                    return result;
+                                }
+                            }
+                        }
+
                         if (data?.Tables?.Count == 3)
                         {
                             //report
-                            var fileName = $"StudentMarksheet_{student.StudentID}.pdf";
-                            string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                            string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                            var fileName = $"StudentMarksheet_{student.StudentID}_{timestamp_str}.pdf";
+                            //var fileName = $"StudentDuplicateMarksheet_{student.StudentID}.pdf";
+                            string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/BTER/DuplicateDocument/{fileName}";
                             string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
 
                             student.MarksheetPath = filepath;
@@ -14682,9 +14735,23 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             //save
                             System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                            result.Data = fileName;
-                            result.State = EnumStatus.Success;
-                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                            string relativePath = $"{Constants.ReportsFolder}/BTER/DuplicateDocument/{fileName}";
+                            // Save generated file path in database
+                           int res= await _unitOfWork.ApplyDuplicateDocumentRepository.UpdateDuplicateMarksheetPath(
+                                student.ReqId.Value, // Request ID
+                                relativePath,
+                                fileName,
+                                "_updateMarksheetPath"
+                            );
+                            await _unitOfWork.SaveChangesAsync();
+
+                            if (res > 0)
+                            {
+                                result.Data = fileName;
+                                result.State = EnumStatus.Success;
+                                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                            }
                             //end report
                         }
                         else
@@ -14813,11 +14880,31 @@ namespace Kaushal_Darpan.Api.Controllers
                 try
                 {                    
                     var data = await _unitOfWork.ReportRepository.BterDuplicateCertificateDownload(model);
+                    if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
+                    {
+                        string DocumentFilename = Convert.ToString(data.Tables[0].Rows[0]["DocumentFilename"]);
+                        string DocumentPath = Convert.ToString(data.Tables[0].Rows[0]["DocumentPath"]);
+                        if (!string.IsNullOrWhiteSpace(DocumentPath))
+                        {
+                            string physicalPath = Path.Combine(
+                                ConfigurationHelper.StaticFileRootPath,
+                                DocumentPath.TrimStart('/', '\\'));
+                            if (System.IO.File.Exists(physicalPath))
+                            {
+                                result.Data = DocumentFilename;
+                                result.State = EnumStatus.Success;
+                                result.Message = "Duplicate Diploma already generated.";
+                                return result;
+                            }
+                        }
+                    }
+
                     if (data != null)
                     {
-                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}";
-                        var fileName = $"DiplomaCertificate.pdf";
-                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                        var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/BTER/DuplicateDocument";
+                        string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");                       
+                        var fileName = $"DiplomaCertificate_{model.StudentID}_{timestamp_str}.pdf";
+                        string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/BTER/DuplicateDocument/{fileName}";
                         string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/DiplomaCertificate.rdlc";
                         //var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -14829,9 +14916,24 @@ namespace Kaushal_Darpan.Api.Controllers
                             Directory.CreateDirectory(folderPath);
                         }
                         System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
-                        result.Data = fileName;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+                        string relativePath = $"{Constants.ReportsFolder}/BTER/DuplicateDocument/{fileName}";
+                        // Save generated file path in database
+                        int res = await _unitOfWork.ApplyDuplicateDocumentRepository.UpdateDuplicateMarksheetPath(
+                             model.ReqId.Value, // Request ID
+                             relativePath,
+                             fileName,
+                             "_updateDuplicateDiplomaPath"
+                         );
+                        await _unitOfWork.SaveChangesAsync();
+
+                        if (res > 0)
+                        {
+                            result.Data = fileName;
+                            result.State = EnumStatus.Success;
+                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                        }
+
                     }
                     else
                     {
@@ -16696,6 +16798,9 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 // Pass the entire model to the repository
                 result.Data = await _unitOfWork.ReportRepository.GetMiscellaneousReport(model);
+                //var action = "_get_data_to_test";
+                //var ds = await _unitOfWork.CommonFunctionRepository.Dummy_GetTestUspDataByAction(action);
+                //result.Data = ds.Tables[0];
                 if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
@@ -18759,12 +18864,12 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     if (await MergePdfFilesAsync(strSoureFiles, outputPath))
                     {
-                        //if(DownloadList.Length > 0)
-                        //{
-                        //    var updateData = new ApiResult<int>();
-                        //    updateData.Data = await _unitOfWork.MarksheetDownloadRepository.UpdateMarksheetFile(DownloadList);
-                        //    await _unitOfWork.SaveChangesAsync();
-                        //}
+                        if (DownloadList.Count > 0)
+                        {
+                            var updateData = new ApiResult<int>();
+                            updateData.Data = await _unitOfWork.MarksheetDownloadRepository.UpdateMarksheetFile(DownloadList);
+                            await _unitOfWork.SaveChangesAsync();
+                        }
                         result.Data = outputFile;
                         result.State = EnumStatus.Success;
                         result.Message = Constants.MSG_DATA_LOAD_SUCCESS;

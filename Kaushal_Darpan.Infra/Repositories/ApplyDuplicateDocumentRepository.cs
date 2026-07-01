@@ -173,7 +173,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_ApplyDuplicateDocumentDetails";
                         command.Parameters.AddWithValue("@ActionName", body.action); // Assuming you are using the action filter                     
                         command.Parameters.AddWithValue("@Name", body.Name);
-                        //command.Parameters.AddWithValue("@Document_ID", body.DocumentID);
+                        command.Parameters.AddWithValue("@Document_ID", body.DocumentID);
                         //command.Parameters.AddWithValue("@Semester_ID", body.SemesterID);
                         command.Parameters.AddWithValue("@Department_ID", body.StudentID);
                         command.Parameters.AddWithValue("@Institute_ID", body.InstituteID);
@@ -182,6 +182,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@sortOrder", body.SortOrder);
                         command.Parameters.AddWithValue("@sortColumn", body.SortColumn);
                         command.Parameters.AddWithValue("@CourseTypeID", body.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
+                        //command.Parameters.AddWithValue("@RequestID", body.ID);
                         //command.Parameters.AddWithValue("@IsPayment", body.IsPayment);
                         //command.Parameters.AddWithValue("@IsActive", body.IsActive);
                         //command.Parameters.AddWithValue("@IsDelete", body.IsDelete);
@@ -357,6 +359,47 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+
+        #region Duplicate Marksheet path update
+        public async Task<int> UpdateDuplicateMarksheetPath(int requestId, string path, string fileName,string action)
+        {
+            _actionName = "UpdateDuplicateMarksheetPath(int requestId, string path, string fileName)";
+            try
+            {
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandText = "USP_UpdateDuplicateDocumentPath";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ReqID", requestId);
+                    command.Parameters.AddWithValue("@DuplicateMarksheetPath", path);
+                    command.Parameters.AddWithValue("@DuplicateMarksheetFileName", fileName);
+                    command.Parameters.AddWithValue("@action", action);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// sql query
+                    result = await command.ExecuteNonQueryAsync();
+
+                    if(result > 0)
+                        return result;
+                    else
+                        return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
+        }
+        #endregion
 
     }
 }

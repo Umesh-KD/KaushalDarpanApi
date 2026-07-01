@@ -6918,11 +6918,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                             command.Parameters.AddWithValue("@Action", filterModel.Action);
                         }
                         else 
-                        //if (filterModel.Action == "duplicate-diploma-report")
+                        if (filterModel.Action == "duplicate-diploma-report")
                         {
                             command.CommandText = "Usp_Bter_DuplicateCertificate_Download";
                             //command.Parameters.AddWithValue("@MigrationType", filterModel.MigrationType);
-                            command.Parameters.AddWithValue("@Action", "duplicate-diploma-report");
+                            command.Parameters.AddWithValue("@Action", filterModel.Action);
                         }
 
                             //else if (filterModel.Action == "Cancel-Enrollment-migration-certificate-download")
@@ -6950,6 +6950,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@ResultType", filterModel.ResultType);
                         command.Parameters.AddWithValue("@StudentID", filterModel.StudentID);
                         command.Parameters.AddWithValue("@Document_ID", filterModel.Document_ID);
+                        command.Parameters.AddWithValue("@RequestID", filterModel.ReqId);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }
@@ -8935,6 +8936,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsRevised", model.IsRevised);
                         command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);
                         command.Parameters.AddWithValue("@IsReval", model.IsReval);
+                        command.Parameters.AddWithValue("@RequestID", model.ReqId);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
@@ -8955,9 +8957,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-       
-        
+
         #endregion
+
 
         #region Student Duplicate Provisional Certificate
         public async Task<DataSet> BterDuplicateProvisionalCertificateDownload(BterCertificateReportDataModel filterModel)
@@ -9357,7 +9359,6 @@ namespace Kaushal_Darpan.Infra.Repositories
         #region "GetMiscellaneousReport"
         public async Task<DataTable> GetMiscellaneousReport(MiscellaneousModel model)
         {
-            string GetAction = "";
             _actionName = "GetMiscellaneousReport()";
             try
             {
@@ -9503,9 +9504,78 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", 1);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@CourseTypeID", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@Semesterid", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
                         command.Parameters.AddWithValue("@Action", model.Action);
                     }
 
+                    else if (model.Type == 9)
+                    {
+                        command.CommandText = "USP_GetStudentDataForDigiLocker";
+                        //command.Parameters.AddWithValue("@action", "_Examiners_With_Group_Code_And_Marking_report_reval");
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@Streamid", 0);
+                    }
+                    else if (model.Type == 10)
+                    {
+                        command.CommandText = "USP_GetZero_Marks_IA_Or_Practical_Record";
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@action", "Zero_Marks_IA_Record");
+                    }
+                    else if (model.Type == 11)
+                    {
+                        command.CommandText = "USP_GetZero_Marks_IA_Or_Practical_Record";
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@action", "Zero_Marks_Practical_Record");
+                    }
+                    else if (model.Type == 12)
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "Minimum_MaximumMarksReportIA_Or_Practical";
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@Action", "Minimum_MaximumMarks_IA_Report");
+                       
+                        
+                    }
+                    else if (model.Type == 13)
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "Minimum_MaximumMarksReportIA_Or_Practical";
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@Action", "Minimum_MaximumMarks_Practical_Report");
+                    }
 
 
                     else

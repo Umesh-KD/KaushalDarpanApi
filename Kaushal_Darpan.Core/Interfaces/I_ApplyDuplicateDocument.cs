@@ -17,5 +17,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> Save_DuplicateDocumentAction(DuplicateDoc_Action model);
 
         Task<DataTable> GetStudentDMarshkeetSession(int SemesterID, int StudentID, int DepartmentID = 0);
+
+        Task<int> UpdateDuplicateMarksheetPath(int ReqId,string relativePath,string fileName ,string action);     
     }
 }
