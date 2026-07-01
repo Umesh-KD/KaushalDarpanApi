@@ -791,6 +791,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CreatedBy", model.CreatedBy);
                         command.Parameters.AddWithValue("@ChallanDate", model.ChallanDate);
                         command.Parameters.AddWithValue("@ChallanNo", model.ChallanNo);
+
                         command.Parameters.Add("@Retval", SqlDbType.Int);// out
                         command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
                         _sqlQuery = command.GetSqlExecutableQuery();
@@ -814,7 +815,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-
+        #region Reset Eligibilty status
         public async Task<bool> RevertStatus(RevertDataModel request)
         {
             return await Task.Run(async () =>
@@ -832,6 +833,7 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         command.Parameters.AddWithValue("@StudentExamID", request.StudentExamID);
                         command.Parameters.AddWithValue("@status", request.status);
+                        command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
                         command.Parameters.Add("@Retval", SqlDbType.Int);// out
                         command.Parameters["@Retval"].Direction = ParameterDirection.Output;// out
 
@@ -860,6 +862,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
+        #endregion
         public async Task<ITIExamination_UpdateEnrollmentNoModel> GetStudentDropoutStudent(int StudentID, int StudentExamID)
         {
             _actionName = "GetById(int PK_ID)";

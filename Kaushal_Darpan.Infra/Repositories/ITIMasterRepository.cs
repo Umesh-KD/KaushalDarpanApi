@@ -1003,6 +1003,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@IsPaperDownload", body.IsPaperDownload);
                         command.Parameters.AddWithValue("@PaperCode", body.PaperCode);
                         command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
+                        command.Parameters.AddWithValue("@CourseType", body.Eng_NonEng);
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }

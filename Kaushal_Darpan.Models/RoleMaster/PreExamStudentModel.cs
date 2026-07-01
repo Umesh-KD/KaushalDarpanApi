@@ -164,6 +164,7 @@ namespace Kaushal_Darpan.Models.PreExamStudent
     {
         public int StudentExamID { get; set; }
         public int status { get; set; }
+        public int CreatedBy { get; set; }
 
     }
 

@@ -785,6 +785,12 @@ namespace Kaushal_Darpan.Api.Controllers
                         result.State = EnumStatus.Warning;
                         result.Message = Constants.MSG_NO_DATA_SAVE;
                     }
+                    else if (isSave ==2)
+                    {
+                        result.Data = true;
+                        result.State = EnumStatus.Warning;
+                        result.Message = "The examination fee submission window has not opened yet.";
+                    }
                     else if (isSave > 0)
                     {
                         result.Data = true;
@@ -858,6 +864,8 @@ namespace Kaushal_Darpan.Api.Controllers
                 return result;
             });
         }
+
+
 
         [HttpGet("GetStudentDropoutStudent/{StudentID}/{StudentExamID}")]
         public async Task<ApiResult<ITIExamination_UpdateEnrollmentNoModel>> GetStudentDropoutStudent(int StudentID, int StudentExamID)
