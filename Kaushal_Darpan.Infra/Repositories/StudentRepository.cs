@@ -2524,7 +2524,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<List<StudentMarksheetModel>> GetStudentMarksheetList(int studentId)
+        public async Task<List<StudentMarksheetModel>> GetStudentMarksheetList(StudentMarksheetListDataModel model)
         {
             _actionName = "GetStudentMarksheetList()";
 
@@ -2539,7 +2539,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_StudentMarksheetList_st";
                         command.CommandType = CommandType.StoredProcedure;
 
-                        command.Parameters.AddWithValue("@StudentID", studentId);
+                        command.Parameters.AddWithValue("@StudentID", model.StudentID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
 
@@ -2563,7 +2564,9 @@ namespace Kaushal_Darpan.Infra.Repositories
                                         : Convert.ToDateTime(reader["ResultDate"]),
                                     MarksheetFile = Convert.ToString(reader["MarksheetFile"]),
                                     MarksheetFilePath = Convert.ToString(reader["MarksheetFilePath"]),
-                                    MarksheetID = Convert.ToInt32(reader["MarksheetID"])
+                                    MarksheetID = Convert.ToInt32(reader["MarksheetID"]),
+                                    DepartmentID = Convert.ToInt32(reader["DepartmentID"]),
+                                    Eng_NonEng = Convert.ToInt32(reader["Eng_NonEng"])
                                 });
                             }
                         }

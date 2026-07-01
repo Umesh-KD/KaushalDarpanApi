@@ -35,6 +35,8 @@ namespace Kaushal_Darpan.Models.BterCertificateReport
         public int Eng_NonEng { get; set; }
         public int DepartmentID { get; set; }
         public int EndTermID { get; set; }
+        public string? DocumentFilename { get; set; }
+        public string? DocumentPath { get; set; }
         public string Action { get; set; }
         public string? EnrollmentNo { get; set; }
         public int RollNo { get; set; }

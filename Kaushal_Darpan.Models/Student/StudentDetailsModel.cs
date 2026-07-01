@@ -254,5 +254,7 @@ namespace Kaushal_Darpan.Models.Student
         public int ResultTypeID { get; set; }
         public int IsReval { get; set; }
         public int IsRevised { get; set; }
+        public int Eng_NonEng { get; set; }
+        public int DepartmentID { get; set; }
     }
 }

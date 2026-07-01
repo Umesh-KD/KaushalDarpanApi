@@ -3017,14 +3017,14 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
-        [HttpGet("GetStudentMarksheetList/{studentId}")]
-        public async Task<ApiResult<List<StudentMarksheetModel>>> GetStudentMarksheetList(int studentId)
+        [HttpPost("GetStudentMarksheetList")]
+        public async Task<ApiResult<List<StudentMarksheetModel>>> GetStudentMarksheetList(StudentMarksheetListDataModel model)
         {
             var result = new ApiResult<List<StudentMarksheetModel>>();
 
             try
             {
-                var data = await _unitOfWork.StudentRepository.GetStudentMarksheetList(studentId);
+                var data = await _unitOfWork.StudentRepository.GetStudentMarksheetList(model);
 
                 result.State = EnumStatus.Success;
                 result.Data = data;
