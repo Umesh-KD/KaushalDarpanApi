@@ -788,8 +788,8 @@ namespace Kaushal_Darpan.Api.Controllers
                     else if (isSave ==2)
                     {
                         result.Data = true;
-                        result.State = EnumStatus.Success;
-                        result.Message = "Date is not open Yet!";
+                        result.State = EnumStatus.Warning;
+                        result.Message = "The examination fee submission window has not opened yet.";
                     }
                     else if (isSave > 0)
                     {
