@@ -11461,6 +11461,53 @@ namespace Kaushal_Darpan.Api.Controllers
 
             return result;
         }
+
+
+
+        #region dynamic Excel - operation 
+        [HttpGet("ExcelOperationCommon/{MasterCode}/{DepartmentID}/{RoleID?}/{CourseTypeID?}")]
+        public async Task<ApiResult<DataTable>> ExcelOperationCommon(string MasterCode, int DepartmentID,int RoleID=0, int CourseTypeID = 0)
+
+        {
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<DataTable>();
+                try
+                {
+                    var data = await _unitOfWork.CommonFunctionRepository.ExcelOperationCommon(MasterCode, DepartmentID,RoleID, CourseTypeID);
+                    if (data.Rows.Count > 0)
+                    {
+                        result.Data = data;
+                        result.State = EnumStatus.Success;
+                        result.Message = "Data load successfully .!";
+
+                    }
+                    else
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "No record found.!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                    // write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                }
+                return result;
+            });
+        }
+
+        #endregion
+
     }
 }
 
