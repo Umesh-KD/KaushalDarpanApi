@@ -52,20 +52,20 @@ namespace Kaushal_Darpan.Api.Controllers
             try
             {
                 result.Data = await Task.Run(() => _unitOfWork.MarksheetDownloadRepository.GetStudents(body));
-                result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
-                    result.State = EnumStatus.Success;
-                    result.Message = "No record found.!";
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
                     return result;
                 }
                 result.State = EnumStatus.Success;
-                result.Message = "Data load successfully .!";
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
             }
             catch (System.Exception ex)
             {
                 await _unitOfWork.DisposeAsync();
                 result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
                 result.ErrorMessage = ex.Message;
                 // write error log
                 var nex = new NewException
@@ -411,5 +411,7 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
         #endregion
+
+
     }
 }
