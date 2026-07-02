@@ -5135,7 +5135,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
 
                         student.MarksheetPath = filepath;
-                        student.Marksheet = fileName;       
+                        student.Marksheet = fileName;
 
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
@@ -5167,7 +5167,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         //result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                         //end report
 
-                        if(DownloadList.Count > 0)
+                        if (DownloadList.Count > 0)
                         {
                             var updateData = new ApiResult<int>();
                             updateData.Data = await _unitOfWork.MarksheetDownloadRepository.UpdateMarksheetFile(DownloadList);
@@ -14663,16 +14663,16 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<string>> GetStudentDuplicateMarksheet([FromBody] MarksheetDownloadSearchModel student)
         {
             ActionName = "GetStudentDuplicateMarksheet([FromBody] MarksheetDownloadSearchModel student)";
-            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/BTER/DuplicateDocument";            
+            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/BTER/DuplicateDocument";
 
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
                 try
                 {
-                    if(student.DocumentID.HasValue && student.DocumentID.Value == (int)EnumDuplicateDocumentType.Duplicate_Marksheet)
+                    if (student.DocumentID.HasValue && student.DocumentID.Value == (int)EnumDuplicateDocumentType.Duplicate_Marksheet)
                     {
-                      
+
                         var data = await _unitOfWork.ReportRepository.GetStudentDuplicateMarksheet(student);
                         //if (!string.IsNullOrWhiteSpace(data.Tables[0].MarksheetFile))
                         //{
@@ -14738,12 +14738,12 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             string relativePath = $"{Constants.ReportsFolder}/BTER/DuplicateDocument/{fileName}";
                             // Save generated file path in database
-                           int res= await _unitOfWork.ApplyDuplicateDocumentRepository.UpdateDuplicateMarksheetPath(
-                                student.ReqId.Value, // Request ID
-                                relativePath,
-                                fileName,
-                                "_updateMarksheetPath"
-                            );
+                            int res = await _unitOfWork.ApplyDuplicateDocumentRepository.UpdateDuplicateMarksheetPath(
+                                 student.ReqId.Value, // Request ID
+                                 relativePath,
+                                 fileName,
+                                 "_updateMarksheetPath"
+                             );
                             await _unitOfWork.SaveChangesAsync();
 
                             if (res > 0)
@@ -14878,7 +14878,7 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 var result = new ApiResult<string>();
                 try
-                {                    
+                {
                     var data = await _unitOfWork.ReportRepository.BterDuplicateCertificateDownload(model);
                     if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
                     {
@@ -14902,7 +14902,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     if (data != null)
                     {
                         var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/BTER/DuplicateDocument";
-                        string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");                       
+                        string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
                         var fileName = $"DiplomaCertificate_{model.StudentID}_{timestamp_str}.pdf";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/BTER/DuplicateDocument/{fileName}";
                         string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/DiplomaCertificate.rdlc";
@@ -18992,7 +18992,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         string rollNo = i < rows.Count ? rows[i]["RollNo"]?.ToString() ?? "" : "";
                         studentRows.AppendLine($@"
                     <tr>
-                        <td style='height:18px'>{sNo}</td>
+                        <td style='height:14px'>{sNo}</td>
                         <td>{rollNo}</td>
                         <td></td>
                         <td></td>
@@ -19002,25 +19002,25 @@ namespace Kaushal_Darpan.Api.Controllers
                     string headerBlock = $@"
                 <table class='header-table'>
                     <tr>
-                        <td colspan='4'><b>Center Name:</b> {centerName}</td>
+                        <td colspan='3'><b>Center Name:</b> {centerName}</td>
                     </tr>
                     <tr>
                         <td colspan='4'>
-                            <b>NCVT CTS Main Exam</b> {semesterName}
+                            <b>NCVT CTS Main Exam:</b> {semesterName}
                             <b>Trade</b> {examMonth}
                         </td>
                     </tr>
                     <tr>
-                        <td><b>Trade Name</b></td>
-                        <td>{tradeName}</td>
-                        <td><b>Subject:</b></td>
-                        <td>Practical</td>
+                        <td><b>Trade Name:</b></td>
+                        <td colspan='3'>{tradeName}</td>
+                       
                     </tr>
                     <tr>
-                        <td><b>Center_Code</b></td>
+                         <td><b>Subject:</b></td>
+                        <td>Practical</td>
+                        <td><b>Center Code:</b></td>
                         <td>{centerCode}</td>
-                        <td></td>
-                        <td></td>
+                       
                     </tr>
                     <tr>
                         <td><b>Examiner Code:</b></td>
@@ -19034,12 +19034,12 @@ namespace Kaushal_Darpan.Api.Controllers
                 <table class='marks-table'>
                     <tr>
                         <th rowspan='2' style='width:40px'>S.No.</th>
-                        <th rowspan='2' style='width:110px'>Roll No</th>
+                        <th rowspan='2' style='width:70px'>Roll No</th>
                         <th colspan='2'>Marks Obtained</th>
                     </tr>
                     <tr>
-                        <th>In Words</th>
-                        <th>In Fig.</th>
+                        <th style='width:65%;'>In Words</th>
+                        <th style='width:25%;'>In Fig.</th>
                     </tr>
                     {studentRows}
                 </table>";
