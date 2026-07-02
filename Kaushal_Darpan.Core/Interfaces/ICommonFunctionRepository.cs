@@ -430,5 +430,10 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<List<EndTermVisibilitySettingModel>> GetEndTermVisibilitySettings(int endTermID);
         Task<bool> UpdateContentVisibilitySettings(ContentVisibilitySettingModel model);
 
+
+        #region Excel Operation 
+        Task<DataTable> ExcelOperationCommon(string MasterCode, int DepartmentID,int RoleID=0, int CourseTypeID = 0);
+
+        #endregion
     }
 }

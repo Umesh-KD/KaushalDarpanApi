@@ -37,5 +37,6 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetExaminerByCode_Reval(ExaminerCodeLoginModel model);
         Task<DataTable> GetExaminerWithGroupCode_Reval(MiscellaneousModel model);
         Task<bool> UnlockExaminerWithGroupCode_Reval(MiscellaneousModel request);
+        Task<DataTable> GetExaminerDataDetails(TeacherForExaminerSearchModel body);
     }
 }

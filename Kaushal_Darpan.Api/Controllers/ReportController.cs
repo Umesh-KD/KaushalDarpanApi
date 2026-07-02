@@ -3,22 +3,13 @@ using AutoMapper;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Bibliography;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using iTextSharp.tool.xml.html;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Api.Code.Helper;
 using Kaushal_Darpan.Api.Email;
 using Kaushal_Darpan.Api.HtmlTempleteFile;
-using Kaushal_Darpan.Api.Report.ITI;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.ApplicationData;
-using Kaushal_Darpan.Models.BTER_EstablishManagement;
 using Kaushal_Darpan.Models.BterCertificateReport;
 using Kaushal_Darpan.Models.CampusPostMaster;
 using Kaushal_Darpan.Models.CertificateDownload;
@@ -40,21 +31,13 @@ using Kaushal_Darpan.Models.PlacementReport;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.RenumerationExaminer;
 using Kaushal_Darpan.Models.Report;
-using Kaushal_Darpan.Models.ScholarshipMaster;
 using Kaushal_Darpan.Models.StaffMaster;
 using Kaushal_Darpan.Models.TheoryMarks;
 using Kaushal_Darpan.Models.TimeTable;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Newtonsoft.Json;
-using Org.BouncyCastle.Asn1.Pkcs;
-using PdfSharpCore.Pdf.IO;
 using QRCoder;
-using System;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Net;
 using System.Text;
 
@@ -18778,9 +18761,11 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     List<GenerateMarksheetModel> ListData = new List<GenerateMarksheetModel>();
                     List<StudentDownloadInfo> DownloadList = new List<StudentDownloadInfo>();
+                    List<MarksheetSaveDataModel> MarksheetSaveList = new List<MarksheetSaveDataModel>();
 
                     foreach (var student in Model)
                     {
+                        CommonFuncationHelper.WriteTextLog("1");
                         GenerateMarksheetModel objStudent = new GenerateMarksheetModel();
                         if (student.MarksheetFile != "")
                         {
@@ -18803,7 +18788,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
                         else
                         {
-                            var data = await _unitOfWork.ReportRepository.GetStudentMarksheet(student);
+                            var data = await _unitOfWork.MarksheetDownloadRepository.GetStudentMarksheetNew(student);
                             if (data?.Tables?.Count == 3)
                             {
                                 string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
@@ -18838,14 +18823,146 @@ namespace Kaushal_Darpan.Api.Controllers
                                 //save
                                 System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
 
-                                StudentDownloadInfo downloadInfo = new StudentDownloadInfo
+                                // create an object for new record
+                                MarksheetSaveDataModel objMarksheet = new MarksheetSaveDataModel();
+                                if (data.Tables[0].Rows.Count > 0)
                                 {
-                                    RollNo = student.RollNo,
-                                    MarksheetID = student.MarksheetID,
-                                    MarksheetFile = fileName,
-                                    MarksheetFilePath = filepath
-                                };
-                                DownloadList.Add(downloadInfo);
+                                    DataRow studentData = data.Tables[0].Rows[0];
+
+                                    CommonFuncationHelper.WriteTextLog($"2 = {studentData["StudentName"]}");
+
+                                    objMarksheet.StudentName = studentData["StudentName"].ToString();
+                                    objMarksheet.FatherName = studentData["FatherName"].ToString();
+                                    objMarksheet.MotherName = studentData["MotherName"].ToString();
+                                    objMarksheet.MotherName = studentData["MotherName"].ToString();
+                                    objMarksheet.Gender = studentData["Gender"].ToString();
+                                    objMarksheet.EnrollmentNo = studentData["EnrollmentNo"].ToString();
+                                    objMarksheet.RollNo = studentData["RollNo"].ToString();
+                                    objMarksheet.DOB = studentData["DOB"].ToString();
+                                    objMarksheet.InstituteName = studentData["InstituteName"].ToString();
+                                    objMarksheet.StreamName = studentData["StreamName"].ToString();
+                                    objMarksheet.StreamCode = studentData["StreamCode"].ToString();
+                                    objMarksheet.EndTerm = studentData["EndTermName"].ToString();
+                                    objMarksheet.Session = studentData["Session"].ToString();
+                                    objMarksheet.ResultDate = studentData["ResultDate"].ToString();
+                                    objMarksheet.SrNo = student.SRNO;
+
+                                    objMarksheet.CourseType = (int)studentData["CourseType"];
+                                    objMarksheet.StudentID = (int)studentData["StudentID"];
+                                    objMarksheet.StudentExamID = (int)studentData["StudentExamID"];
+                                    objMarksheet.SemesterID = (int)studentData["SemesterID"];
+                                    objMarksheet.InstituteID = (int)studentData["InstituteID"];
+                                    objMarksheet.StreamId = (int)studentData["StreamId"];
+                                    objMarksheet.Result = (int)studentData["Result"];
+                                    objMarksheet.CreatedBy = (int)student.ModifyBy;
+                                    objMarksheet.ModifyBy = (int)student.ModifyBy;
+                                    objMarksheet.Type = (int)student.StudentTypeID;
+
+                                    objMarksheet.IsUFM = (int)studentData["IsUFM"];
+                                    objMarksheet.IsRWH = (int)studentData["IsRWH"];
+                                    objMarksheet.IsReval = (int)studentData["IsReval"];
+                                    objMarksheet.IsBridge = (int)studentData["IsBridge"];
+                                    objMarksheet.IsRWHResult = (int)studentData["IsRWHResult"];
+                                    objMarksheet.IsLiteral = (int)studentData["IsLiteral"];
+
+                                    objMarksheet.MarksheetFile = fileName;
+                                    objMarksheet.MarksheetFilePath = filepath;
+                                }
+
+                                if (data.Tables[1].Rows.Count > 0)
+                                {
+                                    
+                                    foreach (DataRow row in data.Tables[1].Rows)
+                                    {
+                                        CommonFuncationHelper.WriteTextLog($"3 = {row.Field<string>("StudentName")}");
+                                        MarksheetSubjectDataModel marksheetSub = new MarksheetSubjectDataModel
+                                        {
+                                            StudentName = row.Field<string>("StudentName") ?? string.Empty,
+                                            StudentID = row.Field<int>("StudentID"),
+                                            SubjectCode = row.Field<string>("SubjectCode") ?? string.Empty,
+                                            SubjectName = row.Field<string>("SubjectName") ?? string.Empty,
+                                            SubjectCredits = row.Field<string>("SubjectCredits"),
+                                            EarnedCredits = row.Field<string>("EarnedCredits"),
+                                            Grade = row.Field<string>("Grade") ?? string.Empty,
+                                            Remarks = row.Field<string>("Remarks") ?? string.Empty,
+                                            IsStudentCenteredActivity = row.Field<bool>("IsStudentCenteredActivity"),
+                                            IsExCurrent = row.Field<int>("IsExCurrent")
+                                        };
+
+                                        // Add the newly mapped object to your list
+                                        objMarksheet.SubjectDetails.Add(marksheetSub);
+                                    }
+                                }
+
+                                if (data.Tables[2].Rows.Count > 0)
+                                {
+                                    CommonFuncationHelper.WriteTextLog($"4 = result error");
+                                    DataRow row = data.Tables[2].Rows[0];
+
+                                    MarksheetResultDataModel marksheetResult = new MarksheetResultDataModel();                                    
+                                    // --- Flags ---
+                                    marksheetResult.IsReval = (bool)row["IsReval"];
+                                    marksheetResult.IsLiteral = (bool)row["IsLiteral"];
+                                    marksheetResult.ResultTypeId = (int)row["ResultTypeId"];
+
+                                    // --- Semester 1 ---
+                                    marksheetResult.SubjectCreditsSem1 = (decimal)row["SubjectCreditsSem1"];
+                                    marksheetResult.EarnedCreditsSem1 = (decimal)row["EarnedCreditsSem1"];
+                                    marksheetResult.CGPASem1 = (decimal)row["CGPASem1"];
+                                    marksheetResult.SGPASem1 = (decimal)row["SGPASem1"];
+
+                                    // --- Semester 2 ---
+                                    marksheetResult.SubjectCreditsSem2 = (decimal)row["SubjectCreditsSem2"];
+                                    marksheetResult.EarnedCreditsSem2 = (decimal)row["EarnedCreditsSem2"];
+                                    marksheetResult.CGPASem2 = (decimal)row["CGPASem2"];
+                                    marksheetResult.SGPASem2 = (decimal)row["SGPASem2"];
+
+                                    // --- Semester 3 ---
+                                    marksheetResult.SubjectCreditsSem3 = (decimal)row["SubjectCreditsSem3"];
+                                    marksheetResult.EarnedCreditsSem3 = (decimal)row["EarnedCreditsSem3"];
+                                    marksheetResult.CGPASem3 = (decimal)row["CGPASem3"];
+                                    marksheetResult.SGPASem3 = (decimal)row["SGPASem3"];
+
+                                    // --- Semester 4 ---
+                                    marksheetResult.SubjectCreditsSem4 = (decimal)row["SubjectCreditsSem4"];
+                                    marksheetResult.EarnedCreditsSem4 = (decimal)row["EarnedCreditsSem4"];
+                                    marksheetResult.CGPASem4 = (decimal)row["CGPASem4"];
+                                    marksheetResult.SGPASem4 = (decimal)row["SGPASem4"];
+
+                                    // --- Semester 5 ---
+                                    marksheetResult.SubjectCreditsSem5 = (decimal)row["SubjectCreditsSem5"];
+                                    marksheetResult.EarnedCreditsSem5 = (decimal)row["EarnedCreditsSem5"];
+                                    marksheetResult.CGPASem5 = (decimal)row["CGPASem5"];
+                                    marksheetResult.SGPASem5 = (decimal)row["SGPASem5"];
+
+                                    // --- Semester 6 ---
+                                    marksheetResult.SubjectCreditsSem6 = (decimal)row["SubjectCreditsSem6"];
+                                    marksheetResult.EarnedCreditsSem6 = (decimal)row["EarnedCreditsSem6"];
+                                    marksheetResult.CGPASem6 = (decimal)row["CGPASem6"];
+                                    marksheetResult.SGPASem6 = (decimal)row["SGPASem6"];
+
+                                    // --- Final Summaries & Results ---
+                                    marksheetResult.Percentage = (decimal)row["Percentage"];
+                                    marksheetResult.Result = row["Result"].ToString();
+                                    marksheetResult.ResultDeclareDate = row.Table.Columns.Contains("ResultDeclareDate") ? row["ResultDeclareDate"].ToString() : string.Empty;
+                                    marksheetResult.DiplomaFinalResult = row["DiplomaFinalResult"].ToString();
+                                    marksheetResult.Division = row["Division"].ToString();
+                                    marksheetResult.TotalSubjectCredits = row["TotalSubjectCredits"].ToString();
+                                    marksheetResult.TotalEarnedCredits = row["TotalEarnedCredits"].ToString();
+
+                                    objMarksheet.ResultDetails.Add(marksheetResult);
+                                }
+
+                                MarksheetSaveList.Add(objMarksheet);
+
+                                //StudentDownloadInfo downloadInfo = new StudentDownloadInfo
+                                //{
+                                //    RollNo = student.RollNo,
+                                //    MarksheetID = student.MarksheetID,
+                                //    MarksheetFile = fileName,
+                                //    MarksheetFilePath = filepath
+                                //};
+                                //DownloadList.Add(downloadInfo);
 
                             }
                             else
@@ -18868,6 +18985,13 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             var updateData = new ApiResult<int>();
                             updateData.Data = await _unitOfWork.MarksheetDownloadRepository.UpdateMarksheetFile(DownloadList);
+                            await _unitOfWork.SaveChangesAsync();
+                        }
+
+                        if(MarksheetSaveList.Count > 0)
+                        {
+                            var updateData = new ApiResult<int>();
+                            updateData.Data = await _unitOfWork.MarksheetDownloadRepository.AddUpdateMarksheet(MarksheetSaveList);
                             await _unitOfWork.SaveChangesAsync();
                         }
                         result.Data = outputFile;

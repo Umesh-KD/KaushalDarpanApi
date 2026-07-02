@@ -243,3 +243,8 @@ public class BankGuaranteeConsolidatedReportModel
     public string NumberOfUnit { get; set; }
     public string WritNoDate { get; set; }
 }
+public class ITICollegeCampusRemovalModel
+{
+    public int RoleID { get; set; }
+    public int UserID { get; set; }
+}

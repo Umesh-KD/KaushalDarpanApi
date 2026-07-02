@@ -13211,6 +13211,51 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+
+        #region  Excel -operation common
+        public async Task<DataTable> ExcelOperationCommon(string MasterCode = "", int DepartmentID = 0,int RoleID=0, int CourseTypeID = 0)
+        {
+            _actionName = "ExcelOperationCommon(string MasterCode, int DepartmentID = 0, int CourseTypeID = 0)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Excel_Opertion_ddl";
+                        //command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@MasterCode", MasterCode);
+                        command.Parameters.AddWithValue("@DepartmentID", DepartmentID);
+                        command.Parameters.AddWithValue("@CourseTypeID", CourseTypeID);
+                        //command.Parameters.AddWithValue("@StaffTypeID", StaffTypeID);
+                        command.Parameters.AddWithValue("@RoleID", RoleID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+
+        #endregion
+
+
     }
 
 } 
