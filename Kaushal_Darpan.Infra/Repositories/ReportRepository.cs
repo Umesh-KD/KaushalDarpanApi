@@ -9576,7 +9576,21 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserID", model.UserID);
                         command.Parameters.AddWithValue("@Action", "_getMinimum_MaximumMarks_Practical_Report");
                     }
+                    else if (model.Type == 14)
+                    {
+                        command.CommandText = "USP_90AboveSessionalMarksInstituteWiseSemester";
 
+                        //command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        //command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        //command.Parameters.AddWithValue("@CourseTypeID", model.CourseType);
+                        //command.Parameters.AddWithValue("@Action", model.Action);
+                        command.Parameters.AddWithValue("@InstituteID", 1);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@Semesterid", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@Action", model.Action);
+                    }
 
                     else
                     {
