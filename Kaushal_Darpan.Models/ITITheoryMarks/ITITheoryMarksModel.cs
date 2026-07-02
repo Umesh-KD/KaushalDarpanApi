@@ -79,6 +79,7 @@ namespace Kaushal_Darpan.Models.ITITheoryMarks
         public string? SubjectType { get; set; }
         public string? StudentName { get; set; }
         public int CenterID { get; set; }
+        public int IsFee { get; set; }
     }
 
     public class RevertBundleModel

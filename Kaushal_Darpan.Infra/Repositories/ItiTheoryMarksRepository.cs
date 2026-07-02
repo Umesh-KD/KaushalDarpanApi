@@ -271,6 +271,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                         command.Parameters.AddWithValue("@StudentName", body.StudentName);
                         command.Parameters.AddWithValue("@CenterID", body.CenterID);
+                        command.Parameters.AddWithValue("@IsFee", body.IsFee);
          
                         //command.Parameters.AddWithValue("@IsConfirmed", body.IsConfirmed);
 
