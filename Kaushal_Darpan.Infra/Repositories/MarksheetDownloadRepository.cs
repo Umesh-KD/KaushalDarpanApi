@@ -42,6 +42,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_StudentListForMarksheet";
 
+                    command.Parameters.AddWithValue("@action", "_getStuListForMarksheet");
                     command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
                     command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                     command.Parameters.AddWithValue("@IsBridge", body.IsBridge);
@@ -50,6 +51,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RollNo", body.RollNo);
                     command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                     command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEngID);
+                    command.Parameters.AddWithValue("@IsRevised", body.IsRevised);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();
