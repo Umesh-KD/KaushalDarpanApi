@@ -198,6 +198,8 @@ public class ITICampusStatusModel
 {
 
     public int Id { get; set; }
+    public int? CampusID { get; set; }
+    public int? InstituteID { get; set; }
     public int ModifyBy { get; set; }
     public string? CampusRemovedRemark { get; set; }
 
