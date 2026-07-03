@@ -2741,5 +2741,179 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         }
         #endregion
 
+
+        #region GetMarksStatisticsReport
+
+        public async Task<StringBuilder> GetMarksStatisticsReport_GetHtml(DataSet ds, int ResultType)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                DataTable dt = ds.Tables[0];
+
+                if (dt == null || dt.Rows.Count == 0)
+                    return sb;
+
+                int fixedColumns = 6;
+                int subjectCount = dt.Columns.Count - fixedColumns;
+
+                string currentInstitute = "";
+                int[] grandTotal = new int[subjectCount];
+
+                sb.Append("<!DOCTYPE html>");
+                sb.Append("<html>");
+                sb.Append("<head>");
+                sb.Append("<meta charset='UTF-8'>");
+
+                sb.Append(@"
+<style>
+body{
+    font-family:Arial;
+    font-size:11px;
+    margin:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    border:1px solid #000;
+    padding:4px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+thead th{
+    background:#efefef;
+}
+
+.left{
+    text-align:left;
+}
+
+.subtotal{
+    font-weight:bold;
+    background:#f7f7f7;
+}
+.grandtotal{
+    font-weight:bold;
+    background:#d9d9d9;
+}
+
+</style>");
+
+                sb.Append("</head>");
+                sb.Append("<body>");
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    string institute = row["InstituteNameEnglish"].ToString().Trim();
+                    string SemesterName = row["SemesterName"].ToString().Trim();
+                    // New Institute
+                    if (currentInstitute != institute)
+                    {
+                        // Close previous institute
+                        if (!string.IsNullOrEmpty(currentInstitute))
+                        {
+                            sb.Append("<tr class='grandtotal'>");
+                            sb.Append("<td colspan='4'><b>GRAND TOTAL</b></td>");
+
+                            for (int i = 0; i < subjectCount; i++)
+                            {
+                                sb.Append("<td><b>" + grandTotal[i] + "</b></td>");
+                            }
+
+                            sb.Append("</tr>");
+                            sb.Append("</tbody>");
+                            sb.Append("</table>");
+                            sb.Append("<div style='page-break-after:always'></div>");
+
+                            grandTotal = new int[subjectCount];
+                        }
+
+                        // IMPORTANT
+                        currentInstitute = institute;
+
+                        // Report Header
+                        sb.Append("<h3 style='text-align:center'>GOVERNMENT OF RAJASTHAN</h3>");
+                        sb.Append("<h2 style='text-align:center'>BOARD OF TECHNICAL EDUCATION RAJASTHAN, JODHPUR</h2>");
+                        sb.Append("<h4 style='text-align:center'>"+ SemesterName + "</h4>");
+                        sb.Append("<h4 style='text-align:center'>Marks Statistics Report</h4>");
+                        sb.Append("<h4 style='text-align:center'>Internal Assessment</h4>");
+                        sb.Append("<br/>");
+
+                        sb.Append("<table>");
+                        sb.Append("<thead>");
+
+                        sb.Append("<tr>");
+                        sb.Append("<th colspan='" + (fixedColumns + subjectCount) + "' class='left'>");
+                        sb.Append(institute);
+                        sb.Append("</th>");
+                        sb.Append("</tr>");
+
+                        sb.Append("<tr>");
+                        sb.Append("<th rowspan='2'>Branch</th>");
+                        sb.Append("<th rowspan='2'>Registered Student</th>");
+                        sb.Append("<th rowspan='2'>Present Student</th>");
+                        sb.Append("<th rowspan='2'>Statistics</th>");
+                        sb.Append("<th colspan='" + subjectCount + "'>Subject Code</th>");
+                        sb.Append("</tr>");
+
+                        sb.Append("<tr>");
+
+                        for (int i = fixedColumns; i < dt.Columns.Count; i++)
+                        {
+                            sb.Append("<th>" + dt.Columns[i].ColumnName + "</th>");
+                        }
+
+                        sb.Append("</tr>");
+                        sb.Append("</thead>");
+                        sb.Append("<tbody>");
+                    }
+
+                    bool isSubTotal = row["Branch"].ToString().Trim()
+                        .Equals("Sub Total", StringComparison.OrdinalIgnoreCase);
+
+                    sb.Append(isSubTotal ? "<tr class='subtotal'>" : "<tr>");
+
+                    sb.Append("<td class='left'>" + row["Branch"] + "</td>");
+                    sb.Append("<td>" + row["RegisteredStudent"] + "</td>");
+                    sb.Append("<td>" + row["PresentStudent"] + "</td>");
+                    sb.Append("<td>" + row["Statistics"] + "</td>");
+
+                    for (int i = fixedColumns; i < dt.Columns.Count; i++)
+                    {
+                        sb.Append("<td>" + row[i] + "</td>");
+                    }
+
+                    sb.Append("</tr>");
+
+                    // Calculate Institute Grand Total
+                    if (isSubTotal)
+                    {
+                        for (int i = fixedColumns; i < dt.Columns.Count; i++)
+                        {
+                            int value = 0;
+                            int.TryParse(row[i].ToString(), out value);
+
+                            grandTotal[i - fixedColumns] += value;
+                        }
+                    }
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating Marks Statistics Report HTML.", ex);
+            }
+
+            return sb;
+        }
+
+        #endregion
     }
 }

@@ -334,5 +334,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<int> SaveTrn_ITI_StudentExamsFeeMark(Trn_ITI_StudentExamsFeeMarkDataModel request);
         Task<DataTable> GetMarksheetCorrectionHistoryReport(MarksheetCorrectionHistoryModel model);
+        Task<DataTable> GetGetMarksStatisticsReport(GetMarksStatisticsModel model);
+
     }
 }
