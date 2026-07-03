@@ -33,6 +33,7 @@ namespace Kaushal_Darpan.Models.ITIResults
         public int StudentType { get; set; }
         public int is_appeared { get; set; }
         public int TradeId { get; set; }
+        public string? EnrollmentNo { get; set; }
 
     }
 
