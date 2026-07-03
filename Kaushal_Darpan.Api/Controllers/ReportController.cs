@@ -17489,6 +17489,40 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [HttpPost("GetMarksheetCorrectionHistoryReport")]
+        public async Task<ApiResult<DataTable>> GetMarksheetCorrectionHistoryReport(MarksheetCorrectionHistoryModel model)
+        {
+            ActionName = "GetMarksheetCorrectionHistoryReport()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetMarksheetCorrectionHistoryReport(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
 
 
         [HttpPost("DiplomaTest2")]
@@ -19117,71 +19151,58 @@ namespace Kaushal_Darpan.Api.Controllers
                         string sNo = (i + 1).ToString();
                         string rollNo = rows[i]["RollNo"]?.ToString() ?? "";
                         studentRows.AppendLine($@"
-                <tr>
-                    <td>{sNo}</td>
-                    <td>{rollNo}</td>
-                    <td></td>
-                    <td></td>
-                </tr>");
+                    <tr>
+                        <td style='height:14px'>{sNo}</td>
+                        <td>{rollNo}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>");
                     }
 
                     string headerBlock = $@"
-            <table class='header-table'>
-                <colgroup>
-                    <col style='width:18%'>
-                    <col style='width:26%'>
-                    <col style='width:26%'>
-                    <col style='width:30%'>
-                </colgroup>
-                <tr>
-                    <td colspan='4' class='full'><b>Center Name:</b> {centerName}</td>
-                </tr>
-                <tr>
-                    <td colspan='4' class='full'><b>NCVT CTS Main Exam</b> {semesterName} {examMonth}</td>
-                </tr>
-                <tr>
-                    <td class='lbl'>Trade Name</td>
-                    <td class='val'>{tradeName}</td>
-                    <td class='lbl2'>Subject:</td>
-                    <td class='val2'>Practical</td>
-                </tr>
-                <tr>
-                    <td class='lbl'>Center Code</td>
-                    <td class='val'>{centerCode}</td>
-                    <td class='lbl2'></td>
-                    <td class='val2'></td>
-                </tr>
-                <tr>
-                    <td class='lbl'>Examiner Code:</td>
-                    <td class='val'>____________</td>
-                    <td class='lbl2'>Max. Marks:</td>
-                    <td class='val2'>250</td>
-                </tr>
-            </table>";
+                <table class='header-table'>
+                    <tr>
+                        <td colspan='3'><b>Center Name:</b> {centerName}</td>
+                    </tr>
+                    <tr>
+                        <td colspan='4'>
+                            <b>NCVT CTS Main Exam:</b> {semesterName}
+                            <b>Trade</b> {examMonth}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Trade Name:</b></td>
+                        <td colspan='3'>{tradeName}</td>
+                       
+                    </tr>
+                    <tr>
+                         <td><b>Subject:</b></td>
+                        <td>Practical</td>
+                        <td><b>Center Code:</b></td>
+                        <td>{centerCode}</td>
+                       
+                    </tr>
+                    <tr>
+                        <td><b>Examiner Code:</b></td>
+                        <td>____________</td>
+                        <td><b>Maximum Marks:</b></td>
+                        <td>250</td>
+                    </tr>
+                </table>";
 
                     string marksTable = $@"
-            <table class='marks-table'>
-                <colgroup>
-                    <col class='snoCol'>
-                    <col class='rollCol'>
-                    <col class='wordsCol'>
-                    <col class='figCol'>
-                </colgroup>
-                <thead>
-                <tr>
-                    <th rowspan='2'>S.No.</th>
-                    <th rowspan='2'>Roll No</th>
-                    <th colspan='2'>Marks Obtained</th>
-                </tr>
-                <tr>
-                    <th>In Words</th>
-                    <th>In Fig.</th>
-                </tr>
-                </thead>
-                <tbody>
-                {studentRows}
-                </tbody>
-            </table>";
+                <table class='marks-table'>
+                    <tr>
+                        <th rowspan='2' style='width:40px'>S.No.</th>
+                        <th rowspan='2' style='width:70px'>Roll No</th>
+                        <th colspan='2'>Marks Obtained</th>
+                    </tr>
+                    <tr>
+                        <th style='width:65%;'>In Words</th>
+                        <th style='width:25%;'>In Fig.</th>
+                    </tr>
+                    {studentRows}
+                </table>";
 
                     // ── Left cell content = Practical Examiner footer ─────────────────
                     string leftSheet = $@"

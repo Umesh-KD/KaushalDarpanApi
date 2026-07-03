@@ -19,6 +19,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetCurrentStatusOfResult(ITIResultsModel model);
         Task<DataSet> GetCFormReport(ITIResultsModel model);
         Task<DataTable> GetStudentPassFailResultData(ITIStudentPassFailResultsModel model);
+        Task<DataTable> GetStudentDetailsReviseResult(ITIStudentPassFailResultsModel model);
         //Task<DataTable> GetCurrentPassFailResultStatus(ITIStudentPassFailResultsModel model);
         Task<DataTable> GetITITradeList(ITIStudentPassFailResultsModel model);
         Task<DataSet> GetCFormConsolidatedReport(ITIResultsModel model);

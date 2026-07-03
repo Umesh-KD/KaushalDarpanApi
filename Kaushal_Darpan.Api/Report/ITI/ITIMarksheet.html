@@ -17,9 +17,6 @@
                                 <tr>
                                     <td style="width:15%;font-size:12px;vertical-align:top;">
                                         <b> S.No. {#=GetITIStudent_Marksheet_SingleDetails.SNo=#}</b>
-
-
-
                                     </td>
 
                                     <td style="width:70%;text-align:center;vertical-align:middle; padding-bottom:10px;padding-top:0px">
@@ -157,7 +154,8 @@
         </tr>
         <tr>
             <td>
-                <table style="border-collapse:collapse;width:100%;margin-top:5px" border="0" cellpadding="5" cellspacing="0"> <!--5 to 4 px-->
+                <table style="border-collapse:collapse;width:100%;margin-top:5px" border="0" cellpadding="5" cellspacing="0">
+                    <!--5 to 4 px-->
 
                     <tr>
                         <td style="font-size: 12px;"><b>Note: </b> <span style="display: inline-block; border-bottom: dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.Note=#}</span></td>
@@ -165,9 +163,13 @@
                     <tr>
                         <td style="font-size: 12px;"><b>RESULT: </b><span style="display: inline-block; border-bottom: dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.stResult=#}</span></td>
                     </tr>
-                    <tr>
-                        <td style="font-size: 12px;"><b>Result Declaration Date:</b> <span style="display: inline-block; border-bottom: dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.ResultDeclarationDate=#}</span></td>
+                    <tr >
+                        <td style="font-size: 12px; text-align: left;"><b>Result Declaration Date:</b> <span style="display: inline-block; border-bottom: dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.ResultDeclarationDate=#}</span></td>
+                        {#IF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
+                         <td style="font-size: 12px; text-align: right; "><b>Revised Date:</b> <span style="display: inline-block; border-bottom: dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.RevisedDate=#}</span></td>
+                        {#ENDIF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
                     </tr>
+
                 </table>
             </td>
         </tr>

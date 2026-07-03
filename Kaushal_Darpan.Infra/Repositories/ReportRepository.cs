@@ -9576,7 +9576,21 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserID", model.UserID);
                         command.Parameters.AddWithValue("@Action", "_getMinimum_MaximumMarks_Practical_Report");
                     }
+                    else if (model.Type == 14)
+                    {
+                        command.CommandText = "USP_90AboveSessionalMarksInstituteWiseSemester";
 
+                        //command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        //command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        //command.Parameters.AddWithValue("@CourseTypeID", model.CourseType);
+                        //command.Parameters.AddWithValue("@Action", model.Action);
+                        command.Parameters.AddWithValue("@InstituteID", 1);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@Semesterid", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@Action", model.Action);
+                    }
 
                     else
                     {
@@ -10034,6 +10048,47 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<DataTable> GetMarksheetCorrectionHistoryReport(MarksheetCorrectionHistoryModel model)
+        {
+            _actionName = "GetMarksheetCorrectionHistoryReport(MarksheetCorrectionHistoryModel model)";
+
+            try
+            {
+                DataTable dataTable = new DataTable();
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetMarksheetCorrectionHistory";
+
+                    command.Parameters.AddWithValue("@EnrollmentNo", (object?)model.EnrollmentNo ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@MarksheetType", model.MarksheetType);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+
 
         #region Student reval Fee payment Receipt
         public async Task<DataSet> GetStudentRevalFeePaymentReceipt(string TransactionId, int StudentExamID)
