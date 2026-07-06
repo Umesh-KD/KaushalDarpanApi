@@ -703,163 +703,163 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         public async Task<bool> SaveDataReport(ItiReportDataModel request)
         {
-      
-                try
+
+            try
+            {
+                int returnValue = 0;
+
+                using (var command = await _dbContext.CreateCommandAsync())
                 {
-                    int returnValue = 0;
+                    command.CommandText = "USP_ITICollegeReport_IU";
+                    command.CommandType = CommandType.StoredProcedure;
 
-                    using (var command = await _dbContext.CreateCommandAsync())
-                    {
-                        command.CommandText = "USP_ITICollegeReport_IU";
-                        command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ID", request.Eid);
+                    command.Parameters.AddWithValue("@AnnoucementType", request.AnnoucementType);
+                    command.Parameters.AddWithValue("@DivisionID", request.DivisionID);
+                    command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+                    command.Parameters.AddWithValue("@SubDivisionID", request.SubDivisionID);
+                    command.Parameters.AddWithValue("@TehsilID", request.TehsilID);
+                    command.Parameters.AddWithValue("@UrbanRural", request.UrbanRural);
+                    command.Parameters.AddWithValue("@GramPanchayatSamiti", request.GramPanchayatSamiti);
+                    command.Parameters.AddWithValue("@VillageID", request.VillageID);
+                    command.Parameters.AddWithValue("@CityID", request.CityID);
+                    command.Parameters.AddWithValue("@AdministrativeBodyId", request.AdministrativeBodyId);
+                    command.Parameters.AddWithValue("@PrincipleName", request.PrincipleName);
+                    command.Parameters.AddWithValue("@PrincipleMobile", request.PrincipleMobile);
+                    command.Parameters.AddWithValue("@PrincipleEmailID", request.PrincipleEmailID);
+                    command.Parameters.AddWithValue("@Category", request.Category);
+                    command.Parameters.AddWithValue("@LandAddress", request.LandAddress);
+                    command.Parameters.AddWithValue("@Pincode", request.Pincode);
+                    command.Parameters.AddWithValue("@StartDate", request.StartDate);
+                    command.Parameters.AddWithValue("@CompleteDate", request.CompleteDate);
 
-                        command.Parameters.AddWithValue("@ID", request.Eid);
-                        command.Parameters.AddWithValue("@AnnoucementType", request.AnnoucementType);
-                        command.Parameters.AddWithValue("@DivisionID", request.DivisionID);
-                        command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
-                        command.Parameters.AddWithValue("@SubDivisionID", request.SubDivisionID);
-                        command.Parameters.AddWithValue("@TehsilID", request.TehsilID);
-                        command.Parameters.AddWithValue("@UrbanRural", request.UrbanRural);
-                        command.Parameters.AddWithValue("@GramPanchayatSamiti", request.GramPanchayatSamiti);
-                        command.Parameters.AddWithValue("@VillageID", request.VillageID);
-                        command.Parameters.AddWithValue("@CityID", request.CityID);
-                        command.Parameters.AddWithValue("@AdministrativeBodyId", request.AdministrativeBodyId);
-                        command.Parameters.AddWithValue("@PrincipleName", request.PrincipleName);
-                        command.Parameters.AddWithValue("@PrincipleMobile", request.PrincipleMobile);
-                        command.Parameters.AddWithValue("@PrincipleEmailID", request.PrincipleEmailID);
-                        command.Parameters.AddWithValue("@Category", request.Category);
-                        command.Parameters.AddWithValue("@LandAddress", request.LandAddress);
-                        command.Parameters.AddWithValue("@Pincode", request.Pincode);
-                        command.Parameters.AddWithValue("@StartDate", request.StartDate);
-                        command.Parameters.AddWithValue("@CompleteDate", request.CompleteDate);
+                    command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
+                    command.Parameters.AddWithValue("@CollegeName", request.CollegeName);
+                    command.Parameters.AddWithValue("@Loksabha", request.Loksabha);
+                    command.Parameters.AddWithValue("@Vidhansabha", request.Vidhansabha);
+                    command.Parameters.AddWithValue("@LandAvailable", request.LandAvailable);
+                    command.Parameters.AddWithValue("@PanchayatDis", request.PanchayatDis);
+                    command.Parameters.AddWithValue("@SanctionOrderNo", request.SanctionOrderNo);
+                    command.Parameters.AddWithValue("@SanctionOrderDate", request.SanctionOrderDate);
+                    command.Parameters.AddWithValue("@TradeOrderNo", request.TradeOrderNo);
+                    command.Parameters.AddWithValue("@AdministrativeOrderNo", request.AdministrativeOrderNo);
+                    command.Parameters.AddWithValue("@TradeOrderDate", request.TradeOrderDate);
+                    command.Parameters.AddWithValue("@AdministrativeOrderDate", request.AdministrativeOrderDate);
+                    command.Parameters.AddWithValue("@ApproachRoad", request.ApproachRoad);
+                    command.Parameters.AddWithValue("@InternalRoad", request.InternalRoad);
+                    command.Parameters.AddWithValue("@WaterSupply", request.WaterSupply);
+                    command.Parameters.AddWithValue("@Harvesting", request.Harvesting);
+                    command.Parameters.AddWithValue("@ElectPhase", request.ElectPhase);
+                    command.Parameters.AddWithValue("@ElectConnection", request.ElectConnection);
+                    command.Parameters.AddWithValue("@IsSolarPanel", request.IsSolarPanel);
+                    command.Parameters.AddWithValue("@PanelCapacity", request.PanelCapacity);
+                    command.Parameters.AddWithValue("@IsBoundaryWall", request.IsBoundaryWall);
+                    command.Parameters.AddWithValue("@BuildShortage", request.BuildShortage);
+                    command.Parameters.AddWithValue("@IsHostel", request.IsHostel);
+                    command.Parameters.AddWithValue("@HostelUtilized", request.HostelUtilized);
+                    command.Parameters.AddWithValue("@NoOfTree", request.NoOfTree);
+                    command.Parameters.AddWithValue("@Remarks", request.Remarks);
+                    command.Parameters.AddWithValue("@FrontPhoto", request.FrontPhoto);
+                    command.Parameters.AddWithValue("@SidePhoto", request.SidePhoto);
+                    command.Parameters.AddWithValue("@InteriorPhoto", request.InteriorPhoto);
+                    command.Parameters.AddWithValue("@SanctionOrderCopy", request.SanctionOrderCopy);
+                    command.Parameters.AddWithValue("@TradeCopy", request.TradeCopy);
+                    command.Parameters.AddWithValue("@AdministrativeCopy", request.AdministrativeCopy);
+                    command.Parameters.AddWithValue("@ConstructionAgency", request.ConstructionAgency);
+                    command.Parameters.AddWithValue("@PDName", request.PDName);
+                    command.Parameters.AddWithValue("@ContractorName", request.ContractorName);
+                    command.Parameters.AddWithValue("@PDMobile", request.PDMobile);
+                    command.Parameters.AddWithValue("@ContractorMobile", request.ContractorMobile);
+                    command.Parameters.AddWithValue("@IsDispute", request.IsDispute);
+                    command.Parameters.AddWithValue("@FinancialSanction", request.FinancialSanction);
+                    command.Parameters.AddWithValue("@FinancialCopy", request.FinancialCopy);
+                    command.Parameters.AddWithValue("@PercentCivilWork", request.PercentCivilWork);
+                    command.Parameters.AddWithValue("@PercentCivilDate", request.PercentCivilDate);
+                    command.Parameters.AddWithValue("@IsPurposeHall", request.IsPurposeHall);
+                    command.Parameters.AddWithValue("@IsMainITI", request.IsMainITI);
+                    command.Parameters.AddWithValue("@IsBuildingTaken", request.IsBuildingTaken);
+                    command.Parameters.AddWithValue("@TakenOverDate", request.TakenOverDate);
+                    command.Parameters.AddWithValue("@IsOperatingOwn", request.IsOperatingOwn);
+                    command.Parameters.AddWithValue("@ShilanyasDate", request.ShilanyasDate);
+                    command.Parameters.AddWithValue("@LokarpanDate", request.LokarpanDate);
+                    command.Parameters.AddWithValue("@LokarpanName", request.LokarpanName);
+                    command.Parameters.AddWithValue("@LokarpanPost", request.LokarpanPost);
+                    command.Parameters.AddWithValue("@AllotmentLetter", request.AllotmentLetter);
+                    command.Parameters.AddWithValue("@BuildingPlanCopy", request.BuildingPlanCopy);
+                    command.Parameters.AddWithValue("@DomeViewCopy", request.DomeViewCopy);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@Esttablishment_Year", request.Esttablishment_Year);
+                    command.Parameters.AddWithValue("@ElectPhaserequired", request.ElectPhaserequired);
+                    command.Parameters.AddWithValue("@ContractLoad", request.ContractLoad);
+                    command.Parameters.AddWithValue("@ShilanyasName", request.ShilanyasName);
+                    command.Parameters.AddWithValue("@ShilanyasPost", request.ShilanyasPost);
+                    command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                    command.Parameters.AddWithValue("@rowjson", JsonConvert.SerializeObject(request.FinancialSanctionList));
+                    command.Parameters.AddWithValue("@rowjson2", JsonConvert.SerializeObject(request.BasicDetailsList));
+                    command.Parameters.AddWithValue("@rowjson3", JsonConvert.SerializeObject(request.OrderDetailsList));
+                    command.Parameters.AddWithValue("@rowjsonWork", JsonConvert.SerializeObject(request.UpdateWorkList));
+                    command.Parameters.AddWithValue("@OtherDocument", JsonConvert.SerializeObject(request.OtherDocument));
+                    command.Parameters.AddWithValue("@IsNewCollege", request.IsNewCollege);
+                    command.Parameters.AddWithValue("@LandTypeID", request.LandTypeID);
+                    command.Parameters.AddWithValue("@PanchayatId", request.PanchayatId);
+                    command.Parameters.AddWithValue("@MISCode", request.MISCode);
+                    command.Parameters.AddWithValue("@ItiCode", request.ItiCode);
+                    command.Parameters.AddWithValue("@Ward  ", request.Ward);
+                    command.Parameters.AddWithValue("@KhasraKhataNo", request.KhasraKhataNo);
+                    command.Parameters.AddWithValue("@NodalIti", request.NodalIti);
+                    command.Parameters.AddWithValue("@NodalItiCode", request.NodalItiCode);
+                    command.Parameters.AddWithValue("@NodalPostAddresss", request.NodalPostAddresss);
+                    command.Parameters.AddWithValue("@LeaseOrderCopy", request.LeaseOrderCopy);
+                    command.Parameters.AddWithValue("@NodalOrderDate", request.NodalOrderDate);
+                    command.Parameters.AddWithValue("@NodalOrderNo", request.NodalOrderNo);
+                    command.Parameters.AddWithValue("@Ownership", request.Ownership);
+                    command.Parameters.AddWithValue("@PlotHouseBuildingNo", request.PlotHouseBuildingNo);
+                    command.Parameters.AddWithValue("@LandMark", request.LandMark);
+                    command.Parameters.AddWithValue("@AreaLocalitySector", request.AreaLocalitySector);
+                    command.Parameters.AddWithValue("@StreetRoadLane", request.StreetRoadLane);
+                    command.Parameters.AddWithValue("@DISCOM", request.DISCOM);
+                    command.Parameters.AddWithValue("@SanctionLoad", request.SanctionLoad);
+                    command.Parameters.AddWithValue("@ConnectionType", request.ConnectionType);
+                    command.Parameters.AddWithValue("@ConsumerName", request.ConsumerName);
+                    command.Parameters.AddWithValue("@ContractDemand", request.ContractDemand);
+                    command.Parameters.AddWithValue("@SubDivOffice", request.SubDivOffice);
+                    command.Parameters.AddWithValue("@PrincipleUserID", request.PrincipleUserID);
+                    command.Parameters.AddWithValue("@PrincipalOrderCopy", request.PrincipalOrderCopy);
+                    command.Parameters.AddWithValue("@WorkOrderCopy", request.WorkOrderCopy);
+                    command.Parameters.AddWithValue("@Islanddetail", request.Islanddetail);
+                    command.Parameters.AddWithValue("@IsConstructdetail", request.IsConstructdetail);
+                    command.Parameters.AddWithValue("@IsElectricdetail", request.IsElectricdetail);
+                    command.Parameters.AddWithValue("@IsDistrictHq", request.IsDistrictHq);
+                    command.Parameters.AddWithValue("@CollegePlace", request.CollegePlace);
+                    command.Parameters.AddWithValue("@InstitutionCategoryId", request.InstitutionCategoryId);
 
-                        command.Parameters.AddWithValue("@CollegeID", request.CollegeID);
-                        command.Parameters.AddWithValue("@CollegeName", request.CollegeName);
-                        command.Parameters.AddWithValue("@Loksabha", request.Loksabha);
-                        command.Parameters.AddWithValue("@Vidhansabha", request.Vidhansabha);
-                        command.Parameters.AddWithValue("@LandAvailable", request.LandAvailable);
-                        command.Parameters.AddWithValue("@PanchayatDis", request.PanchayatDis);
-                        command.Parameters.AddWithValue("@SanctionOrderNo", request.SanctionOrderNo);
-                        command.Parameters.AddWithValue("@SanctionOrderDate", request.SanctionOrderDate);
-                        command.Parameters.AddWithValue("@TradeOrderNo", request.TradeOrderNo);
-                        command.Parameters.AddWithValue("@AdministrativeOrderNo", request.AdministrativeOrderNo);
-                        command.Parameters.AddWithValue("@TradeOrderDate", request.TradeOrderDate);
-                        command.Parameters.AddWithValue("@AdministrativeOrderDate", request.AdministrativeOrderDate);
-                        command.Parameters.AddWithValue("@ApproachRoad", request.ApproachRoad);
-                        command.Parameters.AddWithValue("@InternalRoad", request.InternalRoad);
-                        command.Parameters.AddWithValue("@WaterSupply", request.WaterSupply);
-                        command.Parameters.AddWithValue("@Harvesting", request.Harvesting);
-                        command.Parameters.AddWithValue("@ElectPhase", request.ElectPhase);
-                        command.Parameters.AddWithValue("@ElectConnection", request.ElectConnection);
-                        command.Parameters.AddWithValue("@IsSolarPanel", request.IsSolarPanel);
-                        command.Parameters.AddWithValue("@PanelCapacity", request.PanelCapacity);
-                        command.Parameters.AddWithValue("@IsBoundaryWall", request.IsBoundaryWall);
-                        command.Parameters.AddWithValue("@BuildShortage", request.BuildShortage);
-                        command.Parameters.AddWithValue("@IsHostel", request.IsHostel);
-                        command.Parameters.AddWithValue("@HostelUtilized", request.HostelUtilized);
-                        command.Parameters.AddWithValue("@NoOfTree", request.NoOfTree);
-                        command.Parameters.AddWithValue("@Remarks", request.Remarks);
-                        command.Parameters.AddWithValue("@FrontPhoto", request.FrontPhoto);
-                        command.Parameters.AddWithValue("@SidePhoto", request.SidePhoto);
-                        command.Parameters.AddWithValue("@InteriorPhoto", request.InteriorPhoto);
-                        command.Parameters.AddWithValue("@SanctionOrderCopy", request.SanctionOrderCopy);
-                        command.Parameters.AddWithValue("@TradeCopy", request.TradeCopy);
-                        command.Parameters.AddWithValue("@AdministrativeCopy", request.AdministrativeCopy);
-                        command.Parameters.AddWithValue("@ConstructionAgency", request.ConstructionAgency);
-                        command.Parameters.AddWithValue("@PDName", request.PDName);
-                        command.Parameters.AddWithValue("@ContractorName", request.ContractorName);
-                        command.Parameters.AddWithValue("@PDMobile", request.PDMobile);
-                        command.Parameters.AddWithValue("@ContractorMobile", request.ContractorMobile);
-                        command.Parameters.AddWithValue("@IsDispute", request.IsDispute);
-                        command.Parameters.AddWithValue("@FinancialSanction", request.FinancialSanction);
-                        command.Parameters.AddWithValue("@FinancialCopy", request.FinancialCopy);
-                        command.Parameters.AddWithValue("@PercentCivilWork", request.PercentCivilWork);
-                        command.Parameters.AddWithValue("@PercentCivilDate", request.PercentCivilDate);
-                        command.Parameters.AddWithValue("@IsPurposeHall", request.IsPurposeHall);
-                        command.Parameters.AddWithValue("@IsMainITI", request.IsMainITI);
-                        command.Parameters.AddWithValue("@IsBuildingTaken", request.IsBuildingTaken);
-                        command.Parameters.AddWithValue("@TakenOverDate", request.TakenOverDate);
-                        command.Parameters.AddWithValue("@IsOperatingOwn", request.IsOperatingOwn);
-                        command.Parameters.AddWithValue("@ShilanyasDate", request.ShilanyasDate);
-                        command.Parameters.AddWithValue("@LokarpanDate", request.LokarpanDate);
-                        command.Parameters.AddWithValue("@LokarpanName", request.LokarpanName);
-                        command.Parameters.AddWithValue("@LokarpanPost", request.LokarpanPost);
-                        command.Parameters.AddWithValue("@AllotmentLetter", request.AllotmentLetter);
-                        command.Parameters.AddWithValue("@BuildingPlanCopy", request.BuildingPlanCopy);
-                        command.Parameters.AddWithValue("@DomeViewCopy", request.DomeViewCopy);
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
-                        command.Parameters.AddWithValue("@Esttablishment_Year", request.Esttablishment_Year);
-                        command.Parameters.AddWithValue("@ElectPhaserequired", request.ElectPhaserequired);
-                        command.Parameters.AddWithValue("@ContractLoad", request.ContractLoad);
-                        command.Parameters.AddWithValue("@ShilanyasName", request.ShilanyasName);
-                        command.Parameters.AddWithValue("@ShilanyasPost", request.ShilanyasPost);
-                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
-                        command.Parameters.AddWithValue("@rowjson", JsonConvert.SerializeObject(request.FinancialSanctionList));
-                        command.Parameters.AddWithValue("@rowjson2", JsonConvert.SerializeObject(request.BasicDetailsList));
-                        command.Parameters.AddWithValue("@rowjson3", JsonConvert.SerializeObject(request.OrderDetailsList));
-                        command.Parameters.AddWithValue("@rowjsonWork", JsonConvert.SerializeObject(request.UpdateWorkList));
-                        command.Parameters.AddWithValue("@OtherDocument", JsonConvert.SerializeObject(request.OtherDocument));
-                        command.Parameters.AddWithValue("@IsNewCollege", request.IsNewCollege);
-                        command.Parameters.AddWithValue("@LandTypeID", request.LandTypeID);
-                        command.Parameters.AddWithValue("@PanchayatId", request.PanchayatId);
-                        command.Parameters.AddWithValue("@MISCode", request.MISCode);
-                        command.Parameters.AddWithValue("@ItiCode", request.ItiCode);
-                        command.Parameters.AddWithValue("@Ward  ", request.Ward);
-                        command.Parameters.AddWithValue("@KhasraKhataNo", request.KhasraKhataNo);
-                        command.Parameters.AddWithValue("@NodalIti", request.NodalIti);
-                        command.Parameters.AddWithValue("@NodalItiCode", request.NodalItiCode);
-                        command.Parameters.AddWithValue("@NodalPostAddresss", request.NodalPostAddresss);
-                        command.Parameters.AddWithValue("@LeaseOrderCopy", request.LeaseOrderCopy);
-                        command.Parameters.AddWithValue("@NodalOrderDate", request.NodalOrderDate);
-                        command.Parameters.AddWithValue("@NodalOrderNo", request.NodalOrderNo);
-                        command.Parameters.AddWithValue("@Ownership", request.Ownership);
-                        command.Parameters.AddWithValue("@PlotHouseBuildingNo", request.PlotHouseBuildingNo);
-                        command.Parameters.AddWithValue("@LandMark", request.LandMark);
-                        command.Parameters.AddWithValue("@AreaLocalitySector", request.AreaLocalitySector);
-                        command.Parameters.AddWithValue("@StreetRoadLane", request.StreetRoadLane);
-                        command.Parameters.AddWithValue("@DISCOM", request.DISCOM);
-                        command.Parameters.AddWithValue("@SanctionLoad", request.SanctionLoad);
-                        command.Parameters.AddWithValue("@ConnectionType", request.ConnectionType);
-                        command.Parameters.AddWithValue("@ConsumerName", request.ConsumerName);
-                        command.Parameters.AddWithValue("@ContractDemand", request.ContractDemand);
-                        command.Parameters.AddWithValue("@SubDivOffice", request.SubDivOffice);
-                        command.Parameters.AddWithValue("@PrincipleUserID", request.PrincipleUserID);
-                        command.Parameters.AddWithValue("@PrincipalOrderCopy", request.PrincipalOrderCopy);
-                        command.Parameters.AddWithValue("@WorkOrderCopy", request.WorkOrderCopy);
-                        command.Parameters.AddWithValue("@Islanddetail", request.Islanddetail);
-                        command.Parameters.AddWithValue("@IsConstructdetail", request.IsConstructdetail);
-                        command.Parameters.AddWithValue("@IsElectricdetail", request.IsElectricdetail);
-                        command.Parameters.AddWithValue("@IsDistrictHq", request.IsDistrictHq);
-                        command.Parameters.AddWithValue("@CollegePlace", request.CollegePlace);
-                        command.Parameters.AddWithValue("@InstitutionCategoryId", request.InstitutionCategoryId);
-                    
 
-                        // Output parameter
-                        var returnParam = new SqlParameter("@Return", SqlDbType.Int) { Direction = ParameterDirection.Output };
-                        command.Parameters.Add(returnParam);
+                    // Output parameter
+                    var returnParam = new SqlParameter("@Return", SqlDbType.Int) { Direction = ParameterDirection.Output };
+                    command.Parameters.Add(returnParam);
 
-                        _sqlQuery = command.GetSqlExecutableQuery();
-                        await command.ExecuteNonQueryAsync();
-                        returnValue = (int)returnParam.Value;
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    await command.ExecuteNonQueryAsync();
+                    returnValue = (int)returnParam.Value;
 
-                        return returnValue > 1;
-                    }
+                    return returnValue > 1;
                 }
-                catch (Exception ex)
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
 
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-         
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+
         }
 
         public async Task<ItiReportDataModel> Get_ITIsReportData_ByID(int Id)
@@ -1833,6 +1833,88 @@ namespace Kaushal_Darpan.Infra.Repositories
                 var errordetails = CommonFuncationHelper.MakeError(errorDesc);
 
                 throw new Exception(errordetails, ex);
+            }
+        }
+      
+    
+
+     public async Task<DataTable> ITICollegeCampusRemovalReport(ITICollegeCampusRemovalModel model)
+        {
+            _actionName = "ITICollegeCampusRemovalReport()";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_CampusRemovalReport";
+                    command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                    command.Parameters.AddWithValue("@UserID", model.UserID);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        public async Task<bool> ChangeCampusByID(ITICampusStatusModel request)
+        {
+            _actionName = "UpdateCampusStatusByID(ITICampusStatusModel request)";
+
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandText = "USP_Updatecampusdetails";
+                    command.CommandType = CommandType.StoredProcedure;
+
+            
+                    command.Parameters.AddWithValue("@CampusID", request.CampusID);
+                    command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+      
+
+
+                    SqlParameter returnParam = new SqlParameter("@Return", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(returnParam);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    await command.ExecuteNonQueryAsync();
+
+                    int result = Convert.ToInt32(returnParam.Value);
+
+                    return result > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errorDetails, ex);
             }
         }
 

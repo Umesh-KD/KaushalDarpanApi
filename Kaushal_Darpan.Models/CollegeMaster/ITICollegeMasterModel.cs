@@ -198,6 +198,8 @@ public class ITICampusStatusModel
 {
 
     public int Id { get; set; }
+    public int? CampusID { get; set; }
+    public int? InstituteID { get; set; }
     public int ModifyBy { get; set; }
     public string? CampusRemovedRemark { get; set; }
 
@@ -242,4 +244,9 @@ public class BankGuaranteeConsolidatedReportModel
     public string BankRemark { get; set; }
     public string NumberOfUnit { get; set; }
     public string WritNoDate { get; set; }
+}
+public class ITICollegeCampusRemovalModel
+{
+    public int RoleID { get; set; }
+    public int UserID { get; set; }
 }

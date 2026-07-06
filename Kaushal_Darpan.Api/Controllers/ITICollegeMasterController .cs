@@ -669,13 +669,13 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpGet("GetPlanningList/{CollegeID}/{Status}/{ITItypeID?}/{DistrictID}")]
-        public async Task<ApiResult<DataTable>> GetPlanningList(int CollegeID, int Status, int? ITItypeID = null,int? DistrictID=0)
+        public async Task<ApiResult<DataTable>> GetPlanningList(int CollegeID, int Status, int? ITItypeID = null, int? DistrictID = 0)
         {
             ActionName = "GetExamStudentData()";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.ITICollegeMasterRepository.GetPlanningList(CollegeID,  Status,  ITItypeID ?? 0,DistrictID));
+                result.Data = await Task.Run(() => _unitOfWork.ITICollegeMasterRepository.GetPlanningList(CollegeID, Status, ITItypeID ?? 0, DistrictID));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
@@ -1040,9 +1040,9 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
                     {
-                                      
+
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                     
+
                         data.Tables[0].TableName = "Institute_Details";
 
 
@@ -1261,7 +1261,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                 }
                 else
-                 {
+                {
                     result.State = EnumStatus.Warning;
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
                 }
@@ -1669,6 +1669,83 @@ namespace Kaushal_Darpan.Api.Controllers
 
             return result;
         }
+
+        [HttpPost("ITICollegeCampusRemovalReport")]
+        public async Task<ApiResult<DataTable>> ITICollegeCampusRemovalReport([FromBody] ITICollegeCampusRemovalModel model)
+        {
+            ActionName = "ITICollegeCampusRemovalReport()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await _unitOfWork.ITICollegeMasterRepository.ITICollegeCampusRemovalReport(model);
+                if (result.Data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("ChangeCampusByID")]
+        public async Task<ApiResult<bool>> ChangeCampusByID([FromBody] ITICampusStatusModel model)
+        {
+            ActionName = "UpdateCampusStatusByID";
+
+            var result = new ApiResult<bool>();
+            try
+            {
+                result.Data = await _unitOfWork.ITICollegeMasterRepository.ChangeCampusByID(model);
+                await _unitOfWork.SaveChangesAsync();
+
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = Constants.MSG_UPDATE_SUCCESS;
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = Constants.MSG_UPDATE_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+
+        }
+
     }
 }
 

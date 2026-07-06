@@ -9549,7 +9549,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     else if (model.Type == 12)
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "Minimum_MaximumMarksReportIA_Or_Practical";
+                        command.CommandText = "USP_GetMinimum_MaximumMarksReportIA_Or_Practical";
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
@@ -9558,14 +9558,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@UserID", model.UserID);
-                        command.Parameters.AddWithValue("@Action", "Minimum_MaximumMarks_IA_Report");
+                        command.Parameters.AddWithValue("@Action", "_getMinimum_MaximumMarks_IA_Report");
                        
                         
                     }
                     else if (model.Type == 13)
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "Minimum_MaximumMarksReportIA_Or_Practical";
+                        command.CommandText = "USP_GetMinimum_MaximumMarksReportIA_Or_Practical";
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
                         command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
@@ -9574,9 +9574,23 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@UserID", model.UserID);
-                        command.Parameters.AddWithValue("@Action", "Minimum_MaximumMarks_Practical_Report");
+                        command.Parameters.AddWithValue("@Action", "_getMinimum_MaximumMarks_Practical_Report");
                     }
+                    else if (model.Type == 14)
+                    {
+                        command.CommandText = "USP_90AboveSessionalMarksInstituteWiseSemester";
 
+                        //command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        //command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        //command.Parameters.AddWithValue("@CourseTypeID", model.CourseType);
+                        //command.Parameters.AddWithValue("@Action", model.Action);
+                        command.Parameters.AddWithValue("@InstituteID", 1);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@Semesterid", model.SemesterID);
+                        command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                        command.Parameters.AddWithValue("@Action", model.Action);
+                    }
 
                     else
                     {
@@ -10035,6 +10049,47 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataTable> GetMarksheetCorrectionHistoryReport(MarksheetCorrectionHistoryModel model)
+        {
+            _actionName = "GetMarksheetCorrectionHistoryReport(MarksheetCorrectionHistoryModel model)";
+
+            try
+            {
+                DataTable dataTable = new DataTable();
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetMarksheetCorrectionHistory";
+
+                    command.Parameters.AddWithValue("@EnrollmentNo", (object?)model.EnrollmentNo ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@MarksheetType", model.MarksheetType);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
+
+
         #region Student reval Fee payment Receipt
         public async Task<DataSet> GetStudentRevalFeePaymentReceipt(string TransactionId, int StudentExamID)
         {
@@ -10304,6 +10359,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
                     command.Parameters.AddWithValue("@StudentName", body.StudentName);
                     command.Parameters.AddWithValue("@CenterID", body.CenterID);
+                    command.Parameters.AddWithValue("@IsFee", body.IsFee);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();
@@ -10569,6 +10625,47 @@ namespace Kaushal_Darpan.Infra.Repositories
                     throw new Exception(errordetails, ex);
                 }
             });
+        }
+
+        #endregion
+
+        #region "GetGetMarksStatisticsReport"
+        public async Task<DataTable> GetGetMarksStatisticsReport(GetMarksStatisticsModel model)
+        {
+            _actionName = "GetGetMarksStatisticsReport()";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_GetMarksStatisticsReportIA_Or_Practical";
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                    command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                    command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                    command.Parameters.AddWithValue("@SchemeID", model.SchemeID);
+                    command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                    command.Parameters.AddWithValue("@UserID", model.UserID);
+                    command.Parameters.AddWithValue("@Action", model.Action);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         #endregion
