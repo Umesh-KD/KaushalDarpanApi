@@ -40,6 +40,8 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? BugetHeadTypeID { get; set; }
         public int? ParentRoleID { get; set; }
         public string? MultiGuestHouseIDs { get; set; }
+        public string? OrderNo { get; set; }
+        public int? VacancyID { get; set; }
         public List<BTER_EM_StaffHostelListModel>? GuestHouseIDs { get; set; }
     }
 
@@ -129,6 +131,10 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int PostID { get; set; }
         public int? OfficeID { get; set; }
         public string? multiHostelIDs { get; set; }
+        public string? OrderNo { get; set; }
+        public int? VacancyID { get; set; }
+        public int? BugetHeadID { get; set; }
+        public int? BugetHeadTypeID { get; set; }
     }
 
     public class BTER_EM_StaffMasterSearchModel
@@ -556,5 +562,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? StaffTypeID { get; set; }
         public int? UserID { get; set; }
         public int? RoleID { get; set; }
+        public int? BudgetHeadID { get; set; }
+        public string? OrderNo { get; set; }
     }
 }

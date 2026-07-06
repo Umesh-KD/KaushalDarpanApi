@@ -71,6 +71,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@BugetHeadTypeID", request.BugetHeadTypeID);
                         command.Parameters.AddWithValue("@multiGuestHouseIDs", request.MultiGuestHouseIDs);
                         command.Parameters.AddWithValue("@ParentRoleID", request.ParentRoleID);
+                        command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
+                        command.Parameters.AddWithValue("@VacancyID", request.VacancyID);
 
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
@@ -211,6 +213,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EMTypeID", request.EMTypeID);
                         command.Parameters.AddWithValue("@PostID", request.PostID);
                         command.Parameters.AddWithValue("@OfficeID", request.OfficeID);
+                        command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
+                        command.Parameters.AddWithValue("@VacancyID", request.VacancyID);
+                        command.Parameters.AddWithValue("@BugetHeadTypeID", request.BugetHeadTypeID);
+                        command.Parameters.AddWithValue("@BugetHeadID", request.BugetHeadID);
                         command.Parameters.Add("@Return", SqlDbType.Int);// out
                         command.Parameters["@Return"].Direction = ParameterDirection.Output;// out
 
@@ -2353,6 +2359,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@StaffTypeID", body.StaffTypeID);
                         command.Parameters.AddWithValue("@UserID", body.UserID);
                         command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                        command.Parameters.AddWithValue("@OrderNo", body.OrderNo);
+                        command.Parameters.AddWithValue("@BudgetHeadID", body.BudgetHeadID);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
