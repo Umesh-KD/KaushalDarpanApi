@@ -19450,7 +19450,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     GlobalSettings =
             {
                 PaperSize = PaperKind.A4,
-                Orientation = Orientation.Portrait,
+                Orientation = Orientation.Landscape,
                 Margins = new MarginSettings
                 {
                     Top = 10,
