@@ -40,8 +40,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync())
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    //command.CommandText = "USP_StudentListForMarksheet";
-                    command.CommandText = "USP_StudentListForMarksheet_test";
+                    command.CommandText = "USP_StudentListForMarksheet";
+                    //command.CommandText = "USP_StudentListForMarksheet_test";
                     command.CommandTimeout = 0;
 
                     if (body.ResultTypeID == (int)EnumResultType.MainResult) // main and reval
