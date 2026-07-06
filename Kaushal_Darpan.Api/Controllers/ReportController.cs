@@ -19409,7 +19409,7 @@ namespace Kaushal_Darpan.Api.Controllers
         {
             ActionName = "GetGetMarksStatisticsReport(GetMarksStatisticsModel model)";
             var result = new ApiResult<string>();
-
+            string ActionType = "";
             try
             {
                 // Get report data
@@ -19425,9 +19425,16 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
                     return result;
                 }
-
+                if(model.Action == "_getMarksStatistics_IA_Report")
+                {
+                    ActionType = "Internal Assessment";
+                }
+                if (model.Action == "_getMarksStatistics_Practical_Report")
+                {
+                    ActionType = "Practical";
+                }
                 // Generate HTML
-                var sb = await _printHtmlFile.GetMarksStatisticsReport_GetHtml(data, 0);
+                var sb = await _printHtmlFile.GetMarksStatisticsReport_GetHtml(data, 0, ActionType);
                 string html = sb.ToString();
 
                 // Remove last page break if present
@@ -19443,7 +19450,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     GlobalSettings =
             {
                 PaperSize = PaperKind.A4,
-                Orientation = Orientation.Portrait,
+                Orientation = Orientation.Landscape,
                 Margins = new MarginSettings
                 {
                     Top = 10,

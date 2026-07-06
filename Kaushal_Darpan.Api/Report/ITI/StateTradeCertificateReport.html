@@ -195,31 +195,25 @@
     </table>
     <table style="width:100%;padding-top:40px;">
         <tr>
-            <td style="padding: 10px 0 ; width: 30%">
+            <td style="padding: 10px 0; width: 30%">
                 Result Declaration Date
             </td>
-            <td style="border-bottom: 1px solid gray; width: 30%;font-family: Georgia, " Times New Roman", Times, serif;">
-                <b> {#=StateTradeCertificate.ResultDate=#} </b>
+            <td style="width: 30%">
+                <span style="border-bottom: 1px solid gray; font-family: Georgia, 'Times New Roman', Times, serif; font-weight:bold;">
+                    <u>{#=StateTradeCertificate.ResultDate=#}</u> 
+                </span>
             </td>
-            <td style="width:40%">
-            </td>
+            <td style="width:40%"></td>
         </tr>
         <tr>
-            <!--{#IF.StateTradeCertificate.IsRevised=1 && StateTradeCertificate.isRevisedShowOnCert=1#}
-            <td style="padding: 10px 0 ; width: 30%">
-                Revised Date:
-            </td>
-            <td style="font-family: Georgia, " Times New Roman", Times, serif;">
-                <b> {#=StateTradeCertificate.ResultDate=#} </b>
-            </td>
-            <td style="width:40%">
-            </td>
-            {#ENDIF.StateTradeCertificate.IsRevised=1 && StateTradeCertificate.isRevisedShowOnCert=1#}-->
-
             {#IF.StateTradeCertificate.IsRevised=1 && StateTradeCertificate.isRevisedShowOnCert=1#}
-            <td><br />
-                Revised Date:
-                <b style="font-family: Georgia, " Times New Roman", Times, serif;">{#=StateTradeCertificate.RevisedDate=#}</b>
+            <td style="padding: 10px 0; width: 30%">
+                Revised Date
+            </td>
+            <td style="width: 30%">
+                <span style="border-bottom: 1px solid gray; font-family: Georgia, 'Times New Roman', Times, serif; font-weight:bold;">
+                    <u>{#=StateTradeCertificate.RevisedDate=#}</u>
+                </span>
             </td>
             {#ENDIF.StateTradeCertificate.IsRevised=1 && StateTradeCertificate.isRevisedShowOnCert=1#}
         </tr>
