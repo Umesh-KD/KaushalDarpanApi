@@ -2744,7 +2744,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
         #region GetMarksStatisticsReport
 
-        public async Task<StringBuilder> GetMarksStatisticsReport_GetHtml(DataSet ds, int ResultType)
+        public async Task<StringBuilder> GetMarksStatisticsReport_GetHtml(DataSet ds, int ResultType,string ActionType)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -2842,7 +2842,7 @@ thead th{
                         sb.Append("<h2 style='text-align:center'>BOARD OF TECHNICAL EDUCATION RAJASTHAN, JODHPUR</h2>");
                         sb.Append("<h4 style='text-align:center'>"+ SemesterName + "</h4>");
                         sb.Append("<h4 style='text-align:center'>Marks Statistics Report</h4>");
-                        sb.Append("<h4 style='text-align:center'>Internal Assessment</h4>");
+                        sb.Append("<h4 style='text-align:center'>"+ ActionType + "</h4>");
                         sb.Append("<br/>");
 
                         sb.Append("<table>");
