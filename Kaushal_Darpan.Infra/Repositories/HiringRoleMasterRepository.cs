@@ -629,5 +629,166 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        #region AnnouncementTypesMaster
+        public async Task<DataTable> GetAllAnnouncementTypes(AnnouncementTypeMasterModel request)
+        {
+            _actionName = "GetAllAnnouncementTypes()";
+
+            try
+            {
+                DataTable dataTable;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_AnnouncementTypeMaster_GetData";
+
+                    command.Parameters.AddWithValue("@Action", "GetAllData");
+                    command.Parameters.AddWithValue("@ID", request.ID);
+                    command.Parameters.AddWithValue("@Name", request.Name ?? "");
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                throw new Exception(CommonFuncationHelper.MakeError(errorDesc), ex);
+            }
+        }
+
+        public async Task<AnnouncementTypeMasterModel> GetAnnouncementTypeByID(int id)
+        {
+            _actionName = "GetAnnouncementTypeByID()";
+
+            try
+            {
+                DataTable dataTable;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_AnnouncementTypeMaster_GetData";
+
+                    command.Parameters.AddWithValue("@Action", "GetByID");
+                    command.Parameters.AddWithValue("@ID", id);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+
+                var data = new AnnouncementTypeMasterModel();
+
+                if (dataTable != null)
+                {
+                    data = CommonFuncationHelper.ConvertDataTable<AnnouncementTypeMasterModel>(dataTable);
+                }
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                throw new Exception(CommonFuncationHelper.MakeError(errorDesc), ex);
+            }
+        }
+
+        public async Task<bool> SaveAnnouncementType(AnnouncementTypeMasterModel request)
+        {
+            _actionName = "SaveAnnouncementType()";
+
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_AnnouncementTypeMaster_AddUpdate";
+
+                    command.Parameters.AddWithValue("@ID", request.ID);
+                    command.Parameters.AddWithValue("@Name", request.Name ?? "");
+                    command.Parameters.AddWithValue("@IsActive", request.IsActive);
+                    command.Parameters.AddWithValue("@CreatedBy", request.CreatedBy);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    await command.ExecuteNonQueryAsync();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                throw new Exception(CommonFuncationHelper.MakeError(errorDesc), ex);
+            }
+        }
+
+        public async Task<bool> DeleteAnnouncementTypeByID(AnnouncementTypeMasterModel request)
+        {
+            _actionName = "DeleteAnnouncementTypeByID()";
+
+            try
+            {
+                int result;
+
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandText = @"UPDATE AnnouncementType_Master
+                                    SET IsDelete = 1,
+                                        UpdatedBy = @UpdatedBy,
+                                        UpdatedDate = GETDATE()
+                                    WHERE ID = @ID";
+
+                    command.Parameters.AddWithValue("@ID", request.ID);
+                    command.Parameters.AddWithValue("@UpdatedBy", request.UpdatedBy ?? 0);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    result = await command.ExecuteNonQueryAsync();
+                }
+
+                return result > 0;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        #endregion
     }
 }

@@ -169,14 +169,14 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
-        [HttpGet("GetStudentConsentCount/{StudentID}")]
-        public async Task<ApiResult<DataTable>> GetStudentConsentCount(int StudentID)
+        [HttpGet("GetStudentConsentCount/{StudentID}/{PostID}")]
+        public async Task<ApiResult<DataTable>> GetStudentConsentCount(int StudentID,int PostID)
         {
             ActionName = "GetStudentConsentCount(int StudentID)";
             var result = new ApiResult<DataTable>();
             try
             {
-                result.Data = await Task.Run(() => _unitOfWork.PlacementStudentRepository.GetStudentConsentCount(StudentID));
+                result.Data = await Task.Run(() => _unitOfWork.PlacementStudentRepository.GetStudentConsentCount(StudentID,PostID));
                 result.State = EnumStatus.Success;
                 if (result.Data.Rows.Count == 0)
                 {
