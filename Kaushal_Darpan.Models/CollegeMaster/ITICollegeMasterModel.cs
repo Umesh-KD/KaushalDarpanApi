@@ -103,6 +103,7 @@ public class ItiEstablishmentSearchModel
     public int DistrictID { get; set; }
     public int UserID { get; set; }
     public int RoleID { get; set; }
+    public int AnnoucementType { get; set; }
     public string? CollegeName { get; set; }
 }
 
