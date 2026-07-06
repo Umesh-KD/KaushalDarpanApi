@@ -244,7 +244,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
 
                     if (!ModelState.IsValid)
-                    {   
+                    {
                         result.State = EnumStatus.Error;
                         result.ErrorMessage = "Validation failed!";
                         return result;
@@ -264,7 +264,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     else
                     {
                         result.State = EnumStatus.Error;
-                        if (request.SanctionID  == 0)
+                        if (request.SanctionID == 0)
                             result.ErrorMessage = "There was an error adding data.!";
                         else
                             result.ErrorMessage = "There was an error updating data.!";
@@ -320,7 +320,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     else
                     {
                         result.State = EnumStatus.Error;
-                        if (request.SanctionID  == 0)
+                        if (request.SanctionID == 0)
                             result.ErrorMessage = "There was an error adding data.!";
                         else
                             result.ErrorMessage = "There was an error updating data.!";
@@ -452,7 +452,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         ID = PK_ID,
                         ModifyBy = ModifyBy,
                     };
-                    result.Data = await _unitOfWork.HiringRoleMasterRepository. DeleteDataBySanctionID(DeleteData_Request);
+                    result.Data = await _unitOfWork.HiringRoleMasterRepository.DeleteDataBySanctionID(DeleteData_Request);
                     await _unitOfWork.SaveChangesAsync();
 
                     if (result.Data)
@@ -676,5 +676,176 @@ namespace Kaushal_Darpan.Api.Controllers
             });
         }
 
+        #region AnnouncementTypesMaster
+
+        [HttpPost("GetAllAnnouncementTypes")]
+        public async Task<ApiResult<DataTable>> GetAllAnnouncementTypes([FromBody] AnnouncementTypeMasterModel request)
+        {
+            var result = new ApiResult<DataTable>();
+
+            try
+            {
+                var data = await _unitOfWork.HiringRoleMasterRepository.GetAllAnnouncementTypes(request);
+
+                result.Data = data;
+
+                if (data.Rows.Count > 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data loaded successfully!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No records found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+
+            return result;
+        }
+
+        [HttpGet("GetAnnouncementTypeByID/{id}")]
+        public async Task<ApiResult<AnnouncementTypeMasterModel>> GetAnnouncementTypeByID(int id)
+        {
+            var result = new ApiResult<AnnouncementTypeMasterModel>();
+
+            try
+            {
+                var data = await _unitOfWork.HiringRoleMasterRepository.GetAnnouncementTypeByID(id);
+
+                if (data != null)
+                {
+                    result.Data = data;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data loaded successfully!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = "No record found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+
+            return result;
+        }
+
+        [HttpPost("SaveAnnouncementType")]
+        public async Task<ApiResult<bool>> SaveAnnouncementType([FromBody] AnnouncementTypeMasterModel request)
+        {
+            var result = new ApiResult<bool>();
+
+            try
+            {
+                result.Data = await _unitOfWork.HiringRoleMasterRepository.SaveAnnouncementType(request);
+
+                await _unitOfWork.SaveChangesAsync();
+
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = request.ID == 0
+                        ? "Saved successfully!"
+                        : "Updated successfully!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = request.ID == 0
+                        ? "Error saving data!"
+                        : "Error updating data!";
+                }
+            }
+            catch (Exception ex)
+            {
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = "SaveAnnouncementType",
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+
+            return result;
+        }
+
+        [HttpPost("DeleteAnnouncementTypeByID/{id}/{updatedBy}")]
+        public async Task<ApiResult<bool>> DeleteAnnouncementTypeByID(int id, int updatedBy)
+        {
+            var result = new ApiResult<bool>();
+
+            try
+            {
+                var request = new AnnouncementTypeMasterModel
+                {
+                    ID = id,
+                    UpdatedBy = updatedBy
+                };
+
+                result.Data = await _unitOfWork.HiringRoleMasterRepository.DeleteAnnouncementTypeByID(request);
+
+                await _unitOfWork.SaveChangesAsync();
+
+                if (result.Data)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "Deleted successfully!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = "Delete failed!";
+                }
+            }
+            catch (Exception ex)
+            {
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = "DeleteAnnouncementTypeByID",
+                    Ex = ex
+                };
+
+                await CreateErrorLog(nex, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+            }
+            finally
+            {
+                await _unitOfWork.DisposeAsync();
+            }
+
+            return result;
+        }
+
+        #endregion
     }
+
 }

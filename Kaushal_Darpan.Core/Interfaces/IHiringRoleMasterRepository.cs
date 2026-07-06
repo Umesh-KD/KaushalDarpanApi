@@ -28,5 +28,10 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<bool> DeleteDataByID(HiringRoleMasterModel productDetails);
         Task<bool> DeleteSanctionOrder(HiringRoleMasterModel productDetails);
         Task<bool> DeleteDataBySanctionID(HiringRoleMasterModel productDetails);
+
+        Task<DataTable> GetAllAnnouncementTypes(AnnouncementTypeMasterModel request);
+        Task<AnnouncementTypeMasterModel> GetAnnouncementTypeByID(int id);
+        Task<bool> SaveAnnouncementType(AnnouncementTypeMasterModel request);
+        Task<bool> DeleteAnnouncementTypeByID(AnnouncementTypeMasterModel request);
     }
 }
