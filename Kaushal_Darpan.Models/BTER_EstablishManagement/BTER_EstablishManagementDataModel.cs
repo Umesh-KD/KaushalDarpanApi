@@ -563,6 +563,7 @@ namespace Kaushal_Darpan.Models.BTER_EstablishManagement
         public int? UserID { get; set; }
         public int? RoleID { get; set; }
         public int? BudgetHeadID { get; set; }
+        public int? BranchID { get; set; }
         public string? OrderNo { get; set; }
     }
 }
