@@ -89,7 +89,7 @@
         </td>-->
 
             <td style="padding:15px 0px;">
-                <table style="margin-bottom: 10px; border-collapse: separate; width: 100%;" border="0" cellpadding="5" cellspacing="5" border-spacing: 0 20px;>
+                <table style="margin-bottom: 5px; border-collapse: separate; width: 100%;" border="0" cellpadding="5" cellspacing="5" border-spacing: 0 20px;>
                     <tr>
                         <td style="font-size: 12px; width: 16.5%;"><b>Name</b></td>
                         <td style="font-size: 12px; width: 35%; border-bottom: 1px solid #808080"><span style="display:block;border-bottom:solid 1px #000;padding-bottom:3px">{#=MarksheetConsolidated.StudentName=#}</span></td>
@@ -206,26 +206,58 @@
                     <tr>
                         <td style="font-size: 12px;"><b>Note: </b> {#=MarksheetConsolidated.Note=#}</td>
                     </tr>
+                    <tr>
+                        <td style="font-size: 12px; ">
+                            <b>RESULT:</b> {#=MarksheetConsolidated.stResult=#}
+                            <span style="  display:inline-block; color:#fff; ">---------- </span>
+                            <b>PERCENTAGE:</b>   {#=MarksheetConsolidated.Percentage=#}%
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; text-align: left;">
+                            <b>Result Declaration Date:</b> <span>{#=MarksheetConsolidated.ResultDeclarationDate=#}</span>
+                            {#IF.MarksheetConsolidated.IsRevised=1#}
+                            <br />
+                            <b>Revised Date:</b> <span>{#=MarksheetConsolidated.RevisedDate=#}</span>
+                            {#ENDIF.MarksheetConsolidated.IsRevised=1#}
+                        </td>
+                    </tr>
                 </table>
             </td>
         </tr>
-        <tr>
+        <!--<tr>
             <td>
                 <table style="border-collapse:separate;width:100%;" border="0" cellpadding="5" cellspacing="0" border-spacing: 10px 0px;>
 
-
                     <tr>
-                        <td style="font-size: 12px; "><b>RESULT: </b> <u>{#=MarksheetConsolidated.stResult=#}</u> <span style="  display:inline-block; color:#fff; ">---------- </span><b>PERCENTAGE:</b>   <u>{#=MarksheetConsolidated.Percentage=#}%</u></td>
+                        <td style="font-size: 12px; "><b>RESULT:</b> {#=MarksheetConsolidated.stResult=#} 
+                        <span style="  display:inline-block; color:#fff; ">---------- </span>
+                        <b>PERCENTAGE:</b>   {#=MarksheetConsolidated.Percentage=#}%</td>
+                    </tr>-->
+                    <!--<tr>
+                        <td style="font-size: 12px; text-align: left;"><b>Result Declaration Date:</b><span>{#=MarksheetConsolidated.ResultDeclarationDate=#}</span> </td>-->
+                                    <!--{#IF.MarksheetConsolidated.IsRevised=1#}
+                    <td style="font-size: 12px; text-align: right; "><b>Revised Date:{#=MarksheetConsolidated.RevisedDate=#}</b> </td>
+                    {#ENDIF.MarksheetConsolidated.IsRevised=1#}-->
+                                    <!--</tr>
+                    {#IF.MarksheetConsolidated.IsRevised=1#}
+                    <tr>
+                        <td style="font-size: 12px; text-align: left;"><b>Revised Date:</b> <span>{#=MarksheetConsolidated.RevisedDate=#}</span> </td>
                     </tr>
-                    <tr>
-                        <td style="font-size: 12px; text-align: left;"><b>Result Declaration Date:<u>{#=MarksheetConsolidated.ResultDeclarationDate=#}</u></b> </td>
-                        {#IF.MarksheetConsolidated.IsRevised=1#}
-                        <td style="font-size: 12px; text-align: right; "><b>Revised Date:<u>{#=MarksheetConsolidated.RevisedDate=#}</u></b> </td>
-                        {#ENDIF.MarksheetConsolidated.IsRevised=1#}
+                    {#ENDIF.MarksheetConsolidated.IsRevised=1#}-->
+                    <!--<tr>
+                        <td style="font-size: 12px; text-align: left;">
+                            <b>Result Declaration Date:</b> <span>{#=MarksheetConsolidated.ResultDeclarationDate=#}</span>
+                            {#IF.MarksheetConsolidated.IsRevised=1#}
+                            <br />
+                            <b>Revised Date:</b> <span>{#=MarksheetConsolidated.RevisedDate=#}</span>
+                            {#ENDIF.MarksheetConsolidated.IsRevised=1#}
+                        </td>
                     </tr>
                 </table>
             </td>
-        </tr>
+        </tr>-->
+      
         <tr>
             <td>
                 <!--<table style="border-collapse: collapse; width: 100%; " border="0" cellpadding="5" cellspacing="0">
