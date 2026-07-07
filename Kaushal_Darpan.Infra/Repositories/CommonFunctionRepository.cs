@@ -17,6 +17,7 @@ using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.DocumentDetails;
 using Kaushal_Darpan.Models.DTE_Verifier;
 using Kaushal_Darpan.Models.EgrassPayment;
+using Kaushal_Darpan.Models.EmitraPayment;
 using Kaushal_Darpan.Models.HrMaster;
 using Kaushal_Darpan.Models.ITIIIPManageDataModel;
 using Kaushal_Darpan.Models.MarksheetDownloadModel;
@@ -4704,7 +4705,55 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-        public async Task<bool> UpdateEmitraPaymentStatusWhatsApp(EmitraResponseParametersModel request)
+        //public async Task<bool> UpdateEmitraPaymentStatusWhatsApp_OLD(EmitraResponseParametersModel request)
+        //{
+        //    return await Task.Run(async () =>
+        //    {
+        //        _actionName = "UpdateEmitraPaymentStatus(EmitraResponseParametersModel request)";
+        //        try
+        //        {
+        //            int result = 0;
+        //            using (var command = await _dbContext.CreateCommandAsync())
+        //            {
+        //                command.CommandType = CommandType.StoredProcedure;
+        //                command.CommandText = "USP_SaveStudentFeeDetail";
+        //                command.Parameters.AddWithValue("@ApplicationIdEnc", request.ApplicationIdEnc);
+        //                command.Parameters.AddWithValue("@TransactionId", request.TRANSACTIONID);
+        //                command.Parameters.AddWithValue("@PRN", request.PRN);
+        //                command.Parameters.AddWithValue("@PaidAmount", request.PAIDAMOUNT);
+        //                command.Parameters.AddWithValue("@TokenNo", request.RECEIPTNO);
+        //                command.Parameters.AddWithValue("@StatusMsg", request.RESPONSEMESSAGE);
+        //                command.Parameters.AddWithValue("@ResponseString", JsonConvert.SerializeObject(request));
+        //                command.Parameters.AddWithValue("@ReceiptNo", request.RECEIPTNO);
+        //                command.Parameters.AddWithValue("@RequestStatus", request.STATUS);
+        //                command.Parameters.AddWithValue("@TransactionNo", request.TransactionNo);
+        //                command.Parameters.AddWithValue("@ExamStudentStatus", request.ExamStudentStatus);
+        //                command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus");
+        //                _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
+        //                result = await command.ExecuteNonQueryAsync();
+        //            }
+
+        //            if (result > 0)
+        //                return true;
+        //            else
+        //                return false;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            var errorDesc = new ErrorDescription
+        //            {
+        //                Message = ex.Message,
+        //                PageName = _pageName,
+        //                ActionName = _actionName,
+        //                SqlExecutableQuery = _sqlQuery
+        //            };
+        //            var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+        //            throw new Exception(errordetails, ex);
+        //        }
+        //    });
+        //}
+
+        public async Task<bool> UpdateEmitraPaymentStatusWhatsApp(DResponseWhatsAppModel request)
         {
             return await Task.Run(async () =>
             {
@@ -4716,17 +4765,17 @@ namespace Kaushal_Darpan.Infra.Repositories
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_SaveStudentFeeDetail";
-                        command.Parameters.AddWithValue("@ApplicationIdEnc", request.ApplicationIdEnc);
+                        command.Parameters.AddWithValue("@ApplicationIdEnc", "");
                         command.Parameters.AddWithValue("@TransactionId", request.TRANSACTIONID);
                         command.Parameters.AddWithValue("@PRN", request.PRN);
-                        command.Parameters.AddWithValue("@PaidAmount", request.PAIDAMOUNT);
+                        command.Parameters.AddWithValue("@PaidAmount", request.TRANSAMT);
                         command.Parameters.AddWithValue("@TokenNo", request.RECEIPTNO);
-                        command.Parameters.AddWithValue("@StatusMsg", request.RESPONSEMESSAGE);
+                        command.Parameters.AddWithValue("@StatusMsg", request.MSG);
                         command.Parameters.AddWithValue("@ResponseString", JsonConvert.SerializeObject(request));
                         command.Parameters.AddWithValue("@ReceiptNo", request.RECEIPTNO);
                         command.Parameters.AddWithValue("@RequestStatus", request.STATUS);
                         command.Parameters.AddWithValue("@TransactionNo", request.TransactionNo);
-                        command.Parameters.AddWithValue("@ExamStudentStatus", request.ExamStudentStatus);
+                        command.Parameters.AddWithValue("@ExamStudentStatus", 0);
                         command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus");
                         _sqlQuery = command.GetSqlExecutableQuery();// sql query for log
                         result = await command.ExecuteNonQueryAsync();
@@ -4751,7 +4800,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
-
         public async Task<Int64> UpdateEmitraApplicationPaymentStatus(EmitraResponseParametersModel request)
         {
 

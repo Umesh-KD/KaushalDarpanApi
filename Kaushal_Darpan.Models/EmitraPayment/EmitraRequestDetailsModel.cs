@@ -126,7 +126,7 @@
         public int TransactionApplicationID { get; set; }
         public int Status { get; set; }
         public int TranSemesterID { get; set; }
-        public int ItemAmount { get; set; }
+        public decimal ItemAmount { get; set; }
         public string? EnrollmentNo { get; set; }
         public string? Semester { get; set; }
         public string? StudentName { get; set; }

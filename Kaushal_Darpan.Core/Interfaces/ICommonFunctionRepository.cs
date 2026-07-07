@@ -12,6 +12,7 @@ using Kaushal_Darpan.Models.CommonFunction;
 using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.CompanyMaster;
 using Kaushal_Darpan.Models.EgrassPayment;
+using Kaushal_Darpan.Models.EmitraPayment;
 using Kaushal_Darpan.Models.PostMaster;
 using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.Results;
@@ -408,7 +409,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetStudentDeatilsByAction(StudentSearchModelForWhatsAPP filterModel);
         Task<EmitraTransactionsModel> CreateEmitraTransationWhatsapp(EmitraTransactionsModel Model);
         Task<EmitraRequstParametersModel> GetEmitraServiceDetailsWhatsapp(EmitraRequestDetailsModel Model);
-        Task<bool> UpdateEmitraPaymentStatusWhatsApp(EmitraResponseParametersModel request);
+       // Task<bool> UpdateEmitraPaymentStatusWhatsApp(EmitraResponseParametersModel request);
         Task<ResultPublishModel> HasResultPublishedForRoleAndOtherInfo(HasResultPublishModel model);
         Task<ValidateOrStudentsWithMsgResponseModel> GetValidateOrStudentsWithMsg(ValidateOrStudentsWithMsgRequestModel model);
 
@@ -435,5 +436,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> ExcelOperationCommon(string MasterCode, int DepartmentID,int RoleID=0, int CourseTypeID = 0);
 
         #endregion
+
+        Task<bool> UpdateEmitraPaymentStatusWhatsApp(DResponseWhatsAppModel request);
     }
 }
