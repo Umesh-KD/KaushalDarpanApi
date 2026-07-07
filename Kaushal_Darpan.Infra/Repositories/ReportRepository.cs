@@ -5615,6 +5615,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@RollNo", model.RollNo);
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@TradeScheme", model.TradeScheme);
+                        command.Parameters.AddWithValue("@RequestTypeID", model.RequestTypeID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         ds = await command.FillAsync();
                     }

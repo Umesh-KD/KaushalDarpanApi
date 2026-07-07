@@ -46,13 +46,20 @@
                                         <div style="text-align:center;float:right; ">
                                             <img src="{#=GetITIStudent_Marksheet_SingleDetails.ITILogo=#}" style="width:100px;" /><br />
                                             <img src="{#=GetITIStudent_Marksheet_SingleDetails.QRCode=#}"
-                                                 style="width:80px;height:80px;" />
+                                                 style="width:90px;height:90px;" />
                                         </div>
+                                        <!--Duplicate Marksheet-->
+                                        {#IF.GetITIStudent_Marksheet_SingleDetails.RequestTypeID=2#}
+                                        <b>{#=GetITIStudent_Marksheet_SingleDetails.RevisedName=#}&nbsp;&nbsp;&nbsp;&nbsp;</b>
+                                        {#ENDIF.GetITIStudent_Marksheet_SingleDetails.RequestTypeID=2#}
+                                        <!--Duplicate Marksheet-->
+
                                         <!--Revised Marksheet-->
                                         {#IF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
                                         <b>{#=GetITIStudent_Marksheet_SingleDetails.RevisedName=#}&nbsp;&nbsp;&nbsp;&nbsp;</b>
                                         {#ENDIF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
                                         <!--Revised Marksheet-->
+
                                     </td>
                                     
                                 </tr>
@@ -174,10 +181,14 @@
                     <tr>
                         <td style="font-size: 12px; text-align: left;">
                             <b>Result Declaration Date:</b> <span>{#=GetITIStudent_Marksheet_SingleDetails.ResultDeclarationDate=#}</span>
+                            <!--REVISED DATE START-->
                             {#IF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
                             <br />
                             <b>Revised Date:</b> <span>{#=GetITIStudent_Marksheet_SingleDetails.RevisedDate=#}</span>
                             {#ENDIF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
+                            <!--REVISED DATE END-->
+                            
+
                         </td>
                     </tr>
 
