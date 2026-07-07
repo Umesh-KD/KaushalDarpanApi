@@ -1,6 +1,6 @@
 ﻿namespace Kaushal_Darpan.Models.MarksheetDownloadModel
 {
-    public class MarksheetDownloadSearchModel
+    public class MarksheetDownloadSearchModel : RequestBaseModel
     {
         public int? ModifyBy { get; set; } = 0;
         public int? SemesterID { get; set; }
@@ -10,10 +10,8 @@
         public int? IsBridge { get; set; }
         public int? ResultTypeID { get; set; }
         public string? RollNo { get; set; }
-        public int? DepartmentID { get; set; }
         public int? StudentID { get; set; }
         public int? Eng_NonEngID { get; set; }
-        public int? EndTermID { get; set; }
         public int? ExamTypeID { get; set; }
         public int? RWHResultID { get; set; }
         public int? AcademicYearID { get; set; }
@@ -26,7 +24,7 @@
         public string? DOB { get; set; }
         public string SRNO { get; set; } = string.Empty;
 
-        public bool? IsReval {  get; set; }
+        public bool? IsReval { get; set; }
         public bool? IsRWHResult { get; set; }
         public bool? IsLateral { get; set; }
         public int? ReqId { get; set; }
@@ -46,7 +44,7 @@
         public int? SemesterID { set; get; }
     }
 
-    public class GenerateMarksheetModel: RequestBaseModel
+    public class GenerateMarksheetModel : RequestBaseModel
     {
         public string? MarksheetPath { get; set; }
         public string? MarksheetFile { get; set; }
@@ -134,11 +132,11 @@
         public int ActiveStatus { get; set; }
         public int DeleteStatus { get; set; }
 
-        public string RTS { get; set; }= string.Empty;
+        public string RTS { get; set; } = string.Empty;
 
         public int CreatedBy { get; set; }
         public int ModifyBy { get; set; }
-        public string ModifyDate { get; set; }= string.Empty;
+        public string ModifyDate { get; set; } = string.Empty;
 
         public int MarkSheetID_Old { get; set; }
         public int IsRevised { get; set; }
@@ -146,7 +144,7 @@
 
         public string MarksheetFile { get; set; } = string.Empty;
         public string MarksheetFilePath { get; set; } = string.Empty;
-        public List<MarksheetSubjectDataModel> SubjectDetails {  get; set; } = new List<MarksheetSubjectDataModel>();
+        public List<MarksheetSubjectDataModel> SubjectDetails { get; set; } = new List<MarksheetSubjectDataModel>();
         public MarksheetResultDataModel ResultDetails { get; set; } = new MarksheetResultDataModel();
         public int EffectiveEndTermID { get; set; }
     }
