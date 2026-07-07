@@ -220,4 +220,10 @@ namespace Kaushal_Darpan.Models.CommonModel
         public string Msg { get; set; }
     }
 
+    public class MarksheetCorrectionHistoryModel
+    {
+        public string? EnrollmentNo { get; set; }
+        public int MarksheetType { get; set; } = 0;
+    }
+
 }

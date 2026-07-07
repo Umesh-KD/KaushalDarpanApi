@@ -41,6 +41,26 @@ namespace Kaushal_Darpan.Infra.Repositories
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "USP_StudentListForMarksheet";
+                    //command.CommandText = "USP_StudentListForMarksheet_test";
+                    command.CommandTimeout = 0;
+
+                    if (body.ResultTypeID == (int)EnumResultType.MainResult) // main and reval
+                    {
+                        command.Parameters.AddWithValue("@action", "_getStuListForMarksheet");
+                    }
+                    else if (body.ResultTypeID == (int)EnumResultType.RwhResult ||
+                                body.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
+                    {
+                        command.Parameters.AddWithValue("@action", "_getRWHStuListForMarksheet");
+                    }
+                    else if (body.ResultTypeID == (int)EnumResultType.Ufm)
+                    {
+                        throw new Exception("Invalid request!");
+                    }
+                    else
+                    {
+                        throw new Exception("Invalid request!");
+                    }
 
                     command.Parameters.AddWithValue("@SemesterID", body.SemesterID);
                     command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
@@ -50,6 +70,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@RollNo", body.RollNo);
                     command.Parameters.AddWithValue("@EndTermID", body.EndTermID);
                     command.Parameters.AddWithValue("@Eng_NonEng", body.Eng_NonEngID);
+                    command.Parameters.AddWithValue("@IsRevised", body.IsRevised);
 
                     _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                     dataTable = await command.FillAsync_DataTable();
@@ -373,7 +394,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandText = "USP_Rpt_GetStudentResultRWH";
 
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EffectiveEndTermID);
                     command.Parameters.AddWithValue("@RollNo", model.RollNo);
                     command.Parameters.AddWithValue("@DOB", model.DOB);
                     command.Parameters.AddWithValue("@ResultTypeID", model.ResultType);
@@ -470,43 +491,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<DataSet> GetStudentMarksheetNew(MarksheetDownloadSearchModel model)
-        {
-            _actionName = "GetStudentMarksheetNew(MarksheetDownloadSearchModel model)";
-            try
-            {
-                var ds = new DataSet();
-                using (var command = await _dbContext.CreateCommandAsync())
-                {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_Rpt_GetStudentResult_New";
-
-                    command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
-                    command.Parameters.AddWithValue("@RollNo", model.RollNo);
-                    command.Parameters.AddWithValue("@DOB", model.DOB);
-                    command.Parameters.AddWithValue("@ResultTypeID", model.ResultTypeID);
-
-                    _sqlQuery = command.GetSqlExecutableQuery();
-                    ds = await command.FillAsync();
-                }
-                return ds;
-            }
-            catch (Exception ex)
-            {
-                var errorDesc = new ErrorDescription
-                {
-                    Message = ex.Message,
-                    PageName = _pageName,
-                    ActionName = _actionName,
-                    SqlExecutableQuery = _sqlQuery
-                };
-                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                throw new Exception(errordetails, ex);
-            }
-        }
-
-        public async Task<int> AddUpdateMarksheet(List<MarksheetSaveDataModel> request)
+        public async Task<int> AddUpdateMarksheet(MarksheetSaveDataModel request)
         {
             _actionName = "AddUpdateMarksheet(MarksheetSaveDataModel request)";
             try
@@ -515,7 +500,10 @@ namespace Kaushal_Darpan.Infra.Repositories
                 using (var command = await _dbContext.CreateCommandAsync(true))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "USP_UpdateStudentMarksheetFile";
+                    command.CommandText = "USP_SaveStudentMarksheetData";
+                    command.CommandTimeout = 0;
+
+                    command.Parameters.AddWithValue("@action", "_saveMarksheetData");
                     command.Parameters.AddWithValue("@StudentList", JsonConvert.SerializeObject(request));
                     command.Parameters.AddWithValue("@IPAddress", _IPAddress);
 

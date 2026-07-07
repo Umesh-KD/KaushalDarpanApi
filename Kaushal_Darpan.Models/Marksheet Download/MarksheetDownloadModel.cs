@@ -1,6 +1,6 @@
 ﻿namespace Kaushal_Darpan.Models.MarksheetDownloadModel
 {
-    public class MarksheetDownloadSearchModel
+    public class MarksheetDownloadSearchModel : RequestBaseModel
     {
         public int? ModifyBy { get; set; } = 0;
         public int? SemesterID { get; set; }
@@ -9,11 +9,9 @@
         public string? IsRevised { get; set; }
         public int? IsBridge { get; set; }
         public int? ResultTypeID { get; set; }
-        public int? RollNo { get; set; }
-        public int? DepartmentID { get; set; }
+        public string? RollNo { get; set; }
         public int? StudentID { get; set; }
         public int? Eng_NonEngID { get; set; }
-        public int? EndTermID { get; set; }
         public int? ExamTypeID { get; set; }
         public int? RWHResultID { get; set; }
         public int? AcademicYearID { get; set; }
@@ -26,7 +24,7 @@
         public string? DOB { get; set; }
         public string SRNO { get; set; } = string.Empty;
 
-        public bool? IsReval {  get; set; }
+        public bool? IsReval { get; set; }
         public bool? IsRWHResult { get; set; }
         public bool? IsLateral { get; set; }
         public int? ReqId { get; set; }
@@ -36,6 +34,7 @@
 
         public int? FianancialYearID { get; set; }
         public int? DocumentID { get; set; }
+        public int? EffectiveEndTermID { get; set; }
 
     }
 
@@ -45,18 +44,18 @@
         public int? SemesterID { set; get; }
     }
 
-    public class GenerateMarksheetModel: RequestBaseModel
+    public class GenerateMarksheetModel : RequestBaseModel
     {
         public string? MarksheetPath { get; set; }
         public string? MarksheetFile { get; set; }
         public int? StudentID { get; set; }
         public int? SemesterID { get; set; }
-        public int? RollNo { get; set; }
+        public string? RollNo { get; set; }
         public int? ResulTypeID { get; set; }
     }
     public class StudentDownloadInfo
     {
-        public int? RollNo { get; set; }
+        public string? RollNo { get; set; }
         public int? MarksheetID { get; set; }
         public string? MarksheetFile { get; set; }
         public string? MarksheetFilePath { get; set; }
@@ -68,6 +67,7 @@
         public int? ResultType { get; set; }
         public string? RollNo { get; set; }
         public string? DOB { get; set; }
+        public int? EffectiveEndTermID { get; set; }
     }
 
     public class MarksheetSaveDataModel
@@ -111,7 +111,7 @@
         public string SessionSpl { get; set; } = string.Empty;
 
         public string ResultDate { get; set; } = string.Empty;
-        public DateTime IssueDate { get; set; }
+        public string IssueDate { get; set; } = string.Empty;
 
         public int IsReval { get; set; }
         public int Result { get; set; }
@@ -132,11 +132,11 @@
         public int ActiveStatus { get; set; }
         public int DeleteStatus { get; set; }
 
-        public DateTime RTS { get; set; }
+        public string RTS { get; set; } = string.Empty;
 
         public int CreatedBy { get; set; }
         public int ModifyBy { get; set; }
-        public DateTime ModifyDate { get; set; }
+        public string ModifyDate { get; set; } = string.Empty;
 
         public int MarkSheetID_Old { get; set; }
         public int IsRevised { get; set; }
@@ -144,8 +144,9 @@
 
         public string MarksheetFile { get; set; } = string.Empty;
         public string MarksheetFilePath { get; set; } = string.Empty;
-        public List<MarksheetSubjectDataModel> SubjectDetails {  get; set; } = new List<MarksheetSubjectDataModel>();
-        public List<MarksheetResultDataModel> ResultDetails { get; set; } = new List<MarksheetResultDataModel>();
+        public List<MarksheetSubjectDataModel> SubjectDetails { get; set; } = new List<MarksheetSubjectDataModel>();
+        public MarksheetResultDataModel ResultDetails { get; set; } = new MarksheetResultDataModel();
+        public int EffectiveEndTermID { get; set; }
     }
 
     public class MarksheetSubjectDataModel
@@ -170,43 +171,43 @@
         public int ResultTypeId { get; set; }
 
         // --- Semester 1 ---
-        public decimal SubjectCreditsSem1 { get; set; }
-        public decimal EarnedCreditsSem1 { get; set; }
-        public decimal CGPASem1 { get; set; }
-        public decimal SGPASem1 { get; set; }
+        public string SubjectCreditsSem1 { get; set; }
+        public string EarnedCreditsSem1 { get; set; }
+        public string CGPASem1 { get; set; }
+        public string SGPASem1 { get; set; }
 
         // --- Semester 2 ---
-        public decimal SubjectCreditsSem2 { get; set; }
-        public decimal EarnedCreditsSem2 { get; set; }
-        public decimal CGPASem2 { get; set; }
-        public decimal SGPASem2 { get; set; }
+        public string SubjectCreditsSem2 { get; set; }
+        public string EarnedCreditsSem2 { get; set; }
+        public string CGPASem2 { get; set; }
+        public string SGPASem2 { get; set; }
 
         // --- Semester 3 ---
-        public decimal SubjectCreditsSem3 { get; set; }
-        public decimal EarnedCreditsSem3 { get; set; }
-        public decimal CGPASem3 { get; set; }
-        public decimal SGPASem3 { get; set; }
+        public string SubjectCreditsSem3 { get; set; }
+        public string EarnedCreditsSem3 { get; set; }
+        public string CGPASem3 { get; set; }
+        public string SGPASem3 { get; set; }
 
         // --- Semester 4 ---
-        public decimal SubjectCreditsSem4 { get; set; }
-        public decimal EarnedCreditsSem4 { get; set; }
-        public decimal CGPASem4 { get; set; }
-        public decimal SGPASem4 { get; set; }
+        public string SubjectCreditsSem4 { get; set; }
+        public string EarnedCreditsSem4 { get; set; }
+        public string CGPASem4 { get; set; }
+        public string SGPASem4 { get; set; }
 
         // --- Semester 5 ---
-        public decimal SubjectCreditsSem5 { get; set; }
-        public decimal EarnedCreditsSem5 { get; set; }
-        public decimal CGPASem5 { get; set; }
-        public decimal SGPASem5 { get; set; }
+        public string SubjectCreditsSem5 { get; set; }
+        public string EarnedCreditsSem5 { get; set; }
+        public string CGPASem5 { get; set; }
+        public string SGPASem5 { get; set; }
 
         // --- Semester 6 ---
-        public decimal SubjectCreditsSem6 { get; set; }
-        public decimal EarnedCreditsSem6 { get; set; }
-        public decimal CGPASem6 { get; set; }
-        public decimal SGPASem6 { get; set; }
+        public string SubjectCreditsSem6 { get; set; }
+        public string EarnedCreditsSem6 { get; set; }
+        public string CGPASem6 { get; set; }
+        public string SGPASem6 { get; set; }
 
         // --- Final Summaries & Results ---
-        public decimal Percentage { get; set; }
+        public string Percentage { get; set; }
         public string Result { get; set; } = string.Empty;
         public string? ResultDeclareDate { get; set; } = string.Empty; // Nullable in case date is empty
         public string DiplomaFinalResult { get; set; } = string.Empty;

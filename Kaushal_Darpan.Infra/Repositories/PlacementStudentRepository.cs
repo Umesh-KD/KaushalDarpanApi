@@ -175,7 +175,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
-        public async Task<DataTable> GetStudentConsentCount(int StudentID)
+        public async Task<DataTable> GetStudentConsentCount(int StudentID,int PostID)
         {
             _actionName = "GetStudentConsentCount(int StudentID)";
             try
@@ -189,6 +189,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandText = "USP_DDL_CampusPostMaster";
                         command.Parameters.AddWithValue("@Action", "_getStudentconsentCount");
                         command.Parameters.AddWithValue("@StudentID", StudentID);
+                        command.Parameters.AddWithValue("@PostID", PostID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

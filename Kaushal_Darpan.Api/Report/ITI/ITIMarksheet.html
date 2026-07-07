@@ -17,9 +17,6 @@
                                 <tr>
                                     <td style="width:15%;font-size:12px;vertical-align:top;">
                                         <b> S.No. {#=GetITIStudent_Marksheet_SingleDetails.SNo=#}</b>
-
-
-
                                     </td>
 
                                     <td style="width:70%;text-align:center;vertical-align:middle; padding-bottom:10px;padding-top:0px">
@@ -49,13 +46,20 @@
                                         <div style="text-align:center;float:right; ">
                                             <img src="{#=GetITIStudent_Marksheet_SingleDetails.ITILogo=#}" style="width:100px;" /><br />
                                             <img src="{#=GetITIStudent_Marksheet_SingleDetails.QRCode=#}"
-                                                 style="width:80px;height:80px;" />
+                                                 style="width:90px;height:90px;" />
                                         </div>
+                                        <!--Duplicate Marksheet-->
+                                        {#IF.GetITIStudent_Marksheet_SingleDetails.RequestTypeID=2#}
+                                        <b>{#=GetITIStudent_Marksheet_SingleDetails.RevisedName=#}&nbsp;&nbsp;&nbsp;&nbsp;</b>
+                                        {#ENDIF.GetITIStudent_Marksheet_SingleDetails.RequestTypeID=2#}
+                                        <!--Duplicate Marksheet-->
+
                                         <!--Revised Marksheet-->
                                         {#IF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
                                         <b>{#=GetITIStudent_Marksheet_SingleDetails.RevisedName=#}&nbsp;&nbsp;&nbsp;&nbsp;</b>
                                         {#ENDIF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
                                         <!--Revised Marksheet-->
+
                                     </td>
                                     
                                 </tr>
@@ -68,7 +72,7 @@
         </tr>
         <tr>
             <td style="padding:0px 0px 10px 0px;"> <!--12 to 10 px-->
-                <table style="margin-bottom: 10px; border-collapse: separate; width: 100%;" border="0" cellpadding="5" cellspacing="5" border-spacing: 0 20px;>
+                <table style="margin-bottom: 4px; border-collapse: separate; width: 100%;" border="0" cellpadding="5" cellspacing="5" border-spacing: 0 20px;>
                     <tr>
                         <td style="font-size: 12px; width: 16%;"><b>Name</b></td>
                         <td style="font-size: 12px; width: 35%; border-bottom: 1px solid #808080"><span style="display:block;border-bottom:solid 1px #000;padding-bottom:3px">{#=GetITIStudent_Marksheet_SingleDetails.StudentName=#}</span></td>
@@ -126,7 +130,7 @@
         </tr>
         <tr>
             <td style=" ">
-                <table style="border-collapse: collapse; width: 100%;  " cellpadding="8" cellspacing="0">
+                <table style="border-collapse: collapse; width: 100%;  " cellpadding="7" cellspacing="0">
                     <tr>
                         <th style="border: 0.1px solid #000; font-size: 12px; text-align: center; width:10%;">S.No.</th>
                         <th style="border: 0.1px solid #000; font-size: 12px; text-align: left; width: 45%;">Summative Assessment</th>
@@ -157,7 +161,8 @@
         </tr>
         <tr>
             <td>
-                <table style="border-collapse:collapse;width:100%;margin-top:5px" border="0" cellpadding="5" cellspacing="0"> <!--5 to 4 px-->
+                <table style="border-collapse:collapse;width:100%;margin-top:5px" border="0" cellpadding="5" cellspacing="0">
+                    <!--5 to 4 px-->
 
                     <tr>
                         <td style="font-size: 12px;"><b>Note: </b> <span style="display: inline-block; border-bottom: dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.Note=#}</span></td>
@@ -165,9 +170,28 @@
                     <tr>
                         <td style="font-size: 12px;"><b>RESULT: </b><span style="display: inline-block; border-bottom: dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.stResult=#}</span></td>
                     </tr>
+                    <!--<tr>
+                        <td style="font-size: 12px; text-align: left;">
+                        <b>Result Declaration Date:</b> 
+                        <span style="display: inline-block; border-bottom: dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.ResultDeclarationDate=#}</span></td>
+                        {#IF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
+                        <td style="font-size: 12px; text-align: right; "><b>Revised Date:</b> <span style="display: inline-block; border-bottom: dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.RevisedDate=#}</span></td>
+                        {#ENDIF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
+                    </tr>-->
                     <tr>
-                        <td style="font-size: 12px;"><b>Result Declaration Date:</b> <span style="display: inline-block; border-bottom: dotted 1px #cfcfcf;"> {#=GetITIStudent_Marksheet_SingleDetails.ResultDeclarationDate=#}</span></td>
+                        <td style="font-size: 12px; text-align: left;">
+                            <b>Result Declaration Date:</b> <span>{#=GetITIStudent_Marksheet_SingleDetails.ResultDeclarationDate=#}</span>
+                            <!--REVISED DATE START-->
+                            {#IF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
+                            <br />
+                            <b>Revised Date:</b> <span>{#=GetITIStudent_Marksheet_SingleDetails.RevisedDate=#}</span>
+                            {#ENDIF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
+                            <!--REVISED DATE END-->
+                            
+
+                        </td>
                     </tr>
+
                 </table>
             </td>
         </tr>

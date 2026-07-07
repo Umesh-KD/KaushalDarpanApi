@@ -244,4 +244,13 @@ namespace Kaushal_Darpan.Models.ItiCompanyMaster
         public string? UpdatePercentWork { get; set; }
         public string? UpdateRemarks { get; set; }
     }
+
+    public class AnnouncementTypeMasterModel
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public bool IsActive { get; set; }
+        public int CreatedBy { get; set; }
+        public int? UpdatedBy { get; set; }
+    }
 }

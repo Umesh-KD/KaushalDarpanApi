@@ -3,6 +3,7 @@ using AutoMapper;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Api.Code.Helper;
 using Kaushal_Darpan.Api.Email;
@@ -5118,7 +5119,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
 
                         student.MarksheetPath = filepath;
-                        student.Marksheet = fileName;       
+                        student.Marksheet = fileName;
 
                         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
@@ -5150,7 +5151,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         //result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                         //end report
 
-                        if(DownloadList.Count > 0)
+                        if (DownloadList.Count > 0)
                         {
                             var updateData = new ApiResult<int>();
                             updateData.Data = await _unitOfWork.MarksheetDownloadRepository.UpdateMarksheetFile(DownloadList);
@@ -14646,16 +14647,16 @@ namespace Kaushal_Darpan.Api.Controllers
         public async Task<ApiResult<string>> GetStudentDuplicateMarksheet([FromBody] MarksheetDownloadSearchModel student)
         {
             ActionName = "GetStudentDuplicateMarksheet([FromBody] MarksheetDownloadSearchModel student)";
-            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/BTER/DuplicateDocument";            
+            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/BTER/DuplicateDocument";
 
             return await Task.Run(async () =>
             {
                 var result = new ApiResult<string>();
                 try
                 {
-                    if(student.DocumentID.HasValue && student.DocumentID.Value == (int)EnumDuplicateDocumentType.Duplicate_Marksheet)
+                    if (student.DocumentID.HasValue && student.DocumentID.Value == (int)EnumDuplicateDocumentType.Duplicate_Marksheet)
                     {
-                      
+
                         var data = await _unitOfWork.ReportRepository.GetStudentDuplicateMarksheet(student);
                         //if (!string.IsNullOrWhiteSpace(data.Tables[0].MarksheetFile))
                         //{
@@ -14721,12 +14722,12 @@ namespace Kaushal_Darpan.Api.Controllers
 
                             string relativePath = $"{Constants.ReportsFolder}/BTER/DuplicateDocument/{fileName}";
                             // Save generated file path in database
-                           int res= await _unitOfWork.ApplyDuplicateDocumentRepository.UpdateDuplicateMarksheetPath(
-                                student.ReqId.Value, // Request ID
-                                relativePath,
-                                fileName,
-                                "_updateMarksheetPath"
-                            );
+                            int res = await _unitOfWork.ApplyDuplicateDocumentRepository.UpdateDuplicateMarksheetPath(
+                                 student.ReqId.Value, // Request ID
+                                 relativePath,
+                                 fileName,
+                                 "_updateMarksheetPath"
+                             );
                             await _unitOfWork.SaveChangesAsync();
 
                             if (res > 0)
@@ -14861,7 +14862,7 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 var result = new ApiResult<string>();
                 try
-                {                    
+                {
                     var data = await _unitOfWork.ReportRepository.BterDuplicateCertificateDownload(model);
                     if (data?.Tables?.Count > 0 && data.Tables[0].Rows.Count > 0)
                     {
@@ -14885,7 +14886,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     if (data != null)
                     {
                         var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/BTER/DuplicateDocument";
-                        string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");                       
+                        string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
                         var fileName = $"DiplomaCertificate_{model.StudentID}_{timestamp_str}.pdf";
                         string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/BTER/DuplicateDocument/{fileName}";
                         string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/DiplomaCertificate.rdlc";
@@ -17489,6 +17490,40 @@ namespace Kaushal_Darpan.Api.Controllers
             return result;
         }
 
+        [HttpPost("GetMarksheetCorrectionHistoryReport")]
+        public async Task<ApiResult<DataTable>> GetMarksheetCorrectionHistoryReport(MarksheetCorrectionHistoryModel model)
+        {
+            ActionName = "GetMarksheetCorrectionHistoryReport()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetMarksheetCorrectionHistoryReport(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
 
 
         [HttpPost("DiplomaTest2")]
@@ -18750,62 +18785,93 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("StudentMarksheetDownloadChunk")]
         public async Task<ApiResult<string>> StudentMarksheetDownloadChunk([FromBody] List<MarksheetDownloadSearchModel> Model)
         {
-            ActionName = "GetStudentMarksheetBulk([FromBody] List<MarksheetDownloadSearchModel> Model)";
-            var Session = Model[0].SessionName;
-            var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/BTER/Marksheet/{Session}";
+            ActionName = "StudentMarksheetDownloadChunk([FromBody] List<MarksheetDownloadSearchModel> Model)";
 
-            return await Task.Run(async () =>
+            var result = new ApiResult<string>();
+            var logfilename = "_StudentMarksheetDownload";
+            var Session = string.Empty;
+            try
             {
-                var result = new ApiResult<string>();
-                try
-                {
-                    List<GenerateMarksheetModel> ListData = new List<GenerateMarksheetModel>();
-                    List<StudentDownloadInfo> DownloadList = new List<StudentDownloadInfo>();
-                    List<MarksheetSaveDataModel> MarksheetSaveList = new List<MarksheetSaveDataModel>();
+                Session = Model[0].SessionName;
+                var folderPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MarksheetFolder}/{Session}";
 
-                    foreach (var student in Model)
+                // store students that have filename success for merge file for shwoing marksheet
+                List<GenerateMarksheetModel> ListData = new List<GenerateMarksheetModel>();
+                // store students that dont have filename failed any resion
+                List<GenerateMarksheetModel> notGenerateStudents = new List<GenerateMarksheetModel>();
+
+                int i = 1;
+                // passed students list in chunks
+                foreach (var student in Model)
+                {
+                    CommonFuncationHelper.WriteTextLog($"--------------------- main loop start: {i} ------------------------", logfilename);
+                    try
                     {
-                        CommonFuncationHelper.WriteTextLog("1");
+                        CommonFuncationHelper.WriteTextLog($"1. model student loop : {student.RollNo}", logfilename);
                         GenerateMarksheetModel objStudent = new GenerateMarksheetModel();
+                        // already have saved file
                         if (student.MarksheetFile != "")
                         {
-                            //StudentDownloadInfo downloadInfo_exists = new StudentDownloadInfo
-                            //{
-                            //    RollNo = student.RollNo,
-                            //    MarksheetID = student.MarksheetID,
-                            //    MarksheetFile = student.MarksheetFile,
-                            //    MarksheetFilePath = student.MarksheetFilePath
-                            //};
-                            //DownloadList.Add(downloadInfo_exists);
-
+                            CommonFuncationHelper.WriteTextLog($"1.1. already file exists in if : {student.RollNo}", logfilename);
+                            // for merge
                             objStudent.StudentID = student.StudentID;
-                            objStudent.MarksheetPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/BTER/Marksheet/{student.MarksheetFilePath}";
+                            objStudent.RollNo = student.RollNo;
+                            objStudent.MarksheetPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MarksheetFolder}/{student.MarksheetFilePath}";
                             objStudent.MarksheetFile = student.MarksheetFile;
+                            // add
                             ListData.Add(objStudent);
-
-                            student.MarksheetPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/BTER/Marksheet/{student.MarksheetFilePath}";
-                            student.Marksheet = student.MarksheetFile;
                         }
                         else
                         {
-                            var data = await _unitOfWork.MarksheetDownloadRepository.GetStudentMarksheetNew(student);
-                            if (data?.Tables?.Count == 3)
+                            CommonFuncationHelper.WriteTextLog($"1.2. dosenot file exists in else : {student.RollNo}", logfilename);
+
+                            // set for student model
+                            var studentModel = new StudentResultSearchModel
                             {
+                                DOB = student.DOB,
+                                EndTermID = student.EndTermID,
+                                RollNo = student.RollNo,
+                                SemesterID = student.SemesterID,
+                                ResultType = student.ResultTypeID,
+                                EffectiveEndTermID = student.EffectiveEndTermID
+                            };
+
+                            // get mark sheet data for each student
+                            DataSet data = new DataSet();
+                            if (student.ResultTypeID == (int)EnumResultType.MainResult)
+                            {
+                                data = await _unitOfWork.MarksheetDownloadRepository.GetStudentResult_public(studentModel);
+                            }
+                            else if (student.ResultTypeID == (int)EnumResultType.RevaluationResult)
+                            {
+                                data = await _unitOfWork.MarksheetDownloadRepository.GetStudentResultReval_public(studentModel);
+                            }
+                            else if (student.ResultTypeID == (int)EnumResultType.RwhResult ||
+                                student.ResultTypeID == (int)EnumResultType.RwhRevalEffected)
+                            {
+                                data = await _unitOfWork.MarksheetDownloadRepository.GetStudentResultRWH_public(studentModel);
+                            }
+                            else if (student.ResultTypeID == (int)EnumResultType.Ufm)
+                            {
+                                throw new Exception("Invalid Request!");
+                            }                           
+                            else
+                            {
+                                throw new Exception("Invalid Request!");
+                            }
+
+
+                            if (data?.Tables?.Count == 3 && data.Tables[0].Rows.Count > 0)
+                            {
+                                CommonFuncationHelper.WriteTextLog($"1.3. all data found: {student.RollNo}", logfilename);
+
                                 string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
                                 var fileName = $"StudentMarksheet_{student.RollNo}_{timestamp_str}.pdf";
-                                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/BTER/Marksheet/{Session}/{fileName}";
+                                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MarksheetFolder}/{Session}/{fileName}";
                                 string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
 
-                                #region "Add Object"
-                                objStudent.StudentID = student.StudentID;
-                                objStudent.MarksheetPath = filepath;
-                                objStudent.MarksheetFile = fileName;
-                                ListData.Add(objStudent);
-                                #endregion
 
-                                student.MarksheetPath = filepath;
-                                student.Marksheet = fileName;
-
+                                // rdlc generate
                                 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
                                 LocalReport localReport = new LocalReport(rdlcpath);
@@ -18820,61 +18886,71 @@ namespace Kaushal_Darpan.Api.Controllers
                                     Directory.CreateDirectory(folderPath);
                                 }
 
-                                //save
+                                //save in folder
                                 System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+
+                                CommonFuncationHelper.WriteTextLog($"1.4. save file in folder: {student.RollNo}", logfilename);
 
                                 // create an object for new record
                                 MarksheetSaveDataModel objMarksheet = new MarksheetSaveDataModel();
-                                if (data.Tables[0].Rows.Count > 0)
-                                {
-                                    DataRow studentData = data.Tables[0].Rows[0];
+                                // table 1 for marksheet
+                                DataRow studentData = data.Tables[0].Rows[0];
 
-                                    CommonFuncationHelper.WriteTextLog($"2 = {studentData["StudentName"]}");
+                                objMarksheet.MarkSheetID = student.MarksheetID ?? 0;// pk
 
-                                    objMarksheet.StudentName = studentData["StudentName"].ToString();
-                                    objMarksheet.FatherName = studentData["FatherName"].ToString();
-                                    objMarksheet.MotherName = studentData["MotherName"].ToString();
-                                    objMarksheet.MotherName = studentData["MotherName"].ToString();
-                                    objMarksheet.Gender = studentData["Gender"].ToString();
-                                    objMarksheet.EnrollmentNo = studentData["EnrollmentNo"].ToString();
-                                    objMarksheet.RollNo = studentData["RollNo"].ToString();
-                                    objMarksheet.DOB = studentData["DOB"].ToString();
-                                    objMarksheet.InstituteName = studentData["InstituteName"].ToString();
-                                    objMarksheet.StreamName = studentData["StreamName"].ToString();
-                                    objMarksheet.StreamCode = studentData["StreamCode"].ToString();
-                                    objMarksheet.EndTerm = studentData["EndTermName"].ToString();
-                                    objMarksheet.Session = studentData["Session"].ToString();
-                                    objMarksheet.ResultDate = studentData["ResultDate"].ToString();
-                                    objMarksheet.SrNo = student.SRNO;
+                                objMarksheet.StudentName = studentData["StudentName"].ToString();
+                                objMarksheet.FatherName = studentData["FatherName"].ToString();
+                                objMarksheet.MotherName = studentData["MotherName"].ToString();
+                                objMarksheet.MotherName = studentData["MotherName"].ToString();
+                                objMarksheet.Gender = studentData["Gender"].ToString();
+                                objMarksheet.EnrollmentNo = studentData["EnrollmentNo"].ToString();
+                                objMarksheet.RollNo = studentData["RollNo"].ToString();
+                                objMarksheet.DOB = studentData["DOB"].ToString();
+                                objMarksheet.InstituteName = studentData["InstituteName"].ToString();
+                                objMarksheet.StreamName = studentData["StreamName"].ToString();
+                                objMarksheet.StreamCode = studentData["StreamCode"].ToString();
+                                objMarksheet.EndTerm = studentData["EndTermName"].ToString();
+                                objMarksheet.Session = studentData["Session"].ToString();
+                                objMarksheet.ResultDate = studentData["ResultDate"].ToString();
+                                objMarksheet.SrNo = student.SRNO;
 
-                                    objMarksheet.CourseType = (int)studentData["CourseType"];
-                                    objMarksheet.StudentID = (int)studentData["StudentID"];
-                                    objMarksheet.StudentExamID = (int)studentData["StudentExamID"];
-                                    objMarksheet.SemesterID = (int)studentData["SemesterID"];
-                                    objMarksheet.InstituteID = (int)studentData["InstituteID"];
-                                    objMarksheet.StreamId = (int)studentData["StreamId"];
-                                    objMarksheet.Result = (int)studentData["Result"];
-                                    objMarksheet.CreatedBy = (int)student.ModifyBy;
-                                    objMarksheet.ModifyBy = (int)student.ModifyBy;
-                                    objMarksheet.Type = (int)student.StudentTypeID;
+                                objMarksheet.CourseType = (int)studentData["CourseType"];
+                                objMarksheet.StudentID = (int)studentData["StudentID"];
+                                objMarksheet.StudentExamID = (int)studentData["StudentExamID"];
+                                objMarksheet.SemesterID = (int)studentData["SemesterID"];
+                                objMarksheet.InstituteID = (int)studentData["InstituteID"];
+                                objMarksheet.StreamId = (int)studentData["StreamId"];
+                                objMarksheet.Result = (int)studentData["Result"];
+                                objMarksheet.CreatedBy = (int)student.ModifyBy;
+                                objMarksheet.ModifyBy = (int)student.ModifyBy;
+                                objMarksheet.Type = (int)student.StudentTypeID;
 
-                                    objMarksheet.IsUFM = (int)studentData["IsUFM"];
-                                    objMarksheet.IsRWH = (int)studentData["IsRWH"];
-                                    objMarksheet.IsReval = (int)studentData["IsReval"];
-                                    objMarksheet.IsBridge = (int)studentData["IsBridge"];
-                                    objMarksheet.IsRWHResult = (int)studentData["IsRWHResult"];
-                                    objMarksheet.IsLiteral = (int)studentData["IsLiteral"];
+                                objMarksheet.IsUFM = (int)studentData["IsUFM"];
+                                objMarksheet.IsRWH = (int)studentData["IsRWH"];
+                                objMarksheet.IsReval = (int)studentData["IsReval"];
+                                objMarksheet.IsBridge = (int)studentData["IsBridge"];
+                                objMarksheet.IsRWHResult = (int)studentData["IsRWHResult"];
+                                objMarksheet.IsLiteral = (int)studentData["IsLiteral"];
+                                objMarksheet.EndTermID = (int)studentData["EndTermID"];
+                                objMarksheet.ResultTypeId = (int)studentData["ResultTypeId"];
+                                objMarksheet.IssueDate = studentData["IssueDate"].ToString();
+                                objMarksheet.MarksheetYear = Convert.ToInt32(studentData["MarksheetYear"]);
+                                objMarksheet.Year = Convert.ToInt32(studentData["Year"]);
+                                objMarksheet.EffectiveEndTermID = Convert.ToInt32(student.EffectiveEndTermID);
 
-                                    objMarksheet.MarksheetFile = fileName;
-                                    objMarksheet.MarksheetFilePath = filepath;
-                                }
+                                objMarksheet.MarksheetFile = fileName;
+                                objMarksheet.MarksheetFilePath = $"{Session}/{fileName}";
 
+
+                                // table 2 for subjects
                                 if (data.Tables[1].Rows.Count > 0)
                                 {
-                                    
+                                    CommonFuncationHelper.WriteTextLog($"1.5. subject data: {student.RollNo}", logfilename);
                                     foreach (DataRow row in data.Tables[1].Rows)
                                     {
-                                        CommonFuncationHelper.WriteTextLog($"3 = {row.Field<string>("StudentName")}");
+                                        // log
+                                        CommonFuncationHelper.WriteTextLog($"1.6. add subject dedails in loop: {student.RollNo}, {row.Field<string>("SubjectCode") ?? string.Empty}", logfilename);
+
                                         MarksheetSubjectDataModel marksheetSub = new MarksheetSubjectDataModel
                                         {
                                             StudentName = row.Field<string>("StudentName") ?? string.Empty,
@@ -18894,55 +18970,59 @@ namespace Kaushal_Darpan.Api.Controllers
                                     }
                                 }
 
+                                // table 3 for results (cgpa, sgpa etc...)
                                 if (data.Tables[2].Rows.Count > 0)
                                 {
-                                    CommonFuncationHelper.WriteTextLog($"4 = result error");
+                                    // log
+                                    CommonFuncationHelper.WriteTextLog($"1.7. result data: {student.RollNo}", logfilename);
+
                                     DataRow row = data.Tables[2].Rows[0];
 
-                                    MarksheetResultDataModel marksheetResult = new MarksheetResultDataModel();                                    
+
+                                    MarksheetResultDataModel marksheetResult = new MarksheetResultDataModel();
                                     // --- Flags ---
                                     marksheetResult.IsReval = (bool)row["IsReval"];
                                     marksheetResult.IsLiteral = (bool)row["IsLiteral"];
-                                    marksheetResult.ResultTypeId = (int)row["ResultTypeId"];
+                                    marksheetResult.ResultTypeId = Convert.ToInt32(row["ResultTypeId"]);
 
                                     // --- Semester 1 ---
-                                    marksheetResult.SubjectCreditsSem1 = (decimal)row["SubjectCreditsSem1"];
-                                    marksheetResult.EarnedCreditsSem1 = (decimal)row["EarnedCreditsSem1"];
-                                    marksheetResult.CGPASem1 = (decimal)row["CGPASem1"];
-                                    marksheetResult.SGPASem1 = (decimal)row["SGPASem1"];
+                                    marksheetResult.SubjectCreditsSem1 = row["SubjectCreditsSem1"].ToString();
+                                    marksheetResult.EarnedCreditsSem1 = row["EarnedCreditsSem1"].ToString();
+                                    marksheetResult.CGPASem1 = row["CGPASem1"].ToString();
+                                    marksheetResult.SGPASem1 = row["SGPASem1"].ToString();
 
                                     // --- Semester 2 ---
-                                    marksheetResult.SubjectCreditsSem2 = (decimal)row["SubjectCreditsSem2"];
-                                    marksheetResult.EarnedCreditsSem2 = (decimal)row["EarnedCreditsSem2"];
-                                    marksheetResult.CGPASem2 = (decimal)row["CGPASem2"];
-                                    marksheetResult.SGPASem2 = (decimal)row["SGPASem2"];
+                                    marksheetResult.SubjectCreditsSem2 = row["SubjectCreditsSem2"].ToString();
+                                    marksheetResult.EarnedCreditsSem2 = row["EarnedCreditsSem2"].ToString();
+                                    marksheetResult.CGPASem2 = row["CGPASem2"].ToString();
+                                    marksheetResult.SGPASem2 = row["SGPASem2"].ToString();
 
                                     // --- Semester 3 ---
-                                    marksheetResult.SubjectCreditsSem3 = (decimal)row["SubjectCreditsSem3"];
-                                    marksheetResult.EarnedCreditsSem3 = (decimal)row["EarnedCreditsSem3"];
-                                    marksheetResult.CGPASem3 = (decimal)row["CGPASem3"];
-                                    marksheetResult.SGPASem3 = (decimal)row["SGPASem3"];
+                                    marksheetResult.SubjectCreditsSem3 = row["SubjectCreditsSem3"].ToString();
+                                    marksheetResult.EarnedCreditsSem3 = row["EarnedCreditsSem3"].ToString();
+                                    marksheetResult.CGPASem3 = row["CGPASem3"].ToString();
+                                    marksheetResult.SGPASem3 = row["SGPASem3"].ToString();
 
                                     // --- Semester 4 ---
-                                    marksheetResult.SubjectCreditsSem4 = (decimal)row["SubjectCreditsSem4"];
-                                    marksheetResult.EarnedCreditsSem4 = (decimal)row["EarnedCreditsSem4"];
-                                    marksheetResult.CGPASem4 = (decimal)row["CGPASem4"];
-                                    marksheetResult.SGPASem4 = (decimal)row["SGPASem4"];
+                                    marksheetResult.SubjectCreditsSem4 = row["SubjectCreditsSem4"].ToString();
+                                    marksheetResult.EarnedCreditsSem4 = row["EarnedCreditsSem4"].ToString();
+                                    marksheetResult.CGPASem4 = row["CGPASem4"].ToString();
+                                    marksheetResult.SGPASem4 = row["SGPASem4"].ToString();
 
                                     // --- Semester 5 ---
-                                    marksheetResult.SubjectCreditsSem5 = (decimal)row["SubjectCreditsSem5"];
-                                    marksheetResult.EarnedCreditsSem5 = (decimal)row["EarnedCreditsSem5"];
-                                    marksheetResult.CGPASem5 = (decimal)row["CGPASem5"];
-                                    marksheetResult.SGPASem5 = (decimal)row["SGPASem5"];
+                                    marksheetResult.SubjectCreditsSem5 = row["SubjectCreditsSem5"].ToString();
+                                    marksheetResult.EarnedCreditsSem5 = row["EarnedCreditsSem5"].ToString();
+                                    marksheetResult.CGPASem5 = row["CGPASem5"].ToString();
+                                    marksheetResult.SGPASem5 = row["SGPASem5"].ToString();
 
                                     // --- Semester 6 ---
-                                    marksheetResult.SubjectCreditsSem6 = (decimal)row["SubjectCreditsSem6"];
-                                    marksheetResult.EarnedCreditsSem6 = (decimal)row["EarnedCreditsSem6"];
-                                    marksheetResult.CGPASem6 = (decimal)row["CGPASem6"];
-                                    marksheetResult.SGPASem6 = (decimal)row["SGPASem6"];
+                                    marksheetResult.SubjectCreditsSem6 = row["SubjectCreditsSem6"].ToString();
+                                    marksheetResult.EarnedCreditsSem6 = row["EarnedCreditsSem6"].ToString();
+                                    marksheetResult.CGPASem6 = row["CGPASem6"].ToString();
+                                    marksheetResult.SGPASem6 = row["SGPASem6"].ToString();
 
                                     // --- Final Summaries & Results ---
-                                    marksheetResult.Percentage = (decimal)row["Percentage"];
+                                    marksheetResult.Percentage = row["Percentage"].ToString();
                                     marksheetResult.Result = row["Result"].ToString();
                                     marksheetResult.ResultDeclareDate = row.Table.Columns.Contains("ResultDeclareDate") ? row["ResultDeclareDate"].ToString() : string.Empty;
                                     marksheetResult.DiplomaFinalResult = row["DiplomaFinalResult"].ToString();
@@ -18950,79 +19030,97 @@ namespace Kaushal_Darpan.Api.Controllers
                                     marksheetResult.TotalSubjectCredits = row["TotalSubjectCredits"].ToString();
                                     marksheetResult.TotalEarnedCredits = row["TotalEarnedCredits"].ToString();
 
-                                    objMarksheet.ResultDetails.Add(marksheetResult);
+                                    // set in main model
+                                    objMarksheet.ResultDetails = marksheetResult;
                                 }
 
-                                MarksheetSaveList.Add(objMarksheet);
+                                await _unitOfWork.MarksheetDownloadRepository.AddUpdateMarksheet(objMarksheet);
+                                await _unitOfWork.SaveChangesAsync();
 
-                                //StudentDownloadInfo downloadInfo = new StudentDownloadInfo
-                                //{
-                                //    RollNo = student.RollNo,
-                                //    MarksheetID = student.MarksheetID,
-                                //    MarksheetFile = fileName,
-                                //    MarksheetFilePath = filepath
-                                //};
-                                //DownloadList.Add(downloadInfo);
+                                CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.RollNo}", logfilename);
 
-                            }
-                            else
-                            {
-                                result.State = EnumStatus.Warning;
-                                result.Message = Constants.MSG_DATA_NOT_FOUND;
+
+                                // for merge
+                                objStudent.StudentID = student.StudentID;
+                                objStudent.RollNo = student.RollNo;
+                                objStudent.MarksheetPath = filepath;
+                                objStudent.MarksheetFile = fileName;
+                                // add
+                                ListData.Add(objStudent);
                             }
                         }
                     }
-
-                    #region "Save Multiple PDF PAGES"
-                    string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                    string outputFile = $"Marksheet_{timestamp}.pdf";
-                    string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
-                    List<string?> strSoureFiles = ListData.Select(s => s.MarksheetPath).ToList();
-
-                    if (await MergePdfFilesAsync(strSoureFiles, outputPath))
+                    catch (Exception ex1)
                     {
-                        if (DownloadList.Count > 0)
-                        {
-                            var updateData = new ApiResult<int>();
-                            updateData.Data = await _unitOfWork.MarksheetDownloadRepository.UpdateMarksheetFile(DownloadList);
-                            await _unitOfWork.SaveChangesAsync();
-                        }
+                        await _unitOfWork.DisposeAsync();
 
-                        if(MarksheetSaveList.Count > 0)
+                        // add in list
+                        notGenerateStudents.Add(new GenerateMarksheetModel
                         {
-                            var updateData = new ApiResult<int>();
-                            updateData.Data = await _unitOfWork.MarksheetDownloadRepository.AddUpdateMarksheet(MarksheetSaveList);
-                            await _unitOfWork.SaveChangesAsync();
-                        }
-                        result.Data = outputFile;
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                            StudentID = student.StudentID,
+                            RollNo = student.RollNo
+                        });
+
+                        CommonFuncationHelper.WriteTextLog($"2. loop error for student : {student.RollNo}", logfilename);
+                        CommonFuncationHelper.WriteTextLog($"2.1. loop error : {ex1.Message}", logfilename);
                     }
-                    else
-                    {
-                        result.State = EnumStatus.Error;
-                        result.ErrorMessage = "Something went wrong";
-                    }
-                    #endregion
-                }
-                catch (Exception ex)
+
+                    CommonFuncationHelper.WriteTextLog($"--------------------- main loop end: {i} ------------------------", logfilename);
+                    i++;
+                }// end student loop
+
+                #region "Save Multiple PDF PAGES"
+                string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                string outputFile = $"Marksheet_{timestamp}.pdf";
+                string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                List<string?> strSoureFiles = ListData.Select(s => s.MarksheetPath)?.ToList();
+
+                // merge all files
+                var ismerged = await MergePdfFilesAsync(strSoureFiles, outputPath);
+                CommonFuncationHelper.WriteTextLog($"3. merge done with file count : {strSoureFiles?.Count == 0} and flage : {ismerged}", logfilename);
+                if (ismerged)
                 {
-                    await _unitOfWork.DisposeAsync();
-                    // Write error log
-                    var nex = new NewException
+                    result.Data = outputFile;
+                    result.State = EnumStatus.Success;
+                    var msg = Constants.MSG_DATA_LOAD_SUCCESS;
+                    if (notGenerateStudents?.Count > 0)
                     {
-                        PageName = PageName,
-                        ActionName = ActionName,
-                        Ex = ex,
-                    };
-                    await CreateErrorLog(nex, _unitOfWork);
-                    //
-                    result.State = EnumStatus.Error;
-                    result.ErrorMessage = ex.Message;
+                        msg = $"{Constants.MSG_FILE_DOWNLOAD_SUCCESS}, Except these students (Roll No.):<br/> {string.Join(", ", notGenerateStudents.Select(s => s.RollNo))}";
+                    }
+                    result.Message = msg;
                 }
-                return result;
+                else
+                {
+                    result.State = EnumStatus.Warning;
+                    var msg = Constants.MSG_ERROR_IN_MERGING_FILES;
+                    if (strSoureFiles == null || strSoureFiles?.Count == 0)
+                    {
+                        msg = Constants.MSG_FILE_NOT_FOUND;
+                    }
+                    result.Message = msg;
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                CommonFuncationHelper.WriteTextLog($"4. main error : {ex.Message}", logfilename);
 
-            });
+                await _unitOfWork.DisposeAsync();
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+                // Write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+
+            }
+            return result;
         }
         #endregion
 
@@ -19088,7 +19186,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 string centerCode = dt.Rows[0]["DgetCode"]?.ToString() ?? "";
                 string examMonth = dt.Rows[0]["examMonth"]?.ToString() ?? "";
 
-                // ── Group students by StreamName (Trade) ─────────────────────────────
+                // ── Group students by StreamName (Trade) + SemesterName ──────────────
                 var tradeGroups = dt.AsEnumerable()
                     .GroupBy(r => new
                     {
@@ -19097,26 +19195,28 @@ namespace Kaushal_Darpan.Api.Controllers
                     })
                     .ToList();
 
-                // ── Build one score-sheet block per trade ────────────────────────────
+                // ── Build one score-sheet block per trade/semester group ─────────────
                 var allSheets = new StringBuilder();
+                int groupIndex = 0;
 
                 foreach (var group in tradeGroups)
                 {
+                    groupIndex++;
                     string tradeName = group.Key.StreamName;
                     string semesterName = group.Key.SemesterName;
                     var rows = group.ToList();
 
-                    // Build student rows (fixed 35 rows per sheet for blank lines)
+                    // Render every student for this trade/semester continuously —
+                    // no artificial row cap, no blank filler rows. A new page-block
+                    // (and page break) only happens when the trade/semester changes.
                     var studentRows = new StringBuilder();
-                    int totalRows = Math.Max(35, rows.Count);
-
-                    for (int i = 0; i < totalRows; i++)
+                    for (int i = 0; i < rows.Count; i++)
                     {
                         string sNo = (i + 1).ToString();
-                        string rollNo = i < rows.Count ? rows[i]["RollNo"]?.ToString() ?? "" : "";
+                        string rollNo = rows[i]["RollNo"]?.ToString() ?? "";
                         studentRows.AppendLine($@"
                     <tr>
-                        <td style='height:18px'>{sNo}</td>
+                        <td style='height:14px'>{sNo}</td>
                         <td>{rollNo}</td>
                         <td></td>
                         <td></td>
@@ -19126,25 +19226,25 @@ namespace Kaushal_Darpan.Api.Controllers
                     string headerBlock = $@"
                 <table class='header-table'>
                     <tr>
-                        <td colspan='4'><b>Center Name:</b> {centerName}</td>
+                        <td colspan='3'><b>Center Name:</b> {centerName}</td>
                     </tr>
                     <tr>
                         <td colspan='4'>
-                            <b>NCVT CTS Main Exam</b> {semesterName}
+                            <b>NCVT CTS Main Exam:</b> {semesterName}
                             <b>Trade</b> {examMonth}
                         </td>
                     </tr>
                     <tr>
-                        <td><b>Trade Name</b></td>
-                        <td>{tradeName}</td>
-                        <td><b>Subject:</b></td>
-                        <td>Practical</td>
+                        <td><b>Trade Name:</b></td>
+                        <td colspan='3'>{tradeName}</td>
+                       
                     </tr>
                     <tr>
-                        <td><b>Center_Code</b></td>
+                         <td><b>Subject:</b></td>
+                        <td>Practical</td>
+                        <td><b>Center Code:</b></td>
                         <td>{centerCode}</td>
-                        <td></td>
-                        <td></td>
+                       
                     </tr>
                     <tr>
                         <td><b>Examiner Code:</b></td>
@@ -19158,141 +19258,175 @@ namespace Kaushal_Darpan.Api.Controllers
                 <table class='marks-table'>
                     <tr>
                         <th rowspan='2' style='width:40px'>S.No.</th>
-                        <th rowspan='2' style='width:110px'>Roll No</th>
+                        <th rowspan='2' style='width:70px'>Roll No</th>
                         <th colspan='2'>Marks Obtained</th>
                     </tr>
                     <tr>
-                        <th>In Words</th>
-                        <th>In Fig.</th>
+                        <th style='width:65%;'>In Words</th>
+                        <th style='width:25%;'>In Fig.</th>
                     </tr>
                     {studentRows}
                 </table>";
 
-                    // ── Left sheet = Practical Examiner footer ────────────────────────
+                    // ── Left cell content = Practical Examiner footer ─────────────────
                     string leftSheet = $@"
-                <div class='sheet sheet-left'>
-                    {headerBlock}
-                    {marksTable}
-                    <table class='footer-table'>
-                        <tr>
-                            <td colspan='2' class='center'>
-                                <b><u>Practical Examiner</u></b>
-                            </td>
-                        </tr>
-                        <tr><td>Name: __________________</td><td>Date: __________________</td></tr>
-                        <tr><td>Post: __________________</td><td></td></tr>
-                        <tr><td>Mobile No: __________________</td><td>Signature: __________________</td></tr>
-                    </table>
-                </div>";
+                {headerBlock}
+                {marksTable}
+                <table class='footer-table'>
+                    <tr>
+                        <td colspan='2' class='center'>
+                            <b><u>Practical Examiner</u></b>
+                        </td>
+                    </tr>
+                    <tr><td>Name: __________________</td><td>Date: __________________</td></tr>
+                    <tr><td>Post: __________________</td><td></td></tr>
+                    <tr><td>Mobile No: __________________</td><td>Signature: __________________</td></tr>
+                </table>";
 
-                    // ── Right sheet = Center Superintendent footer ────────────────────
+                    // ── Right cell content = Center Superintendent footer ─────────────
                     string rightSheet = $@"
-                <div class='sheet sheet-right'>
-                    {headerBlock}
-                    {marksTable}
-                    <table class='footer-table'>
-                        <tr>
-                            <td colspan='2' class='center'>
-                                <b><u>Center Superintendent/Co-ordinator</u></b>
-                            </td>
-                        </tr>
-                        <tr><td>Name: __________________</td><td>Date: __________________</td></tr>
-                        <tr><td>Post: __________________</td><td></td></tr>
-                        <tr><td>Mobile No: __________________</td><td>Signature: __________________</td></tr>
-                    </table>
-                </div>";
+                {headerBlock}
+                {marksTable}
+                <table class='footer-table'>
+                    <tr>
+                        <td colspan='2' class='center'>
+                            <b><u>Center Superintendent/Co-ordinator</u></b>
+                        </td>
+                    </tr>
+                    <tr><td>Name: __________________</td><td>Date: __________________</td></tr>
+                    <tr><td>Post: __________________</td><td></td></tr>
+                    <tr><td>Mobile No: __________________</td><td>Signature: __________________</td></tr>
+                </table>";
+
+                    // A page break happens only when we move to the next trade/semester
+                    // group — not based on row count. Last group gets no trailing break.
+                    // NOTE: left/right sheets are placed in a real <table> row (not
+                    // floated divs). wkhtmltopdf/QtWebKit's printing engine has a known
+                    // bug where page-break-after combined with float:left containers
+                    // inserts a phantom blank page — using a table row for the two-
+                    // column layout avoids that entirely.
+                    bool isLastGroup = groupIndex == tradeGroups.Count;
+                    string pageBreakStyle = isLastGroup ? "page-break-after:auto;" : "page-break-after:always;";
 
                     allSheets.AppendLine($@"
-                <div class='page-block'>
-                    {leftSheet}
-                    <div class='divider'></div>
-                    {rightSheet}
-                    <div class='clear'></div>
-                </div>");
+            <table class='page-layout' style='{pageBreakStyle}'>
+                <tr>
+                    <td class='sheet-cell sheet-left'>{leftSheet}</td>
+                    <td class='divider-cell'></td>
+                    <td class='sheet-cell sheet-right'>{rightSheet}</td>
+                </tr>
+            </table>");
                 }
 
                 // ── Full HTML ─────────────────────────────────────────────────────────
                 string html = $@"
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset='utf-8'/>
-            <style>
-                body {{
-                    font-family: Arial, sans-serif;
-                    font-size: 9px;
-                    margin: 0;
-                    padding: 0;
-                }}
-                .page-block {{
-                    width: 100%;
-                    overflow: hidden;
-                    page-break-after: always;
-                    margin-bottom: 10px;
-                }}
-                .sheet {{
-                    width: 48%;
-                    float: left;
-                    box-sizing: border-box;
-                }}
-                .sheet-left  {{ padding-right: 4px; }}
-                .sheet-right {{ padding-left: 4px;  }}
-                .divider {{
-                    float: left;
-                    width: 2px;
-                    background: #000;
-                    margin: 0 3px;
-                    min-height: 400px;
-                }}
-                .clear {{ clear: both; }}
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset='utf-8'/>
+        <style>
+            * {{ box-sizing: border-box; }}
 
-                /* Header info table */
-                .header-table {{
-                    width: 100%;
-                    border-collapse: collapse;
-                    margin-bottom: 4px;
-                }}
-                .header-table td {{
-                    border: none;
-                    padding: 2px 3px;
-                }}
+            body {{
+                font-family: Arial, sans-serif;
+                font-size: 11px;
+                margin: 0;
+                padding: 0;
+            }}
 
-                /* Marks table */
-                .marks-table {{
-                    width: 100%;
-                    border-collapse: collapse;
-                    margin-bottom: 6px;
-                }}
-                .marks-table th,
-                .marks-table td {{
-                    border: 1px solid #000;
-                    padding: 2px 3px;
-                    text-align: center;
-                }}
-                .marks-table td:nth-child(2) {{
-                    text-align: left;
-                }}
-                .marks-table tr td {{
-                    height: 16px;
-                }}
+            .page-layout {{
+                width: 100%;
+                border-collapse: collapse;
+                table-layout: fixed;
+                margin-bottom: 6px;
+            }}
+            .page-layout td.sheet-cell {{
+                width: 49.5%;
+                vertical-align: top;
+                padding: 0 4px;
+            }}
+            .page-layout td.divider-cell {{
+                width: 2px;
+                background: #000;
+                padding: 0;
+            }}
 
-                /* Footer table */
-                .footer-table {{
-                    width: 100%;
-                    border-collapse: collapse;
-                    margin-top: 6px;
-                }}
-                .footer-table td {{
-                    border: none;
-                    padding: 3px 2px;
-                }}
-                .center {{ text-align: center; }}
-            </style>
-        </head>
-        <body>
-            {allSheets}
-        </body>
-        </html>";
+            /* ── Header info table (fixed widths => Subject/Practical never drift) ── */
+            .header-table {{
+                width: 100%;
+                border-collapse: collapse;
+                table-layout: fixed;
+                margin-bottom: 4px;
+            }}
+            .header-table td {{
+                border: none;
+                padding: 3px 4px;
+                text-align: left;
+                vertical-align: top;
+                line-height: 1.3;
+                font-size: 11px;
+                word-wrap: break-word;
+            }}
+            .header-table .lbl  {{ font-weight: bold; white-space: nowrap; width: 18%; }}
+            .header-table .val  {{ width: 26%; }}
+            .header-table .lbl2 {{ font-weight: bold; white-space: nowrap; width: 26%; }}
+            .header-table .val2 {{ width: 30%; }}
+            .header-table .full {{ padding: 3px 4px; }}
+
+            /* ── Marks table (narrow Roll No, wide In Words, narrow In Fig) ────── */
+            .marks-table {{
+                width: 100%;
+                border-collapse: collapse;
+                table-layout: fixed;
+                margin-bottom: 6px;
+            }}
+            .marks-table th {{
+                border: 1px solid #000;
+                padding: 3px;
+                font-size: 11px;
+                text-align: center;
+            }}
+            .marks-table td {{
+                border: 1px solid #000;
+                padding: 2px 4px;
+                font-size: 10.5px;
+                height: 17px;
+                text-align: center;
+            }}
+            .marks-table tr {{
+                page-break-inside: avoid;
+            }}
+            .marks-table col.snoCol   {{ width: 28px; }}
+            .marks-table col.rollCol  {{ width: 80px; }}
+            .marks-table col.wordsCol {{ width: auto; }}
+            .marks-table col.figCol   {{ width: 50px; }}
+            .marks-table td:nth-child(2) {{ text-align: left; }}
+            .marks-table td:nth-child(3) {{ text-align: left; }}
+
+            /* ── Footer table — kept as one unbroken block across page breaks ── */
+            .footer-table {{
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+                table-layout: fixed;
+                page-break-inside: avoid;
+            }}
+            .footer-table tr {{
+                page-break-inside: avoid;
+            }}
+            .footer-table td {{
+                border: none;
+                padding: 3px 2px;
+                font-size: 10.5px;
+                text-align: left;
+            }}
+            .center {{ text-align: center; }}
+        </style>
+    </head>
+    <body>
+        {allSheets}
+    </body>
+    </html>";
 
                 // ── Convert to PDF ────────────────────────────────────────────────────
                 var doc = new HtmlToPdfDocument
@@ -19301,7 +19435,7 @@ namespace Kaushal_Darpan.Api.Controllers
             {
                 PaperSize   = PaperKind.A4,
                 Orientation = Orientation.Portrait,
-                Margins     = new MarginSettings { Top = 8, Bottom = 8, Left = 6, Right = 6 }
+                Margins     = new MarginSettings { Top = 5, Bottom = 5, Left = 5, Right = 5 }
             },
                     Objects =
             {
@@ -19329,6 +19463,115 @@ namespace Kaushal_Darpan.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+
+
+        #region GetGetMarksStatisticsReport
+
+        [HttpPost("GetGetMarksStatisticsReport")]
+        public async Task<ApiResult<string>> GetGetMarksStatisticsReport(GetMarksStatisticsModel model)
+        {
+            ActionName = "GetGetMarksStatisticsReport(GetMarksStatisticsModel model)";
+            var result = new ApiResult<string>();
+            string ActionType = "";
+            try
+            {
+                // Get report data
+                DataTable table = await Task.Run(() =>
+     _unitOfWork.ReportRepository.GetGetMarksStatisticsReport(model));
+
+                DataSet data = new DataSet();
+                data.Tables.Add(table);
+
+                if (data == null || data.Tables.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+                if(model.Action == "_getMarksStatistics_IA_Report")
+                {
+                    ActionType = "Internal Assessment";
+                }
+                if (model.Action == "_getMarksStatistics_Practical_Report")
+                {
+                    ActionType = "Practical";
+                }
+                // Generate HTML
+                var sb = await _printHtmlFile.GetMarksStatisticsReport_GetHtml(data, 0, ActionType);
+                string html = sb.ToString();
+
+                // Remove last page break if present
+                string endTag = "<div class='page-break'></div></body></html>";
+                if (html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    html = html.Substring(0, html.Length - endTag.Length) + "</body></html>";
+                }
+
+                // Create PDF document
+                var document = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+            {
+                PaperSize = PaperKind.A4,
+                Orientation = Orientation.Landscape,
+                Margins = new MarginSettings
+                {
+                    Top = 10,
+                    Bottom = 10,
+                    Left = 5,
+                    Right = 5
+                }
+            },
+                    Objects =
+            {
+                new ObjectSettings
+                {
+                    HtmlContent = html,
+                    WebSettings =
+                    {
+                        DefaultEncoding = "utf-8"
+                    },
+                    FooterSettings = new FooterSettings
+                    {
+                        FontName = "Arial",
+                        FontSize = 7,
+                        Center = "Page [page] of [toPage]",
+                        Line = true
+                    }
+                }
+            }
+                };
+
+                // Convert HTML to PDF
+                byte[] pdfBytes = await Task.Run(() => _converter.Convert(document));
+
+                result.Data = Convert.ToBase64String(pdfBytes);
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                var newException = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+
+                await CreateErrorLog(newException, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        #endregion
 
     }
 }

@@ -176,6 +176,7 @@ namespace Kaushal_Darpan.Models.PreExamStudent
         public int ExamYearID { get; set; }
         public int PassFailID { get; set; }
         public int TradeScheme { get; set; }
+        public string? RequestTypeID { get; set; }
     }
 
 

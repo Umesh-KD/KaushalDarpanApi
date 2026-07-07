@@ -1302,6 +1302,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@DistrictID", model.DistrictID);
                         command.Parameters.AddWithValue("@UserID", model.UserID);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
+                        command.Parameters.AddWithValue("@AnnoucementType", model.AnnoucementType);
                         command.Parameters.AddWithValue("@Name", model.CollegeName ?? (object)DBNull.Value);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -1870,6 +1871,54 @@ namespace Kaushal_Darpan.Infra.Repositories
                 throw new Exception(errordetails, ex);
             }
         }
+
+        public async Task<bool> ChangeCampusByID(ITICampusStatusModel request)
+        {
+            _actionName = "UpdateCampusStatusByID(ITICampusStatusModel request)";
+
+            try
+            {
+                using (var command = await _dbContext.CreateCommandAsync(true))
+                {
+                    command.CommandText = "USP_Updatecampusdetails";
+                    command.CommandType = CommandType.StoredProcedure;
+
+            
+                    command.Parameters.AddWithValue("@CampusID", request.CampusID);
+                    command.Parameters.AddWithValue("@InstituteID", request.InstituteID);
+      
+
+
+                    SqlParameter returnParam = new SqlParameter("@Return", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(returnParam);
+
+                    _sqlQuery = command.GetSqlExecutableQuery();
+
+                    await command.ExecuteNonQueryAsync();
+
+                    int result = Convert.ToInt32(returnParam.Value);
+
+                    return result > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+
+                var errorDetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errorDetails, ex);
+            }
+        }
+
     }
 }
 

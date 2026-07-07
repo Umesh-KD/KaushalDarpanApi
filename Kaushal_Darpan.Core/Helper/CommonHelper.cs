@@ -60,6 +60,7 @@ namespace Kaushal_Darpan.Core.Helper
         public const string MSG_FILE_DELETE_SUCCESS = "File deleted successfully.";
         public const string MSG_DUPLICATE_POST = "Post Name Already exist!";
         public const string MSG_FILE_DOWNLOAD_SUCCESS = "File Download Successfully.";
+        public const string MSG_ERROR_IN_MERGING_FILES = "Error in merging files!";
 
 
         public const string Login_DefaultPassword = "KD@1230";
@@ -91,6 +92,7 @@ namespace Kaushal_Darpan.Core.Helper
         public const string AadharCertificate = "/StaticFiles/Certificate";
         public const string EsignedPdfFolder = "/EsignedPdf";
         public const string JoiningRelivingLetterBTER = "Report/BTER";
+        public const string MarksheetFolder = "Marksheet";
 
         //ITI FOLDERS
         public const string RDLCFolderITI = "Report/Files/ITI";
