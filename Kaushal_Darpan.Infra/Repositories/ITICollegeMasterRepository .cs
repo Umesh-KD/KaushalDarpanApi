@@ -1303,6 +1303,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@UserID", model.UserID);
                         command.Parameters.AddWithValue("@RoleID", model.RoleID);
                         command.Parameters.AddWithValue("@AnnoucementType", model.AnnoucementType);
+                        command.Parameters.AddWithValue("@Esttablishment_Year", model.Esttablishment_Year);
                         command.Parameters.AddWithValue("@Name", model.CollegeName ?? (object)DBNull.Value);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();

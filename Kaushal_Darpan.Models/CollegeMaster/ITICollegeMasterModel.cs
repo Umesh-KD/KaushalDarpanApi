@@ -105,6 +105,7 @@ public class ItiEstablishmentSearchModel
     public int RoleID { get; set; }
     public int AnnoucementType { get; set; }
     public string? CollegeName { get; set; }
+    public int Esttablishment_Year { get; set; }
 }
 
 

@@ -348,6 +348,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CollegeCode", request.CollegeCode);
                         command.Parameters.AddWithValue("@TradeCode", request.TradeCode);
                         command.Parameters.AddWithValue("@action", "_getAllPlanning");
+                        command.Parameters.AddWithValue("@Esttablishment_Year", request.Esttablishment_Year);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
