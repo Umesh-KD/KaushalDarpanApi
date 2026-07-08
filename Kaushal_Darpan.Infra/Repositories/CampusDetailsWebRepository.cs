@@ -80,7 +80,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@CampusFromDate", CampusFromDate);
                         command.Parameters.AddWithValue("@CampusToDate", CampusToDate);
                         command.Parameters.AddWithValue("@InstituteID", InstituteID);
-
                         _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
                         dataTable = await command.FillAsync_DataTable();
                     }
