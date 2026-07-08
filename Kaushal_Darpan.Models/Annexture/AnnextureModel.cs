@@ -44,6 +44,9 @@ namespace Kaushal_Darpan.Models.LeaveMaster
         public string? Subject13 { get; set; }
         public string? Subject14 { get; set; }
         public string? Subject15 { get; set; }
+        public string? InstituteName { get; set; }
+        public string? SemesterName { get; set; }
+        public string? Branch { get; set; }
         public List<StudentSubjectCode> SubjectCode { get; set; }
     }
 

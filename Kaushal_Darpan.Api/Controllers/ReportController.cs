@@ -19591,16 +19591,26 @@ namespace Kaushal_Darpan.Api.Controllers
                 if (dataList == null || !dataList.Any())
                     return BadRequest("No data found");
 
-                var instituteName = dataList.First().InstituteName;
-                var instituteCode = dataList.First().InstituteCode;
                 var endTermName = dataList.First().EndTermName;
 
-                var aboveRows = GenerateStudentTableRows(above);
-                var belowRows = GenerateStudentTableRows(below);
+                // Group Institute
+                var institutes = dataList
+                    .GroupBy(x => new
+                    {
+                        x.InstituteID,
+                        x.InstituteCode,
+                        x.InstituteName
+                    })
+                    .ToList();
 
-                string html = $@"
+                StringBuilder reportHtml = new StringBuilder();
+
+                foreach (var institute in institutes)
+                {
+
+                    reportHtml.Append($@"
 <!DOCTYPE html>
-<html lang=""hi"">
+<html lang='hi'>
 <head>
 <meta charset=""UTF-8"">
 <title>Report</title>
@@ -19718,7 +19728,7 @@ Web Site : www.techedu.rajasthan.gov.in
 
 <b>पॉलीटेक्निक महाविद्यालय</b><br>
 
-{instituteCode}-{instituteCode}
+{institute.Key.InstituteCode} - {institute.Key.InstituteName}
 
 </td>
 
@@ -19764,7 +19774,7 @@ Web Site : www.techedu.rajasthan.gov.in
 
 <!-- Two Column -->
 
-<table class=""list"">
+<tabletable class=""list"">
 
 <tr>
 
@@ -19806,35 +19816,46 @@ Web Site : www.techedu.rajasthan.gov.in
 
 <br><br>
 
+
+var instituteStudents = above
+    .Where(x => x.InstituteID == institute.Key.InstituteID)
+    .ToList();
+
+var branches = instituteStudents
+    .GroupBy(x => x.BranchName);
+
+foreach (var branch in branches)
+{{
+    reportHtml.Append($@""
 <table>
-
-<tr>
-
-<td class=""center bold"">
-
-IE-INSTRUMENTATION ENGINEERING
-
-</td>
-
-</tr>
-
+    <tr>
+        <td class='center bold'>
+            {{branch.Key}}
+        </td>
+    </tr>
 </table>
 
-<br>
+<br/>
+"");
 
+    foreach (var student in branch)
+    {{
+        reportHtml.Append($@""
 <table>
-
-<tr>
-
-<td>
-
-<b>4500259: 4010 (90%)</b>
-
-</td>
-
-</tr>
-
+    <tr>
+        <td>
+            <b>{{student.RollNo}}</b> :
+            {{student.SubjectCode}}
+            &nbsp;&nbsp;
+            {{student.StudentName}}
+        </td>
+    </tr>
 </table>
+"");
+    }}
+
+    reportHtml.Append(""<br/>"");
+}}
 
 <br>
 
@@ -19893,8 +19914,10 @@ IE-INSTRUMENTATION ENGINEERING
 </table>
 
 </body>
-</html>";
+</html>");
 
+                }
+                string html = reportHtml.ToString();
 
                 var doc = new HtmlToPdfDocument()
                 {
