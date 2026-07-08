@@ -4766,14 +4766,14 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.CommandType = CommandType.StoredProcedure;
                         command.CommandText = "USP_SaveStudentFeeDetail";
                         command.Parameters.AddWithValue("@ApplicationIdEnc", "");
-                        command.Parameters.AddWithValue("@TransactionId", request.TRANSACTIONID);
+                        command.Parameters.AddWithValue("@TransactionId", 0);
                         command.Parameters.AddWithValue("@PRN", request.PRN);
                         command.Parameters.AddWithValue("@PaidAmount", request.TRANSAMT);
                         command.Parameters.AddWithValue("@TokenNo", request.RECEIPTNO);
                         command.Parameters.AddWithValue("@StatusMsg", request.MSG);
                         command.Parameters.AddWithValue("@ResponseString", JsonConvert.SerializeObject(request));
                         command.Parameters.AddWithValue("@ReceiptNo", request.RECEIPTNO);
-                        command.Parameters.AddWithValue("@RequestStatus", request.STATUS);
+                        command.Parameters.AddWithValue("@RequestStatus", request.TRANSACTIONSTATUS);
                         command.Parameters.AddWithValue("@TransactionNo", request.TransactionNo);
                         command.Parameters.AddWithValue("@ExamStudentStatus", 0);
                         command.Parameters.AddWithValue("@action", "_UpdateEmitraPaymentStatus");

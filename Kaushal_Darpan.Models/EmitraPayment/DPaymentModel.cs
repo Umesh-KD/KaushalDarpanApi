@@ -67,25 +67,18 @@ public class DRequest
 
 }
     public class DResponseWhatsAppModel
-    {
-        public string REQUESTID { get; set; }//PRN
+    {        
         public string TRANSACTIONSTATUSCODE { get; set; }
         public string RECEIPTNO { get; set; }
-        public string TRANSACTIONID { get; set; }
+        public string TransactionNo { get; set; }
         public string TRANSAMT { get; set; }
         public string EMITRATIMESTAMP { get; set; }
         public string TRANSACTIONSTATUS { get; set; }
         public string MSG { get; set; }  
         public string RECEIPT_URL { get; set; }
         public string PRN { get; set; }
-
-        public string STATUS { get; set; }
-        
         public string SERVICEID { get; set; }
-        public string UniquerequestId { get; set; }
         public string DepartmentID { get; set; }
-        public string TransactionNo { get; set; }
-
-
+        
     }
 }
