@@ -5133,6 +5133,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@ExaminerCode", body.ExaminerCode);
                     command.Parameters.AddWithValue("@SSOID", body.SSOID);
                     command.Parameters.AddWithValue("@RoleID", body.RoleID);
+                    command.Parameters.AddWithValue("@InstituteID", body.InstituteID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();
