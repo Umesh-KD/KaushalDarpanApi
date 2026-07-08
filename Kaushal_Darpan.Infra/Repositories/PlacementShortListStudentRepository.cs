@@ -47,7 +47,6 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.Parameters.AddWithValue("@HiringRoleID", searchModel.HiringRoleID);
                     command.Parameters.AddWithValue("@NotifyStatus", searchModel.NotifyStatus);
                     command.Parameters.AddWithValue("@FinancialYearID", searchModel.FinancialYearID);
-
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }
