@@ -10671,5 +10671,42 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
         #endregion
+
+        #region
+        public async Task<DataSet> Get85and45percentageStudentIAReport(IAReportModel model)
+        {
+            _actionName = "Get85and45percentageStudentIAReport(IAReportModel model)";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var dt = new DataSet();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_Get85and45percentageStudentIAReport";
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dt = await command.FillAsync();
+                    }
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
     }
 }

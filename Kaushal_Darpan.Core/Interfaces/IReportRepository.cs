@@ -336,5 +336,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetMarksheetCorrectionHistoryReport(MarksheetCorrectionHistoryModel model);
         Task<DataTable> GetGetMarksStatisticsReport(GetMarksStatisticsModel model);
 
+        Task<DataSet> Get85and45percentageStudentIAReport(IAReportModel filterModel);
+
     }
 }

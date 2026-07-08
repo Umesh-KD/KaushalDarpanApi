@@ -1050,7 +1050,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                                             SessionName = row["SessionName"]
                                         })
                                         .OrderBy(g => g.Key.ExaminerCode)
-                                        .ThenBy(g => g.Key.GroupCode)
+                                        //.ThenBy(g => g.Key.GroupCode)
                                         .ThenBy(g => g.Key.CenterCode)
                                         .ThenBy(g => g.Key.BranchName)
                                         .ThenBy(g => g.Key.SubjectName)
@@ -1121,7 +1121,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             <div style='text-decoration: underline; font-weight: bold; font-size: 16px; margin-bottom: 5px;'>Theory Exam Reports</div>
                             <div>Branch : <b>{header.BranchName}</b></div>
                             <div>Examiner Code : <b>{header.ExaminerCode}</b></div>
-                            <div>Group Code : <b>{header.GroupCode}</b></div>
+                            
                             </div>
                             </td>
                             <td style='display: flex; justify-content: space-between; margin-bottom: 10px;>
@@ -1141,6 +1141,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             <thead>
                             <tr>
                             <th style='border: 1px solid #ccc; padding: 5px; width: 40px;'>S.No</th>
+                            <th style='border: 1px solid #ccc; padding: 5px; width: 150px;'>Group Code</th>
                             <th style='border: 1px solid #ccc; padding: 5px; width: 150px;'>Roll No</th>
                             <th colspan='2' style='border: 1px solid #ccc; padding: 5px;'>MARKS OBTAINED</th>
                             </tr>
@@ -1159,6 +1160,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             sb.Append($@"
                                     <tr>
                                         <td style='border:1px solid #ccc; padding:8px;'>{sno++}</td>
+                                        <td style='border:1px solid #ccc; padding:8px;'>{row["GroupCode"]}</td>
                                         <td style='border:1px solid #ccc; padding:8px;'>{row["RollNo"]}</td>
                                         <td style='border:1px solid #ccc; padding:8px;'>{row["ObtainedTheoryInword"]}</td>
                                         <td style='border:1px solid #ccc; padding:8px;'>{row["ObtainedTheory"]}</td>
