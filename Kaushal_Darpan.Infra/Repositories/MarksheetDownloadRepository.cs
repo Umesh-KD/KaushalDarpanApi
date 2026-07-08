@@ -394,10 +394,11 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandText = "USP_Rpt_GetStudentResultRWH";
 
                     command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
-                    command.Parameters.AddWithValue("@EndTermID", model.EffectiveEndTermID);
+                    command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                     command.Parameters.AddWithValue("@RollNo", model.RollNo);
                     command.Parameters.AddWithValue("@DOB", model.DOB);
                     command.Parameters.AddWithValue("@ResultTypeID", model.ResultType);
+                    command.Parameters.AddWithValue("@EffectiveEndTermIDNew", model.EffectiveEndTermID);
 
                     _sqlQuery = command.GetSqlExecutableQuery();
                     ds = await command.FillAsync();
