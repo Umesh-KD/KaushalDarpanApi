@@ -3884,7 +3884,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
 
-        #region emitra payment by student whatsapp
+        #region emitra payment by student whatsapp BTER
 
         [HttpPost("GetStudentDeatilsByActionWhatsapp")]
         public async Task<ApiResult<dynamic>> GetStudentDeatilsByActionWhatsapp([FromBody] StudentSearchModelForWhatsAPP body)
@@ -3892,10 +3892,12 @@ namespace Kaushal_Darpan.Api.Controllers
             ActionName = "GetStudentDeatilsByActionWhatsapp()";
             string Remark = "";
             var result = new ApiResult<dynamic>();
+
             try
             {
                 //body.FeeType = 2;//  Will be remove once move on production
                 var data = await _unitOfWork.CommonFunctionRepository.GetStudentDeatilsByAction(body);
+
                 if (data != null && data.Rows.Count > 0)
                 {
                     var row = data.Rows[0];
@@ -3904,12 +3906,12 @@ namespace Kaushal_Darpan.Api.Controllers
                     emitraRequestDetailsModel.ServiceID = row["ServiceId"].ToString();
                     emitraRequestDetailsModel.ExamStudentStatus = (int)row["ExamStudentStatus"];
                     emitraRequestDetailsModel.IsKiosk = false;
-                    //emitraRequestDetailsModel.DepartmentID = 1;
+                    emitraRequestDetailsModel.DepartmentID = 1;
 
-                    //var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(emitraRequestDetailsModel);
+                    var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(emitraRequestDetailsModel);
 
                     Decimal FinalAmount = 0;
-                    string TransactionApplicationID = "";
+
                     List<StudentFeesTransactionItemsWhatsApp> LstStudentFeesTransaction = new List<StudentFeesTransactionItemsWhatsApp>();
 
                     foreach (DataRow Dr in data.Rows)
@@ -3936,7 +3938,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     if (LstStudentFeesTransaction.Count > 0)
                     {
-
                         EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
                         objEmitra.key = "_InsertDetails";
 
@@ -3952,26 +3953,30 @@ namespace Kaushal_Darpan.Api.Controllers
 
                         objEmitra.Amount = FinalAmount;
                         objEmitra.StudentID = (int)row["StudentID"];
-
                         objEmitra.StudentFeesTransactionItemsWhatsApp = LstStudentFeesTransaction;
                         objEmitra.SSOID = "";
                         objEmitra.IsEmitra = false;
                         objEmitra.DepartmentID = 1;
                         objEmitra.FeeFor = (string)row["ServiceType"];
-
+                        objEmitra.ServiceID = EmitraServiceDetail.SERVICEID;
                         Random rnd = new Random();
                         objEmitra.PRN = "KD" + rnd.Next(100000, 999999) + rnd.Next(100000, 999999);
-                        var UpdateStatus = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationWhatsapp(objEmitra);
+                        objEmitra.KioskID = "WhatsApp";
 
+                        var result2 = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationWhatsapp(objEmitra);
                         await _unitOfWork.SaveChangesAsync();
-                        result.State = EnumStatus.Success;
-                        result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
 
-
-                        //var SUCCESSURL = row["WhatsappResponseURL"] + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(UpdateStatus.TransactionId)) + "&ServiceID=" + (string)row["ServiceID"] + "&DepartmentID=" + emitraRequestDetailsModel.DepartmentID.ToString() + "&FeeType=" + body.FeeType.ToString();
-
-                        //CallBackUrl = SUCCESSURL,
-                        result.Data = new { PRN = objEmitra.PRN, ServiceID= emitraRequestDetailsModel.ServiceID, Amount = FinalAmount, StudentSemesterList = objEmitra.StudentFeesTransactionItemsWhatsApp };
+                        if (result2.TransactionId > 0)
+                        {
+                            result.State = EnumStatus.Success;
+                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                            result.Data = new { PRN = objEmitra.PRN, ServiceID = emitraRequestDetailsModel.ServiceID, Amount = FinalAmount, StudentSemesterList = objEmitra.StudentFeesTransactionItemsWhatsApp };
+                        }
+                        else
+                        {
+                            result.State = EnumStatus.Error;
+                            result.Message = Constants.MSG_ADD_ERROR;
+                        }
                     }
                     else
                     {
@@ -4005,6 +4010,185 @@ namespace Kaushal_Darpan.Api.Controllers
 
         [HttpPost("EnrollmentExaminationFeePaymentWhatsappResponse")] //IActionResult
         public async Task<ApiResult<dynamic>> EnrollmentExaminationFeePaymentWhatsappResponse(DResponseWhatsAppModel EmitraResponseWhatsApp)
+        {
+            var response = new ApiResult<dynamic>();
+            try
+            {
+                //EmitraRequestDetailsModel Model = new EmitraRequestDetailsModel();
+                //Model.ServiceID = EmitraResponseWhatsApp.SERVICEID;
+                //Model.ID = 0;
+                //Model.DepartmentID = string.IsNullOrEmpty(EmitraResponseWhatsApp.DepartmentID) == true ? 0 : Convert.ToInt32(EmitraResponseWhatsApp.DepartmentID);
+
+                //var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetailsWhatsapp(Model);
+
+                if (EmitraResponseWhatsApp != null)
+                {
+                    var result = await _unitOfWork.CommonFunctionRepository.UpdateEmitraPaymentStatusWhatsApp(EmitraResponseWhatsApp);
+                    if (result == true)
+                    {
+                        await _unitOfWork.SaveChangesAsync();
+                        response.State = EnumStatus.Success;
+                        response.Message = "Data Save Sucessfully!";
+                    }
+                    else
+                    {
+                        response.State = EnumStatus.Error;
+                        response.Message = Constants.MSG_ADD_ERROR;
+                    }
+                }
+                else
+                {
+                    response.State = EnumStatus.Error;
+                    response.Message = "The request is invalid.";
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return response;
+
+        }
+        #endregion
+
+        #region emitra payment by student whatsapp ITI
+        [HttpPost("GetStudentDeatilsByActionWhatsapp_ITI")]
+        public async Task<ApiResult<EmitraRequestDetailsModel>> GetStudentDeatilsByActionWhatsapp_ITI(StudentSearchModelForWhatsAPP body)
+        {
+            ActionName = "GetStudentDeatilsByActionWhatsapp_ITI(StudentSearchModelForWhatsAPP body)";
+
+            var requestDetailsModel = new ApiResult<EmitraRequestDetailsModel>();
+            EmitraRequestDetailsModel Model = new EmitraRequestDetailsModel();
+            try
+            {
+                var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(Model);
+
+                if (EmitraServiceDetail == null)
+                {
+                    requestDetailsModel.Data = Model;
+                    requestDetailsModel.State = EnumStatus.Error;
+                    requestDetailsModel.ErrorMessage = "Service Id Not Mapped";
+                    return requestDetailsModel;
+                }
+                EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
+                objEmitra.key = "_InsertDetails";
+                objEmitra.ApplicationIdEnc = Model.ApplicationIdEnc;
+                objEmitra.Amount = Model.Amount + Model.FormCommision;
+                objEmitra.StudentID = Model.StudentID;
+                objEmitra.SemesterID = Model.SemesterID;
+                objEmitra.ExamStudentStatus = Model.ExamStudentStatus;
+                objEmitra.StudentFeesTransactionItems = Model.StudentFeesTransactionItems;
+                objEmitra.SSOID = Model.SsoID;
+                objEmitra.IsEmitra = Model.IsKiosk;
+                objEmitra.DepartmentID = Model.DepartmentID;
+                objEmitra.UniqueServiceID = Model.ID;
+                objEmitra.FeeFor = Model.FeeFor;
+                objEmitra.RevalRequestID = Model.RevalRequestID;
+                if (Model.TransactionApplicationIDs != null)
+                {
+                    if (Model.TransactionApplicationIDs.Length > 0)
+                    {
+                        objEmitra.TransactionApplicationID = string.Join(',', Model.TransactionApplicationIDs);
+                    }
+                }
+                var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationITI(objEmitra);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.TransactionId > 0)
+                {
+                    PGRequestModel data = new PGRequestModel();
+                    data.MERCHANTCODE = EmitraServiceDetail.MERCHANTCODE;
+                    Random rnd = new Random();
+                    data.PRN = "KD" + rnd.Next(100000, 999999) + rnd.Next(100000, 999999);
+
+                    data.REQTIMESTAMP = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                    data.AMOUNT = Convert.ToString(objEmitra.Amount);
+                    data.SUCCESSURL = EmitraServiceDetail.REDIRECTURL + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(result.TransactionId)) + "&ApplicationIdEnc=" + CommonFuncationHelper.EmitraEncrypt(Model.ApplicationIdEnc) + "&SERVICEID=" + Model.ServiceID.ToString() + "&IsFailed=" + CommonFuncationHelper.EmitraEncrypt("NO") + "&UniqueServiceID=" + Model.ID.ToString();
+                    data.FAILUREURL = EmitraServiceDetail.REDIRECTURL + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(result.TransactionId)) + "&ApplicationIdEnc=" + CommonFuncationHelper.EmitraEncrypt(Model.ApplicationIdEnc) + "&SERVICEID=" + Model.ServiceID.ToString() + "&IsFailed=" + CommonFuncationHelper.EmitraEncrypt("YES") + "&UniqueServiceID=" + Model.ID.ToString();
+                    data.USERNAME = Model.UserName;
+                    data.USERMOBILE = Model.MobileNo;
+                    data.COMMTYPE = EmitraServiceDetail.COMMTYPE;
+                    data.OFFICECODE = EmitraServiceDetail.OFFICECODE;
+
+                    // data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
+                    data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("{exam_fee}", data.AMOUNT.ToString())
+                        .Replace("{exam_commission}", Convert.ToString(Model.FormCommision)).Replace("##", Model.Amount.ToString());
+
+
+                    data.SERVICEID = EmitraServiceDetail.SERVICEID;
+                    data.UDF1 = Convert.ToString(Model.ExamStudentStatus);
+
+                    data.UDF2 = Model.SsoID;
+                    data.USEREMAIL = "";
+                    data.CHECKSUM = CommonFuncationHelper.CreateMD5(data.PRN + "|" + data.AMOUNT + "|" + EmitraServiceDetail.CHECKSUMKEY);
+
+                    EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration endpointConfiguration = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration();
+
+                    ServicePointManager.SecurityProtocol = (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                    System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+
+                    EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient emitraencsev = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient(endpointConfiguration, EmitraServiceDetail.WebServiceURL);
+                    EmitraEncryptStringResponse response = await emitraencsev.EmitraEncryptStringAsync(EmitraServiceDetail.EncryptionKey, JsonConvert.SerializeObject(data));
+
+                    if (data != null)
+                    {
+                        try
+                        {
+                            objEmitra.key = "_UpdateDetails";
+                            objEmitra.RequestString = JsonConvert.SerializeObject(data);
+                            objEmitra.TransactionId = result.TransactionId;
+                            objEmitra.ServiceID = EmitraServiceDetail.SERVICEID;
+                            objEmitra.PRN = data.PRN;
+                            var UpdateStatus = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationITI(objEmitra);
+                            await _unitOfWork.SaveChangesAsync();
+                        }
+                        catch (System.Exception ex)
+                        {
+                            throw ex;
+                        }
+                    }
+                    Model.ENCDATA = response.Body.EmitraEncryptStringResult;
+                    Model.MERCHANTCODE = EmitraServiceDetail.MERCHANTCODE;
+                    Model.PaymentRequestURL = EmitraServiceDetail.ServiceURL;
+                    Model.ServiceID = EmitraServiceDetail.SERVICEID;
+                    Model.IsSucccess = true;
+
+                    requestDetailsModel.Data = Model;
+                    requestDetailsModel.State = EnumStatus.Success;
+                    requestDetailsModel.Message = "successfully .!";
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                requestDetailsModel.State = EnumStatus.Error;
+                requestDetailsModel.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return requestDetailsModel;
+        }
+
+
+        [HttpPost("EnrollmentExaminationFeePaymentWhatsappResponse_ITI")] //IActionResult
+        public async Task<ApiResult<dynamic>> EnrollmentExaminationFeePaymentWhatsappResponse_ITI(DResponseWhatsAppModel EmitraResponseWhatsApp)
         {
             var response = new ApiResult<dynamic>();
             try
@@ -4043,67 +4227,130 @@ namespace Kaushal_Darpan.Api.Controllers
 
         }
 
-        //[HttpPost("EnrollmentExaminationFeePaymentWhatsappResponse_OLD")] //IActionResult
-        //public async Task<IActionResult> EnrollmentExaminationFeePaymentWhatsappResponse_OLD(string UniquerequestId = "", string ServiceID = "", string DepartmentID = "", string FeeType = "")
-        //{
-        //    var RetrunUrL = "";
-        //    try
-        //    {
-        //        Int64 applicationNo = 0;
-        //        UniquerequestId = UniquerequestId.Replace(' ', '+');
-        //        UniquerequestId = UniquerequestId.Replace(' ', '+');
-        //        UniquerequestId = UniquerequestId.Replace(' ', '+');
+        [HttpPost("EmitraPaymentITI_RaviRaj")]
+        public async Task<ApiResult<EmitraRequestDetailsModel>> EmitraPaymentITI_RaviRaj(EmitraRequestDetailsModel Model)
+        {
+            ActionName = "EmitraPayment(EmitraRequestDetailsModel Model)";
 
-        //        EmitraRequestDetailsModel Model = new EmitraRequestDetailsModel();
-        //        Model.ServiceID = ServiceID;
-        //        var UniquerqId = CommonFuncationHelper.EmitraDecrypt(UniquerequestId);
-        //        Model.ID = 0;
-        //        Model.DepartmentID = string.IsNullOrEmpty(DepartmentID) == true ? 0 : Convert.ToInt32(DepartmentID);
+            var requestDetailsModel = new ApiResult<EmitraRequestDetailsModel>();
+            try
+            {
+                var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(Model);
 
-        //        var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetailsWhatsapp(Model);
+                if (EmitraServiceDetail == null)
+                {
+                    requestDetailsModel.Data = Model;
+                    requestDetailsModel.State = EnumStatus.Error;
+                    requestDetailsModel.ErrorMessage = "Service Id Not Mapped";
+                    return requestDetailsModel;
+                }
+                EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
+                objEmitra.key = "_InsertDetails";
+                objEmitra.ApplicationIdEnc = Model.ApplicationIdEnc;
+                objEmitra.Amount = Model.Amount + Model.FormCommision;
+                objEmitra.StudentID = Model.StudentID;
+                objEmitra.SemesterID = Model.SemesterID;
+                objEmitra.ExamStudentStatus = Model.ExamStudentStatus;
+                objEmitra.StudentFeesTransactionItems = Model.StudentFeesTransactionItems;
+                objEmitra.SSOID = Model.SsoID;
+                objEmitra.IsEmitra = Model.IsKiosk;
+                objEmitra.DepartmentID = Model.DepartmentID;
+                objEmitra.UniqueServiceID = Model.ID;
+                objEmitra.FeeFor = Model.FeeFor;
+                objEmitra.RevalRequestID = Model.RevalRequestID;
+                if (Model.TransactionApplicationIDs != null)
+                {
+                    if (Model.TransactionApplicationIDs.Length > 0)
+                    {
+                        objEmitra.TransactionApplicationID = string.Join(',', Model.TransactionApplicationIDs);
+                    }
+                }
+                var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationITI(objEmitra);
+                await _unitOfWork.SaveChangesAsync();
+                if (result.TransactionId > 0)
+                {
+                    PGRequestModel data = new PGRequestModel();
+                    data.MERCHANTCODE = EmitraServiceDetail.MERCHANTCODE;
+                    Random rnd = new Random();
+                    data.PRN = "KD" + rnd.Next(100000, 999999) + rnd.Next(100000, 999999);
 
-        //        string PRN = Convert.ToString(Request.Form["PRN"]);
-        //        string STATUS = Convert.ToString(Request.Form["STATUS"]);
-        //        var data = Convert.ToString(Request.Form["ENCDATA"]);
+                    data.REQTIMESTAMP = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                    data.AMOUNT = Convert.ToString(objEmitra.Amount);
+                    data.SUCCESSURL = EmitraServiceDetail.REDIRECTURL + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(result.TransactionId)) + "&ApplicationIdEnc=" + CommonFuncationHelper.EmitraEncrypt(Model.ApplicationIdEnc) + "&SERVICEID=" + Model.ServiceID.ToString() + "&IsFailed=" + CommonFuncationHelper.EmitraEncrypt("NO") + "&UniqueServiceID=" + Model.ID.ToString();
+                    data.FAILUREURL = EmitraServiceDetail.REDIRECTURL + "?UniquerequestId=" + CommonFuncationHelper.EmitraEncrypt(Convert.ToString(result.TransactionId)) + "&ApplicationIdEnc=" + CommonFuncationHelper.EmitraEncrypt(Model.ApplicationIdEnc) + "&SERVICEID=" + Model.ServiceID.ToString() + "&IsFailed=" + CommonFuncationHelper.EmitraEncrypt("YES") + "&UniqueServiceID=" + Model.ID.ToString();
+                    data.USERNAME = Model.UserName;
+                    data.USERMOBILE = Model.MobileNo;
+                    data.COMMTYPE = EmitraServiceDetail.COMMTYPE;
+                    data.OFFICECODE = EmitraServiceDetail.OFFICECODE;
 
-        //        string DNC2 = EmitraHelper.AESDecrypt(data, EmitraServiceDetail.EncryptionKey);
+                    // data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("##", Model.Amount.ToString());
+                    data.REVENUEHEAD = EmitraServiceDetail.REVENUEHEAD.Replace("{exam_fee}", data.AMOUNT.ToString())
+                        .Replace("{exam_commission}", Convert.ToString(Model.FormCommision)).Replace("##", Model.Amount.ToString()); ;
 
-        //        var dict = DNC2.Split(new[] { "::" }, StringSplitOptions.None)
-        //        .Select(part => part.Split(new[] { '=' }, 2))
-        //        .ToDictionary(pair => pair[0], pair => pair.Length > 1 ? pair[1] : "");
-        //        string json = JsonConvert.SerializeObject(dict);
-        //        EmitraResponseParametersModel EmitraResponseData = new EmitraResponseParametersModel();
-        //        EmitraResponseData = JsonConvert.DeserializeObject<EmitraResponseParametersModel>(json);
 
-        //        EmitraResponseData.STATUS = STATUS;
-        //        //var vIsFailed = CommonFuncationHelper.EmitraDecrypt(IsFailed);
-        //        if (EmitraResponseData != null)
-        //        {
-        //            EmitraResponseData.TRANSACTIONID = CommonFuncationHelper.EmitraDecrypt(UniquerequestId);
-        //            EmitraResponseData.ExamStudentStatus = EmitraResponseData.UDF1;
-        //            await _unitOfWork.CommonFunctionRepository.UpdateEmitraPaymentStatusWhatsApp(EmitraResponseData);
-        //            await _unitOfWork.SaveChangesAsync();
-        //        }
-        //        //
-        //        RetrunUrL = string.Format("{0}?TransID={1}", EmitraServiceDetail.SuccessFailedURL, EmitraResponseData.PRN);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        await _unitOfWork.DisposeAsync();
-        //        // write error log
-        //        var nex = new NewException
-        //        {
-        //            PageName = PageName,
-        //            ActionName = ActionName,
-        //            Ex = ex,
-        //        };
-        //        await CreateErrorLog(nex, _unitOfWork);
-        //    }
 
-        //    //return response;
-        //    return new RedirectResult(RetrunUrL);
-        //}
 
+                    data.SERVICEID = EmitraServiceDetail.SERVICEID;
+                    data.UDF1 = Convert.ToString(Model.ExamStudentStatus);
+
+                    data.UDF2 = Model.SsoID;
+                    data.USEREMAIL = "";
+                    data.CHECKSUM = CommonFuncationHelper.CreateMD5(data.PRN + "|" + data.AMOUNT + "|" + EmitraServiceDetail.CHECKSUMKEY);
+
+                    EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration endpointConfiguration = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient.EndpointConfiguration();
+
+                    ServicePointManager.SecurityProtocol = (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                    System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+
+                    EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient emitraencsev = new EmitraEmitraEncrytDecryptClient.EmitraEncrytDecryptSoapClient(endpointConfiguration, EmitraServiceDetail.WebServiceURL);
+                    EmitraEncryptStringResponse response = await emitraencsev.EmitraEncryptStringAsync(EmitraServiceDetail.EncryptionKey, JsonConvert.SerializeObject(data));
+
+                    if (data != null)
+                    {
+                        try
+                        {
+                            objEmitra.key = "_UpdateDetails";
+                            objEmitra.RequestString = JsonConvert.SerializeObject(data);
+                            objEmitra.TransactionId = result.TransactionId;
+                            objEmitra.ServiceID = EmitraServiceDetail.SERVICEID;
+                            objEmitra.PRN = data.PRN;
+                            var UpdateStatus = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationITI(objEmitra);
+                            await _unitOfWork.SaveChangesAsync();
+                        }
+                        catch (System.Exception ex)
+                        {
+                            throw ex;
+                        }
+                    }
+                    Model.ENCDATA = response.Body.EmitraEncryptStringResult;
+                    Model.MERCHANTCODE = EmitraServiceDetail.MERCHANTCODE;
+                    Model.PaymentRequestURL = EmitraServiceDetail.ServiceURL;
+                    Model.ServiceID = EmitraServiceDetail.SERVICEID;
+                    Model.IsSucccess = true;
+
+                    requestDetailsModel.Data = Model;
+                    requestDetailsModel.State = EnumStatus.Success;
+                    requestDetailsModel.Message = "successfully .!";
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                requestDetailsModel.State = EnumStatus.Error;
+                requestDetailsModel.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return requestDetailsModel;
+        }
 
 
         #endregion
