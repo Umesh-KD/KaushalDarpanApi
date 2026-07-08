@@ -1072,15 +1072,10 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     var header = group.Key;
 
                     _snoKeyCodeOrg = $"{header.GroupCode}-{header.CenterCode}";
-                    // group code different then reset
-                    if (_snoKeyCodeOrg != _snoKeyCodeDiff)
-                    {
-                        sno = 1;
-                    }
                     _snoKeyCodeDiff = _snoKeyCodeOrg;
 
                     // pagging
-                    int pageSize = 20;
+                    int pageSize = 25;
                     int totalRecords = group.Count();
                     int pageCount = (int)Math.Ceiling((double)totalRecords / pageSize);
 
@@ -1149,7 +1144,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             <th style='border: 1px solid #ccc; padding: 5px;'></th>
                             <th style='border: 1px solid #ccc; padding: 5px;'></th>
                             <th style='border: 1px solid #ccc; padding: 5px; width: 50%;'>In Words</th>
-                            <th style='border: 1px solid #ccc; padding: 5px;'>In Fig.</th>
+                            <th colspan='2' style='border: 1px solid #ccc; padding: 5px;'>In Fig.</th>
                             </tr>
                             </thead>
                             <tbody>");
