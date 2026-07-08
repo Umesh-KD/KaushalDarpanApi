@@ -56,6 +56,7 @@ namespace Kaushal_Darpan.Models.ITI_SeatIntakeMaster
         public string? key { get; set; }
         public string? TradeCode { get; set; }
         public string? CollegeCode { get; set; }
+        public string? TradeIds { get; set; }
         public int NoOfSanctionedSeats { get; set; }
 
         public int? FinancialSanctionID { get; set; }
