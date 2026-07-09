@@ -3970,7 +3970,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             result.State = EnumStatus.Success;
                             result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                            result.Data = new { PRN = objEmitra.PRN, ServiceID = emitraRequestDetailsModel.ServiceID, Amount = FinalAmount, StudentSemesterList = objEmitra.StudentFeesTransactionItemsWhatsApp };
+                            result.Data = new { PRN = objEmitra.PRN, ServiceID = emitraRequestDetailsModel.ServiceID, Amount = FinalAmount, DepartmentID= objEmitra.DepartmentID, StudentSemesterList = objEmitra.StudentFeesTransactionItemsWhatsApp };
                         }
                         else
                         {
