@@ -19753,24 +19753,33 @@ Web Site : www.techedu.rajasthan.gov.in
                         .ToList();
 
                     var branches = instituteStudents
-                        .GroupBy(x => x.Branch)
-                        .OrderBy(x => x.Key);
+     .GroupBy(x => x.Branch)
+     .OrderBy(x => x.Key)
+     .ToList();
 
-                    foreach (var branch in branches)
+                    if (!branches.Any() || !branches.SelectMany(x => x).Any())
                     {
-                        reportHtml.Append($@"
-<div style='font-weight:bold; text-align:center; margin:10px 0; font-size:16px;'>
-    {branch.Key ?? ""}
-</div>
-");
-
-                        foreach (var student in branch.OrderBy(x => x.RollNo))
+                        reportHtml.Append(@"
+<div style='text-align:center;  font-weight:bold; margin:20px;'>
+    Data not found
+</div>");
+                    }
+                    else
+                    {
+                        foreach (var branch in branches)
                         {
                             reportHtml.Append($@"
+<div style='font-weight:bold; text-align:center; margin:10px 0; font-size:16px;'>
+    {branch.Key ?? ""}
+</div>");
+
+                            foreach (var student in branch.OrderBy(x => x.RollNo))
+                            {
+                                reportHtml.Append($@"
 <div style='margin-bottom:5px;'>
     <b>{student.RollNo}</b> :
     {string.Join(", ", new[]
-                            {
+                        {
         student.Subject1,
         student.Subject2,
         student.Subject3,
@@ -19788,11 +19797,11 @@ Web Site : www.techedu.rajasthan.gov.in
         student.Subject15
     }.Where(x => !string.IsNullOrWhiteSpace(x)))}
 </div>");
+                            }
+
+                            reportHtml.Append("<br/>");
                         }
-
-                        reportHtml.Append("<br/>");
                     }
-
                     //=====================
                     // Footer
                     //=====================
