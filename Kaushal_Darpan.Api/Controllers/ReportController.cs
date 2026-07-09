@@ -19744,10 +19744,7 @@ Web Site : www.techedu.rajasthan.gov.in
 <br/><br/>
 ");
 
-                    //=====================
                     // Branch Wise Students
-                    //=====================
-
                     var instituteStudents = above
                         .Where(x => x.InstituteName == institute.Key.InstituteName)
                         .ToList();
