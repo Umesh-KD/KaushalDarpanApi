@@ -19573,7 +19573,6 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #endregion
 
-
         #region
         [HttpPost("Get85and45percentageStudentIAReport")]
         public async Task<IActionResult> Get85and45percentageStudentIAReport([FromBody] IAReportModel model)
@@ -19607,17 +19606,16 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 foreach (var institute in institutes)
                 {
-
                     reportHtml.Append($@"
 <!DOCTYPE html>
 <html lang='hi'>
 <head>
-<meta charset=""UTF-8"">
+<meta charset='UTF-8'>
 <title>Report</title>
 
 <style>
 body{{
-    font-family: ""Mangal"",""Nirmala UI"",""Arial Unicode MS"",sans-serif;
+    font-family:'Mangal','Nirmala UI','Arial Unicode MS',sans-serif;
     font-size:14px;
     color:#000;
     margin:30px;
@@ -19632,29 +19630,10 @@ td{{
     vertical-align:top;
 }}
 
-.center{{
-    text-align:center;
-}}
-
-.right{{
-    text-align:right;
-}}
-
-.left{{
-    text-align:left;
-}}
-
-.bold{{
-    font-weight:bold;
-}}
-
-.mt10{{
-    margin-top:10px;
-}}
-
-.mt20{{
-    margin-top:20px;
-}}
+.center{{ text-align:center; }}
+.right{{ text-align:right; }}
+.left{{ text-align:left; }}
+.bold{{ font-weight:bold; }}
 
 .list td{{
     padding:4px 0;
@@ -19669,201 +19648,170 @@ td{{
 
 <body>
 
-<!-- Header -->
 <table>
-
 <tr>
-
-<td width=""30%"" class=""left"">
+<td width='30%' class='left'>
 Email : conf.bter@gmail.com
 </td>
 
-<td width=""40%"" class=""center"">
-
-<b>राजस्थान सरकार</b><br>
-
-प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर<br>
-
-W-6 Residency Road, Jodhpur<br>
-
+<td width='40%' class='center'>
+<b>राजस्थान सरकार</b><br/>
+प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर<br/>
+W-6 Residency Road, Jodhpur<br/>
 Phone : (0291)-2430440,2636572
-
 </td>
 
-<td width=""30%"" class=""right"">
-
+<td width='30%' class='right'>
 Web Site : www.techedu.rajasthan.gov.in
-
 </td>
 
 </tr>
-
 </table>
 
-<br>
+<br/>
 
 <table>
-
 <tr>
 
-<td width=""50%"">
+<td width='50%'>
 क्रमांक : एफ (6/14) / परीक्षा /2025/
 </td>
 
-<td width=""50%"" class=""right"">
+<td width='50%' class='right'>
 दिनांक :- Fourth Semester {endTermName}
 </td>
 
 </tr>
-
-</table>
-
-<br>
-
-<table>
-
-<tr>
-
-<td>
-
-<b>पॉलीटेक्निक महाविद्यालय</b><br>
-
-{institute.Key.InstituteCode} - {institute.Key.InstituteName}
-
-</td>
-
-</tr>
-
-</table>
-
-<br>
-
-<table>
-
-<tr>
-
-<td class=""center"">
-
-<b>
-विषय- चतुर्थ सेमेस्टर सम्मिलित सेशनल अंकों में प्राप्त 85% से अधिक एवं 45% से कम प्राप्तांकों के विद्यार्थियों की रिपोर्ट प्रस्तुत करने हेतु
-</b>
-
-</td>
-
-</tr>
-
-</table>
-
-<br>
-
-<table>
-
-<tr>
-
-<td style=""text-align:justify; line-height:24px;"">
-
-विद्यार्थियों द्वारा प्राप्त किये गये चतुर्थ सेमेस्टर के सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों की रिपोर्ट संस्था स्तर पर जांच के बाद बोर्ड कार्यालय भेजना सुनिश्चित करें। निम्न दस्तावेज संलग्न करें।
-
-</td>
-
-</tr>
-
-</table>
-
-<br>
-
-<!-- Two Column -->
-
-<tabletable class=""list"">
-
-<tr>
-
-<td width=""50%"">
-1. Online अंक प्रविष्टि प्रक्रिया
-</td>
-
-<td width=""50%"">
-2. Online उपस्थिति का आधार
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-3. Online कक्षा टेस्ट की उत्तर पुस्तिका
-</td>
-
-<td>
-4. Online प्रैक्टिकल पावती
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-5. Online स्टूडेंट डेटाबेस
-</td>
-
-<td>
-6. उपरोक्त के अलावा अन्य कोई प्रमाण हो
-</td>
-
-</tr>
-
-</table>
-
-<br><br>
-
-
-var instituteStudents = above
-    .Where(x => x.InstituteID == institute.Key.InstituteID)
-    .ToList();
-
-var branches = instituteStudents
-    .GroupBy(x => x.BranchName);
-
-foreach (var branch in branches)
-{{
-    reportHtml.Append($@""
-<table>
-    <tr>
-        <td class='center bold'>
-            {{branch.Key}}
-        </td>
-    </tr>
 </table>
 
 <br/>
-"");
 
-    foreach (var student in branch)
-    {{
-        reportHtml.Append($@""
 <table>
-    <tr>
-        <td>
-            <b>{{student.RollNo}}</b> :
-            {{student.SubjectCode}}
-            &nbsp;&nbsp;
-            {{student.StudentName}}
-        </td>
-    </tr>
+<tr>
+
+<td>
+<b>पॉलीटेक्निक महाविद्यालय</b><br/>
+{institute.Key.InstituteCode} - {institute.Key.InstituteName}
+</td>
+
+</tr>
 </table>
-"");
-    }}
 
-    reportHtml.Append(""<br/>"");
-}}
+<br/>
 
-<br>
+<table>
+<tr>
+<td class='center'>
+<b>
+विषय- चतुर्थ सेमेस्टर सम्मिलित सेशनल अंकों में प्राप्त 85% से अधिक एवं 45% से कम प्राप्तांकों के विद्यार्थियों की रिपोर्ट प्रस्तुत करने हेतु
+</b>
+</td>
+</tr>
+</table>
+
+<br/>
+
+<table>
+<tr>
+<td style='text-align:justify; line-height:24px;'>
+विद्यार्थियों द्वारा प्राप्त किये गये चतुर्थ सेमेस्टर के सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों की रिपोर्ट संस्था स्तर पर जांच के बाद बोर्ड कार्यालय भेजना सुनिश्चित करें। निम्न दस्तावेज संलग्न करें।
+</td>
+</tr>
+</table>
+
+<br/>
+
+<table class='list'>
+
+<tr>
+<td width='50%'>1. Online अंक प्रविष्टि प्रक्रिया</td>
+<td width='50%'>2. Online उपस्थिति का आधार</td>
+</tr>
+
+<tr>
+<td>3. Online कक्षा टेस्ट की उत्तर पुस्तिका</td>
+<td>4. Online प्रैक्टिकल पावती</td>
+</tr>
+
+<tr>
+<td>5. Online स्टूडेंट डेटाबेस</td>
+<td>6. उपरोक्त के अलावा अन्य कोई प्रमाण हो</td>
+</tr>
+
+</table>
+
+<br/><br/>
+");
+
+                    //=====================
+                    // Branch Wise Students
+                    //=====================
+
+                    var instituteStudents = above
+                        .Where(x => x.InstituteName == institute.Key.InstituteName)
+                        .ToList();
+
+                    var branches = instituteStudents
+                        .GroupBy(x => x.Branch)
+                        .OrderBy(x => x.Key);
+
+                    foreach (var branch in branches)
+                    {
+                        reportHtml.Append($@"
+
+<table border='1' cellpadding='5' cellspacing='0' style='margin-bottom:10px;'>
+
+<tr>
+<td class='center bold'>
+{branch.Key ?? ""}
+</td>
+</tr>
+
+</table>
+
+");
+
+                        foreach (var student in branch.OrderBy(x => x.RollNo))
+                        {
+                            reportHtml.Append($@"
+
+<table border='1' cellpadding='5' cellspacing='0' style='margin-bottom:5px;'>
+
+<tr>
+
+<td width='20%'>
+<b>{student.RollNo}</b>
+</td>
+
+<td width='20%'>
+{student.SubjectCode}
+</td>
+
+<td width='60%'>
+{student.StudentName}
+</td>
+
+</tr>
+
+</table>
+
+");
+                        }
+
+                        reportHtml.Append("<br/>");
+                    }
+
+                    //=====================
+                    // Footer
+                    //=====================
+
+                    reportHtml.Append($@"
 
 <table>
 
 <tr>
 
-<td style=""line-height:24px; text-align:justify;"">
+<td style='line-height:24px; text-align:justify;'>
 
 उपरोक्त रिपोर्ट संस्था की प्रतिलिपि के माध्यम से दिनांक 04 मार्च 2025 तक निम्न हस्ताक्षरकर्ता के समक्ष प्रस्तुत करना सुनिश्चित करें।
 
@@ -19873,13 +19821,13 @@ foreach (var branch in branches)
 
 </table>
 
-<br>
+<br/>
 
 <table>
 
 <tr>
 
-<td style=""line-height:24px; text-align:justify;"">
+<td style='line-height:24px; text-align:justify;'>
 
 रिपोर्ट प्रस्तुत करने वाले की रिपोर्ट के संबंध में पूर्ण जानकारी होनी चाहिए। प्रस्तुत रिपोर्ट सही पाये जाने पर नियत तिथि तक उपलब्ध रिपोर्ट संस्था के प्रतिवेदन के माध्यम से भेजना अन्यथा संस्था का परिणाम रोक दिया जायेगा जिसकी सम्पूर्ण जिम्मेदारी आपकी होगी।
 
@@ -19889,24 +19837,17 @@ foreach (var branch in branches)
 
 </table>
 
-<!-- Footer -->
-
-<table class=""footer"">
+<table class='footer'>
 
 <tr>
 
-<td width=""50%"">
-
+<td width='50%'>
 <b>(गोपनीय)</b>
-
 </td>
 
-<td width=""50%"" class=""right"">
-
-<b>(रघुनाथ सिंह)</b><br>
-
+<td width='50%' class='right'>
+<b>(रघुनाथ सिंह)</b><br/>
 संयुक्त निदेशक (गोपनीय)
-
 </td>
 
 </tr>
@@ -19914,10 +19855,13 @@ foreach (var branch in branches)
 </table>
 
 </body>
-</html>");
+</html>
 
+");
                 }
+
                 string html = reportHtml.ToString();
+
 
                 var doc = new HtmlToPdfDocument()
                 {
@@ -19957,6 +19901,9 @@ foreach (var branch in branches)
 
 
         #endregion
+
+
+
 
     }
 }
