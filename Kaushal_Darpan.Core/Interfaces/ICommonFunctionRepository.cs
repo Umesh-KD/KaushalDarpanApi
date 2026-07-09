@@ -407,6 +407,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetAlreadyAssignedOptionalSubject(int StudentExamID);
         Task<DataTable> GetStudentDeatilsByAction(StudentSearchModelForWhatsAPP filterModel);
+        Task<DataTable> GetStudentDeatilsByActionITI(StudentSearchModelForWhatsAPP filterModel);
         Task<EmitraTransactionsModel> CreateEmitraTransationWhatsapp(EmitraTransactionsModel Model);
         Task<EmitraRequstParametersModel> GetEmitraServiceDetailsWhatsapp(EmitraRequestDetailsModel Model);
        // Task<bool> UpdateEmitraPaymentStatusWhatsApp(EmitraResponseParametersModel request);
