@@ -86,6 +86,7 @@ namespace Kaushal_Darpan.Models.LeaveMaster
         public string? FileName { get; set; }
         public string? DisFileName { get; set; }
         public string? Code { get; set; }
+        public string? SemesterName { get; set; }
     }
 
 

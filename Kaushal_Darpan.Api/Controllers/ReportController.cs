@@ -19591,6 +19591,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     return BadRequest("No data found");
 
                 var endTermName = dataList.First().EndTermName;
+                var SemesterName = above.First().SemesterName;
 
                 // Group Institute
                 var institutes = dataList
@@ -19674,11 +19675,11 @@ Web Site : www.techedu.rajasthan.gov.in
 <tr>
 
 <td width='50%'>
-क्रमांक : एफ (6/14) / परीक्षा /2025/
+क्रमांक : एफ (6/14) / परीक्षा /{endTermName}/
 </td>
 
 <td width='50%' class='right'>
-दिनांक :- Fourth Semester {endTermName}
+दिनांक :- {SemesterName}-{endTermName}
 </td>
 
 </tr>
@@ -19703,7 +19704,7 @@ Web Site : www.techedu.rajasthan.gov.in
 <tr>
 <td class='center'>
 <b>
-विषय- चतुर्थ सेमेस्टर सम्मिलित सेशनल अंकों में प्राप्त 85% से अधिक एवं 45% से कम प्राप्तांकों के विद्यार्थियों की रिपोर्ट प्रस्तुत करने हेतु
+विषय : चतुर्थ सेमेस्टर के ग्रेटर संकलित सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों का रिकॉर्ड प्रस्तुत करने हेतु।
 </b>
 </td>
 </tr>
@@ -19714,7 +19715,7 @@ Web Site : www.techedu.rajasthan.gov.in
 <table>
 <tr>
 <td style='text-align:justify; line-height:24px;'>
-विद्यार्थियों द्वारा प्राप्त किये गये चतुर्थ सेमेस्टर के सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों की रिपोर्ट संस्था स्तर पर जांच के बाद बोर्ड कार्यालय भेजना सुनिश्चित करें। निम्न दस्तावेज संलग्न करें।
+विषयान्तर्गत, आपके द्वारा प्रेषित चतुर्थ सेमेस्टर ग्रेटर नवम्बर 2025 के सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों के सेशनल रिकॉर्ड की संस्था स्तर पर पुनः जाँच कर लें। संस्था ऑनलाइन दर्ज अंकों से संतुष्ट होने पर निम्नानुसार रिकॉर्ड प्रस्तुत करें, जिससे प्राप्तांकों का प्रमाणीकरण किया जा सके।
 </td>
 </tr>
 </table>
@@ -19758,44 +19759,35 @@ Web Site : www.techedu.rajasthan.gov.in
                     foreach (var branch in branches)
                     {
                         reportHtml.Append($@"
-
-<table border='1' cellpadding='5' cellspacing='0' style='margin-bottom:10px;'>
-
-<tr>
-<td class='center bold'>
-{branch.Key ?? ""}
-</td>
-</tr>
-
-</table>
-
+<div style='font-weight:bold; text-align:center; margin:10px 0; font-size:16px;'>
+    {branch.Key ?? ""}
+</div>
 ");
 
                         foreach (var student in branch.OrderBy(x => x.RollNo))
                         {
                             reportHtml.Append($@"
-
-<table border='1' cellpadding='5' cellspacing='0' style='margin-bottom:5px;'>
-
-<tr>
-
-<td width='20%'>
-<b>{student.RollNo}</b>
-</td>
-
-<td width='20%'>
-{student.SubjectCode}
-</td>
-
-<td width='60%'>
-{student.StudentName}
-</td>
-
-</tr>
-
-</table>
-
-");
+<div style='margin-bottom:5px;'>
+    <b>{student.RollNo}</b> :
+    {string.Join(", ", new[]
+                            {
+        student.Subject1,
+        student.Subject2,
+        student.Subject3,
+        student.Subject4,
+        student.Subject5,
+        student.Subject6,
+        student.Subject7,
+        student.Subject8,
+        student.Subject9,
+        student.Subject10,
+        student.Subject11,
+        student.Subject12,
+        student.Subject13,
+        student.Subject14,
+        student.Subject15
+    }.Where(x => !string.IsNullOrWhiteSpace(x)))}
+</div>");
                         }
 
                         reportHtml.Append("<br/>");
@@ -19813,7 +19805,7 @@ Web Site : www.techedu.rajasthan.gov.in
 
 <td style='line-height:24px; text-align:justify;'>
 
-उपरोक्त रिपोर्ट संस्था की प्रतिलिपि के माध्यम से दिनांक 04 मार्च 2025 तक निम्न हस्ताक्षरकर्ता के समक्ष प्रस्तुत करना सुनिश्चित करें।
+उपरोक्त रिकॉर्ड संस्था प्रतिनिधि के माध्यम से दिनांक 04 मार्च 2025 को निम्न हस्ताक्षरकर्ता के समक्ष प्रस्तुत करें।
 
 </td>
 
@@ -19829,7 +19821,9 @@ Web Site : www.techedu.rajasthan.gov.in
 
 <td style='line-height:24px; text-align:justify;'>
 
-रिपोर्ट प्रस्तुत करने वाले की रिपोर्ट के संबंध में पूर्ण जानकारी होनी चाहिए। प्रस्तुत रिपोर्ट सही पाये जाने पर नियत तिथि तक उपलब्ध रिपोर्ट संस्था के प्रतिवेदन के माध्यम से भेजना अन्यथा संस्था का परिणाम रोक दिया जायेगा जिसकी सम्पूर्ण जिम्मेदारी आपकी होगी।
+रिकॉर्ड प्रस्तुत करने वाले प्रतिनिधि को रिकॉर्ड के संबंध में पूर्ण जानकारी होनी चाहिए, जिससे जाँच के दौरान पूछे गए प्रश्नों का संतोषजनक उत्तर एवं आवश्यक स्पष्टीकरण प्रस्तुत किया जा सके।
+
+निर्धारित तिथि तक उक्त रिकॉर्ड संस्था के प्रतिनिधि के माध्यम से अनिवार्य रूप से भिजवाया जाए, अन्यथा आपकी संस्था का परिणाम रोक दिया जाएगा, जिसकी सम्पूर्ण जिम्मेदारी संस्था की होगी।
 
 </td>
 

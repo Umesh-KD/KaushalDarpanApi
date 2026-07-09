@@ -1039,9 +1039,9 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                                         {
                                             ExaminerCode = row["ExaminerCode"],
                                             GroupCode = row["GroupCode"],
-                                            CenterCode = row["CenterCode"],
                                             BranchName = row["BranchName"],
                                             SubjectName = row["SubjectName"],
+                                         //   CenterCode = row["CenterCode"],
                                             SubjectCode = row["SubjectCode"],
                                             MaximumMarks = row["MAXIMUM_MARKS"], // FIXED
                                             ExaminerName = row["ExaminerName"],
@@ -1050,9 +1050,9 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                                             SessionName = row["SessionName"]
                                         })
                                         .OrderBy(g => g.Key.ExaminerCode)
-                                        //.ThenBy(g => g.Key.GroupCode)
-                                        .ThenBy(g => g.Key.CenterCode)
+                                        .ThenBy(g => g.Key.GroupCode)
                                         .ThenBy(g => g.Key.BranchName)
+                                        .ThenBy(g => g.Min(r => r["CenterCode"].ToString()))
                                         .ThenBy(g => g.Key.SubjectName)
                                         .ThenBy(g => g.Key.SubjectCode)
                                         .ThenBy(g => g.Key.MaximumMarks)
@@ -1071,16 +1071,22 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 {
                     var header = group.Key;
 
-                    _snoKeyCodeOrg = $"{header.GroupCode}-{header.CenterCode}";
+                    _snoKeyCodeOrg = $"{header.GroupCode}-{header.BranchName}";
+                    // group code different then reset
+                    if (_snoKeyCodeOrg != _snoKeyCodeDiff)
+                    {
+                        sno = 1;
+                    }
                     _snoKeyCodeDiff = _snoKeyCodeOrg;
 
                     // pagging
-                    int pageSize = 25;
+                    int pageSize = 28;
                     int totalRecords = group.Count();
                     int pageCount = (int)Math.Ceiling((double)totalRecords / pageSize);
 
                     var orderedData = group
-                        .OrderBy(x => x["RollNo"])
+                        .OrderBy(x => x["CenterCode"]) 
+                     //   .OrderBy(x => x["RollNo"])
                         .ToList();
 
                     var revaltext = IsReval == 1 ? "(Revaluation) " : "";
@@ -1116,12 +1122,12 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             <div style='text-decoration: underline; font-weight: bold; font-size: 16px; margin-bottom: 5px;'>Theory Exam Reports</div>
                             <div>Branch : <b>{header.BranchName}</b></div>
                             <div>Examiner Code : <b>{header.ExaminerCode}</b></div>
-                            
+                            <div>Group Code : <b>{header.GroupCode}</b></div>
                             </div>
                             </td>
                             <td style='display: flex; justify-content: space-between; margin-bottom: 10px;>
                             <div style='width: 45%; float: right;'>
-                            <div>CC Code : <b>{header.CenterCode}</b></div>
+                           
                             <div>Subject : <b>{header.SubjectName}</b></div>
                             <div>Subject Code : <b>{header.SubjectCode}</b></div>
                             <div>Maximum Marks : <b>{header.MaximumMarks}</b></div>
@@ -1136,7 +1142,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             <thead>
                             <tr>
                             <th style='border: 1px solid #ccc; padding: 5px; width: 40px;'>S.No</th>
-                            <th style='border: 1px solid #ccc; padding: 5px; width: 150px;'>Group Code</th>
+                            <th style='border: 1px solid #ccc; padding: 5px; width: 150px;'>Center Code</th>
                             <th style='border: 1px solid #ccc; padding: 5px; width: 150px;'>Roll No</th>
                             <th colspan='2' style='border: 1px solid #ccc; padding: 5px;'>MARKS OBTAINED</th>
                             </tr>
@@ -1155,7 +1161,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             sb.Append($@"
                                     <tr>
                                         <td style='border:1px solid #ccc; padding:8px;'>{sno++}</td>
-                                        <td style='border:1px solid #ccc; padding:8px;'>{row["GroupCode"]}</td>
+                                        <td style='border:1px solid #ccc; padding:8px;'>{row["CenterCode"]}</td>
                                         <td style='border:1px solid #ccc; padding:8px;'>{row["RollNo"]}</td>
                                         <td style='border:1px solid #ccc; padding:8px;'>{row["ObtainedTheoryInword"]}</td>
                                         <td style='border:1px solid #ccc; padding:8px;'>{row["ObtainedTheory"]}</td>

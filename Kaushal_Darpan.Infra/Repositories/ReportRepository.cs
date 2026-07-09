@@ -10688,6 +10688,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dt = await command.FillAsync();
                     }
