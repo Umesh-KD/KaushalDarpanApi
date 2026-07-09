@@ -19704,21 +19704,34 @@ td{{
 
 <table>
 <tr>
-<td width='30%' class='left'>
-Email : conf.bter@gmail.com
+<td width='10%' class='left'>
+
 </td>
 
-<td width='40%' class='center'>
+<td width='80%' class='center'>
 <b>राजस्थान सरकार</b><br/>
 प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर<br/>
 W-6 Residency Road, Jodhpur<br/>
 Phone : (0291)-2430440,2636572
 </td>
 
-<td width='30%' class='right'>
-Web Site : www.techedu.rajasthan.gov.in
+<td width='10%' class='right'>
+
 </td>
 
+</tr>
+<tr>
+<td width='40%' class='left'>
+Email : conf.bter@gmail.com
+</td>
+
+<td width='20%' class='center'>
+
+</td>
+
+<td width='40%' class='right'>
+Web Site : www.techedu.rajasthan.gov.in
+</td>
 </tr>
 </table>
 
