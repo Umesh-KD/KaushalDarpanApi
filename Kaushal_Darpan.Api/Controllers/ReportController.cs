@@ -19593,6 +19593,51 @@ namespace Kaushal_Darpan.Api.Controllers
                 var endTermName = dataList.First().EndTermName;
                 var SemesterName = above.First().SemesterName;
 
+                string SemesterNameHindi = "";
+
+                switch (SemesterName)
+                {
+                    case "1st Semester":
+                        SemesterNameHindi = "प्रथम सेमेस्टर";
+                        break;
+
+                    case "2nd Semester":
+                        SemesterNameHindi = "द्वितीय सेमेस्टर";
+                        break;
+
+                    case "3rd Semester":
+                        SemesterNameHindi = "तृतीय सेमेस्टर";
+                        break;
+
+                    case "4th Semester":
+                        SemesterNameHindi = "चतुर्थ सेमेस्टर";
+                        break;
+
+                    case "5th Semester":
+                        SemesterNameHindi = "पंचम सेमेस्टर";
+                        break;
+
+                    case "6th Semester":
+                        SemesterNameHindi = "षष्ठम सेमेस्टर";
+                        break;
+
+                    case "1st Year":
+                        SemesterNameHindi = "प्रथम वर्ष";
+                        break;
+
+                    case "2nd Year":
+                        SemesterNameHindi = "द्वितीय वर्ष";
+                        break;
+
+                    case "3rd Year":
+                        SemesterNameHindi = "तृतीय वर्ष";
+                        break;
+
+                    default:
+                        SemesterNameHindi = SemesterName;
+                        break;
+                }
+
                 // Group Institute
                 var institutes = dataList
                     .GroupBy(x => new
@@ -19605,9 +19650,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 StringBuilder reportHtml = new StringBuilder();
 
-                foreach (var institute in institutes)
-                {
-                    reportHtml.Append($@"
+
+                reportHtml.Append($@"
 <!DOCTYPE html>
 <html lang='hi'>
 <head>
@@ -19643,11 +19687,20 @@ td{{
 .footer td{{
     padding-top:40px;
 }}
+.page-break{{
+    page-break-after: always;
+    break-after: page;
+}}
 </style>
 
 </head>
 
 <body>
+");
+                foreach (var institute in institutes)
+                {
+                    reportHtml.Append($@"
+
 
 <table>
 <tr>
@@ -19704,7 +19757,7 @@ Web Site : www.techedu.rajasthan.gov.in
 <tr>
 <td class='center'>
 <b>
-विषय : चतुर्थ सेमेस्टर के ग्रेटर संकलित सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों का रिकॉर्ड प्रस्तुत करने हेतु।
+विषय : {SemesterNameHindi} के ग्रेटर संकलित सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों का रिकॉर्ड प्रस्तुत करने हेतु।
 </b>
 </td>
 </tr>
@@ -19715,7 +19768,7 @@ Web Site : www.techedu.rajasthan.gov.in
 <table>
 <tr>
 <td style='text-align:justify; line-height:24px;'>
-विषयान्तर्गत, आपके द्वारा प्रेषित चतुर्थ सेमेस्टर ग्रेटर नवम्बर 2025 के सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों के सेशनल रिकॉर्ड की संस्था स्तर पर पुनः जाँच कर लें। संस्था ऑनलाइन दर्ज अंकों से संतुष्ट होने पर निम्नानुसार रिकॉर्ड प्रस्तुत करें, जिससे प्राप्तांकों का प्रमाणीकरण किया जा सके।
+विषयान्तर्गत, आपके द्वारा प्रेषित {SemesterNameHindi} ग्रेटर नवम्बर 2025 के सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों के सेशनल रिकॉर्ड की संस्था स्तर पर पुनः जाँच कर लें। संस्था ऑनलाइन दर्ज अंकों से संतुष्ट होने पर निम्नानुसार रिकॉर्ड प्रस्तुत करें, जिससे प्राप्तांकों का प्रमाणीकरण किया जा सके।
 </td>
 </tr>
 </table>
@@ -19854,11 +19907,17 @@ Web Site : www.techedu.rajasthan.gov.in
 
 </table>
 
-</body>
-</html>
+
 
 ");
+                    reportHtml.Append("<div class='page-break'></div>");
+
                 }
+
+                reportHtml.Append(@"
+</body>
+</html>
+");
 
                 string html = reportHtml.ToString();
 
