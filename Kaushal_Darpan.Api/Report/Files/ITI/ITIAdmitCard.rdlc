@@ -2753,11 +2753,11 @@
             <Source>Database</Source>
             <Value>=First(Fields!qrcode.Value, "test")</Value>
             <MIMEType>image/bmp</MIMEType>
-            <Sizing>Fit</Sizing>
+            <Sizing>FitProportional</Sizing>
             <Top>14.15239cm</Top>
             <Left>0.34568cm</Left>
-            <Height>1.69064cm</Height>
-            <Width>2.23526cm</Width>
+            <Height>2.18481cm</Height>
+            <Width>2.7969cm</Width>
             <ZIndex>51</ZIndex>
             <Style>
               <Border>

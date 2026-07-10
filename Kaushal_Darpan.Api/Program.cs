@@ -4,6 +4,7 @@ using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Hangfire;
+using Kaushal_Darpan.Api.Code.PlaywrightPdf;
 using Kaushal_Darpan.Api.Email;
 using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Api.Middlewares;
@@ -17,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.Playwright;
 using Newtonsoft.Json.Serialization;
 using System.Net;
 using System.Text;
@@ -227,9 +229,47 @@ var context = new CustomAssemblyLoadContext();
 context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "wkhtmltox", "libwkhtmltox.dll"));
 
 // Register converter
-builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+builder.Services.AddSingleton<IConverter>(new SynchronizedConverter(new PdfTools()));
 
 builder.Services.AddScoped<IPrintHtmlFile, PrintHtmlFile>();
+
+
+#region Playwright pdf
+var playwright = await Playwright.CreateAsync();
+
+// if installed chromium, use this code to launch browser
+//var browser = await playwright.Chromium.LaunchAsync(
+//    new BrowserTypeLaunchOptions
+//    {
+//        Headless = true
+//    });
+
+// if Chromium not installed, download it using Playwright CLI:
+var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+{
+    Headless = true,
+    //ExecutablePath = Path.Combine(
+    //    AppContext.BaseDirectory,
+    //    "Browsers",
+    //    "chrome-win64",
+    //    "chrome.exe"),
+    ExecutablePath = Path.Combine(ConfigurationHelper.RootPath, "Browsers", "chrome-win64", "chrome.exe"),
+    Args = new[]
+    {
+        "--no-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu"
+    }
+});
+
+builder.Services.AddSingleton(playwright);
+
+builder.Services.AddSingleton(browser);
+
+builder.Services.AddSingleton(new PlaywrightBrowserManager(browser));
+
+builder.Services.AddScoped<IPlaywrightPdfService, PlaywrightPdfService>();
+#endregion
 
 
 

@@ -4,8 +4,10 @@ using DinkToPdf;
 using DinkToPdf.Contracts;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
+using iTextSharp.tool.xml.html;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Api.Code.Helper;
+using Kaushal_Darpan.Api.Code.PlaywrightPdf;
 using Kaushal_Darpan.Api.Email;
 using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Core.Helper;
@@ -63,13 +65,20 @@ namespace Kaushal_Darpan.Api.Controllers
         //public ReportController(IMapper mapper, IUnitOfWork unitOfWork, IEmailService emailService)
         private readonly IConverter _converter;
         private readonly IPrintHtmlFile _printHtmlFile;
-        public ReportController(IMapper mapper, IUnitOfWork unitOfWork, IConverter converter, IPrintHtmlFile printHtmlFile)
+        private readonly IPlaywrightPdfService _pdfService;
+
+        public ReportController(IMapper mapper,
+            IUnitOfWork unitOfWork,
+            IConverter converter,
+            IPrintHtmlFile printHtmlFile,
+            IPlaywrightPdfService pdfService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             //_emailService = emailService;
             _converter = converter;
             _printHtmlFile = printHtmlFile;
+            _pdfService = pdfService;
         }
 
         [HttpPost("GetAllDataRpt")]
@@ -4042,10 +4051,10 @@ namespace Kaushal_Darpan.Api.Controllers
                                         {
                                             var row = data.Tables[0].Rows[0];
 
-                                            string qrText = $"Student Name : {row["StudentName"]}\n <\br>" +
-                                                            $"Roll No      : {row["RollNo"]}\n <\br>" +
-                                                            $"Stream       : {row["StreamName"]}\n <\br>" +
-                                                            $"Father Name  : {row["FatherName"]}";
+                                            string qrText = $"Student Name : {row["StudentName"]}\n" +
+                                                             $"Roll No      : {row["RollNo"]}\n" +
+                                                             $"Stream       : {row["StreamName"]}\n" +
+                                                             $"Father Name  : {row["FatherName"]}";
 
                                             //var text = "Enrollment No : 123456";
                                             var qrcode = CommonFuncationHelper.GenerateQrCode(qrText);
@@ -18881,7 +18890,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             else if (student.ResultTypeID == (int)EnumResultType.Ufm)
                             {
                                 throw new Exception("Invalid Request!");
-                            }                           
+                            }
                             else
                             {
                                 throw new Exception("Invalid Request!");
@@ -18892,29 +18901,55 @@ namespace Kaushal_Darpan.Api.Controllers
                             {
                                 CommonFuncationHelper.WriteTextLog($"1.3. all data found: {student.RollNo}", logfilename);
 
-                                string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                                var fileName = $"StudentMarksheet_{student.RollNo}_{timestamp_str}.pdf";
-                                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MarksheetFolder}/{Session}/{fileName}";
-                                string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
-
-
-                                // rdlc generate
-                                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-
-                                LocalReport localReport = new LocalReport(rdlcpath);
-                                localReport.AddDataSource("StudentDetailsForMarksheet", data.Tables[0]);
-                                localReport.AddDataSource("StudentMarksheetSubjectDetails", data.Tables[1]);
-                                localReport.AddDataSource("ResultDetails", data.Tables[2]);
-                                var reportResult = localReport.Execute(RenderType.Pdf);
-
-                                //check file exists
+                                //create folder
                                 if (!System.IO.Directory.Exists(folderPath))
                                 {
                                     Directory.CreateDirectory(folderPath);
                                 }
 
+                                string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                                var fileName = $"StudentMarksheet_{student.RollNo}_{timestamp_str}.pdf";
+                                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MarksheetFolder}/{Session}/{fileName}";
+
+                                //string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
+
+
+                                //// rdlc generate
+                                //System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                                //LocalReport localReport = new LocalReport(rdlcpath);
+                                //localReport.AddDataSource("StudentDetailsForMarksheet", data.Tables[0]);
+                                //localReport.AddDataSource("StudentMarksheetSubjectDetails", data.Tables[1]);
+                                //localReport.AddDataSource("ResultDetails", data.Tables[2]);
+                                //var reportResult = localReport.Execute(RenderType.Pdf);
+
                                 //save in folder
-                                System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                                //System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+
+                                // get html
+                                var sb = await _printHtmlFile.GetHtmlOfMarkSheet(data);
+                                var _html = sb.ToString();
+
+                                // remove last blank page
+                                string endTag = "<div class='page-break'></div></body></html>";
+                                if (_html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    _html = _html.Substring(0, _html.Length - endTag.Length)
+                                                 + "</body></html>";
+                                }
+
+                                var pdfBytes = await _pdfService.GenerateAsync(_html,
+                                    new PdfOptions
+                                    {
+                                        Format = "A4",
+                                        MarginTop = "10mm",
+                                        MarginBottom = "0mm",
+                                        MarginLeft = "10mm",
+                                        MarginRight = "10mm",
+                                        PrintBackground = true
+                                    });
+
+                                System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
 
                                 CommonFuncationHelper.WriteTextLog($"1.4. save file in folder: {student.RollNo}", logfilename);
 
@@ -19516,7 +19551,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
                     return result;
                 }
-                if(model.Action == "_getMarksStatistics_IA_Report")
+                if (model.Action == "_getMarksStatistics_IA_Report")
                 {
                     ActionType = "Internal Assessment";
                 }

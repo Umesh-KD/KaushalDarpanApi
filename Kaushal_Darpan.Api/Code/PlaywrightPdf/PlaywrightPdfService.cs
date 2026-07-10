@@ -1,0 +1,87 @@
+﻿using Microsoft.Playwright;
+
+namespace Kaushal_Darpan.Api.Code.PlaywrightPdf
+{
+    #region interface
+    public interface IPlaywrightPdfService
+    {
+        Task<byte[]> GenerateAsync(string html, PdfOptions? options = null);
+    }
+    #endregion
+
+    #region class PlaywrightBrowserManager
+    public sealed class PlaywrightBrowserManager
+    {
+        public IBrowser Browser { get; }
+
+        public PlaywrightBrowserManager(IBrowser browser)
+        {
+            Browser = browser;
+        }
+    }
+    #endregion
+
+    #region model
+    public class PdfOptions
+    {
+        public string Format { get; set; } = "A4";
+        public bool Landscape { get; set; }
+        public bool PrintBackground { get; set; } = true;
+        public string MarginTop { get; set; } = "5mm";
+        public string MarginBottom { get; set; } = "5mm";
+        public string MarginLeft { get; set; } = "5mm";
+        public string MarginRight { get; set; } = "5mm";
+        public bool DisplayHeaderFooter { get; set; }
+        public string? HeaderTemplate { get; set; }
+        public string? FooterTemplate { get; set; }
+        public float Scale { get; set; } = 1;
+    }
+    #endregion
+
+
+
+
+    public class PlaywrightPdfService : IPlaywrightPdfService
+    {
+        private readonly PlaywrightBrowserManager _browserManager;
+
+        public PlaywrightPdfService(PlaywrightBrowserManager browserManager)
+        {
+            _browserManager = browserManager;
+        }
+
+        public async Task<byte[]> GenerateAsync(string html, PdfOptions? options = null)
+        {
+            options ??= new PdfOptions();
+            var page = await _browserManager.Browser.NewPageAsync();
+
+            try
+            {
+                await page.SetContentAsync(html);
+
+                return await page.PdfAsync(
+                    new PagePdfOptions
+                    {
+                        Format = options.Format,
+                        Landscape = options.Landscape,
+                        PrintBackground = options.PrintBackground,
+                        Scale = options.Scale,
+                        DisplayHeaderFooter = options.DisplayHeaderFooter,
+                        HeaderTemplate = options.HeaderTemplate,
+                        FooterTemplate = options.FooterTemplate,
+                        Margin = new Margin
+                        {
+                            Top = options.MarginTop,
+                            Bottom = options.MarginBottom,
+                            Left = options.MarginLeft,
+                            Right = options.MarginRight
+                        }
+                    });
+            }
+            finally
+            {
+                await page.CloseAsync();
+            }
+        }
+    }
+}
