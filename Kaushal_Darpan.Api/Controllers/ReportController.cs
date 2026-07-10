@@ -19619,6 +19619,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 var endTermName = dataList.First().EndTermName;
                 var SemesterName = above.First().SemesterName;
+                var SingDate = above.First().SingDate;
 
                 string SemesterNameHindi = "";
 
@@ -19905,7 +19906,7 @@ Web Site : www.techedu.rajasthan.gov.in
 
 <td style='line-height:24px; text-align:justify;'>
 
-उपरोक्त रिकॉर्ड संस्था प्रतिनिधि के माध्यम से दिनांक 04 मार्च 2025 को निम्न हस्ताक्षरकर्ता के समक्ष प्रस्तुत करें।
+उपरोक्त रिकॉर्ड संस्था प्रतिनिधि के माध्यम से दिनांक {SingDate} को निम्न हस्ताक्षरकर्ता के समक्ष प्रस्तुत करें।
 
 </td>
 
