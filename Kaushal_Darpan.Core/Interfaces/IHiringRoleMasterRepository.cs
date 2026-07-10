@@ -23,7 +23,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<OrderDetailsList> GetByIDSanctionOrder(int PK_ID);
         Task<bool> SaveData(HiringRoleMasterModel productDetails);
         Task<bool> SaveDataSanction(SanctionOrderMasterModel productDetails);
-        Task<bool> SaveSanctionOrder(OrderDetailsList productDetails);
+        Task<int> SaveSanctionOrder(OrderDetailsList productDetails);
         Task<bool> UpdateData(HiringRoleMasterModel productDetails);
         Task<bool> DeleteDataByID(HiringRoleMasterModel productDetails);
         Task<bool> DeleteSanctionOrder(HiringRoleMasterModel productDetails);
