@@ -2948,15 +2948,15 @@ thead th{
 
 
                 sb.AppendLine("<body style=\"margin:0;padding:0;background:#ffffff;font-family:Arial,Helvetica,sans-serif;\">");
-
-                //sb.AppendLine(" <div style=\"max-width:2480px;margin:20px auto; padding:10px;min-height:3508px;\">");
                 sb.AppendLine(" <div style=\"display:flex;flex-direction:column;padding:10px 15px;box-sizing:border-box;width:100%;\">");
+
                 sb.AppendLine(" <!-- All your marksheet content -->");
+
                 sb.AppendLine("<div>");
                 sb.AppendLine("        <!-- Top Right -->");
+
                 sb.AppendLine("        <div style=\"text-align:right;font-size:16px; font-weight:bold; padding-right:0px;padding-top:5px;margin-top:20px;\">");
-                //sb.AppendLine($"            {dr_studet["ODNumber"]}");
-                sb.AppendLine("24OD021047");
+                sb.AppendLine($"            {dr_studet["ODNumber"]}");
                 sb.AppendLine("        </div>");
                 sb.AppendLine("<div style=\"height:71px; width:100%; float:left;\">");
                 sb.AppendLine("        <table style=\"width:100%;border-collapse:collapse;margin:25px 0;\">");
@@ -3100,41 +3100,6 @@ thead th{
                 sb.AppendLine("                </th>");
 
                 sb.AppendLine("            </tr>");
-
-
-                int i = 0;
-                // subjects loop
-                foreach (DataRow dr in drs_subject)
-                {
-                    i++;
-                    if (i == 7)
-                    {
-                        break;
-                    }
-                    sb.AppendLine("            <tr>");
-
-                    sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;\">{dr["SubjectCode"]}</td>");
-                    sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;\">{dr["SubjectName"]}</td>");
-
-                    // for sca
-                    string scacolspan = string.Empty;
-                    if (Convert.ToBoolean(dr["IsStudentCenteredActivity"] ?? 0))
-                    {
-                        scacolspan = "colspan=\"4\"";
-                        sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;text-align:center;\" {scacolspan}>{dr["EarnedCredits"]}</td>");
-                    }
-                    else
-                    {
-                        sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;text-align:center;\">{dr["SubjectCredits"]}</td>");
-                        sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;text-align:center;\">{dr["EarnedCredits"]}</td>");
-                        sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;text-align:center;\">{dr["Grade"]}</td>");
-                        sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;text-align:center;\">{dr["Remarks"]}</td>");
-                    }
-
-                    sb.AppendLine("            </tr>");
-                }
-
-
 
                 // subjects loop
                 foreach (DataRow dr in drs_subject)
@@ -3362,8 +3327,7 @@ thead th{
                 sb.AppendLine("                font-weight:bold;");
                 sb.AppendLine("                padding-left:200px;\">");
 
-                //sb.AppendLine($"<span>            {(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</span>");
-                sb.AppendLine("<span>12-12-2026</span>");
+                sb.AppendLine($"<span>            {(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</span>");
                 sb.AppendLine($"<img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"float:right;padding-right:70px;width:50px;height:25px;\" />");
 
                 sb.AppendLine("        </div>");
@@ -3373,9 +3337,7 @@ thead th{
                 sb.AppendLine("                font-weight:bold;");
                 sb.AppendLine("                padding-left:140px;\">");
 
-                //sb.AppendLine($"            {(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}");
-                sb.AppendLine("12-12-2026");
-
+                sb.AppendLine($"            {(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}");
                 sb.AppendLine("        </div>");
 
 

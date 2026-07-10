@@ -18938,44 +18938,6 @@ namespace Kaushal_Darpan.Api.Controllers
                                                  + "</body></html>";
                                 }
 
-                                //// pdf document setting
-                                //var doc = new HtmlToPdfDocument
-                                //{
-                                //    GlobalSettings =
-                                //    {
-                                //        PaperSize = PaperKind.A4,
-                                //        Orientation = Orientation.Portrait,
-                                //        Margins = new MarginSettings
-                                //        {
-                                //            Top = 10,
-                                //            Bottom = 0,
-                                //            Left = 10,
-                                //            Right = 10
-                                //        }
-                                //    },
-                                //    Objects =
-                                //    {
-                                //        new ObjectSettings
-                                //        {
-                                //            HtmlContent = _html,
-                                //            WebSettings =
-                                //            {
-                                //                DefaultEncoding = "utf-8",
-                                //                //EnableJavascript = false,   // Disable JavaScript
-                                //                //LoadImages = false           // Set false if you don't have images
-                                //            },
-                                //            LoadSettings = new LoadSettings
-                                //            {
-                                //                //BlockLocalFileAccess = false,
-                                //                //StopSlowScript = true
-                                //            }
-                                //        }
-                                //    }
-                                //};
-
-                                //// Save file in folder
-                                //byte[] pdfBytes = _converter.Convert(doc);
-
                                 var pdfBytes = await _pdfService.GenerateAsync(_html,
                                     new PdfOptions
                                     {
@@ -19134,8 +19096,8 @@ namespace Kaushal_Darpan.Api.Controllers
                                     objMarksheet.ResultDetails = marksheetResult;
                                 }
 
-                                //await _unitOfWork.MarksheetDownloadRepository.AddUpdateMarksheet(objMarksheet);
-                                //await _unitOfWork.SaveChangesAsync();
+                                await _unitOfWork.MarksheetDownloadRepository.AddUpdateMarksheet(objMarksheet);
+                                await _unitOfWork.SaveChangesAsync();
 
                                 CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.RollNo}", logfilename);
 
