@@ -19688,8 +19688,8 @@ td{{
     padding-top:40px;
 }}
 .page-break{{
-    page-break-after: always;
-    break-after: page;
+    page-break-before:always;
+    break-before:page;
 }}
 </style>
 
@@ -19697,6 +19697,8 @@ td{{
 
 <body>
 ");
+                int instituteIndex = 1;
+
                 foreach (var institute in institutes)
                 {
                     reportHtml.Append($@"
@@ -19922,8 +19924,12 @@ Web Site : www.techedu.rajasthan.gov.in
 
 
 ");
-                    reportHtml.Append("<div class='page-break'></div>");
 
+                    if (instituteIndex > 0)
+                    {
+                        reportHtml.Append("<div class='page-break'></div>");
+                    }
+                    instituteIndex++;
                 }
 
                 reportHtml.Append(@"
