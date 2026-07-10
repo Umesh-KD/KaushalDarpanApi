@@ -1,20 +1,21 @@
 ﻿using AutoMapper;
+using ExcelDataReader;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
-using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.CompanyMaster;
+using Kaushal_Darpan.Models.CounsellingImportCandidateListModel;
+using Kaushal_Darpan.Models.DTEInventoryModels;
 using Kaushal_Darpan.Models.ITI_SeatIntakeMaster;
+using Kaushal_Darpan.Models.ItiCompanyMaster;
 using Kaushal_Darpan.Models.ITIFeeModel;
 using Kaushal_Darpan.Models.ITIMaster;
 using Kaushal_Darpan.Models.RevaluationDataModel;
 using Kaushal_Darpan.Models.TheoryMarks;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
-using Kaushal_Darpan.Models.ItiCompanyMaster;
-using ExcelDataReader;
-using Kaushal_Darpan.Models.CounsellingImportCandidateListModel;
 using System.Dynamic;
+using static iTextSharp.tool.xml.html.table.TableRowElement;
 
 namespace Kaushal_Darpan.Api.Controllers
 {
@@ -506,8 +507,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
         #region dynamic update data through Excel
 
-        [HttpPost("DynamicUpdateExcelData"), DisableRequestSizeLimit]
-        public async Task<ApiResult<bool>> DynamicUpdateExcelData([FromForm] UploadFileModel model , string action)
+        [HttpPost("DynamicUpdateExcelData/{ActionType}"), DisableRequestSizeLimit]
+        public async Task<ApiResult<bool>> DynamicUpdateExcelData([FromForm] UploadFileModel model , string ActionType)
         {
             ActionName = "DynamicUpdateExcelData([FromForm] UploadFileModel model)";
             var result = new ApiResult<bool>();
@@ -543,8 +544,37 @@ namespace Kaushal_Darpan.Api.Controllers
                             }
                         });
 
-                        
+                        // CHANGED: Added safety validation to prevent null reference errors if workbook is empty
+                        if (ds == null || ds.Tables.Count == 0)
+                        {
+                            result.State = EnumStatus.Error;
+                            result.Message = "No worksheets found in the Excel file.";
+                            return result;
+                        }
+
                         DataTable dt = ds.Tables[0];
+
+                        // MODIFIED: Trim actual DataTable column names in-place so that
+                        // headers with trailing/leading spaces (e.g. "Name  ") match
+                        // correctly when accessed later via row[colName]. Previously only
+                        // the columnNames list was trimmed, but dt's real columns still had
+                        // spaces, which would throw "Column 'Name' does not belong to table".
+                        foreach (DataColumn col in dt.Columns)
+                        {
+                            string trimmedName = col.ColumnName.Trim();
+                            if (col.ColumnName != trimmedName)
+                            {
+                                // Avoid collision if a trimmed name already exists (e.g. "Name" and "Name " both present)
+                                if (!dt.Columns.Contains(trimmedName))
+                                {
+                                    col.ColumnName = trimmedName;
+                                }
+                            }
+                        }
+                        
+
+
+
                         var columnNames = dt.Columns.Cast<DataColumn>()
                                             .Select(c => c.ColumnName.Trim())
                                             .ToList();
@@ -581,9 +611,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             }
                             return newRow;
                         }).ToList();
-
                        
-
                         int totalrows = dynamicDataList.Count;
                         int chunksize =model.ChunkSize.HasValue ? model.ChunkSize.Value : 100;
                         int processed = 0;
@@ -591,13 +619,18 @@ namespace Kaushal_Darpan.Api.Controllers
                         int intRowCounter = 1;
                         while (processed < totalrows)
                         {
-                            var chunk = dynamicDataList.Skip(processed).Take(chunksize).ToList();
-                            result.Data = await _unitOfWork.ITIStudentRevaluationRepository.DynamicUpdateExcelData(chunk, action, intRowCounter);
+                            // FIXED: Optimized list chunking using GetRange instead of Skip().Take() (O(1) vs O(N))
+                            int currentChunkSize = Math.Min(chunksize, totalrows - processed);
+                            var chunk = dynamicDataList.GetRange(processed, currentChunkSize);
+
+                            //var chunk = dynamicDataList.Skip(processed).Take(chunksize).ToList();
+                            result.Data = await _unitOfWork.ITIStudentRevaluationRepository.DynamicUpdateExcelData(chunk, ActionType, intRowCounter);
                             await _unitOfWork.SaveChangesAsync();
                             intRowCounter++;
                             if (result.Data)
                             {
-                                processed += chunk.Count;
+                                processed += currentChunkSize;
+                                //processed += chunk.Count;
                             }
                             else
                             {
@@ -617,7 +650,6 @@ namespace Kaushal_Darpan.Api.Controllers
                             result.Message = Constants.MSG_UPDATE_ERROR;
 
                         }
-
 
                     }
                 }

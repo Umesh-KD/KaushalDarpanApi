@@ -73,15 +73,15 @@ namespace Kaushal_Darpan.Api.Controllers
         [HttpPost("RdlcReport")]
         public void RdlcReport()
         {
-            string bterLogo = new Uri($"{ConfigurationHelper.StaticFileRootPath}{Constants.LogFolder}/bter_logo.jpg").AbsoluteUri;
+            //string bterLogo = new Uri($"{ConfigurationHelper.StaticFileRootPath}{Constants.LogFolder}/bter_logo.jpg").AbsoluteUri;
             //report
             var fileName = $"test.pdf";
             string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
             string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/test.rdlc";
             //
             var qrcode = CommonFuncationHelper.GenerateQrCode("this is devit");
-            string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/sign.png";
-            var stuimg = System.IO.File.ReadAllBytes(stuimgFilepath);
+            //string stuimgFilepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/sign.png";
+            //var stuimg = System.IO.File.ReadAllBytes(stuimgFilepath);
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             parameters.Add("qr", Convert.ToBase64String(qrcode));
             //
@@ -92,7 +92,7 @@ namespace Kaushal_Darpan.Api.Controllers
             data.Columns.Add("stuimg", typeof(byte[]));
             var row = data.NewRow();
             row["qrcode"] = qrcode;
-            row["stuimg"] = stuimg;
+            //row["stuimg"] = stuimg;
             data.Rows.Add(row);
             localReport.AddDataSource("test", data);
             var reportResult = localReport.Execute(RenderType.Pdf);

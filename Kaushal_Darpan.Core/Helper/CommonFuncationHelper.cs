@@ -471,6 +471,9 @@ namespace Kaushal_Darpan.Core.Helper
         }
 
 
+
+
+
         #region Configure function
         public static string GetIpAddress()
         {
@@ -1219,6 +1222,27 @@ namespace Kaushal_Darpan.Core.Helper
         public static T ConvertDataTable<T>(string apidetails)
         {
             throw new NotImplementedException();
+        }
+
+        public static string IsFileExisitsOrDefault(string pFileName)
+        {
+            string strFileName = "";
+            try
+            {
+                if (System.IO.File.Exists(pFileName))
+                {
+                    strFileName = pFileName;
+                }
+                else
+                {
+                    strFileName = Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsFolder, "default.jpg");
+                }
+            }
+            catch (Exception ex)
+            {
+                strFileName = Path.Combine(ConfigurationHelper.StaticFileRootPath, Constants.StudentsFolder, "default.jpg");
+            }
+            return strFileName;
         }
     }
 }

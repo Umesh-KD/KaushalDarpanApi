@@ -4,8 +4,10 @@ using DinkToPdf;
 using DinkToPdf.Contracts;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
+using iTextSharp.tool.xml.html;
 using Kaushal_Darpan.Api.Code.Attribute;
 using Kaushal_Darpan.Api.Code.Helper;
+using Kaushal_Darpan.Api.Code.PlaywrightPdf;
 using Kaushal_Darpan.Api.Email;
 using Kaushal_Darpan.Api.HtmlTempleteFile;
 using Kaushal_Darpan.Core.Helper;
@@ -63,13 +65,20 @@ namespace Kaushal_Darpan.Api.Controllers
         //public ReportController(IMapper mapper, IUnitOfWork unitOfWork, IEmailService emailService)
         private readonly IConverter _converter;
         private readonly IPrintHtmlFile _printHtmlFile;
-        public ReportController(IMapper mapper, IUnitOfWork unitOfWork, IConverter converter, IPrintHtmlFile printHtmlFile)
+        private readonly IPlaywrightPdfService _pdfService;
+
+        public ReportController(IMapper mapper,
+            IUnitOfWork unitOfWork,
+            IConverter converter,
+            IPrintHtmlFile printHtmlFile,
+            IPlaywrightPdfService pdfService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             //_emailService = emailService;
             _converter = converter;
             _printHtmlFile = printHtmlFile;
+            _pdfService = pdfService;
         }
 
         [HttpPost("GetAllDataRpt")]
@@ -4040,8 +4049,15 @@ namespace Kaushal_Darpan.Api.Controllers
                                     {
                                         if (data.Tables[0].Rows.Count > 0)
                                         {
+                                            var row = data.Tables[0].Rows[0];
 
+                                            string qrText = $"Student Name : {row["StudentName"]}\n" +
+                                                             $"Roll No      : {row["RollNo"]}\n" +
+                                                             $"Stream       : {row["StreamName"]}\n" +
+                                                             $"Father Name  : {row["FatherName"]}";
 
+                                            //var text = "Enrollment No : 123456";
+                                            var qrcode = CommonFuncationHelper.GenerateQrCode(qrText);
                                             int studentID = Convert.ToInt32(data.Tables[0].Rows[0]["StudentID"]);
                                             //report
                                             var fileName = $"ITIAdmitCard_{studentID}_{StudentExamID}_{data.Tables[0].Rows[0]["RollNo"]}.pdf";
@@ -4066,9 +4082,29 @@ namespace Kaushal_Darpan.Api.Controllers
                                             string stuimgFilepath1 = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[0].Rows[0]["Registrar_Signature"]}";
                                             data.Tables[0].Rows[0]["NodalSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath1));
 
+
+
+                                            // QR Code - bind directly onto the same table as the other images
+                                            //if (!data.Tables[0].Columns.Contains("QRCode"))
+                                            //    data.Tables[0].Columns.Add("QRCode", typeof(byte[]));
+
+                                            //data.Tables[0].Rows[0]["QRCode"] = qrcode;
+                                            //var dataQR = new DataTable();
+                                            //dataQR.Columns.Add("qrcode", typeof(byte[]));
+                                            //var row = dataQR.NewRow();
+                                            //row["qrcode"] = qrcode;
+                                            //dataQR.Rows.Add(row);
+
+                                            var dataQR = new DataTable();
+                                            dataQR.Columns.Add("qrcode", typeof(byte[]));
+                                            var qrRow = dataQR.NewRow();       // renamed from "row" to avoid confusion with report rows
+                                            qrRow["qrcode"] = qrcode;
+                                            dataQR.Rows.Add(qrRow);
+
                                             LocalReport localReport = new LocalReport(rdlcpath);
                                             localReport.AddDataSource("ITIStudentAdmitCard", data.Tables[0]);
                                             localReport.AddDataSource("ITIStudentAdmitCard_Subject", data.Tables[1]);
+                                            localReport.AddDataSource("test", dataQR);
                                             var reportResult = localReport.Execute(RenderType.Pdf);
 
                                             //check file exists
@@ -18854,7 +18890,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             else if (student.ResultTypeID == (int)EnumResultType.Ufm)
                             {
                                 throw new Exception("Invalid Request!");
-                            }                           
+                            }
                             else
                             {
                                 throw new Exception("Invalid Request!");
@@ -18865,29 +18901,55 @@ namespace Kaushal_Darpan.Api.Controllers
                             {
                                 CommonFuncationHelper.WriteTextLog($"1.3. all data found: {student.RollNo}", logfilename);
 
-                                string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                                var fileName = $"StudentMarksheet_{student.RollNo}_{timestamp_str}.pdf";
-                                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MarksheetFolder}/{Session}/{fileName}";
-                                string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
-
-
-                                // rdlc generate
-                                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-
-                                LocalReport localReport = new LocalReport(rdlcpath);
-                                localReport.AddDataSource("StudentDetailsForMarksheet", data.Tables[0]);
-                                localReport.AddDataSource("StudentMarksheetSubjectDetails", data.Tables[1]);
-                                localReport.AddDataSource("ResultDetails", data.Tables[2]);
-                                var reportResult = localReport.Execute(RenderType.Pdf);
-
-                                //check file exists
+                                //create folder
                                 if (!System.IO.Directory.Exists(folderPath))
                                 {
                                     Directory.CreateDirectory(folderPath);
                                 }
 
+                                string timestamp_str = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                                var fileName = $"StudentMarksheet_{student.RollNo}_{timestamp_str}.pdf";
+                                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.StudentsFolder}/{Constants.DepartmentBterFolder}/{Constants.MarksheetFolder}/{Session}/{fileName}";
+
+                                //string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderBTER}/StudentMarksheet.rdlc";
+
+
+                                //// rdlc generate
+                                //System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                                //LocalReport localReport = new LocalReport(rdlcpath);
+                                //localReport.AddDataSource("StudentDetailsForMarksheet", data.Tables[0]);
+                                //localReport.AddDataSource("StudentMarksheetSubjectDetails", data.Tables[1]);
+                                //localReport.AddDataSource("ResultDetails", data.Tables[2]);
+                                //var reportResult = localReport.Execute(RenderType.Pdf);
+
                                 //save in folder
-                                System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                                //System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+
+                                // get html
+                                var sb = await _printHtmlFile.GetHtmlOfMarkSheet(data);
+                                var _html = sb.ToString();
+
+                                // remove last blank page
+                                string endTag = "<div class='page-break'></div></body></html>";
+                                if (_html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    _html = _html.Substring(0, _html.Length - endTag.Length)
+                                                 + "</body></html>";
+                                }
+
+                                var pdfBytes = await _pdfService.GenerateAsync(_html,
+                                    new PdfOptions
+                                    {
+                                        Format = "A4",
+                                        MarginTop = "10mm",
+                                        MarginBottom = "0mm",
+                                        MarginLeft = "10mm",
+                                        MarginRight = "10mm",
+                                        PrintBackground = true
+                                    });
+
+                                System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
 
                                 CommonFuncationHelper.WriteTextLog($"1.4. save file in folder: {student.RollNo}", logfilename);
 
@@ -19489,7 +19551,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.Message = Constants.MSG_DATA_NOT_FOUND;
                     return result;
                 }
-                if(model.Action == "_getMarksStatistics_IA_Report")
+                if (model.Action == "_getMarksStatistics_IA_Report")
                 {
                     ActionType = "Internal Assessment";
                 }
@@ -19591,6 +19653,53 @@ namespace Kaushal_Darpan.Api.Controllers
                     return BadRequest("No data found");
 
                 var endTermName = dataList.First().EndTermName;
+                var SemesterName = above.First().SemesterName;
+                var SingDate = above.First().SingDate;
+
+                string SemesterNameHindi = "";
+
+                switch (SemesterName)
+                {
+                    case "1st Semester":
+                        SemesterNameHindi = "प्रथम सेमेस्टर";
+                        break;
+
+                    case "2nd Semester":
+                        SemesterNameHindi = "द्वितीय सेमेस्टर";
+                        break;
+
+                    case "3rd Semester":
+                        SemesterNameHindi = "तृतीय सेमेस्टर";
+                        break;
+
+                    case "4th Semester":
+                        SemesterNameHindi = "चतुर्थ सेमेस्टर";
+                        break;
+
+                    case "5th Semester":
+                        SemesterNameHindi = "पंचम सेमेस्टर";
+                        break;
+
+                    case "6th Semester":
+                        SemesterNameHindi = "षष्ठम सेमेस्टर";
+                        break;
+
+                    case "1st Year":
+                        SemesterNameHindi = "प्रथम वर्ष";
+                        break;
+
+                    case "2nd Year":
+                        SemesterNameHindi = "द्वितीय वर्ष";
+                        break;
+
+                    case "3rd Year":
+                        SemesterNameHindi = "तृतीय वर्ष";
+                        break;
+
+                    default:
+                        SemesterNameHindi = SemesterName;
+                        break;
+                }
 
                 // Group Institute
                 var institutes = dataList
@@ -19604,9 +19713,8 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 StringBuilder reportHtml = new StringBuilder();
 
-                foreach (var institute in institutes)
-                {
-                    reportHtml.Append($@"
+
+                reportHtml.Append($@"
 <!DOCTYPE html>
 <html lang='hi'>
 <head>
@@ -19642,49 +19750,67 @@ td{{
 .footer td{{
     padding-top:40px;
 }}
+.page-break{{
+    page-break-before:always;
+    break-before:page;
+}}
 </style>
 
 </head>
 
 <body>
+");
+                int instituteIndex = 1;
+
+                foreach (var institute in institutes)
+                {
+                    reportHtml.Append($@"
+
 
 <table>
 <tr>
-<td width='30%' class='left'>
-Email : conf.bter@gmail.com
-</td>
 
-<td width='40%' class='center'>
+
+<td width='80%' class='center'>
 <b>राजस्थान सरकार</b><br/>
 प्राविधिक शिक्षा मण्डल, राजस्थान, जोधपुर<br/>
 W-6 Residency Road, Jodhpur<br/>
 Phone : (0291)-2430440,2636572
 </td>
 
-<td width='30%' class='right'>
-Web Site : www.techedu.rajasthan.gov.in
-</td>
+
 
 </tr>
 </table>
+<table>
+<tr>
+<td width='49%' class='left'>
+Email : conf.bter@gmail.com
+</td>
 
-<br/>
+
+
+<td width='49%' class='right'>
+Web Site : www.techedu.rajasthan.gov.in
+</td>
+</tr>
+</table>
+
 
 <table>
 <tr>
 
 <td width='50%'>
-क्रमांक : एफ (6/14) / परीक्षा /2025/
+क्रमांक : एफ (6/14) / परीक्षा /{endTermName}/
 </td>
 
 <td width='50%' class='right'>
-दिनांक :- Fourth Semester {endTermName}
+दिनांक :- {SemesterName}-{endTermName}
 </td>
 
 </tr>
 </table>
 
-<br/>
 
 <table>
 <tr>
@@ -19697,13 +19823,18 @@ Web Site : www.techedu.rajasthan.gov.in
 </tr>
 </table>
 
-<br/>
+
 
 <table>
 <tr>
-<td class='center'>
+<td>
 <b>
-विषय- चतुर्थ सेमेस्टर सम्मिलित सेशनल अंकों में प्राप्त 85% से अधिक एवं 45% से कम प्राप्तांकों के विद्यार्थियों की रिपोर्ट प्रस्तुत करने हेतु
+विषय:
+</b>
+</td>
+<td>
+<b>
+ {SemesterNameHindi} के ग्रेटर संकलित सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों का रिकॉर्ड प्रस्तुत करने हेतु।
 </b>
 </td>
 </tr>
@@ -19714,7 +19845,7 @@ Web Site : www.techedu.rajasthan.gov.in
 <table>
 <tr>
 <td style='text-align:justify; line-height:24px;'>
-विद्यार्थियों द्वारा प्राप्त किये गये चतुर्थ सेमेस्टर के सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों की रिपोर्ट संस्था स्तर पर जांच के बाद बोर्ड कार्यालय भेजना सुनिश्चित करें। निम्न दस्तावेज संलग्न करें।
+विषयान्तर्गत, आपके द्वारा प्रेषित {SemesterNameHindi} ग्रेटर {endTermName} के सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों के सेशनल रिकॉर्ड की संस्था स्तर पर पुनः जाँच कर लें। संस्था ऑनलाइन दर्ज अंकों से संतुष्ट होने पर निम्नानुसार रिकॉर्ड प्रस्तुत करें, जिससे प्राप्तांकों का प्रमाणीकरण किया जा सके।
 </td>
 </tr>
 </table>
@@ -19743,64 +19874,61 @@ Web Site : www.techedu.rajasthan.gov.in
 <br/><br/>
 ");
 
-                    //=====================
                     // Branch Wise Students
-                    //=====================
-
                     var instituteStudents = above
                         .Where(x => x.InstituteName == institute.Key.InstituteName)
                         .ToList();
 
                     var branches = instituteStudents
-                        .GroupBy(x => x.Branch)
-                        .OrderBy(x => x.Key);
+     .GroupBy(x => x.Branch)
+     .OrderBy(x => x.Key)
+     .ToList();
 
-                    foreach (var branch in branches)
+                    if (!branches.Any() || !branches.SelectMany(x => x).Any())
                     {
-                        reportHtml.Append($@"
-
-<table border='1' cellpadding='5' cellspacing='0' style='margin-bottom:10px;'>
-
-<tr>
-<td class='center bold'>
-{branch.Key ?? ""}
-</td>
-</tr>
-
-</table>
-
-");
-
-                        foreach (var student in branch.OrderBy(x => x.RollNo))
+                        reportHtml.Append(@"
+<div style='text-align:center;  font-weight:bold; margin:20px;'>
+    Data not found
+</div>");
+                    }
+                    else
+                    {
+                        foreach (var branch in branches)
                         {
                             reportHtml.Append($@"
+<div style='font-weight:bold; text-align:center; margin:10px 0; font-size:16px;'>
+    {branch.Key ?? ""}
+</div>");
 
-<table border='1' cellpadding='5' cellspacing='0' style='margin-bottom:5px;'>
+                            foreach (var student in branch.OrderBy(x => x.RollNo))
+                            {
+                                reportHtml.Append($@"
+<div style='margin-bottom:5px;'>
+    <b>{student.RollNo}</b> :
+    {string.Join(", ", new[]
+                        {
+        student.Subject1,
+        student.Subject2,
+        student.Subject3,
+        student.Subject4,
+        student.Subject5,
+        student.Subject6,
+        student.Subject7,
+        student.Subject8,
+        student.Subject9,
+        student.Subject10,
+        student.Subject11,
+        student.Subject12,
+        student.Subject13,
+        student.Subject14,
+        student.Subject15
+    }.Where(x => !string.IsNullOrWhiteSpace(x)))}
+</div>");
+                            }
 
-<tr>
-
-<td width='20%'>
-<b>{student.RollNo}</b>
-</td>
-
-<td width='20%'>
-{student.SubjectCode}
-</td>
-
-<td width='60%'>
-{student.StudentName}
-</td>
-
-</tr>
-
-</table>
-
-");
+                            reportHtml.Append("<br/>");
                         }
-
-                        reportHtml.Append("<br/>");
                     }
-
                     //=====================
                     // Footer
                     //=====================
@@ -19813,7 +19941,7 @@ Web Site : www.techedu.rajasthan.gov.in
 
 <td style='line-height:24px; text-align:justify;'>
 
-उपरोक्त रिपोर्ट संस्था की प्रतिलिपि के माध्यम से दिनांक 04 मार्च 2025 तक निम्न हस्ताक्षरकर्ता के समक्ष प्रस्तुत करना सुनिश्चित करें।
+उपरोक्त रिकॉर्ड संस्था प्रतिनिधि के माध्यम से दिनांक {SingDate} को निम्न हस्ताक्षरकर्ता के समक्ष प्रस्तुत करें।
 
 </td>
 
@@ -19829,7 +19957,9 @@ Web Site : www.techedu.rajasthan.gov.in
 
 <td style='line-height:24px; text-align:justify;'>
 
-रिपोर्ट प्रस्तुत करने वाले की रिपोर्ट के संबंध में पूर्ण जानकारी होनी चाहिए। प्रस्तुत रिपोर्ट सही पाये जाने पर नियत तिथि तक उपलब्ध रिपोर्ट संस्था के प्रतिवेदन के माध्यम से भेजना अन्यथा संस्था का परिणाम रोक दिया जायेगा जिसकी सम्पूर्ण जिम्मेदारी आपकी होगी।
+रिकॉर्ड प्रस्तुत करने वाले प्रतिनिधि को रिकॉर्ड के संबंध में पूर्ण जानकारी होनी चाहिए, जिससे जाँच के दौरान पूछे गए प्रश्नों का संतोषजनक उत्तर एवं आवश्यक स्पष्टीकरण प्रस्तुत किया जा सके।
+
+निर्धारित तिथि तक उक्त रिकॉर्ड संस्था के प्रतिनिधि के माध्यम से अनिवार्य रूप से भिजवाया जाए, अन्यथा आपकी संस्था का परिणाम रोक दिया जाएगा, जिसकी सम्पूर्ण जिम्मेदारी संस्था की होगी।
 
 </td>
 
@@ -19854,11 +19984,21 @@ Web Site : www.techedu.rajasthan.gov.in
 
 </table>
 
-</body>
-</html>
+
 
 ");
+
+                    if (instituteIndex > 0)
+                    {
+                        reportHtml.Append("<div class='page-break'></div>");
+                    }
+                    instituteIndex++;
                 }
+
+                reportHtml.Append(@"
+</body>
+</html>
+");
 
                 string html = reportHtml.ToString();
 
@@ -19902,7 +20042,105 @@ Web Site : www.techedu.rajasthan.gov.in
 
         #endregion
 
+        #region GetToppersReport
 
+        [HttpPost("GetToppersReport")]
+        public async Task<ApiResult<string>> GetToppersReport(ToppersModel model)
+        {
+            ActionName = "GetToppersReport(ToppersModel model)";
+            var result = new ApiResult<string>();
+            string ActionType = "";
+            try
+            {
+                // Get report data
+                DataTable table = await Task.Run(() =>
+     _unitOfWork.ReportRepository.GetToppersReport(model));
+
+                DataSet data = new DataSet();
+                data.Tables.Add(table);
+
+                if (data == null || data.Tables.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+                
+                // Generate HTML
+                var sb = await _printHtmlFile.GetToppersReport_Html(data, 0, ActionType);
+                string html = sb.ToString();
+
+                // Remove last page break if present
+                string endTag = "<div class='page-break'></div></body></html>";
+                if (html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    html = html.Substring(0, html.Length - endTag.Length) + "</body></html>";
+                }
+
+                // Create PDF document
+                var document = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+            {
+                PaperSize = PaperKind.A4,
+                Orientation = Orientation.Landscape,
+                Margins = new MarginSettings
+                {
+                    Top = 10,
+                    Bottom = 10,
+                    Left = 5,
+                    Right = 5
+                }
+            },
+                    Objects =
+            {
+                new ObjectSettings
+                {
+                    HtmlContent = html,
+                    WebSettings =
+                    {
+                        DefaultEncoding = "utf-8"
+                    },
+                    FooterSettings = new FooterSettings
+                    {
+                        FontName = "Arial",
+                        FontSize = 7,
+                        Center = "Page [page] of [toPage]",
+                        Line = true
+                    }
+                }
+            }
+                };
+
+                // Convert HTML to PDF
+                byte[] pdfBytes = await Task.Run(() => _converter.Convert(document));
+
+                result.Data = Convert.ToBase64String(pdfBytes);
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                var newException = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+
+                await CreateErrorLog(newException, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        #endregion
 
 
     }

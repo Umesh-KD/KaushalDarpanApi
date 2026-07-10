@@ -1,13 +1,7 @@
 ﻿
-using DocumentFormat.OpenXml.Drawing;
-using DocumentFormat.OpenXml.EMMA;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Models.CommonModel;
-using Kaushal_Darpan.Models.PreExamStudent;
 using Kaushal_Darpan.Models.TheoryMarks;
-using Org.BouncyCastle.Utilities;
 using System.Data;
 using System.Text;
 
@@ -1039,9 +1033,9 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                                         {
                                             ExaminerCode = row["ExaminerCode"],
                                             GroupCode = row["GroupCode"],
-                                            CenterCode = row["CenterCode"],
                                             BranchName = row["BranchName"],
                                             SubjectName = row["SubjectName"],
+                                            //   CenterCode = row["CenterCode"],
                                             SubjectCode = row["SubjectCode"],
                                             MaximumMarks = row["MAXIMUM_MARKS"], // FIXED
                                             ExaminerName = row["ExaminerName"],
@@ -1050,9 +1044,9 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                                             SessionName = row["SessionName"]
                                         })
                                         .OrderBy(g => g.Key.ExaminerCode)
-                                        //.ThenBy(g => g.Key.GroupCode)
-                                        .ThenBy(g => g.Key.CenterCode)
+                                        .ThenBy(g => g.Key.GroupCode)
                                         .ThenBy(g => g.Key.BranchName)
+                                        .ThenBy(g => g.Min(r => r["CenterCode"].ToString()))
                                         .ThenBy(g => g.Key.SubjectName)
                                         .ThenBy(g => g.Key.SubjectCode)
                                         .ThenBy(g => g.Key.MaximumMarks)
@@ -1071,16 +1065,22 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 {
                     var header = group.Key;
 
-                    _snoKeyCodeOrg = $"{header.GroupCode}-{header.CenterCode}";
+                    _snoKeyCodeOrg = $"{header.GroupCode}-{header.BranchName}";
+                    // group code different then reset
+                    if (_snoKeyCodeOrg != _snoKeyCodeDiff)
+                    {
+                        sno = 1;
+                    }
                     _snoKeyCodeDiff = _snoKeyCodeOrg;
 
                     // pagging
-                    int pageSize = 25;
+                    int pageSize = 28;
                     int totalRecords = group.Count();
                     int pageCount = (int)Math.Ceiling((double)totalRecords / pageSize);
 
                     var orderedData = group
-                        .OrderBy(x => x["RollNo"])
+                        .OrderBy(x => x["CenterCode"])
+                        //   .OrderBy(x => x["RollNo"])
                         .ToList();
 
                     var revaltext = IsReval == 1 ? "(Revaluation) " : "";
@@ -1116,12 +1116,12 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             <div style='text-decoration: underline; font-weight: bold; font-size: 16px; margin-bottom: 5px;'>Theory Exam Reports</div>
                             <div>Branch : <b>{header.BranchName}</b></div>
                             <div>Examiner Code : <b>{header.ExaminerCode}</b></div>
-                            
+                            <div>Group Code : <b>{header.GroupCode}</b></div>
                             </div>
                             </td>
                             <td style='display: flex; justify-content: space-between; margin-bottom: 10px;>
                             <div style='width: 45%; float: right;'>
-                            <div>CC Code : <b>{header.CenterCode}</b></div>
+                           
                             <div>Subject : <b>{header.SubjectName}</b></div>
                             <div>Subject Code : <b>{header.SubjectCode}</b></div>
                             <div>Maximum Marks : <b>{header.MaximumMarks}</b></div>
@@ -1136,15 +1136,16 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             <thead>
                             <tr>
                             <th style='border: 1px solid #ccc; padding: 5px; width: 40px;'>S.No</th>
-                            <th style='border: 1px solid #ccc; padding: 5px; width: 150px;'>Group Code</th>
+                            <th style='border: 1px solid #ccc; padding: 5px; width: 150px;'>Center Code</th>
                             <th style='border: 1px solid #ccc; padding: 5px; width: 150px;'>Roll No</th>
                             <th colspan='2' style='border: 1px solid #ccc; padding: 5px;'>MARKS OBTAINED</th>
                             </tr>
                             <tr>
                             <th style='border: 1px solid #ccc; padding: 5px;'></th>
                             <th style='border: 1px solid #ccc; padding: 5px;'></th>
-                            <th style='border: 1px solid #ccc; padding: 5px; width: 50%;'>In Words</th>
-                            <th colspan='2' style='border: 1px solid #ccc; padding: 5px;'>In Fig.</th>
+                            <th style='border: 1px solid #ccc; padding: 5px; width: 50%;'></th>
+                            <th style='border: 1px solid #ccc; padding: 5px;'>In Words</th>
+                            <th style='border: 1px solid #ccc; padding: 5px;'>In Fig.</th>
                             </tr>
                             </thead>
                             <tbody>");
@@ -1155,7 +1156,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             sb.Append($@"
                                     <tr>
                                         <td style='border:1px solid #ccc; padding:8px;'>{sno++}</td>
-                                        <td style='border:1px solid #ccc; padding:8px;'>{row["GroupCode"]}</td>
+                                        <td style='border:1px solid #ccc; padding:8px;'>{row["CenterCode"]}</td>
                                         <td style='border:1px solid #ccc; padding:8px;'>{row["RollNo"]}</td>
                                         <td style='border:1px solid #ccc; padding:8px;'>{row["ObtainedTheoryInword"]}</td>
                                         <td style='border:1px solid #ccc; padding:8px;'>{row["ObtainedTheory"]}</td>
@@ -1904,7 +1905,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         //            }
 
         //            sb.AppendLine("</table>");
-                 
+
         //        }
 
         //        sb.AppendLine($@"
@@ -1988,9 +1989,9 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         CodeID = x["CodeID"].ToString(),
                         ShortCode = x["ShortCode"].ToString(),
                         SemesterID = x["SemesterID"].ToString(),
-                        SemesterNameHindi= x["SemesterNameHindi"].ToString(),
+                        SemesterNameHindi = x["SemesterNameHindi"].ToString(),
                         TermNameHindi = x["TermNameHindi"].ToString(),
-                       // RollNo = x["RollNo"].ToString()
+                        // RollNo = x["RollNo"].ToString()
 
                     })
                     .OrderBy(x => Convert.ToInt32(x.Key.UFMCategory))
@@ -2649,15 +2650,15 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 //Footer
                 sb.Append(@"
                     <div style='padding:20px 10px;font-size:11px;line-height:1.6;'>");
-                    
-                                    // District
-                                    sb.Append($@"
+
+                // District
+                sb.Append($@"
                     <div style='margin-bottom:5px;'>
                         {student["District"]}
                     </div>");
-                    
-                                    // Result Declaration Date
-                                    sb.Append($@"
+
+                // Result Declaration Date
+                sb.Append($@"
                     <div style='margin-bottom:15px;'>
                         DATE OF RESULT DECLARATION :
                         {student["ResultDeclarationDate"]}
@@ -2691,7 +2692,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             </div>                            
                             ");
                     }
-                            
+
                     sb.Append(@"                            
                         <div style='margin-bottom:10px;'>                        
                         <strong>NOTE:</strong>                        
@@ -2739,7 +2740,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
         #region GetMarksStatisticsReport
 
-        public async Task<StringBuilder> GetMarksStatisticsReport_GetHtml(DataSet ds, int ResultType,string ActionType)
+        public async Task<StringBuilder> GetMarksStatisticsReport_GetHtml(DataSet ds, int ResultType, string ActionType)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -2835,9 +2836,9 @@ thead th{
                         // Report Header
                         sb.Append("<h3 style='text-align:center'>GOVERNMENT OF RAJASTHAN</h3>");
                         sb.Append("<h2 style='text-align:center'>BOARD OF TECHNICAL EDUCATION RAJASTHAN, JODHPUR</h2>");
-                        sb.Append("<h4 style='text-align:center'>"+ SemesterName + "</h4>");
+                        sb.Append("<h4 style='text-align:center'>" + SemesterName + "</h4>");
                         sb.Append("<h4 style='text-align:center'>Marks Statistics Report</h4>");
-                        sb.Append("<h4 style='text-align:center'>"+ ActionType + "</h4>");
+                        sb.Append("<h4 style='text-align:center'>" + ActionType + "</h4>");
                         sb.Append("<br/>");
 
                         sb.Append("<table>");
@@ -2912,527 +2913,438 @@ thead th{
         #endregion
 
         #region Mark Sheet
-        public StringBuilder GetHtmlOfMarkSheet(DataSet ds)
+        public async Task<StringBuilder> GetHtmlOfMarkSheet(DataSet ds)
         {
             try
             {
+                DataRow dr_studet = ds.Tables[0].Rows[0]; // student details
+                DataRowCollection drs_subject = ds.Tables[1].Rows; // subject details
+                DataRow dr_result = ds.Tables[2].Rows[0]; // result details
+
+                // set sign of registrar                
+                string reg_signFilepath = $"{ConfigurationHelper.StaticFileRootPath}{dr_studet["RegistrarSignFile"]}";
+                byte[] reg_signbytes = System.IO.File.ReadAllBytes(CommonFuncationHelper.IsFileExisitsOrDefault(reg_signFilepath));                
+                string reg_signbase64 = Convert.ToBase64String(reg_signbytes);
+                string reg_signext = Path.GetExtension(reg_signFilepath).ToLower();
+                string reg_signmime = reg_signext switch
+                {
+                    ".png" => "image/png",
+                    ".jpg" => "image/jpeg",
+                    ".jpeg" => "image/jpeg",
+                    ".gif" => "image/gif",
+                    _ => "image/png"
+                };
+
+                // set html
                 StringBuilder sb = new StringBuilder();
 
                 sb.AppendLine("<!DOCTYPE html>");
-                sb.AppendLine("<html lang=\"hi\">");
-                sb.AppendLine("");
+                sb.AppendLine("<html>");
+
                 sb.AppendLine("<head>");
                 sb.AppendLine("    <meta charset=\"UTF-8\">");
                 sb.AppendLine("    <title>Marksheet</title>");
                 sb.AppendLine("</head>");
-                sb.AppendLine("    <style>");
-                sb.AppendLine("        @font-face {");
-                sb.AppendLine("            font-family: 'Noto Sans Devanagari';");
-                sb.AppendLine($"            src: local('Noto Sans Devanagari'), url(\"{ConfigurationHelper.FontPath_Noto_Sans_Devanagari}\") format('truetype');");
-                sb.AppendLine("        }");
-                sb.AppendLine("    </style>");
-                sb.AppendLine("");
+
+
                 sb.AppendLine("<body style=\"margin:0;padding:0;background:#ffffff;font-family:Arial,Helvetica,sans-serif;\">");
-                sb.AppendLine("");
-                sb.AppendLine("     <!-- <div style=\"max-width:2480px;margin:20px auto; min-height:3508px; \"> -->");
-                sb.AppendLine(" <div style=\"max-width:2480px;margin:20px auto; padding:10px;\">");
-                sb.AppendLine(" <!-- <div style=\"width:100%;margin:5px auto;  \"> -->");
-                sb.AppendLine("");
+                sb.AppendLine(" <div style=\"display:flex;flex-direction:column;padding:10px 15px;box-sizing:border-box;width:100%;\">");
+
+                sb.AppendLine(" <!-- All your marksheet content -->");
+
+                sb.AppendLine("<div>");
                 sb.AppendLine("        <!-- Top Right -->");
-                sb.AppendLine("        <div style=\"text-align:right;font-size:16px; font-weight:bold; padding-right:5px;padding-top:5px;\">");
-                sb.AppendLine("            24OD021047");
+
+                sb.AppendLine("        <div style=\"text-align:right;font-size:16px; font-weight:bold; padding-right:0px;padding-top:5px;margin-top:20px;\">");
+                sb.AppendLine($"            {dr_studet["ODNumber"]}");
                 sb.AppendLine("        </div>");
-                sb.AppendLine("");
+                sb.AppendLine("<div style=\"height:71px; width:100%; float:left;\">");
                 sb.AppendLine("        <table style=\"width:100%;border-collapse:collapse;margin:25px 0;\">");
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("");
+
                 sb.AppendLine("                <td style=\"width:65%;vertical-align:top;\"></td>");
-                sb.AppendLine("");
+
                 sb.AppendLine("                <td style=\"width:35%;vertical-align:top;\">");
-                sb.AppendLine("");
-                sb.AppendLine("                    <table style=\"width:100%;border-collapse:collapse;\">");
+
+                sb.AppendLine("                    <table style=\"width:100%;border-collapse:collapse;font-size:14px;\">");
                 sb.AppendLine("                        <tr>");
-                sb.AppendLine("                            <td style=\"text-align:right;font-size:14px;font-weight:bold;\">");
-                sb.AppendLine("                                Nov-2025");
+                sb.AppendLine("                            <td style=\"text-align:right;font-weight:bold;\">");
+                sb.AppendLine($"                                {dr_studet["EndTermName"]}");
                 sb.AppendLine("                            </td>");
-                sb.AppendLine("");
-                sb.AppendLine("                            <td style=\"text-align:right;font-size:14px;font-weight:bold;padding-right:10px;\">");
-                sb.AppendLine("                                2025-2026");
+
+                sb.AppendLine("                            <td style=\"text-align:right;font-weight:bold;padding-right:10px;\">");
+                sb.AppendLine($"                                {dr_studet["AcademicYear"]}");
                 sb.AppendLine("                            </td>");
                 sb.AppendLine("                        </tr>");
                 sb.AppendLine("                    </table>");
-                sb.AppendLine("");
+
                 sb.AppendLine("                </td>");
-                sb.AppendLine("");
+
                 sb.AppendLine("            </tr>");
-                sb.AppendLine("        </table>");
-                sb.AppendLine("");
-                sb.AppendLine("        <table style=\"width:100%;border-collapse:collapse;\">");
-                sb.AppendLine("");
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 25%;\">");
-                sb.AppendLine("                    &nbsp;");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 25%;\">");
-                sb.AppendLine("                    VIRENDRA SINGH RAWAT");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td style=\"font-size:11px; width: 25%;\">");
-                sb.AppendLine("                    &nbsp;");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 25%;\">");
-                sb.AppendLine("                    PR20240021/001");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0;width: 20%;\">");
-                sb.AppendLine("                    &nbsp;");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0;width: 30%;\">");
-                sb.AppendLine("                    PANCHU SINGH");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px;width: 20%;\">");
-                sb.AppendLine("                    &nbsp;");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;width: 30%;\">");
-                sb.AppendLine("                    1500578");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:14px;padding:13px 0;width: 20%;\">");
-                sb.AppendLine("                    &nbsp;");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0;width: 30%;\">");
-                sb.AppendLine("                    LAXMI DEVI");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:15px;width: 20%;\">");
-                sb.AppendLine("                    &nbsp;");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;width: 30%;\">");
-                sb.AppendLine("                    Diploma Engineering");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0; width: 20%;\">");
-                sb.AppendLine("                    &nbsp;");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0; width: 30%;\">");
-                sb.AppendLine("                    PRINTING TECHNOLOGY");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:15px;width: 20%;\">");
-                sb.AppendLine("                    &nbsp;");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px; width: 30%;\">");
-                sb.AppendLine("                    I Year Ist Semester (Ex.)");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:15px;padding:13px 0; width: 20%;\">");
-                sb.AppendLine("                    &nbsp;");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("                <td colspan=\"3\" style=\"font-size:12px;padding:13px 0; width: 80%;\">");
-                sb.AppendLine("                    001-GOVT. POLYTECHNIC COLLEGE, AJMER");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("                ");
-                sb.AppendLine("");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("        </table>");
-                sb.AppendLine("");
-                sb.AppendLine("        <!-- Subject Table -->");
-                sb.AppendLine("");
-                sb.AppendLine("    <div style=\"height:500px;\">");
-                sb.AppendLine("    <table style=\"width:100%;border-collapse:collapse;margin-top:20px;font-size:11px;\">");
-                sb.AppendLine("");
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("");
-                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:5px;width:12%;font-size:11px;\">");
-                sb.AppendLine("                    CODE");
-                sb.AppendLine("                </th>");
-                sb.AppendLine("");
-                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:5px;width:64%;font-size:11px;\">");
-                sb.AppendLine("                    SUBJECT(S)");
-                sb.AppendLine("                </th>");
-                sb.AppendLine("");
-                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:5px;width:6%;font-size:11px;\">");
-                sb.AppendLine("                    REGISTERED<br>CREDIT");
-                sb.AppendLine("                </th>");
-                sb.AppendLine("");
-                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:5px;width:6%;font-size:11px;\">");
-                sb.AppendLine("                    EARNED<br>CREDIT");
-                sb.AppendLine("                </th>");
-                sb.AppendLine("");
-                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:5px;width:6%;font-size:11px;\">");
-                sb.AppendLine("                    GRADE<br>AWARDED");
-                sb.AppendLine("                </th>");
-                sb.AppendLine("");
-                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:5px;width:6%;font-size:11px;\">");
-                sb.AppendLine("                    REMARK");
-                sb.AppendLine("                </th>");
-                sb.AppendLine("");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">PR1111</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">ANANDAM (JOY OF GIVING)</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">2.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">2.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">A+</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">Pass</td>");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">SCA</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">STUDENTS CENTERED ACTIVITIES</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">0.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">2.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">Pass</td>");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("<tr>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">SCA</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">STUDENTS CENTERED ACTIVITIES</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">0.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">2.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">Pass</td>");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("<tr>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">SCA</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">STUDENTS CENTERED ACTIVITIES</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">0.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">2.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">Pass</td>");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("<tr>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">SCA</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">STUDENTS CENTERED ACTIVITIES</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">0.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">2.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">Pass</td>");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("<tr>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">SCA</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">STUDENTS CENTERED ACTIVITIES</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">0.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">2.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">Pass</td>");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("<tr>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">SCA</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">STUDENTS CENTERED ACTIVITIES</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">0.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">2.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">Pass</td>");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("<tr>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">SCA</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">STUDENTS CENTERED ACTIVITIES</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">0.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">2.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">Pass</td>");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("<tr>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">SCA</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">STUDENTS CENTERED ACTIVITIES</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">0.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">2.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">Pass</td>");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("<tr>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">SCA</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">STUDENTS CENTERED ACTIVITIES</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">0.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">2.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">Pass</td>");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("<tr>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">SCA</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">STUDENTS CENTERED ACTIVITIES</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">0.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">2.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">Pass</td>");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("<tr>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">SCA</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">STUDENTS CENTERED ACTIVITIES</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">0.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">2.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">Pass</td>");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("<tr>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">SCA</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">STUDENTS CENTERED ACTIVITIES</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">0.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">2.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">Pass</td>");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("<tr>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">SCA</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">STUDENTS CENTERED ACTIVITIES</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">0.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">2.00</td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">Pass</td>");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("        </table>");
-                sb.AppendLine("");
-                sb.AppendLine("        <div style=\"text-align:center;font-size:12px;margin:10px 0;\">");
-                sb.AppendLine("            DETAILS UP TO THIS END TERM EXAMINATION RESULT");
-                sb.AppendLine("        </div>");
-                sb.AppendLine("");
-                sb.AppendLine("        <table style=\"width:100%;border-collapse:collapse;font-size:11px;\">");
-                sb.AppendLine("");
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("");
-                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:5px;width:18%;font-size:11px;\">");
-                sb.AppendLine("                    Semester");
-                sb.AppendLine("                </th>");
-                sb.AppendLine("");
-                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:5px;width:9%;font-size:11px;\">1</th>");
-                sb.AppendLine("");
-                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:5px;width:9%;font-size:11px;\">2</th>");
-                sb.AppendLine("");
-                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:5px;width:9%;font-size:11px;\">3</th>");
-                sb.AppendLine("");
-                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:5px;width:9%;font-size:11px;\">4</th>");
-                sb.AppendLine("");
-                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:5px;width:9%;font-size:11px;\">5</th>");
-                sb.AppendLine("");
-                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:5px;width:9%;font-size:11px;\">6</th>");
-                sb.AppendLine("");
-                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:5px;width:28%;font-size:11px;\">");
-                sb.AppendLine("                    RESULT");
-                sb.AppendLine("                </th>");
-                sb.AppendLine("");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">Credit Registered</td>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;text-align:center;\">28.0</td>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td rowspan=\"4\" style=\"border:1px solid #cfcfcf;text-align:center;font-size:11px;font-weight:bold;\">");
-                sb.AppendLine("                    Regulation (1002)");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">Credit Earned</td>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;text-align:center;\">23.00</td>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">SGPA</td>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;text-align:center;\">5.68</td>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:5px;\">CGPA</td>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;\"></td>");
-                sb.AppendLine("");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("            <!-- Division Award Details -->");
-                sb.AppendLine("");
-                sb.AppendLine("            <tr>");
-                sb.AppendLine("");
-                sb.AppendLine("                <td colspan=\"8\" style=\"padding:0;border:1px solid #000;\">");
-                sb.AppendLine("");
-                sb.AppendLine("                    <table style=\"width:100%;border-collapse:collapse; border-top:2px solid #000;\">");
-                sb.AppendLine("");
-                sb.AppendLine("                        <tr>");
-                sb.AppendLine("");
-                sb.AppendLine("                            <td rowspan=\"2\" style=\"width:18%;border-right:1px solid #000;");
-                sb.AppendLine("                            text-align:center;");
-                sb.AppendLine("                            font-size:11px;");
-                sb.AppendLine("                            padding:25px 10px;\">");
-                sb.AppendLine("");
-                sb.AppendLine("                                Division Award<br>Details");
-                sb.AppendLine("");
-                sb.AppendLine("                            </td>");
-                sb.AppendLine("");
-                sb.AppendLine("                            <td style=\"width:9%;");
-                sb.AppendLine("                            border-right:1px solid #000;");
-                sb.AppendLine("                            border-bottom:1px solid #000;");
-                sb.AppendLine("                            text-align:center;");
-                sb.AppendLine("                            font-size:11px;");
-                sb.AppendLine("                            padding:5px;\">");
-                sb.AppendLine("");
-                sb.AppendLine("                                Total Credit<br>Earned");
-                sb.AppendLine("");
-                sb.AppendLine("                            </td>");
-                sb.AppendLine("                            <td style=\"width:9%;");
-                sb.AppendLine("                            border-right:1px solid #000;");
-                sb.AppendLine("                            border-bottom:1px solid #000;");
-                sb.AppendLine("                            text-align:center;");
-                sb.AppendLine("                            font-size:11px;");
-                sb.AppendLine("                            padding:5px;\">");
-                sb.AppendLine("");
-                sb.AppendLine("                                &nbsp;");
-                sb.AppendLine("");
-                sb.AppendLine("                            </td>");
-                sb.AppendLine("");
-                sb.AppendLine("                            <td rowspan=\"2\" style=\"width:9%;");
-                sb.AppendLine("                            border-right:1px solid #000;");
-                sb.AppendLine("                            text-align:center;");
-                sb.AppendLine("                            font-size:11px;\">");
-                sb.AppendLine("");
-                sb.AppendLine("                                Final<br>CGPA");
-                sb.AppendLine("");
-                sb.AppendLine("                            </td>");
-                sb.AppendLine("                            <td rowspan=\"2\" style=\"width:9%;");
-                sb.AppendLine("                            border-right:1px solid #000;");
-                sb.AppendLine("                            text-align:center;");
-                sb.AppendLine("                            font-size:11px;\">");
-                sb.AppendLine("");
-                sb.AppendLine("                                &nbsp;");
-                sb.AppendLine("");
-                sb.AppendLine("                            </td>");
-                sb.AppendLine("");
-                sb.AppendLine("                            <td rowspan=\"2\" style=\"width:9%;");
-                sb.AppendLine("                            border-right:1px solid #000;");
-                sb.AppendLine("                            text-align:center;");
-                sb.AppendLine("                            font-size:11px;\">");
-                sb.AppendLine("");
-                sb.AppendLine("                                Division");
-                sb.AppendLine("");
-                sb.AppendLine("                            </td>");
-                sb.AppendLine("                            <td rowspan=\"2\" style=\"width:9%;");
-                sb.AppendLine("                            border-right:1px solid #000;");
-                sb.AppendLine("                            text-align:center;");
-                sb.AppendLine("                            font-size:11px;\">");
-                sb.AppendLine("");
-                sb.AppendLine("                                &nbsp;");
-                sb.AppendLine("");
-                sb.AppendLine("                            </td>");
-                sb.AppendLine("");
-                sb.AppendLine("");
-                sb.AppendLine("                            <td rowspan=\"2\" style=\"text-align:center;font-size:11px;font-weight:bold;width:28%;\">");
-                sb.AppendLine("                                &nbsp;");
-                sb.AppendLine("                            </td>");
-                sb.AppendLine("");
-                sb.AppendLine("                        </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("                        <tr>");
-                sb.AppendLine("");
-                sb.AppendLine("                            <td style=\"border-right:1px solid #000; width:9%;");
-                sb.AppendLine("                                   text-align:center;");
-                sb.AppendLine("                                   font-size:11px;");
-                sb.AppendLine("                                   padding:5px;\">");
-                sb.AppendLine("");
-                sb.AppendLine("                                Total Credit<br>Registered");
-                sb.AppendLine("");
-                sb.AppendLine("                            </td>");
-                sb.AppendLine("                            <td style=\"border-right:1px solid #000; width:9%;");
-                sb.AppendLine("                                   text-align:center;");
-                sb.AppendLine("                                   font-size:11px;");
-                sb.AppendLine("                                   padding:5px;\">");
-                sb.AppendLine("");
-                sb.AppendLine("                                &nbsp;");
-                sb.AppendLine("");
-                sb.AppendLine("                            </td>");
-                sb.AppendLine("");
-                sb.AppendLine("                        </tr>");
-                sb.AppendLine("");
-                sb.AppendLine("                    </table>");
-                sb.AppendLine("");
-                sb.AppendLine("                </td>");
-                sb.AppendLine("");
-                sb.AppendLine("            </tr>");
-                sb.AppendLine("");
                 sb.AppendLine("        </table>");
                 sb.AppendLine("</div>");
-                sb.AppendLine("");
+                sb.AppendLine("<div style=\"width:100%; height: 200px; float:left;\">");
+                sb.AppendLine("        <table style=\"width:100%;border-collapse:collapse;\">");
+
+                sb.AppendLine("            <tr>");
+
+                sb.AppendLine("                <td style=\"font-size:11px;padding-bottom:15px; width: 22%;\">");
+                sb.AppendLine("                    &nbsp;");
+                sb.AppendLine("                </td>");
+                sb.AppendLine("                <td style=\"font-size:12px;padding-bottom:15px; width: 28%;\">");
+                sb.AppendLine($"                    {dr_studet["StudentName"]}");
+                sb.AppendLine("                </td>");
+
+                sb.AppendLine("                <td style=\"font-size:11px; width: 29%;padding-bottom:15px;\">");
+                sb.AppendLine("                    &nbsp;");
+                sb.AppendLine("                </td>");
+                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 21%;padding-bottom:15px;\">");
+                sb.AppendLine($"                    {dr_studet["EnrollmentNo"]}");
+                sb.AppendLine("                </td>");
+
+                sb.AppendLine("            </tr>");
+
+                sb.AppendLine("            <tr>");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 22%;\">");
+                sb.AppendLine("                    &nbsp;");
+                sb.AppendLine("                </td>");
+                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 28%;\">");
+                sb.AppendLine($"                    {dr_studet["FatherName"]}");
+                sb.AppendLine("                </td>");
+                sb.AppendLine("                <td style=\"font-size:11px; width: 29%;\">");
+                sb.AppendLine("                    &nbsp;");
+                sb.AppendLine("                </td>");
+                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 21%;\">");
+                sb.AppendLine($"                    {dr_studet["RollNo"]}");
+                sb.AppendLine("                </td>");
+
+                sb.AppendLine("            </tr>");
+
+                sb.AppendLine("            <tr>");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 22%;\">");
+                sb.AppendLine("                    &nbsp;");
+                sb.AppendLine("                </td>");
+                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 28%;\">");
+                sb.AppendLine($"                    {dr_studet["MotherName"]}");
+                sb.AppendLine("                </td>");
+                sb.AppendLine("                <td style=\"font-size:11px; width: 29%;\">");
+                sb.AppendLine("                    &nbsp;");
+                sb.AppendLine("                </td>");
+                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 21%;\">");
+                sb.AppendLine($"                    {dr_studet["Branch"]}");
+                sb.AppendLine("                </td>");
+
+                sb.AppendLine("            </tr>");
+
+                sb.AppendLine("            <tr>");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 23%;\">");
+                sb.AppendLine("                    &nbsp;");
+                sb.AppendLine("                </td>");
+                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 27%;\">");
+                sb.AppendLine($"                    {dr_studet["StreamName"]}");
+                sb.AppendLine("                </td>");
+                sb.AppendLine("                <td style=\"font-size:11px; width: 28%;\">");
+                sb.AppendLine("                    &nbsp;");
+                sb.AppendLine("                </td>");
+                sb.AppendLine("                <td style=\"font-size:11px;text-align:left; width: 22%;\">");
+                sb.AppendLine($"                    {dr_studet["YearSemester"]}");
+                sb.AppendLine("                </td>");
+
+                sb.AppendLine("            </tr>");
+
+                sb.AppendLine("            <tr>");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0; width: 23%;\">");
+                sb.AppendLine("                    &nbsp;");
+                sb.AppendLine("                </td>");
+                sb.AppendLine("                <td colspan=\"3\" style=\"font-size:12px;padding:13px 0 ; width: 77%;\">");
+                sb.AppendLine($"                    {dr_studet["InstituteName"]}");
+                sb.AppendLine("                </td>");
+                sb.AppendLine("                ");
+
+                sb.AppendLine("            </tr>");
+
+                sb.AppendLine("        </table>");
+                sb.AppendLine("</div>");
+
+
+                // subjects
+                sb.AppendLine("        <!-- Subject Table -->");
+
+                sb.AppendLine("    <div style=\"height:600px; width:100%; float:left;\">");
+                sb.AppendLine("    <table style=\"width:100%;border-collapse:collapse;margin-top:0px;font-size:11px;\">");
+
+                sb.AppendLine("            <tr>");
+
+                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:3px 5px;width:12%;\">");
+                sb.AppendLine("                    CODE");
+                sb.AppendLine("                </th>");
+
+                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:3px 5px;width:64%;\">");
+                sb.AppendLine("                    SUBJECT(S)");
+                sb.AppendLine("                </th>");
+
+                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:3px 5px;width:6%;\">");
+                sb.AppendLine("                    REGISTERED<br>CREDIT");
+                sb.AppendLine("                </th>");
+
+                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:3px 5px;width:6%;\">");
+                sb.AppendLine("                    EARNED<br>CREDIT");
+                sb.AppendLine("                </th>");
+
+                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:3px 5px;width:6%;\">");
+                sb.AppendLine("                    GRADE<br>AWARDED");
+                sb.AppendLine("                </th>");
+
+                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:3px 5px;width:6%;\">");
+                sb.AppendLine("                    REMARK");
+                sb.AppendLine("                </th>");
+
+                sb.AppendLine("            </tr>");
+
+                // subjects loop
+                foreach (DataRow dr in drs_subject)
+                {
+                    sb.AppendLine("            <tr>");
+
+                    sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;\">{dr["SubjectCode"]}</td>");
+                    sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;\">{dr["SubjectName"]}</td>");
+
+                    // for sca
+                    string scacolspan = string.Empty;
+                    if (Convert.ToBoolean(dr["IsStudentCenteredActivity"] ?? 0))
+                    {
+                        scacolspan = "colspan=\"4\"";
+                        sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;text-align:center;\" {scacolspan}>{dr["EarnedCredits"]}</td>");
+                    }
+                    else
+                    {
+                        sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;text-align:center;\">{dr["SubjectCredits"]}</td>");
+                        sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;text-align:center;\">{dr["EarnedCredits"]}</td>");
+                        sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;text-align:center;\">{dr["Grade"]}</td>");
+                        sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;text-align:center;\">{dr["Remarks"]}</td>");
+                    }
+
+                    sb.AppendLine("            </tr>");
+                }
+                sb.AppendLine("        </table>");
+
+                // results
+
+                sb.AppendLine("         <div style=\"text-align:center;font-size:12px;margin:10px 0;font-weight:bold;\">");
+                sb.AppendLine("            DETAILS UP TO THIS END TERM EXAMINATION RESULT");
+                sb.AppendLine("        </div>");
+
+                sb.AppendLine("        <table style=\"width:100%;border-collapse:collapse;font-size:11px;\">");
+
+                sb.AppendLine("            <tr>");
+
+                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:3px 5px;width:18%;\">");
+                sb.AppendLine("                    Semester");
+                sb.AppendLine("                </th>");
+
+                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:3px 5px;width:9%;\">1</th>");
+
+                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:3px 5px;width:9%;\">2</th>");
+
+                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:3px 5px;width:9%;\">3</th>");
+
+                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:3px 5px;width:9%;\">4</th>");
+
+                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:3px 5px;width:9%;\">5</th>");
+
+                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:3px 5px;width:9%;\">6</th>");
+
+                sb.AppendLine("                <th style=\"border:1px solid #cfcfcf;padding:3px 5px;width:28%;\">");
+                sb.AppendLine("                    RESULT");
+                sb.AppendLine("                </th>");
+
+                sb.AppendLine("            </tr>");
+
+
+                // results dr fill
+                sb.AppendLine("            <tr>");
+
+                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;\">Credit Registered</td>");
+
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;text-align:center;\">{dr_result["SubjectCreditsSem1"]}</td>");
+
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["SubjectCreditsSem2"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["SubjectCreditsSem3"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["SubjectCreditsSem4"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["SubjectCreditsSem5"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["SubjectCreditsSem6"]}</td>");
+
+                sb.AppendLine("                <td rowspan=\"4\" style=\"border:1px solid #cfcfcf;text-align:center;font-weight:bold;\">");
+                sb.AppendLine($"                    {dr_result["Result"]}");
+                sb.AppendLine("                </td>");
+
+                sb.AppendLine("            </tr>");
+
+
+                sb.AppendLine("            <tr>");
+
+                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;\">Credit Earned</td>");
+
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["EarnedCreditsSem1"]}</td>");
+
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["EarnedCreditsSem2"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["EarnedCreditsSem3"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["EarnedCreditsSem4"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["EarnedCreditsSem5"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["EarnedCreditsSem6"]}</td>");
+
+                sb.AppendLine("            </tr>");
+
+                sb.AppendLine("            <tr>");
+
+                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;\">SGPA</td>");
+
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["SGPASem1"]}</td>");
+
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["SGPASem2"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["SGPASem3"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["SGPASem4"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["SGPASem5"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["SGPASem6"]}</td>");
+
+                sb.AppendLine("            </tr>");
+
+                sb.AppendLine("            <tr>");
+
+                sb.AppendLine("                <td style=\"border:1px solid #cfcfcf;padding:3px 5px;\">CGPA</td>");
+
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["CGPASem1"]}</td>");
+
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["CGPASem2"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["CGPASem3"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["CGPASem4"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["CGPASem5"]}</td>");
+                sb.AppendLine($"                <td style=\"border:1px solid #cfcfcf;text-align:center;\">{dr_result["CGPASem6"]}</td>");
+
+                sb.AppendLine("            </tr>");
+
+
+                sb.AppendLine("            <!-- Division Award Details -->");
+
+                sb.AppendLine("            <tr>");
+
+                sb.AppendLine("<td rowspan =\"2\" style=\"width:18%;border-top:2px solid #000;border-left:1px solid #cfcfcf;border-right:1px solid #cfcfcf;border-bottom:1px solid #cfcfcf;");
+                sb.AppendLine("                            text-align:center;");
+                sb.AppendLine("                            ");
+                sb.AppendLine("                            padding:25px 10px;\">");
+
+                sb.AppendLine("                                Division Award<br>Details");
+
+                sb.AppendLine("                            </td>");
+
+                sb.AppendLine("                            <td colspan=\"2\" style=\"width:9%;");
+                sb.AppendLine("                            border-top:2px solid #000;border-left:1px solid #cfcfcf;border-right:1px solid #cfcfcf;border-bottom:1px solid #cfcfcf;");
+                sb.AppendLine("                            text-align:center;");
+                sb.AppendLine("                            ");
+                sb.AppendLine("                            padding:3px 5px;\">");
+
+                sb.AppendLine("                                Total Credit<br>Earned");
+
+                sb.AppendLine("                            </td>");
+                sb.AppendLine("                            <td style=\"width:9%;");
+                sb.AppendLine("                            border-top:2px solid #000;border-left:1px solid #cfcfcf;border-right:1px solid #cfcfcf;border-bottom:1px solid #cfcfcf;");
+                sb.AppendLine("                            text-align:center;");
+                sb.AppendLine("                            ");
+                sb.AppendLine("                            padding:3px 5px;\">");
+
+                sb.AppendLine($"                                {dr_result["TotalEarnedCredits"]}");
+
+                sb.AppendLine("                            </td>");
+
+                sb.AppendLine("                            <td rowspan=\"2\" style=\"width:9%;");
+                sb.AppendLine("                            border-top:2px solid #000;border-left:1px solid #cfcfcf;border-right:1px solid #cfcfcf;border-bottom:1px solid #cfcfcf;");
+                sb.AppendLine("                            text-align:center;");
+                sb.AppendLine("                            \">");
+
+                sb.AppendLine("                                Final<br>CGPA");
+
+                sb.AppendLine("                            </td>");
+                sb.AppendLine("                            <td rowspan=\"2\" style=\"width:9%;");
+                sb.AppendLine("                            border-top:2px solid #000;border-left:1px solid #cfcfcf;border-right:1px solid #cfcfcf;border-bottom:1px solid #cfcfcf;");
+                sb.AppendLine("                            text-align:center;");
+                sb.AppendLine("                            \">");
+
+                sb.AppendLine($"                                {dr_result["Percentage"]}");
+
+                sb.AppendLine("                            </td>");
+
+                sb.AppendLine("                            <td rowspan=\"2\" style=\"width:9%;");
+                sb.AppendLine("                            border-top:2px solid #000;border-left:1px solid #cfcfcf;border-right:1px solid #cfcfcf;border-bottom:1px solid #cfcfcf;");
+                sb.AppendLine("                            text-align:center;");
+                sb.AppendLine("                            \">");
+
+                sb.AppendLine("                                Division");
+
+                sb.AppendLine("                            </td>");
+                sb.AppendLine("                            <td rowspan=\"2\" style=\"width:9%;");
+                sb.AppendLine("                            border-top:2px solid #000;border-left:1px solid #cfcfcf;border-right:1px solid #cfcfcf;border-bottom:1px solid #cfcfcf;");
+                sb.AppendLine("                            text-align:center;");
+                sb.AppendLine("                            \">");
+
+                sb.AppendLine($"                                {dr_result["Division"]}");
+
+                sb.AppendLine("                            </td>");
+
+                sb.AppendLine("                        </tr>");
+
+                sb.AppendLine("                        <tr>");
+
+                sb.AppendLine("                            <td colspan=\"2\" style=\"border-top:2px solid #000;border-left:1px solid #cfcfcf;border-right:1px solid #cfcfcf;border-bottom:1px solid #cfcfcf; width:9%;");
+                sb.AppendLine("                                   text-align:center;");
+                sb.AppendLine("                                   ");
+                sb.AppendLine("                                   padding:3px 5px;\">");
+
+                sb.AppendLine("                                Total Credit<br>Registered");
+
+                sb.AppendLine("                            </td>");
+                sb.AppendLine("                            <td style=\"border-top:2px solid #000;border-left:1px solid #cfcfcf;border-right:1px solid #cfcfcf;border-bottom:1px solid #cfcfcf; width:9%;");
+                sb.AppendLine("                                   text-align:center;");
+                sb.AppendLine("                                   ");
+                sb.AppendLine("                                   padding:3px 5px;\">");
+
+                sb.AppendLine($"                                {dr_result["TotalSubjectCredits"]}");
+
+                sb.AppendLine("                            </td>");
+
+                sb.AppendLine("                        </tr>");
+
+
+
+                sb.AppendLine("        </table>");
+                sb.AppendLine("</div>");
+
+                sb.AppendLine("</div>");
+
                 sb.AppendLine("        <!-- Date -->");
-                sb.AppendLine("");
-                sb.AppendLine("        <div style=\"margin-top:170px;");
-                sb.AppendLine("                font-size:14px;");
+
+                sb.AppendLine("        <div style=\"margin-top:20px;");
+                sb.AppendLine("                font-size:15px;");
                 sb.AppendLine("                font-weight:bold;");
-                sb.AppendLine("                padding-left:210px;\">");
-                sb.AppendLine("");
-                sb.AppendLine("            02-04-2026");
-                sb.AppendLine("");
+                sb.AppendLine("                padding-left:200px;\">");
+
+                sb.AppendLine($"<span>            {(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</span>");
+                sb.AppendLine($"<img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"float:right;padding-right:70px;width:50px;height:25px;\" />");
+
                 sb.AppendLine("        </div>");
-                sb.AppendLine(" <div style=\"margin-top:25px;");
-                sb.AppendLine("                font-size:14px;");
+
+                sb.AppendLine(" <div style=\"margin-top:20px;");
+                sb.AppendLine("                font-size:15px;");
                 sb.AppendLine("                font-weight:bold;");
-                sb.AppendLine("                padding-left:150px;\">");
-                sb.AppendLine("");
-                sb.AppendLine("            02-04-2026");
-                sb.AppendLine("");
+                sb.AppendLine("                padding-left:140px;\">");
+
+                sb.AppendLine($"            {(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}");
                 sb.AppendLine("        </div>");
-                sb.AppendLine("");
+
+
                 sb.AppendLine("    </div>");
-                sb.AppendLine("");
+
                 sb.AppendLine("</body>");
-                sb.AppendLine("");
+
                 sb.AppendLine("</html>");
 
                 return sb;
@@ -3441,6 +3353,436 @@ thead th{
             {
                 throw;
             }
+        }
+        #endregion
+
+
+        #region GetToppersReport
+
+        //==============================
+        // PART 1 : Method & Data Preparation
+        //==============================
+        public async Task<StringBuilder> GetToppersReport_Html(DataSet ds, int ResultType, string ActionType)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                if (ds == null || ds.Tables.Count == 0)
+                    return sb;
+
+                DataTable dt = ds.Tables[0];
+
+                if (dt == null || dt.Rows.Count == 0)
+                    return sb;
+
+                // Sort Branch ASC and Percentage DESC
+                DataView dv = dt.DefaultView;
+                dv.Sort = "[Stream/Branch] ASC, Percentage DESC";
+                dt = dv.ToTable();
+
+                var branchGroups = dt.AsEnumerable()
+                                     .GroupBy(x => x["Stream/Branch"].ToString())
+                                     .ToList();
+
+                const int PageSize = 30;
+
+                //string program = dt.Columns.Contains("Stream/Branch")
+                //                    ? Convert.ToString(dt.Rows[0]["Stream/Branch"])
+                //                    : "";
+
+                string session = dt.Columns.Contains("SessionYear")
+                                    ? Convert.ToString(dt.Rows[0]["SessionYear"])
+                                    : "";
+
+                //==============================
+                // PART 2 : HTML Header & CSS
+                //==============================
+
+
+
+                for (int b = 0; b < branchGroups.Count; b++)
+                {
+                    var branch = branchGroups[b].ToList();
+                    string program = branch[0]["Stream/Branch"].ToString();
+                    // Start every branch on a new page except the first
+                    if (b > 0)
+                    {
+                        sb.Append(@"
+</tbody>
+</table>
+</div>
+
+<div style='page-break-before:always;'></div>
+");
+                    }
+
+                    int sno = 1;
+
+                    sb.Append(@"
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+
+<meta charset='UTF-8'>
+
+<title>Board Of Technical Education Result</title>
+
+<style>
+
+@page{
+    size:A4 portrait;
+    margin:15mm 12mm 15mm 12mm;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:12px;
+    color:#000;
+    margin:0;
+    padding:0;
+}
+
+.container{
+    width:100%;
+    page-break-after:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+thead{
+    display:table-header-group;
+}
+
+tfoot{
+    display:table-footer-group;
+}
+
+tr{
+    page-break-inside:avoid;
+}
+
+td,th{
+    page-break-inside:avoid;
+    vertical-align:middle;
+}
+
+.header{
+    width:100%;
+    margin-bottom:8px;
+}
+
+.header td{
+    text-align:center;
+    padding:2px;
+}
+
+.govt{
+    font-size:15px;
+    font-weight:bold;
+}
+
+.title{
+    font-size:22px;
+    font-weight:bold;
+    line-height:28px;
+}
+
+.info{
+    margin-top:5px;
+    margin-bottom:8px;
+}
+
+.info td{
+    padding:5px;
+    font-weight:bold;
+    border-top:1px solid #000;
+    border-bottom:1px solid #000;
+}
+
+.left{
+    text-align:left;
+}
+
+.right{
+    text-align:right;
+}
+
+.result{
+    width:100%;
+}
+
+.result thead th{
+    font-weight:bold;
+    text-align:center;
+    padding:6px 4px;
+}
+
+.result tbody td{
+    padding:5px 4px;
+}
+
+.result tr{
+    page-break-inside:avoid;
+}
+
+.pass{
+    text-align:center;
+    letter-spacing:2px;
+    font-weight:bold;
+}
+
+.center{
+    text-align:center;
+}
+
+.branch{
+    font-weight:bold;
+    font-size:15px;
+    text-align:center;
+    background:#efefef;
+    padding:6px;
+}
+
+.page-break{
+    page-break-before:always;
+}
+
+</style>
+
+</head>
+
+<body>
+");
+                    //==============================
+                    // PART 3 : Report Header
+                    //==============================
+
+                    sb.Append(@"
+
+<div class='container'>
+
+<table class='header'>
+
+<tr>
+    <td class='govt'>
+        GOVERNMENT OF RAJASTHAN
+    </td>
+</tr>
+
+<tr>
+    <td class='title'>
+        BOARD OF TECHNICAL EDUCATION, RAJASTHAN,<br>
+        JODHPUR
+    </td>
+</tr>
+
+</table>
+
+<table class='info'>
+
+<tr>
+
+<td class='left'>
+Program : " + program + @"
+</td>
+
+<td class='right'>
+Session : " + session + @"
+</td>
+
+</tr>
+
+</table>
+
+<table class='result'>
+
+<thead>
+
+<tr>
+
+<th width='5%'>SNO.</th>
+
+<th width='18%'>SPN</th>
+
+<th width='29%'>NAME</th>
+
+<th width='6%' class='center'>CIC</th>
+
+<th colspan='6' class='pass'>
+---------------- PASSED ----------------
+</th>
+
+<th width='8%' class='right'>%</th>
+
+</tr>
+
+<tr>
+
+<th></th>
+
+<th></th>
+
+<th></th>
+
+<th></th>
+
+<th class='center'>Sem 1</th>
+
+<th class='center'>Sem 2</th>
+
+<th class='center'>Sem 3</th>
+
+<th class='center'>Sem 4</th>
+
+<th class='center'>Sem 5</th>
+
+<th class='center'>Sem 6</th>
+
+<th></th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+");
+                    //==============================
+                    // PART 4 : Branch Loop
+                    //==============================
+
+
+                    sb.Append($@"
+
+<tr>
+
+<td colspan='11'
+style='font-weight:bold;
+font-size:16px;
+text-align:center;
+background:#efefef;
+padding:8px;'>
+
+BRANCH : {branch[0]["Stream/Branch"]}
+
+</td>
+
+</tr>
+
+");
+
+                    //==============================
+                    // PART 5 : Student Loop
+                    //==============================
+
+                    for (int i = 0; i < branch.Count; i++)
+                    {
+                        DataRow dr = branch[i];
+
+                        sb.Append($@"
+
+<tr>
+
+<td>{sno}</td>
+
+<td>{dr["Enrollment No"]}</td>
+
+<td>{dr["Student Name"]}</td>
+
+<td>{dr["InstituteCode"]}</td>
+
+<td>{dr["EndTermSem1"]}</td>
+
+<td>{dr["EndTermSem2"]}</td>
+
+<td>{dr["EndTermSem3"]}</td>
+
+<td>{dr["EndTermSem4"]}</td>
+
+<td>{dr["EndTermSem5"]}</td>
+
+<td>{dr["EndTermSem6"]}</td>
+
+<td>{dr["Percentage"]}</td>
+
+</tr>
+
+");
+
+                        sno++;
+
+                        //==============================
+                        // PART 6 : Page Break
+                        //==============================
+
+                        if ((i + 1) % PageSize == 0 && i != branch.Count - 1)
+                        {
+                            // Repeat complete Header
+                        }
+                        //==============================
+                        // PART 7 : End Student Loop
+                        //==============================
+
+                    }
+
+                    //==============================
+                    // PART 8 : Branch Page Break
+                    //==============================
+
+                    if (b < branchGroups.Count - 1)
+                    {
+                        // Repeat complete Header
+                    }
+                    //==============================
+                    // PART 9 : End Branch Loop
+                    //==============================
+
+                }
+
+                //==============================
+                // PART 10 : Close HTML
+                //==============================
+
+                sb.Append(@"
+
+</tbody>
+
+</table>
+
+</div>
+
+</body>
+
+</html>
+
+");
+
+                //==============================
+                // PART 11 : Return
+                //==============================
+
+                return sb;
+
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating Toppers Report HTML.", ex);
+            }
+
+
         }
         #endregion
     }

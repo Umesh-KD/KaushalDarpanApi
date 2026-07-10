@@ -53,11 +53,12 @@
                                         <b>{#=GetITIStudent_Marksheet_SingleDetails.RevisedName=#}&nbsp;&nbsp;&nbsp;&nbsp;</b>
                                         {#ENDIF.GetITIStudent_Marksheet_SingleDetails.RequestTypeID=2#}
                                         <!--Duplicate Marksheet-->
-
                                         <!--Revised Marksheet-->
-                                        {#IF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
+                                        {#IF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1 &&
+                                        GetITIStudent_Marksheet_SingleDetails.RequestTypeID!=2#}
                                         <b>{#=GetITIStudent_Marksheet_SingleDetails.RevisedName=#}&nbsp;&nbsp;&nbsp;&nbsp;</b>
-                                        {#ENDIF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1#}
+                                        {#ENDIF.GetITIStudent_Marksheet_SingleDetails.IsRevised=1 &&
+                                        GetITIStudent_Marksheet_SingleDetails.RequestTypeID!=2#}
                                         <!--Revised Marksheet-->
 
                                     </td>

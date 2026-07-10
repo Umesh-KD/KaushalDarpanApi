@@ -47,6 +47,7 @@ namespace Kaushal_Darpan.Models.LeaveMaster
         public string? InstituteName { get; set; }
         public string? SemesterName { get; set; }
         public string? Branch { get; set; }
+        public string? SingDate { get; set; }
         public List<StudentSubjectCode> SubjectCode { get; set; }
     }
 
@@ -86,6 +87,7 @@ namespace Kaushal_Darpan.Models.LeaveMaster
         public string? FileName { get; set; }
         public string? DisFileName { get; set; }
         public string? Code { get; set; }
+        public string? SemesterName { get; set; }
     }
 
 

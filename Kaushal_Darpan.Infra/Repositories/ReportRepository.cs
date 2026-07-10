@@ -10688,6 +10688,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
                         command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
                         command.Parameters.AddWithValue("@CourseTypeID", model.CourseTypeID);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dt = await command.FillAsync();
                     }
@@ -10707,6 +10708,40 @@ namespace Kaushal_Darpan.Infra.Repositories
                 }
             });
         }
+        #endregion
+
+        #region "GetToppersReport"
+        public async Task<DataTable> GetToppersReport(ToppersModel model)
+        {
+            _actionName = "GetToppersReport(ToppersModel model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "usp_GetFinalResultMeritEligibleStudents";
+                    command.Parameters.AddWithValue("@EndTermId", model.EndTermId);
+                    command.Parameters.AddWithValue("@CourseType", model.CourseType);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
         #endregion
     }
 }
