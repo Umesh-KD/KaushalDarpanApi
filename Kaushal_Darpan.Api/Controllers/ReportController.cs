@@ -19096,8 +19096,8 @@ namespace Kaushal_Darpan.Api.Controllers
                                     objMarksheet.ResultDetails = marksheetResult;
                                 }
 
-                                await _unitOfWork.MarksheetDownloadRepository.AddUpdateMarksheet(objMarksheet);
-                                await _unitOfWork.SaveChangesAsync();
+                                //await _unitOfWork.MarksheetDownloadRepository.AddUpdateMarksheet(objMarksheet);
+                                //await _unitOfWork.SaveChangesAsync();
 
                                 CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.RollNo}", logfilename);
 
