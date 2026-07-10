@@ -4040,8 +4040,15 @@ namespace Kaushal_Darpan.Api.Controllers
                                     {
                                         if (data.Tables[0].Rows.Count > 0)
                                         {
+                                            var row = data.Tables[0].Rows[0];
 
+                                            string qrText = $"Student Name : {row["StudentName"]}\n <\br>" +
+                                                            $"Roll No      : {row["RollNo"]}\n <\br>" +
+                                                            $"Stream       : {row["StreamName"]}\n <\br>" +
+                                                            $"Father Name  : {row["FatherName"]}";
 
+                                            //var text = "Enrollment No : 123456";
+                                            var qrcode = CommonFuncationHelper.GenerateQrCode(qrText);
                                             int studentID = Convert.ToInt32(data.Tables[0].Rows[0]["StudentID"]);
                                             //report
                                             var fileName = $"ITIAdmitCard_{studentID}_{StudentExamID}_{data.Tables[0].Rows[0]["RollNo"]}.pdf";
@@ -4066,9 +4073,29 @@ namespace Kaushal_Darpan.Api.Controllers
                                             string stuimgFilepath1 = $"{ConfigurationHelper.StaticFileRootPath}/{data.Tables[0].Rows[0]["Registrar_Signature"]}";
                                             data.Tables[0].Rows[0]["NodalSign"] = System.IO.File.ReadAllBytes(CheckFileExisits(stuimgFilepath1));
 
+
+
+                                            // QR Code - bind directly onto the same table as the other images
+                                            //if (!data.Tables[0].Columns.Contains("QRCode"))
+                                            //    data.Tables[0].Columns.Add("QRCode", typeof(byte[]));
+
+                                            //data.Tables[0].Rows[0]["QRCode"] = qrcode;
+                                            //var dataQR = new DataTable();
+                                            //dataQR.Columns.Add("qrcode", typeof(byte[]));
+                                            //var row = dataQR.NewRow();
+                                            //row["qrcode"] = qrcode;
+                                            //dataQR.Rows.Add(row);
+
+                                            var dataQR = new DataTable();
+                                            dataQR.Columns.Add("qrcode", typeof(byte[]));
+                                            var qrRow = dataQR.NewRow();       // renamed from "row" to avoid confusion with report rows
+                                            qrRow["qrcode"] = qrcode;
+                                            dataQR.Rows.Add(qrRow);
+
                                             LocalReport localReport = new LocalReport(rdlcpath);
                                             localReport.AddDataSource("ITIStudentAdmitCard", data.Tables[0]);
                                             localReport.AddDataSource("ITIStudentAdmitCard_Subject", data.Tables[1]);
+                                            localReport.AddDataSource("test", dataQR);
                                             var reportResult = localReport.Execute(RenderType.Pdf);
 
                                             //check file exists

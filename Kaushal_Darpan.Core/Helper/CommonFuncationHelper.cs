@@ -471,6 +471,9 @@ namespace Kaushal_Darpan.Core.Helper
         }
 
 
+
+
+
         #region Configure function
         public static string GetIpAddress()
         {
