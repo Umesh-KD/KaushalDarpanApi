@@ -4042,10 +4042,10 @@ namespace Kaushal_Darpan.Api.Controllers
                                         {
                                             var row = data.Tables[0].Rows[0];
 
-                                            string qrText = $"Student Name : {row["StudentName"]}\n <\br>" +
-                                                            $"Roll No      : {row["RollNo"]}\n <\br>" +
-                                                            $"Stream       : {row["StreamName"]}\n <\br>" +
-                                                            $"Father Name  : {row["FatherName"]}";
+                                            string qrText = $"Student Name : {row["StudentName"]}\n" +
+                                                             $"Roll No      : {row["RollNo"]}\n" +
+                                                             $"Stream       : {row["StreamName"]}\n" +
+                                                             $"Father Name  : {row["FatherName"]}";
 
                                             //var text = "Enrollment No : 123456";
                                             var qrcode = CommonFuncationHelper.GenerateQrCode(qrText);
