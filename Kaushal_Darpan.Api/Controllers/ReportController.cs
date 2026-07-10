@@ -19704,9 +19704,7 @@ td{{
 
 <table>
 <tr>
-<td width='10%' class='left'>
 
-</td>
 
 <td width='80%' class='center'>
 <b>राजस्थान सरकार</b><br/>
@@ -19715,27 +19713,24 @@ W-6 Residency Road, Jodhpur<br/>
 Phone : (0291)-2430440,2636572
 </td>
 
-<td width='10%' class='right'>
 
-</td>
 
 </tr>
+</table>
+<table>
 <tr>
-<td width='40%' class='left'>
+<td width='49%' class='left'>
 Email : conf.bter@gmail.com
 </td>
 
-<td width='20%' class='center'>
 
-</td>
 
-<td width='40%' class='right'>
+<td width='49%' class='right'>
 Web Site : www.techedu.rajasthan.gov.in
 </td>
 </tr>
 </table>
 
-<br/>
 
 <table>
 <tr>
@@ -19751,7 +19746,6 @@ Web Site : www.techedu.rajasthan.gov.in
 </tr>
 </table>
 
-<br/>
 
 <table>
 <tr>
@@ -19764,13 +19758,18 @@ Web Site : www.techedu.rajasthan.gov.in
 </tr>
 </table>
 
-<br/>
+
 
 <table>
 <tr>
-<td class='center'>
+<td>
 <b>
-विषय : {SemesterNameHindi} के ग्रेटर संकलित सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों का रिकॉर्ड प्रस्तुत करने हेतु।
+विषय:
+</b>
+</td>
+<td>
+<b>
+ {SemesterNameHindi} के ग्रेटर संकलित सेशनल अंकों में 85% से अधिक एवं 45% से कम प्राप्तांक वाले विद्यार्थियों का रिकॉर्ड प्रस्तुत करने हेतु।
 </b>
 </td>
 </tr>
