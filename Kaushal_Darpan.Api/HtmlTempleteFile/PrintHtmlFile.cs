@@ -1149,8 +1149,9 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             <tr>
                             <th style='border: 1px solid #ccc; padding: 5px;'></th>
                             <th style='border: 1px solid #ccc; padding: 5px;'></th>
-                            <th style='border: 1px solid #ccc; padding: 5px; width: 50%;'>In Words</th>
-                            <th colspan='2' style='border: 1px solid #ccc; padding: 5px;'>In Fig.</th>
+                            <th style='border: 1px solid #ccc; padding: 5px; width: 50%;'></th>
+                            <th style='border: 1px solid #ccc; padding: 5px;'>In Words</th>
+                            <th style='border: 1px solid #ccc; padding: 5px;'>In Fig.</th>
                             </tr>
                             </thead>
                             <tbody>");
