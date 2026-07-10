@@ -20,5 +20,6 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         Task<StringBuilder> StudentResult_Public_GetHtml(DataSet dataSet, int ResultType);
         Task<StringBuilder> GetMarksStatisticsReport_GetHtml(DataSet dataSet, int ResultType,string ActionType );
         StringBuilder GetHtmlOfMarkSheet(DataSet ds);
+        Task<StringBuilder> GetToppersReport_Html(DataSet dataSet, int ResultType, string ActionType);
     }
 }

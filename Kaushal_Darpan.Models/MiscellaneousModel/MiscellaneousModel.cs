@@ -43,4 +43,10 @@ namespace Kaushal_Darpan.Models.LeaveMaster
         public string GroupCode { get; set; } = string.Empty;
         public int CourseType { get; set; } = 0;
     }
-}
+
+    public class ToppersModel
+    {
+        public int EndTermId { get; set; }
+        public int CourseType { get; set; }
+    }
+    }

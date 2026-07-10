@@ -1041,7 +1041,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                                             GroupCode = row["GroupCode"],
                                             BranchName = row["BranchName"],
                                             SubjectName = row["SubjectName"],
-                                         //   CenterCode = row["CenterCode"],
+                                            //   CenterCode = row["CenterCode"],
                                             SubjectCode = row["SubjectCode"],
                                             MaximumMarks = row["MAXIMUM_MARKS"], // FIXED
                                             ExaminerName = row["ExaminerName"],
@@ -1085,8 +1085,8 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                     int pageCount = (int)Math.Ceiling((double)totalRecords / pageSize);
 
                     var orderedData = group
-                        .OrderBy(x => x["CenterCode"]) 
-                     //   .OrderBy(x => x["RollNo"])
+                        .OrderBy(x => x["CenterCode"])
+                        //   .OrderBy(x => x["RollNo"])
                         .ToList();
 
                     var revaltext = IsReval == 1 ? "(Revaluation) " : "";
@@ -1910,7 +1910,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         //            }
 
         //            sb.AppendLine("</table>");
-                 
+
         //        }
 
         //        sb.AppendLine($@"
@@ -1994,9 +1994,9 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                         CodeID = x["CodeID"].ToString(),
                         ShortCode = x["ShortCode"].ToString(),
                         SemesterID = x["SemesterID"].ToString(),
-                        SemesterNameHindi= x["SemesterNameHindi"].ToString(),
+                        SemesterNameHindi = x["SemesterNameHindi"].ToString(),
                         TermNameHindi = x["TermNameHindi"].ToString(),
-                       // RollNo = x["RollNo"].ToString()
+                        // RollNo = x["RollNo"].ToString()
 
                     })
                     .OrderBy(x => Convert.ToInt32(x.Key.UFMCategory))
@@ -2655,15 +2655,15 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                 //Footer
                 sb.Append(@"
                     <div style='padding:20px 10px;font-size:11px;line-height:1.6;'>");
-                    
-                                    // District
-                                    sb.Append($@"
+
+                // District
+                sb.Append($@"
                     <div style='margin-bottom:5px;'>
                         {student["District"]}
                     </div>");
-                    
-                                    // Result Declaration Date
-                                    sb.Append($@"
+
+                // Result Declaration Date
+                sb.Append($@"
                     <div style='margin-bottom:15px;'>
                         DATE OF RESULT DECLARATION :
                         {student["ResultDeclarationDate"]}
@@ -2697,7 +2697,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
                             </div>                            
                             ");
                     }
-                            
+
                     sb.Append(@"                            
                         <div style='margin-bottom:10px;'>                        
                         <strong>NOTE:</strong>                        
@@ -2745,7 +2745,7 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
 
         #region GetMarksStatisticsReport
 
-        public async Task<StringBuilder> GetMarksStatisticsReport_GetHtml(DataSet ds, int ResultType,string ActionType)
+        public async Task<StringBuilder> GetMarksStatisticsReport_GetHtml(DataSet ds, int ResultType, string ActionType)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -2841,9 +2841,9 @@ thead th{
                         // Report Header
                         sb.Append("<h3 style='text-align:center'>GOVERNMENT OF RAJASTHAN</h3>");
                         sb.Append("<h2 style='text-align:center'>BOARD OF TECHNICAL EDUCATION RAJASTHAN, JODHPUR</h2>");
-                        sb.Append("<h4 style='text-align:center'>"+ SemesterName + "</h4>");
+                        sb.Append("<h4 style='text-align:center'>" + SemesterName + "</h4>");
                         sb.Append("<h4 style='text-align:center'>Marks Statistics Report</h4>");
-                        sb.Append("<h4 style='text-align:center'>"+ ActionType + "</h4>");
+                        sb.Append("<h4 style='text-align:center'>" + ActionType + "</h4>");
                         sb.Append("<br/>");
 
                         sb.Append("<table>");
@@ -3447,6 +3447,436 @@ thead th{
             {
                 throw;
             }
+        }
+        #endregion
+
+
+        #region GetToppersReport
+
+        //==============================
+        // PART 1 : Method & Data Preparation
+        //==============================
+        public async Task<StringBuilder> GetToppersReport_Html(DataSet ds, int ResultType, string ActionType)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                if (ds == null || ds.Tables.Count == 0)
+                    return sb;
+
+                DataTable dt = ds.Tables[0];
+
+                if (dt == null || dt.Rows.Count == 0)
+                    return sb;
+
+                // Sort Branch ASC and Percentage DESC
+                DataView dv = dt.DefaultView;
+                dv.Sort = "[Stream/Branch] ASC, Percentage DESC";
+                dt = dv.ToTable();
+
+                var branchGroups = dt.AsEnumerable()
+                                     .GroupBy(x => x["Stream/Branch"].ToString())
+                                     .ToList();
+
+                const int PageSize = 30;
+
+                //string program = dt.Columns.Contains("Stream/Branch")
+                //                    ? Convert.ToString(dt.Rows[0]["Stream/Branch"])
+                //                    : "";
+
+                string session = dt.Columns.Contains("SessionYear")
+                                    ? Convert.ToString(dt.Rows[0]["SessionYear"])
+                                    : "";
+
+                //==============================
+                // PART 2 : HTML Header & CSS
+                //==============================
+
+
+
+                for (int b = 0; b < branchGroups.Count; b++)
+                {
+                    var branch = branchGroups[b].ToList();
+                    string program = branch[0]["Stream/Branch"].ToString();
+                    // Start every branch on a new page except the first
+                    if (b > 0)
+                    {
+                        sb.Append(@"
+</tbody>
+</table>
+</div>
+
+<div style='page-break-before:always;'></div>
+");
+                    }
+
+                    int sno = 1;
+
+                    sb.Append(@"
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+
+<meta charset='UTF-8'>
+
+<title>Board Of Technical Education Result</title>
+
+<style>
+
+@page{
+    size:A4 portrait;
+    margin:15mm 12mm 15mm 12mm;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:12px;
+    color:#000;
+    margin:0;
+    padding:0;
+}
+
+.container{
+    width:100%;
+    page-break-after:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+thead{
+    display:table-header-group;
+}
+
+tfoot{
+    display:table-footer-group;
+}
+
+tr{
+    page-break-inside:avoid;
+}
+
+td,th{
+    page-break-inside:avoid;
+    vertical-align:middle;
+}
+
+.header{
+    width:100%;
+    margin-bottom:8px;
+}
+
+.header td{
+    text-align:center;
+    padding:2px;
+}
+
+.govt{
+    font-size:15px;
+    font-weight:bold;
+}
+
+.title{
+    font-size:22px;
+    font-weight:bold;
+    line-height:28px;
+}
+
+.info{
+    margin-top:5px;
+    margin-bottom:8px;
+}
+
+.info td{
+    padding:5px;
+    font-weight:bold;
+    border-top:1px solid #000;
+    border-bottom:1px solid #000;
+}
+
+.left{
+    text-align:left;
+}
+
+.right{
+    text-align:right;
+}
+
+.result{
+    width:100%;
+}
+
+.result thead th{
+    font-weight:bold;
+    text-align:center;
+    padding:6px 4px;
+}
+
+.result tbody td{
+    padding:5px 4px;
+}
+
+.result tr{
+    page-break-inside:avoid;
+}
+
+.pass{
+    text-align:center;
+    letter-spacing:2px;
+    font-weight:bold;
+}
+
+.center{
+    text-align:center;
+}
+
+.branch{
+    font-weight:bold;
+    font-size:15px;
+    text-align:center;
+    background:#efefef;
+    padding:6px;
+}
+
+.page-break{
+    page-break-before:always;
+}
+
+</style>
+
+</head>
+
+<body>
+");
+                    //==============================
+                    // PART 3 : Report Header
+                    //==============================
+
+                    sb.Append(@"
+
+<div class='container'>
+
+<table class='header'>
+
+<tr>
+    <td class='govt'>
+        GOVERNMENT OF RAJASTHAN
+    </td>
+</tr>
+
+<tr>
+    <td class='title'>
+        BOARD OF TECHNICAL EDUCATION, RAJASTHAN,<br>
+        JODHPUR
+    </td>
+</tr>
+
+</table>
+
+<table class='info'>
+
+<tr>
+
+<td class='left'>
+Program : " + program + @"
+</td>
+
+<td class='right'>
+Session : " + session + @"
+</td>
+
+</tr>
+
+</table>
+
+<table class='result'>
+
+<thead>
+
+<tr>
+
+<th width='5%'>SNO.</th>
+
+<th width='18%'>SPN</th>
+
+<th width='29%'>NAME</th>
+
+<th width='6%' class='center'>CIC</th>
+
+<th colspan='6' class='pass'>
+---------------- PASSED ----------------
+</th>
+
+<th width='8%' class='right'>%</th>
+
+</tr>
+
+<tr>
+
+<th></th>
+
+<th></th>
+
+<th></th>
+
+<th></th>
+
+<th class='center'>Sem 1</th>
+
+<th class='center'>Sem 2</th>
+
+<th class='center'>Sem 3</th>
+
+<th class='center'>Sem 4</th>
+
+<th class='center'>Sem 5</th>
+
+<th class='center'>Sem 6</th>
+
+<th></th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+");
+                    //==============================
+                    // PART 4 : Branch Loop
+                    //==============================
+
+
+                    sb.Append($@"
+
+<tr>
+
+<td colspan='11'
+style='font-weight:bold;
+font-size:16px;
+text-align:center;
+background:#efefef;
+padding:8px;'>
+
+BRANCH : {branch[0]["Stream/Branch"]}
+
+</td>
+
+</tr>
+
+");
+
+                    //==============================
+                    // PART 5 : Student Loop
+                    //==============================
+
+                    for (int i = 0; i < branch.Count; i++)
+                    {
+                        DataRow dr = branch[i];
+
+                        sb.Append($@"
+
+<tr>
+
+<td>{sno}</td>
+
+<td>{dr["Enrollment No"]}</td>
+
+<td>{dr["Student Name"]}</td>
+
+<td>{dr["InstituteCode"]}</td>
+
+<td>{dr["EndTermSem1"]}</td>
+
+<td>{dr["EndTermSem2"]}</td>
+
+<td>{dr["EndTermSem3"]}</td>
+
+<td>{dr["EndTermSem4"]}</td>
+
+<td>{dr["EndTermSem5"]}</td>
+
+<td>{dr["EndTermSem6"]}</td>
+
+<td>{dr["Percentage"]}</td>
+
+</tr>
+
+");
+
+                        sno++;
+
+                        //==============================
+                        // PART 6 : Page Break
+                        //==============================
+
+                        if ((i + 1) % PageSize == 0 && i != branch.Count - 1)
+                        {
+                            // Repeat complete Header
+                        }
+                        //==============================
+                        // PART 7 : End Student Loop
+                        //==============================
+
+                    }
+
+                    //==============================
+                    // PART 8 : Branch Page Break
+                    //==============================
+
+                    if (b < branchGroups.Count - 1)
+                    {
+                        // Repeat complete Header
+                    }
+                    //==============================
+                    // PART 9 : End Branch Loop
+                    //==============================
+
+                }
+
+                //==============================
+                // PART 10 : Close HTML
+                //==============================
+
+                sb.Append(@"
+
+</tbody>
+
+</table>
+
+</div>
+
+</body>
+
+</html>
+
+");
+
+                //==============================
+                // PART 11 : Return
+                //==============================
+
+                return sb;
+
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating Toppers Report HTML.", ex);
+            }
+
+
         }
         #endregion
     }
