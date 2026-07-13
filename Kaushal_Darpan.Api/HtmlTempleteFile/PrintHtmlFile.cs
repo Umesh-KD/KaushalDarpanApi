@@ -3600,13 +3600,13 @@ Session : " + session + @"
 
 <tr>
 
-<th width='5%'>SNO.</th>
+<th >SNO.</th>
 
-<th width='18%'>SPN</th>
+<th >SPN</th>
 
-<th width='29%'>NAME</th>
+<th >NAME</th>
 
-<th width='6%' class='center'>CIC</th>
+<th >CIC</th>
 
 <th colspan='6' class='pass'>
 ---------------- PASSED ----------------
@@ -3647,30 +3647,7 @@ Session : " + session + @"
 <tbody>
 
 ");
-                    //==============================
-                    // PART 4 : Branch Loop
-                    //==============================
-
-
-//                    sb.Append($@"
-
-//<tr>
-
-//<td colspan='11'
-//style='font-weight:bold;
-//font-size:16px;
-//text-align:center;
-//background:#efefef;
-//padding:8px;'>
-
-//BRANCH : {branch[0]["Stream/Branch"]}
-
-//</td>
-
-//</tr>
-
-//");
-
+                   
                     //==============================
                     // PART 5 : Student Loop
                     //==============================

@@ -10723,6 +10723,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     command.CommandText = "usp_GetFinalResultMeritEligibleStudents";
                     command.Parameters.AddWithValue("@EndTermId", model.EndTermId);
                     command.Parameters.AddWithValue("@CourseType", model.CourseType);
+                    command.Parameters.AddWithValue("@BranchID", model.BranchID);
                     _sqlQuery = command.GetSqlExecutableQuery();
                     dataTable = await command.FillAsync_DataTable();
                 }

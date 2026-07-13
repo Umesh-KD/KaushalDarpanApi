@@ -48,5 +48,6 @@ namespace Kaushal_Darpan.Models.LeaveMaster
     {
         public int EndTermId { get; set; }
         public int CourseType { get; set; }
+        public int BranchID { get; set; }
     }
     }
