@@ -290,12 +290,12 @@ namespace Kaushal_Darpan.Api.Controllers
 
 
         [HttpPost("SaveSanctionOrder")]
-        public async Task<ApiResult<bool>> SaveSanctionOrder([FromBody] OrderDetailsList request)
+        public async Task<ApiResult<int>> SaveSanctionOrder([FromBody] OrderDetailsList request)
         {
             ActionName = "SaveDataSanction([FromBody] SanctionOrderMasterModel request)";
             return await Task.Run(async () =>
             {
-                var result = new ApiResult<bool>();
+                var result = new ApiResult<int>();
                 try
                 {
 
@@ -309,13 +309,23 @@ namespace Kaushal_Darpan.Api.Controllers
 
                     result.Data = await _unitOfWork.HiringRoleMasterRepository.SaveSanctionOrder(request);
                     await _unitOfWork.SaveChangesAsync();
-                    if (result.Data)
+                    if (result.Data > 0)
                     {
                         result.State = EnumStatus.Success;
                         if (request.SanctionID == 0)
                             result.Message = "Saved successfully .!";
                         else
                             result.Message = "Updated successfully .!";
+                    }
+                    else if(result.Data == -1)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "Duplicate Order Name!";
+                    }
+                    else if (result.Data == -2)
+                    {
+                        result.State = EnumStatus.Warning;
+                        result.Message = "Duplicate Sanction Order Number!";
                     }
                     else
                     {
