@@ -658,7 +658,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Action", entry.PKID==0 ? "Insert" :"Update");
                         command.Parameters.AddWithValue("@Nameofinstitute", entry.Nameofinstitute);
                         command.Parameters.AddWithValue("@Dateofregistration", entry.Dateofregistration);
-                        command.Parameters.AddWithValue("@BusinessName",entry. businessNameCsv);
+                        command.Parameters.AddWithValue("@BusinessName",entry. BusinessName);
                         command.Parameters.AddWithValue("@NumberofTrainees", entry.NumberofTrainees);
                         command.Parameters.AddWithValue("@Numberofapprentices", entry.Numberofapprentices);
                         command.Parameters.AddWithValue("@Remarks", entry.Remarks);
@@ -670,8 +670,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Nameofapprentices", entry.Nameofapprentices);
                         command.Parameters.AddWithValue("@TypeID", entry.TypeID);
                         command.Parameters.AddWithValue("@FinancialYearID", entry.FinancialYearID);
-                        command.Parameters.AddWithValue("@FinancialYearID", entry.FinancialYearID);
-                        command.Parameters.AddWithValue("@json", JsonConvert.SerializeObject(entry.RegistrationList));
+            
+                        //command.Parameters.AddWithValue("@json", JsonConvert.SerializeObject(entry.RegistrationList));
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

@@ -20297,7 +20297,7 @@ Web Site : www.techedu.rajasthan.gov.in
         {
             ActionName = "GetProvesionalMeritList(ToppersModel model)";
             var result = new ApiResult<string>();
-            string ActionType = "";
+            
             try
             {
                 // Get report data
@@ -20315,7 +20315,7 @@ Web Site : www.techedu.rajasthan.gov.in
                 }
 
                 // Generate HTML
-                var sb = await _printHtmlFile.GetProvesionalMeritList_Html(data, 0, ActionType);
+                var sb = await _printHtmlFile.GetProvesionalMeritList_Html(data, 0, model.Action);
                 string html = sb.ToString();
 
                 // Remove last page break if present
@@ -20388,6 +20388,45 @@ Web Site : www.techedu.rajasthan.gov.in
             return result;
         }
 
+        #endregion
+        #region GetCheck_Merit_List
+
+        [HttpPost("GetCheck_Merit_List")]
+        public async Task<ApiResult<DataTable>> GetCheck_Merit_List(GetProvesionalMeritModel model)
+        {
+            ActionName = "GetCheck_Merit_List(ToppersModel model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetCheck_Merit_List(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                var newException = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+                await CreateErrorLog(newException, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
         #endregion
 
     }

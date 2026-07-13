@@ -12372,11 +12372,11 @@ namespace Kaushal_Darpan.Infra.Repositories
 
                         // Add parameters to the stored procedure from the model
 
-                        command.Parameters.AddWithValue("@Action","_PendingFeesForEmitraWhatsup");
+                        command.Parameters.AddWithValue("@Action", "_PendingFeesForEmitraWhatsup");
                         command.Parameters.AddWithValue("@ApplicationNo", filterModel.ApplicationNo);
                         command.Parameters.AddWithValue("@DOB", filterModel.DOB);
                         command.Parameters.AddWithValue("@MobileNumber", filterModel.MobileNumber);
-               
+                        command.Parameters.AddWithValue("@FeeType", filterModel.FeeType);
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

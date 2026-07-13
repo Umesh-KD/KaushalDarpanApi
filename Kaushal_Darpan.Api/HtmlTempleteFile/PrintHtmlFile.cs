@@ -1,4 +1,5 @@
 ﻿
+using AngleSharp.Html;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.TheoryMarks;
@@ -2988,75 +2989,75 @@ thead th{
 
                 sb.AppendLine("            <tr>");
 
-                sb.AppendLine("                <td style=\"font-size:11px;padding-bottom:15px; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding-bottom:15px; width: 21%;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding-bottom:15px; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;padding-bottom:15px; width: 41.5%;\">");
                 sb.AppendLine($"                    {dr_studet["StudentName"]}");
                 sb.AppendLine("                </td>");
 
-                sb.AppendLine("                <td style=\"font-size:11px; width: 29%;padding-bottom:15px;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding-bottom:15px; width: 16.7%;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 21%;padding-bottom:15px;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;text-align:left;padding-bottom:15px; width: 20.8%;\">");
                 sb.AppendLine($"                    {dr_studet["EnrollmentNo"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["FatherName"]}");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px; width: 29%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 21%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;text-align:left;\">");
                 sb.AppendLine($"                    {dr_studet["RollNo"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["MotherName"]}");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px; width: 29%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 21%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;text-align:left;\">");
                 sb.AppendLine($"                    {dr_studet["Branch"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 23%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 27%;\">");
+                sb.AppendLine("                <td style=\"font-size:10px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["StreamName"]}");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px;text-align:left; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;text-align:left;\">");
                 sb.AppendLine($"                    {dr_studet["YearSemester"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0; width: 23%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td colspan=\"3\" style=\"font-size:12px;padding:13px 0 ; width: 77%;\">");
+                sb.AppendLine("                <td colspan=\"3\" style=\"font-size:12px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["InstituteName"]}");
                 sb.AppendLine("                </td>");
                 sb.AppendLine("                ");
@@ -3470,7 +3471,7 @@ body{
 table{
     width:100%;
     border-collapse:collapse;
-    border-spacing:0;
+    border-spacing:0;text-align:left;
 }
 
 thead{
@@ -3488,6 +3489,7 @@ tr{
 td,th{
     page-break-inside:avoid;
     vertical-align:middle;
+text
 }
 
 .header{
@@ -3496,7 +3498,7 @@ td,th{
 }
 
 .header td{
-    text-align:center;
+    text-align:left;
     padding:2px;
 }
 
@@ -3520,7 +3522,7 @@ td,th{
     padding:5px;
     font-weight:bold;
     border-top:1px solid #000;
-    border-bottom:1px solid #000;
+    border-bottom:1px solid #000;text-align:left;
 }
 
 .left{
@@ -3537,12 +3539,12 @@ td,th{
 
 .result thead th{
     font-weight:bold;
-    text-align:center;
+    text-align:left;
     padding:6px 4px;
 }
 
 .result tbody td{
-    padding:5px 4px;
+    padding:5px 4px;text-align:left;
 }
 
 .result tr{
@@ -3588,13 +3590,13 @@ td,th{
 <table class='header'>
 
 <tr>
-    <td class='govt'>
+    <td class='govt' style='text-align:center !important;'>
         GOVERNMENT OF RAJASTHAN
     </td>
 </tr>
 
 <tr>
-    <td class='title'>
+    <td class='title' style='text-align:center !important;'>
         BOARD OF TECHNICAL EDUCATION, RAJASTHAN,<br>
         JODHPUR
     </td>
@@ -3632,7 +3634,7 @@ Session : " + session + @"
 
 <th >CIC</th>
 
-<th colspan='6' class='pass'>
+<th colspan='6' class='pass' style='text-align:center !important;'>
 ---------------- PASSED ----------------
 </th>
 
@@ -3682,7 +3684,7 @@ Session : " + session + @"
 
                         sb.Append($@"
 
-<tr>
+<tr style='border-bottom:1px solid grey;'>
 
 <td>{sno}</td>
 
@@ -3800,12 +3802,24 @@ Session : " + session + @"
                                      .GroupBy(x => x["Stream/Branch"].ToString())
                                      .ToList();
 
-                const int PageSize = 30;
+                const int PageSize = 8;
 
                
                 string session = dt.Columns.Contains("SessionYear")
                                     ? Convert.ToString(dt.Rows[0]["SessionYear"])
                                     : "";
+
+                int IsFootercontent = 0;
+
+                if(ActionType== "ProvesionalMeritList")
+                {
+                    IsFootercontent = 1;
+                }
+                if (ActionType == "FinalMeritList")
+                {
+                    IsFootercontent = 2;
+                }
+
 
                 for (int b = 0; b < branchGroups.Count; b++)
                 {
@@ -3993,6 +4007,11 @@ PROVISIONAL MERIT LIST for the Session {session}
 
 </tr>
 
+<tr class=""program"">
+      <th style=""width:250px;"">Program: {program}</th>
+    <th colspan=""4""></th>
+</tr>
+
 </thead>
 
 <tbody>
@@ -4030,14 +4049,73 @@ PROVISIONAL MERIT LIST for the Session {session}
 ");
 
                         sno++;
-                       
+
                         //==============================
                         // PART 6 : Page Break
                         //==============================
 
+                        //==============================
+                        // PART 6 : Page Break
+                        //==============================
                         if ((i + 1) % PageSize == 0 && i != branch.Count - 1)
                         {
-                            // Repeat complete Header
+                            sb.Append($@"
+
+        </tbody>
+    </table>
+
+    <div class='footer'>
+        <div class='eligible'>
+            <strong>Eligible for Merit: {totalRows}</strong>
+        </div>
+    </div>
+
+</div>
+
+<div style='page-break-before:always;'></div>
+
+<div class='container'>
+
+<div class='header'>
+
+<div class='gov'>
+GOVERNMENT OF RAJASTHAN
+</div>
+
+<div class='title'>
+BOARD OF TECHNICAL EDUCATION,
+RAJASTHAN, JODHPUR
+</div>
+
+<div class='sub'>
+PROVISIONAL MERIT LIST for the Session {session}
+</div>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+    <th class='col-sno'>Roll No</th>
+    <th class='col-enroll'>Enrollment No</th>
+    <th>Student Name / Father Name / Institute</th>
+    <th class='col-per'>Percentage</th>
+    <th class='col-per'>Merit</th>
+</tr>
+
+<tr class=""program"">
+      <th style=""width:250px;"">Program: {program}</th>
+    <th colspan=""4""></th>
+</tr>
+
+
+</thead>
+
+<tbody>
+
+");
                         }
                         //==============================
                         // PART 7 : End Student Loop
@@ -4069,13 +4147,19 @@ PROVISIONAL MERIT LIST for the Session {session}
 
 </table>
 
-    <div class=""footer"">
+<div class='footer'>
 
     <div class='eligible'>
         <strong>Eligible for Merit: {totalRows}</strong>
     </div>
 
-    <div class=""note"">
+");
+
+                if (IsFootercontent == 1)
+                {
+                    sb.Append(@"
+
+    <div class='note'>
         Any objection regarding the provisional merit should be sent to the Board
         directly so as to reach the Board office latest by
         ................................
@@ -4084,12 +4168,16 @@ PROVISIONAL MERIT LIST for the Session {session}
         list will be the final merit list.
     </div>
 
-    <div class=""signature"">
+");
+                }
+
+                sb.Append(@"
+
+    <div class='signature'>
         REGISTRAR
     </div>
 
 </div>
-
 
 </div>
 
@@ -4115,5 +4203,8 @@ PROVISIONAL MERIT LIST for the Session {session}
 
         }
         #endregion
+
+
+
     }
 }

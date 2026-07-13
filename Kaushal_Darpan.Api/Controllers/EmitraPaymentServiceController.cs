@@ -4247,7 +4247,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
             var requestDetailsModel = new ApiResult<dynamic>();
             EmitraRequestDetailsModel Model = new EmitraRequestDetailsModel();
-            if (data == null)
+            if (data == null || data.Rows.Count == 0)
             {
                 return new ApiResult<dynamic>
                 {
@@ -4276,7 +4276,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     Model.StudentFeesTransactionItems.Add(new StudentFeesTransactionItems
                     {
-                        TransactionApplicationID = Convert.ToInt32(row["StudentID"]),
+                        TransactionApplicationID = Convert.ToInt32(row["StudentExamID"]),
                         Status = Convert.ToInt32(row["ExamStudentStatus"]),
                         TranSemesterID = Convert.ToInt32(row["SemesterID"]),
                         ItemAmount = Convert.ToInt32(row["FeeAmount"])
@@ -4393,6 +4393,7 @@ namespace Kaushal_Darpan.Api.Controllers
 
             return requestDetailsModel;
         }
+
 
 
         [HttpPost("EnrollmentExaminationFeePaymentWhatsappResponse_ITI")] //IActionResult

@@ -340,6 +340,7 @@ namespace Kaushal_Darpan.Core.Interfaces
 
         Task<DataTable> GetToppersReport(ToppersModel model);
         Task<DataTable> GetProvesionalMeritList(GetProvesionalMeritModel model);
+        Task<DataTable> GetCheck_Merit_List(GetProvesionalMeritModel model);
 
     }
 }

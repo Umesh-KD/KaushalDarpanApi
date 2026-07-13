@@ -155,7 +155,9 @@ namespace Kaushal_Darpan.Models.NodalApperentship
     {
         public string? Nameofinstitute { get; set; }
         public DateTime? Dateofregistration { get; set; }
-        public List<string>? BusinessName { get; set; }
+        //public List<string>? BusinessName { get; set; }
+
+        public string? BusinessName { get; set; }
         public int NumberofTrainees { get; set; }
         public string? Numberofapprentices { get; set; }
         public string? Remarks { get; set; }
@@ -187,8 +189,8 @@ namespace Kaushal_Darpan.Models.NodalApperentship
 
     public class RegistrationList
     {
-        public string? Nameofapprentices { get; set; }
-        public string? Numberofapprentices { get; set; }
+        public string? Name { get; set; }
+        public string? RegistrationNo { get; set; }
     }
 
 
