@@ -31,7 +31,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveFresherReport(ITIApprenticeshipRegPassOutModel body);
 
         Task<DataTable> Save_ITIWorkshopProgressRPT(List<workshopProgressRPTList> body);
-        Task<DataTable> Submit_Apprenticeship_data(ApprenticeshipEntryDto entry, string businessNameCsv);
+        Task<DataTable> Submit_Apprenticeship_data(ApprenticeshipEntryDto entry);
 
         Task<DataTable> Get_WorkshopProgressRPT_AllData(WorkshopProgressRPTSearchModal body);
 

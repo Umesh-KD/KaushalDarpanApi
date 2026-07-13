@@ -1032,6 +1032,48 @@ namespace Kaushal_Darpan.Infra.Repositories
             }
         }
 
+        public async Task<DataTable> GetCenterAdmit_RollListPdf_New(GenerateRollSearchModel model)
+        {
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    DataTable dataTable = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_CenterAdmit_RollListPdfDetails_new";
+                        command.Parameters.AddWithValue("@Action", model.Action);
+                        command.Parameters.AddWithValue("@EndTermID", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@PDFType", model.PDFType);
+                        command.Parameters.AddWithValue("@Eng_NonEng", model.Eng_NonEng);
+                        command.Parameters.AddWithValue("@SemesterID", model.SemesterID);
+                        command.Parameters.AddWithValue("@Status", model.Status);
+                        command.Parameters.AddWithValue("@IsRegistrarVerified", model.IsRegistrarVerified);
+                        command.Parameters.AddWithValue("@IsExaminationVerified", model.IsExaminationVerified);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        _sqlQuery = command.GetSqlExecutableQuery();// Get sql query
+                        dataTable = await command.FillAsync_DataTable();
+                    }
+                    return dataTable;
+                });
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+
 
 
         public async Task<List<DownloadnRollNoModel>> GetGenerateRollData_Centerwise(DownloadnRollNoModel model)

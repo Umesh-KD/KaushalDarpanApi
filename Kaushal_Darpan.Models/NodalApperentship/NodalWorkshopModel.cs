@@ -64,6 +64,7 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int PKID { get; set; }
         public string? BeforeDate { get; set; }
         public string? AfterDate { get; set; }
+        public string? Remarks { get; set; }
         public int FinancialYearID { get; set; }
         public string? provisionLetterDocument { get; set; }
         public string? PNMMelaDocument { get; set; }
@@ -98,6 +99,7 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public string? CandidatespresentFemaleNo { get; set; }
         public string? CandidatessselectedMaleNo { get; set; }
         public string? CandidatessselectedFemaleNo { get; set; }
+        public string? Remark { get; set; }
         public int UserId { get; set; }
         public int EndTermID { get; set; }
         public int DepartmentID { get; set; }
@@ -167,8 +169,10 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int FinancialYearID { get; set; }
         public string? TypeName { get; set; }
         public string? Nameofapprentices { get; set; }
-        
+        public string? businessNameCsv { get; set; }
+        public List<RegistrationList>? RegistrationList { get; set; }
         public string? NumberOfRegistrationDoc { get; set; }
+     
     }
 
     public class ApprenticeshipEntriesList
@@ -180,6 +184,13 @@ namespace Kaushal_Darpan.Models.NodalApperentship
         public int Createdby { get; set; }
         public int PKID { get; set; }
     }
+
+    public class RegistrationList
+    {
+        public string? Nameofapprentices { get; set; }
+        public string? Numberofapprentices { get; set; }
+    }
+
 
     public class  WorkshopProgressRPTSearchModal
     {
