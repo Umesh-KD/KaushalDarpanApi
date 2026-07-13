@@ -4222,12 +4222,12 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     var Model = await _unitOfWork.GenerateRollRepository.GetGenerateRollData_Centerwise(Request);
                     //var Model = _unitOfWork.GenerateRollRepository.GetITIGenerateRollDataForPrint_Collegewise(Request);
-
+                    List<string?> ListRoleListPath = new List<string?>();
                     foreach (var RollListDetails in Model.GroupBy(f => new { f.InstituteID, f.SemesterID }))
                     {
                         DownloadnRollNoModel ModInsert = RollListDetails.FirstOrDefault() ?? new DownloadnRollNoModel();
                         ModInsert.TotalStudent = RollListDetails.Sum(f => f.Totalstudent);
-                        List<string?> ListRoleListPath = new List<string?>();
+                        
 
                         foreach (var StudentExamID in RollListDetails)
                         {
@@ -4279,6 +4279,8 @@ namespace Kaushal_Darpan.Api.Controllers
                             }
                         }
 
+                    }
+
                         //#region "Save Multiple PDF PAGES"    // old Code 
                         //string outputFile = $"MergePDFRollList_{Model.FirstOrDefault()?.InstituteID}.pdf";
                         //string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
@@ -4317,10 +4319,7 @@ namespace Kaushal_Darpan.Api.Controllers
                             result.Data = outputFile;
                             result.State = EnumStatus.Success;
                             result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                            ModInsert.FileName = outputFile;
-                            ModInsert.PDFType = (int)EnumPdfType.RollList;
-                            ModInsert.Status = 11;
-                            ModInsert.Eng_NonEng = 2;
+                           
                             //var isSave = await _unitOfWork.ReportRepository.ITISaveRollNumbePDFData(ModInsert);
                         }
                         else
@@ -4330,7 +4329,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         }
                         #endregion
 
-                    }
+                    
 
 
                 }
@@ -4667,8 +4666,156 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
+        [HttpPost("DownloadITIStudentRollNumberBulk_CenterWise_new")]
+        public async Task<ApiResult<string>> DownloadITIStudentRollNumberBulk_CenterWise_new([FromBody] DownloadnRollNoModel Request)
+        {
+            ActionName = "DownloadITIStudentRollNumberBulk_CenterWise_new(string EnrollmentNo)";
+            List<string?> ListRoleListPath = new List<string?>();
+            string ipaddress = CommonFuncationHelper.GetIpAddress();
+            return await Task.Run(async () =>
+            {
+                var result = new ApiResult<string>();
+                try
+                {
+                    var Model = await _unitOfWork.GenerateRollRepository.GetGenerateRollData_Collegewise(Request);
+                    //var Model = _unitOfWork.GenerateRollRepository.GetITIGenerateRollDataForPrint_Collegewise(Request);
+
+                    foreach (var RollListDetails in Model.GroupBy(f => new { f.InstituteID, f.SemesterID }))
+                    {
+                        DownloadnRollNoModel ModInsert = RollListDetails.FirstOrDefault() ?? new DownloadnRollNoModel();
+                        ModInsert.TotalStudent = RollListDetails.Sum(f => f.Totalstudent);
+                        List<string?> ListRoleListPath = new List<string?>();
+
+                        foreach (var StudentExamID in RollListDetails)
+                        {
+
+
+                            DataTable dtStudentExamDetails = new DataTable();
+                            dtStudentExamDetails.Columns.Add("StudentType");
+                            dtStudentExamDetails.Columns.Add("InstituteName");
+                            dtStudentExamDetails.Columns.Add("ProgrammeName");
+                            dtStudentExamDetails.Columns.Add("SessionName");
+                            dtStudentExamDetails.Columns.Add("CenterName");
+                            dtStudentExamDetails.Columns.Add("BranchCode");
+
+                            dtStudentExamDetails.Rows.Add(StudentExamID.StudentType, StudentExamID.InstituteNameEnglish, StudentExamID.EndTermName, StudentExamID.FinancialYearName, StudentExamID.CenterName, StudentExamID.BranchCode);
+                            GenerateAdmitCardModel objStudent = new GenerateAdmitCardModel();
+                            var data = await _unitOfWork.ReportRepository.GetITIStudentRollNoList_collegewise(StudentExamID);
+                            if (data != null)
+                            {
+
+                                //report
+                                var fileName = $"ITIStudentRollList_{Guid.NewGuid()}.pdf";
+                                string filepath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{fileName}";
+                                string rdlcpath = $"{ConfigurationHelper.RootPath}{Constants.RDLCFolderITI}/ITIStudentRollnumberList.rdlc";
+
+                                //
+                                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                                LocalReport localReport = new LocalReport(rdlcpath);
+                                localReport.AddDataSource("StudentExamDetails", dtStudentExamDetails);
+                                localReport.AddDataSource("StudentRollNumberList", data);
+                                var reportResult = localReport.Execute(RenderType.Pdf);
+                                System.IO.File.WriteAllBytes(filepath, reportResult.MainStream);
+                                //end report
+
+                                ListRoleListPath.Add(filepath);
+                                result.Data = fileName;
+                                result.State = EnumStatus.Success;
+                                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+
+
+
+
+                            }
+                            else
+                            {
+                                result.State = EnumStatus.Warning;
+                                result.Message = Constants.MSG_DATA_NOT_FOUND;
+                            }
+                        }
+
+                        //#region "Save Multiple PDF PAGES"    // old Code 
+                        //string outputFile = $"MergePDFRollList_{Model.FirstOrDefault()?.InstituteID}.pdf";
+                        //string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                        //if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
+                        //{
+                        //    //delete files
+                        //    await DeleteFiles(ListRoleListPath);
+                        //    result.Data = outputFile;
+                        //    result.State = EnumStatus.Success;
+                        //    result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                        //}
+                        //else
+                        //{
+                        //    result.State = EnumStatus.Error;
+                        //    result.ErrorMessage = "Something went wrong";
+                        //}
+                        //#endregion
+
+
+
+                        #region "Save Multiple PDF PAGES"
+                        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                        string guid = Guid.NewGuid().ToString().ToUpper();
+                        string outputFile = $"{guid}_{timestamp}.pdf";
+                        string outputPath = $"{ConfigurationHelper.StaticFileRootPath}{Constants.ReportsFolder}/{outputFile}";
+                        if (await MergePdfFilesAsync(ListRoleListPath, outputPath))
+                        {
+                            try
+                            {
+                                //delete files
+                                // await DeleteFiles(ListRoleListPath);
+                            }
+                            catch (Exception exd)
+                            {
+                            }
+                            result.Data = outputFile;
+                            result.State = EnumStatus.Success;
+                            result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+                            ModInsert.FileName = outputFile;
+                            ModInsert.PDFType = (int)EnumPdfType.RollList;
+                            ModInsert.Status = 11;
+                            ModInsert.Eng_NonEng = 2;
+                            var isSave = await _unitOfWork.ReportRepository.ITISaveRollNumbePDFData(ModInsert);
+                        }
+                        else
+                        {
+                            result.State = EnumStatus.Error;
+                            result.ErrorMessage = "Something went wrong";
+                        }
+                        #endregion
+
+                    }
+
+
+                }
+
+
+                catch (Exception ex)
+                {
+                    await _unitOfWork.DisposeAsync();
+                    // Write error log
+                    var nex = new NewException
+                    {
+                        PageName = PageName,
+                        ActionName = ActionName,
+                        Ex = ex,
+                    };
+                    await CreateErrorLog(nex, _unitOfWork);
+                    //
+                    result.State = EnumStatus.Error;
+                    result.ErrorMessage = ex.Message;
+                }
+                return result;
+            });
+        }
+
+
 
         #endregion
+
+
+
 
         #region GetStudent Customizet Reports Columns
         [HttpPost("GetStudentCustomizetReportsColumns")]
@@ -18949,7 +19096,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                         PrintBackground = true
                                     });
 
-                                System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
+                                await System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
 
                                 CommonFuncationHelper.WriteTextLog($"1.4. save file in folder: {student.RollNo}", logfilename);
 
@@ -20142,6 +20289,145 @@ Web Site : www.techedu.rajasthan.gov.in
 
         #endregion
 
+
+        #region GetProvesionalMeritList
+
+        [HttpPost("GetProvesionalMeritList")]
+        public async Task<ApiResult<string>> GetProvesionalMeritList(GetProvesionalMeritModel model)
+        {
+            ActionName = "GetProvesionalMeritList(ToppersModel model)";
+            var result = new ApiResult<string>();
+            
+            try
+            {
+                // Get report data
+                DataTable table = await Task.Run(() =>
+     _unitOfWork.ReportRepository.GetProvesionalMeritList(model));
+
+                DataSet data = new DataSet();
+                data.Tables.Add(table);
+
+                if (data == null || data.Tables.Count == 0)
+                {
+                    result.State = EnumStatus.Warning;
+                    result.Message = Constants.MSG_DATA_NOT_FOUND;
+                    return result;
+                }
+
+                // Generate HTML
+                var sb = await _printHtmlFile.GetProvesionalMeritList_Html(data, 0, model.Action);
+                string html = sb.ToString();
+
+                // Remove last page break if present
+                string endTag = "<div class='page-break'></div></body></html>";
+                if (html.EndsWith(endTag, StringComparison.OrdinalIgnoreCase))
+                {
+                    html = html.Substring(0, html.Length - endTag.Length) + "</body></html>";
+                }
+
+                // Create PDF document
+                var document = new HtmlToPdfDocument
+                {
+                    GlobalSettings =
+            {
+                PaperSize = PaperKind.A4,
+                Orientation = Orientation.Landscape,
+                Margins = new MarginSettings
+                {
+                    Top = 10,
+                    Bottom = 10,
+                    Left = 5,
+                    Right = 5
+                }
+            },
+                    Objects =
+            {
+                new ObjectSettings
+                {
+                    HtmlContent = html,
+                    WebSettings =
+                    {
+                        DefaultEncoding = "utf-8"
+                    },
+                    FooterSettings = new FooterSettings
+                    {
+                        FontName = "Arial",
+                        FontSize = 7,
+                        Center = "Page [page] of [toPage]",
+                        Line = true
+                    }
+                }
+            }
+                };
+
+                // Convert HTML to PDF
+                byte[] pdfBytes = await Task.Run(() => _converter.Convert(document));
+
+                result.Data = Convert.ToBase64String(pdfBytes);
+                result.State = EnumStatus.Success;
+                result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+
+                var newException = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+
+                await CreateErrorLog(newException, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        #endregion
+        #region GetCheck_Merit_List
+
+        [HttpPost("GetCheck_Merit_List")]
+        public async Task<ApiResult<DataTable>> GetCheck_Merit_List(GetProvesionalMeritModel model)
+        {
+            ActionName = "GetCheck_Merit_List(ToppersModel model)";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.ReportRepository.GetCheck_Merit_List(model));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                var newException = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex
+                };
+                await CreateErrorLog(newException, _unitOfWork);
+
+                result.State = EnumStatus.Error;
+                result.Message = Constants.MSG_ERROR_OCCURRED;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+        #endregion
 
     }
 }

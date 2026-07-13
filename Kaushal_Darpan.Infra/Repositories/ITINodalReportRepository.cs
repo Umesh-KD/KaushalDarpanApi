@@ -63,6 +63,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@PNMMelaDocument", request.PNMMelaDocument);
                         command.Parameters.AddWithValue("@provisionLetterDocument", request.provisionLetterDocument);
                         command.Parameters.AddWithValue("@BeforeMonth", request.BeforeMonth);
+                        command.Parameters.AddWithValue("@Remarks", request.Remarks);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -240,6 +241,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@FinancialYearID", request.FinancialYearID);
                         command.Parameters.AddWithValue("@BeforeMonth", request.BeforeMonth);
                         command.Parameters.AddWithValue("@DistrictID", request.DistrictID);
+                        command.Parameters.AddWithValue("@Remarks", request.Remark);
 
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
@@ -640,7 +642,7 @@ namespace Kaushal_Darpan.Infra.Repositories
             });
         }
 
-        public async Task<DataTable> Submit_Apprenticeship_data(ApprenticeshipEntryDto entry, string businessNameCsv)
+        public async Task<DataTable> Submit_Apprenticeship_data(ApprenticeshipEntryDto entry)
         {
             _actionName = "Submit_Apprenticeship_data(ApprenticeshipEntryDto model)";
             return await Task.Run(async () =>
@@ -656,7 +658,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Action", entry.PKID==0 ? "Insert" :"Update");
                         command.Parameters.AddWithValue("@Nameofinstitute", entry.Nameofinstitute);
                         command.Parameters.AddWithValue("@Dateofregistration", entry.Dateofregistration);
-                        command.Parameters.AddWithValue("@BusinessName", businessNameCsv);
+                        command.Parameters.AddWithValue("@BusinessName",entry. businessNameCsv);
                         command.Parameters.AddWithValue("@NumberofTrainees", entry.NumberofTrainees);
                         command.Parameters.AddWithValue("@Numberofapprentices", entry.Numberofapprentices);
                         command.Parameters.AddWithValue("@Remarks", entry.Remarks);
@@ -668,6 +670,8 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@Nameofapprentices", entry.Nameofapprentices);
                         command.Parameters.AddWithValue("@TypeID", entry.TypeID);
                         command.Parameters.AddWithValue("@FinancialYearID", entry.FinancialYearID);
+                        command.Parameters.AddWithValue("@FinancialYearID", entry.FinancialYearID);
+                        //command.Parameters.AddWithValue("@json", JsonConvert.SerializeObject(entry.RegistrationList));
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

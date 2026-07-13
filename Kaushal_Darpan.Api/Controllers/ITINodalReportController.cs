@@ -598,7 +598,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         ? string.Join(",", entry.BusinessName)
                         : string.Empty;
 
-                    result.Data = await _unitOfWork.ITINodalReportRepository.Submit_Apprenticeship_data(entry, businessNameCsv);
+                    result.Data = await _unitOfWork.ITINodalReportRepository.Submit_Apprenticeship_data(entry);
 
                 }
                 await _unitOfWork.SaveChangesAsync();

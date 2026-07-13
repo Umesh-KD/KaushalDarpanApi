@@ -236,4 +236,48 @@ namespace Kaushal_Darpan.Models.TheoryMarks
         //public BigInteger? RollNo { get; set; } = 0;
 
     }
+
+
+    public class ExaminerReportSearchModel : RequestBaseModel
+    {
+        public int SemesterID { get; set; }
+        public int StreamID { get; set; }
+        public int StudentID { get; set; }
+        public int SubjectID { get; set; }
+        public int MarkEnter { get; set; }
+        public int InternalPracticalID { get; set; }
+        public string? RollNo { get; set; }
+        public string? ExaminerCode { get; set; }
+        public int GroupCodeID { get; set; }
+        public string? SSOID { get; set; }
+        public int InstituteID { get; set; }
+        public int UserID { get; set; }
+        public int? RoleID { get; set; }
+        public bool IsConfirmed { get; set; }
+        public string? SubjectType { get; set; }
+        public string? PaperCode { get; set; }
+        public string? SubjectName { get; set; }
+        public int? CenterCode { get; set; }
+        public int? IsPersentAbsent { get; set; }
+        public int? CheckedStatus { get; set; }
+        public int centersubmitstatus { get; set; }
+        public int centerpresentstatus { get; set; }
+        public int? StudentStatus { get; set; }
+        public string? StrKey { get; set; }
+        public int? isUFM { get; set; }
+        public int? StaffID { get; set; }
+        public int? IsReval { get; set; } = 0;
+    }
+
+    public class TheoryAbsentReportDataModel
+    {
+        public int? GroupCodeID { get; set; }
+        public int? EndTermID { get; set; }
+        public int? Eng_NonEng { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? RoleID { get; set; }
+        public int? UserID { get; set; }
+        public string? SSOID{ get; set; }
+        public string? GroupCode { get; set; }
+    }
 }

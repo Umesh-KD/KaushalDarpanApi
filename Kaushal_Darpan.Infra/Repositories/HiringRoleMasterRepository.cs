@@ -267,51 +267,50 @@ namespace Kaushal_Darpan.Infra.Repositories
         }
 
 
-        public async Task<bool> SaveSanctionOrder(OrderDetailsList request)
+        public async Task<int> SaveSanctionOrder(OrderDetailsList request)
         {
-            return await Task.Run(async () =>
+            _actionName = "SaveDataSanction(SanctionOrderMasterModel request)";
+            try
             {
-                _actionName = "SaveDataSanction(SanctionOrderMasterModel request)";
-                try
+                int result = 0;
+                using (var command = await _dbContext.CreateCommandAsync(true))
                 {
-                    int result = 0;
-                    using (var command = await _dbContext.CreateCommandAsync(true))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_SanctionOrderList";
-                        command.Parameters.AddWithValue("@SanctionID", request.SanctionID);
-                        command.Parameters.AddWithValue("@ParentID", request.ParentID);
-               
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "USP_ITI_SaveSanctionOrderDetails";
+                    command.Parameters.AddWithValue("@action", "SaveDataOrder");
 
-                        command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
-                        command.Parameters.AddWithValue("@OrderCopy", request.OrderCopy);
-                        command.Parameters.AddWithValue("@OrderDate", request.OrderDate);
-                        command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
-                        command.Parameters.AddWithValue("@OrderType", request.OrderType);
-                        command.Parameters.AddWithValue("@RoleID", request.RoleID);
-                        command.Parameters.AddWithValue("@IPAddress", _IPAddress);
-                        command.Parameters.AddWithValue("@action", "SaveDataOrder");
-                        _sqlQuery = command.GetSqlExecutableQuery();// sql query
-                        result = await command.ExecuteNonQueryAsync();
-                    }
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+                    command.Parameters.AddWithValue("@SanctionID", request.SanctionID);
+                    command.Parameters.AddWithValue("@ParentID", request.ParentID);
+                    command.Parameters.AddWithValue("@OrderTypeName", request.OrderTypeName);
+                    command.Parameters.AddWithValue("@ModifyBy", request.ModifyBy);
+                    command.Parameters.AddWithValue("@OrderCopy", request.OrderCopy);
+                    command.Parameters.AddWithValue("@OrderDate", request.OrderDate);
+                    command.Parameters.AddWithValue("@OrderNo", request.OrderNo);
+                    command.Parameters.AddWithValue("@OrderType", request.OrderType);
+                    command.Parameters.AddWithValue("@RoleID", request.RoleID);
+                    command.Parameters.AddWithValue("@IPAddress", _IPAddress);
+
+                    command.Parameters.Add("@Return", SqlDbType.Int);
+                    command.Parameters["@Return"].Direction = ParameterDirection.Output;
+
+                    _sqlQuery = command.GetSqlExecutableQuery();// sql query
+                    result = await command.ExecuteNonQueryAsync();
+                    result = Convert.ToInt32(command.Parameters["@Return"].Value);
                 }
-                catch (Exception ex)
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
                 {
-                    var errorDesc = new ErrorDescription
-                    {
-                        Message = ex.Message,
-                        PageName = _pageName,
-                        ActionName = _actionName,
-                        SqlExecutableQuery = _sqlQuery
-                    };
-                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
-                    throw new Exception(errordetails, ex);
-                }
-            });
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
         }
 
         public async Task<bool> UpdateData(HiringRoleMasterModel request)

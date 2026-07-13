@@ -21,5 +21,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<int> SaveUFMStudentExtraInfo(UFMStudentExtraInfoSaveModel model);
         Task<int> SaveUFMExtraInfo(UFMExtraInfoSaveModel model);
         Task<int> UpdateUFMCategory(UFMCategoryUpdateModel model);
+        Task<DataTable> GetAllExaminerReport(ExaminerReportSearchModel body);
+        Task<DataTable> GetTheoryAbsentReportData(TheoryAbsentReportDataModel body);
     }
 }

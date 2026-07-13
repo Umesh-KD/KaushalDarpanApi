@@ -4754,7 +4754,7 @@ namespace Kaushal_Darpan.Infra.Repositories
         //}
 
         public async Task<bool> UpdateEmitraPaymentStatusWhatsApp(DResponseWhatsAppModel request)
-        {
+        {            
             return await Task.Run(async () =>
             {
                 _actionName = "UpdateEmitraPaymentStatus(EmitraResponseParametersModel request)";
@@ -4764,7 +4764,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                     using (var command = await _dbContext.CreateCommandAsync())
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "USP_SaveStudentFeeDetail";
+                        command.CommandText = request.DepartmentID == "1" ? "USP_SaveStudentFeeDetail" : "USP_ITI_InsertEmitraTransactions_WhatsApp";
                         command.Parameters.AddWithValue("@ApplicationIdEnc", "");
                         command.Parameters.AddWithValue("@TransactionId", 0);
                         command.Parameters.AddWithValue("@PRN", request.PRN);

@@ -339,6 +339,8 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataSet> Get85and45percentageStudentIAReport(IAReportModel filterModel);
 
         Task<DataTable> GetToppersReport(ToppersModel model);
+        Task<DataTable> GetProvesionalMeritList(GetProvesionalMeritModel model);
+        Task<DataTable> GetCheck_Merit_List(GetProvesionalMeritModel model);
 
     }
 }

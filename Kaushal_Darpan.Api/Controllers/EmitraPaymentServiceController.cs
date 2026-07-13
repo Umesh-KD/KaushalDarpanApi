@@ -11,6 +11,7 @@ using Kaushal_Darpan.Core.Entities;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Core.Interfaces;
 using Kaushal_Darpan.Models.EmitraPayment;
+using Kaushal_Darpan.Models.RevaluationDataModel;
 using Kaushal_Darpan.Models.RPPPayment;
 using Kaushal_Darpan.Models.Student;
 using Microsoft.AspNetCore.Http;
@@ -3970,7 +3971,7 @@ namespace Kaushal_Darpan.Api.Controllers
                         {
                             result.State = EnumStatus.Success;
                             result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
-                            result.Data = new { PRN = objEmitra.PRN, ServiceID = emitraRequestDetailsModel.ServiceID, Amount = FinalAmount, DepartmentID= objEmitra.DepartmentID, StudentSemesterList = objEmitra.StudentFeesTransactionItemsWhatsApp };
+                            result.Data = new { PRN = objEmitra.PRN, ServiceID = emitraRequestDetailsModel.ServiceID, Amount = FinalAmount, DepartmentID = objEmitra.DepartmentID, StudentSemesterList = objEmitra.StudentFeesTransactionItemsWhatsApp };
                         }
                         else
                         {
@@ -4041,7 +4042,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     response.State = EnumStatus.Error;
                     response.Message = "The request is invalid.";
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -4059,10 +4060,54 @@ namespace Kaushal_Darpan.Api.Controllers
             return response;
 
         }
+
+
+        [HttpPost("GetRevalSemesterData_Whatsapp")]
+        public async Task<ApiResult<DataTable>> GetRevalSemesterData_Whatsapp(StudentSearchModelForWhatsAPP body)
+        {   
+            var result = new ApiResult<DataTable>();
+            try
+            {                
+                RevaluationDataModel Obj=new RevaluationDataModel();
+
+                Obj.EnrollmentNo = body.ApplicationNo;
+                Obj.DOB = body.DOB;
+                Obj.MobilelNo = body.MobileNumber;
+
+                result.Data = await Task.Run(() => _unitOfWork.RevaluationRepository.GetDetails(Obj));
+
+                if (result.Data.Rows.Count > 0)
+                {                   
+                    result.State = EnumStatus.Success;
+                    result.State = EnumStatus.Success;
+                    result.Message = "Data load successfully .!";
+                }
+                else
+                {
+                    result.State = EnumStatus.Error;
+                    result.Message = "No record found.!";
+                }
+                
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return result;
+        }
+
         #endregion
-
-
-
 
 
         #region emitra payment by student whatsapp ITI
@@ -4072,7 +4117,7 @@ namespace Kaushal_Darpan.Api.Controllers
             ActionName = "GetStudentDeatilsByActionWhatsapp_ITI(StudentSearchModelForWhatsAPP body)";
 
             //var requestDetailsModel = new ApiResult<EmitraRequestDetailsModel>();
-            
+
             var data = await _unitOfWork.CommonFunctionRepository.GetStudentDeatilsByActionITI(body);
 
 
@@ -4092,7 +4137,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     State = EnumStatus.Error,
                     ErrorMessage = "Student details not found."
-                    
+
 
                 };
 
@@ -4102,12 +4147,12 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 Model.ServiceID = data.Rows[0]["ServiceID"].ToString();
                 Model.ExamStudentStatus = Convert.ToInt32(data.Rows[0]["ExamStudentStatus"]);
-                Model.DepartmentID=2;
-                Model.StudentID=Convert.ToInt32(data.Rows[0]["StudentID"]);
-                Model.SemesterID=Convert.ToInt32(data.Rows[0]["SemesterID"]);
-                Model.Amount=Convert.ToInt32(data.Rows[0]["FeeAmount"]);
-           
-                Model.ID=Convert.ToInt32(data.Rows[0]["ID"]);
+                Model.DepartmentID = 2;
+                Model.StudentID = Convert.ToInt32(data.Rows[0]["StudentID"]);
+                Model.SemesterID = Convert.ToInt32(data.Rows[0]["SemesterID"]);
+                Model.Amount = Convert.ToInt32(data.Rows[0]["FeeAmount"]);
+
+                Model.ID = Convert.ToInt32(data.Rows[0]["ID"]);
 
                 Model.StudentFeesTransactionItems = new List<StudentFeesTransactionItems>();
 
@@ -4190,13 +4235,13 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 objEmitra.RequestString = JsonConvert.SerializeObject(objEmitra);
 
-                
+
                 var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransationITI(objEmitra);
 
                 await _unitOfWork.SaveChangesAsync();
                 //if ()
                 //{
-                   
+
 
                 //    requestDetailsModel.Data = Model;
                 //    requestDetailsModel.State = EnumStatus.Success;
@@ -4204,7 +4249,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 //}
 
                 if (result.TransactionId > 0)
-                {                    
+                {
                     requestDetailsModel.State = EnumStatus.Success;
                     requestDetailsModel.Message = Constants.MSG_DATA_LOAD_SUCCESS;
                     requestDetailsModel.Data = new { PRN = objEmitra.PRN, ServiceID = objEmitra.ServiceID, Amount = objEmitra.Amount, StudentSemesterList = objEmitra.StudentFeesTransactionItemsWhatsApp };

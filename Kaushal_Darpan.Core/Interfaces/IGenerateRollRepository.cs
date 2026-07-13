@@ -25,6 +25,7 @@ namespace Kaushal_Darpan.Core.Interfaces
         Task<DataTable> GetVerifyRollListPdf(GenerateRollSearchModel model);
         Task<DataTable> GetITIAdmit_RollListPdf(GenerateRollSearchModel model);
         Task<DataTable> GetCenterAdmit_RollListPdf(GenerateRollSearchModel model);
+        Task<DataTable> GetCenterAdmit_RollListPdf_New(GenerateRollSearchModel model);
         Task<int> ChangeRollNoStatus(GenerateRollSearchModel model);
         Task<DataTable> GetRollNumberDetails_History(GenerateRollSearchModel model);
         Task<DataTable> GenerateRollNoValidate(GenerateRollSearchModel model);
