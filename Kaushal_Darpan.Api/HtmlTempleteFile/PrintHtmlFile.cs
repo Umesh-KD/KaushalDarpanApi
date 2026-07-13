@@ -2989,75 +2989,75 @@ thead th{
 
                 sb.AppendLine("            <tr>");
 
-                sb.AppendLine("                <td style=\"font-size:11px;padding-bottom:15px; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding-bottom:15px; width: 21%;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding-bottom:15px; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;padding-bottom:15px; width: 41.5%;\">");
                 sb.AppendLine($"                    {dr_studet["StudentName"]}");
                 sb.AppendLine("                </td>");
 
-                sb.AppendLine("                <td style=\"font-size:11px; width: 29%;padding-bottom:15px;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding-bottom:15px; width: 16.7%;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 21%;padding-bottom:15px;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;text-align:left;padding-bottom:15px; width: 20.8%;\">");
                 sb.AppendLine($"                    {dr_studet["EnrollmentNo"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["FatherName"]}");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px; width: 29%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 21%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;text-align:left;\">");
                 sb.AppendLine($"                    {dr_studet["RollNo"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["MotherName"]}");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px; width: 29%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;text-align:left; width: 21%;\">");
+                sb.AppendLine("                <td style=\"font-size:12px;text-align:left;\">");
                 sb.AppendLine($"                    {dr_studet["Branch"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ; width: 23%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0 ;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:12px;padding:13px 0 ; width: 27%;\">");
+                sb.AppendLine("                <td style=\"font-size:10px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["StreamName"]}");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px; width: 28%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td style=\"font-size:11px;text-align:left; width: 22%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;text-align:left;\">");
                 sb.AppendLine($"                    {dr_studet["YearSemester"]}");
                 sb.AppendLine("                </td>");
 
                 sb.AppendLine("            </tr>");
 
                 sb.AppendLine("            <tr>");
-                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0; width: 23%;\">");
+                sb.AppendLine("                <td style=\"font-size:11px;padding:13px 0;\">");
                 sb.AppendLine("                    &nbsp;");
                 sb.AppendLine("                </td>");
-                sb.AppendLine("                <td colspan=\"3\" style=\"font-size:12px;padding:13px 0 ; width: 77%;\">");
+                sb.AppendLine("                <td colspan=\"3\" style=\"font-size:12px;padding:13px 0 ;\">");
                 sb.AppendLine($"                    {dr_studet["InstituteName"]}");
                 sb.AppendLine("                </td>");
                 sb.AppendLine("                ");
