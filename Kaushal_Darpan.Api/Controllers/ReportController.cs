@@ -4222,12 +4222,12 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     var Model = await _unitOfWork.GenerateRollRepository.GetGenerateRollData_Centerwise(Request);
                     //var Model = _unitOfWork.GenerateRollRepository.GetITIGenerateRollDataForPrint_Collegewise(Request);
-
+                    List<string?> ListRoleListPath = new List<string?>();
                     foreach (var RollListDetails in Model.GroupBy(f => new { f.InstituteID, f.SemesterID }))
                     {
                         DownloadnRollNoModel ModInsert = RollListDetails.FirstOrDefault() ?? new DownloadnRollNoModel();
                         ModInsert.TotalStudent = RollListDetails.Sum(f => f.Totalstudent);
-                        List<string?> ListRoleListPath = new List<string?>();
+                        
 
                         foreach (var StudentExamID in RollListDetails)
                         {
@@ -19096,7 +19096,7 @@ namespace Kaushal_Darpan.Api.Controllers
                                         PrintBackground = true
                                     });
 
-                                System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
+                                await System.IO.File.WriteAllBytesAsync(filepath, pdfBytes);
 
                                 CommonFuncationHelper.WriteTextLog($"1.4. save file in folder: {student.RollNo}", logfilename);
 
@@ -19243,8 +19243,8 @@ namespace Kaushal_Darpan.Api.Controllers
                                     objMarksheet.ResultDetails = marksheetResult;
                                 }
 
-                                //await _unitOfWork.MarksheetDownloadRepository.AddUpdateMarksheet(objMarksheet);
-                                //await _unitOfWork.SaveChangesAsync();
+                                await _unitOfWork.MarksheetDownloadRepository.AddUpdateMarksheet(objMarksheet);
+                                await _unitOfWork.SaveChangesAsync();
 
                                 CommonFuncationHelper.WriteTextLog($"1.8. save student done : {student.RollNo}", logfilename);
 
