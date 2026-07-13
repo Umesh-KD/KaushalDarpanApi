@@ -12,7 +12,7 @@ namespace Kaushal_Darpan.Models.RevaluationDataModel
         public int StudentID { get; set; }
         public int RoleID { get; set; }
         public string EnrollmentNo { get; set; }
-        
+        public string? MobilelNo { get; set; }
     }
     
     public class StudentDetailsByRollNoModel

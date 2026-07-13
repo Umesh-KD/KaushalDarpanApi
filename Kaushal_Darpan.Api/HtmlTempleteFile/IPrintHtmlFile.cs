@@ -22,5 +22,6 @@ namespace Kaushal_Darpan.Api.HtmlTempleteFile
         Task<StringBuilder> GetHtmlOfMarkSheet(DataSet ds);
         
         Task<StringBuilder> GetToppersReport_Html(DataSet dataSet, int ResultType, string ActionType);
+        Task<StringBuilder> GetProvesionalMeritList_Html(DataSet dataSet, int ResultType, string ActionType);
     }
 }

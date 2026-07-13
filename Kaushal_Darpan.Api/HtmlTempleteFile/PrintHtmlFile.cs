@@ -3774,5 +3774,346 @@ Session : " + session + @"
 
         }
         #endregion
+
+
+        #region GetProvesionalMeritList
+        public async Task<StringBuilder> GetProvesionalMeritList_Html(DataSet ds, int ResultType, string ActionType)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                if (ds == null || ds.Tables.Count == 0)
+                    return sb;
+
+                DataTable dt = ds.Tables[0];
+
+                if (dt == null || dt.Rows.Count == 0)
+                    return sb;
+                int totalRows = dt.Rows.Count;
+                // Sort Branch ASC and Percentage DESC
+                DataView dv = dt.DefaultView;
+                dv.Sort = "[Stream/Branch] ASC, Percentage DESC";
+                dt = dv.ToTable();
+
+                var branchGroups = dt.AsEnumerable()
+                                     .GroupBy(x => x["Stream/Branch"].ToString())
+                                     .ToList();
+
+                const int PageSize = 30;
+
+               
+                string session = dt.Columns.Contains("SessionYear")
+                                    ? Convert.ToString(dt.Rows[0]["SessionYear"])
+                                    : "";
+
+                for (int b = 0; b < branchGroups.Count; b++)
+                {
+                    var branch = branchGroups[b].ToList();
+                    string program = branch[0]["Stream/Branch"].ToString();
+                    // Start every branch on a new page except the first
+                    if (b > 0)
+                    {
+                        sb.Append(@"
+</tbody>
+</table>
+</div>
+
+<div style='page-break-before:always;'></div>
+");
+                    }
+
+                    int sno = 1;
+
+                    sb.Append(@"
+
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+
+<meta charset='UTF-8'>
+
+<title>Merit List</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:12px;
+    color:#000;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    border:1px solid #cfcfcf;
+    padding:15px;
+}
+
+.header{
+    text-align:center;
+    border-bottom:1px solid #ccc;
+    padding-bottom:10px;
+    margin-bottom:10px;
+}
+
+.header .gov{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.header .title{
+    font-size:36px;
+    font-weight:500;
+    margin:12px 0;
+}
+
+.header .sub{
+    font-size:18px;
+    font-weight:bold;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+thead th{
+    text-align:left;
+    padding:8px 5px;
+    font-size:14px;
+    border-bottom:1px solid #999;
+}
+
+tbody td{
+    padding:10px 5px;
+    border-bottom:1px solid #d8d8d8;
+    vertical-align:top;
+}
+
+.program td{
+    font-weight:bold;
+    border-bottom:1px solid #999;
+    padding:10px 0;
+}
+
+.col-sno{width:70px;}
+.col-enroll{width:160px;}
+.col-per{width:90px;text-align:center;}
+.col-merit{width:70px;text-align:center;}
+
+.name{
+    font-weight:bold;
+    text-transform:uppercase;
+}
+
+.father{
+    margin-top:2px;
+}
+
+.institute{
+    margin-top:4px;
+}
+
+.footer{
+    margin-top:15px;
+}
+
+.note{
+    margin-top:10px;
+    line-height:22px;
+    text-align:justify;
+}
+
+.signature{
+    text-align:right;
+    font-weight:bold;
+    margin-top:20px;
+}
+thead th{
+    text-align:left;
+    padding:8px 5px;
+    font-size:14px;
+    border-bottom:1px solid #999;
+}
+
+</style>
+
+</head>
+
+<body>
+
+");
+                    //==============================
+                    // PART 3 : Report Header
+                    //==============================
+
+                    sb.Append($@"
+
+<div class='container'>
+
+<div class='header'>
+
+<div class='gov'>
+GOVERNMENT OF RAJASTHAN
+</div>
+
+<div class='title'>
+BOARD OF TECHNICAL EDUCATION,
+RAJASTHAN, JODHPUR
+</div>
+
+<div class='sub'>
+PROVISIONAL MERIT LIST for the Session {session}
+</div>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+    <th class='col-sno'>Roll No</th>
+
+    <th class='col-enroll'>Enrollment No</th>
+
+    <th>Student Name / Father Name / Institute</th>
+
+    <th class='col-per'>Percentage</th>
+    <th class='col-per'>Merit</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+");
+
+                    //==============================
+                    // PART 5 : Student Loop
+                    //==============================
+                    
+                    for (int i = 0; i < branch.Count; i++)
+                    {
+                        DataRow dr = branch[i];
+
+                        sb.Append($@"
+
+<tr>
+
+<td>{dr["Roll No"]}</td>
+
+<td>{dr["Enrollment No"]}</td>
+
+<td>
+        {dr["Student Name"]}<br>
+        {dr["Father Name"]}<br>
+        {dr["Institute Name"]}
+</td>
+
+
+<td>{dr["Percentage"]}</td>
+<td>{dr["MeritPosition"]}</td>
+
+</tr>
+
+");
+
+                        sno++;
+                       
+                        //==============================
+                        // PART 6 : Page Break
+                        //==============================
+
+                        if ((i + 1) % PageSize == 0 && i != branch.Count - 1)
+                        {
+                            // Repeat complete Header
+                        }
+                        //==============================
+                        // PART 7 : End Student Loop
+                        //==============================
+
+                    }
+
+                    //==============================
+                    // PART 8 : Branch Page Break
+                    //==============================
+
+                    if (b < branchGroups.Count - 1)
+                    {
+                        // Repeat complete Header
+                    }
+                    //==============================
+                    // PART 9 : End Branch Loop
+                    //==============================
+
+                }
+
+                //==============================
+                // PART 10 : Close HTML
+                //==============================
+
+                sb.Append($@"
+
+</tbody>
+
+</table>
+
+    <div class=""footer"">
+
+    <div class='eligible'>
+        <strong>Eligible for Merit: {totalRows}</strong>
+    </div>
+
+    <div class=""note"">
+        Any objection regarding the provisional merit should be sent to the Board
+        directly so as to reach the Board office latest by
+        ................................
+        After considering the objections received upto this date the final merit list
+        will be declared. In case no objection are received then the provisional merit
+        list will be the final merit list.
+    </div>
+
+    <div class=""signature"">
+        REGISTRAR
+    </div>
+
+</div>
+
+
+</div>
+
+</body>
+
+</html>
+
+");
+
+                //==============================
+                // PART 11 : Return
+                //==============================
+
+                return sb;
+
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating Toppers Report HTML.", ex);
+            }
+
+
+        }
+        #endregion
     }
 }
