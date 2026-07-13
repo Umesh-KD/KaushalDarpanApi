@@ -4062,13 +4062,17 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
 
-        [HttpPost("GetRevalSemesterData_Whatsapp")]
-        public async Task<ApiResult<DataTable>> GetRevalSemesterData_Whatsapp(StudentSearchModelForWhatsAPP body)
-        {   
+
+        #endregion
+
+        #region BTER_REVEL_WhatsApp
+        [HttpPost("GetStudentRevalSemesterData_Whatsapp")]
+        public async Task<ApiResult<DataTable>> GetStudentRevalSemesterData_Whatsapp(StudentSearchModelForWhatsAPP body)
+        {
             var result = new ApiResult<DataTable>();
             try
-            {                
-                RevaluationDataModel Obj=new RevaluationDataModel();
+            {
+                RevaluationDataModel Obj = new RevaluationDataModel();
 
                 Obj.EnrollmentNo = body.ApplicationNo;
                 Obj.DOB = body.DOB;
@@ -4077,7 +4081,7 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.Data = await Task.Run(() => _unitOfWork.RevaluationRepository.GetDetails(Obj));
 
                 if (result.Data.Rows.Count > 0)
-                {                   
+                {
                     result.State = EnumStatus.Success;
                     result.State = EnumStatus.Success;
                     result.Message = "Data load successfully .!";
@@ -4087,7 +4091,7 @@ namespace Kaushal_Darpan.Api.Controllers
                     result.State = EnumStatus.Error;
                     result.Message = "No record found.!";
                 }
-                
+
             }
             catch (System.Exception ex)
             {
@@ -4106,6 +4110,118 @@ namespace Kaushal_Darpan.Api.Controllers
 
             return result;
         }
+
+        [HttpPost("GetRevalationSubjectList")]
+        public async Task<ApiResult<DataTable>> GetRevalationSubjectList([FromBody] StudentDetailsByRollNoModel body)
+        {
+            ActionName = "GetExaminerData()";
+            var result = new ApiResult<DataTable>();
+            try
+            {
+                result.Data = await Task.Run(() => _unitOfWork.RevaluationRepository.GetAllRevalation(body));
+                result.State = EnumStatus.Success;
+                if (result.Data.Rows.Count == 0)
+                {
+                    result.State = EnumStatus.Success;
+                    result.Message = "No record found.!";
+                    return result;
+                }
+                result.State = EnumStatus.Success;
+                result.Message = "Data load successfully .!";
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                result.State = EnumStatus.Error;
+                result.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+            return result;
+        }
+
+        [HttpPost("RevalFeePayment_StudentWhatsApp")]
+        public async Task<ApiResult<EmitraRequestDetailsModel>> RevalFeePayment_StudentWhatsApp(EmitraRequestDetailsModel Model)
+        {
+            ActionName = "RevalFeePayment_Student(EmitraRequestDetailsModel Model)";
+            var requestDetailsModel = new ApiResult<EmitraRequestDetailsModel>();
+            try
+            {
+
+                var EmitraServiceDetail = await _unitOfWork.CommonFunctionRepository.GetEmitraServiceDetails(Model);
+                if (EmitraServiceDetail == null)
+                {
+                    requestDetailsModel.Data = Model;
+                    requestDetailsModel.State = EnumStatus.Error;
+                    requestDetailsModel.ErrorMessage = "Service Id Not Mapped";
+                    return requestDetailsModel;
+                }
+
+                EmitraTransactionsModel objEmitra = new EmitraTransactionsModel();
+                objEmitra.key = "_InsertDetails";
+                objEmitra.ApplicationIdEnc = Model.ApplicationIdEnc;
+                objEmitra.Amount = Model.Amount; //exam fees
+                objEmitra.EnrollFeeAmount = (Model.EnrollFeeAmount ?? 0);//enroll fees
+                objEmitra.StudentID = Model.StudentID;
+                objEmitra.SemesterID = Model.SemesterID;
+                objEmitra.ExamStudentStatus = Model.ExamStudentStatus;
+                objEmitra.StudentFeesTransactionItems = Model.StudentFeesTransactionItems;
+                objEmitra.SSOID = "#WhatsApp";
+                objEmitra.IsEmitra = false;
+                objEmitra.DepartmentID = Model.DepartmentID;
+                objEmitra.UniqueServiceID = Model.ID;
+                objEmitra.FeeFor = Model.FeeFor;
+                if (Model.TransactionApplicationIDs != null)
+                {
+                    if (Model.TransactionApplicationIDs.Length > 0)
+                    {
+                        objEmitra.TransactionApplicationID = string.Join(',', Model.TransactionApplicationIDs);
+                    }
+                }
+
+                //
+                PGRequestModel data = new PGRequestModel();
+                data.MERCHANTCODE = EmitraServiceDetail.MERCHANTCODE;
+                Random rnd = new Random();
+                objEmitra.PRN = "KD" + rnd.Next(100000, 999999) + rnd.Next(100000, 999999);
+                objEmitra.RequestString = JsonConvert.SerializeObject(objEmitra);
+
+                //
+                var result = await _unitOfWork.CommonFunctionRepository.CreateEmitraTransation(objEmitra);
+                await _unitOfWork.SaveChangesAsync();
+
+                if (result.TransactionId > 0)
+                {
+
+                    requestDetailsModel.Data = Model;
+                    requestDetailsModel.State = EnumStatus.Success;
+                    requestDetailsModel.Message = "successfully .!";
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _unitOfWork.DisposeAsync();
+                requestDetailsModel.State = EnumStatus.Error;
+                requestDetailsModel.ErrorMessage = ex.Message;
+                // write error log
+                var nex = new NewException
+                {
+                    PageName = PageName,
+                    ActionName = ActionName,
+                    Ex = ex,
+                };
+                await CreateErrorLog(nex, _unitOfWork);
+            }
+
+            return requestDetailsModel;
+        }
+
 
         #endregion
 
