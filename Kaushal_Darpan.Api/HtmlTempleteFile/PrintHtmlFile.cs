@@ -3071,7 +3071,7 @@ thead th{
                 sb.AppendLine("        <!-- Subject Table -->");
 
                 sb.AppendLine("    <div style=\"height:600px; width:100%; float:left;\">");
-                sb.AppendLine("    <table style=\"width:100%;border-collapse:collapse;margin-top:0px;font-size:11px;border:1px solid #000;\">");
+                sb.AppendLine("    <table style=\"width:100%;border-collapse:collapse;margin-top:0px;font-size:11px;border:1px solid #000;line-height:100%;height:330px;\">");
 
                 sb.AppendLine("            <tr>");
 
@@ -3101,6 +3101,29 @@ thead th{
 
                 sb.AppendLine("            </tr>");
 
+                //int i = 0;
+                //// subjects loop // for 16 max
+                //foreach (DataRow dr in drs_subject)
+                //{
+                //    i++;
+                //    if (i == 7)
+                //    {
+                //        break;
+                //    }
+
+                //    sb.AppendLine("            <tr>");
+
+                //    sb.AppendLine($"                <td style=\"border-left:1px solid #000;padding:3px 5px;\">{dr["SubjectCode"]}</td>");
+                //    sb.AppendLine($"                <td style=\"border-left:1px solid #000;padding:3px 5px;\">{dr["SubjectName"]}</td>");
+
+                //    sb.AppendLine($"                <td style=\"border-left:1px solid #000;padding:3px 5px;text-align:center;\">{dr["SubjectCredits"]}</td>");
+                //    sb.AppendLine($"                <td style=\"border-left:1px solid #000;padding:3px 5px;text-align:center;\">{dr["EarnedCredits"]}</td>");
+                //    sb.AppendLine($"                <td style=\"border-left:1px solid #000;padding:3px 5px;text-align:center;\">{dr["Grade"]}</td>");
+                //    sb.AppendLine($"                <td style=\"border-left:1px solid #000;border-right:1px solid #000;padding:3px 5px;text-align:center;\">{dr["Remarks"]}</td>");
+
+                //    sb.AppendLine("            </tr>");
+                //}
+
                 // subjects loop
                 foreach (DataRow dr in drs_subject)
                 {
@@ -3111,7 +3134,8 @@ thead th{
 
                     // for sca
                     string scacolspan = string.Empty;
-                    if (Convert.ToBoolean(dr["IsStudentCenteredActivity"] ?? 0))
+                    bool issca = Convert.ToBoolean(dr["IsStudentCenteredActivity"] == DBNull.Value ? false : dr["IsStudentCenteredActivity"]);
+                    if (issca)
                     {
                         scacolspan = "colspan=\"4\"";
                         sb.AppendLine($"                <td style=\"border:1px solid #000;padding:3px 5px;text-align:center;\" {scacolspan}>{dr["EarnedCredits"]}</td>");
@@ -3322,8 +3346,8 @@ thead th{
                 sb.AppendLine("        <!-- footer Date -->          ");
                 sb.AppendLine("<div style=\"width:100%;float:left;\">");
                 sb.AppendLine("<div style=\"width:50%;float:left;\">");
-                sb.AppendLine($"<div style=\"margin-top:20px;font-size:15px;font-weight:bold;padding-left:200px;\">{(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</div>");
-                sb.AppendLine($"<div style=\"margin-top:28px;font-size:15px;font-weight:bold;padding-left:140px;\">{(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</div>");
+                sb.AppendLine($"<div style=\"margin-top:20px;font-size:15px;font-weight:bold;padding-left:170px;\">{(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</div>");
+                sb.AppendLine($"<div style=\"margin-top:28px;font-size:15px;font-weight:bold;padding-left:110px;\">{(dr_studet["ResultDeclarationDate"] ?? dr_studet["ResultDeclareDate"])}</div>");
                 sb.AppendLine("</div>");
                 sb.AppendLine($"<div style=\"width:40%;float:left;margin-top:-10px; text-align:right;padding-right:50px;\"><img src=\"data:{reg_signmime};base64,{reg_signbase64}\" style=\"width:80px;margin-right:-20px;\" /></div>");
                 sb.AppendLine("</div>");
@@ -3600,13 +3624,13 @@ Session : " + session + @"
 
 <tr>
 
-<th width='5%'>SNO.</th>
+<th >SNO.</th>
 
-<th width='18%'>SPN</th>
+<th >SPN</th>
 
-<th width='29%'>NAME</th>
+<th >NAME</th>
 
-<th width='6%' class='center'>CIC</th>
+<th >CIC</th>
 
 <th colspan='6' class='pass'>
 ---------------- PASSED ----------------
@@ -3647,30 +3671,7 @@ Session : " + session + @"
 <tbody>
 
 ");
-                    //==============================
-                    // PART 4 : Branch Loop
-                    //==============================
-
-
-//                    sb.Append($@"
-
-//<tr>
-
-//<td colspan='11'
-//style='font-weight:bold;
-//font-size:16px;
-//text-align:center;
-//background:#efefef;
-//padding:8px;'>
-
-//BRANCH : {branch[0]["Stream/Branch"]}
-
-//</td>
-
-//</tr>
-
-//");
-
+                   
                     //==============================
                     // PART 5 : Student Loop
                     //==============================
