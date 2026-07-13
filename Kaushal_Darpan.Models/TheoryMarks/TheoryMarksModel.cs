@@ -268,4 +268,16 @@ namespace Kaushal_Darpan.Models.TheoryMarks
         public int? StaffID { get; set; }
         public int? IsReval { get; set; } = 0;
     }
+
+    public class TheoryAbsentReportDataModel
+    {
+        public int? GroupCodeID { get; set; }
+        public int? EndTermID { get; set; }
+        public int? Eng_NonEng { get; set; }
+        public int? DepartmentID { get; set; }
+        public int? RoleID { get; set; }
+        public int? UserID { get; set; }
+        public string? SSOID{ get; set; }
+        public string? GroupCode { get; set; }
+    }
 }
