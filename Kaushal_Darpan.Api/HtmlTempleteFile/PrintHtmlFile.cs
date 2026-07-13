@@ -3471,7 +3471,7 @@ body{
 table{
     width:100%;
     border-collapse:collapse;
-    border-spacing:0;
+    border-spacing:0;text-align:left;
 }
 
 thead{
@@ -3489,6 +3489,7 @@ tr{
 td,th{
     page-break-inside:avoid;
     vertical-align:middle;
+text
 }
 
 .header{
@@ -3497,7 +3498,7 @@ td,th{
 }
 
 .header td{
-    text-align:center;
+    text-align:left;
     padding:2px;
 }
 
@@ -3521,7 +3522,7 @@ td,th{
     padding:5px;
     font-weight:bold;
     border-top:1px solid #000;
-    border-bottom:1px solid #000;
+    border-bottom:1px solid #000;text-align:left;
 }
 
 .left{
@@ -3538,12 +3539,12 @@ td,th{
 
 .result thead th{
     font-weight:bold;
-    text-align:center;
+    text-align:left;
     padding:6px 4px;
 }
 
 .result tbody td{
-    padding:5px 4px;
+    padding:5px 4px;text-align:left;
 }
 
 .result tr{
@@ -3589,13 +3590,13 @@ td,th{
 <table class='header'>
 
 <tr>
-    <td class='govt'>
+    <td class='govt' style='text-align:center !important;'>
         GOVERNMENT OF RAJASTHAN
     </td>
 </tr>
 
 <tr>
-    <td class='title'>
+    <td class='title' style='text-align:center !important;'>
         BOARD OF TECHNICAL EDUCATION, RAJASTHAN,<br>
         JODHPUR
     </td>
@@ -3633,7 +3634,7 @@ Session : " + session + @"
 
 <th >CIC</th>
 
-<th colspan='6' class='pass'>
+<th colspan='6' class='pass' style='text-align:center !important;'>
 ---------------- PASSED ----------------
 </th>
 
@@ -3683,7 +3684,7 @@ Session : " + session + @"
 
                         sb.Append($@"
 
-<tr>
+<tr style='border-bottom:1px solid grey;'>
 
 <td>{sno}</td>
 
