@@ -584,19 +584,25 @@ namespace Kaushal_Darpan.Api.Controllers
         }
 
         [HttpPost("Submit_Apprenticeship_data")]
-        public async Task<ApiResult<DataTable>> Submit_Apprenticeship_data([FromBody] ApprenticeshipEntryDto body)
+        public async Task<ApiResult<DataTable>> Submit_Apprenticeship_data([FromBody] ApprenticeshipEntriesList body)
         {
-            ActionName = "Submit_Apprenticeship_data([FromBody] ApprenticeshipEntryDto body)";
 
+            ActionName = "Submit_Apprenticeship_data([FromBody] ApprenticeshipEntriesList body)";
             var result = new ApiResult<DataTable>();
-
             try
             {
-                result.Data = await _unitOfWork.ITINodalReportRepository.Submit_Apprenticeship_data(body);
 
+                foreach (var entry in body.ApprenticeshipEntries)
+                {
+                    string businessNameCsv = entry.BusinessName != null
+                        ? string.Join(",", entry.BusinessName)
+                        : string.Empty;
+
+                    result.Data = await _unitOfWork.ITINodalReportRepository.Submit_Apprenticeship_data(entry);
+
+                }
                 await _unitOfWork.SaveChangesAsync();
-
-                if (result.Data != null && result.Data.Rows.Count > 0)
+                if (result.Data.Rows.Count > 0)
                 {
                     result.State = EnumStatus.Success;
                     result.Message = Constants.MSG_DATA_LOAD_SUCCESS;
@@ -612,18 +618,16 @@ namespace Kaushal_Darpan.Api.Controllers
                 result.State = EnumStatus.Error;
                 result.ErrorMessage = ex.Message;
 
+                // Log the error
                 await _unitOfWork.DisposeAsync();
-
                 var nex = new NewException
                 {
                     PageName = PageName,
                     ActionName = ActionName,
-                    Ex = ex
+                    Ex = ex,
                 };
-
                 await CreateErrorLog(nex, _unitOfWork);
             }
-
             return result;
         }
 
