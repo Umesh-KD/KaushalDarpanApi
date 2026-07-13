@@ -671,7 +671,7 @@ namespace Kaushal_Darpan.Infra.Repositories
                         command.Parameters.AddWithValue("@TypeID", entry.TypeID);
                         command.Parameters.AddWithValue("@FinancialYearID", entry.FinancialYearID);
                         command.Parameters.AddWithValue("@FinancialYearID", entry.FinancialYearID);
-                        command.Parameters.AddWithValue("@json", JsonConvert.SerializeObject(entry.RegistrationList));
+                        //command.Parameters.AddWithValue("@json", JsonConvert.SerializeObject(entry.RegistrationList));
                         _sqlQuery = command.GetSqlExecutableQuery();
                         dataTable = await command.FillAsync_DataTable();
                     }

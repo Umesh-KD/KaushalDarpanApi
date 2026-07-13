@@ -187,8 +187,8 @@ namespace Kaushal_Darpan.Models.NodalApperentship
 
     public class RegistrationList
     {
-        public string? Nameofapprentices { get; set; }
-        public string? Numberofapprentices { get; set; }
+        public string? Name { get; set; }
+        public string? RegistrationNo { get; set; }
     }
 
 
