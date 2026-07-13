@@ -2754,10 +2754,10 @@
             <Value>=First(Fields!qrcode.Value, "test")</Value>
             <MIMEType>image/bmp</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>14.15239cm</Top>
+            <Top>13.97953cm</Top>
             <Left>0.34568cm</Left>
-            <Height>2.18481cm</Height>
-            <Width>2.7969cm</Width>
+            <Height>2.4635cm</Height>
+            <Width>3.46115cm</Width>
             <ZIndex>51</ZIndex>
             <Style>
               <Border>
