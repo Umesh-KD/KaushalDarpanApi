@@ -4222,12 +4222,12 @@ namespace Kaushal_Darpan.Api.Controllers
                 {
                     var Model = await _unitOfWork.GenerateRollRepository.GetGenerateRollData_Centerwise(Request);
                     //var Model = _unitOfWork.GenerateRollRepository.GetITIGenerateRollDataForPrint_Collegewise(Request);
-
+                    List<string?> ListRoleListPath = new List<string?>();
                     foreach (var RollListDetails in Model.GroupBy(f => new { f.InstituteID, f.SemesterID }))
                     {
                         DownloadnRollNoModel ModInsert = RollListDetails.FirstOrDefault() ?? new DownloadnRollNoModel();
                         ModInsert.TotalStudent = RollListDetails.Sum(f => f.Totalstudent);
-                        List<string?> ListRoleListPath = new List<string?>();
+                        
 
                         foreach (var StudentExamID in RollListDetails)
                         {
