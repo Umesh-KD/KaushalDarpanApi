@@ -594,12 +594,12 @@ namespace Kaushal_Darpan.Api.Controllers
 
                 foreach (var entry in body.ApprenticeshipEntries)
                 {
-                    string businessNameCsv = entry.BusinessName != null
-                        ? string.Join(",", entry.BusinessName)
-                        : string.Empty;
+                    entry.Createdby = body.Createdby;
+                    entry.DepartmentID = body.DepartmentID;
+                    entry.EndTermID = body.EndTermID;
+                    entry.RoleID = body.RoleID;
 
                     result.Data = await _unitOfWork.ITINodalReportRepository.Submit_Apprenticeship_data(entry);
-
                 }
                 await _unitOfWork.SaveChangesAsync();
                 if (result.Data.Rows.Count > 0)
