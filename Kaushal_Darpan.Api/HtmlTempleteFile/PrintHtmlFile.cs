@@ -1,4 +1,5 @@
 ﻿
+using AngleSharp.Html;
 using Kaushal_Darpan.Core.Helper;
 using Kaushal_Darpan.Models.CommonModel;
 using Kaushal_Darpan.Models.TheoryMarks;
@@ -3800,12 +3801,24 @@ Session : " + session + @"
                                      .GroupBy(x => x["Stream/Branch"].ToString())
                                      .ToList();
 
-                const int PageSize = 30;
+                const int PageSize = 8;
 
                
                 string session = dt.Columns.Contains("SessionYear")
                                     ? Convert.ToString(dt.Rows[0]["SessionYear"])
                                     : "";
+
+                int IsFootercontent = 0;
+
+                if(ActionType== "ProvesionalMeritList")
+                {
+                    IsFootercontent = 1;
+                }
+                if (ActionType == "FinalMeritList")
+                {
+                    IsFootercontent = 2;
+                }
+
 
                 for (int b = 0; b < branchGroups.Count; b++)
                 {
@@ -3993,6 +4006,11 @@ PROVISIONAL MERIT LIST for the Session {session}
 
 </tr>
 
+<tr class=""program"">
+      <th style=""width:250px;"">Program: {program}</th>
+    <th colspan=""4""></th>
+</tr>
+
 </thead>
 
 <tbody>
@@ -4030,14 +4048,73 @@ PROVISIONAL MERIT LIST for the Session {session}
 ");
 
                         sno++;
-                       
+
                         //==============================
                         // PART 6 : Page Break
                         //==============================
 
+                        //==============================
+                        // PART 6 : Page Break
+                        //==============================
                         if ((i + 1) % PageSize == 0 && i != branch.Count - 1)
                         {
-                            // Repeat complete Header
+                            sb.Append($@"
+
+        </tbody>
+    </table>
+
+    <div class='footer'>
+        <div class='eligible'>
+            <strong>Eligible for Merit: {totalRows}</strong>
+        </div>
+    </div>
+
+</div>
+
+<div style='page-break-before:always;'></div>
+
+<div class='container'>
+
+<div class='header'>
+
+<div class='gov'>
+GOVERNMENT OF RAJASTHAN
+</div>
+
+<div class='title'>
+BOARD OF TECHNICAL EDUCATION,
+RAJASTHAN, JODHPUR
+</div>
+
+<div class='sub'>
+PROVISIONAL MERIT LIST for the Session {session}
+</div>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+    <th class='col-sno'>Roll No</th>
+    <th class='col-enroll'>Enrollment No</th>
+    <th>Student Name / Father Name / Institute</th>
+    <th class='col-per'>Percentage</th>
+    <th class='col-per'>Merit</th>
+</tr>
+
+<tr class=""program"">
+      <th style=""width:250px;"">Program: {program}</th>
+    <th colspan=""4""></th>
+</tr>
+
+
+</thead>
+
+<tbody>
+
+");
                         }
                         //==============================
                         // PART 7 : End Student Loop
@@ -4069,13 +4146,19 @@ PROVISIONAL MERIT LIST for the Session {session}
 
 </table>
 
-    <div class=""footer"">
+<div class='footer'>
 
     <div class='eligible'>
         <strong>Eligible for Merit: {totalRows}</strong>
     </div>
 
-    <div class=""note"">
+");
+
+                if (IsFootercontent == 1)
+                {
+                    sb.Append(@"
+
+    <div class='note'>
         Any objection regarding the provisional merit should be sent to the Board
         directly so as to reach the Board office latest by
         ................................
@@ -4084,12 +4167,16 @@ PROVISIONAL MERIT LIST for the Session {session}
         list will be the final merit list.
     </div>
 
-    <div class=""signature"">
+");
+                }
+
+                sb.Append(@"
+
+    <div class='signature'>
         REGISTRAR
     </div>
 
 </div>
-
 
 </div>
 
@@ -4115,5 +4202,8 @@ PROVISIONAL MERIT LIST for the Session {session}
 
         }
         #endregion
+
+
+
     }
 }

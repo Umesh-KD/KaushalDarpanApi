@@ -10780,5 +10780,40 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         #endregion
 
+        #region "GetCheck_Merit_List"
+        public async Task<DataTable> GetCheck_Merit_List(GetProvesionalMeritModel model)
+        {
+            _actionName = "GetCheck_Merit_List(GetProvesionalMeritModel model)";
+            try
+            {
+                DataTable dataTable = new DataTable();
+                using (var command = await _dbContext.CreateCommandAsync())
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "usp_GetFinalResultMeritEligibleStudents";
+                    command.Parameters.AddWithValue("@EndTermId", model.EndTermId);
+                    command.Parameters.AddWithValue("@CourseType", model.CourseType);
+                    command.Parameters.AddWithValue("@BranchID", model.BranchID);
+                    _sqlQuery = command.GetSqlExecutableQuery();
+                    dataTable = await command.FillAsync_DataTable();
+                }
+                return dataTable;
+            }
+            catch (Exception ex)
+            {
+                var errorDesc = new ErrorDescription
+                {
+                    Message = ex.Message,
+                    PageName = _pageName,
+                    ActionName = _actionName,
+                    SqlExecutableQuery = _sqlQuery
+                };
+                var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                throw new Exception(errordetails, ex);
+            }
+        }
+
+        #endregion
+
     }
 }
