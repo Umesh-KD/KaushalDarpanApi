@@ -10815,5 +10815,49 @@ namespace Kaushal_Darpan.Infra.Repositories
 
         #endregion
 
+
+        #region Apprenticeship  registratuion Fresher Reports
+        public async Task<DataTable> ApprenticeshipFresherReports(ApprenticeshipRegistrationSearchModal model)
+        {
+            _actionName = "ApprenticeshipFresherReports()";
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    var dt = new DataTable();
+                    using (var command = await _dbContext.CreateCommandAsync())
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "USP_ItiFresherRegDetail";
+                        command.Parameters.AddWithValue("@Action", "GetPassingReportData");
+                        command.Parameters.AddWithValue("@EndTermId", model.EndTermID);
+                        command.Parameters.AddWithValue("@DepartmentID", model.DepartmentID);
+                        command.Parameters.AddWithValue("@CreateBy", model.Createdby);
+                        command.Parameters.AddWithValue("@PKID", model.PKID);
+                        command.Parameters.AddWithValue("@InstituteID", model.InstituteID);
+                        command.Parameters.AddWithValue("@UserID", model.UserID);
+                        command.Parameters.AddWithValue("@RoleID", model.RoleID);
+
+                        _sqlQuery = command.GetSqlExecutableQuery();
+                        dt = await command.FillAsync_DataTable();
+
+                    }
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    var errorDesc = new ErrorDescription
+                    {
+                        Message = ex.Message,
+                        PageName = _pageName,
+                        ActionName = _actionName,
+                        SqlExecutableQuery = _sqlQuery
+                    };
+                    var errordetails = CommonFuncationHelper.MakeError(errorDesc);
+                    throw new Exception(errordetails, ex);
+                }
+            });
+        }
+        #endregion
     }
 }
