@@ -15,8 +15,10 @@ namespace Kaushal_Darpan.Core.Interfaces
     public interface IRevaluationRepository
     {
         Task<DataTable> GetDetails(RevaluationDataModel filterModel);
+        Task<DataTable> GetDetailsWhatsApp(RevaluationDataModel filterModel);
         Task<DataTable> GetAllRevalation(StudentDetailsByRollNoModel filterModel);
-
+        Task<DataTable> GetAllRevalationWhatsApp(StudentDetailsByRollNoModel filterModel);
+        Task<FeeAmountResponseModelWhatsApp> GetFeeAmountRevalSubject(FeeAmountModel_WhatsApp body);
         Task<DataTable> GetAllRevalationReportList(RevalationReportsearchModel body);
     }
 }

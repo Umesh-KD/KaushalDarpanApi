@@ -46,6 +46,7 @@
         public string SSoToken { get; set; } = string.Empty;
         public string ViewName { get; set; } = string.Empty;
         public string? InstituteIDEnc { get; set; } = string.Empty;
+        public string? RequestString { get; set; } = string.Empty;
         public int DirectAdmission { get; set; }
 
         public int RevalRequestID { get; set; }
@@ -85,12 +86,12 @@
 
     public class StudentFeesTransactionItems
     {
-        public int TransactionItemID { get; set; }
-        public int TransactionId { get; set; }
-        public int TransactionApplicationID { get; set; }
-        public int Status { get; set; }
-        public int TranSemesterID { get; set; }
-        public int ItemAmount { get; set; }
+        public int? TransactionItemID { get; set; }
+        public int? TransactionId { get; set; }
+        public int? TransactionApplicationID { get; set; }
+        public int? Status { get; set; }
+        public int? TranSemesterID { get; set; }
+        public int? ItemAmount { get; set; }
     }
 
     public class EmitraServiceAndFeeModel
@@ -138,5 +139,16 @@
         public string? EndTermName { get; set; }
         
     }
+    public class EmitraRequestDetailsModelWhatsApp
+    {
+        
+        public string ApplicationIdEnc { get; set; }        
+        public string ServiceID { get; set; } 
+        public int StudentID { get; set; }
+        public int SemesterID { get; set; }
+        public List<StudentFeesTransactionItems> StudentFeesTransactionItems { get; set; }
 
+    }
+
+    
 }

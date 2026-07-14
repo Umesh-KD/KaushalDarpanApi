@@ -123,4 +123,29 @@ namespace Kaushal_Darpan.Models.RevaluationDataModel
         public int SelectedEndTermID { get; set; }
         public string CreatedSsoID { get; set; }
     }
+
+    public class StudentDetailsByRollNoModel_WhatsApp
+    {
+        public int StudentID { get; set; }      
+        public int SemesterID { get; set; }
+        public int EndTermID { get; set; }
+        public int StudentExamID { get; set; }
+        public int CourseTypeID { get; set; }
+        
+    }
+
+    public class FeeAmountModel_WhatsApp
+    {
+        public int StudentID { get; set; }
+        public int SemesterID { get; set; }
+        public int EndTermID { get; set; }
+        public string? StudentExamID { get; set; }
+        public int CourseTypeID { get; set; }
+        public int Amount { get; set; }
+
+    }
+    public class FeeAmountResponseModelWhatsApp
+    {
+        public decimal? Amount { get; set; }
+    }
 }
